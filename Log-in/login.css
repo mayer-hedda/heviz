@@ -29,7 +29,7 @@
 h1 {
     font-family: 'Inter', sans-serif;
     font-weight: bold;
-    color: #494547;
+    color: rgba(65, 61, 63, 1);
 }
 
 form label {
@@ -38,6 +38,7 @@ form label {
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
     font-size: 100%;
+    color: rgb(55, 56, 78);
 }
 
 form {
@@ -95,6 +96,7 @@ a:hover {
     border-top-right-radius: 2rem;
     border-bottom-right-radius: 2rem;
     border-bottom-left-radius: 2rem;
+    /* transform: translate(-50%, 50%); */
 
     box-shadow: 0.625rem 0.625rem 0.625rem 0rem rgba(77, 66, 64, 0.40) !important;
 }
@@ -113,7 +115,7 @@ a:hover {
 
 #input-Email {
     border-width: 0.1125rem;
-    border-color: #a1a6b8;
+    border-color: rgb(144, 152, 180, 0.75);
     background-color: transparent;
     border-top-left-radius: 0.8rem;
     border-top-right-radius: 0.8rem;
@@ -125,25 +127,25 @@ a:hover {
 
 #input-Email::placeholder {
     font-size: smaller;
-    color: #78798F;
+    color: rgb(120, 121, 143);
     font-family: 'Poppins', sans-serif;
     font-weight: 300;
-    font-size: 70%;
+    font-size: 0.75rem;
 }
 
 
 /* password */
 #input-Pwd::placeholder {
     font-size: smaller;
-    color: #78798F;
+    color: rgb(120, 121, 143);
     font-family: 'Poppins', sans-serif;
     font-weight: 300;
-    font-size: 70%;
+    font-size: 0.75rem;
 }
 
 #input-Pwd {
     border-width: 0.1125rem;
-    border-color: #a1a6b8;
+    border-color: rgb(144, 152, 180, 0.75);
     background-color: transparent;
     border-top-left-radius: 0.8rem;
     border-top-right-radius: 0.8rem;
@@ -158,12 +160,15 @@ a:hover {
 }
 
 #submitButton {
-    background-color: #E8B5A0;
+    background-color: rgba(232, 181, 160, 1);
+
     padding-left: 2rem;
     padding-right: 2rem;
     padding-top: 0.6rem;
     padding-bottom: 0.6rem;
+
     border-radius: 5rem;
+    
     font-size: 120%;
     text-align: center;
     font-family: Poppins;
@@ -171,6 +176,7 @@ a:hover {
     color: #332F31;
     position: relative;
     /* margin-bottom: 15%; */
+    border: 0rem;
 }
 
 #submitButton:hover {
