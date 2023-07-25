@@ -2,10 +2,10 @@
 -- version 5.1.2
 -- https://www.phpmyadmin.net/
 --
--- Gép: localhost:3306
--- Létrehozás ideje: 2023. Júl 10. 19:48
--- Kiszolgáló verziója: 5.7.24
--- PHP verzió: 8.1.0
+-- Host: localhost:3306
+-- Generation Time: Jul 25, 2023 at 10:23 PM
+-- Server version: 5.7.24
+-- PHP Version: 8.1.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,41 +18,115 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Adatbázis: `chapterx`
+-- Database: `chapterx`
 --
 CREATE DATABASE IF NOT EXISTS `chapterx` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `chapterx`;
 
--- DELIMITER $$
+DELIMITER $$
 --
--- Eljárások
+-- Procedures
 --
--- CREATE DEFINER=`root`@`localhost` PROCEDURE `addAges` (IN `nameIN` VARCHAR(20), IN `minAgeIN` INT, IN `maxAgeIN` INT)   INSERT INTO `ages` (`ages`.`name`, `ages`.`minAge`, `ages`.`maxAge`)
--- VALUES (nameIN, minAgeIN, maxAgeIN)$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addAges` (IN `nameIN` VARCHAR(20), IN `minAgeIN` INT, IN `maxAgeIN` INT)   INSERT INTO `ages` (`ages`.`name`, `ages`.`minAge`, `ages`.`maxAge`)
+VALUES (nameIN, minAgeIN, maxAgeIN)$$
 
--- CREATE DEFINER=`root`@`localhost` PROCEDURE `addCategory` (IN `nameIN` VARCHAR(50), IN `imageIN` VARCHAR(50))   INSERT INTO `category` (`category`.`name`, `category`.`image`)
--- VALUES (nameIN, imageIN)$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addBookRating` (IN `ratingerIdIN` INT, IN `bookIdIN` INT, IN `ratingIN` INT)   INSERT INTO `bookrating` (`bookrating`.`ratingerId`, `bookrating`.`bookId`, `bookrating`.`rating`)
+VALUES (ratingerIdIN, bookIdIN, ratingIN)$$
 
--- CREATE DEFINER=`root`@`localhost` PROCEDURE `addColor` (IN `codeIN` VARCHAR(8))   INSERT INTO `color` (`color`.`code`)
--- VALUES (codeIN)$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addCategory` (IN `nameIN` VARCHAR(50), IN `imageIN` VARCHAR(50))   INSERT INTO `category` (`category`.`name`, `category`.`image`)
+VALUES (nameIN, imageIN)$$
 
--- CREATE DEFINER=`root`@`localhost` PROCEDURE `addHelpCenter` (IN `questionIN` TEXT, IN `answerIN` TEXT)   INSERT INTO `helpcenter` (`helpcenter`.`question`, `helpcenter`.`answer`)
--- VALUES (questionIN, answerIN)$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addColor` (IN `codeIN` VARCHAR(8))   INSERT INTO `color` (`color`.`code`)
+VALUES (codeIN)$$
 
--- CREATE DEFINER=`root`@`localhost` PROCEDURE `addLanguage` (IN `codeIN` CHAR(2), IN `languageIN` VARCHAR(50))   INSERT INTO `language` (`language`.`code`, `language`.`language`)
--- VALUES (codeIN, languageIN)$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addHelpCenter` (IN `questionIN` TEXT, IN `answerIN` TEXT)   INSERT INTO `helpcenter` (`helpcenter`.`question`, `helpcenter`.`answer`)
+VALUES (questionIN, answerIN)$$
 
--- CREATE DEFINER=`root`@`localhost` PROCEDURE `addTag` (IN `nameIN` VARCHAR(50))   INSERT INTO `tag` (`tag`.`name`)
--- VALUES (nameIN)$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addLanguage` (IN `codeIN` CHAR(2), IN `languageIN` VARCHAR(50))   INSERT INTO `language` (`language`.`code`, `language`.`language`)
+VALUES (codeIN, languageIN)$$
 
--- CREATE DEFINER=`root`@`localhost` PROCEDURE `getBookReport` ()   SELECT * FROM `bookreport`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addList` (IN `userIdIN` INT, IN `bookIdIN` INT)   INSERT INTO `list` (`list`.`userId`, `list`.`bookId`)
+VALUES (userIdIN, bookIdIN)$$
 
--- DELIMITER ;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addPost` (IN `userIdIN` INT, IN `textIN` TEXT)   INSERT INTO `post` (`post`.`userId`, `post`.`text`)
+VALUES (userIdIN, textIN)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addTag` (IN `nameIN` VARCHAR(50))   INSERT INTO `tag` (`tag`.`name`)
+VALUES (nameIN)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addUserRating` (IN `ratingerIdIN` INT, IN `userIdIN` INT, IN `ratingIN` INT)   INSERT INTO `userrating` (`userrating`.`ratingerId`, `userrating`.`userId`, `userrating`.`rating`)
+VALUES (ratingerIdIN, userIdIN, ratingIN)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `companyRegistration` (IN `usernameIN` VARCHAR(50), IN `firstNameIN` VARCHAR(50), IN `lastNameIN` VARCHAR(50), IN `companyNameIN` VARCHAR(50), IN `emailIN` VARCHAR(50), IN `passwordIN` VARCHAR(100))   BEGIN
+
+	INSERT INTO `company` (`company`.`companyName`)
+	VALUES (companyNameIN);
+
+	SELECT LAST_INSERT_ID() INTO @userId;
+    
+    INSERT INTO `user` (`user`.`username`, `user`.`email`, `user`.`password`, `user`.`rank`, `user`.`firstName`, `user`.`lastName`, `user`.`userId`)
+    VALUES (usernameIN, emailIN, SHA1(passwordIN), "company", firstNameIN, lastNameIN, @userId);
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `generalRegistration` (IN `usernameIN` VARCHAR(50), IN `firstNameIN` VARCHAR(50), IN `lastNameIN` VARCHAR(50), IN `emailIN` VARCHAR(50), IN `birthdateIN` DATE, IN `passwordIN` VARCHAR(100))   BEGIN
+
+	INSERT INTO `general` (`general`.`birthdate`)
+	VALUES (birthdateIN);
+
+	SELECT LAST_INSERT_ID() INTO @userId;
+    
+    INSERT INTO `user` (`user`.`username`, `user`.`email`, `user`.`password`, `user`.`rank`, `user`.`firstName`, `user`.`lastName`, `user`.`userId`)
+    VALUES (usernameIN, emailIN, SHA1(passwordIN), "general", firstNameIN, lastNameIN, @userId);
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getBookByCategory` (IN `categoryNameIN` INT)   SELECT `book`.*
+FROM `book`
+LEFT JOIN `book_x_category` ON `book`.`id` = `book_x_category`.`bookId`
+LEFT JOIN `category` ON `book_x_category`.`categoryId` = `category`.`id`
+WHERE `category`.`name` = categoryNameIN
+ORDER BY RAND()$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getBookRating` (IN `bookIdIN` INT, OUT `avgRatingOUT` INT)   SELECT AVG(`bookrating`.`rating`) INTO @avgRatingOUT
+FROM `bookrating`
+WHERE `bookrating`.`bookId` = bookIdIN$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getBookReport` ()   SELECT * FROM `bookreport`$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getPublishedByBook` ()   SELECT * FROM `book`
+WHERE `book`.`status` = "published by"$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getSearch` (IN `textIN` INT)   BEGIN
+
+	SELECT SUBSTRING(textIN, 1, 1) INTO @firstChar;
+    
+    IF @firstChar = "@" THEN
+    	SELECT SUBSTRING(textIN, 2) INTO @text;
+    	SELECT * FROM `user` WHERE `user`.`username` LIKE CONCAT("%", @text, "%");
+        
+    ELSE 
+    	SELECT * FROM `user` WHERE `user`.`username` LIKE
+        CONCAT("%", textIN, "%");
+    END IF;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getSelfPublishedBook` ()   SELECT * FROM `book`
+WHERE `book`.`status` = "self-published"$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getTagByUserId` (IN `userIdIN` INT)   SELECT `tag`.`name` FROM `tag` WHERE `tag`.`userId` = userIdIN$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserRating` (IN `userIdIN` INT, OUT `avgRatingOUT` INT)   SELECT AVG(`userrating`.`rating`) INTO @avgRatingOUT
+FROM `userrating`
+WHERE `userrating`.`userId` = userIdIN$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `ages`
+-- Table structure for table `ages`
 --
 
 CREATE TABLE `ages` (
@@ -65,7 +139,7 @@ CREATE TABLE `ages` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `book`
+-- Table structure for table `book`
 --
 
 CREATE TABLE `book` (
@@ -76,7 +150,7 @@ CREATE TABLE `book` (
   `companyId` int(11) DEFAULT NULL,
   `publishedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `rating` double UNSIGNED DEFAULT NULL,
-  `summary` text NOT NULL,
+  `summary` varchar(1000) NOT NULL,
   `price` int(10) UNSIGNED NOT NULL,
   `coverImage` varchar(50) DEFAULT NULL,
   `text` varchar(50) NOT NULL,
@@ -84,13 +158,15 @@ CREATE TABLE `book` (
   `freeChapterNumber` int(10) UNSIGNED NOT NULL,
   `languageId` int(11) NOT NULL,
   `adultFiction` tinyint(1) NOT NULL,
-  `agesId` int(11) NOT NULL
+  `agesId` int(11) NOT NULL,
+  `categoryId` int(11) NOT NULL,
+  `copyrightId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `bookrating`
+-- Table structure for table `bookrating`
 --
 
 CREATE TABLE `bookrating` (
@@ -104,7 +180,7 @@ CREATE TABLE `bookrating` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `bookreport`
+-- Table structure for table `bookreport`
 --
 
 CREATE TABLE `bookreport` (
@@ -118,7 +194,7 @@ CREATE TABLE `bookreport` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `bookshopping`
+-- Table structure for table `bookshopping`
 --
 
 CREATE TABLE `bookshopping` (
@@ -131,7 +207,7 @@ CREATE TABLE `bookshopping` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `booksopened`
+-- Table structure for table `booksopened`
 --
 
 CREATE TABLE `booksopened` (
@@ -144,19 +220,7 @@ CREATE TABLE `booksopened` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `book_x_category`
---
-
-CREATE TABLE `book_x_category` (
-  `id` int(11) NOT NULL,
-  `bookId` int(11) NOT NULL,
-  `categoryId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `category`
+-- Table structure for table `category`
 --
 
 CREATE TABLE `category` (
@@ -168,7 +232,7 @@ CREATE TABLE `category` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `categoryinterest`
+-- Table structure for table `categoryinterest`
 --
 
 CREATE TABLE `categoryinterest` (
@@ -180,7 +244,7 @@ CREATE TABLE `categoryinterest` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `color`
+-- Table structure for table `color`
 --
 
 CREATE TABLE `color` (
@@ -191,7 +255,7 @@ CREATE TABLE `color` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `company`
+-- Table structure for table `company`
 --
 
 CREATE TABLE `company` (
@@ -201,10 +265,30 @@ CREATE TABLE `company` (
   `publishedBookCountOnPage` int(10) UNSIGNED NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `company`
+--
+
+-- INSERT INTO `company` (`id`, `companyName`, `publishedBookCount`, `publishedBookCountOnPage`) VALUES
+-- (2, 'company', 0, 0);
+
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `follow`
+-- Table structure for table `copyright`
+--
+
+CREATE TABLE `copyright` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `description` varchar(200) NOT NULL,
+  `helpCenterId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `follow`
 --
 
 CREATE TABLE `follow` (
@@ -217,7 +301,7 @@ CREATE TABLE `follow` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `general`
+-- Table structure for table `general`
 --
 
 CREATE TABLE `general` (
@@ -229,22 +313,30 @@ CREATE TABLE `general` (
   `selfPublishedBookCount` int(10) UNSIGNED NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `general`
+--
+
+-- INSERT INTO `general` (`id`, `authorName`, `birthdate`, `publicFullName`, `publishedBookCount`, `selfPublishedBookCount`) VALUES
+-- (1, NULL, '2002-10-11', 0, 0, 0);
+
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `helpcenter`
+-- Table structure for table `helpcenter`
 --
 
 CREATE TABLE `helpcenter` (
   `id` int(11) NOT NULL,
   `question` text NOT NULL,
-  `answer` text NOT NULL
+  `answer` text,
+  `active` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `language`
+-- Table structure for table `language`
 --
 
 CREATE TABLE `language` (
@@ -256,7 +348,7 @@ CREATE TABLE `language` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `list`
+-- Table structure for table `list`
 --
 
 CREATE TABLE `list` (
@@ -268,7 +360,7 @@ CREATE TABLE `list` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `pay`
+-- Table structure for table `pay`
 --
 
 CREATE TABLE `pay` (
@@ -281,20 +373,20 @@ CREATE TABLE `pay` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `post`
+-- Table structure for table `post`
 --
 
 CREATE TABLE `post` (
   `id` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
-  `text` text NOT NULL,
+  `text` varchar(1000) NOT NULL,
   `postTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `postlike`
+-- Table structure for table `postlike`
 --
 
 CREATE TABLE `postlike` (
@@ -307,7 +399,7 @@ CREATE TABLE `postlike` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `post_x_tag`
+-- Table structure for table `post_x_tag`
 --
 
 CREATE TABLE `post_x_tag` (
@@ -319,7 +411,7 @@ CREATE TABLE `post_x_tag` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `read`
+-- Table structure for table `read`
 --
 
 CREATE TABLE `read` (
@@ -333,7 +425,7 @@ CREATE TABLE `read` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `search`
+-- Table structure for table `search`
 --
 
 CREATE TABLE `search` (
@@ -346,7 +438,7 @@ CREATE TABLE `search` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `subscription`
+-- Table structure for table `subscription`
 --
 
 CREATE TABLE `subscription` (
@@ -361,18 +453,19 @@ CREATE TABLE `subscription` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `tag`
+-- Table structure for table `tag`
 --
 
 CREATE TABLE `tag` (
   `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL
+  `name` varchar(50) NOT NULL,
+  `userId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
@@ -386,7 +479,7 @@ CREATE TABLE `user` (
   `phone` varchar(15) DEFAULT NULL,
   `publicEmail` tinyint(1) NOT NULL DEFAULT '0',
   `publicPhone` tinyint(1) NOT NULL DEFAULT '0',
-  `introText` varchar(1000) NOT NULL,
+  `introText` varchar(1000) DEFAULT NULL,
   `website` varchar(100) DEFAULT NULL,
   `image` varchar(100) DEFAULT NULL,
   `tutorial` tinyint(1) NOT NULL DEFAULT '0',
@@ -396,10 +489,18 @@ CREATE TABLE `user` (
   `userId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `user`
+--
+
+-- INSERT INTO `user` (`id`, `username`, `email`, `password`, `rank`, `firstName`, `lastName`, `phone`, `publicEmail`, `publicPhone`, `introText`, `website`, `image`, `tutorial`, `registrationTime`, `active`, `coverColorId`, `userId`) VALUES
+-- (1, 'test', 'test@gmail.com', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', 'general', 'first', 'last', NULL, 0, 0, NULL, NULL, NULL, 0, '2023-07-10 20:26:09', 1, 1, 1),
+-- (3, 'company', 'company@gmail.com', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', 'company', 'firstComp', 'lastComp', NULL, 0, 0, NULL, NULL, NULL, 0, '2023-07-10 20:32:16', 1, 1, 2);
+
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `userrating`
+-- Table structure for table `userrating`
 --
 
 CREATE TABLE `userrating` (
@@ -413,7 +514,7 @@ CREATE TABLE `userrating` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `user_x_subscription`
+-- Table structure for table `user_x_subscription`
 --
 
 CREATE TABLE `user_x_subscription` (
@@ -424,27 +525,28 @@ CREATE TABLE `user_x_subscription` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Indexek a kiírt táblákhoz
+-- Indexes for dumped tables
 --
 
 --
--- A tábla indexei `ages`
+-- Indexes for table `ages`
 --
 ALTER TABLE `ages`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `book`
+-- Indexes for table `book`
 --
 ALTER TABLE `book`
   ADD PRIMARY KEY (`id`),
   ADD KEY `writerId` (`writerId`),
   ADD KEY `companyId` (`companyId`),
   ADD KEY `agesId` (`agesId`),
-  ADD KEY `languageId` (`languageId`);
+  ADD KEY `languageId` (`languageId`),
+  ADD KEY `categoryId` (`categoryId`);
 
 --
--- A tábla indexei `bookrating`
+-- Indexes for table `bookrating`
 --
 ALTER TABLE `bookrating`
   ADD PRIMARY KEY (`id`),
@@ -452,7 +554,7 @@ ALTER TABLE `bookrating`
   ADD KEY `bookId` (`bookId`);
 
 --
--- A tábla indexei `bookreport`
+-- Indexes for table `bookreport`
 --
 ALTER TABLE `bookreport`
   ADD PRIMARY KEY (`id`),
@@ -460,7 +562,7 @@ ALTER TABLE `bookreport`
   ADD KEY `bookId` (`bookId`);
 
 --
--- A tábla indexei `bookshopping`
+-- Indexes for table `bookshopping`
 --
 ALTER TABLE `bookshopping`
   ADD PRIMARY KEY (`id`),
@@ -468,7 +570,7 @@ ALTER TABLE `bookshopping`
   ADD KEY `bookId` (`bookId`);
 
 --
--- A tábla indexei `booksopened`
+-- Indexes for table `booksopened`
 --
 ALTER TABLE `booksopened`
   ADD PRIMARY KEY (`id`),
@@ -476,21 +578,13 @@ ALTER TABLE `booksopened`
   ADD KEY `bookId` (`bookId`);
 
 --
--- A tábla indexei `book_x_category`
---
-ALTER TABLE `book_x_category`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `bookId` (`bookId`),
-  ADD KEY `categoryId` (`categoryId`);
-
---
--- A tábla indexei `category`
+-- Indexes for table `category`
 --
 ALTER TABLE `category`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `categoryinterest`
+-- Indexes for table `categoryinterest`
 --
 ALTER TABLE `categoryinterest`
   ADD PRIMARY KEY (`id`),
@@ -498,19 +592,26 @@ ALTER TABLE `categoryinterest`
   ADD KEY `categoryId` (`categoryId`);
 
 --
--- A tábla indexei `color`
+-- Indexes for table `color`
 --
 ALTER TABLE `color`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `company`
+-- Indexes for table `company`
 --
 ALTER TABLE `company`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `follow`
+-- Indexes for table `copyright`
+--
+ALTER TABLE `copyright`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `helpCenterId` (`helpCenterId`);
+
+--
+-- Indexes for table `follow`
 --
 ALTER TABLE `follow`
   ADD PRIMARY KEY (`id`),
@@ -518,25 +619,25 @@ ALTER TABLE `follow`
   ADD KEY `followdId` (`followdId`);
 
 --
--- A tábla indexei `general`
+-- Indexes for table `general`
 --
 ALTER TABLE `general`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `helpcenter`
+-- Indexes for table `helpcenter`
 --
 ALTER TABLE `helpcenter`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `language`
+-- Indexes for table `language`
 --
 ALTER TABLE `language`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `list`
+-- Indexes for table `list`
 --
 ALTER TABLE `list`
   ADD PRIMARY KEY (`id`),
@@ -544,21 +645,21 @@ ALTER TABLE `list`
   ADD KEY `bookId` (`bookId`);
 
 --
--- A tábla indexei `pay`
+-- Indexes for table `pay`
 --
 ALTER TABLE `pay`
   ADD PRIMARY KEY (`id`),
   ADD KEY `paymentId` (`paymentId`);
 
 --
--- A tábla indexei `post`
+-- Indexes for table `post`
 --
 ALTER TABLE `post`
   ADD PRIMARY KEY (`id`),
   ADD KEY `userId` (`userId`);
 
 --
--- A tábla indexei `postlike`
+-- Indexes for table `postlike`
 --
 ALTER TABLE `postlike`
   ADD PRIMARY KEY (`id`),
@@ -566,7 +667,7 @@ ALTER TABLE `postlike`
   ADD KEY `postId` (`postId`);
 
 --
--- A tábla indexei `post_x_tag`
+-- Indexes for table `post_x_tag`
 --
 ALTER TABLE `post_x_tag`
   ADD PRIMARY KEY (`id`),
@@ -574,7 +675,7 @@ ALTER TABLE `post_x_tag`
   ADD KEY `tagId` (`tagId`);
 
 --
--- A tábla indexei `read`
+-- Indexes for table `read`
 --
 ALTER TABLE `read`
   ADD PRIMARY KEY (`id`),
@@ -582,7 +683,7 @@ ALTER TABLE `read`
   ADD KEY `bookId` (`bookId`);
 
 --
--- A tábla indexei `search`
+-- Indexes for table `search`
 --
 ALTER TABLE `search`
   ADD PRIMARY KEY (`id`),
@@ -590,19 +691,20 @@ ALTER TABLE `search`
   ADD KEY `userId` (`userId`);
 
 --
--- A tábla indexei `subscription`
+-- Indexes for table `subscription`
 --
 ALTER TABLE `subscription`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `tag`
+-- Indexes for table `tag`
 --
 ALTER TABLE `tag`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `userId` (`userId`);
 
 --
--- A tábla indexei `user`
+-- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`),
@@ -612,7 +714,7 @@ ALTER TABLE `user`
   ADD KEY `userId` (`userId`);
 
 --
--- A tábla indexei `userrating`
+-- Indexes for table `userrating`
 --
 ALTER TABLE `userrating`
   ADD PRIMARY KEY (`id`),
@@ -620,7 +722,7 @@ ALTER TABLE `userrating`
   ADD KEY `userId` (`userId`);
 
 --
--- A tábla indexei `user_x_subscription`
+-- Indexes for table `user_x_subscription`
 --
 ALTER TABLE `user_x_subscription`
   ADD PRIMARY KEY (`id`),
@@ -628,167 +730,167 @@ ALTER TABLE `user_x_subscription`
   ADD KEY `subscriptionId` (`subscriptionId`);
 
 --
--- A kiírt táblák AUTO_INCREMENT értéke
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT a táblához `ages`
+-- AUTO_INCREMENT for table `ages`
 --
 ALTER TABLE `ages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `book`
+-- AUTO_INCREMENT for table `book`
 --
 ALTER TABLE `book`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `bookrating`
+-- AUTO_INCREMENT for table `bookrating`
 --
 ALTER TABLE `bookrating`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `bookreport`
+-- AUTO_INCREMENT for table `bookreport`
 --
 ALTER TABLE `bookreport`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `bookshopping`
+-- AUTO_INCREMENT for table `bookshopping`
 --
 ALTER TABLE `bookshopping`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `booksopened`
+-- AUTO_INCREMENT for table `booksopened`
 --
 ALTER TABLE `booksopened`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `book_x_category`
---
-ALTER TABLE `book_x_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT a táblához `category`
+-- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `categoryinterest`
+-- AUTO_INCREMENT for table `categoryinterest`
 --
 ALTER TABLE `categoryinterest`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `color`
+-- AUTO_INCREMENT for table `color`
 --
 ALTER TABLE `color`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `company`
+-- AUTO_INCREMENT for table `company`
 --
 ALTER TABLE `company`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `copyright`
+--
+ALTER TABLE `copyright`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `follow`
+-- AUTO_INCREMENT for table `follow`
 --
 ALTER TABLE `follow`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `general`
+-- AUTO_INCREMENT for table `general`
 --
 ALTER TABLE `general`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT a táblához `helpcenter`
+-- AUTO_INCREMENT for table `helpcenter`
 --
 ALTER TABLE `helpcenter`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `language`
+-- AUTO_INCREMENT for table `language`
 --
 ALTER TABLE `language`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `list`
+-- AUTO_INCREMENT for table `list`
 --
 ALTER TABLE `list`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `pay`
+-- AUTO_INCREMENT for table `pay`
 --
 ALTER TABLE `pay`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `post`
+-- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `postlike`
+-- AUTO_INCREMENT for table `postlike`
 --
 ALTER TABLE `postlike`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `post_x_tag`
+-- AUTO_INCREMENT for table `post_x_tag`
 --
 ALTER TABLE `post_x_tag`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `read`
+-- AUTO_INCREMENT for table `read`
 --
 ALTER TABLE `read`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `search`
+-- AUTO_INCREMENT for table `search`
 --
 ALTER TABLE `search`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `subscription`
+-- AUTO_INCREMENT for table `subscription`
 --
 ALTER TABLE `subscription`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `tag`
+-- AUTO_INCREMENT for table `tag`
 --
 ALTER TABLE `tag`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `user`
+-- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT a táblához `userrating`
+-- AUTO_INCREMENT for table `userrating`
 --
 ALTER TABLE `userrating`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `user_x_subscription`
+-- AUTO_INCREMENT for table `user_x_subscription`
 --
 ALTER TABLE `user_x_subscription`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
