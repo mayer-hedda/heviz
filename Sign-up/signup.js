@@ -4,25 +4,34 @@
 // TODO
 //?
 
+/*
+JELSZÓ CHECKHEZ:
+TRUE: aA12348! + bB123bh!
+FALSE: 123456789
+        AA12348!  ~
+        bb123bh!  ~
+        Cc!bbEL    ~
+        Cc!bbELK    ~
+        Dd12BBjj   ~
+
+*/
+
 // Flatpickr inicializálás --> dátum választóhoz, hogy tudjam szerkeszteni css-ben
 // flatpickr("#datepicker", {
 //      Itt állíthatod be a testreszabásokat a dátumválasztóhoz
 //     theme: "DatePlaceholder" // Adj meg egy egyedi osztálynevet a saját témádnak
 // });
 
-/*
-function valami() {
-    if (seged === true) {
-         Itt megváltoztathatod a témát vagy hozzáadhatsz egy CSS osztályt az elemhez
-         Például, ha egy HTML elemnek adnál hozzá egy CSS osztályt, így teheted meg:
-        document.getElementById("elem-id").classList.add("ez-egy-css-osztaly");
-    } else {
-        seged2 = false;
-    }
-}
+/* 
+*halvany feheres zold: #F1FFE7  -- rgb(241, 255, 231) -->bg
+*Zöld: #62AD6B   -- rgb(98, 173, 107) --> keret
+
+*Piri: #F3525D  -- rgb(243, 82, 93) --> keret
+*Piri2: #FFD6DC -- rgb(255, 214, 220) --> bg
+
 */
 
-// FOR CHANGE WHAT PROFILE ARE YOU WANT TO REGISTER
+// *FOR CHANGE WHAT PROFILE ARE YOU WANT TO REGISTER
 const General = document.getElementById("General");
 const Publisher = document.getElementById("Publisher");
 let GenP = document.getElementById("GenP");
@@ -32,46 +41,56 @@ let names = document.getElementById("names");
 let birthDate = document.getElementById("birthDate");
 let company = document.getElementById("company");
 
-let GenSeged = false;
+var isPublisher = false;
 
-//Swith to general inputs
+console.log("ispublisher default: " + isPublisher);
+
+//? Swith to general inputs
 General.addEventListener("click", (e) => {
     e.preventDefault();
-    //switch to invisible
+    //* switch to invisible
     company.hidden = true;
     names.hidden = true;
     PubP.hidden = true;
 
-    //switch to visable 
+    //* switch to visable 
     birthDate.hidden = false;
     GenP.hidden = false;
 
-    //class remove
+    //* class remove
     General.classList.remove("disabled-btn");
     Publisher.classList.remove("active-btn");
-    //add class
+    //* add class
     General.classList.add("active-btn");
     Publisher.classList.add("disabled-btn");
+
+    //* Boolean --> true
+    isPublisher = false;
+    console.log(isPublisher);
 })
 
-// Swith to publisher inputs
+//? Swith to publisher inputs
 Publisher.addEventListener("click", (e) => {
     e.preventDefault();
-    //switch to invisible
+    //* switch to invisible
     birthDate.hidden = true;
     GenP.hidden = true;
 
-    //switch to visable 
+    //* switch to visable 
     names.hidden = false;
     company.hidden = false;
     PubP.hidden = false;
 
-    //class remove
+    //* class remove
     Publisher.classList.remove("disabled-btn");
     General.classList.remove("active-btn");
-    //add class
+    //* add class
     Publisher.classList.add("active-btn");
     General.classList.add("disabled-btn");
+
+    //* boolean
+    isPublisher = true;
+    console.log("isPublisher value: " + isPublisher);
 })
 
 //*INPUTS FOR VALIDATION
@@ -83,6 +102,9 @@ const datepicker = document.getElementById("datepicker");
 const inputCompany = document.getElementById("inputCompany");
 const inputPwd = document.getElementById("inputPwd");
 const inputPwdAgain = document.getElementById("inputPwdAgain");
+const checkAszf = document.getElementById("check-Aszf");
+
+const submitButton = document.getElementById("submitButton");
 
 //*ERRORS
 let firstError = document.getElementById("firstError");
@@ -93,13 +115,14 @@ let birthError = document.getElementById("birthError");
 let companyError = document.getElementById("companyError");
 let firstPwdError = document.getElementById("firstPwdError");
 let lastPwdError = document.getElementById("lastPwdError");
+let checkbox = document.getElementById("check-Aszf");
 let AszfError = document.getElementById("AszfError");
 
 let FistnameValid = false;
 let LastnameValid = false;
 let UsernameValid = false;
 let EmailValid = false;
-let DateValid = false;
+let DateValid = false;      //! TODO: Date validation
 let CompanyValid = false;
 let PwdValid = false;
 let PwdAgainValid = false;
@@ -107,77 +130,648 @@ let PwdAgainValid = false;
 //? CHECKING VALUES
 function validateFirst(firstValue) {
     if (firstValue.lenght < 3) {
-        console.log("Firstname error");
+        console.log("Firstname error: length");
         firstError.innerHTML = `<p>Firstname must be at least 3 characters long.</p>`;
+        inputFirst.style.background = "rgb(255, 214, 220)";
+        inputFirst.style.borderColor = "rgb(243, 82, 93)";
         FistnameValid = false;
     } else {
-        console.log("Firstname pass");
         FistnameValid = true;
-
-        //TODO: First letter to uppercase
+        inputFirst.style.background = "rgb(241, 255, 231)";
+        inputFirst.style.borderColor = "rgb(98, 173, 107)";
+        console.log("Firstname pass -- " + FistnameValid);
+        console.log("isPublisher: " + isPublisher);
     }
 }
 
 function validateLast(lastValue) {
     if (lastValue.lenght < 3) {
-        console.log("Lastname error");
         lastError.innerHTML = `<p>Firstname must be at least 3 characters long.</p>`;
         LastnameValid = false;
+        inputLast.style.background = "rgb(255, 214, 220)";
+        inputLast.style.borderColor = "rgb(243, 82, 93)";
+        console.log("Lastname error: length -- " + LastnameValid);
     } else {
-        console.log("Lastname pass");
         LastnameValid = true;
-
-        //TODO: First letter to uppercase
+        inputLast.style.background = "rgb(241, 255, 231)";
+        inputLast.style.borderColor = "rgb(98, 173, 107)";
+        console.log("Lastname pass  -- " + LastnameValid);
+        console.log("isPublisher: " + isPublisher);
     }
 }
 
 function validateUserName(userValue) {
-    const invalidChars = new RegExp("-.?!%#*,");    //This characters are not allowed in the username
+    // ! javítani kell a regexpet, mert nem jó
+    const invalidChars = new RegExp("(?=.*[-?!%#*,()`^ˇ˘°˛˙´˝¨;><@{]}[])");    //This characters are not allowed in the username
     if (userValue.lenght < 3) {
-        console.log("User name error");
         lastError.innerHTML = `<p>Username must be at least 3 characters long.</p>`;
         UsernameValid = false;
+        inputUser.style.background = "rgb(255, 214, 220)";
+        inputUser.style.borderColor = "rgb(243, 82, 93)";
+        console.log("User name error: length  --- " + UsernameValid);
     } else {
-        console.log("Username lenght: pass");
+        //! akkor is tovább engedi ha a userValue tartalmazza az invalidChars-ban lévő karaktereket
 
         if (invalidChars.test(userValue) == true) {
             lastError.innerHTML = `<p>Invalid username. Please avoid using special characters like: - . ? ! % # ,*</p>`;
             UsernameValid = false;
+            inputUser.style.background = "rgb(255, 214, 220)";
+            inputUser.style.borderColor = "rgb(243, 82, 93)";
+            console.log("Username length: pass --- " + UsernameValid);
         } else {
-            console.log("Username characters: pass");
             UsernameValid = true;
+            inputUser.style.background = "rgb(241, 255, 231)";
+            inputUser.style.borderColor = "rgb(98, 173, 107)";
+            console.log("Username characters: pass --- " + UsernameValid);
         }
     }
 }
 
 function validateEmail(emailValue) {
+    //* to check @ character
+    const specReg = new RegExp("@");
+
     if (emailValue.lenght < 3) {
         emailError.innerHTML = `<p>Email address must be at least 3 characters long.</p>`;
-        console.log("Email error: lenght");
         EmailValid = false;
+        inputEmail.style.background = "rgb(255, 214, 220)";
+        inputEmail.style.borderColor = "rgb(243, 82, 93)";
+        console.log("Email error: length -- " + EmailValid);
     } else {
-        const firsPartOfEmail = emailValue.slice(0, emailValue.indexOf('@'));
-        console.log("Value before @: " + firsPartOfEmail);
+        if (specReg.test(emailValue) == true) {
 
-        if (firsPartOfEmail == "") {
-            emailError.innerHTML = `<p>Email address cannot empty before "@" symbol.</p>`;
-            EmailValid = false;
-        } else {
-            if (firsPartOfEmail.lenght < 3) {
-                emailError.innerHTML = `<p>Please ensure you have at least 3 characters before the "@" symbol.</p>`;
+            //* megvizsgálom, hogy az @ előtti rész megfelel-e a feltételeknek
+            const firsPartOfEmail = emailValue.slice(0, emailValue.indexOf('@'));
+            console.log("Value before @: " + firsPartOfEmail);
+
+            if (firsPartOfEmail == "") {
+                emailError.innerHTML = `<p>Email address cannot empty before "@" symbol.</p>`;
                 EmailValid = false;
+                inputEmail.style.background = "rgb(255, 214, 220)";
+                inputEmail.style.borderColor = "rgb(243, 82, 93)";
+                console.log("First part of email is empty --- " + EmailValid);
             } else {
-                console.log("First part of email pass");
-                EmailValid = true;
+                if (firsPartOfEmail.length < 3) {
+                    emailError.innerHTML = `<p>Please ensure you have at least 3 characters before the "@" symbol.</p>`;
+                    EmailValid = false;
+                    inputEmail.style.background = "rgb(255, 214, 220)";
+                    inputEmail.style.borderColor = "rgb(243, 82, 93)";
+                    console.log("First part of email length is not enough --- " + EmailValid);
+                } else {
+                    // EmailValid = true;
+                    console.log("First part of email pass -- " + EmailValid);
+                }
+            }
+
+            //* megvizsgálom, hogy az @ utáni rész megfelel-e a feltételeknek
+            const lastPartOfEmail = emailValue.slice(emailValue.indexOf('@') + 1);
+            console.log("Value after @: " + lastPartOfEmail);
+
+            //* megvizsgálom, hogy a lastPartOfEmail tartalmaz-e pontot
+            const dotReg = new RegExp("(?=.*[.])");
+            if (dotReg.test(lastPartOfEmail) == true) {
+                console.log("last part of email include dot");
+                // EmailValid = true;
+                console.log("Last part of email pass -- " + EmailValid);
+
+                //* megvizsgálom, hogy a lastPartOfEmail a pont előtt tartalmaz-e legalább 2 karaktert
+                const beforeDot = lastPartOfEmail.slice(0, lastPartOfEmail.indexOf('.'));
+                console.log("Value before dot: " + beforeDot);
+                if (beforeDot.length < 2) {
+                    console.log("last part of email before dot is not enough");
+                    emailError.innerHTML = `<p>Please ensure you have at least 2 characters before the " . " (dot) symbol.</p>`;
+                    EmailValid = false;
+                    inputEmail.style.background = "rgb(255, 214, 220)";
+                    inputEmail.style.borderColor = "rgb(243, 82, 93)";
+                    console.log("Last part of email error -- " + EmailValid);
+                } else {
+                    EmailValid = true;
+                    inputEmail.style.background = "rgb(241, 255, 231)";
+                    inputEmail.style.borderColor = "rgb(98, 173, 107)";
+                    console.log("Last part of email pass -- " + EmailValid);
+                }
+
+
+            } else {
+                console.log("last part of email doesn't include dot");
+                emailError.innerHTML = `<p>Please include the '.' (dot) symbol in your email address.</p>`;
+                EmailValid = false;
+                inputEmail.style.background = "rgb(255, 214, 220)";
+                inputEmail.style.borderColor = "rgb(243, 82, 93)";
+                console.log("Last part of email error -- " + EmailValid);
+            }
+
+        } else {
+            emailError.innerHTML = `<p>Please include the '@' symbol in your email address.</p>`;
+            EmailValid = false;
+            inputEmail.style.background = "rgb(255, 214, 220)";
+            inputEmail.style.borderColor = "rgb(243, 82, 93)";
+            console.log("Email error: doesn't include @ -- " + EmailValid);
+        }
+
+    }
+
+}
+
+//? SETTING VALUE LIMITS
+//! IT MUST BE ADDED TO THE INPUT
+function setMaxDate(dateInput) {
+
+    //* CURRENT DATE
+
+    const date = new Date();
+    let currentYear = date.getFullYear();
+    let currentMonth = date.getMonth() + 1;
+    let currentDay = date.getDate();
+    console.log("Current date for MAX: " + currentYear + " / " + currentMonth + " / " + currentDay);
+
+    //* set the maximum values
+
+    const maxYear = `${currentYear}` - 15;
+    const maxMonth = `${currentMonth}`;
+    const maxDay = `${currentDay}`;
+    dateInput.setAttribute('max', `${maxYear}-${maxMonth}-${maxDay}`);
+}
+
+//! IT MUST BE ADDED TO THE INPUT
+function setMinDate(dateInput) {
+    //*CURRENT DATE
+    const date = new Date();
+    let currentYear = date.getFullYear();
+    let currentMonth = date.getMonth() + 1;
+    let currentDay = date.getDate();
+
+    console.log("Current date for MIN: " + currentYear + " / " + currentMonth + " / " + currentDay);
+
+    //* set the minimum values
+    const minYear = `${currentYear}` - 100;
+    const minMonth = `${currentMonth}`;
+    const minDay = `${currentDay}`;
+    dateInput.setAttribute('min', `${minYear}-${minMonth}-${minDay}`);
+
+    console.log("Min year: " + minYear + " / " + minMonth + " / " + minDay);
+
+}
+
+function validateCompany(companyValue) {
+    if (companyValue.length < 1) {
+        companyError.innerHTML = `<p>Company name cannot be empty.</p>`;
+        CompanyValid = false;
+        inputCompany.style.background = "rgb(255, 214, 220)";
+        inputCompany.style.borderColor = "rgb(243, 82, 93)";
+        console.log("Company error: empty -- " + CompanyValid);
+    } else {
+        CompanyValid = true;
+        inputCompany.style.background = "rgb(241, 255, 231)";
+        inputCompany.style.borderColor = "rgb(98, 173, 107)";
+        console.log("Company name: pass --- " + CompanyValid);
+    }
+}
+
+function valudateFirstPwd(pwdValue) {
+    const upperCaseReg = new RegExp("(?=.*[A-Z])");
+    const loweCaseReg = new RegExp("(?=.*[a-z])");
+    const numReg = new RegExp("(?=.*[0-9])");
+    const specReg = new RegExp("(?=.*[!@#$%^&=?.,><*])");
+
+    if (pwdValue.length < 8) {
+        //* false --> error message
+        firstPwdError.innerHTML = `<p>Password must be at least 8 characters long.</p>`;
+        PwdValid = false;
+        inputPwd.style.background = "rgb(255, 214, 220)";
+        inputPwd.style.borderColor = "rgb(243, 82, 93)";
+        console.log("Password 1 error: length -- " + PwdValid);
+    } else {
+        //*true --> check the value
+
+        if (upperCaseReg.test(pwdValue) == true &&
+            loweCaseReg.test(pwdValue) == true &&
+            numReg.test(pwdValue) == true &&
+            specReg.test(pwdValue) == true
+        ) {
+            PwdValid = true;
+            inputPwd.style.background = "rgb(241, 255, 231)";
+            inputPwd.style.borderColor = "rgb(98, 173, 107)";
+            console.log("Password 1 pass -- " + PwdValid); 
+
+        } else {
+            PwdValid = false;
+            //* If something is missing --> error message what's wrong
+            if (upperCaseReg.test(pwdValue) == false) {
+                console.log("PWD 1: Missing uppercase");
+                firstPwdError.innerHTML = `<p>Password has to be include min 1 uppercase letter.</p>`;
+                inputPwd.style.background = "rgb(255, 214, 220)";
+                inputPwd.style.borderColor = "rgb(243, 82, 93)";
+            }
+
+            if (loweCaseReg.test(pwdValue) == false) {
+                console.log("PWD 1: Missing lowercase");
+                firstPwdError.innerHTML = `<p>Password has to be include min 1 lowecase letter.</p>`;
+                inputPwd.style.background = "rgb(255, 214, 220)";
+                inputPwd.style.borderColor = "rgb(243, 82, 93)";
+            }
+
+            if (numReg.test(pwdValue) == false) {
+                console.log("PWD 1: Missing number");
+                firstPwdError.innerHTML = `<p>Password has to be include min 1 number.</p>`;
+                inputPwd.style.background = "rgb(255, 214, 220)";
+                inputPwd.style.borderColor = "rgb(243, 82, 93)";
+            }
+
+            if (specReg.test(pwdValue) == false) {
+                console.log("PWD 1: Missing special character");
+                firstPwdError.innerHTML = `<p>Password has to be include min 1 special character.</p>`;
+                inputPwd.style.background = "rgb(255, 214, 220)";
+                inputPwd.style.borderColor = "rgb(243, 82, 93)";
             }
         }
     }
-
-    //TODO: Check the last part of the email
+    // return PwdValid;
 }
 
-//TODO: (date of today) - 100 years => this will be the oldest date you can enter
-//TODO: (date of today) - 15 years => this will be the youngest date you can enter
-function validateDate(dateValue){
+function matchPwd(pwdValue, pwdAgainValue) {
+    if (pwdValue != pwdAgainValue) {
+        console.log("Passwords doesn't match");
+        lastPwdError.innerHTML = `<p>The passwords doesn't match.</p>`;
+        PwdAgainValid = false;
+        inputPwdAgain.style.background = "rgb(255, 214, 220)";
+        inputPwdAgain.style.borderColor = "rgb(243, 82, 93)";
+    } else {
+        PwdAgainValid = true;
+        inputPwdAgain.style.background = "rgb(241, 255, 231)";
+        inputPwdAgain.style.borderColor = "rgb(98, 173, 107)";
+        console.log("Passwords are pass --- " + PwdAgainValid);
+    }
+}
 
+//? ADD EVENT LISTENERS
+//! GENERAL
+
+function GeneralEvents() {
+    const Datas = [];    //tömb az adatoknak, hogy össze tudjam hasonlítani a jelszavakat
+
+    // ? USERNAME
+    inputUser.addEventListener("focusin", (e) => {
+        e.preventDefault();
+        e.target.style.background = "";
+        e.target.style.border = "";
+        userError.innerHTML = "";
+    })
+
+    inputUser.addEventListener("focusout", (e) => {
+        e.preventDefault();
+        const userValue = inputUser.value;
+        if (userValue == "") {
+            userError.innerHTML = `<p>User name cannot be empty</p>`;
+            e.target.style.background = "rgb(255, 214, 220)";
+            e.target.style.borderColor = "rgb(243, 82, 93)";
+            console.log("User error: empty");
+
+        } else {
+            validateUserName(userValue);
+            if (UsernameValid == true) {
+                Datas.push(userValue);
+                e.target.style.background = "rgb(241, 255, 231)";
+                e.target.style.borderColor = "rgb(98, 173, 107)";
+                
+            }
+        }
+    })
+
+    //?EMAIL 
+    inputEmail.addEventListener("focusin", (e) => {
+        e.preventDefault();
+        e.target.style.background = "";
+        e.target.style.border = "";
+        emailError.innerHTML = "";
+    })
+
+    inputEmail.addEventListener("focusout", (e) => {
+        e.preventDefault();
+        const emailValue = inputEmail.value;
+        if (emailValue == "") {
+            emailError.innerHTML = `<p>Email address cannot be empty</p>`;
+            e.target.style.background = "rgb(255, 214, 220)";
+            e.target.style.borderColor = "rgb(243, 82, 93)";
+            console.log("Email error: empty");
+        } else {
+            validateEmail(emailValue);
+            if (EmailValid == true) {
+                Datas.push(emailValue);
+                e.target.style.background = "rgb(241, 255, 231)";
+                e.target.style.borderColor = "rgb(98, 173, 107)";
+            }
+        }
+    })
+
+    //? BRITHDAY 
+    //TODO: date picker --> not workin'
+
+    datepicker.addEventListener("focusin", (e) => {
+        e.preventDefault();
+
+    })
+
+    datepicker.addEventListener("focusout", (e) => {
+        e.preventDefault();
+        // DateValid = true;
+        const dateValue = datepicker.value;
+        if (dateValue < setMinDate(datepicker) || dateValue > setMaxDate(datepicker)) {
+            birthError.innerHTML = `<p>Invalid date.</p>`;
+            e.target.style.background = "rgb(255, 214, 220)";
+            e.target.style.borderColor = "rgb(243, 82, 93)";
+        } else {
+            DateValid = true;
+            e.target.style.background = "rgb(241, 255, 231)";
+            e.target.style.borderColor = "rgb(98, 173, 107)";
+        }
+
+        console.log("Date pass --- " + DateValid);
+    })
+
+    //? PASSWORD 1 
+
+    inputPwd.addEventListener("focusin", (e) => {
+        e.preventDefault();
+        e.target.style.background = "";
+        e.target.style.border = "";
+        firstPwdError.innerHTML = "";
+    })
+
+    inputPwd.addEventListener("focusout", (e) => {
+        e.preventDefault();
+        const firstPwdValue = inputPwd.value;
+        if (firstPwdValue == "") {
+            firstPwdError.innerHTML = `<p>Password field cannot be empty</p>`;
+            e.target.style.background = "rgb(255, 214, 220)";
+            e.target.style.borderColor = "rgb(243, 82, 93)";
+            
+            console.log("1st Password error: empty");
+        } else {
+            valudateFirstPwd(firstPwdValue);
+            console.log(firstPwdValue);
+            if (PwdValid == true) {
+                Datas.push(firstPwdValue);
+                e.target.style.background = "rgb(241, 255, 231)";
+                e.target.style.borderColor = "rgb(98, 173, 107)";
+            }
+        }
+    })
+
+    //? PASSWORD 2
+    inputPwdAgain.addEventListener("focusin", (e) => {
+        e.preventDefault();
+        e.target.style.background = "";
+        e.target.style.border = "";
+        lastPwdError.innerHTML = "";
+    })
+
+    inputPwdAgain.addEventListener("focusout", (e) => {
+        e.preventDefault();
+        const pwdAgainValue = inputPwdAgain.value;
+        const firstpwd = Datas[Datas.length - 1];   //*last index
+        console.log(firstpwd);
+        if (pwdAgainValue == "") {
+            lastPwdError.innerHTML = `<p>Password field cannot be empty</p>`;
+            e.target.style.background = "rgb(255, 214, 220)";
+            e.target.style.borderColor = "rgb(243, 82, 93)";
+            
+            console.log("2nd pwd error: empty");
+        } else {
+            matchPwd(firstpwd, pwdAgainValue);
+            
+        }
+
+        //! Ezt mindig a legutolso event-be kell rakni
+        General_Submit_Activate(submitButton);
+        console.log("general vége is lefut");
+    })
+}
+
+function PublisherEvents() {
+    const Datas = [];    //tömb az adatoknak, hogy össze tudjam hasonlítani a jelszavakat
+
+    // ? FIRST NAME
+    inputFirst.addEventListener("focusin", (e) => {
+        e.preventDefault();
+        e.target.style.background = "";
+        e.target.style.border = "";
+        firstError.innerHTML = "";
+    })
+
+    inputFirst.addEventListener("focusout", (e) => {
+        e.preventDefault();
+        const FirstValue = inputFirst.value;
+        if (FirstValue == "") {
+            console.log("Firstname error: empty");
+            firstError.innerHTML = `<p>First name cannot be empty.</p>`;
+            e.target.style.background = "rgb(255, 214, 220)";
+            e.target.style.borderColor = "rgb(243, 82, 93)";
+            
+        } else {
+            validateFirst(FirstValue);
+            if (FistnameValid == true) {
+                Datas.push(FirstValue);
+                e.target.style.background = "rgb(241, 255, 231)";
+                e.target.style.borderColor = "rgb(98, 173, 107)";
+            }
+        }
+    })
+
+    // ? LAST NAME 
+    inputLast.addEventListener("focusin", (e) => {
+        e.preventDefault();
+        e.target.style.background = "";
+        e.target.style.border = "";
+        lastError.innerHTML = "";
+    })
+
+    inputLast.addEventListener("focusout", (e) => {
+        e.preventDefault();
+        const lastValue = inputLast.value;
+        if (lastValue == "") {
+            console.log("Lastname error: empty");
+            lastError.innerHTML = `<p>First name cannot be empty.</p>`;
+            e.target.style.background = "rgb(255, 214, 220)";
+            e.target.style.borderColor = "rgb(243, 82, 93)";
+
+        } else {
+            validateFirst(lastValue);
+            if (LastnameValid == true) {
+                Datas.push(lastValue);
+                e.target.style.background = "rgb(241, 255, 231)";
+                e.target.style.borderColor = "rgb(98, 173, 107)";
+            }
+        }
+    })
+
+    // ? USERNAME
+    inputUser.addEventListener("focusin", (e) => {
+        e.preventDefault();
+        e.target.style.background = "";
+        e.target.style.border = "";
+        userError.innerHTML = "";
+    })
+
+    inputUser.addEventListener("focusout", (e) => {
+        e.preventDefault();
+        const userValue = inputUser.value;
+        if (userValue == "") {
+            userError.innerHTML = `<p>User name cannot be empty</p>`;
+            e.target.style.background = "rgb(255, 214, 220)";
+            e.target.style.borderColor = "rgb(243, 82, 93)";
+            
+            console.log("User error: empty");
+        } else {
+            validateUserName(userValue);
+            if (UsernameValid == true) {
+                Datas.push(userValue);
+                e.target.style.background = "rgb(241, 255, 231)";
+                e.target.style.borderColor = "rgb(98, 173, 107)";
+            }
+        }
+    })
+
+    //?EMAIL 
+    inputEmail.addEventListener("focusin", (e) => {
+        e.preventDefault();
+        e.target.style.background = "";
+        e.target.style.border = "";
+        emailError.innerHTML = "";
+    })
+
+    inputEmail.addEventListener("focusout", (e) => {
+        e.preventDefault();
+        const emailValue = inputEmail.value;
+        if (emailValue == "") {
+            emailError.innerHTML = `<p>Email address cannot be empty</p>`;
+            e.target.style.background = "rgb(255, 214, 220)";
+            e.target.style.borderColor = "rgb(243, 82, 93)";
+            
+            console.log("Email error: empty");
+        } else {
+            validateEmail(emailValue);
+            if (EmailValid == true) {
+                Datas.push(emailValue);
+                e.target.style.background = "rgb(241, 255, 231)";
+                e.target.style.borderColor = "rgb(98, 173, 107)";
+            }
+        }
+    })
+
+    //? COMPANY
+    inputCompany.addEventListener("focusin", (e) => {
+        e.preventDefault();
+        e.target.style.background = "";
+        e.target.style.border = "";
+        companyError.innerHTML = "";
+    })
+
+    inputCompany.addEventListener("focusout", (e) => {
+        e.preventDefault();
+        const companyValue = inputCompany.value;
+        if (companyValue == "") {
+            companyError.innerHTML = `<p>Email address cannot be empty</p>`;
+            e.target.style.background = "rgb(255, 214, 220)";
+            e.target.style.borderColor = "rgb(243, 82, 93)";
+            
+            console.log("Email error: empty");
+        } else {
+            validateEmail(companyValue);
+            if (EmailValid == true) {
+                Datas.push(companyValue);
+                e.target.style.background = "rgb(241, 255, 231)";
+                e.target.style.borderColor = "rgb(98, 173, 107)";
+            }
+        }
+    })
+
+    //? PASSWORD 1
+    inputPwd.addEventListener("focusin", (e) => {
+        e.preventDefault();
+        e.target.style.background = "";
+        e.target.style.border = "";
+        firstPwdError.innerHTML = "";
+    })
+
+    inputPwd.addEventListener("focusout", (e) => {
+        e.preventDefault();
+        const firstPwdValue = inputPwd.value;
+        if (firstPwdValue == "") {
+            firstPwdError.innerHTML = `<p>Password field cannot be empty</p>`;
+            e.target.style.background = "rgb(255, 214, 220)";
+            e.target.style.borderColor = "rgb(243, 82, 93)";
+            
+            console.log("1st Password error: empty");
+        } else {
+            valudateFirstPwd(firstPwdValue);
+            console.log(firstPwdValue);
+            if (PwdValid == true) {
+                Datas.push(firstPwdValue);
+                e.target.style.background = "rgb(241, 255, 231)";
+                e.target.style.borderColor = "rgb(98, 173, 107)";
+            }
+        }
+    })
+
+    //? PASSWORD 2
+    inputPwdAgain.addEventListener("focusin", (e) => {
+        e.preventDefault();
+        e.target.style.background = "";
+        e.target.style.border = "";
+        lastPwdError.innerHTML = "";
+    })
+
+    inputPwdAgain.addEventListener("focusout", (e) => {
+        e.preventDefault();
+        const pwdAgainValue = inputPwdAgain.value;
+        const firstpwd = Datas[Datas.length - 1];   //*last index
+        console.log(firstpwd);
+        if (pwdAgainValue == "") {
+            lastPwdError.innerHTML = `<p>Password field cannot be empty</p>`;
+            e.target.style.background = "rgb(255, 214, 220)";
+            e.target.style.borderColor = "rgb(243, 82, 93)";
+            
+            console.log("2nd pwd error: empty");
+        } else {
+            matchPwd(firstpwd, pwdAgainValue);
+            e.target.style.background = "rgb(241, 255, 231)";
+            e.target.style.border = "rgb(98, 173, 107)";
+        }
+
+        //! Ezt mindig a legutolso event-be kell rakni
+        General_Submit_Activate(submitButton);
+        console.log("general vége is lefut");
+    })
+}
+
+function General_Submit_Activate(submitButton) {
+    if (UsernameValid == true &&
+        EmailValid == true &&
+        PwdValid == true &&
+        PwdAgainValid == true) {
+
+        console.log("Legyen aktív a btn");
+        submitButton.disabled = false;
+    }
+}
+
+function Publisher_Submit_Activate(submitButton) {
+    if (FistnameValid == true &&
+        LastnameValid == true &&
+        UsernameValid == true &&
+        EmailValid == true &&
+        CompanyValid == true &&
+        PwdValid == true &&
+        PwdAgainValid == true) {
+
+        console.log("Legyen aktív a btn");
+        submitButton.disabled = false;
+    }
+}
+
+if (isPublisher == false) {
+    GeneralEvents();
+} else {
+    PublisherEvents();
 }
