@@ -103,8 +103,6 @@ input[type="date"] {
 
 
 
-
-
 /* ---------------------------- CLASSES ---------------------------- */
 /* .sidestuff {
     width: 6.25rem;
@@ -144,6 +142,15 @@ input[type="date"] {
     font-family: 'Montserrat';
     text-align: center;
     color: rgba(65, 61, 63);
+
+}
+
+.error p {
+    color: #EE1D52;
+    font-family: 'Poppins', sans-serif;
+    font-size: 80%;
+    margin-top: 0%;
+    padding-top: 0%;
 
 }
 
@@ -194,6 +201,7 @@ input[type="date"] {
 /* FIRST NAME */
 #names {
     margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 #inputFirst {
@@ -247,10 +255,10 @@ input[type="date"] {
     border-bottom-right-radius: 0.8rem;
     border-bottom-left-radius: 0.8rem;
 
-    margin-bottom: 0rem;
+    margin-bottom: 1rem;
 }
 
-#inputUsername::placeholder {
+#inputUser::placeholder {
     font-size: smaller;
     color: rgb(120, 121, 143);
     font-family: 'Poppins', sans-serif;
@@ -268,7 +276,7 @@ input[type="date"] {
     border-bottom-right-radius: 0.8rem;
     border-bottom-left-radius: 0.8rem;
 
-    margin-bottom: 0rem;
+    margin-bottom: 1rem;
 }
 
 #inputEmail::placeholder {
@@ -289,7 +297,7 @@ input[type="date"] {
     border-bottom-right-radius: 0.8rem;
     border-bottom-left-radius: 0.8rem;
 
-    margin-bottom: 1.8rem;
+    margin-bottom: 1rem;        /* ? 1.8rem*/
 }
 
 #inputCompany::placeholder {
@@ -310,7 +318,7 @@ input[type="date"] {
     border-bottom-right-radius: 0.8rem;
     border-bottom-left-radius: 0.8rem;
 
-    margin-bottom: 0rem;
+    margin-bottom: 1rem;
 }
 
 #inputPwd::placeholder {
@@ -332,7 +340,7 @@ input[type="date"] {
     border-bottom-right-radius: 0.8rem;
     border-bottom-left-radius: 0.8rem;
 
-    margin-bottom: 0rem;
+    margin-bottom: 1rem;
 }
 
 #inputPwdAgain::placeholder {
