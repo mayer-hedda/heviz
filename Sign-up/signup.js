@@ -45,53 +45,72 @@ var isPublisher = false;
 
 console.log("ispublisher default: " + isPublisher);
 
-//? Swith to general inputs
-General.addEventListener("click", (e) => {
-    e.preventDefault();
+//? Swith to publisher function 
+
+function SwitchToPublisher() {
+    isPublisher = true;
+
+    //* switch to invisible
+    birthDate.hidden = true;
+    GenP.hidden = true;
+
+    names.hidden = false;
+    company.hidden = false;
+    PubP.hidden = false;
+
+    //* modify the classes of the buttons
+    Publisher.classList.remove("disabled-btn");
+    General.classList.remove("active-btn");
+
+    Publisher.classList.add("active-btn");
+    General.classList.add("disabled-btn");
+
+    //* call Publisher events
+    PublisherEvents();
+
+    //* check the submit button
+    Publisher_Submit_Activate(submitButton);
+    console.log("isPublisher value: " + isPublisher);
+}
+
+
+//? Swith to general function
+function SwitchToGeneral() {
+    isPublisher = false;
+
     //* switch to invisible
     company.hidden = true;
     names.hidden = true;
     PubP.hidden = true;
 
-    //* switch to visable 
-    birthDate.hidden = false;
-    GenP.hidden = false;
-
-    //* class remove
+    //* modify the classes of the buttons
     General.classList.remove("disabled-btn");
     Publisher.classList.remove("active-btn");
-    //* add class
+
     General.classList.add("active-btn");
     Publisher.classList.add("disabled-btn");
 
-    //* Boolean --> true
-    isPublisher = false;
-    console.log(isPublisher);
+    //* call the General events
+    GeneralEvents();
+
+    //* check the submit button
+    General_Submit_Activate(submitButton);
+    console.log("isPublisher value: " + isPublisher);
+
+}
+
+General.addEventListener("click", (e) => {
+    e.preventDefault();
+    SwitchToGeneral();
 })
 
-//? Swith to publisher inputs
 Publisher.addEventListener("click", (e) => {
     e.preventDefault();
-    //* switch to invisible
-    birthDate.hidden = true;
-    GenP.hidden = true;
-
-    //* switch to visable 
-    names.hidden = false;
-    company.hidden = false;
-    PubP.hidden = false;
-
-    //* class remove
-    Publisher.classList.remove("disabled-btn");
-    General.classList.remove("active-btn");
-    //* add class
-    Publisher.classList.add("active-btn");
-    General.classList.add("disabled-btn");
-
-    //* boolean
-    isPublisher = true;
-    console.log("isPublisher value: " + isPublisher);
+    SwitchToPublisher();
 })
+
+
+
 
 //*INPUTS FOR VALIDATION
 const inputFirst = document.getElementById("inputFirst");
@@ -118,7 +137,7 @@ let lastPwdError = document.getElementById("lastPwdError");
 let checkbox = document.getElementById("check-Aszf");
 let AszfError = document.getElementById("AszfError");
 
-let FistnameValid = false;
+let FirstnameValid = false;
 let LastnameValid = false;
 let UsernameValid = false;
 let EmailValid = false;
@@ -129,23 +148,23 @@ let PwdAgainValid = false;
 
 //? CHECKING VALUES
 function validateFirst(firstValue) {
-    if (firstValue.lenght < 3) {
+    if (firstValue.length < 3) {
         console.log("Firstname error: length");
         firstError.innerHTML = `<p>Firstname must be at least 3 characters long.</p>`;
         inputFirst.style.background = "rgb(255, 214, 220)";
         inputFirst.style.borderColor = "rgb(243, 82, 93)";
-        FistnameValid = false;
+        FirstnameValid = false;
     } else {
-        FistnameValid = true;
+        FirstnameValid = true;
         inputFirst.style.background = "rgb(241, 255, 231)";
         inputFirst.style.borderColor = "rgb(98, 173, 107)";
-        console.log("Firstname pass -- " + FistnameValid);
+        console.log("Firstname pass -- " + FirstnameValid);
         console.log("isPublisher: " + isPublisher);
     }
 }
 
 function validateLast(lastValue) {
-    if (lastValue.lenght < 3) {
+    if (lastValue.length < 3) {
         lastError.innerHTML = `<p>Firstname must be at least 3 characters long.</p>`;
         LastnameValid = false;
         inputLast.style.background = "rgb(255, 214, 220)";
@@ -161,19 +180,18 @@ function validateLast(lastValue) {
 }
 
 function validateUserName(userValue) {
-    // ! javítani kell a regexpet, mert nem jó
-    const invalidChars = new RegExp("(?=.*[-?!%#*,()`^ˇ˘°˛˙´˝¨;><@{]}[])");    //This characters are not allowed in the username
-    if (userValue.lenght < 3) {
-        lastError.innerHTML = `<p>Username must be at least 3 characters long.</p>`;
+    const invalidChars = new RegExp("(?=.*[-?!%#*,(`^ˇ˘°˛˙´˝¨;/:><@{}\"\\\\\\[\\]()])");   //This characters are not allowed in the username
+
+    if (userValue.length < 3) {
+        userError.innerHTML = `<p>Username must be at least 3 characters long.</p>`;
         UsernameValid = false;
         inputUser.style.background = "rgb(255, 214, 220)";
         inputUser.style.borderColor = "rgb(243, 82, 93)";
         console.log("User name error: length  --- " + UsernameValid);
     } else {
-        //! akkor is tovább engedi ha a userValue tartalmazza az invalidChars-ban lévő karaktereket
 
         if (invalidChars.test(userValue) == true) {
-            lastError.innerHTML = `<p>Invalid username. Please avoid using special characters like: - . ? ! % # ,*</p>`;
+            userError.innerHTML = `<p>Invalid username. Please avoid using special characters exept: _ (underscore) and . (dot)</p>`;
             UsernameValid = false;
             inputUser.style.background = "rgb(255, 214, 220)";
             inputUser.style.borderColor = "rgb(243, 82, 93)";
@@ -191,7 +209,7 @@ function validateEmail(emailValue) {
     //* to check @ character
     const specReg = new RegExp("@");
 
-    if (emailValue.lenght < 3) {
+    if (emailValue.length < 3) {
         emailError.innerHTML = `<p>Email address must be at least 3 characters long.</p>`;
         EmailValid = false;
         inputEmail.style.background = "rgb(255, 214, 220)";
@@ -352,38 +370,63 @@ function valudateFirstPwd(pwdValue) {
             PwdValid = true;
             inputPwd.style.background = "rgb(241, 255, 231)";
             inputPwd.style.borderColor = "rgb(98, 173, 107)";
-            console.log("Password 1 pass -- " + PwdValid); 
+            console.log("Password 1 pass -- " + PwdValid);
 
         } else {
             PwdValid = false;
             //* If something is missing --> error message what's wrong
-            if (upperCaseReg.test(pwdValue) == false) {
+
+
+            if (upperCaseReg.test(pwdValue) == false && loweCaseReg.test(pwdValue) == true && numReg.test(pwdValue) == true && specReg.test(pwdValue) == true) {
                 console.log("PWD 1: Missing uppercase");
                 firstPwdError.innerHTML = `<p>Password has to be include min 1 uppercase letter.</p>`;
                 inputPwd.style.background = "rgb(255, 214, 220)";
                 inputPwd.style.borderColor = "rgb(243, 82, 93)";
-            }
 
-            if (loweCaseReg.test(pwdValue) == false) {
-                console.log("PWD 1: Missing lowercase");
-                firstPwdError.innerHTML = `<p>Password has to be include min 1 lowecase letter.</p>`;
+            } else if (upperCaseReg.test(pwdValue) == false && loweCaseReg.test(pwdValue) == false && numReg.test(pwdValue) == true && specReg.test(pwdValue) == true) {
+                console.log("PWD 1: Missing uppercase and lowercase");
+                firstPwdError.innerHTML = `<p>Password has to be include min 1 uppercase and 1 lowercase letter.</p>`;
                 inputPwd.style.background = "rgb(255, 214, 220)";
                 inputPwd.style.borderColor = "rgb(243, 82, 93)";
-            }
 
-            if (numReg.test(pwdValue) == false) {
-                console.log("PWD 1: Missing number");
-                firstPwdError.innerHTML = `<p>Password has to be include min 1 number.</p>`;
+            }else if(upperCaseReg.test(pwdValue) == false && loweCaseReg.test(pwdValue) == false && numReg.test(pwdValue) == false && specReg.test(pwdValue) == true){
+                console.log("PWD 1: Missing uppercase, lowercase and number");
+                firstPwdError.innerHTML = `<p>Password has to be include min 1 uppercase, 1 lowercase letter and 1 number.</p>`;
                 inputPwd.style.background = "rgb(255, 214, 220)";
                 inputPwd.style.borderColor = "rgb(243, 82, 93)";
-            }
 
-            if (specReg.test(pwdValue) == false) {
-                console.log("PWD 1: Missing special character");
-                firstPwdError.innerHTML = `<p>Password has to be include min 1 special character.</p>`;
+            }else if(upperCaseReg.test(pwdValue) == false && loweCaseReg.test(pwdValue) == false && numReg.test(pwdValue) == false && specReg.test(pwdValue) == false){
+                console.log("PWD 1: Missing uppercase, lowercase, number and special character");
+                firstPwdError.innerHTML = `<p>Password has to be include min 1 uppercase, 1 lowercase letter, 1 number and 1 special character.</p>`;
                 inputPwd.style.background = "rgb(255, 214, 220)";
                 inputPwd.style.borderColor = "rgb(243, 82, 93)";
+
             }
+////////////////////////////////////////////////////////////////////////////////////////////////// 
+//ITT HAGYTAM ABBA --> 08.27
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+            // if (loweCaseReg.test(pwdValue) == false) {
+            //     console.log("PWD 1: Missing lowercase");
+            //     firstPwdError.innerHTML = `<p>Password has to be include min 1 lowecase letter.</p>`;
+            //     inputPwd.style.background = "rgb(255, 214, 220)";
+            //     inputPwd.style.borderColor = "rgb(243, 82, 93)";
+            // }
+
+            // if (numReg.test(pwdValue) == false) {
+            //     console.log("PWD 1: Missing number");
+            //     firstPwdError.innerHTML = `<p>Password has to be include min 1 number.</p>`;
+            //     inputPwd.style.background = "rgb(255, 214, 220)";
+            //     inputPwd.style.borderColor = "rgb(243, 82, 93)";
+            // }
+
+            // if (specReg.test(pwdValue) == false) {
+            //     console.log("PWD 1: Missing special character");
+            //     firstPwdError.innerHTML = `<p>Password has to be include min 1 special character.</p>`;
+            //     inputPwd.style.background = "rgb(255, 214, 220)";
+            //     inputPwd.style.borderColor = "rgb(243, 82, 93)";
+            // }
         }
     }
     // return PwdValid;
@@ -433,7 +476,7 @@ function GeneralEvents() {
                 Datas.push(userValue);
                 e.target.style.background = "rgb(241, 255, 231)";
                 e.target.style.borderColor = "rgb(98, 173, 107)";
-                
+
             }
         }
     })
@@ -505,7 +548,7 @@ function GeneralEvents() {
             firstPwdError.innerHTML = `<p>Password field cannot be empty</p>`;
             e.target.style.background = "rgb(255, 214, 220)";
             e.target.style.borderColor = "rgb(243, 82, 93)";
-            
+
             console.log("1st Password error: empty");
         } else {
             valudateFirstPwd(firstPwdValue);
@@ -535,11 +578,11 @@ function GeneralEvents() {
             lastPwdError.innerHTML = `<p>Password field cannot be empty</p>`;
             e.target.style.background = "rgb(255, 214, 220)";
             e.target.style.borderColor = "rgb(243, 82, 93)";
-            
+
             console.log("2nd pwd error: empty");
         } else {
             matchPwd(firstpwd, pwdAgainValue);
-            
+
         }
 
         //! Ezt mindig a legutolso event-be kell rakni
@@ -548,15 +591,20 @@ function GeneralEvents() {
     })
 }
 
+//! PUBLISHER
 function PublisherEvents() {
     const Datas = [];    //tömb az adatoknak, hogy össze tudjam hasonlítani a jelszavakat
 
     // ? FIRST NAME
+
+
+
     inputFirst.addEventListener("focusin", (e) => {
         e.preventDefault();
         e.target.style.background = "";
         e.target.style.border = "";
         firstError.innerHTML = "";
+        console.log("First name focusin");
     })
 
     inputFirst.addEventListener("focusout", (e) => {
@@ -567,10 +615,10 @@ function PublisherEvents() {
             firstError.innerHTML = `<p>First name cannot be empty.</p>`;
             e.target.style.background = "rgb(255, 214, 220)";
             e.target.style.borderColor = "rgb(243, 82, 93)";
-            
+
         } else {
             validateFirst(FirstValue);
-            if (FistnameValid == true) {
+            if (FirstnameValid == true) {
                 Datas.push(FirstValue);
                 e.target.style.background = "rgb(241, 255, 231)";
                 e.target.style.borderColor = "rgb(98, 173, 107)";
@@ -620,7 +668,7 @@ function PublisherEvents() {
             userError.innerHTML = `<p>User name cannot be empty</p>`;
             e.target.style.background = "rgb(255, 214, 220)";
             e.target.style.borderColor = "rgb(243, 82, 93)";
-            
+
             console.log("User error: empty");
         } else {
             validateUserName(userValue);
@@ -647,7 +695,7 @@ function PublisherEvents() {
             emailError.innerHTML = `<p>Email address cannot be empty</p>`;
             e.target.style.background = "rgb(255, 214, 220)";
             e.target.style.borderColor = "rgb(243, 82, 93)";
-            
+
             console.log("Email error: empty");
         } else {
             validateEmail(emailValue);
@@ -674,7 +722,7 @@ function PublisherEvents() {
             companyError.innerHTML = `<p>Email address cannot be empty</p>`;
             e.target.style.background = "rgb(255, 214, 220)";
             e.target.style.borderColor = "rgb(243, 82, 93)";
-            
+
             console.log("Email error: empty");
         } else {
             validateEmail(companyValue);
@@ -701,7 +749,7 @@ function PublisherEvents() {
             firstPwdError.innerHTML = `<p>Password field cannot be empty</p>`;
             e.target.style.background = "rgb(255, 214, 220)";
             e.target.style.borderColor = "rgb(243, 82, 93)";
-            
+
             console.log("1st Password error: empty");
         } else {
             valudateFirstPwd(firstPwdValue);
@@ -731,7 +779,7 @@ function PublisherEvents() {
             lastPwdError.innerHTML = `<p>Password field cannot be empty</p>`;
             e.target.style.background = "rgb(255, 214, 220)";
             e.target.style.borderColor = "rgb(243, 82, 93)";
-            
+
             console.log("2nd pwd error: empty");
         } else {
             matchPwd(firstpwd, pwdAgainValue);
@@ -757,7 +805,7 @@ function General_Submit_Activate(submitButton) {
 }
 
 function Publisher_Submit_Activate(submitButton) {
-    if (FistnameValid == true &&
+    if (FirstnameValid == true &&
         LastnameValid == true &&
         UsernameValid == true &&
         EmailValid == true &&
@@ -770,8 +818,9 @@ function Publisher_Submit_Activate(submitButton) {
     }
 }
 
-if (isPublisher == false) {
-    GeneralEvents();
-} else {
+if (isPublisher == true) {
     PublisherEvents();
+} else {
+
+    GeneralEvents();
 }
