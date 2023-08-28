@@ -395,38 +395,41 @@ function valudateFirstPwd(pwdValue) {
                 inputPwd.style.background = "rgb(255, 214, 220)";
                 inputPwd.style.borderColor = "rgb(243, 82, 93)";
 
-            }else if(upperCaseReg.test(pwdValue) == false && loweCaseReg.test(pwdValue) == false && numReg.test(pwdValue) == false && specReg.test(pwdValue) == false){
-                console.log("PWD 1: Missing uppercase, lowercase, number and special character");
-                firstPwdError.innerHTML = `<p>Password has to be include min 1 uppercase, 1 lowercase letter, 1 number and 1 special character.</p>`;
+            }else if(upperCaseReg.test(pwdValue) == true && loweCaseReg.test(pwdValue) == false && numReg.test(pwdValue) == true && specReg.test(pwdValue) == true){
+                console.log("PWD 1: Missing lowercase");
+                firstPwdError.innerHTML = `<p>Password has to be include min 1 lowercase letter.</p>`;
                 inputPwd.style.background = "rgb(255, 214, 220)";
                 inputPwd.style.borderColor = "rgb(243, 82, 93)";
 
+            }else if(upperCaseReg.test(pwdValue) == true && loweCaseReg.test(pwdValue) == false && numReg.test(pwdValue) == false && specReg.test(pwdValue) == true){
+                console.log("PWD 1: Missing lowercase and number");
+                firstPwdError.innerHTML = `<p>Password has to be include min 1 lowercase letter and 1 number.</p>`;
+                inputPwd.style.background = "rgb(255, 214, 220)";
+                inputPwd.style.borderColor = "rgb(243, 82, 93)";
+
+            }else if(upperCaseReg.test(pwdValue) == true && loweCaseReg.test(pwdValue) == false && numReg.test(pwdValue) == false && specReg.test(pwdValue) == false){
+                console.log("PWD 1: Missing lowercase, number and special character");
+                firstPwdError.innerHTML = `<p>Password has to be include min 1 lowercase letter, 1 number and 1 special character.</p>`;
+                inputPwd.style.background = "rgb(255, 214, 220)";
+                inputPwd.style.borderColor = "rgb(243, 82, 93)";
+            }else if(upperCaseReg.test(pwdValue) == true && loweCaseReg.test(pwdValue) == true && numReg.test(pwdValue) == false && specReg.test(pwdValue) == true){
+                console.log("PWD 1: Missing number");
+                firstPwdError.innerHTML = `<p>Password has to be include min 1 number.</p>`;
+                inputPwd.style.background = "rgb(255, 214, 220)";
+                inputPwd.style.borderColor = "rgb(243, 82, 93)";
+
+            }else if(upperCaseReg.test(pwdValue) == true && loweCaseReg.test(pwdValue) == true && numReg.test(pwdValue) == false && specReg.test(pwdValue) == false){
+                console.log("PWD 1: Missing number and special character");
+                firstPwdError.innerHTML = `<p>Password has to be include min 1 number and 1 special character.</p>`;
+                inputPwd.style.background = "rgb(255, 214, 220)";
+                inputPwd.style.borderColor = "rgb(243, 82, 93)";
+
+            }else if(upperCaseReg.test(pwdValue) == true && loweCaseReg.test(pwdValue) == true && numReg.test(pwdValue) == true && specReg.test(pwdValue) == false){
+                console.log("PWD 1: Missing special character");
+                firstPwdError.innerHTML = `<p>Password has to be include min 1 special character.</p>`;
+                inputPwd.style.background = "rgb(255, 214, 220)";
+                inputPwd.style.borderColor = "rgb(243, 82, 93)";
             }
-////////////////////////////////////////////////////////////////////////////////////////////////// 
-//ITT HAGYTAM ABBA --> 08.27
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-            // if (loweCaseReg.test(pwdValue) == false) {
-            //     console.log("PWD 1: Missing lowercase");
-            //     firstPwdError.innerHTML = `<p>Password has to be include min 1 lowecase letter.</p>`;
-            //     inputPwd.style.background = "rgb(255, 214, 220)";
-            //     inputPwd.style.borderColor = "rgb(243, 82, 93)";
-            // }
-
-            // if (numReg.test(pwdValue) == false) {
-            //     console.log("PWD 1: Missing number");
-            //     firstPwdError.innerHTML = `<p>Password has to be include min 1 number.</p>`;
-            //     inputPwd.style.background = "rgb(255, 214, 220)";
-            //     inputPwd.style.borderColor = "rgb(243, 82, 93)";
-            // }
-
-            // if (specReg.test(pwdValue) == false) {
-            //     console.log("PWD 1: Missing special character");
-            //     firstPwdError.innerHTML = `<p>Password has to be include min 1 special character.</p>`;
-            //     inputPwd.style.background = "rgb(255, 214, 220)";
-            //     inputPwd.style.borderColor = "rgb(243, 82, 93)";
-            // }
         }
     }
     // return PwdValid;
