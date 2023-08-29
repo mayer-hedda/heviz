@@ -466,7 +466,7 @@ function GeneralEvents() {
 
     inputUser.addEventListener("focusout", (e) => {
         e.preventDefault();
-        const userValue = inputUser.value;
+        const userValue = inputUser.value;      // kiszedi a user mező értékét
         if (userValue == "") {
             userError.innerHTML = `<p>User name cannot be empty</p>`;
             e.target.style.background = "rgb(255, 214, 220)";
@@ -474,7 +474,7 @@ function GeneralEvents() {
             console.log("User error: empty");
 
         } else {
-            validateUserName(userValue);
+            validateUserName(userValue);    // függvénybe használja a user mező értékét
             if (UsernameValid == true) {
                 Datas.push(userValue);
                 e.target.style.background = "rgb(241, 255, 231)";
@@ -509,6 +509,8 @@ function GeneralEvents() {
             }
         }
     })
+
+    inputCompany.addEventListener("", (e) => {})
 
     //? BRITHDAY 
     //TODO: date picker --> not workin'
@@ -599,8 +601,6 @@ function PublisherEvents() {
     const Datas = [];    //tömb az adatoknak, hogy össze tudjam hasonlítani a jelszavakat
 
     // ? FIRST NAME
-
-
 
     inputFirst.addEventListener("focusin", (e) => {
         e.preventDefault();
@@ -791,10 +791,53 @@ function PublisherEvents() {
         }
 
         //! Ezt mindig a legutolso event-be kell rakni
-        General_Submit_Activate(submitButton);
+        Publisher_Submit_Activate(submitButton);
         console.log("general vége is lefut");
     })
 }
+
+//backenddel való összekötés
+submitButton.addEventListener("click", async (e) => {
+    e.preventDefault();
+    if (isPublisher == true) {
+        const postData = {
+            firstName: inputFirst.value,
+            lastName: inputLast.value,
+            username: inputUser.value,
+            email: inputEmail.value,
+            companyName: inputCompany.value,
+            password: inputPwdAgain.value
+        };
+        
+        const response = await fetch('http://localhost:8080/publisherRegistration', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(postData)
+        });
+        
+        const data = await response.json();
+        console.log('Válasz a backendtől:', data);
+    }else{
+        const postData = {
+            username: inputUser.value,
+            email: inputEmail.value,
+            password: inputPwdAgain.value
+        };
+        
+        const response = await fetch('http://localhost:8080/publisherRegistration', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(postData)
+        });
+        
+        const data = await response.json();
+        console.log('Válasz a backendtől:', data);
+    }
+})
 
 function General_Submit_Activate(submitButton) {
     if (UsernameValid == true &&
