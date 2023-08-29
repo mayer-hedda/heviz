@@ -83,6 +83,9 @@ function SwitchToGeneral() {
     names.hidden = true;
     PubP.hidden = true;
 
+    birthDate.hidden = false;
+    GenP.hidden = false;
+
     //* modify the classes of the buttons
     General.classList.remove("disabled-btn");
     Publisher.classList.remove("active-btn");
