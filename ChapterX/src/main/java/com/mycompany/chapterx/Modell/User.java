@@ -4,30 +4,27 @@
  */
 package com.mycompany.chapterx.Modell;
 
-import com.mycompany.chapterx.Exception.emailException;
-import com.mycompany.chapterx.Exception.loginException;
-import com.mycompany.chapterx.Exception.nameException;
+import com.mycompany.chapterx.Exception.*;
+
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.ParameterMode;
-import javax.persistence.Persistence;
-import javax.persistence.StoredProcedureQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import javax.persistence.*;
 
 /**
  *
@@ -82,7 +79,7 @@ public class User implements Serializable {
     private String password;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 7)
+    @Size(min = 1, max = 9)
     @Column(name = "rank")
     private String rank;
     @Size(max = 50)
@@ -322,94 +319,132 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mycompany.chapterx.Modell.User[ id=" + id + " ]";
+        return "id=" + id;
     }
-    
-    
-    
+
+
+
     // SAJÁT TÁROLTAK
-    public static User login(String email, String password) throws loginException {
+    public static User login(String email, String password) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_ChapterX_war_1.0-SNAPSHOTPU");
         EntityManager em = emf.createEntityManager();
-        
-        
+
+
         try {
             StoredProcedureQuery spq = em.createStoredProcedureQuery("login");
-            
+
             spq.registerStoredProcedureParameter("emailIN", String.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("passwordIN", String.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("idOUT", Integer.class, ParameterMode.OUT);
-            
+
             spq.setParameter("emailIN", email);
             spq.setParameter("passwordIN", password);
-            
+
             spq.execute();
-            
+
             Integer id = Integer.parseInt(spq.getOutputParameterValue("idOUT").toString());
-           
+
             return new User(id);
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
-            throw new loginException(""); // ???
+//            throw new loginException(""); // ???
             // saját exception??
+            return new User();
         } finally {
             em.clear();
             em.close();
             emf.close();
         }
     }
-    
-    public static boolean companyRegistration(String username, String firstName, String lastName, String companyName, String email, String password) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_ChapterX_war_1.0-SNAPSHOTPU");
-        EntityManager em = emf.createEntityManager();
-        
-        try {
-            StoredProcedureQuery spq = em.createStoredProcedureQuery("companyRegistration");
-            
-            spq.registerStoredProcedureParameter("usernameIN", String.class, ParameterMode.IN);
-            spq.registerStoredProcedureParameter("firstNameIN", String.class, ParameterMode.IN);
-            spq.registerStoredProcedureParameter("lastNameIN", String.class, ParameterMode.IN);
-            spq.registerStoredProcedureParameter("companyNameIN", String.class, ParameterMode.IN);
-            spq.registerStoredProcedureParameter("emailIN", String.class, ParameterMode.IN);
-            spq.registerStoredProcedureParameter("passwordIN", String.class, ParameterMode.IN);
-            
-            spq.setParameter("usernameIN", username);
-            spq.setParameter("firstNameIN", firstName);
-            spq.setParameter("lastNameIN", lastName);
-            spq.setParameter("companyNameIN", companyName);
-            spq.setParameter("emailIN", email);
-            spq.setParameter("passwordIN", password);
-            
-            spq.execute();
-            return true;
-        } catch(Exception ex) {
-            System.err.println(ex.getMessage());
-            return false;
-        } finally {
-            em.clear();
-            em.close();
-            emf.close();
-        }
-    }
-    
-    public static boolean emailCheck(String email) throws emailException {
-        String emailRegex1 = "^[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(\\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-        String emailRegex2 = "^(.{3,})@(.{2,})\\..{2,}$";
-        
-        if(email.matches(emailRegex1) && email.matches(emailRegex2)) {
-            return true;
-        } else {
-            throw new emailException("Nem megfelelő az email formátuma!");
-        }
-    }
-    
-    public static boolean nameCheck(String name, String x) throws nameException {
-        String nameRegex = "";
 
-        if(name.matches(nameRegex)) {
+
+
+    // ----- CHECKINGS -----
+    public static boolean firstNameCheck(String firstName) throws FirstNameException {
+        if(firstName.length() >= 3) {
             return true;
         } else {
-            throw new nameException("A " + x + " name csak betűket és kötőjelet tartalmazhat!");
+            throw new FirstNameException("First name must be at least 3 character long.");
+        }
+    }
+
+    public static boolean lastNameCheck(String lastName) throws LastNameException {
+        if(lastName.length() >= 3) {
+            return true;
+        } else {
+            throw new LastNameException("Last name must be at least 3 characters long.");
+        }
+    }
+
+    public static boolean usernameCheck(String username) throws UsernameException {
+        String illegalRegex = "(?=.*[-?!%#*,(`^ˇ˘°˛˙´˝¨;/:><@{}\\\"\\\\\\\\\\\\[\\\\]()])";
+
+        if(username.length() < 3) {
+            throw new UsernameException("Username must be at least 3 characters long.");
+        } else if (username.matches(illegalRegex)) {
+            throw new UsernameException("Invalid username. Please avoid using special characters exept: _ (underscore) and . (dot)");
+        } else {
+            return true;
+        }
+    }
+
+    public static boolean companyNameCheck(String companyName) throws CompanyNameException {
+        if(companyName.length() < 1) {
+            throw new CompanyNameException("Company name cannot be empty.");
+        } else {
+            return true;
+        }
+    }
+
+    public static boolean emailCheck(String email) throws EmailException {
+        String atRegex = "@";
+        String dotRegex = "(?=.*[.])";
+        int at = email.indexOf("@");
+        int dot = email.indexOf(".");
+
+        if(email.length() < 3) {
+            throw new EmailException("Email address must be at least 3 characters long.");
+        } else if (!email.matches(atRegex)) {
+            throw new EmailException("Please include the '@' symbol in your email address.");
+        } else if (at == 0) {
+            throw new EmailException("Email address cannot empty before \"@\" symbol.");
+        } else if (at <= 3) {
+            throw new EmailException("Please ensure you have at least 3 characters before the \"@\" symbol.");
+        } else if (!email.matches(dotRegex)) {
+            throw new EmailException("Last part of email doesn't include dot.");
+        } else if (dot - at < 2) {
+            throw new EmailException("Last part of email before dot is not enough.");
+        } else {
+            return true;
+        }
+    }
+
+    public static boolean passwordCheck(String password) throws PasswordException {
+        String upperRegex = "(?=.*[A-Z])";
+        String lowerRegex = "(?=.*[a-z])";
+        String numberRegex = "(?=.*[0-9])";
+        String specialRegex = "(?=.*[!@#$%^&=?.,><*])";
+
+        if(password.length() < 8) {
+            throw new PasswordException("Password must be at least 8 characters long.");
+        } else if (!password.matches(upperRegex) || !password.matches(lowerRegex) || !password.matches(numberRegex) || !password.matches(specialRegex)) {
+            throw new PasswordException("The password must contain at least 1 lowercase letter, 1 uppercase letter, 1 number and 1 special character.");
+        } else {
+            return true;
+        }
+    }
+
+    public static boolean birthdateCheck(String birthdate) throws BirthdateException, ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = dateFormat.parse(birthdate);
+        Date now = new Date();
+        long diff = now.getTime() - date.getTime();
+        long diffDays = diff / (24 * 60 * 60 * 1000);
+
+        if(diffDays >= 5478) {
+            return true;
+        } else {
+            throw new BirthdateException("You are too young!");
         }
     }
     

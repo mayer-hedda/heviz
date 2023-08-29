@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Book.findByTitle", query = "SELECT b FROM Book b WHERE b.title = :title"),
     @NamedQuery(name = "Book.findByStatus", query = "SELECT b FROM Book b WHERE b.status = :status"),
     @NamedQuery(name = "Book.findByWriterId", query = "SELECT b FROM Book b WHERE b.writerId = :writerId"),
-    @NamedQuery(name = "Book.findByCompanyId", query = "SELECT b FROM Book b WHERE b.companyId = :companyId"),
+    @NamedQuery(name = "Book.findByPublisherId", query = "SELECT b FROM Book b WHERE b.publisherId = :publisherId"),
     @NamedQuery(name = "Book.findByPublishedTime", query = "SELECT b FROM Book b WHERE b.publishedTime = :publishedTime"),
     @NamedQuery(name = "Book.findByRating", query = "SELECT b FROM Book b WHERE b.rating = :rating"),
     @NamedQuery(name = "Book.findBySummary", query = "SELECT b FROM Book b WHERE b.summary = :summary"),
@@ -70,8 +70,8 @@ public class Book implements Serializable {
     @NotNull
     @Column(name = "writerId")
     private int writerId;
-    @Column(name = "companyId")
-    private Integer companyId;
+    @Column(name = "publisherId")
+    private Integer publisherId;
     @Basic(optional = false)
     @NotNull
     @Column(name = "publishedTime")
@@ -183,12 +183,12 @@ public class Book implements Serializable {
         this.writerId = writerId;
     }
 
-    public Integer getCompanyId() {
-        return companyId;
+    public Integer getPublisherId() {
+        return publisherId;
     }
 
-    public void setCompanyId(Integer companyId) {
-        this.companyId = companyId;
+    public void setPublisherId(Integer publisherId) {
+        this.publisherId = publisherId;
     }
 
     public Date getPublishedTime() {
