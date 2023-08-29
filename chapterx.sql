@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.2
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Jul 25, 2023 at 10:23 PM
--- Server version: 5.7.24
--- PHP Version: 8.1.0
+-- Host: 127.0.0.1
+-- Generation Time: Aug 29, 2023 at 08:51 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -57,18 +57,6 @@ VALUES (nameIN)$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `addUserRating` (IN `ratingerIdIN` INT, IN `userIdIN` INT, IN `ratingIN` INT)   INSERT INTO `userrating` (`userrating`.`ratingerId`, `userrating`.`userId`, `userrating`.`rating`)
 VALUES (ratingerIdIN, userIdIN, ratingIN)$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `companyRegistration` (IN `usernameIN` VARCHAR(50), IN `firstNameIN` VARCHAR(50), IN `lastNameIN` VARCHAR(50), IN `companyNameIN` VARCHAR(50), IN `emailIN` VARCHAR(50), IN `passwordIN` VARCHAR(100))   BEGIN
-
-	INSERT INTO `company` (`company`.`companyName`)
-	VALUES (companyNameIN);
-
-	SELECT LAST_INSERT_ID() INTO @userId;
-    
-    INSERT INTO `user` (`user`.`username`, `user`.`email`, `user`.`password`, `user`.`rank`, `user`.`firstName`, `user`.`lastName`, `user`.`userId`)
-    VALUES (usernameIN, emailIN, SHA1(passwordIN), "company", firstNameIN, lastNameIN, @userId);
-
-END$$
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `generalRegistration` (IN `usernameIN` VARCHAR(50), IN `firstNameIN` VARCHAR(50), IN `lastNameIN` VARCHAR(50), IN `emailIN` VARCHAR(50), IN `birthdateIN` DATE, IN `passwordIN` VARCHAR(100))   BEGIN
 
 	INSERT INTO `general` (`general`.`birthdate`)
@@ -93,6 +81,10 @@ FROM `bookrating`
 WHERE `bookrating`.`bookId` = bookIdIN$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getBookReport` ()   SELECT * FROM `bookreport`$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getCompanyName` (IN `publisherIdIN` INT, OUT `companyNameOUT` VARCHAR(50))   SELECT `publisher`.`companyName` INTO companyNameOUT
+FROM `publisher`
+WHERE `publisher`.`id` = publisherIdIN$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getPublishedByBook` ()   SELECT * FROM `book`
 WHERE `book`.`status` = "published by"$$
@@ -121,6 +113,21 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserRating` (IN `userIdIN` INT, 
 FROM `userrating`
 WHERE `userrating`.`userId` = userIdIN$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `login` (IN `emailIN` VARCHAR(50), IN `passwordIN` VARCHAR(100), OUT `idOUT` INT)   SELECT `user`.`id` INTO idOUT FROM `user`
+WHERE `user`.`email` = emailIN AND `user`.`password` = SHA1(passwordIN)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `publisherRegistration` (IN `usernameIN` VARCHAR(50), IN `firstNameIN` VARCHAR(50), IN `lastNameIN` VARCHAR(50), IN `companyNameIN` VARCHAR(50), IN `emailIN` VARCHAR(50), IN `passwordIN` VARCHAR(100))   BEGIN
+
+	INSERT INTO `publisher` (`publisher`.`companyName`)
+	VALUES (companyNameIN);
+
+	SELECT LAST_INSERT_ID() INTO @userId;
+    
+    INSERT INTO `user` (`user`.`username`, `user`.`email`, `user`.`password`, `user`.`rank`, `user`.`firstName`, `user`.`lastName`, `user`.`userId`)
+    VALUES (usernameIN, emailIN, SHA1(passwordIN), "publisher", firstNameIN, lastNameIN, @userId);
+
+END$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -134,7 +141,7 @@ CREATE TABLE `ages` (
   `name` varchar(20) NOT NULL,
   `minAge` int(10) UNSIGNED NOT NULL,
   `maxAge` int(10) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -147,8 +154,8 @@ CREATE TABLE `book` (
   `title` varchar(50) NOT NULL,
   `status` enum('looking for a publisher','published by','self-published') NOT NULL,
   `writerId` int(11) NOT NULL,
-  `companyId` int(11) DEFAULT NULL,
-  `publishedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `publisherId` int(11) DEFAULT NULL,
+  `publishedTime` timestamp NOT NULL DEFAULT current_timestamp(),
   `rating` double UNSIGNED DEFAULT NULL,
   `summary` varchar(1000) NOT NULL,
   `price` int(10) UNSIGNED NOT NULL,
@@ -161,7 +168,7 @@ CREATE TABLE `book` (
   `agesId` int(11) NOT NULL,
   `categoryId` int(11) NOT NULL,
   `copyrightId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -173,9 +180,9 @@ CREATE TABLE `bookrating` (
   `id` int(11) NOT NULL,
   `ratingerId` int(11) NOT NULL,
   `bookId` int(11) NOT NULL,
-  `ratingTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `ratingTime` timestamp NOT NULL DEFAULT current_timestamp(),
   `rating` int(10) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -188,8 +195,8 @@ CREATE TABLE `bookreport` (
   `userId` int(11) NOT NULL,
   `bookId` int(11) NOT NULL,
   `description` varchar(500) NOT NULL,
-  `reportTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `reportTime` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -201,8 +208,8 @@ CREATE TABLE `bookshopping` (
   `id` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
   `bookId` int(11) NOT NULL,
-  `shoppingTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `shoppingTime` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -214,8 +221,8 @@ CREATE TABLE `booksopened` (
   `id` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
   `bookId` int(11) NOT NULL,
-  `openedTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `openedTime` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -227,7 +234,7 @@ CREATE TABLE `category` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `image` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -239,7 +246,7 @@ CREATE TABLE `categoryinterest` (
   `id` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
   `categoryId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -250,27 +257,7 @@ CREATE TABLE `categoryinterest` (
 CREATE TABLE `color` (
   `id` int(11) NOT NULL,
   `code` varchar(8) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `company`
---
-
-CREATE TABLE `company` (
-  `id` int(11) NOT NULL,
-  `companyName` varchar(50) DEFAULT NULL,
-  `publishedBookCount` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `publishedBookCountOnPage` int(10) UNSIGNED NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `company`
---
-
--- INSERT INTO `company` (`id`, `companyName`, `publishedBookCount`, `publishedBookCountOnPage`) VALUES
--- (2, 'company', 0, 0);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -283,7 +270,7 @@ CREATE TABLE `copyright` (
   `name` varchar(50) NOT NULL,
   `description` varchar(200) NOT NULL,
   `helpCenterId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -295,8 +282,8 @@ CREATE TABLE `follow` (
   `id` int(11) NOT NULL,
   `followerId` int(11) NOT NULL,
   `followdId` int(11) NOT NULL,
-  `followingTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `followingTime` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -308,17 +295,10 @@ CREATE TABLE `general` (
   `id` int(11) NOT NULL,
   `authorName` varchar(50) DEFAULT NULL,
   `birthdate` date NOT NULL,
-  `publicFullName` tinyint(1) NOT NULL DEFAULT '0',
-  `publishedBookCount` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `selfPublishedBookCount` int(10) UNSIGNED NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `general`
---
-
--- INSERT INTO `general` (`id`, `authorName`, `birthdate`, `publicFullName`, `publishedBookCount`, `selfPublishedBookCount`) VALUES
--- (1, NULL, '2002-10-11', 0, 0, 0);
+  `publicFullName` tinyint(1) NOT NULL DEFAULT 0,
+  `publishedBookCount` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `selfPublishedBookCount` int(10) UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -329,9 +309,9 @@ CREATE TABLE `general` (
 CREATE TABLE `helpcenter` (
   `id` int(11) NOT NULL,
   `question` text NOT NULL,
-  `answer` text,
-  `active` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `answer` text DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -343,7 +323,7 @@ CREATE TABLE `language` (
   `id` int(11) NOT NULL,
   `code` char(2) NOT NULL,
   `language` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -355,7 +335,7 @@ CREATE TABLE `list` (
   `id` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
   `bookId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -368,7 +348,7 @@ CREATE TABLE `pay` (
   `invoiceNumber` varchar(20) NOT NULL,
   `paymentId` int(11) NOT NULL,
   `invoice` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -380,8 +360,8 @@ CREATE TABLE `post` (
   `id` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
   `text` varchar(1000) NOT NULL,
-  `postTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `postTime` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -393,8 +373,8 @@ CREATE TABLE `postlike` (
   `id` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
   `postId` int(11) NOT NULL,
-  `likeTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `likeTime` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -406,7 +386,20 @@ CREATE TABLE `post_x_tag` (
   `id` int(11) NOT NULL,
   `postId` int(11) NOT NULL,
   `tagId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `publisher`
+--
+
+CREATE TABLE `publisher` (
+  `id` int(11) NOT NULL,
+  `companyName` varchar(50) DEFAULT NULL,
+  `publishedBookCount` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `publishedBookCountOnPage` int(10) UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -418,9 +411,9 @@ CREATE TABLE `read` (
   `id` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
   `bookId` int(11) NOT NULL,
-  `readTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `readSecound` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `readTime` timestamp NOT NULL DEFAULT current_timestamp(),
+  `readSecound` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -432,8 +425,8 @@ CREATE TABLE `search` (
   `id` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
   `categoryId` int(11) NOT NULL,
-  `searchTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `searchTime` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -448,7 +441,7 @@ CREATE TABLE `subscription` (
   `description` varchar(500) NOT NULL,
   `validityDay` int(10) UNSIGNED NOT NULL,
   `optional` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -460,7 +453,7 @@ CREATE TABLE `tag` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `userId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -473,29 +466,21 @@ CREATE TABLE `user` (
   `username` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(100) NOT NULL,
-  `rank` enum('general','company') NOT NULL,
+  `rank` enum('general','publisher') NOT NULL,
   `firstName` varchar(50) DEFAULT NULL,
   `lastName` varchar(50) DEFAULT NULL,
   `phone` varchar(15) DEFAULT NULL,
-  `publicEmail` tinyint(1) NOT NULL DEFAULT '0',
-  `publicPhone` tinyint(1) NOT NULL DEFAULT '0',
+  `publicEmail` tinyint(1) NOT NULL DEFAULT 0,
+  `publicPhone` tinyint(1) NOT NULL DEFAULT 0,
   `introText` varchar(1000) DEFAULT NULL,
   `website` varchar(100) DEFAULT NULL,
   `image` varchar(100) DEFAULT NULL,
-  `tutorial` tinyint(1) NOT NULL DEFAULT '0',
-  `registrationTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `active` tinyint(1) NOT NULL DEFAULT '1',
-  `coverColorId` int(11) NOT NULL DEFAULT '1',
+  `tutorial` tinyint(1) NOT NULL DEFAULT 0,
+  `registrationTime` timestamp NOT NULL DEFAULT current_timestamp(),
+  `active` tinyint(1) NOT NULL DEFAULT 1,
+  `coverColorId` int(11) NOT NULL DEFAULT 1,
   `userId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `user`
---
-
--- INSERT INTO `user` (`id`, `username`, `email`, `password`, `rank`, `firstName`, `lastName`, `phone`, `publicEmail`, `publicPhone`, `introText`, `website`, `image`, `tutorial`, `registrationTime`, `active`, `coverColorId`, `userId`) VALUES
--- (1, 'test', 'test@gmail.com', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', 'general', 'first', 'last', NULL, 0, 0, NULL, NULL, NULL, 0, '2023-07-10 20:26:09', 1, 1, 1),
--- (3, 'company', 'company@gmail.com', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', 'company', 'firstComp', 'lastComp', NULL, 0, 0, NULL, NULL, NULL, 0, '2023-07-10 20:32:16', 1, 1, 2);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -507,9 +492,9 @@ CREATE TABLE `userrating` (
   `id` int(11) NOT NULL,
   `ratingerId` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
-  `ratingTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `ratingTime` timestamp NOT NULL DEFAULT current_timestamp(),
   `rating` int(10) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -521,8 +506,8 @@ CREATE TABLE `user_x_subscription` (
   `id` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
   `subscriptionId` int(11) NOT NULL,
-  `subscriptionTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `subscriptionTime` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -540,7 +525,7 @@ ALTER TABLE `ages`
 ALTER TABLE `book`
   ADD PRIMARY KEY (`id`),
   ADD KEY `writerId` (`writerId`),
-  ADD KEY `companyId` (`companyId`),
+  ADD KEY `publisherId` (`publisherId`),
   ADD KEY `agesId` (`agesId`),
   ADD KEY `languageId` (`languageId`),
   ADD KEY `categoryId` (`categoryId`);
@@ -595,12 +580,6 @@ ALTER TABLE `categoryinterest`
 -- Indexes for table `color`
 --
 ALTER TABLE `color`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `company`
---
-ALTER TABLE `company`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -673,6 +652,12 @@ ALTER TABLE `post_x_tag`
   ADD PRIMARY KEY (`id`),
   ADD KEY `postId` (`postId`),
   ADD KEY `tagId` (`tagId`);
+
+--
+-- Indexes for table `publisher`
+--
+ALTER TABLE `publisher`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `read`
@@ -788,12 +773,6 @@ ALTER TABLE `color`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `company`
---
-ALTER TABLE `company`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
 -- AUTO_INCREMENT for table `copyright`
 --
 ALTER TABLE `copyright`
@@ -809,7 +788,7 @@ ALTER TABLE `follow`
 -- AUTO_INCREMENT for table `general`
 --
 ALTER TABLE `general`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `helpcenter`
@@ -854,6 +833,12 @@ ALTER TABLE `post_x_tag`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `publisher`
+--
+ALTER TABLE `publisher`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
 -- AUTO_INCREMENT for table `read`
 --
 ALTER TABLE `read`
@@ -881,7 +866,7 @@ ALTER TABLE `tag`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `userrating`
