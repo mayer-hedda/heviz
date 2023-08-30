@@ -168,7 +168,7 @@ function validateFirst(firstValue) {
 
 function validateLast(lastValue) {
     if (lastValue.length < 3) {
-        lastError.innerHTML = `<p>Firstname must be at least 3 characters long.</p>`;
+        lastError.innerHTML = `<p>Last name must be at least 3 characters long.</p>`;
         LastnameValid = false;
         inputLast.style.background = "rgb(255, 214, 220)";
         inputLast.style.borderColor = "rgb(243, 82, 93)";
@@ -198,7 +198,8 @@ function validateUserName(userValue) {
             UsernameValid = false;
             inputUser.style.background = "rgb(255, 214, 220)";
             inputUser.style.borderColor = "rgb(243, 82, 93)";
-            console.log("Username length: pass --- " + UsernameValid);
+            console.log("Username length: pass --- ");
+            console.log("Username characters: error --- " + UsernameValid);
         } else {
             UsernameValid = true;
             inputUser.style.background = "rgb(241, 255, 231)";
