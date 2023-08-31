@@ -336,12 +336,12 @@ function setMinDate(dateInput) {
 }
 
 function validateCompany(companyValue) {
-    if (companyValue.length < 1) {
-        companyError.innerHTML = `<p>Company name cannot be empty.</p>`;
+    if (companyValue.length < 2) {
+        companyError.innerHTML = `<p>Company name must be at least 2 characters long.</p>`;
         CompanyValid = false;
         inputCompany.style.background = "rgb(255, 214, 220)";
         inputCompany.style.borderColor = "rgb(243, 82, 93)";
-        console.log("Company error: empty -- " + CompanyValid);
+        console.log("Company error: lenght -- " + CompanyValid);
     } else {
         CompanyValid = true;
         inputCompany.style.background = "rgb(241, 255, 231)";
@@ -352,7 +352,7 @@ function validateCompany(companyValue) {
 
 function valudateFirstPwd(pwdValue) {
     const upperCaseReg = new RegExp("(?=.*[A-Z])");
-    const loweCaseReg = new RegExp("(?=.*[a-z])");
+    const lowerCaseReg = new RegExp("(?=.*[a-z])");
     const numReg = new RegExp("(?=.*[0-9])");
     const specReg = new RegExp("(?=.*[!@#$%^&=?.,><*])");
 
@@ -363,14 +363,11 @@ function valudateFirstPwd(pwdValue) {
         inputPwd.style.background = "rgb(255, 214, 220)";
         inputPwd.style.borderColor = "rgb(243, 82, 93)";
         console.log("Password 1 error: length -- " + PwdValid);
+
     } else {
         //*true --> check the value
 
-        if (upperCaseReg.test(pwdValue) == true &&
-            loweCaseReg.test(pwdValue) == true &&
-            numReg.test(pwdValue) == true &&
-            specReg.test(pwdValue) == true
-        ) {
+        if (upperCaseReg.test(pwdValue) == true && lowerCaseReg.test(pwdValue) == true && numReg.test(pwdValue) == true && specReg.test(pwdValue) == true) {
             PwdValid = true;
             inputPwd.style.background = "rgb(241, 255, 231)";
             inputPwd.style.borderColor = "rgb(98, 173, 107)";
@@ -378,65 +375,12 @@ function valudateFirstPwd(pwdValue) {
 
         } else {
             PwdValid = false;
-            //* If something is missing --> error message what's wrong
-
-
-            if (upperCaseReg.test(pwdValue) == false && loweCaseReg.test(pwdValue) == true && numReg.test(pwdValue) == true && specReg.test(pwdValue) == true) {
-                console.log("PWD 1: Missing uppercase");
-                firstPwdError.innerHTML = `<p>Password has to be include min 1 uppercase letter.</p>`;
-                inputPwd.style.background = "rgb(255, 214, 220)";
-                inputPwd.style.borderColor = "rgb(243, 82, 93)";
-
-            } else if (upperCaseReg.test(pwdValue) == false && loweCaseReg.test(pwdValue) == false && numReg.test(pwdValue) == true && specReg.test(pwdValue) == true) {
-                console.log("PWD 1: Missing uppercase and lowercase");
-                firstPwdError.innerHTML = `<p>Password has to be include min 1 uppercase and 1 lowercase letter.</p>`;
-                inputPwd.style.background = "rgb(255, 214, 220)";
-                inputPwd.style.borderColor = "rgb(243, 82, 93)";
-
-            }else if(upperCaseReg.test(pwdValue) == false && loweCaseReg.test(pwdValue) == false && numReg.test(pwdValue) == false && specReg.test(pwdValue) == true){
-                console.log("PWD 1: Missing uppercase, lowercase and number");
-                firstPwdError.innerHTML = `<p>Password has to be include min 1 uppercase, 1 lowercase letter and 1 number.</p>`;
-                inputPwd.style.background = "rgb(255, 214, 220)";
-                inputPwd.style.borderColor = "rgb(243, 82, 93)";
-
-            }else if(upperCaseReg.test(pwdValue) == true && loweCaseReg.test(pwdValue) == false && numReg.test(pwdValue) == true && specReg.test(pwdValue) == true){
-                console.log("PWD 1: Missing lowercase");
-                firstPwdError.innerHTML = `<p>Password has to be include min 1 lowercase letter.</p>`;
-                inputPwd.style.background = "rgb(255, 214, 220)";
-                inputPwd.style.borderColor = "rgb(243, 82, 93)";
-
-            }else if(upperCaseReg.test(pwdValue) == true && loweCaseReg.test(pwdValue) == false && numReg.test(pwdValue) == false && specReg.test(pwdValue) == true){
-                console.log("PWD 1: Missing lowercase and number");
-                firstPwdError.innerHTML = `<p>Password has to be include min 1 lowercase letter and 1 number.</p>`;
-                inputPwd.style.background = "rgb(255, 214, 220)";
-                inputPwd.style.borderColor = "rgb(243, 82, 93)";
-
-            }else if(upperCaseReg.test(pwdValue) == true && loweCaseReg.test(pwdValue) == false && numReg.test(pwdValue) == false && specReg.test(pwdValue) == false){
-                console.log("PWD 1: Missing lowercase, number and special character");
-                firstPwdError.innerHTML = `<p>Password has to be include min 1 lowercase letter, 1 number and 1 special character.</p>`;
-                inputPwd.style.background = "rgb(255, 214, 220)";
-                inputPwd.style.borderColor = "rgb(243, 82, 93)";
-            }else if(upperCaseReg.test(pwdValue) == true && loweCaseReg.test(pwdValue) == true && numReg.test(pwdValue) == false && specReg.test(pwdValue) == true){
-                console.log("PWD 1: Missing number");
-                firstPwdError.innerHTML = `<p>Password has to be include min 1 number.</p>`;
-                inputPwd.style.background = "rgb(255, 214, 220)";
-                inputPwd.style.borderColor = "rgb(243, 82, 93)";
-
-            }else if(upperCaseReg.test(pwdValue) == true && loweCaseReg.test(pwdValue) == true && numReg.test(pwdValue) == false && specReg.test(pwdValue) == false){
-                console.log("PWD 1: Missing number and special character");
-                firstPwdError.innerHTML = `<p>Password has to be include min 1 number and 1 special character.</p>`;
-                inputPwd.style.background = "rgb(255, 214, 220)";
-                inputPwd.style.borderColor = "rgb(243, 82, 93)";
-
-            }else if(upperCaseReg.test(pwdValue) == true && loweCaseReg.test(pwdValue) == true && numReg.test(pwdValue) == true && specReg.test(pwdValue) == false){
-                console.log("PWD 1: Missing special character");
-                firstPwdError.innerHTML = `<p>Password has to be include min 1 special character.</p>`;
-                inputPwd.style.background = "rgb(255, 214, 220)";
-                inputPwd.style.borderColor = "rgb(243, 82, 93)";
-            }
+            firstPwdError.innerHTML = `<p>Password must contain at least 1 uppercase, 1 lowercase, 1 number and 1 special character.</p>`;
+            inputPwd.style.background = "rgb(255, 214, 220)";
+            inputPwd.style.borderColor = "rgb(243, 82, 93)";
+            console.log("Password 1 error: characters -- " + PwdValid);
         }
     }
-    // return PwdValid;
 }
 
 function matchPwd(pwdValue, pwdAgainValue) {
@@ -605,7 +549,6 @@ function PublisherEvents() {
     const Datas = [];    //tömb az adatoknak, hogy össze tudjam hasonlítani a jelszavakat
 
     // ? FIRST NAME
-
     inputFirst.addEventListener("focusin", (e) => {
         e.preventDefault();
         e.target.style.background = "";
