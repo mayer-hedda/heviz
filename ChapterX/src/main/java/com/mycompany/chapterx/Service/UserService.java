@@ -1,6 +1,7 @@
 package com.mycompany.chapterx.Service;
 
 import com.mycompany.chapterx.Config.Token;
+import com.mycompany.chapterx.Modell.Helpcenter;
 import com.mycompany.chapterx.Modell.User;
 import com.mycompany.chapterx.Helpers.PublisherRegistration;
 import com.mycompany.chapterx.Helpers.GeneralRegistration;
@@ -8,7 +9,7 @@ import org.json.JSONObject;
 
 public class UserService {
 
-    public static String publisherRegistration(String username, String firstName, String lastName, String companyName, String email, String password) {
+    public static String publisherRegistration(String firstName, String lastName, String username, String email, String companyName, String password) {
         try {
             if(!User.firstNameCheck(firstName)) {
                 return "";
@@ -16,13 +17,13 @@ public class UserService {
                 return "";
             } else if(!User.usernameCheck(username)) {
                 return "";
-            } else /*if(!User.emailCheck(email)) {
+            } else if(!User.emailCheck(email)) {
                 return "";
-            } else*/ if(!User.companyNameCheck(companyName)) {
+            } else if(!User.companyNameCheck(companyName)) {
                 return "";
-            } else /*if(!User.passwordCheck(password)) {
+            } else if(!User.passwordCheck(password)) {
                 return "";
-            }else*/ if(PublisherRegistration.publisherRegistration(username, firstName, lastName, companyName, email, password)) {
+            }else if(PublisherRegistration.publisherRegistration(username, firstName, lastName, companyName, email, password)) {
                 return "Successful registration!";
             } else {
                 return "Unsuccessful registration!";
@@ -36,13 +37,13 @@ public class UserService {
         try {
             if(!User.usernameCheck(username)) {
                 return "";
-            } else /*if(!User.emailCheck(email)) {
+            } else if(!User.emailCheck(email)) {
                 return "";
-            } else*/ if(!User.birthdateCheck(birthdate)) {
+            } else if(!User.birthdateCheck(birthdate)) {
                 return "";
-            } else /*if(!User.passwordCheck(password)) {
+            } else if(!User.passwordCheck(password)) {
                 return "";
-            } else*/ if(GeneralRegistration.generalRegistration(username, email, birthdate, password)) {
+            } else if(GeneralRegistration.generalRegistration(username, email, birthdate, password)) {
                 return "Successful registration!";
             } else {
                 return "Unsuccessful registration!";

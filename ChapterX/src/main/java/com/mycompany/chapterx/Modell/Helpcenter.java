@@ -4,17 +4,12 @@
  */
 package com.mycompany.chapterx.Modell;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import java.sql.ResultSet;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -122,5 +117,46 @@ public class Helpcenter implements Serializable {
     public String toString() {
         return "com.mycompany.chapterx.Modell.Helpcenter[ id=" + id + " ]";
     }
-    
+
+
+
+
+
+    // ----- MY PROCEDURES -----
+
+    public static String getAllHelpcenter() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_ChapterX_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        JSONArray jsonArray = new JSONArray();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getAllHelpCenter");
+
+            spq.execute();
+
+            ResultSet resultSet = (ResultSet) spq.getOutputParameterValue(1);
+
+            while (resultSet.next()) {
+                String question = resultSet.getString("question");
+                String answer = resultSet.getString("answer");
+
+                JSONObject helpCenterJson = new JSONObject();
+                helpCenterJson.put("question", question);
+                helpCenterJson.put("answer", answer);
+
+                jsonArray.put(helpCenterJson);
+            }
+
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+
+        return jsonArray.toString();
+    }
+
 }

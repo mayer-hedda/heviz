@@ -12,7 +12,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="ChapterX" options="-endorseddirs C:\Users\eepseelona\Documents\ChapterX\backend\ChapterX\target/endorsed" />
+      <module name="ChapterX" options="-endorseddirs C:\Users\eepseelona\Documents\ChapterX\heviz\ChapterX\target/endorsed" />
     </option>
   </component>
 </project>

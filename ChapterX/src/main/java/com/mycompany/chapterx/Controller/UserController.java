@@ -60,7 +60,7 @@ public class UserController {
 
 
 
-    // SAJÁT ENDPOINTOK
+    // ----- MY ENDPOINTS -----
     @POST
     @Path("publisherRegistration")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -85,12 +85,4 @@ public class UserController {
         return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
     }
 
-//    // make an endpoint for the user to change his password
-//    @POST
-//    @Path("changePassword")
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    public Response changePassword(User u) {
-//        String result = UserService.changePassword(u.getEmail(), u.getPassword());
-//        return Response.status(Response.Status.OK).entity(result).type(MediaType.APPLICATION_JSON).build();
-//    }
 }

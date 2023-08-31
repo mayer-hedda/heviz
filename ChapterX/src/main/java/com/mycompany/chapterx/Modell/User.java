@@ -324,7 +324,7 @@ public class User implements Serializable {
 
 
 
-    // SAJÁT TÁROLTAK
+    // ----- MY PROCEDURES -----
     public static User login(String email, String password) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_ChapterX_war_1.0-SNAPSHOTPU");
         EntityManager em = emf.createEntityManager();
@@ -377,11 +377,11 @@ public class User implements Serializable {
     }
 
     public static boolean usernameCheck(String username) throws UsernameException {
-        String illegalRegex = "(?=.*[-?!%#*,(`^ˇ˘°˛˙´˝¨;/:><@{}\\\"\\\\\\\\\\\\[\\\\]()])";
+        String regex = "^[a-zA-Z0-9._]*$";
 
         if(username.length() < 3) {
             throw new UsernameException("Username must be at least 3 characters long.");
-        } else if (username.matches(illegalRegex)) {
+        } else if (!username.matches(regex)) {
             throw new UsernameException("Invalid username. Please avoid using special characters exept: _ (underscore) and . (dot)");
         } else {
             return true;
@@ -397,8 +397,8 @@ public class User implements Serializable {
     }
 
     public static boolean emailCheck(String email) throws EmailException {
-        String atRegex = "@";
-        String dotRegex = "(?=.*[.])";
+        String atRegex = ".*[@].*";
+        String dotRegex = "(.*[.].*)";
         int at = email.indexOf("@");
         int dot = email.indexOf(".");
 
@@ -420,10 +420,10 @@ public class User implements Serializable {
     }
 
     public static boolean passwordCheck(String password) throws PasswordException {
-        String upperRegex = "(?=.*[A-Z])";
-        String lowerRegex = "(?=.*[a-z])";
-        String numberRegex = "(?=.*[0-9])";
-        String specialRegex = "(?=.*[!@#$%^&=?.,><*])";
+        String upperRegex = ".*[A-Z].*";
+        String lowerRegex = ".*[a-z].*";
+        String numberRegex = ".*[0-9].*";
+        String specialRegex = ".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*";
 
         if(password.length() < 8) {
             throw new PasswordException("Password must be at least 8 characters long.");
@@ -447,5 +447,5 @@ public class User implements Serializable {
             throw new BirthdateException("You are too young!");
         }
     }
-    
+
 }
