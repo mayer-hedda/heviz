@@ -1,0 +1,101 @@
+/* FONTS */
+@font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/static/Inter-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url("../fonts/Montserrat/static/Montserrat-Bold.ttf") format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url("../fonts/Montserrat/static/Montserrat-Medium.ttf") format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+/* TAG ALAPJÁN */
+
+
+/* ID ALAPJÁN */
+
+#navbar {
+    margin-right: 5%;
+    margin-left: 5%;
+}
+
+#navbar ul {
+    font-size: larger;
+}
+
+#navbar ul li {
+    display: inline;
+    padding: 10px;
+    font-family: 'Inter', sans-serif;
+}
+
+#loginBtn {
+    border-width: 0rem;
+    background-color: transparent;
+    font-size: larger;
+    color: rgb(51, 47, 49);
+    font-family: 'Inter', sans-serif;
+    margin-right: 0.9rem;
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+}
+
+#signUpBtn {
+    font-size: larger;
+    font-family: 'Inter', sans-serif;
+    border-width: 0rem;
+    background-color: rgb(232, 181, 160);
+    color: rgb(51, 47, 49);
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+    border-radius: 1.5rem;
+}
+
+#opening-text {
+    padding-top: 11rem;
+    padding-bottom: 4.375rem;
+
+}
+
+/*
+  CLASS ALAPJÁN 
+*/
+
+.nav {
+    /* navbár legyen blur */
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+}
+
+.bigtext {
+    letter-spacing: -0.063rem;
+    font-size: 4.063rem;
+    line-height: 5rem;
+    font-family: 'Montserrat';
+    font-weight: 700;
+    width: 50.313rem;
+    color: rgb(65, 61, 63);
+}
+
+.above-big-text {
+    font-size: 1.75rem;
+    font-family: 'Montserrat';
+    font-weight: 500;
+    width: 39.25rem;
+    color: rgb(103, 91, 97);
+}
