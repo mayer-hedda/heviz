@@ -20,6 +20,13 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'Pt sans';
+    src: url("../fonts/PT_Sans/PTSans-Regular.ttf") format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
 /* TAG ALAPJÁN */
 
 
@@ -51,6 +58,11 @@
     padding-left: 1.25rem;
     padding-top: 0.625rem;
     padding-bottom: 0.625rem;
+    transition: color 0.5s ease;    /*átmenet a hover és a rendes állapot között*/
+}
+
+#loginBtn:hover{
+    color: rgb(146, 104, 74);
 }
 
 #signUpBtn {
@@ -64,12 +76,34 @@
     padding-top: 0.625rem;
     padding-bottom: 0.625rem;
     border-radius: 1.5rem;
+    transition: color 0.8s ease;    /*átmenet a hover és a rendes állapot között*/
+    transition: background-color 0.8s ease;    /*átmenet a hover és a rendes állapot között*/
+
+}
+
+#signUpBtn:hover{
+    background-color: rgb(248, 248, 244);
+    color: rgb(65, 61, 63);
+    border: dashed 0.063rem rgb(65, 61, 63);
 }
 
 #opening-text {
     padding-top: 11rem;
     padding-bottom: 4.375rem;
 
+}
+
+#FirstSectionBtn{
+    background-color: rgb(232, 181, 160);
+    color: rgb(51, 47, 49);
+    border-width: 0rem;
+    padding-right: 3.75rem;
+    padding-left: 3.75rem;
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+    border-radius: 3rem;
+    font-size: x-large;
+    font-family: 'Pt sans';
 }
 
 /*

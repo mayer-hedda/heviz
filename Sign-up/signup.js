@@ -295,45 +295,46 @@ function validateEmail(emailValue) {
 
 }
 
-//? SETTING VALUE LIMITS
-//! IT MUST BE ADDED TO THE INPUT
-function setMaxDate(dateInput) {
+//###############################################
+// SETTING VALUE LIMITS
+// function setMaxDate(dateInput) {
 
-    //* CURRENT DATE
+//   CURRENT DATE
 
-    const date = new Date();
-    let currentYear = date.getFullYear();
-    let currentMonth = date.getMonth() + 1;
-    let currentDay = date.getDate();
-    console.log("Current date for MAX: " + currentYear + " / " + currentMonth + " / " + currentDay);
+//     const date = new Date();
+//     let currentYear = date.getFullYear();
+//     let currentMonth = date.getMonth() + 1;
+//     let currentDay = date.getDate();
+//     console.log("Current date for MAX: " + currentYear + " / " + currentMonth + " / " + currentDay);
 
-    //* set the maximum values
+//    set the maximum values
 
-    const maxYear = `${currentYear}` - 15;
-    const maxMonth = `${currentMonth}`;
-    const maxDay = `${currentDay}`;
-    dateInput.setAttribute('max', `${maxYear}-${maxMonth}-${maxDay}`);
-}
+//     const maxYear = `${currentYear}` - 15;
+//     const maxMonth = `${currentMonth}`;
+//     const maxDay = `${currentDay}`;
+//     dateInput.setAttribute('max', `${maxYear}-${maxMonth}-${maxDay}`);
+// }
 
-//! IT MUST BE ADDED TO THE INPUT
-function setMinDate(dateInput) {
-    //*CURRENT DATE
-    const date = new Date();
-    let currentYear = date.getFullYear();
-    let currentMonth = date.getMonth() + 1;
-    let currentDay = date.getDate();
+// function setMinDate(dateInput) {
+//     //*CURRENT DATE
+//     const date = new Date();
+//     let currentYear = date.getFullYear();
+//     let currentMonth = date.getMonth() + 1;
+//     let currentDay = date.getDate();
 
-    console.log("Current date for MIN: " + currentYear + " / " + currentMonth + " / " + currentDay);
+//     console.log("Current date for MIN: " + currentYear + " / " + currentMonth + " / " + currentDay);
 
-    //* set the minimum values
-    const minYear = `${currentYear}` - 100;
-    const minMonth = `${currentMonth}`;
-    const minDay = `${currentDay}`;
-    dateInput.setAttribute('min', `${minYear}-${minMonth}-${minDay}`);
+//     //* set the minimum values
+//     const minYear = `${currentYear}` - 100;
+//     const minMonth = `${currentMonth}`;
+//     const minDay = `${currentDay}`;
+//     dateInput.setAttribute('min', `${minYear}-${minMonth}-${minDay}`);
 
-    console.log("Min year: " + minYear + " / " + minMonth + " / " + minDay);
+//     console.log("Min year: " + minYear + " / " + minMonth + " / " + minDay);
 
-}
+// }
+// #####################################
+
 
 function validateCompany(companyValue) {
     if (companyValue.length < 2) {
