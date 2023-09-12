@@ -29,6 +29,10 @@
 
 /* TAG ALAPJÁN */
 
+nav{
+    background-color:rgb(247, 245, 236);
+    /* backdrop-filter: blur(5px); */
+}
 
 /* ID ALAPJÁN */
 
@@ -131,14 +135,12 @@
     margin-right: 6.25rem;
 }
 
+
 /*
   CLASS ALAPJÁN 
 */
 
-.nav {
-    /* navbár legyen blur */
-    background-color: rgb(247, 245, 236);
-}
+
 
 .bigtext {
     letter-spacing: -0.063rem;
