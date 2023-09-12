@@ -4,11 +4,14 @@
  */
 package com.mycompany.chapterx.Modell;
 
+import com.mycompany.chapterx.Exception.HelpCenterException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -49,6 +52,11 @@ public class Helpcenter implements Serializable {
     private boolean active;
 
     public Helpcenter() {
+    }
+
+    public Helpcenter(String question, String answer) {
+        this.question = question;
+        this.answer = answer;
     }
 
     public Helpcenter(Integer id) {
@@ -124,39 +132,36 @@ public class Helpcenter implements Serializable {
 
     // ----- MY PROCEDURES -----
 
-    public static String getAllHelpcenter() {
+    public static List<Helpcenter> getAllHelpcenter() throws HelpCenterException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_ChapterX_war_1.0-SNAPSHOTPU");
         EntityManager em = emf.createEntityManager();
-
-        JSONArray jsonArray = new JSONArray();
 
         try {
             StoredProcedureQuery spq = em.createStoredProcedureQuery("getAllHelpCenter");
 
             spq.execute();
 
-            ResultSet resultSet = (ResultSet) spq.getOutputParameterValue(1);
+            List<Object[]> resultList = spq.getResultList();
+            List<Helpcenter> helpcenterList = new ArrayList<>();
 
-            while (resultSet.next()) {
-                String question = resultSet.getString("question");
-                String answer = resultSet.getString("answer");
+            for(Object[] result : resultList) {
+                String question = (String) result[0];
+                String answer = (String) result[1];
 
-                JSONObject helpCenterJson = new JSONObject();
-                helpCenterJson.put("question", question);
-                helpCenterJson.put("answer", answer);
-
-                jsonArray.put(helpCenterJson);
+                Helpcenter h = new Helpcenter(question, answer);
+                helpcenterList.add(h);
             }
 
+            return helpcenterList;
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
+            throw new HelpCenterException("Error in getAllHelpcenter");
         } finally {
             em.clear();
             em.close();
             emf.close();
         }
 
-        return jsonArray.toString();
     }
 
 }

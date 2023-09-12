@@ -4,16 +4,13 @@
  */
 package com.mycompany.chapterx.Modell;
 
+import com.mycompany.chapterx.Exception.CategoryException;
+
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -109,6 +106,37 @@ public class Category implements Serializable {
     @Override
     public String toString() {
         return "com.mycompany.chapterx.Modell.Category[ id=" + id + " ]";
+    }
+
+
+
+    // ----- MY PROCEDURES -----
+    public static HashMap<Integer, String> getAllCategory() throws CategoryException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_ChapterX_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getAllCategory");
+
+            spq.execute();
+
+            java.util.List<Object[]> resultList = spq.getResultList();
+            HashMap<Integer, String> categoryList = new HashMap<>();
+
+            for (Object[] result : resultList) {
+                categoryList.put((Integer) result[0], (String) result[1]);
+            }
+
+            return categoryList;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new CategoryException("Error in getAllCategory");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
     }
     
 }

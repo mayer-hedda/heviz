@@ -347,8 +347,6 @@ public class User implements Serializable {
             return new User(id);
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
-//            throw new loginException(""); // ???
-            // saját exception??
             return new User();
         } finally {
             em.clear();

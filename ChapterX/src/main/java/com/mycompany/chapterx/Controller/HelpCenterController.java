@@ -4,8 +4,10 @@
  */
 package com.mycompany.chapterx.Controller;
 
+import com.mycompany.chapterx.Exception.HelpCenterException;
 import com.mycompany.chapterx.Service.HelpCenterService;
 import com.mycompany.chapterx.Service.UserService;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.ws.rs.core.Context;
@@ -61,8 +63,8 @@ public class HelpCenterController {
     @GET
     @Path("getAllHelpCenter")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response getAllHelpCenter() {
-        JSONObject result = HelpCenterService.getALlHelpCenter();
+    public Response getAllHelpCenter() throws HelpCenterException {
+        JSONArray result = HelpCenterService.getAllHelpCenter();
         return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
     }
 

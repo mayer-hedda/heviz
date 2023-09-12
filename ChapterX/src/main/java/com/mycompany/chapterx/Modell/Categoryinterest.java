@@ -4,16 +4,12 @@
  */
 package com.mycompany.chapterx.Modell;
 
+import com.mycompany.chapterx.Exception.HelpCenterException;
+
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -107,5 +103,33 @@ public class Categoryinterest implements Serializable {
     public String toString() {
         return "com.mycompany.chapterx.Modell.Categoryinterest[ id=" + id + " ]";
     }
-    
+
+
+
+    // ----- MY PROCEDURES -----
+    public static boolean addCategoryInterest(Integer userId, Integer categoryId) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_ChapterX_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("addCategoryInterest");
+
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("categoryIdIN", Integer.class, ParameterMode.IN);
+
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("categoryIdIN", categoryId);
+
+            spq.execute();
+            return true;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            return false;
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+
 }
