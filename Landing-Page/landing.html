@@ -37,7 +37,8 @@
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul class="navbar-nav" id="navItems">
                     <li class="nav-item text-center">
-                        <a class="nav-link active" aria-current="page" id="Home" href="#">Home</a>
+                        <a class="nav-link active" aria-current="page" id="Home"
+                            href="../Landing-Page/landing.html">Home</a>
                     </li>
                     <li class="nav-item text-center">
                         <a class="nav-link" id="AboutUs" href="#">About Us</a>
@@ -52,28 +53,37 @@
             </div>
 
             <div>
-                <button type="button" class="align-content-center" id="loginBtn"><a href="../Log-in/login.html">Log In</a></button>
-                <button type="submit" class="align-content-center" id="signUpBtn"><a href="../Sign-up/signup.html">Sign Up</a></button>
+                <!-- ? onclick esemény kell a hivatkozáshoz mert a bootstrap btn-ben nincs href -->
+                <button type="button" class="btn align-content-center" id="loginBtn"
+                    onclick="window.location.href='../Log-in/login.html'">Log In</button>
+
+                <button role="button" type="submit" class="btn align-content-center" id="signUpBtn"
+                    onclick="window.location.href='../Sign-up/signup.html'">Sign Up</button>
             </div>
 
         </div>
     </nav>
 
     <section id="opening-text" class="section">
-        <div class="container text-center" id="titles">
-            <h1 class="bigtext mb-24 t_max-width-464 t_mb-16 l_mb-12 mx-auto">Write your journey to the top</h1>
-            <!-- ! Itt tartottam - 09-13  -->
-            <p class="above-big-text mb-32 t_max-width-464 t_mb-24 mx-auto text-center text-md-center text-lg-center text-sm-center" id="firstP">Motivating writers,
-                engaging readers, and
-                supporting publishers: a new chapter in publishing.</p>
-            <button type="button" class="align-content-center" id="FirstSectionBtn" href="#" >Start your journey</button>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 mx-auto text-center" id="titles">
+                    <h1 class="bigtext mb-24 t_max-width-464 t_mb-16 l_mb-12">Write your journey to the top</h1>
+                    <p class="above-big-text mb-32 t_max-width-464 t_mb-24 text-center" id="firstP">Motivating writers,
+                        engaging readers, and
+                        supporting publishers: a new chapter in publishing.</p>
+                    <button type="button" class="btn btn-primary" id="FirstSectionBtn">Start your journey</button>
+                </div>
+            </div>
         </div>
     </section>
+
 
     <section id="second-section">
         <!-- alcím + p + gomb -->
         <div class="container-fluid">
-            <div class="row flex-sm-column flex-md-column flex-lg-row flex-column align-content-lg-start align-content-xl-start align-content-md-center align-content-sm-center align-items-md-center align-items-sm-center align-items-xs-center">
+            <div
+                class="row flex-sm-column flex-md-column flex-lg-row flex-column align-content-lg-start align-content-xl-start align-content-md-center align-content-sm-center align-items-md-center align-items-sm-center align-items-xs-center">
                 <div class="col-12 col-sm-6" id="second-section-pic">
                     <!-- kép -->
                     <img src="../pictures/first-pic.jpg" class="align-content-start align-self-md-center" id="s2-pic">

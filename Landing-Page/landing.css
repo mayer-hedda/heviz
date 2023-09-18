@@ -58,6 +58,28 @@ button a{
     font-family: 'Inter', sans-serif;
 }
 
+#navbar a{
+    color: rgb(151, 121, 110);
+}
+
+#navbar a:hover{
+    color: rgb(113, 145, 128);
+    /* font-weight: 700; */
+    font-style: italic;
+}
+
+#Home{
+    color: rgb(60, 32, 22) !important;
+    text-decoration: underline 0.125rem rgb(232, 181, 160) ;
+    /* ? távolság növelése az alláhúzás vonal és a szöveg alja között */
+    text-underline-offset: 0.281rem;
+}
+
+#Home:hover{
+    color: rgb(68, 92, 79) !important;
+    font-style: italic;
+}
+
 #loginBtn {
     border-width: 0rem;
     background-color: transparent;
@@ -92,6 +114,7 @@ button a{
     /*átmenet a hover és a rendes állapot között*/
     transition: background-color 0.8s ease;
     /*átmenet a hover és a rendes állapot között*/
+    text-decoration: none;
 
 }
 
@@ -108,7 +131,6 @@ button a{
 #opening-text {
     padding-top: 11rem;
     padding-bottom: 4.375rem;
-
 }
 
 #FirstSectionBtn {
@@ -140,12 +162,14 @@ button a{
 #second-section {
     margin-right: 6%;
     margin-left: 6%;
+    margin-top: 3%;
 }
 
 #s2-pic{
     width: 24.375rem;
     height: 17.844rem;
     border-radius: 0.625rem;
+    margin-left: 9%;
 }
 
 #second-h2{
@@ -177,6 +201,8 @@ button a{
     width: 39.25rem;
     color: rgb(103, 91, 97);
     margin-top: 0.938rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-
 
