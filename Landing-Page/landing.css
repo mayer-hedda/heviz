@@ -181,11 +181,6 @@ nav {
 
 }
 
-#second-section-text {
-    /*? A szöveget tartalmazó jobb div id-ja */
-    display: flex;
-}
-
 #second-h2 {
     /*? h2 tag */
     font-size: 2.375rem;
