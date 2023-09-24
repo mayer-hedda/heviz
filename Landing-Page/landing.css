@@ -1,3 +1,13 @@
+/* 
+MEDIA QUERY PL
+@media screen and (max-width: 767px)
+.h {
+    font-size: 32px;
+    line-height: 36px;
+}
+
+
+*/
 
 /**--------------- FONTS ---------------*/
 @font-face {
@@ -90,6 +100,7 @@ nav {
     padding-bottom: 0.625rem;
     transition: color 0.5s ease;
     /*átmenet a hover és a rendes állapot között*/
+    line-height: 1.125rem;
 }
 
 #loginBtn:hover {
@@ -113,8 +124,7 @@ nav {
     /*átmenet a hover és a rendes állapot között*/
     transition: background-color 0.8s ease;
     /*átmenet a hover és a rendes állapot között*/
-    text-decoration: none;
-
+    line-height: 1.125rem;
 }
 
 #signUpBtn:hover {
@@ -145,10 +155,11 @@ nav {
     padding-bottom: 0.625rem;
     border-radius: 3rem;
     font-size: x-large;
-    font-family: 'Pt sans';
+    font-family: 'Pt sans', sans-serif;
     transition: color 0.8s ease;
     transition: background-color 0.8s ease;
     margin-top: 1.875rem;
+    line-height: 1.625rem;
 }
 
 #FirstSectionBtn:hover {
@@ -160,6 +171,7 @@ nav {
     border: dashed;
     border-width: 0.094rem;
     border-color: rgb(129, 105, 117);
+    line-height: 1.625rem;
 }
 
 #second-section {
@@ -200,11 +212,13 @@ nav {
     color: rgb(108, 78, 66);
 }
 
-#third-section{
+#third-section {
     margin-right: 8%;
     margin-left: 6%;
     margin-top: 3%;
     margin-bottom: 6%;
+
+    padding: 1.875rem;
 }
 
 #third-h2 {
@@ -216,7 +230,7 @@ nav {
 
 }
 
-#third-p{
+#third-p {
     margin-top: 2.063rem;
     font-size: 1.375rem;
     font-family: 'Montserrat', sans-serif;
@@ -231,7 +245,74 @@ nav {
 
 }
 
+#fourth-section {
+    margin-right: 8%;
+    margin-left: 6%;
+    margin-top: 3%;
+    margin-bottom: 6%;
+    background-color: rgb(153, 88, 65);
 
+    border-radius: 1.25rem;
+    padding: 5rem;
+}
+
+#s4-h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 2.5rem;
+
+    line-height: 3.125rem;
+
+    color: rgb(248, 248, 244);
+}
+
+#s4-p {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+
+    color: rgb(230, 214, 195);
+    font-size: 1.375rem;
+    line-height: 2.25rem;
+}
+
+#s4-btn1 {
+    background-color: rgb(246, 205, 188);
+    border-radius: 1.5rem;
+    padding: 0.75rem 1.25rem;
+    font-size: larger;
+    font-family: 'Pt sans', sans-serif;
+    color: rgb(51, 47, 49);
+    line-height: 1.125rem;
+
+    transition: color 0.8s ease;
+    transition: background-color 0.8s ease;
+
+    position: relative;
+
+    margin-right: 2%;
+    border: 0rem;
+}
+
+#s4-btn1:hover {
+    transition: color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    transition: background-color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    /*! background-color: rgb(168, 129, 113); */
+    color: rgb(65, 61, 63);
+}
+
+#s4-btn2{
+    border-style: solid;
+    border-width: 0.081rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 1.5rem;
+    background-color: transparent;
+    line-height: 1.125rem;
+    border-color: rgb(248, 248, 244);
+
+    color: rgb(248, 248, 244);
+}
 
 /** --------------- CLASS ALAPJÁN ---------------*/
 
@@ -265,11 +346,21 @@ nav {
     border: 0rem;
     color: rgb(248, 248, 244);
     font-size: 1.375rem;
+    font-family: 'Pt sans', sans-serif;
+    font-weight: 400;
     padding: 0.938rem 1.875rem 0.938rem 1.875rem;
     border-radius: 6.25rem;
     margin-top: 0.938rem;
+    line-height: 1.125rem;
+    transition: color 0.8s ease;
+    transition: background-color 0.8s ease;
 }
 
-/* .btn-secondary:hover{
-
-} */
+.btn-secondary:hover {
+    background-color: rgb(187, 205, 149);
+    color: rgb(29, 38, 19);
+    transition: color 0.8s ease;
+    transition: background-color 0.8s ease;
+    border: dashed 0.094rem rgb(64, 90, 26);
+    line-height: 1.125rem;
+}
