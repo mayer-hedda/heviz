@@ -7,9 +7,8 @@
     <!-- CSS file -->
     <link rel="stylesheet" href="landing.css" />
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <!-- bootstrap icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
 
@@ -22,39 +21,24 @@
 
     <nav class="navbar fixed-top navbar-expand-lg" id="navbar">
         <div class="container-fluid">
-            <div class="d-flex align-items-center">
-                <img src="../pictures/LOGO.svg" alt="Logo" width="125" height="40" class="d-inline-block align-text-top"
-                    id="logo" />
+            <img src="../pictures/LOGO.svg" alt="Logo" width="125" height="40"
+                class="d-inline-block align-text-top" id="logo" />
 
-                <!-- ! Ez a hamburger icon nem működik, kis nézetben nem nyitja le az elemeket -->
-                <div class="ml-auto">
-                    <button class="navbar-toggler" style="margin-left: 2rem; margin-right: 2rem" type="button"
-                        data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse  justify-content-center" id="navbarNav">
+                <div class="navbar-nav text-center">
+                    <a class="nav-link active" aria-current="page" id="Home"
+                        href="../Landing-Page/landing.html">Home</a>
+                    <a class="nav-link" id="AboutUs" href="#">About Us</a>
+                    <a class="nav-link" id="Partners" href="#">Partners</a>
+                    <a class="nav-link" id="Tutorials" href="#">Tutorials</a>
                 </div>
             </div>
-
-            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                <ul class="navbar-nav" id="navItems">
-                    <li class="nav-item text-center">
-                        <a class="nav-link active" aria-current="page" id="Home"
-                            href="../Landing-Page/landing.html">Home</a>
-                    </li>
-                    <li class="nav-item text-center">
-                        <a class="nav-link" id="AboutUs" href="#">About Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="Partners" href="#">Partners</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="Tutorials" href="#">Tutorials</a>
-                    </li>
-                </ul>
-            </div>
-
-            <div>
+            <div class="text-end text-sm-center">
                 <!-- ? onclick esemény kell a hivatkozáshoz mert a bootstrap btn-ben nincs href -->
                 <button type="button" class="btn align-content-center" id="loginBtn"
                     onclick="window.location.href='../Log-in/login.html'">
@@ -66,17 +50,18 @@
                     Sign Up
                 </button>
             </div>
+            
         </div>
     </nav>
 
     <!-- TODO: FIRST SECTION -->
 
     <section id="opening-text" class="section">
-        <div class="container text-center" id="titles">
-            <h1 class="bigtext mb-24 t_max-width-464 t_mb-16 l_mb-12 mx-auto">
+        <div class="container justify-content-center" id="titles">
+            <h1 class="bigtext text-center">
                 Write your journey to the top
             </h1>
-            <p class="above-big-text mb-32 t_max-width-464 t_mb-24 mx-auto text-center" id="firstP">
+            <p class="above-big-text text-center" id="firstP">
                 Motivating writers, engaging readers, and supporting publishers: a new
                 chapter in publishing.
             </p>
@@ -129,7 +114,7 @@
     <section id="third-section">
         <div class="container-fluid align-content-center">
             <div class="row">
-                <div class="col-12 col-sm-6 order-lg-3 order-xl-3 order-sm-4 order-md-4">
+                <div class="col-12 col-sm-6 order-lg-3 order-xl-3 order-sm-4 order-md-4" id="left-column">
                     <!-- alcím + p + gomb -->
                     <h2 id="third-h2"
                         class="text-sm-center text-md-center align-content-md-center align-content-sm-center text-lg-start text-xl-start">
@@ -146,7 +131,7 @@
                             style="margin-left: 0.625rem;"></i></button>
                 </div>
 
-                <div class="col-12 col-sm-6 row-cols-md-6 order-lg-4 order-xl-4 order-sm-3 order-md-3">
+                <div class="col-12 col-sm-6 row-cols-md-6 order-lg-4 order-xl-4 order-sm-3 order-md-3 text-end">
                     <img src="../pictures/landing-second.jpg"
                         class="align-content-end align-self-md-center align-content-sm-end align-content-md-end"
                         id="s2-pic2" />
@@ -181,27 +166,33 @@
     <!-- TODO: FOOTER -->
     <footer class="footer">
         <div class="container-fluid align-content-center">
-            
+
             <div class="row">
-                <div class="col-12 col-sm-6">
+                <div class="col-12 col-sm-6 d-flex align-items-center">
                     <!-- capterX logo -->
                     <img src="../pictures/LOGO.svg" id="footer-logo">
                 </div>
-                <div class="col-12 col-sm-6">
+                <div class=" col-12 col-sm-6 text-lg-start text-xl-start" id="useful-links">
                     <!-- hasznos linkek -->
                     <h3 id="footer-h3">Useful Links</h3>
                     <ul id="footer-ul">
-                        <li id="phone-num"><i class="bi bi-telephone-fill" style="margin-right: 0.625rem;"></i>+36 70 847 9363</li>
-                        <li id="email"><i class="bi bi-google" style="margin-right: 0.625rem;"></i>chapterx@gmail.com</li>
-                        <li id="facebook"><i class="bi bi-facebook" style="margin-right: 0.625rem;"></i><a href="#">Facebook</a></li>
-                        <li id="instagram"><i class="bi bi-instagram" style="margin-right: 0.625rem;"></i><a href="#">Instagram</a></li>
-                        <li id="help-center"><i class="bi bi-info-circle-fill" style="margin-right: 0.625rem;"></i><a href="#">Help Center</a></li>
+                        <li id="phone-num"><i class="bi bi-telephone-fill" style="margin-right: 0.625rem;"></i>+36 70
+                            847 9363</li>
+                        <li id="email"><i class="bi bi-google" style="margin-right: 0.625rem;"></i>chapterread2023@gmail.com
+                        </li>
+                        <li id="facebook"><i class="bi bi-facebook" style="margin-right: 0.625rem;"></i><a
+                                href="#">Facebook</a></li>
+                        <li id="instagram"><i class="bi bi-instagram" style="margin-right: 0.625rem;"></i><a
+                                href="#">Instagram</a></li>
+                        <li id="help-center"><i class="bi bi-info-circle-fill" style="margin-right: 0.625rem;"></i><a
+                                href="#">Help Center</a></li>
                     </ul>
                 </div>
                 <div>
                     <!-- copyright logo -->
                     <!-- Minden jog fentartva -->
-                    <p id="copy-right"><i class="bi bi-c-circle"></i></p>
+                    <p id="copy-right" class="text-end"><img src="../icons/copyright.svg"
+                            style="margin-right: 0.313rem;">2023 All rights reserved.</p>
                 </div>
             </div>
 
@@ -209,8 +200,8 @@
     </footer>
 
     <!-- Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 </body>
 

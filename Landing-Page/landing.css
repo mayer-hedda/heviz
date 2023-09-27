@@ -1,13 +1,26 @@
-/* 
-MEDIA QUERY PL
-@media screen and (max-width: 767px)
-.h {
-    font-size: 32px;
-    line-height: 36px;
+/** ----------- MEDIA QUERY */
+
+@media (max-width: 540px) {
+    nav .navbar-toggler{
+        order: 3!important;
+        margin-left: 0rem!important;
+
+    }
+
+    #signUpBtn{
+        align-items: center;
+    }
+    
+    #title h1{
+        width: 27.875rem;
+        align-content: center;
+    }
+
+    #title p{
+        width: 27.875rem;
+        align-content: center;
+    }
 }
-
-
-*/
 
 /** ----------- VÁLTOZÓK DEFINIÁLÁSA */
 :root {
@@ -70,13 +83,26 @@ nav {
 footer {
     border-top: 0.094rem solid var(--dash-color);
     background-color: rgb(246, 227, 205);
+    padding-top: 5%;
+    padding-right: 5%;
+    padding-left: 5%;
 }
 
-footer ul{
+footer h3{
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+}
+
+footer ul {
     list-style-type: none;
 }
 
-footer a{
+footer ul li {
+    font-size: 1.25rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+footer a {
     color: var(--mostUsed-text-color);
 }
 
@@ -86,22 +112,16 @@ footer a{
 /** --------------- ID ALAPJÁN ---------------*/
 
 #navbar {
-    margin-right: 5%;
-    margin-left: 5%;
+    padding-right: 5%;
+    padding-left: 5%;
 }
 
-#navbar ul {
+#navbar a {
     font-size: larger;
-}
-
-#navbar ul li {
     display: inline;
     padding: 10px;
     font-family: 'Inter', sans-serif;
     font-weight: 500;
-}
-
-#navbar a {
     color: rgb(151, 121, 110);
 }
 
@@ -270,6 +290,7 @@ footer a{
     padding: 1.875rem;
 }
 
+
 #third-h2 {
     /*? h2 tag */
     font-size: 2.375rem;
@@ -371,6 +392,13 @@ footer a{
 
 }
 
+#footer-logo {
+    /* padding-left: 6%; */
+    display: flex;
+}
+
+
+
 /** --------------- CLASS ALAPJÁN ---------------*/
 
 .bigtext {
@@ -424,4 +452,9 @@ footer a{
     transition: background-color 0.8s ease;
     border: dashed 0.094rem rgb(64, 90, 26);
     line-height: 1.125rem;
+}
+
+.order-sm-4 {
+    order: 4 !important;
+
 }
