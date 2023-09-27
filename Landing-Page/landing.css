@@ -1,25 +1,79 @@
 /** ----------- MEDIA QUERY */
 
 @media (max-width: 540px) {
-    nav .navbar-toggler{
-        order: 3!important;
-        margin-left: 0rem!important;
-
+    nav .navbar-toggler {
+        order: 3 !important;
+        margin-left: 0rem !important;
     }
 
-    #signUpBtn{
+    section {
+        width: auto !important;
+    }
+
+    #signUpBtn {
         align-items: center;
     }
-    
-    #title h1{
-        width: 27.875rem;
-        align-content: center;
+
+    #title h1 #title p {
+        text-align: center;
+        max-width: 80%;
+        margin: 0 auto 1.5rem;
     }
 
-    #title p{
-        width: 27.875rem;
-        align-content: center;
+    h1 {
+        max-width: 80% !important;
+        font-size: 3.125rem !important;
     }
+
+    h2 {
+        max-width: 80% !important;
+        font-size: 1.75rem !important;
+        margin-top: 0.938rem !important;
+        margin-bottom: 0.938rem !important;
+    }
+
+    p {
+        max-width: 80% !important;
+        font-size: 1.375rem !important;
+    }
+
+    img {
+        max-block-size: 80% !important;
+    }
+
+    #FirstSectionBtn {
+        display: block;
+        /* Törölje a gomb alapértelmezett inline tulajdonságát */
+        margin: 0 auto;
+        /* Középre igazítás margin segítségével */
+    }
+
+    #second-section-text h2,
+    #second-section-text p {
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    #second-section-text p{
+        margin-bottom: 1.25rem!important;
+    }
+
+    #second-section-pic img,
+    #third-section-pic img {
+        display: block;
+        /* Blokk elemként kezeljük, hogy a margin: 0 auto; működjön */
+        margin: 0 auto;
+        /* Középre igazítás vízszintesen */
+    }
+
+    #s2-btn {
+        display: block;
+        /* Blokk elemként kezeljük, hogy a margin: 0 auto; működjön */
+        margin: 0 auto;
+        /* Középre igazítás vízszintesen */
+        text-align: center;
+    }
+
 }
 
 /** ----------- VÁLTOZÓK DEFINIÁLÁSA */
@@ -88,7 +142,7 @@ footer {
     padding-left: 5%;
 }
 
-footer h3{
+footer h3 {
     font-size: 1.75rem;
     margin-bottom: 1rem;
 }
@@ -454,7 +508,8 @@ footer a {
     line-height: 1.125rem;
 }
 
+
+
 .order-sm-4 {
     order: 4 !important;
-
 }
