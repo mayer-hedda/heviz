@@ -80,24 +80,24 @@
             <div class="row ">
                 <div class="col-12 col-sm-6 row-cols-md-6 order-1 order-sm-1 order-md-1" id="second-section-pic">
                     <!--? kép -->
-                    <img src="../pictures/landing-first.jpg" class="align-content-start align-self-md-center"
+                    <img src="../pictures/landing-first.jpg" class="my-image align-content-start align-self-md-center"
                         id="s2-pic1" />
                 </div>
 
-                <div class="col-12 col-sm-6  order-2 order-sm-2 order-md-2" id="second-section-text">
+                <div class=" col-12 col-sm-6  order-2 order-sm-2 order-md-2" id="second-section-text">
                     <!--? h2 -->
-                    <h2 id="second-h2" class="text-sm-center text-md-center text-lg-start text-xl-start">
+                    <h2 id="second-h2" class="textCentered text-sm-center text-md-center text-lg-start text-xl-start">
                         Everybody Has a Story
                     </h2>
                     <!--? text -->
-                    <p class="align-self-md-center text-lg-start text-xl-start" id="second-p">
+                    <p class="textCentered pTagsMargin align-self-md-center text-lg-start text-xl-start" id="second-p">
                         We've created a website for everyone who enjoy books, from readers
                         to aspiring writers. Click below to learn more about us!
                     </p>
 
                     <!--? Button -->
                     <button type="submit"
-                        class="btn-secondary text-sm-center text-md-center align-self-md-center text-lg-start text-xl-start"
+                        class="gomb btn-secondary text-sm-center text-md-center align-self-md-center text-lg-start text-xl-start"
                         onclick="window.location.href='../Sign-up/'" id="s2-btn">Learn About Us<i
                             class="bi bi-arrow-right" style="margin-left: 0.625rem;"></i></button>
                 </div>
@@ -113,24 +113,25 @@
                 <div class="col-12 col-sm-6 order-lg-3 order-xl-3 order-sm-4 order-md-4" id="left-column">
                     <!-- alcím + p + gomb -->
                     <h2 id="third-h2"
-                        class="text-sm-center text-md-center align-content-md-center align-content-sm-center text-lg-start text-xl-start">
+                        class="textCentered text-sm-center text-md-center align-content-md-center align-content-sm-center text-lg-start text-xl-start">
                         Discover
                         Our Resources and Support</h2>
-                    <p class="align-content-sm-center align-content-md-center" id="third-p">Empower yourself with
+                    <p class="textCentered pTagsMargin align-content-sm-center align-content-md-center" id="third-p">
+                        Empower yourself with
                         knowledge. Our Help Center is your portal to a world of
                         information and support. Start exploring today!</p>
 
                     <!--? Button -->
                     <button type="submit"
-                        class="btn-secondary text-sm-center text-md-center align-self-md-center text-lg-start text-xl-start"
+                        class="gomb btn-secondary text-sm-center text-md-center align-self-md-center text-lg-start text-xl-start"
                         onclick="window.location.href='#'" id="s3-btn">Get Informed<i class="bi bi-arrow-right"
                             style="margin-left: 0.625rem;"></i></button>
                 </div>
 
                 <div class="col-12 col-sm-6 row-cols-md-6 order-lg-4 order-xl-4 order-sm-3 order-md-3 text-end"
                     id="third-section-pic">
-                    <img src="../pictures/landing-second.jpg" class="align-content-start align-self-md-center"
-                        id="s2-pic2" />
+                    <img src="../pictures/landing-second.jpg"
+                        class="my-image col-12 col-sm-6 row-cols-md-6 order-1 order-sm-1 order-md-1" id="s2-pic2" />
 
                 </div>
             </div>
@@ -141,15 +142,17 @@
 
     <section id="fourth-section">
         <div class="container">
-            <div class="text-center">
-                <h2 id="s4-h2">Ready to get started?</h2>
-                <p id="s4-p">Create an account or learn more about using our site.</p>
+            <div class="text-center" id="fourth-section-div">
+                <h2 id="s4-h2" class="textCentered">Ready to get started?</h2>
+                <p id="s4-p" class="textCentered pTagsMargin">Create an account or learn more about using our site.</p>
 
-                <button type="submit" class="btn align-content-center" onclick="window.location.href='#'"
-                    id="s4-btn1">Sign up for free</button>
+                <button type="submit"
+                    class=" text-sm-center text-md-center align-self-md-center text-lg-start text-xl-start"
+                    onclick="window.location.href='#'" id="s4-btn1">Sign up for free</button>
 
-                <button type="submit" class="btn align-content-center" onclick="window.location.href='#'"
-                    id="s4-btn2">Check the tutorial<i class="bi bi-arrow-right"
+                <button type="submit"
+                    class="gomb text-sm-center text-md-center align-self-md-center text-lg-start text-xl-start"
+                    onclick="window.location.href='#'" id="s4-btn2">Check the tutorial<i class="bi bi-arrow-right"
                         style="margin-left: 0.625rem;"></i></button>
             </div>
         </div>
@@ -164,13 +167,13 @@
         <div class="container-fluid align-content-center">
 
             <div class="row">
-                <div class="col-12 col-sm-6 d-flex align-items-center">
+                <div class=" col-12 col-sm-6 d-flex align-items-center mx-auto" id="footer-logo">
                     <!-- capterX logo -->
                     <img src="../pictures/LOGO.svg" id="footer-logo">
                 </div>
                 <div class=" col-12 col-sm-6 text-lg-start text-xl-start" id="useful-links">
                     <!-- hasznos linkek -->
-                    <h3 id="footer-h3">Useful Links</h3>
+                    <h3 id="footer-h3" class="textCentered">Useful Links</h3>
                     <ul id="footer-ul">
                         <li id="phone-num"><i class="bi bi-telephone-fill" style="margin-right: 0.625rem;"></i>+36 70
                             847 9363</li>
@@ -178,9 +181,10 @@
                                 style="margin-right: 0.625rem;"></i>chapterread2023@gmail.com
                         </li>
                         <li id="facebook"><i class="bi bi-facebook" style="margin-right: 0.625rem;"></i><a
-                                href="#">Facebook</a></li>
+                                href="https://www.facebook.com/profile.php?id=61551909364683    ">Facebook</a></li>
                         <li id="instagram"><i class="bi bi-instagram" style="margin-right: 0.625rem;"></i><a
-                                href="#">Instagram</a></li>
+                                href="https://instagram.com/cyberread2023?igshid=MzRlODBiNWFlZA==">Instagram</a>
+                        </li>
                         <li id="help-center"><i class="bi bi-info-circle-fill" style="margin-right: 0.625rem;"></i><a
                                 href="#">Help Center</a></li>
                     </ul>

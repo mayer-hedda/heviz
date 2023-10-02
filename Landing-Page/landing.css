@@ -48,31 +48,58 @@
         /* Középre igazítás margin segítségével */
     }
 
-    #second-section-text h2,
-    #second-section-text p {
+    .textCentered {
         text-align: center;
         margin: 0 auto;
     }
 
-    #second-section-text p{
-        margin-bottom: 1.25rem!important;
+
+
+    .pTagsMargin {
+        margin-bottom: 1.25rem !important;
     }
 
-    #second-section-pic img,
-    #third-section-pic img {
+    .my-image {
         display: block;
         /* Blokk elemként kezeljük, hogy a margin: 0 auto; működjön */
         margin: 0 auto;
         /* Középre igazítás vízszintesen */
     }
 
-    #s2-btn {
+
+    #fourth-section {
+        padding: 2.813rem;
+    }
+
+    #s4-btn1 {
+        margin-bottom: 0.938rem;
+
+    }
+
+    .gomb {
         display: block;
         /* Blokk elemként kezeljük, hogy a margin: 0 auto; működjön */
         margin: 0 auto;
         /* Középre igazítás vízszintesen */
         text-align: center;
     }
+
+    img.mx-auto {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email {
+        font-size: 0.938rem;
+    }
+
+    #footer-ul{
+        margin-top: 0.938rem;
+    }
+
 
 }
 
