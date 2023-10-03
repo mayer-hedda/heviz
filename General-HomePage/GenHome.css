@@ -1,0 +1,108 @@
+/** ----------- VÁLTOZÓK DEFINIÁLÁSA */
+:root {
+    --primary-BTN-Bg-color: rgb(232, 181, 160);
+    /* --------------------------------------------------
+    text color for:
+        -loginBTN text
+        - signupBTN text
+        - first section btn text
+        - fourth section btn text
+
+    */
+    --btn-text-color: rgb(51, 47, 49);
+    /*--------------------------------------------- 
+        its for text colors
+    */
+    --mostUsed-text-color: rgb(65, 61, 63);
+    /* -----------------------------------------------
+        its for btn dashes
+    */
+    --dash-color: rgb(129, 105, 117);
+}
+
+/**--------------- FONTS ---------------*/
+@font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/static/Inter-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url("../fonts/Montserrat/static/Montserrat-Bold.ttf") format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url("../fonts/Montserrat/static/Montserrat-Medium.ttf") format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Pt sans';
+    src: url("../fonts/PT_Sans/PTSans-Regular.ttf") format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+/** --------------- TAG ALAPJÁN ---------------*/
+
+nav {
+    background-color: rgb(247, 245, 236);
+    
+}
+
+/** --------------- ID ALAPJÁN ---------------*/ 
+#navbar {
+    padding-right: 5%;
+    padding-left: 5%;
+}
+
+#navbar a {
+    font-size: larger;
+    display: inline;
+    padding: 10px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    color: rgb(151, 121, 110);
+}
+
+#navbar a:hover {
+    color: rgb(113, 145, 128);
+    /* font-weight: 700; */
+    font-style: italic;
+}
+
+#HomePage {
+    /*? Az aktuális page */
+    color: rgb(60, 32, 22) !important;
+    text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
+    /* ? távolság növelése az alláhúzás vonal és a szöveg alja között */
+    text-underline-offset: 0.281rem;
+}
+
+#HomePage:hover {
+    /*? aktuális page hover */
+    color: rgb(68, 92, 79) !important;
+    font-style: italic;
+}
+
+#profile-icon {
+    width: 50px;
+    /* Állítsd be a kívánt szélességet és magasságot */
+    height: 50px;
+    border-radius: 50%;
+    /* Kör alak kialakítása */
+    background-image: url('../pictures/default-profile-pic.png');
+    /* Alapértelmezett kép beállítása */
+    background-size: cover;
+    /* A kép méretezése a konténerhez */
+    background-position: center;
+    /* A kép középre igazítása */
+    cursor: pointer;
+    /* Mutató kurzor megjelenítése, hogy látható legyen, kattintható */
+}
