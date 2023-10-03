@@ -96,7 +96,7 @@
         font-size: 0.938rem;
     }
 
-    #footer-ul{
+    #footer-ul {
         margin-top: 0.938rem;
     }
 
@@ -332,6 +332,11 @@ footer a {
     margin-bottom: 6%;
 }
 
+#second-section p,
+#third-section p {
+    text-align: justify;
+}
+
 #second-section-pic {
     /*? A képet tartalmazó bal div id-ja */
     display: flex;
@@ -360,6 +365,7 @@ footer a {
     font-size: 1.375rem;
     font-family: 'Montserrat', sans-serif;
     color: rgb(108, 78, 66);
+
 }
 
 #third-section {
@@ -534,8 +540,6 @@ footer a {
     border: dashed 0.094rem rgb(64, 90, 26);
     line-height: 1.125rem;
 }
-
-
 
 .order-sm-4 {
     order: 4 !important;

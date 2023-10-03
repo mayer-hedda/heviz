@@ -63,6 +63,32 @@ nav {
     /* backdrop-filter: blur(5px); */
 }
 
+footer {
+    border-top: 0.094rem solid var(--dash-color);
+    background-color: rgb(246, 227, 205);
+    padding-top: 5%;
+    padding-right: 5%;
+    padding-left: 5%;
+}
+
+footer h3 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+}
+
+footer ul {
+    list-style-type: none;
+}
+
+footer ul li {
+    font-size: 1.25rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+footer a {
+    color: var(--mostUsed-text-color);
+}
+
 /** --------------- ID ALAPJÁN ---------------*/
 
 #navbar {
@@ -163,6 +189,7 @@ nav {
     margin-top: 11rem;
     padding-bottom: 3.125rem;
     padding-top: 3.125rem;
+    margin-bottom: 8rem;
 }
 
 #s1-h2{
@@ -174,6 +201,18 @@ nav {
 
 #first-section p{
     font-family: 'Montserrat', sans-serif;
-    
+    text-align: justify;
+    margin-right: 2.5rem;
 }
 
+#s1-p1{
+    margin-top: 2.5rem;
+}
+
+#s1-pic{
+    height: max-content;
+}
+
+#footer-logo {
+    display: flex;
+}
