@@ -1,0 +1,602 @@
+.Rolunk{
+
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: #F7F5EC;
+
+}
+
+.Navbar {
+
+    width: 1440px;
+    height: 77.90px;
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    background: #F7F5EC;
+
+}
+
+.Pages{     
+
+    width: 599px;
+    height: 20px;
+    left: 420px;
+    top: 32px;
+    position: absolute;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 35px;
+    display: inline-flex;
+
+}
+
+.HomePage{
+
+    text-align: center;
+    color: #2C1810;
+    font-size: 22px;
+    font-family: Inter;
+    font-weight: 500;
+    text-transform: capitalize;
+    line-height: 20px;
+    letter-spacing: 0.44px;
+    word-wrap: break-word;
+
+}
+
+.Feed{
+
+    text-align: center;
+    color: #2C1810;
+    font-size: 22px;
+    font-family: Inter;
+    font-weight: 500;
+    text-transform: capitalize;
+    line-height: 20px;
+    letter-spacing: 0.44px;
+    word-wrap: break-word;
+
+}
+
+.Explore {
+
+    text-align: center;
+    color: #2C1810;
+    font-size: 22px;
+    font-family: Inter;
+    font-weight: 500;
+    text-transform: capitalize;
+    line-height: 20px;
+    letter-spacing: 0.44px;
+    word-wrap: break-word;
+
+}
+
+.SavedBooks {
+
+    text-align: center;
+    color: #2C1810;
+    font-size: 22px;
+    font-family: Inter;
+    font-weight: 500;
+    text-transform: capitalize;
+    line-height: 20px;
+    letter-spacing: 0.44px;
+    word-wrap: break-word;
+
+}
+
+.AboutUs {
+
+    text-align: center;
+    color: #2C1810;
+    font-size: 22px;
+    font-family: Inter;
+    font-weight: 500;
+    text-transform: capitalize;
+    line-height: 20px;
+    letter-spacing: 0.44px;
+    word-wrap: break-word;
+
+}
+
+.User {
+
+    left: 1146px;
+    top: 12px;
+    position: absolute;
+
+}
+
+.ProfilePicture {
+
+    width: 60px;
+    height: 60px;
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    border-radius: 9999px;
+
+}
+
+.UserName {
+
+    left: 93px;
+    top: 20px;
+    position: absolute;
+    text-align: center;
+    color: #2C1810;
+    font-size: 20px;
+    font-family: Inter;
+    font-weight: 500;
+    text-transform: capitalize;
+    line-height: 20px;
+    letter-spacing: 0.44px;
+    word-wrap: break-word;
+
+}
+
+.Section1 {
+
+    width: 1440px;
+    height: 588px;
+    left: 0px;
+    top: 120px;
+    position: absolute;
+
+}
+
+.Rectangle30 {
+
+    width: 1440px;
+    height: 588px;
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    background: #EAD7BE;
+
+}
+
+.Rectangle32 {
+
+    width: 345px;
+    height: 588px;
+    left: 1095px;
+    top: 0px;
+    position: absolute;
+
+}
+
+.WelcomeToChapterx {
+
+    width: 354px;
+    height: 19px;
+    left: 124px;
+    top: 51px;
+    position: absolute;
+    text-align: center;
+    color: #2C1810;
+    font-size: 27px;
+    font-family: Montserrat;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: 1.89px;
+    word-wrap: break-word;
+
+}
+
+.Line3 {
+
+    width: 253px;
+    height: 0px;
+    left: 127px;
+    top: 102px;
+    position: absolute;
+    border: 2px #E8B5A0 solid;
+
+}
+
+.WelcomeText {
+
+    width: 951px;
+    left: 127px;
+    top: 144px;
+    position: absolute;
+    color: #2C1810;
+    font-size: 20px;
+    font-family: Montserrat;
+    font-weight: 400;
+    line-height: 25px;
+    letter-spacing: 1.40px;
+    word-wrap: break-word;
+
+}
+
+.Section2 {
+
+    width: 1196px;
+    height: 452px;
+    left: 122px;
+    top: 828px;
+    position: absolute;
+
+}
+
+.Vivi1 {
+
+    width: 345px;
+    height: 452px;
+    left: 0px;
+    top: 0px;
+    position: absolute;
+
+}
+
+.Rectangle33 {
+
+    width: 345px;
+    height: 383px;
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    border-top-left-radius: 50px;
+    border: 3px #E8B5A0 solid;
+
+}
+
+.KissVivi {
+
+    left: 0px;
+    top: 400px;
+    position: absolute;
+    color: #2C1810;
+    font-size: 25px;
+    font-family: Montserrat;
+    font-weight: 500;
+    text-transform: uppercase;
+    line-height: 20px;
+    letter-spacing: 1.75px;
+    word-wrap: break-word;
+
+}
+
+.Role_Vivi1 {
+
+    left: 0px;
+    top: 430px;
+    position: absolute;
+    color: #2C1810;
+    font-size: 17px;
+    font-family: Montserrat;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 1.19px;
+    word-wrap: break-word;
+
+}
+
+.Hedi {
+
+    width: 356px;
+    height: 452px;
+    left: 426px;
+    top: 0px;
+    position: absolute;
+
+}
+
+.Rectangle35 {
+
+    width: 345px;
+    height: 383px;
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    border-top-left-radius: 50px;
+    border: 3px #E8B5A0 solid;
+
+}
+
+.MayerHedda {
+
+    left: 0px;
+    top: 400px;
+    position: absolute;
+    color: #2C1810;
+    font-size: 25px;
+    font-family: Montserrat;
+    font-weight: 500;
+    text-transform: uppercase;
+    line-height: 20px;
+    letter-spacing: 1.75px;
+    word-wrap: break-word;
+
+}
+
+.Role_Hedi {
+
+    left: 0px;
+    top: 430px;
+    position: absolute;
+    color: #2C1810;
+    font-size: 17px;
+    font-family: Montserrat;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 1.19px;
+    word-wrap: break-word;
+
+}
+
+.Vivi2 {
+
+    width: 345px;
+    height: 452px;
+    left: 851px;
+    top: 0px;
+    position: absolute;
+
+}
+
+.Rectangle34 {
+
+    width: 345px;
+    height: 383px;
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    border-top-left-radius: 50px;
+    border: 3px #E8B5A0 solid;
+
+}
+
+.SzirenyiVivi {
+
+    left: 0px;
+    top: 400px;
+    position: absolute;
+    color: #2C1810;
+    font-size: 25px;
+    font-family: Montserrat;
+    font-weight: 500;
+    text-transform: uppercase;
+    line-height: 20px;
+    letter-spacing: 1.75px;
+    word-wrap: break-word;
+
+}
+
+.Role_Vivi2 {
+
+    left: 0px;
+    top: 430px;
+    position: absolute;
+    color: #2C1810;
+    font-size: 17px;
+    font-family: Montserrat;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 1.19px;
+    word-wrap: break-word;
+
+}
+
+.Section3 {
+
+    width: 1443px;
+    height: 1809px;
+    left: -2px;
+    top: 1404px;
+    position: absolute;
+
+}
+
+.SzirenyiVivien {
+
+    width: 1440px;
+    height: 551px;
+    left: 3px;
+    top: 1258px;
+    position: absolute;
+
+}
+
+.Rectangle38 {
+
+    width: 1440px;
+    height: 551px;
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    background: #E5D9CA;
+    border: 2px #F0CFC0 solid;
+
+}
+
+.IntroductionText_Vivi2 {
+
+    width: 1346px;
+    left: 44px;
+    top: 169px;
+    position: absolute;
+    color: #2C1810;
+    font-size: 18px;
+    font-family: Montserrat;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 1.26px;
+    word-wrap: break-word;
+
+}
+
+.Introduction3_Name {
+
+    left: 40px;
+    top: 45px;
+    position: absolute;
+    color: #2C1810;
+    font-size: 30px;
+    font-family: Montserrat;
+    font-weight: 600;
+    text-transform: uppercase;
+    line-height: 20px;
+    letter-spacing: 2.10px;
+    word-wrap: break-word;
+
+}
+
+.IntRoleVivi2 {
+
+    left: 40px;
+    top: 80px;
+    position: absolute;
+    color: #2C1810;
+    font-size: 20px;
+    font-family: Montserrat;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 1.40px;
+    word-wrap: break-word;
+
+}
+
+.KissVivienBrigitta {
+
+    width: 1440px;
+    height: 551px;
+    left: 0px;
+    top: 0px;
+    position: absolute;
+
+}
+
+.Rectangle36 {
+
+    width: 1440px;
+    height: 551px;
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    background: #E5D9CA;
+    border: 2px #F0CFC0 solid;
+
+}
+
+.Introduction1_Name {
+
+    left: 40px;
+    top: 45px;
+    position: absolute;
+    color: #2C1810;
+    font-size: 30px;
+    font-family: Montserrat;
+    font-weight: 600;
+    text-transform: uppercase;
+    line-height: 20px;
+    letter-spacing: 2.10px;
+    word-wrap: break-word;
+
+}
+
+.IntRoleVivi1 {
+
+    left: 40px;
+    top: 80px;
+    position: absolute;
+    color: #2C1810;
+    font-size: 20px;
+    font-family: Montserrat;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 1.40px;
+    word-wrap: break-word;
+
+}
+
+.IntroductionText_Vivi1 {
+
+    width: 1346px;
+    left: 44px;
+    top: 169px;
+    position: absolute;
+    color: #2C1810;
+    font-size: 18px;
+    font-family: Montserrat;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 1.26px;
+    word-wrap: break-word;
+
+}
+
+.MayerHeddaAdrienn {
+
+    width: 1440px;
+    height: 551px;
+    left: 2px;
+    top: 622px;
+    position: absolute;
+
+}
+
+.Rectangle37 {
+
+    width: 1440px;
+    height: 551px;
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    background: #E5D9CA;
+    border: 2px #F0CFC0 solid;
+
+}
+
+.Introduction2_Name {
+
+    
+    left: 40px;
+    top: 45px;
+    position: absolute;
+    color: #2C1810;
+    font-size: 30px;
+    font-family: Montserrat;
+    font-weight: 600;
+    text-transform: uppercase;
+    line-height: 20px;
+    letter-spacing: 2.10px;
+    word-wrap: break-word;
+
+}
+
+.IntRoleHedi {
+
+    left: 40px;
+    top: 80px;
+    position: absolute;
+    color: #2C1810;
+    font-size: 20px;
+    font-family: Montserrat;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 1.40px;
+    word-wrap: break-word;
+
+}
+
+.IntroductionText_Hedi {
+
+    width: 1346px;
+    left: 44px;
+    top: 169px;
+    position: absolute;
+    color: #2C1810;
+    font-size: 18px;
+    font-family: Montserrat;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 1.26px;
+    word-wrap: break-word;
+    
+}
