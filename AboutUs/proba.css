@@ -1,11 +1,177 @@
-.Rolunk{
+@font-face {
+
+    font-family: 'Montserrat';
+    src: url('../fonts/Montserrat/static/Montserrat-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+
+}
+
+@font-face {
+
+    font-family: 'Montserrat';
+    src: url('../fonts/Montserrat/static/Montserrat-Regular.ttf');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+
+    font-family: 'Montserrat';
+    src: url('../fonts/Montserrat/static/Montserrat-Medium.ttf');
+    font-weight: 500;
+    font-style: normal;
+
+}
+
+@font-face {
+
+    font-family: 'Inter';
+    src: url('../fonts/Inter/static/Inter-Medium.ttf');
+    font-weight: 500;
+    font-style: normal;
+
+}
+
+@font-face {
+
+    font-family: 'Inter';
+    src: url('../fonts/Inter/static/Inter-SemiBold.ttf');
+    font-weight: 600;
+    font-style: normal;
+
+}
+
+:root {
+    --primary-BTN-Bg-color: rgb(232, 181, 160);
+    /* --------------------------------------------------
+    text color for:
+        -loginBTN text
+        - signupBTN text
+        - first section btn text
+        - fourth section btn text
+
+    */
+    --btn-text-color: rgb(51, 47, 49);
+    /*--------------------------------------------- 
+        its for text colors
+    */
+    --mostUsed-text-color: rgb(65, 61, 63);
+    /* -----------------------------------------------
+        its for btn dashes
+    */
+    --dash-color: rgb(129, 105, 117);
+}
+
+nav {
+    background-color: rgb(247, 245, 236);
+    /* backdrop-filter: blur(5px); */
+}
+
+#navbar {
+    padding-right: 5%;
+    padding-left: 5%;
+}
+
+#navbar a {
+    font-size: larger;
+    display: inline;
+    padding: 10px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    color: rgb(151, 121, 110);
+}
+
+#navbar a:hover {
+    color: rgb(113, 145, 128);
+    /* font-weight: 700; */
+    font-style: italic;
+}
+
+
+#AboutUs {
+    /*? Az aktuális page */
+    color: rgb(60, 32, 22) !important;
+    text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
+    /* ? távolság növelése az alláhúzás vonal és a szöveg alja között */
+    text-underline-offset: 0.281rem;
+}
+
+
+#AboutUs:hover {
+    /*? aktuális page hover */
+    color: rgb(68, 92, 79) !important;
+    font-style: italic;
+}
+
+#loginBtn {
+    /*? navbar login btn-ja */
+    border-width: 0rem;
+    background-color: transparent;
+
+    font-size: larger;
+    color: var(--btn-text-color);
+    font-family: 'Inter', sans-serif;
+
+    margin-right: 0.9rem;
+    padding: 0.625rem 1.25rem;
+
+    transition: color 0.5s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    line-height: 1.125rem;
+
+    box-sizing: border-box;
+    /* A padding + border szélessége is hozzáadódik az elem méretéhez */
+}
+
+#loginBtn:hover {
+    /*? navbar login btn hover */
+    color: rgb(146, 104, 74);
+}
+
+#signUpBtn {
+    /*? navbar signup btn-ja */
+    font-size: larger;
+    font-family: 'Inter', sans-serif;
+    color: var(--btn-text-color);
+
+    border-width: 0rem;
+    border-radius: 1.5rem;
+
+    background-color: var(--primary-BTN-Bg-color);
+
+    padding: 0.625rem 1.25rem;
+
+    transition: color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    transition: background-color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    line-height: 1.125rem;
+
+    box-sizing: border-box;
+    /* A padding + border szélessége is hozzáadódik az elem méretéhez */
+}
+
+#signUpBtn:hover {
+    /*? navbar login btn hover */
+    transition: color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    transition: background-color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    background-color: rgb(248, 248, 244);
+    color: var(--mostUsed-text-color);
+    border: dashed 0.094rem var(--dash-color);
+}
+
+
+/* .Rolunk{
 
     width: 100%;
     height: 100%;
     position: relative;
-    background: #F7F5EC;
+    
 
-}
+} */
 
 .Navbar {
 
@@ -140,7 +306,7 @@
 
 .Section1 {
 
-    width: 1440px;
+    
     height: 588px;
     left: 0px;
     top: 120px;
@@ -150,7 +316,7 @@
 
 .Rectangle30 {
 
-    width: 1440px;
+    
     height: 588px;
     left: 0px;
     top: 0px;
@@ -166,12 +332,14 @@
     left: 1095px;
     top: 0px;
     position: absolute;
+    padding-top: 30px;
+    padding-bottom: 30px;
 
 }
 
 .WelcomeToChapterx {
 
-    width: 354px;
+    width: 392px;
     height: 19px;
     left: 124px;
     top: 51px;
@@ -598,5 +766,47 @@
     line-height: 20px;
     letter-spacing: 1.26px;
     word-wrap: break-word;
+    
+}
+
+footer {
+
+    border-top: 0.094rem solid var(--dash-color);
+    background-color: rgb(246, 227, 205);
+    padding-top: 5%;
+    padding-right: 5%;
+    padding-left: 5%;
+
+}
+
+footer h3 {
+
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+
+}
+
+footer ul {
+
+    list-style-type: none;
+
+}
+
+footer ul li {
+
+    font-size: 1.25rem;
+    font-family: 'Montserrat', sans-serif;
+
+}
+
+footer a {
+
+    color: var(--mostUsed-text-color);
+
+}
+
+#footer-logo {
+    
+    display: flex;
     
 }

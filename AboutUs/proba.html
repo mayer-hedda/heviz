@@ -7,105 +7,193 @@
     <link rel="stylesheet" href="proba.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <!-- bootstrap icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
     <title>AboutUs</title>
 </head>
 
-<body>
+<body style="background: #F7F5EC;">
 
-    <div class="Rolunk" >
+    <div class="Rolunk">
 
 
-        <div class="Navbar" >
-
-            <div class="Navbar">
-                
-                
-
-                <div class="Pages">
-                    <div class="HomePage" >Home Page</div>
-                    <div class="Feed">Feed</div>
-                    <div class="Explore">Explore</div>
-                    <div class="SavedBooks">Saved Books</div>
-                    <div class="AboutUs" >About us</div>
+        <nav class="navbar fixed-top navbar-expand-lg" id="navbar">
+            <div class="container-fluid">
+                <img src="../icons/CyberRead-logo-final.svg" alt="Logo" width="125" height="40" class="d-inline-block align-text-top"
+                    id="logo" />
+    
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <div class="collapse navbar-collapse  justify-content-center" id="navbarNav">
+                    <div class="navbar-nav text-center">
+                        <a class="nav-link active" aria-current="page" id="Home"
+                            href="../Landing-Page/landing.html">Home</a>
+                        <a class="nav-link" id="AboutUs" href="#">About Us</a>
+                        <a class="nav-link" id="Partners" href="#">Partners</a>
+                        <a class="nav-link" id="Tutorials" href="#">Tutorials</a>
+                    </div>
                 </div>
-
-                <div class="User">
-                    <img class="ProfilePicture" src="https://via.placeholder.com/60x60" />
-                    <div class="UserName">User Name</div>
+                <div class="text-end text-sm-center">
+                    <!-- ? onclick esemény kell a hivatkozáshoz mert a bootstrap btn-ben nincs href -->
+                    <button type="button" class="btn align-content-center" id="loginBtn"
+                        onclick="window.location.href='../Log-in/login.html'">
+                        Log In
+                    </button>
+    
+                    <button role="button" type="submit" class="btn align-content-center" id="signUpBtn"
+                        onclick="window.location.href='../Sign-up/signup.html'">
+                        Sign Up
+                    </button>
                 </div>
-
+    
             </div>
-
-        </div>
-
-
-        <div class="Section1">
-            <div class="Rectangle30"></div>
-            <img class="Rectangle32" src="https://via.placeholder.com/345x588" />
-            <div class="WelcomeToChapterx">Welcome to ChapterX!</div>
-            <div class="Line3"></div>
-            <div class="WelcomeText">We, the ChapterX team, passionately believe that reading and writing should be accessible to everyone. That's why we've created this innovative e-book platform where anyone can publish, discover, and share their own stories while enjoying the creativity of others.<br/><br/>We're not just here for writers and readers. ChapterX is one of the few e-book platforms where publishers also find a home. Here, they have the opportunity to discover new authors, publish their own books directly, and share them with the world of readers. Through our platform, publishers can easily reach a broader audience and facilitate book sales.<br/><br/>ChapterX encourages writers to independently publish their works, making them accessible to everyone. On the platform, anyone can easily publish, and readers can freely browse through free and paid books. Our goal is to create a vibrant community where writers and readers can connect, share their thoughts, and experiences.</div>
-        </div>
+        </nav>
 
 
-        <div class="Section2">
-            
-            <div class="Vivi1">
-                <img class="Rectangle33" src="https://via.placeholder.com/345x383" />
+        <section class="Section1 container-fluid">              
+            <div class="Rectangle30 container-fluid">
+                <img class="Rectangle32 " src="../pictures/Section1_img.png" />
+                <div class="WelcomeToChapterx ">Welcome to CyberRead!</div>
+                <div class="Line3"></div>
+                <div class="WelcomeText">We, the CyberRead team, passionately believe that reading and writing should be
+                    accessible to everyone. That's why we've created this innovative e-book platform where anyone can
+                    publish, discover, and share their own stories while enjoying the creativity of others.<br /><br />We're
+                    not just here for writers and readers. CyberRead is one of the few e-book platforms where publishers also
+                    find a home. Here, they have the opportunity to discover new authors, publish their own books directly,
+                    and share them with the world of readers. Through our platform, publishers can easily reach a broader
+                    audience and facilitate book sales.<br /><br />CyberRead encourages writers to independently publish
+                    their works, making them accessible to everyone. On the platform, anyone can easily publish, and readers
+                    can freely browse through free and paid books. Our goal is to create a vibrant community where writers
+                    and readers can connect, share their thoughts, and experiences.</div>
+            </div>
+           
+        </section>
+
+
+        <section class="Section2 container-fluid">
+
+            <div class="Vivi1 container-fluid">
+                <img class="Rectangle33 " src="../pictures/Kiss_Vivi_img.png" />
                 <div class="KissVivi">Kiss Vivien Brigitta</div>
                 <div class="Role_Vivi1">Frontend fejlesztő</div>
             </div>
 
-            <div class="Hedi">
-                <img class="Rectangle35" src="https://via.placeholder.com/345x383" />
-                <div class="MayerHedda" >MAYER HEDDA aDRIENN</div>
+            <div class="Hedi container-fluid">
+                <img class="Rectangle35 " src="../pictures/Mayer_Hedi_img.png" />
+                <div class="MayerHedda">MAYER HEDDA aDRIENN</div>
                 <div class="Role_Hedi">Backend fejlesztő</div>
             </div>
 
-            <div class="Vivi2">
-                <img class="Rectangle34" src="https://via.placeholder.com/345x383" />
-                <div class="SzirenyiVivi" >Szirényi Vivien</div>
+            <div class="Vivi2 container-fluid">
+                <img class="Rectangle34" src="../pictures/Szirenyi_Vivi_img.png" />
+                <div class="SzirenyiVivi">Szirényi Vivien</div>
                 <div class="Role_Vivi2">Designer</div>
             </div>
 
-        </div>
+        </section>
 
 
-        <div class="Section3">
+        <section class="Section3 container-fluid">
 
-            <div class="SzirenyiVivien">
-                <div class="Rectangle38"></div>
-                <div class="IntroductionText_Vivi2">As part of my role, I have been actively engaged in the design aspects of the website, ensuring a visually appealing and user-friendly interface. I cannot emphasize enough how crucial I consider the planning of the website's design. Crafting the design plan was a meticulous process, where I paid attention to every detail to ensure that the user experience would be seamless and visually captivating.<br/><br/>During this time, I increasingly realized that this field is my vocation. Over the past year, I have learned and grown significantly in the art and science of design. Every project I took on inspired me, and I eagerly looked forward to encountering new challenges.<br/><br/>Designing is not just a job for me; it's a passion. The harmony of creativity, colors, and shapes always mesmerizes and inspires me. The opportunity to create visual experiences and assist others in realizing their visions is highly satisfying to me.</div>
+            <div class="SzirenyiVivien container-fluid">
+                <div class="Rectangle38 container-fluid"></div>
+                <div class="IntroductionText_Vivi2">As part of my role, I have been actively engaged in the design
+                    aspects of the website, ensuring a visually appealing and user-friendly interface. I cannot
+                    emphasize enough how crucial I consider the planning of the website's design. Crafting the design
+                    plan was a meticulous process, where I paid attention to every detail to ensure that the user
+                    experience would be seamless and visually captivating.<br /><br />During this time, I increasingly
+                    realized that this field is my vocation. Over the past year, I have learned and grown significantly
+                    in the art and science of design. Every project I took on inspired me, and I eagerly looked forward
+                    to encountering new challenges.<br /><br />Designing is not just a job for me; it's a passion. The
+                    harmony of creativity, colors, and shapes always mesmerizes and inspires me. The opportunity to
+                    create visual experiences and assist others in realizing their visions is highly satisfying to me.
+                </div>
                 <div class="Introduction3_Name">Szirényi Vivien</div>
                 <div class="IntRoleVivi2">Designer</div>
             </div>
 
-            <div class="KissVivienBrigitta">
-                <div class="Rectangle36" ></div>
+            <div class="KissVivienBrigitta container-fluid">
+                <div class="Rectangle36 container-fluid"></div>
                 <div class="Introduction1_Name">Kiss Vivien Brigitta</div>
                 <div class="IntRoleVivi1">Frontend fejlesztő</div>
-                <div class="IntroductionText_Vivi1">Welcome here, dear visitor!<br/><br/>My name is Vivien Brigitta Kiss, and I am the mastermind behind this website's concept.  In January of 2023, I came up with a website idea, that is primarily focused on aspiring writers and their careers.<br/><br/> 
-                    When I was younger, I had a strong interest in books and reading. Since I have been a wattpad user for a considerable amount of time and as a result I discovered some shortcomings on the site. My goal with this idea was to address these shortcomings by focusing on emerging writers and giving them the attention they deserve. <br/><br/> I worked mainly on the front-end code for this project, but I also assisted with the design work. Come along with me on this thrilling journey as we celebrate the world of young writers and their stories on this platform!</div>
+                <div class="IntroductionText_Vivi1">Welcome here, dear visitor!<br /><br />My name is Vivien Brigitta
+                    Kiss, and I am the mastermind behind this website's concept. In January of 2023, I came up with a
+                    website idea, that is primarily focused on aspiring writers and their careers.<br /><br />
+                    When I was younger, I had a strong interest in books and reading. Since I have been a wattpad user
+                    for a considerable amount of time and as a result I discovered some shortcomings on the site. My
+                    goal with this idea was to address these shortcomings by focusing on emerging writers and giving
+                    them the attention they deserve. <br /><br /> I worked mainly on the front-end code for this
+                    project, but I also assisted with the design work. Come along with me on this thrilling journey as
+                    we celebrate the world of young writers and their stories on this platform!</div>
             </div>
-            
-            <div class="MayerHeddaAdrienn" >
-                <div class="Rectangle37"></div>
+
+            <div class="MayerHeddaAdrienn container-fluid">
+                <div class="Rectangle37 container-fluid"></div>
                 <div class="Introduction2_Name">Mayer Hedda Adrienn</div>
                 <div class="IntRoleHedi">Backend fejlesztő</div>
-                <div class="IntroductionText_Hedi">My name is Hedda Adrienn Mayer and I am currently 21 years old. <br/><br/>In our project, my main focus was on developing the backend code using JAVA, although I also contributed to the frontend development. We worked closely as a team on the detailed development of the project and I played a crucial role in its successful completion.<br/><br/> 
-                    This experience was incredibly rewarding as it exposed me to different facets of the project, allowing me to learn and grow significantly. I have enjoyed the opportunity to broaden my knowledge base and acquire new skills, all of which will undoubtedly enhance my future contributions to the project.<br/><br/> In essence, my involvement in this project has been a valuable learning experience and I'm looking forward to using the knowledge and skills I've gained to excel in future projects.
-                    </div>
+                <div class="IntroductionText_Hedi">My name is Hedda Adrienn Mayer and I am currently 21 years old.
+                    <br /><br />In our project, my main focus was on developing the backend code using JAVA, although I
+                    also contributed to the frontend development. We worked closely as a team on the detailed
+                    development of the project and I played a crucial role in its successful completion.<br /><br />
+                    This experience was incredibly rewarding as it exposed me to different facets of the project,
+                    allowing me to learn and grow significantly. I have enjoyed the opportunity to broaden my knowledge
+                    base and acquire new skills, all of which will undoubtedly enhance my future contributions to the
+                    project.<br /><br /> In essence, my involvement in this project has been a valuable learning
+                    experience and I'm looking forward to using the knowledge and skills I've gained to excel in future
+                    projects.
+                </div>
             </div>
 
-        </div>
-
-
+        </section>
 
         
+        <footer class="footer">
+            <div class="container-fluid align-content-center">
+    
+                <div class="row">
+                    <div class=" col-12 col-sm-6 d-flex align-items-center mx-auto" id="footer-logo">
+                        <!-- capterX logo -->
+                        <img src="../pictures/CyberRead-logo-final.svg" id="footer-logo">
+                    </div>
+                    <div class=" col-12 col-sm-6 text-lg-start text-xl-start" id="useful-links">
+                        <!-- hasznos linkek -->
+                        <h3 id="footer-h3" class="textCentered">Useful Links</h3>
+                        <ul id="footer-ul">
+                            <li id="phone-num"><i class="bi bi-telephone-fill" style="margin-right: 0.625rem;"></i>+36 70
+                                847 9363</li>
+                            <li id="email"><i class="bi bi-google"
+                                    style="margin-right: 0.625rem;"></i>cyberread2023@gmail.com
+                            </li>
+                            <li id="facebook"><i class="bi bi-facebook" style="margin-right: 0.625rem;"></i><a
+                                    href="https://www.facebook.com/profile.php?id=61551909364683    ">Facebook</a></li>
+                            <li id="instagram"><i class="bi bi-instagram" style="margin-right: 0.625rem;"></i><a
+                                    href="https://instagram.com/cyberread2023?igshid=MzRlODBiNWFlZA==">Instagram</a>
+                            </li>
+                            <li id="help-center"><i class="bi bi-info-circle-fill" style="margin-right: 0.625rem;"></i><a
+                                    href="#">Help Center</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <!-- copyright logo -->
+                        <!-- Minden jog fentartva -->
+                        <p id="copy-right" class="text-end"><img src="../icons/copyright.svg"
+                                style="margin-right: 0.313rem;">2023 All rights reserved.</p>
+                    </div>
+                </div>
+    
+            </div>
+        </footer>
+
     </div>
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 </body>
+
 
 </html>
