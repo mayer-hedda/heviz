@@ -343,6 +343,11 @@ nav {
 
 }
 
+.third-section, .fourth-section, .fifth-section{
+    margin-top: 3%;
+    background-color: #E5D9CA;
+}
+
 .MayerHediInt_Role {
 
     color: #2C1810;
