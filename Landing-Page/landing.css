@@ -106,23 +106,24 @@
 /** ----------- VÁLTOZÓK DEFINIÁLÁSA */
 :root {
     --primary-BTN-Bg-color: rgb(232, 181, 160);
-    /* --------------------------------------------------
-    text color for:
+    --btn-text-color: rgb(51, 47, 49);
+    /*text color for:
         -loginBTN text
         - signupBTN text
         - first section btn text
-        - fourth section btn text
-
-    */
-    --btn-text-color: rgb(51, 47, 49);
-    /*--------------------------------------------- 
-        its for text colors
-    */
+        - fourth section btn text */
     --mostUsed-text-color: rgb(65, 61, 63);
-    /* -----------------------------------------------
-        its for btn dashes
-    */
+    /* its for text colors*/
     --dash-color: rgb(129, 105, 117);
+    /* its for btn dashes*/
+    --page-bg-color: rgb(247, 245, 236);
+    --footer-bg-color: rgb(246, 227, 205);
+    --navbar-a-color: rgb(151, 121, 110);
+    --navbar-a-hover-color: rgb(113, 145, 128);
+    --current-page-color: rgb(60, 32, 22);
+    --current-page-hover-color: rgb(68, 92, 79);
+    --white-col-btnBG-Text: rgb(248, 248, 244);
+    --brown-p-color: rgb(108, 78, 66);
 }
 
 /**--------------- FONTS ---------------*/
@@ -157,13 +158,13 @@
 /** --------------- TAG ALAPJÁN ---------------*/
 
 nav {
-    background-color: rgb(247, 245, 236);
+    background-color: var(--page-bg-color);
     /* backdrop-filter: blur(5px); */
 }
 
 footer {
     border-top: 0.094rem solid var(--dash-color);
-    background-color: rgb(246, 227, 205);
+    background-color: var(--footer-bg-color);
     padding-top: 5%;
     padding-right: 5%;
     padding-left: 5%;
@@ -203,18 +204,18 @@ footer a {
     padding: 0.938rem;
     font-family: 'Inter', sans-serif;
     font-weight: 500;
-    color: rgb(151, 121, 110);
+    color: var(--navbar-a-color);
 }
 
 #navbar a:hover {
-    color: rgb(113, 145, 128);
+    color: var(--navbar-a-hover-color);
     /* font-weight: 700; */
     font-style: italic;
 }
 
 #Home {
     /*? Az aktuális page */
-    color: rgb(60, 32, 22) !important;
+    color: var(--current-page-color) !important;
     text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
     /* ? távolság növelése az alláhúzás vonal és a szöveg alja között */
     text-underline-offset: 0.281rem;
@@ -222,7 +223,7 @@ footer a {
 
 #Home:hover {
     /*? aktuális page hover */
-    color: rgb(68, 92, 79) !important;
+    color: var(--current-page-hover-color) !important;
     font-style: italic;
 }
 
@@ -280,7 +281,7 @@ footer a {
     /*átmenet a hover és a rendes állapot között*/
     transition: background-color 0.8s ease;
     /*átmenet a hover és a rendes állapot között*/
-    background-color: rgb(248, 248, 244);
+    background-color: var(--white-col-btnBG-Text);
     color: var(--mostUsed-text-color);
     border: dashed 0.094rem var(--dash-color);
 }
@@ -317,7 +318,7 @@ footer a {
     transition: color 0.8s ease;
     transition: background-color 0.8s ease;
     color: var(--mostUsed-text-color);
-    background-color: rgb(248, 248, 244);
+    background-color: var(--white-col-btnBG-Text);
     border: dashed 0.094rem var(--dash-color);
     border-width: 0.094rem;
     border-color: rgb(129, 105, 117);
@@ -364,7 +365,7 @@ footer a {
     margin-top: 2.063rem;
     font-size: 1.375rem;
     font-family: 'Montserrat', sans-serif;
-    color: rgb(108, 78, 66);
+    color: var(--brown-p-color);
 
 }
 
@@ -391,7 +392,7 @@ footer a {
     margin-top: 2.063rem;
     font-size: 1.375rem;
     font-family: 'Montserrat', sans-serif;
-    color: rgb(108, 78, 66);
+    color: var(--brown-p-color);
 }
 
 #s2-pic2 {
@@ -420,7 +421,7 @@ footer a {
 
     line-height: 3.125rem;
 
-    color: rgb(248, 248, 244);
+    color: var(--white-col-btnBG-Text);
 }
 
 #s4-p {
@@ -470,9 +471,9 @@ footer a {
     border-radius: 1.5rem;
     background-color: transparent;
     line-height: 1.125rem;
-    border-color: rgb(248, 248, 244);
+    border-color: var(--white-col-btnBG-Text);
 
-    color: rgb(248, 248, 244);
+    color: var(--white-col-btnBG-Text);
 
     box-sizing: border-box;
     /* A padding + border szélessége is hozzáadódik az elem méretéhez */
@@ -516,7 +517,7 @@ footer a {
     /*? a 2. és 3. section-ben található gombokhoz class */
     background-color: rgb(64, 90, 26);
     border: 0rem;
-    color: rgb(248, 248, 244);
+    color: var(--white-col-btnBG-Text);
     font-size: 1.375rem;
     font-family: 'Pt sans', sans-serif;
     font-weight: 400;

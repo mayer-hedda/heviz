@@ -1,23 +1,29 @@
 /** ----------- VÁLTOZÓK DEFINIÁLÁSA */
 :root {
+    /* -----------COLORS -----------*/
     --primary-BTN-Bg-color: rgb(232, 181, 160);
-    /* --------------------------------------------------
-    text color for:
+    --btn-text-color: rgb(51, 47, 49);
+    /*text color for:
         -loginBTN text
         - signupBTN text
         - first section btn text
-        - fourth section btn text
-
-    */
-    --btn-text-color: rgb(51, 47, 49);
-    /*--------------------------------------------- 
-        its for text colors
-    */
+        - fourth section btn text */
     --mostUsed-text-color: rgb(65, 61, 63);
-    /* -----------------------------------------------
-        its for btn dashes
-    */
+    /* its for text colors*/
     --dash-color: rgb(129, 105, 117);
+    /* its for btn dashes*/
+    --page-bg-color: rgb(247, 245, 236);
+    --footer-bg-color: rgb(246, 227, 205);
+    --navbar-a-color: rgb(151, 121, 110);
+    --navbar-a-hover-color: rgb(113, 145, 128);
+    --navbar-p-color: rgb(117, 55, 31);
+    --current-page-color: rgb(60, 32, 22);
+    --current-page-hover-color: rgb(68, 92, 79);
+    --card-bg: rgb(234, 215, 190);
+
+    /* -------- MARGIN - PADDING --------*/
+    /* --default-padding: auto 5%; */
+
 }
 
 /**--------------- FONTS ---------------*/
@@ -37,6 +43,13 @@
 
 @font-face {
     font-family: 'Montserrat';
+    src: url("../fonts/Montserrat/static/Montserrat-SemiBold.ttf") format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat';
     src: url("../fonts/Montserrat/static/Montserrat-Medium.ttf") format('truetype');
     font-weight: 500;
     font-style: normal;
@@ -49,17 +62,17 @@
     font-style: normal;
 }
 
-/** --------------- TAG ALAPJÁN ---------------*/
+/** --------------- NAVBAR ---------------*/
 
 nav {
-    background-color: rgb(247, 245, 236);
+    background-color: var(--page-bg-color);
 
 }
 
-/** --------------- ID ALAPJÁN ---------------*/
 #navbar {
     padding-right: 5%;
     padding-left: 5%;
+    /* padding: var(--default-padding); */
 }
 
 #navbar a,
@@ -72,23 +85,24 @@ p {
 }
 
 #navbar a {
-    color: rgb(151, 121, 110);
+    color: var(--navbar-a-color);
 }
 
 #navbar p {
-    color: rgb(60, 32, 22) !important;
+    color: var(--navbar-p-color) !important;
 }
 
+
+
 #navbar a:hover {
-    color: rgb(113, 145, 128);
+    color: var(--navbar-a-hover-color);
     /* font-weight: 700; */
     font-style: italic;
 }
 
-
 #HomePage {
     /*? Az aktuális page */
-    color: rgb(60, 32, 22) !important;
+    color: var(--current-page-color) !important;
     text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
     /* ? távolság növelése az alláhúzás vonal és a szöveg alja között */
     text-underline-offset: 0.281rem;
@@ -96,7 +110,7 @@ p {
 
 #HomePage:hover {
     /*? aktuális page hover */
-    color: rgb(68, 92, 79) !important;
+    color: var(--current-page-hover-color) !important;
     font-style: italic;
 }
 
@@ -116,3 +130,77 @@ p {
     /* Mutató kurzor megjelenítése, hogy látható legyen, kattintható */
 }
 
+
+/** --------------- FIRST-SECTION ---------------*/
+
+#first-section {
+    margin-top: 5.625rem;
+    padding-right: 5%;
+    padding-left: 5%;
+}
+
+#first-section h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1.875rem;
+    text-decoration: underline 0.125rem;
+    text-underline-offset: 0.438rem;
+
+}
+
+#first-card-group{
+    padding-right: 5%;
+    padding-left: 5%;
+}
+
+.cardStyle {
+    background-color: var(--card-bg) !important;
+    width: 25rem !important;
+    height: 15.625rem !important;
+    margin-right: 1.875rem;
+    border-radius: 0.938rem!important;
+    border-style: none !important;
+    margin-top: 1.875rem !important;
+}
+
+#first-section img{
+    width: 8.125rem !important;
+    margin-top: 2.188rem;
+    margin-bottom: 2.188rem;
+    margin-left: 0.313rem;
+    border-radius: 0.313rem;
+}
+
+
+/** --------------- FOOTER ---------------*/
+
+footer {
+    border-top: 0.094rem solid var(--dash-color);
+    background-color: var(--footer-bg-color);
+    padding-top: 5%;
+    padding-right: 5%;
+    padding-left: 5%;
+}
+
+footer h3 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+}
+
+footer ul {
+    list-style-type: none;
+}
+
+footer ul li {
+    font-size: 1.25rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+footer a {
+    color: var(--mostUsed-text-color);
+}
+
+#footer-logo {
+    /* padding-left: 6%; */
+    display: flex;
+}
