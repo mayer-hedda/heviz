@@ -53,22 +53,30 @@
 
 nav {
     background-color: rgb(247, 245, 236);
-    
+
 }
 
-/** --------------- ID ALAPJÁN ---------------*/ 
+/** --------------- ID ALAPJÁN ---------------*/
 #navbar {
     padding-right: 5%;
     padding-left: 5%;
 }
 
-#navbar a {
+#navbar a,
+p {
     font-size: larger;
     display: inline;
-    padding: 10px;
+    padding: 0.938rem;
     font-family: 'Inter', sans-serif;
     font-weight: 500;
+}
+
+#navbar a {
     color: rgb(151, 121, 110);
+}
+
+#navbar p {
+    color: rgb(60, 32, 22) !important;
 }
 
 #navbar a:hover {
@@ -76,6 +84,7 @@ nav {
     /* font-weight: 700; */
     font-style: italic;
 }
+
 
 #HomePage {
     /*? Az aktuális page */
@@ -106,3 +115,4 @@ nav {
     cursor: pointer;
     /* Mutató kurzor megjelenítése, hogy látható legyen, kattintható */
 }
+
