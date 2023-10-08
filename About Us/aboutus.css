@@ -26,18 +26,9 @@
 
 @font-face {
 
-    font-family: 'Inter';
-    src: url('../fonts/Inter/static/Inter-Medium.ttf');
-    font-weight: 500;
-    font-style: normal;
-
-}
-
-@font-face {
-
-    font-family: 'Inter';
-    src: url('../fonts/Inter/static/Inter-SemiBold.ttf');
-    font-weight: 600;
+    font-family: 'Montserrat';
+    src: url('../fonts/Montserrat/static/Montserrat-Light.ttf');
+    font-weight: 300;
     font-style: normal;
 
 }
