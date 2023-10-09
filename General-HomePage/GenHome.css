@@ -154,6 +154,8 @@ p {
 }
 
 .cardStyle {
+    display: flex;
+    flex-direction: row;
     background-color: var(--card-bg) !important;
     width: 25rem !important;
     height: 15.625rem !important;
@@ -204,3 +206,5 @@ footer a {
     /* padding-left: 6%; */
     display: flex;
 }
+
+/* SLIDER */
