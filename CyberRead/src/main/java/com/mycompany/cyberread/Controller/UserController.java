@@ -70,7 +70,7 @@ public class UserController {
     @Path("generalRegistration")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response generalRegistration(GeneralRegistration u) {
-        String result = UserService.generalRegistration(u.getUsername(), u.getEmail(), u.getBirthdate(), u.getPassword());
+        String result = UserService.generalRegistration(u.getUsername(), u.getFirstName(), u.getLastName(), u.getEmail(), u.getBirthdate(), u.getPassword());
         return Response.status(Response.Status.OK).entity(result).type(MediaType.APPLICATION_JSON).build();
     }
 

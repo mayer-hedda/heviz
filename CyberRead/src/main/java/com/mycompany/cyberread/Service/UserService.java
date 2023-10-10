@@ -33,7 +33,7 @@ public class UserService {
         }
     }
 
-    public static String generalRegistration(String username, String email, String birthdate, String password) {
+    public static String generalRegistration(String username, String firstName, String lastName, String email, String birthdate, String password) {
         try {
             if(!User.usernameCheck(username)) {
                 return "";
@@ -43,7 +43,7 @@ public class UserService {
                 return "";
             } else if(!User.passwordCheck(password)) {
                 return "";
-            } else if(GeneralRegistration.generalRegistration(username, email, birthdate, password)) {
+            } else if(GeneralRegistration.generalRegistration(username, firstName, lastName, email, birthdate, password)) {
                 return "Successful registration!";
             } else {
                 return "Unsuccessful registration!";

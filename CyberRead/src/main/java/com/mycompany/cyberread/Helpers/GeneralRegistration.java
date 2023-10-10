@@ -9,12 +9,22 @@ import javax.persistence.StoredProcedureQuery;
 public class GeneralRegistration {
 
     private String username;
+    private String firstName;
+    private String lastName;
     private String email;
     private String birthdate;
     private String password;
 
     public String getUsername() {
         return username;
+    }
+    
+    public String getFirstName() {
+        return firstName;
+    }
+    
+    public String getLastName() {
+        return lastName;
     }
 
     public String getEmail() {
@@ -30,7 +40,7 @@ public class GeneralRegistration {
     }
 
 
-    public static boolean generalRegistration(String username, String email, String birthdate, String password) {
+    public static boolean generalRegistration(String username, String firstName, String lastName, String email, String birthdate, String password) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_CyberRead_war_1.0-SNAPSHOTPU");
         EntityManager em = emf.createEntityManager();
 
@@ -38,11 +48,15 @@ public class GeneralRegistration {
             StoredProcedureQuery spq = em.createStoredProcedureQuery("generalRegistration");
 
             spq.registerStoredProcedureParameter("usernameIN", String.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("firstNameIN", String.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("lastNameIN", String.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("emailIN", String.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("birthdateIN", String.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("passwordIN", String.class, ParameterMode.IN);
 
             spq.setParameter("usernameIN", username);
+            spq.setParameter("firstNameIN", firstName);
+            spq.setParameter("lastNameIN", lastName);
             spq.setParameter("birthdateIN", birthdate);
             spq.setParameter("emailIN", email);
             spq.setParameter("passwordIN", password);
