@@ -14,7 +14,7 @@ public class CategoryInterestService {
             List<String> userCategories = Categoryinterest.getAllCategoryforUserId(userId);
             boolean allSuccessful = true;
 
-            if(categories.size() < 3) {
+            if(categoryNames.size() < 3) {
                 return "You must select at least 3 categories!";
             } else {
                 for (String categoryName : categoryNames) {
