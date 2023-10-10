@@ -8,7 +8,6 @@
     <class>com.mycompany.cyberread.Modell.Publisher</class>
     <class>com.mycompany.cyberread.Modell.Bookrating</class>
     <class>com.mycompany.cyberread.Modell.Post</class>
-    <class>com.mycompany.cyberread.Modell.List</class>
     <class>com.mycompany.cyberread.Modell.Aszf</class>
     <class>com.mycompany.cyberread.Modell.UserXSubscription</class>
     <class>com.mycompany.cyberread.Modell.User</class>
@@ -31,6 +30,7 @@
     <class>com.mycompany.cyberread.Modell.Forgotpassword</class>
     <class>com.mycompany.cyberread.Modell.Userrating</class>
     <class>com.mycompany.cyberread.Modell.PostXTag</class>
+    <class>com.mycompany.cyberread.Modell.List</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/cyberread?zeroDateTimeBehavior=CONVERT_TO_NULL"/>

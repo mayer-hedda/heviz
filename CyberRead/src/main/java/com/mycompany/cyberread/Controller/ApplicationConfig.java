@@ -31,6 +31,7 @@ public class ApplicationConfig extends Application {
         resources.add(com.mycompany.cyberread.Config.CorsFilter.class);
         resources.add(com.mycompany.cyberread.Controller.CategoryInterestController.class);
         resources.add(com.mycompany.cyberread.Controller.HelpCenterController.class);
+        resources.add(com.mycompany.cyberread.Controller.ListController.class);
         resources.add(com.mycompany.cyberread.Controller.UserController.class);
     }
     

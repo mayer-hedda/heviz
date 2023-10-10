@@ -4,16 +4,25 @@
  */
 package com.mycompany.cyberread.Modell;
 
+import com.mycompany.cyberread.Exception.ListException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Persistence;
+import javax.persistence.StoredProcedureQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -28,7 +37,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "List.findAll", query = "SELECT l FROM List l"),
     @NamedQuery(name = "List.findById", query = "SELECT l FROM List l WHERE l.id = :id"),
     @NamedQuery(name = "List.findByUserId", query = "SELECT l FROM List l WHERE l.userId = :userId"),
-    @NamedQuery(name = "List.findByBookId", query = "SELECT l FROM List l WHERE l.bookId = :bookId")})
+    @NamedQuery(name = "List.findByBookId", query = "SELECT l FROM List l WHERE l.bookId = :bookId"),
+    @NamedQuery(name = "List.findByDate", query = "SELECT l FROM List l WHERE l.date = :date")})
 public class List implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,6 +55,11 @@ public class List implements Serializable {
     @NotNull
     @Column(name = "bookId")
     private int bookId;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "date")
+    @Temporal(TemporalType.DATE)
+    private Date date;
 
     public List() {
     }
@@ -52,11 +67,17 @@ public class List implements Serializable {
     public List(Integer id) {
         this.id = id;
     }
+    
+    public List(Integer id, Integer bookId) {
+        this.id = id;
+        this.bookId = bookId;
+    }
 
-    public List(Integer id, int userId, int bookId) {
+    public List(Integer id, int userId, int bookId, Date date) {
         this.id = id;
         this.userId = userId;
         this.bookId = bookId;
+        this.date = date;
     }
 
     public Integer getId() {
@@ -83,6 +104,14 @@ public class List implements Serializable {
         this.bookId = bookId;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -106,6 +135,40 @@ public class List implements Serializable {
     @Override
     public String toString() {
         return "com.mycompany.cyberread.Modell.List[ id=" + id + " ]";
+    }
+    
+    
+    // ----- MY PROCEDURES -----
+    public static java.util.List<List> getMostListedBooksOfTheMoth() throws ListException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getMostListedBooksOfTheMoth");
+
+            spq.execute();
+
+            java.util.List<Object[]> resultList = spq.getResultList();
+            java.util.List<List> listList = new ArrayList<>();
+
+
+            for(Object[] result : resultList) {
+                Integer id = (Integer) result[0];
+                Integer bookId = (Integer) result[1];
+
+                List l = new List(id, bookId);
+                listList.add(l);
+            }
+
+            return listList;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new ListException("Error in getMostListedBooksOfTheMoth");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
     }
     
 }
