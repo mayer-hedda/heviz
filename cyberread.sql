@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1:3306
--- Létrehozás ideje: 2023. Okt 10. 19:36
+-- Létrehozás ideje: 2023. Okt 10. 21:15
 -- Kiszolgáló verziója: 8.0.31
 -- PHP verzió: 8.0.26
 
@@ -121,7 +121,12 @@ FROM `publisher`
 WHERE `publisher`.`id` = publisherIdIN$$
 
 DROP PROCEDURE IF EXISTS `getMostListedBooksOfTheMoth`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getMostListedBooksOfTheMoth` ()   SELECT * FROM `list` GROUP BY `list`.`bookId`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getMostListedBooksOfTheMoth` ()   SELECT `list`.`id`, `list`.`bookId`
+FROM `list`
+WHERE YEAR(`list`.`date`) = YEAR(CURRENT_DATE()) AND MONTH(`list`.`date`) = MONTH(CURRENT_DATE())
+GROUP BY `list`.`bookId`
+ORDER BY COUNT(`list`.`id`) DESC
+LIMIT 10$$
 
 DROP PROCEDURE IF EXISTS `getPublishedByBook`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getPublishedByBook` ()   SELECT * FROM `book`
@@ -456,6 +461,7 @@ CREATE TABLE IF NOT EXISTS `list` (
   `id` int NOT NULL AUTO_INCREMENT,
   `userId` int NOT NULL,
   `bookId` int NOT NULL,
+  `date` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `userId` (`userId`),
   KEY `bookId` (`bookId`)
