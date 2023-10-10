@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Generation Time: Sep 29, 2023 at 07:23 PM
--- Server version: 8.0.31
--- PHP Version: 8.0.26
+-- Gép: 127.0.0.1:3306
+-- Létrehozás ideje: 2023. Okt 10. 19:36
+-- Kiszolgáló verziója: 8.0.31
+-- PHP verzió: 8.0.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,14 +18,14 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `cyberread`
+-- Adatbázis: `cyberread`
 --
 CREATE DATABASE IF NOT EXISTS `cyberread` DEFAULT CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci;
 USE `cyberread`;
 
 DELIMITER $$
 --
--- Procedures
+-- Eljárások
 --
 DROP PROCEDURE IF EXISTS `addAges`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `addAges` (IN `nameIN` VARCHAR(20), IN `minAgeIN` INT, IN `maxAgeIN` INT)   INSERT INTO `ages` (`ages`.`name`, `ages`.`minAge`, `ages`.`maxAge`)
@@ -38,6 +38,10 @@ VALUES (ratingerIdIN, bookIdIN, ratingIN)$$
 DROP PROCEDURE IF EXISTS `addCategory`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `addCategory` (IN `nameIN` VARCHAR(50), IN `imageIN` VARCHAR(50))   INSERT INTO `category` (`category`.`name`, `category`.`image`)
 VALUES (nameIN, imageIN)$$
+
+DROP PROCEDURE IF EXISTS `addCategoryInterest`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addCategoryInterest` (IN `userIdIN` INT, IN `categoryIdIN` INT)   INSERT INTO `categoryinterest` (`categoryinterest`.`userId`, `categoryinterest`.`categoryId`)
+VALUES (userIdIN, categoryIdIN)$$
 
 DROP PROCEDURE IF EXISTS `addColor`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `addColor` (IN `codeIN` VARCHAR(8))   INSERT INTO `color` (`color`.`code`)
@@ -80,6 +84,21 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `generalRegistration` (IN `usernameI
 
 END$$
 
+DROP PROCEDURE IF EXISTS `getAllCategory`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllCategory` ()   SELECT `category`.`id`, `category`.`name` FROM `category`$$
+
+DROP PROCEDURE IF EXISTS `getAllCategoryforUserId`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllCategoryforUserId` (IN `userIdIN` INT)   SELECT `category`.`name` 
+FROM `category`
+INNER JOIN `categoryinterest`
+ON `category`.`id` = `categoryinterest`.`categoryId`
+WHERE `categoryinterest`.`userId` = userIdIN$$
+
+DROP PROCEDURE IF EXISTS `getAllHelpCenter`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllHelpCenter` ()   SELECT `helpcenter`.`question`, `helpcenter`.`answer`
+FROM `helpcenter`
+WHERE `helpcenter`.`active` = 1$$
+
 DROP PROCEDURE IF EXISTS `getBookByCategory`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getBookByCategory` (IN `categoryNameIN` INT)   SELECT `book`.*
 FROM `book`
@@ -100,6 +119,9 @@ DROP PROCEDURE IF EXISTS `getCompanyName`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getCompanyName` (IN `publisherIdIN` INT, OUT `companyNameOUT` VARCHAR(50))   SELECT `publisher`.`companyName` INTO companyNameOUT
 FROM `publisher`
 WHERE `publisher`.`id` = publisherIdIN$$
+
+DROP PROCEDURE IF EXISTS `getMostListedBooksOfTheMoth`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getMostListedBooksOfTheMoth` ()   SELECT * FROM `list` GROUP BY `list`.`bookId`$$
 
 DROP PROCEDURE IF EXISTS `getPublishedByBook`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getPublishedByBook` ()   SELECT * FROM `book`
@@ -155,7 +177,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ages`
+-- Tábla szerkezet ehhez a táblához `ages`
 --
 
 DROP TABLE IF EXISTS `ages`;
@@ -170,7 +192,7 @@ CREATE TABLE IF NOT EXISTS `ages` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `aszf`
+-- Tábla szerkezet ehhez a táblához `aszf`
 --
 
 DROP TABLE IF EXISTS `aszf`;
@@ -185,7 +207,7 @@ CREATE TABLE IF NOT EXISTS `aszf` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `book`
+-- Tábla szerkezet ehhez a táblához `book`
 --
 
 DROP TABLE IF EXISTS `book`;
@@ -219,7 +241,7 @@ CREATE TABLE IF NOT EXISTS `book` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `bookrating`
+-- Tábla szerkezet ehhez a táblához `bookrating`
 --
 
 DROP TABLE IF EXISTS `bookrating`;
@@ -237,7 +259,7 @@ CREATE TABLE IF NOT EXISTS `bookrating` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `bookreport`
+-- Tábla szerkezet ehhez a táblához `bookreport`
 --
 
 DROP TABLE IF EXISTS `bookreport`;
@@ -255,7 +277,7 @@ CREATE TABLE IF NOT EXISTS `bookreport` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `bookshopping`
+-- Tábla szerkezet ehhez a táblához `bookshopping`
 --
 
 DROP TABLE IF EXISTS `bookshopping`;
@@ -272,7 +294,7 @@ CREATE TABLE IF NOT EXISTS `bookshopping` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `booksopened`
+-- Tábla szerkezet ehhez a táblához `booksopened`
 --
 
 DROP TABLE IF EXISTS `booksopened`;
@@ -289,7 +311,7 @@ CREATE TABLE IF NOT EXISTS `booksopened` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `category`
+-- Tábla szerkezet ehhez a táblához `category`
 --
 
 DROP TABLE IF EXISTS `category`;
@@ -303,7 +325,7 @@ CREATE TABLE IF NOT EXISTS `category` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `categoryinterest`
+-- Tábla szerkezet ehhez a táblához `categoryinterest`
 --
 
 DROP TABLE IF EXISTS `categoryinterest`;
@@ -319,7 +341,7 @@ CREATE TABLE IF NOT EXISTS `categoryinterest` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `color`
+-- Tábla szerkezet ehhez a táblához `color`
 --
 
 DROP TABLE IF EXISTS `color`;
@@ -332,7 +354,7 @@ CREATE TABLE IF NOT EXISTS `color` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `copyright`
+-- Tábla szerkezet ehhez a táblához `copyright`
 --
 
 DROP TABLE IF EXISTS `copyright`;
@@ -348,7 +370,7 @@ CREATE TABLE IF NOT EXISTS `copyright` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `follow`
+-- Tábla szerkezet ehhez a táblához `follow`
 --
 
 DROP TABLE IF EXISTS `follow`;
@@ -365,7 +387,7 @@ CREATE TABLE IF NOT EXISTS `follow` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `forgotpassword`
+-- Tábla szerkezet ehhez a táblához `forgotpassword`
 --
 
 DROP TABLE IF EXISTS `forgotpassword`;
@@ -380,7 +402,7 @@ CREATE TABLE IF NOT EXISTS `forgotpassword` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `general`
+-- Tábla szerkezet ehhez a táblához `general`
 --
 
 DROP TABLE IF EXISTS `general`;
@@ -392,12 +414,12 @@ CREATE TABLE IF NOT EXISTS `general` (
   `publishedBookCount` int UNSIGNED NOT NULL DEFAULT '0',
   `selfPublishedBookCount` int UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `helpcenter`
+-- Tábla szerkezet ehhez a táblához `helpcenter`
 --
 
 DROP TABLE IF EXISTS `helpcenter`;
@@ -412,7 +434,7 @@ CREATE TABLE IF NOT EXISTS `helpcenter` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `language`
+-- Tábla szerkezet ehhez a táblához `language`
 --
 
 DROP TABLE IF EXISTS `language`;
@@ -426,7 +448,7 @@ CREATE TABLE IF NOT EXISTS `language` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `list`
+-- Tábla szerkezet ehhez a táblához `list`
 --
 
 DROP TABLE IF EXISTS `list`;
@@ -442,7 +464,7 @@ CREATE TABLE IF NOT EXISTS `list` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pay`
+-- Tábla szerkezet ehhez a táblához `pay`
 --
 
 DROP TABLE IF EXISTS `pay`;
@@ -458,7 +480,7 @@ CREATE TABLE IF NOT EXISTS `pay` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `post`
+-- Tábla szerkezet ehhez a táblához `post`
 --
 
 DROP TABLE IF EXISTS `post`;
@@ -474,7 +496,7 @@ CREATE TABLE IF NOT EXISTS `post` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `postlike`
+-- Tábla szerkezet ehhez a táblához `postlike`
 --
 
 DROP TABLE IF EXISTS `postlike`;
@@ -491,7 +513,7 @@ CREATE TABLE IF NOT EXISTS `postlike` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `post_x_tag`
+-- Tábla szerkezet ehhez a táblához `post_x_tag`
 --
 
 DROP TABLE IF EXISTS `post_x_tag`;
@@ -507,7 +529,7 @@ CREATE TABLE IF NOT EXISTS `post_x_tag` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `publisher`
+-- Tábla szerkezet ehhez a táblához `publisher`
 --
 
 DROP TABLE IF EXISTS `publisher`;
@@ -517,12 +539,12 @@ CREATE TABLE IF NOT EXISTS `publisher` (
   `publishedBookCount` int UNSIGNED NOT NULL DEFAULT '0',
   `publishedBookCountOnPage` int UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `read`
+-- Tábla szerkezet ehhez a táblához `read`
 --
 
 DROP TABLE IF EXISTS `read`;
@@ -540,7 +562,7 @@ CREATE TABLE IF NOT EXISTS `read` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `search`
+-- Tábla szerkezet ehhez a táblához `search`
 --
 
 DROP TABLE IF EXISTS `search`;
@@ -557,7 +579,7 @@ CREATE TABLE IF NOT EXISTS `search` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `subscription`
+-- Tábla szerkezet ehhez a táblához `subscription`
 --
 
 DROP TABLE IF EXISTS `subscription`;
@@ -574,7 +596,7 @@ CREATE TABLE IF NOT EXISTS `subscription` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tag`
+-- Tábla szerkezet ehhez a táblához `tag`
 --
 
 DROP TABLE IF EXISTS `tag`;
@@ -589,7 +611,7 @@ CREATE TABLE IF NOT EXISTS `tag` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Tábla szerkezet ehhez a táblához `user`
 --
 
 DROP TABLE IF EXISTS `user`;
@@ -617,12 +639,12 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `username` (`username`),
   KEY `coverColorId` (`coverColorId`),
   KEY `userId` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `userrating`
+-- Tábla szerkezet ehhez a táblához `userrating`
 --
 
 DROP TABLE IF EXISTS `userrating`;
@@ -640,7 +662,7 @@ CREATE TABLE IF NOT EXISTS `userrating` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user_x_subscription`
+-- Tábla szerkezet ehhez a táblához `user_x_subscription`
 --
 
 DROP TABLE IF EXISTS `user_x_subscription`;
