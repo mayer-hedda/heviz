@@ -1,0 +1,279 @@
+/** ----------- VÁLTOZÓK DEFINIÁLÁSA */
+:root {
+    /* -----------COLORS -----------*/
+    --primary-BTN-Bg-color: rgb(232, 181, 160);
+    --btn-text-color: rgb(51, 47, 49);
+    /*text color for:
+        -loginBTN text
+        - signupBTN text
+        - first section btn text
+        - fourth section btn text */
+    --mostUsed-text-color: rgb(65, 61, 63);
+    /* its for text colors*/
+    --dash-color: rgb(129, 105, 117);
+    /* its for btn dashes*/
+    --page-bg-color: rgb(247, 245, 236);
+    --footer-bg-color: rgb(246, 227, 205);
+    --navbar-a-color: rgb(151, 121, 110);
+    --navbar-a-hover-color: rgb(113, 145, 128);
+    --navbar-p-color: rgb(117, 55, 31);
+    --current-page-color: rgb(60, 32, 22);
+    --current-page-hover-color: rgb(68, 92, 79);
+
+
+    --tag-color: rgb(134, 203, 60);
+    /* -------- MARGIN - PADDING --------*/
+    /* --default-padding: auto 5%; */
+
+}
+
+/**--------------- FONTS ---------------*/
+@font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/static/Inter-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+/*? ---- Montserrat ---- */
+@font-face {
+    font-family: 'Montserrat';
+    src: url("../fonts/Montserrat/static/Montserrat-Regular.ttf") format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url("../fonts/Montserrat/static/Montserrat-Medium.ttf") format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url("../fonts/Montserrat/static/Montserrat-SemiBold.ttf") format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url("../fonts/Montserrat/static/Montserrat-Bold.ttf") format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/*? --------------------- */
+
+@font-face {
+    font-family: 'Pt sans';
+    src: url("../fonts/PT_Sans/PTSans-Regular.ttf") format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+/** --------------- NAVBAR ---------------*/
+
+nav {
+    background-color: var(--page-bg-color);
+
+}
+
+#navbar {
+    padding-right: 5%;
+    padding-left: 5%;
+    /* padding: var(--default-padding); */
+}
+
+#navbar a,
+#navbar p {
+    font-size: larger;
+    display: inline;
+    padding: 0.938rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+}
+
+#navbar a {
+    color: var(--navbar-a-color);
+}
+
+#navbar p {
+    color: var(--navbar-p-color) !important;
+}
+
+#navbar a:hover {
+    color: var(--navbar-a-hover-color);
+    /* font-weight: 700; */
+    font-style: italic;
+}
+
+#Feed {
+    /*? Az aktuális page */
+    color: var(--current-page-color) !important;
+    text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
+    /* ? távolság növelése az alláhúzás vonal és a szöveg alja között */
+    text-underline-offset: 0.281rem;
+}
+
+#Feed:hover {
+    /*? aktuális page hover */
+    color: var(--current-page-hover-color) !important;
+    font-style: italic;
+}
+
+#profile-icon {
+    width: 3.125rem;
+    height: 3.125rem;
+    /* Állítsd be a kívánt szélességet és magasságot */
+    border-radius: 50%;
+    /* Kör alak kialakítása */
+    background-image: url('../pictures/default-profile-pic.png');
+    /* Alapértelmezett kép beállítása */
+    background-size: cover;
+    /* A kép méretezése a konténerhez */
+    background-position: center;
+    /* A kép középre igazítása */
+    cursor: pointer;
+    /* Mutató kurzor megjelenítése, hogy látható legyen, kattintható */
+}
+
+/** --------------- FIRST-SECTION ---------------*/
+
+#first-section {
+    margin-top: 6.25rem;
+    padding-right: 5%;
+    padding-left: 5%;
+    margin-bottom: 6.25rem;
+}
+
+.post-card {
+    /* display: flex; */
+    background-color: rgb(234, 215, 190);
+    padding: 2.5rem;
+    border-radius: 0.938rem;
+}
+
+.first-row {
+    display: flex;
+    align-self: center;
+}
+
+.post-profile-icon {
+    width: 3.125rem;
+    height: 3.125rem;
+    border-radius: 50%;
+    /* Kör alak kialakítása */
+    background-image: url('../pictures/default-profile-pic.png');
+    /* Alapértelmezett kép beállítása */
+    background-size: cover;
+    /* A kép méretezése a konténerhez */
+    cursor: pointer;
+    /* Mutató kurzor megjelenítése, hogy látható legyen, kattintható */
+    background-position: center;
+}
+
+.userName {
+    margin-top: 0.625rem;
+    margin-left: 1.25rem;
+}
+
+.card-user-name {
+    font-size: larger;
+    color: var(--mostUsed-text-color) !important;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+}
+
+.cardDate {
+    margin-left: auto !important;
+    margin-top: 0.625rem;
+}
+
+.card-date-text {
+    font-size: medium;
+    color: var(--dash-color);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+}
+
+.postText {
+    margin-top: 1.25rem;
+    padding-left: 30px;
+    padding-right: 50px;
+}
+
+.post-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 1.125rem;
+    text-align: justify;
+}
+
+.last-row {
+    display: flex;
+    margin-top: 1.875rem;
+}
+
+.last-row a {
+    text-decoration: none;
+    font-size: 0.938rem;
+    /* 15px-es betüméret */
+    color: var(--btn-text-color);
+    font-family: 'Inter';
+    font-weight: 500;
+}
+
+.tag-design {
+    background-color: var(--tag-color);
+    padding: 0.313rem 0.625rem;
+    border-radius: 21.25rem;
+}
+
+.like-and-share{
+    margin-left: auto !important;
+    padding-right: 1.25rem;
+}
+
+.like-and-share img{
+    width: 1.563rem;
+    height: 1.563rem;
+}
+
+.like{
+    margin-right: 0.938rem;
+}
+
+/** --------------- FOOTER ---------------*/
+
+footer {
+    border-top: 0.094rem solid var(--dash-color);
+    background-color: var(--footer-bg-color);
+    padding-top: 5%;
+    padding-right: 5%;
+    padding-left: 5%;
+}
+
+footer h3 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+}
+
+footer ul {
+    list-style-type: none;
+}
+
+footer ul li {
+    font-size: 1.25rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+footer a {
+    color: var(--mostUsed-text-color);
+}
+
+#footer-logo {
+    /* padding-left: 6%; */
+    display: flex;
+}
