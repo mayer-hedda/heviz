@@ -148,16 +148,26 @@ nav {
     margin-bottom: 6.25rem;
 }
 
+.left-side{
+    border-right: 1px solid grey;
+}
+
 .post-card {
     /* display: flex; */
     background-color: rgb(234, 215, 190);
+    box-shadow: 8px 8px 6px #e3e1d9;
     padding: 2.5rem;
     border-radius: 0.938rem;
+    width: 43.75rem;
+    height: auto;
+    margin-top: 3.125rem;
+    position: relative;
 }
 
 .first-row {
     display: flex;
     align-self: center;
+    width: fit-content;
 }
 
 .post-profile-icon {
@@ -202,6 +212,7 @@ nav {
     margin-top: 1.25rem;
     padding-left: 30px;
     padding-right: 50px;
+    width: fit-content;
 }
 
 .post-text {
@@ -214,6 +225,8 @@ nav {
 .last-row {
     display: flex;
     margin-top: 1.875rem;
+    width: fit-content;
+    
 }
 
 .last-row a {
@@ -231,18 +244,72 @@ nav {
     border-radius: 21.25rem;
 }
 
-.like-and-share{
+.like-and-share {
     margin-left: auto !important;
     padding-right: 1.25rem;
+    display: flex;
+    position: absolute;
+    right: 10px;    
+    /*! itt a rightot igazítani  */
 }
 
-.like-and-share img{
-    width: 1.563rem;
-    height: 1.563rem;
+.like-and-share img {
+    width: 1.875rem;
+    height: 1.875rem;
+    cursor: pointer;
 }
 
-.like{
-    margin-right: 0.938rem;
+.like {
+    margin-right: 0.625rem !important;
+    
+}
+
+.like:hover{
+    fill: rgb(151, 24, 12)!important;
+    color: rgb(151, 24, 12)!important;
+}
+
+.share {
+    margin-left: 0.625rem !important;
+    
+}
+
+.suggestions{
+    margin-left: 1.25rem;
+    /* position: sticky; */
+}
+
+#suggestion-h2{
+    text-decoration: underline;
+}
+
+.profile-suggestion{
+    display: flex;
+    align-self: center;
+    margin-top: 1.875rem;
+}
+
+.smaller-user-profile-pic{
+    border-radius: 50%;
+    /* Kör alak kialakítása */
+    background-image: url('../pictures/default-profile-pic.png');
+    /* Alapértelmezett kép beállítása */
+    background-size: cover;
+    /* A kép méretezése a konténerhez */
+    cursor: pointer;
+    /* Mutató kurzor megjelenítése, hogy látható legyen, kattintható */
+    background-position: center;
+
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.btn-more{
+    margin-left: auto;
+    height: fit-content;
+    width: fit-content;
+    padding: 5px 15px;
+    border-radius: 30px;
 }
 
 /** --------------- FOOTER ---------------*/
