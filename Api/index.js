@@ -1,6 +1,6 @@
 /**
  * 
- *  @param {String} raw = {
+ *  @param {JSON} raw = {
  *      "username": "elso_publisher",
         "firstName": "elso",
         "lastName": "publisher",
@@ -33,7 +33,7 @@ function publisherRegistration(raw) {
 
 /**
  * 
- *  @param {String} raw = {
+ *  @param {JSON} raw = {
         "username": "harmadik_general",
         "firstName": "harmadik",
         "lastName": "general",
@@ -66,7 +66,7 @@ function generalRegistration(raw) {
 
 /**
  * 
- *  @param {String} raw = {
+ *  @param {JSON} raw = {
         "userId": 1,
         "categoryNames": [
             "regény",
@@ -99,7 +99,7 @@ function addCategoryInterest(raw) {
 
 /**
  * 
- *  @param {String} raw = {
+ *  @param {JSON} raw = {
         "email": "elso@publisher.com",
         "password": "Alma123*"
     }
@@ -153,4 +153,33 @@ function getMostListedBooksOfTheMoth() {
             return result;
         })
         .catch(error => console.log('error', error));
+}
+
+
+/**
+ * 
+ *  @param {JSON} raw = {
+ *      "userId": 1,
+        "postId": 2
+ *  }
+ */
+function addPostlike(raw) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: postData,
+    redirect: 'follow'
+    };
+
+    fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/Postlike/addPostlike", requestOptions)
+    .then(response => response.text())
+    .then(result => {
+        return result;
+    })
+    .catch(error => console.log('error', error));
 }
