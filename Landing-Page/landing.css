@@ -1,6 +1,6 @@
 /** ----------- MEDIA QUERY */
 
-@media (max-width: 540px) {
+@media (max-width: 576px) {
     nav .navbar-toggler {
         order: 3 !important;
         margin-left: 0rem !important;

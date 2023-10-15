@@ -1,3 +1,20 @@
+/** ----------- MEDIA QUERY ------------------------*/
+@media (max-width: 576px){
+    nav .navbar-toggler {
+        order: 3 !important;
+        margin-left: 0rem !important;
+    }
+
+    section {
+        width: auto !important;
+    }
+    
+   
+
+
+}
+
+
 /** ----------- VÁLTOZÓK DEFINIÁLÁSA */
 :root {
     /* -----------COLORS -----------*/
@@ -125,6 +142,15 @@ nav {
     font-style: italic;
 }
 
+#profile{
+    display: flex;
+    /* align-self: center; */
+}
+
+#user-name{
+    align-self: center;
+}
+
 #profile-icon {
     width: 3.125rem;
     height: 3.125rem;
@@ -227,7 +253,7 @@ nav {
     display: flex;
     margin-top: 1.875rem;
     width: fit-content;
-    
+
 }
 
 .last-row a {
@@ -247,72 +273,72 @@ nav {
 
 .like-and-share {
     margin-left: auto !important;
-    
+
     padding-right: 1.25rem;
     display: flex;
     position: absolute;
-    right: 25px;    
+    right: 1.563rem;
     /*! itt a rightot igazítani  */
-   
+
 }
 
 .like-and-share img {
     width: 1.563rem;
     height: 1.563rem;
     cursor: pointer;
-    
+
 }
 
-.like-and-share span{
-    margin-bottom: 5px!important;
+.like-and-share span {
+    margin-bottom: 5px !important;
     cursor: pointer;
 }
 
 .like {
     margin-right: 0.625rem !important;
-    
+
 }
 
-.like:hover{
-    fill: rgb(151, 24, 12)!important;
-    color: rgb(151, 24, 12)!important;
+.like:hover {
+    fill: rgb(151, 24, 12) !important;
+    color: rgb(151, 24, 12) !important;
 }
 
 .share {
     margin-left: 0.625rem !important;
 }
 
-.share:hover{
-    fill: rgb(151, 24, 12)!important;
-    color: rgb(151, 24, 12)!important;
+.share:hover {
+    fill: rgb(151, 24, 12) !important;
+    color: rgb(151, 24, 12) !important;
 }
 
 /** SIDE BAR */
 
-.right-side{
+.right-side {
     border-left: 0.125rem solid rgb(235, 210, 186);
     /* margin-top: 50px; */
-   
+
 }
 
-.suggestions{
+.suggestions {
     margin-left: 1.25rem;
     /* position: sticky; */
-   
+
 }
 
-#suggestion-h2{
+#suggestion-h2 {
     text-decoration: underline;
     margin-bottom: 1.875rem;
 }
 
-.profile-suggestion{
+.profile-suggestion {
     display: flex;
     align-self: center;
     margin-bottom: 0.5rem;
 }
 
-.smaller-user-profile-pic{
+.smaller-user-profile-pic {
     border-radius: 50%;
     /* Kör alak kialakítása */
     background-image: url('../pictures/default-profile-pic.png');
@@ -327,7 +353,7 @@ nav {
     height: 2.5rem;
 }
 
-.btn-more{
+.btn-more {
     margin-left: auto;
     margin-bottom: 4%;
     align-self: center;
@@ -343,7 +369,7 @@ nav {
     font-weight: 500;
 }
 
-.btn-more:hover{
+.btn-more:hover {
     background-color: #B9848C;
     color: var(--page-bg-color);
     transition: color 0.9s ease;

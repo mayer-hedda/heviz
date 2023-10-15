@@ -37,7 +37,7 @@ const Publisher = document.getElementById("Publisher");
 let GenP = document.getElementById("GenP");
 let PubP = document.getElementById("PubP");
 
-let names = document.getElementById("names");
+
 let birthDate = document.getElementById("birthDate");
 let company = document.getElementById("company");
 
@@ -54,7 +54,7 @@ function SwitchToPublisher() {
     birthDate.hidden = true;
     GenP.hidden = true;
 
-    names.hidden = false;
+   
     company.hidden = false;
     PubP.hidden = false;
 
@@ -80,7 +80,7 @@ function SwitchToGeneral() {
 
     //* switch to invisible
     company.hidden = true;
-    names.hidden = true;
+    
     PubP.hidden = true;
 
     birthDate.hidden = false;
@@ -404,6 +404,61 @@ function matchPwd(pwdValue, pwdAgainValue) {
 
 function GeneralEvents() {
     const Datas = [];    //tömb az adatoknak, hogy össze tudjam hasonlítani a jelszavakat
+
+    // ? FIRST NAME
+    inputFirst.addEventListener("focusin", (e) => {
+        e.preventDefault();
+        e.target.style.background = "";
+        e.target.style.border = "";
+        firstError.innerHTML = "";
+        console.log("First name focusin");
+    })
+
+    inputFirst.addEventListener("focusout", (e) => {
+        e.preventDefault();
+        const FirstValue = inputFirst.value;
+        if (FirstValue == "") {
+            console.log("Firstname error: empty");
+            firstError.innerHTML = `<p>First name cannot be empty.</p>`;
+            e.target.style.background = "rgb(255, 214, 220)";
+            e.target.style.borderColor = "rgb(243, 82, 93)";
+
+        } else {
+            validateFirst(FirstValue);
+            if (FirstnameValid == true) {
+                Datas.push(FirstValue);
+                e.target.style.background = "rgb(241, 255, 231)";
+                e.target.style.borderColor = "rgb(98, 173, 107)";
+            }
+        }
+    })
+
+    // ? LAST NAME 
+    inputLast.addEventListener("focusin", (e) => {
+        e.preventDefault();
+        e.target.style.background = "";
+        e.target.style.border = "";
+        lastError.innerHTML = "";
+    })
+
+    inputLast.addEventListener("focusout", (e) => {
+        e.preventDefault();
+        const lastValue = inputLast.value;
+        if (lastValue == "") {
+            console.log("Lastname error: empty");
+            lastError.innerHTML = `<p>First name cannot be empty.</p>`;
+            e.target.style.background = "rgb(255, 214, 220)";
+            e.target.style.borderColor = "rgb(243, 82, 93)";
+
+        } else {
+            validateLast(lastValue);
+            if (LastnameValid == true) {
+                Datas.push(lastValue);
+                e.target.style.background = "rgb(241, 255, 231)";
+                e.target.style.borderColor = "rgb(98, 173, 107)";
+            }
+        }
+    })
 
     // ? USERNAME
     inputUser.addEventListener("focusin", (e) => {
@@ -763,8 +818,8 @@ submitButton.addEventListener("click", async (e) => {
     } else {
         const postData = {
             "username": inputUser.value,
-            "firstName": "harmadik",    // ! ide kell e first + last?
-            "lastName": "general",
+            "firstName": inputFirst.value,   
+            "lastName": inputLast.value,
             "email": inputEmail.value,
             "birthdate": datepicker.value,
             "password": inputPwd.value
