@@ -750,24 +750,16 @@ submitButton.addEventListener("click", async (e) => {
     e.preventDefault();
     if (isPublisher == true) {
         const postData = {
-            firstName: inputFirst.value,
-            lastName: inputLast.value,
-            username: inputUser.value,
-            email: inputEmail.value,
-            companyName: inputCompany.value,
-            password: inputPwdAgain.value
+            "username": inputUser.value,
+            "firstName": inputFirst.value,
+            "lastName": inputLast.value,
+            "companyName": inputCompany.value,
+            "email": inputEmail.value,
+            "password": inputPwd.value
         };
-        
-        const response = await fetch('http://localhost:8080/publisherRegistration', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(postData)
-        });
-        
-        const data = await response.json();
-        console.log('Válasz a backendtől:', data);
+
+        const response = publisherRegistration(postData);   //itt hívjuk meg az endpointot
+        console.log(response); //kiírja azt az adatot amit elküldött a backendnek
     }else{
         const postData = {
             username: inputUser.value,
