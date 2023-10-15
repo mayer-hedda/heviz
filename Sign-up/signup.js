@@ -459,7 +459,7 @@ function GeneralEvents() {
         }
     })
 
-    inputCompany.addEventListener("", (e) => {})
+    inputCompany.addEventListener("", (e) => { })
 
     //? BRITHDAY 
     //TODO: date picker --> not workin'
@@ -627,7 +627,7 @@ function PublisherEvents() {
                 Datas.push(userValue);
                 e.target.style.background = "rgb(241, 255, 231)";
                 e.target.style.borderColor = "rgb(98, 173, 107)";
-                
+
             }
         }
     })
@@ -760,23 +760,18 @@ submitButton.addEventListener("click", async (e) => {
 
         const response = publisherRegistration(postData);   //itt hívjuk meg az endpointot
         console.log(response); //kiírja azt az adatot amit elküldött a backendnek
-    }else{
+    } else {
         const postData = {
-            username: inputUser.value,
-            email: inputEmail.value,
-            password: inputPwdAgain.value
+            "username": inputUser.value,
+            "firstName": "harmadik",    // ! ide kell e first + last?
+            "lastName": "general",
+            "email": inputEmail.value,
+            "birthdate": datepicker.value,
+            "password": inputPwd.value
         };
-        
-        const response = await fetch('http://localhost:8080/publisherRegistration', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(postData)
-        });
-        
-        const data = await response.json();
-        console.log('Válasz a backendtől:', data);
+
+        const response = publisherRegistration(postData);
+        console.log('Válasz a backendtől:', response); 
     }
 })
 
