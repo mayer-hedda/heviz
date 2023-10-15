@@ -1,3 +1,12 @@
+/* VÁLTOZÓK */
+:root{
+    --error-BgColor: rgb(255, 214, 220);
+    --error-BorderColor: rgb(243, 82, 93);
+
+    --success-BgColor: rgb(241, 255, 231);
+    --success-BorderColor: rgb(98, 173, 107);
+}
+
 /* ---------------------------- FONTS ---------------------------- */
 
 @font-face {
@@ -151,7 +160,6 @@ input[type="date"] {
     font-size: 80%;
     margin-top: 0%;
     padding-top: 0%;
-
 }
 
 /* .btn-field button.disabled{
@@ -255,7 +263,7 @@ input[type="date"] {
     border-bottom-right-radius: 0.8rem;
     border-bottom-left-radius: 0.8rem;
 
-    margin-bottom: 1rem;
+    /* margin-bottom: 1rem; */
 }
 
 #inputUser::placeholder {
@@ -267,6 +275,10 @@ input[type="date"] {
 }
 
 /* EMAIL */
+#email{
+    margin-top: 1rem;
+}
+
 #inputEmail {
     border-width: 0.1125rem;
     border-color: rgb(144, 152, 180, 0.75);
@@ -275,7 +287,7 @@ input[type="date"] {
     border-top-right-radius: 0.8rem;
     border-bottom-right-radius: 0.8rem;
     border-bottom-left-radius: 0.8rem;
-
+    /* margin-top: 1rem; */
     margin-bottom: 1rem;
 }
 
@@ -380,3 +392,14 @@ input[type="date"] {
     color: #332F31;
     position: relative;
 }
+
+/* 
+.Added-Error{
+    border-color: var(--error-BorderColor);
+    background-color: var(--error-BgColor);
+}
+
+.Added-Success{
+    border-color: var(--success-BorderColor);
+    background-color: var(--success-BgColor);
+} */

@@ -211,7 +211,7 @@ function validateUserName(userValue) {
 
 function validateEmail(emailValue) {
     //* to check @ character
-    const specReg = new RegExp("@");
+    const specReg = new RegExp("(?=.*[@])");
 
     if (emailValue.length < 3) {
         emailError.innerHTML = `<p>Email address must be at least 3 characters long.</p>`;
@@ -595,7 +595,7 @@ function PublisherEvents() {
             e.target.style.borderColor = "rgb(243, 82, 93)";
 
         } else {
-            validateFirst(lastValue);
+            validateLast(lastValue);
             if (LastnameValid == true) {
                 Datas.push(lastValue);
                 e.target.style.background = "rgb(241, 255, 231)";
@@ -627,6 +627,7 @@ function PublisherEvents() {
                 Datas.push(userValue);
                 e.target.style.background = "rgb(241, 255, 231)";
                 e.target.style.borderColor = "rgb(98, 173, 107)";
+                
             }
         }
     })
@@ -670,14 +671,14 @@ function PublisherEvents() {
         e.preventDefault();
         const companyValue = inputCompany.value;
         if (companyValue == "") {
-            companyError.innerHTML = `<p>Email address cannot be empty</p>`;
+            companyError.innerHTML = `<p>Company field cannot be empty</p>`;
             e.target.style.background = "rgb(255, 214, 220)";
             e.target.style.borderColor = "rgb(243, 82, 93)";
 
             console.log("Email error: empty");
         } else {
-            validateEmail(companyValue);
-            if (EmailValid == true) {
+            validateCompany(companyValue);
+            if (CompanyValid == true) {
                 Datas.push(companyValue);
                 e.target.style.background = "rgb(241, 255, 231)";
                 e.target.style.borderColor = "rgb(98, 173, 107)";
@@ -724,8 +725,8 @@ function PublisherEvents() {
     inputPwdAgain.addEventListener("focusout", (e) => {
         e.preventDefault();
         const pwdAgainValue = inputPwdAgain.value;
-        const firstpwd = Datas[Datas.length - 1];   //*last index
-        console.log(firstpwd);
+        const firstpassword = Datas[Datas.length - 1];   //*last index
+        console.log(firstpassword);
         if (pwdAgainValue == "") {
             lastPwdError.innerHTML = `<p>Password field cannot be empty</p>`;
             e.target.style.background = "rgb(255, 214, 220)";
@@ -733,7 +734,7 @@ function PublisherEvents() {
 
             console.log("2nd pwd error: empty");
         } else {
-            matchPwd(firstpwd, pwdAgainValue);
+            matchPwd(firstpassword, pwdAgainValue);
             e.target.style.background = "rgb(241, 255, 231)";
             e.target.style.border = "rgb(98, 173, 107)";
         }
