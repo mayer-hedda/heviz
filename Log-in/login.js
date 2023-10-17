@@ -101,10 +101,24 @@ inputPwd.addEventListener("input", (e) => {
     }
 })
 
-
-
 inputPwd.addEventListener("focusin", (e) => {
     e.preventDefault();
     e.target.style.background = "";
     pwdError.innerHTML = "";
+})
+
+/*
+EVENT LISTENERS - SUBMIT BUTTON
+*/
+
+submitButtonubmitButton.addEventListener("click", async (e) => {
+    e.preventDefault();
+    
+        const postData = {
+            "email": inputEmail.value,
+            "password": inputPwd.value
+        };
+
+        const response = publisherRegistration(postData);   //itt hívjuk meg az endpointot
+        console.log(response); //kiírja azt az adatot amit elküldött a backendnek
 })
