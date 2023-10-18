@@ -18,6 +18,8 @@
 /** ----------- VÁLTOZÓK DEFINIÁLÁSA */
 :root {
     /* -----------COLORS -----------*/
+    --Background-color: rgb(247, 245, 236);
+
     --primary-BTN-Bg-color: rgb(232, 181, 160);
     --btn-text-color: rgb(51, 47, 49);
     /*text color for:
@@ -40,6 +42,12 @@
 
     --btn-bg-color: rgb(246, 205, 188);
     --tag-color: rgb(134, 203, 60);
+
+    --light-text-color: rgb(248, 248, 244);
+    --green-btn-dark-text: rgb(29, 38, 19);
+    --grey-btn-bg: rgb(222, 222, 219);
+    --popup-h1: rgb(77, 71, 74);
+    --popup-label: rgb(97, 92, 94);
     /* -------- MARGIN - PADDING --------*/
     /* --default-padding: auto 5%; */
 
@@ -90,6 +98,7 @@
     font-weight: 400;
     font-style: normal;
 }
+
 
 
 /** --------------- NAVBAR ---------------*/
@@ -377,6 +386,59 @@ nav {
     transition: background-color 0.5s ease;
     /*átmenet a hover és a rendes állapot között*/
 }
+
+#post-BTN{
+    background-color: rgb(187, 205, 149);
+    color: var(--green-btn-dark-text);
+    margin-top: 2rem;
+    align-self: center;
+    height: fit-content;
+    width: fit-content;
+    padding: 0.625rem 0.938rem!important;
+    border-radius: 1.875rem;
+
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+}
+
+#post-BTN:hover{
+    background-color: rgb(45, 95, 14);
+    color: var(--light-text-color);
+    
+}
+
+#LetsPost-btn{
+    background-color: var(--btn-bg-color);
+    color: var(--btn-text-color);
+    border: none;
+
+}
+
+#close-btn{
+    background-color: var(--grey-btn-bg);
+    color: var(--btn-text-color);
+    border: none;
+}
+
+#postModalLabel{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    /* letter-spacing: -1px; */
+    color: var(--popup-h1);
+}
+
+.modalLabel{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    color: var(--popup-label);
+    letter-spacing: -0.5px;
+}
+
+#modalLabel-tag{
+    margin-top: 0.625rem;
+}
+
 
 /** --------------- FOOTER ---------------*/
 

@@ -230,6 +230,39 @@
                             </div>
                             <button type="submit" class="btn-more" href="#">More</button>
                         </div>
+
+                        <!-- TODO: POSZT ÍRÁSA GOMB A POPUPHOZ -->
+
+                        <button type="button" class="btn" id="post-BTN" data-bs-toggle="modal"
+                            data-bs-target="#postModal"><i class="bi bi-plus-circle"></i> What's in your mind?</button>
+
+                        <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="postModalLabel">Write a Post</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <label for="message-text" id="modalLabel-input" class="col-form-label modalLabel">Tell us what's going
+                                            on:</label>
+                                        <textarea class="form-control" id="message-text"></textarea>
+                                        <!-- !Kell egy label amely számolja a leütött karakterek számát -->
+
+                                        <label for="message-text" id="modalLabel-tag" class="col-form-label modalLabel">Add Tag:</label>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal" id="close-btn">Close</button>
+                                        <button type="button" class="btn btn-primary" id="LetsPost-btn">Let's Post!</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
