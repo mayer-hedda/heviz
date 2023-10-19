@@ -327,6 +327,13 @@ nav {
 .right-side {
     border-left: 0.125rem solid rgb(235, 210, 186);
     /* margin-top: 50px; */
+    position: fixed;
+    top: 20;
+    bottom: 20;
+    left: 70%;
+    height: 65vh;
+    /* vh - A böngésző ablak magasságát veszi figyelembe */
+    margin-bottom: 20px;
 
 }
 
@@ -448,6 +455,7 @@ footer {
     padding-top: 5%;
     padding-right: 5%;
     padding-left: 5%;
+    /* margin-top: 20px; */
 }
 
 footer h3 {
