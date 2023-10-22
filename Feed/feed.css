@@ -31,7 +31,7 @@
     /* its for text colors*/
     --dash-color: rgb(129, 105, 117);
     /* its for btn dashes*/
-    --page-bg-color: rgb(247, 245, 236);
+    /* --page-bg-color: rgb(247, 245, 236); */
     --footer-bg-color: rgb(246, 227, 205);
     --navbar-a-color: rgb(151, 121, 110);
     --navbar-a-hover-color: rgb(113, 145, 128);
@@ -104,7 +104,7 @@
 /** --------------- NAVBAR ---------------*/
 
 nav {
-    background-color: var(--page-bg-color);
+    background-color: var(--Background-color);
 
 }
 
