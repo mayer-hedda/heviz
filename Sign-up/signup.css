@@ -123,8 +123,6 @@ input[type="date"] {
     color: rgba(30, 128, 141, 1);
 }
 
-
-
 .btn-field button.disabled-btn {
     border: 0rem;
     background-color: transparent;

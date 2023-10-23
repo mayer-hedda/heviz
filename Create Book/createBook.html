@@ -13,6 +13,8 @@
 
     <!--? bootstrap icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+    <!-- <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-thin-rounded/css/uicons-thin-rounded.css'> -->
+    <!-- <script src="https://kit.fontawesome.com/59b3debb91.js" crossorigin="anonymous"></script> -->
 
     <title>Create Book</title>
     <!--? Icon a tabba -->
@@ -21,17 +23,71 @@
 
 <body style="background-color: rgb(247, 245, 236)">
 
+    <!--todo: FELSŐ SÁV -->
     <nav class="nav fixed-top" id="editControls">
         <div class="container-fluid">
-            <button class="btn btn-text">
-                <span href="#" id="goBack"><img src="../icons/goBackArrow.svg"></img></span>
+
+            <button class="btn btn-text" id="backArrow">
+                <span class="h4"><i class="bi bi-chevron-left"></i></span>
             </button>
             <div class="controlText">
-                <p class="small group-title">Create a new World</p>
+                <p class="small group-title" id="controlP">Create a new World</p>
                 <span class="h4" id="StoryName">Untitled Story</span>
+            </div>
+
+            <div class="buttons btn-field">
+                <button type="button" class="btn" id="Cancel">Cancel</button>
+                <button type="submit" class="btn" id="Next">Next</button>
+
             </div>
         </div>
     </nav>
+
+    <section id="UploadInfos">
+        <div class="container" id="outsideDiv">
+            <div class="row">
+                <div class="col-4">
+                    <!--todo: KÉP + FÁJL FELTÖLTÉSE  -->
+                    <!-- <h1>IDE LESZNEK A KÉPEK</h1> -->
+                    <input type="image" id="inputImage">    
+                    <!-- ide majd egy húzd ide a cuccot cucc kell -->
+
+                    <input type="file" id="inputFile">
+                </div>
+
+                <div class="col-8" id="inputs">
+                    <!--TODO: INPUT MEZŐK  -->
+                    <form id="form" class="align-content-center">
+                        <div class="form-group container">
+                            <!--? STORY TITLE  -->
+                            <div id="storyTitle">
+                                <label id="StoryTitle" class="formLabel">Story Title:</label>
+                                <input type="text" id="inputStoryTitle" placeholder="Untitled Story" required>
+                            </div>
+
+                            <!--? STORY DESCRIPTION  -->
+                            <div id="description">
+                                <label id="description" class="formLabel">Description:</label>
+                                <textarea id="inputDescription" placeholder="Write here your book's description"></textarea>
+                            </div>
+
+                            <!--? TAGS -->
+
+                            <!--? TARGET AUDIENCE - dropdown -->
+
+                            <!--? LANGUAGE - dropdown -->
+
+                            <!--? COPYRIGHT - dropdown  -->
+
+                            <!--? ADULT LITERATURE - switch -->
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
 
 
     <!--? BOOTSTRAP  -->
