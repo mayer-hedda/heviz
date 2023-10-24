@@ -49,7 +49,7 @@
                 <div class="col-4">
                     <!--todo: KÉP + FÁJL FELTÖLTÉSE  -->
                     <!-- <h1>IDE LESZNEK A KÉPEK</h1> -->
-                    <input type="image" id="inputImage">    
+                    <input type="image" id="inputImage">
                     <!-- ide majd egy húzd ide a cuccot cucc kell -->
 
                     <input type="file" id="inputFile">
@@ -60,24 +60,112 @@
                     <form id="form" class="align-content-center">
                         <div class="form-group container">
                             <!--? STORY TITLE  -->
-                            <div id="storyTitle">
-                                <label id="StoryTitle" class="formLabel">Story Title:</label>
+                            <div id="storyTitle-div" class="container">
+                                <label id="storyTitle" class="formLabel">Story Title:</label><br>
                                 <input type="text" id="inputStoryTitle" placeholder="Untitled Story" required>
                             </div>
 
                             <!--? STORY DESCRIPTION  -->
-                            <div id="description">
-                                <label id="description" class="formLabel">Description:</label>
-                                <textarea id="inputDescription" placeholder="Write here your book's description"></textarea>
+                            <div id="description-div" class="container">
+                                <label id="description" class="formLabel">Description:</label><br>
+                                <textarea id="inputDescription"
+                                    placeholder="Write here your book's description"></textarea>
                             </div>
 
                             <!--? TAGS -->
 
                             <!--? TARGET AUDIENCE - dropdown -->
+                            <div id="targetAudience-div" class="container">
+                                <label id="targetAudience">Target Audience</label>
+                                <div class="dropdown">
+                                    <!--! KERET A DROPDOWN-NAK -->
+                                    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        Choose an option
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Action</a></li>
+                                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    </ul>
+                                </div>
+                            </div>
 
                             <!--? LANGUAGE - dropdown -->
+                            <div id="language-div" class="container">
+                                <label id="language">Language</label>
+                                <div class="dropdown">
+                                    <!--! KERET A DROPDOWN-NAK -->
+                                    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        Choose an option
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" >Hungarian</a></li>
+                                        <li><a class="dropdown-item" >English</a></li>
+                                        <li><a class="dropdown-item" >Deutch</a></li>
+                                    </ul>
+                                </div>
+                            </div>
 
                             <!--? COPYRIGHT - dropdown  -->
+                            <div id="copyRight-div" class="container">
+                                <label id="copyRight">Target Audience</label>
+                                <div class="dropdown">
+                                    <!--! KERET A DROPDOWN-NAK -->
+                                    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        Choose an option
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Action</a></li>
+                                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!--? CATEGORY - dropdown  -->
+                            <div id="category-div" class="container">
+                                <label id="category">Category:</label>
+                                <div class="dropdown">
+                                    <!--! KERET A DROPDOWN-NAK -->
+                                    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        Choose an option
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Action</a></li>
+                                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    </ul>
+                                </div>
+                            </div>
 
                             <!--? ADULT LITERATURE - switch -->
                         </div>

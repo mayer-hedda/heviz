@@ -171,6 +171,15 @@ nav {
     margin-top: 100px;
 }
 
+#targetAudience-div{
+    display: inline-flex;
+    
+}
+
+#targetAudience-div label{
+    align-self: center;
+}
+
 /** --------- UPLOAD FILES ------------- */
 
 
