@@ -1,0 +1,27 @@
+{ 
+    "posts": [
+        {
+            "id": 1,
+            "profilPicURL": "../pictures/default-profile-pic-man.png",
+            "username": "macAndCheese23",
+            "text": "Hey fellow bookworms! Just finished reading an amazing thriller - The Silent Observer by Jane Doe. Gripping plot, couldn't put it down!",
+            "postTime": "2023-10-24 21:45"
+        },
+
+        {
+            "id": 2,
+            "profilPicURL": "../pictures/default-profile-pic-astronaut.png",
+            "username": "ehesVagyok15",
+            "text": "The plot is a rollercoaster of emotions, and there are unexpected twists that kept me turning the pages well into the night. What I appreciated most about this book is how it explores the complexities of relationships and how people cope with tragedy. It's a story that will stay with me for a long time.",
+            "postTime": "2023-10-15 13:56"
+        },
+
+        {
+            "id": 3,
+            "profilPicURL": "../pictures/default-profile-pic-mandalorian.png",
+            "username": "theMandalorian89",
+            "text": "I recently finished a captivating novel that I couldn't put down! It's a gripping mystery by a talented new author. The character development and intricate plot had me hooked from the first page. Can't wait to dive into more of their work. What's everyone else reading right now? I'm also on the lookout for recommendations for my next read, so if you've come across something that you couldn't get enough of, please share!",
+            "postTime": "2023-09-34 26:64"
+        }
+    ]
+}
