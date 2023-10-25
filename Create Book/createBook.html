@@ -21,7 +21,7 @@
     <link rel="icon" href="../icons/C-logo.svg" type="image/svg+xml">
 </head>
 
-<body style="background-color: rgb(247, 245, 236)">
+<body style="background-color: #F7F5EC">
 
     <!--todo: FELSŐ SÁV -->
     <nav class="nav fixed-top" id="editControls">
@@ -62,24 +62,23 @@
                             <!--? STORY TITLE  -->
                             <div id="storyTitle-div" class="container">
                                 <label id="storyTitle" class="formLabel">Story Title:</label><br>
-                                <input type="text" id="inputStoryTitle" placeholder="Untitled Story" required>
+                                <input type="text" class="form-control" id="inputStoryTitle" placeholder="Untitled Story" required>
                             </div>
 
                             <!--? STORY DESCRIPTION  -->
-                            <div id="description-div" class="container">
+                            <div id="description-div" class="container ">
                                 <label id="description" class="formLabel">Description:</label><br>
-                                <textarea id="inputDescription"
+                                <textarea id="inputDescription" class="form-control"
                                     placeholder="Write here your book's description"></textarea>
                             </div>
 
                             <!--? TAGS -->
 
                             <!--? TARGET AUDIENCE - dropdown -->
-                            <div id="targetAudience-div" class="container">
-                                <label id="targetAudience">Target Audience</label>
+                            <div id="targetAudience-div" class="container input-div">
+                                <label id="targetAudience">Target Audience:</label>
                                 <div class="dropdown">
-                                    <!--! KERET A DROPDOWN-NAK -->
-                                    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    <button class="btn dropdown-toggle option-choose" type="button" data-bs-toggle="dropdown"
                                         aria-expanded="false">
                                         Choose an option
                                     </button>
@@ -92,11 +91,10 @@
                             </div>
 
                             <!--? LANGUAGE - dropdown -->
-                            <div id="language-div" class="container">
-                                <label id="language">Language</label>
+                            <div id="language-div" class="container input-div">
+                                <label id="language">Language:</label>
                                 <div class="dropdown">
-                                    <!--! KERET A DROPDOWN-NAK -->
-                                    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    <button class="btn dropdown-toggle option-choose" type="button" data-bs-toggle="dropdown"
                                         aria-expanded="false">
                                         Choose an option
                                     </button>
@@ -109,11 +107,10 @@
                             </div>
 
                             <!--? COPYRIGHT - dropdown  -->
-                            <div id="copyRight-div" class="container">
-                                <label id="copyRight">Target Audience</label>
+                            <div id="copyRight-div" class="container input-div">
+                                <label id="copyRight">Target Audience:</label>
                                 <div class="dropdown">
-                                    <!--! KERET A DROPDOWN-NAK -->
-                                    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    <button class="btn dropdown-toggle option-choose" type="button" data-bs-toggle="dropdown"
                                         aria-expanded="false">
                                         Choose an option
                                     </button>
@@ -126,11 +123,10 @@
                             </div>
 
                             <!--? CATEGORY - dropdown  -->
-                            <div id="category-div" class="container">
+                            <div id="category-div" class="container input-div">
                                 <label id="category">Category:</label>
                                 <div class="dropdown">
-                                    <!--! KERET A DROPDOWN-NAK -->
-                                    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    <button class="btn dropdown-toggle option-choose" type="button" data-bs-toggle="dropdown"
                                         aria-expanded="false">
                                         Choose an option
                                     </button>

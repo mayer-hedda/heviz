@@ -24,6 +24,13 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'Poppins';
+    src: url("../fonts/Poppins/Poppins-Medium.ttf") format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
 /** VÁLTOZÓK DEFINIÁLÁSA  */
 :root {
     --page-bg-color: rgb(247, 245, 236);
@@ -38,6 +45,9 @@
     --control-Btn-text: #2B2729;
 
     --input-card-bg: #FFFDF9;
+    --input-border: #9495a9;
+    --label-color: #37384E;
+    --placeholder-color: #78798F;
 }
 
 /** --------- EDIT CONTROL PANEL ------------- */
@@ -55,16 +65,16 @@ nav {
     display: flex;
     align-self: center;
     /* position: absolute; */
-    padding: 10px 8px !important;
+    padding: 0.625rem 0.5rem !important;
     top: 0;
     justify-content: space-between;
-    border-bottom: 0.5px solid #D6D5D2;
+    border-bottom: 0.031rem solid #D6D5D2;
 
 }
 
 .bi-chevron-left {
-    width: 33px !important;
-    height: 59px !important;
+    width: 2.063rem !important;
+    height: 3.688rem !important;
     color: var(--control-dark-text);
 }
 
@@ -84,8 +94,8 @@ nav {
     /* border: 1px solid #000000 !important; */
     height: fit-content;
     width: fit-content;
-    padding: 0px !important;
-    margin: 0px !important;
+    padding: 0rem !important;
+    margin: 0rem !important;
     /* position: relative; */
     /* left: 20px; */
 }
@@ -95,20 +105,20 @@ nav {
     flex: 1;
     display: inline-block;
     /* align-self: center !important; */
-    margin-top: 3px;
+    margin-top: 0.188rem;
 }
 
 .h4 {
-    font-size: 21px;
+    font-size: 1.313rem;
     font-weight: 600;
     /* margin: 12px 0px; */
 }
 
 #controlP {
-    font-size: 16px;
-    letter-spacing: 0.2px;
-    line-height: 18px;
-    margin-bottom: 0px;
+    font-size: 1rem;
+    letter-spacing: 0.013rem;
+    line-height: 1.125rem;
+    margin-bottom: 0rem;
     font-family: 'Montserrat' sans-serif;
     font-weight: 400;
     color: var(--controlP-color);
@@ -116,9 +126,9 @@ nav {
 
 #StoryName {
     font-family: Montserrat;
-    font-size: 22px;
+    font-size: 1.375rem;
     font-weight: 600;
-    letter-spacing: -0.22px;
+    letter-spacing: -0.013rem;
     color: var(--control-dark-text);
 }
 
@@ -126,7 +136,7 @@ nav {
     display: inline-block;
     margin-left: auto;
     position: absolute;
-    right: 40px;
+    right: 2.5rem;
     /* display: inline-flex; */
     align-self: center;
 }
@@ -135,14 +145,14 @@ nav {
     background-color: var(--controlCancel-btn);
     height: fit-content;
     width: fit-content;
-    padding: 10px 14px;
-    border-radius: 7px;
+    padding: 0.625rem 0.875rem;
+    border-radius: 0.438rem;
     background: #DEDEDB;
     color: var(--control-Btn-text);
     text-align: center;
     align-items: center;
     font-family: 'Montserrat', sans-serif;
-    font-size: 15px;
+    font-size: 0.938rem;
 
     font-weight: 500;
     line-height: 100%;
@@ -152,33 +162,26 @@ nav {
     display: inline-flex;
     height: fit-content;
     width: fit-content;
-    padding: 10px 14px;
+    padding: 0.625rem 0.875rem;
     align-items: center;
-    border-radius: 7px;
+    border-radius: 0.438rem;
     background: var(--controlNext-btn);
     color: #2B2729;
     text-align: center;
     font-family: 'Montserrat', sans-serif;
-    font-size: 15px;
+    font-size: 0.938rem;
     font-weight: 500;
     line-height: 100%;
-    letter-spacing: -0.2px;
-    margin-left: 10px;
+    letter-spacing: -0.013rem;
+    margin-left: 0.625rem;
 }
 
 /** --------- SECTION ------------- */
 #UploadInfos{
-    margin-top: 100px;
-}
-
-#targetAudience-div{
-    display: inline-flex;
+    margin-top: 6.25rem;
     
 }
 
-#targetAudience-div label{
-    align-self: center;
-}
 
 /** --------- UPLOAD FILES ------------- */
 
@@ -187,4 +190,51 @@ nav {
 
 #inputs{
     background-color: var(--input-card-bg);
+    padding: 60px;
+    border-radius: 0.938rem;
+    box-shadow: 0.313rem 0.313rem 1.25rem 0rem rgba(0, 0, 0, 0.10);
+}
+
+.input-div{
+    display: inline-flex;
+    margin-top: 4%;
+}
+
+.input-div label{
+    align-self: center;
+    color: var(--label-color);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+}
+
+#inputStoryTitle::placeholder, #inputDescription::placeholder{
+    color: var(--placeholder-color);
+}
+
+#inputStoryTitle, #inputDescription{
+    border: var(--input-border) 0.063rem solid;
+    background-color: var(--input-card-bg);
+}
+
+#description-div{
+    margin-top: 4%;
+}
+
+#description-div label, #storyTitle-div label{
+    margin-bottom: 1.5%;
+    color: var(--label-color);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+}
+
+.dropdown{
+    border: var(--input-border) 0.063rem solid;
+    /* background-color: rgb(255, 255, 255); */
+    border-radius: 0.938rem;
+    margin-left: 4%;
+}
+
+.option-choose{
+    color: var(--controlP-color)!important;
+    
 }
