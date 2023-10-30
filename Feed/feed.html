@@ -122,36 +122,42 @@
 
                         <!-- TODO: POSZT ÍRÁSA GOMB A POPUPHOZ -->
 
+                        <!--! modal-backdop osztállyal van baj -> beépített bootstrap osztály  -->
+
                         <button type="button" class="btn" id="post-BTN" data-bs-toggle="modal"
                             data-bs-target="#postModal"><i class="bi bi-plus-circle"></i> What's in your mind?</button>
-
+                      
                         <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel"
-                            aria-hidden="true">
+                            aria-hidden="true" >
                             <div class="modal-dialog modal-dialog-centered modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="postModalLabel">Write a Post</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
+                                        <h1 class="modal-title fs-5" id="postModalLabel">Write a Post!</h1>
                                     </div>
 
                                     <div class="modal-body">
-                                        <label for="message-text" id="modalLabel-input" class="col-form-label modalLabel">Tell us what's going
-                                            on:</label>
-                                        <textarea class="form-control" id="message-text"></textarea>
-                                        <!-- !Kell egy label amely számolja a leütött karakterek számát -->
+                                        <form>
+                                            <label for="message-text" id="modalLabel-input"
+                                                class="col-form-label modalLabel">Tell us what's going
+                                                on:</label>
+                                            <textarea class="form-control" id="message-text"></textarea>
 
-                                        <label for="message-text" id="modalLabel-tag" class="col-form-label modalLabel">Add Tag:</label>
+                                            <label for="message-text" id="modalLabel-tag"
+                                                class="col-form-label modalLabel">Add Tag:</label>
+                                        </form>
                                     </div>
 
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal" id="close-btn">Close</button>
-                                        <button type="button" class="btn btn-primary" id="LetsPost-btn">Let's Post!</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                            id="close-btn">Close</button>
+                                        <button type="button" class="btn btn-primary" id="LetsPost-btn">Let's
+                                            Post!</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- <div class="custom-modal-overlay" id="customModalOverlay"></div> -->
                     </div>
                 </div>
             </div>
@@ -202,7 +208,7 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 
-        <script src="feed.js"></script>
+    <script src="feed.js"></script>
 </body>
 
 </html>
