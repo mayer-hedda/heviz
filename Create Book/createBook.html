@@ -62,7 +62,8 @@
                             <!--? STORY TITLE  -->
                             <div id="storyTitle-div" class="container">
                                 <label id="storyTitle" class="formLabel">Story Title:</label><br>
-                                <input type="text" class="form-control" id="inputStoryTitle" placeholder="Untitled Story" required>
+                                <input type="text" class="form-control" id="inputStoryTitle"
+                                    placeholder="Untitled Story" required>
                             </div>
 
                             <!--? STORY DESCRIPTION  -->
@@ -77,90 +78,70 @@
                             <!--? TARGET AUDIENCE - dropdown -->
                             <div id="targetAudience-div" class="container input-div">
                                 <label id="targetAudience">Target Audience:</label>
-                                <div class="dropdown">
-                                    <button class="btn dropdown-toggle option-choose" type="button" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        Choose an option
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Action</a></li>
-                                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                    </ul>
-                                </div>
+                                <select class="form-select select" aria-label="Default select example">
+                                    <option selected>Who is your audience</option>
+                                    <option value="1">Young Adoult (15-18 years of age)</option>
+                                    <option value="2">New Adoult (18-25 years of age)</option>
+                                    <option value="3">Adoult (25+ years of age)</option>
+                                </select>
                             </div>
 
                             <!--? LANGUAGE - dropdown -->
                             <div id="language-div" class="container input-div">
                                 <label id="language">Language:</label>
-                                <div class="dropdown">
-                                    <button class="btn dropdown-toggle option-choose" type="button" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        Choose an option
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" >Hungarian</a></li>
-                                        <li><a class="dropdown-item" >English</a></li>
-                                        <li><a class="dropdown-item" >Deutch</a></li>
-                                    </ul>
-                                </div>
+                                <select class="form-select select" aria-label="Default select example">
+                                    <option selected>Choose an option</option>
+                                    <option value="1">Hungarian</option>
+                                    <option value="2">English</option>
+                                    <option value="3">German</option>
+                                </select>
                             </div>
 
                             <!--? COPYRIGHT - dropdown  -->
                             <div id="copyRight-div" class="container input-div">
-                                <label id="copyRight">Target Audience:</label>
-                                <div class="dropdown">
-                                    <button class="btn dropdown-toggle option-choose" type="button" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        Choose an option
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Action</a></li>
-                                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                    </ul>
-                                </div>
+                                <label id="copyRight">Copyright:</label>
+                                <select class="form-select select" aria-label="Default select example">
+                                    <option selected>Minden jog fentartva</option>
+                                    <option value="1">2nd</option>
+                                    <option value="2">3rd</option>
+                                    <option value="3">4th</option>
+                                </select>
                             </div>
 
                             <!--? CATEGORY - dropdown  -->
                             <div id="category-div" class="container input-div">
                                 <label id="category">Category:</label>
-                                <div class="dropdown">
-                                    <button class="btn dropdown-toggle option-choose" type="button" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        Choose an option
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Action</a></li>
-                                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                    </ul>
-                                </div>
+                                <select class="form-select select" aria-label="Default select example">
+                                    <option selected>Choose your book's category</option>
+                                    <option value="1">Gastronomy</option>
+                                    <option value="2">Travel</option>
+                                    <option value="3">Sport</option>
+                                    <option value="4">Family</option>
+                                    <option value="5">Romance</option>
+                                    <option value="6">Science fiction</option>
+                                    <option value="7">Adventure</option>
+                                    <option value="8">Literature</option>
+                                    <option value="9">Youth</option>
+                                    <option value="10">Lexicons</option>
+                                    <option value="11">Poems</option>
+                                    <option value="12">TV series</option>
+                                    <option value="13">Religion</option>
+                                    <option value="14">Horror</option>
+                                    <option value="15">Thriller</option>
+                                    <option value="16">Comics</option>
+                                    <option value="17">Biography</option>
+                                    <option value="18">Hobbies and leisure</option>
+                                    <option value="19">Comedy</option>
+                                    <option value="20">Arts and leisure</option>
+                                    <option value="21">Textbooks, reference books</option>
+                                    <option value="22">Dictionaries</option>
+                                    <option value="23">Action</option>
+                                    <option value="24">Adult content</option>
+                                    <option value="25"></option>
+                                    <option value="26"></option>
+                                    <option value="27"></option>
+                                    <option value="28"></option>
+                                </select>
                             </div>
 
                             <!--? ADULT LITERATURE - switch -->

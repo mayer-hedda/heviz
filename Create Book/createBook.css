@@ -227,14 +227,11 @@ nav {
     font-weight: 500;
 }
 
-.dropdown{
+.select{
     border: var(--input-border) 0.063rem solid;
     /* background-color: rgb(255, 255, 255); */
-    border-radius: 0.938rem;
+    border-radius: 0.938rem!important;
     margin-left: 4%;
+    max-width: fit-content;
 }
 
-.option-choose{
-    color: var(--controlP-color)!important;
-    
-}
