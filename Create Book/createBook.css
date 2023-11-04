@@ -177,61 +177,108 @@ nav {
 }
 
 /** --------- SECTION ------------- */
-#UploadInfos{
+#UploadInfos {
     margin-top: 6.25rem;
-    
+
 }
 
 
 /** --------- UPLOAD FILES ------------- */
+/** IMAGE */
+#drop-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* width: 100%; */
+}
 
+#dropArea {
+    width: 320px;
+    height: 450px;
+    padding: 10px;
+    /* padding-top: 10%; */
+    background-color: rgb(196, 228, 255);
+    text-align: center;
+    border-radius: 0.938rem;
+}
+
+#imgView {
+    width: auto;
+    height: 95%;
+    border-radius: 0.938rem;
+    border: 2px dashed #78798F;
+    background: #d8d9f0;
+    /* align-content: center; */
+    margin-top: 20px;
+    /* align-items: inherit; */
+    object-fit: cover;
+    top: 10;
+    background-position: center;
+    background-size: cover;
+}
+
+#imgView img {
+    margin-top: 30px;
+}
+
+#imgView span {
+    display: block;
+    font-size: 15px;
+    margin-top: 30px;
+}
+
+#addPhoto {
+    width: 70px;
+}
 
 /** ----------  INPUTS --------------- */
 
-#inputs{
+#inputs {
     background-color: var(--input-card-bg);
     padding: 60px;
     border-radius: 0.938rem;
     box-shadow: 0.313rem 0.313rem 1.25rem 0rem rgba(0, 0, 0, 0.10);
 }
 
-.input-div{
+.input-div {
     display: inline-flex;
     margin-top: 4%;
 }
 
-.input-div label{
+.input-div label {
     align-self: center;
     color: var(--label-color);
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
 }
 
-#inputStoryTitle::placeholder, #inputDescription::placeholder{
+#inputStoryTitle::placeholder,
+#inputDescription::placeholder {
     color: var(--placeholder-color);
 }
 
-#inputStoryTitle, #inputDescription{
+#inputStoryTitle,
+#inputDescription {
     border: var(--input-border) 0.063rem solid;
     background-color: var(--input-card-bg);
 }
 
-#description-div{
+#description-div {
     margin-top: 4%;
 }
 
-#description-div label, #storyTitle-div label{
+#description-div label,
+#storyTitle-div label {
     margin-bottom: 1.5%;
     color: var(--label-color);
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
 }
 
-.select{
+.select {
     border: var(--input-border) 0.063rem solid;
     /* background-color: rgb(255, 255, 255); */
-    border-radius: 0.938rem!important;
+    border-radius: 0.938rem !important;
     margin-left: 4%;
     max-width: fit-content;
 }
-

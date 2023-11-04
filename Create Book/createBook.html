@@ -48,11 +48,21 @@
             <div class="row">
                 <div class="col-4">
                     <!--todo: KÉP + FÁJL FELTÖLTÉSE  -->
-                    <!-- <h1>IDE LESZNEK A KÉPEK</h1> -->
-                    <input type="image" id="inputImage">
+                    <div id="drop-image" class="text-center">
+                        <label for="inputPicture" id="dropArea">
+                            <input type="file" accept="image/*" id="inputPicture" hidden>
+                            <div id="imgView" class="align-middle">
+                                <img src="../icons/createBook/addPhoto.png" id="addPhoto">
+                                <p>Drag and drop or click here <br>to upload image</p>
+                                <span>Upload any images from desktop</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- <input type="image" id="inputImage"> -->
                     <!-- ide majd egy húzd ide a cuccot cucc kell -->
 
-                    <input type="file" id="inputFile">
+                    <!-- <input type="file" id="inputFile"> -->
                 </div>
 
                 <div class="col-8" id="inputs">
