@@ -46,6 +46,7 @@ function PwdCheck(pwdValue) {
         //TODO: ha igen akkor pwd_seged = true, ha nem akkor hibaüzenet
         pwdValid = true;
         BtnActivate();
+        pwdError.innerHTML = "";
         
     }
     console.log("Megvan a karakterszám " + pwdValid);
@@ -121,4 +122,7 @@ submitButtonubmitButton.addEventListener("click", async (e) => {
 
         const response = publisherRegistration(postData);   //itt hívjuk meg az endpointot
         console.log(response); //kiírja azt az adatot amit elküldött a backendnek
+
+        inputEmail.value = '';
+        inputPwd.value = '';
 })

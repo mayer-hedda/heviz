@@ -295,46 +295,6 @@ function validateEmail(emailValue) {
 
 }
 
-//###############################################
-// SETTING VALUE LIMITS
-// function setMaxDate(dateInput) {
-
-//   CURRENT DATE
-
-//     const date = new Date();
-//     let currentYear = date.getFullYear();
-//     let currentMonth = date.getMonth() + 1;
-//     let currentDay = date.getDate();
-//     console.log("Current date for MAX: " + currentYear + " / " + currentMonth + " / " + currentDay);
-
-//    set the maximum values
-
-//     const maxYear = `${currentYear}` - 15;
-//     const maxMonth = `${currentMonth}`;
-//     const maxDay = `${currentDay}`;
-//     dateInput.setAttribute('max', `${maxYear}-${maxMonth}-${maxDay}`);
-// }
-
-// function setMinDate(dateInput) {
-//     //*CURRENT DATE
-//     const date = new Date();
-//     let currentYear = date.getFullYear();
-//     let currentMonth = date.getMonth() + 1;
-//     let currentDay = date.getDate();
-
-//     console.log("Current date for MIN: " + currentYear + " / " + currentMonth + " / " + currentDay);
-
-//     //* set the minimum values
-//     const minYear = `${currentYear}` - 100;
-//     const minMonth = `${currentMonth}`;
-//     const minDay = `${currentDay}`;
-//     dateInput.setAttribute('min', `${minYear}-${minMonth}-${minDay}`);
-
-//     console.log("Min year: " + minYear + " / " + minMonth + " / " + minDay);
-
-// }
-// #####################################
-
 
 function validateCompany(companyValue) {
     if (companyValue.length < 2) {
@@ -517,7 +477,7 @@ function GeneralEvents() {
     inputCompany.addEventListener("", (e) => { })
 
     //? BRITHDAY 
-    //TODO: date picker --> not workin'
+    
 
     datepicker.addEventListener("focusin", (e) => {
         e.preventDefault();
@@ -526,18 +486,6 @@ function GeneralEvents() {
 
     datepicker.addEventListener("focusout", (e) => {
         e.preventDefault();
-        // DateValid = true;
-        const dateValue = datepicker.value;
-        if (dateValue < setMinDate(datepicker) || dateValue > setMaxDate(datepicker)) {
-            birthError.innerHTML = `<p>Invalid date.</p>`;
-            e.target.style.background = "rgb(255, 214, 220)";
-            e.target.style.borderColor = "rgb(243, 82, 93)";
-        } else {
-            DateValid = true;
-            e.target.style.background = "rgb(241, 255, 231)";
-            e.target.style.borderColor = "rgb(98, 173, 107)";
-        }
-
         console.log("Date pass --- " + DateValid);
     })
 
@@ -798,6 +746,11 @@ function PublisherEvents() {
         Publisher_Submit_Activate(submitButton);
         console.log("general vége is lefut");
     })
+
+    //? array ürítése, hogy a legközelebbi kitöltésnél vizsgálni tudja a mezőket
+    while(Datas.length > 0) {
+        Datas.pop();
+    }
 }
 
 //backenddel való összekötés
@@ -815,6 +768,8 @@ submitButton.addEventListener("click", async (e) => {
 
         const response = publisherRegistration(postData);   //itt hívjuk meg az endpointot
         console.log(response); //kiírja azt az adatot amit elküldött a backendnek
+
+        
     } else {
         const postData = {
             "username": inputUser.value,
@@ -827,7 +782,22 @@ submitButton.addEventListener("click", async (e) => {
 
         const response = publisherRegistration(postData);
         console.log('Válasz a backendtől:', response); 
+
+       
     }
+})
+
+submitButton.addEventListener('click', (e)=>{
+    e.preventDefault();
+    //? mezők ürítése
+    inputUser.value = '';
+    inputFirst.value = '';
+    inputLast.value = '';
+    inputCompany.value = '';
+    inputEmail.value = '';
+    inputPwd.value = '';
+    inputPwdAgain.value = '';
+    datepicker.value = '';
 })
 
 function General_Submit_Activate(submitButton) {
