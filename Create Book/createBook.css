@@ -179,11 +179,14 @@ nav {
 /** --------- SECTION ------------- */
 #UploadInfos {
     margin-top: 6.25rem;
-
 }
 
-
+/* #outsideDiv{
+    margin-left: 20px;
+    margin-right: 20px;
+} */
 /** --------- UPLOAD FILES ------------- */
+
 /** IMAGE */
 #drop-image {
     display: flex;
@@ -192,12 +195,13 @@ nav {
     /* width: 100%; */
 }
 
-#dropArea {
-    width: 320px;
+#dropAreaPicture {
+    width: 270px;
     height: 450px;
     padding: 10px;
+    
     /* padding-top: 10%; */
-    background-color: rgb(196, 228, 255);
+    background-color: var(--footer-bg-color);
     text-align: center;
     border-radius: 0.938rem;
 }
@@ -206,30 +210,61 @@ nav {
     width: auto;
     height: 95%;
     border-radius: 0.938rem;
-    border: 2px dashed #78798F;
-    background: #d8d9f0;
+    border: 2px dashed rgb(188, 164, 145);
+    background: rgba(247, 235, 224, 0.979);
     /* align-content: center; */
-    margin-top: 20px;
+    margin-top: 10px;
     /* align-items: inherit; */
     object-fit: cover;
     top: 10;
     background-position: center;
     background-size: cover;
+    padding: 10px;
 }
 
 #imgView img {
     margin-top: 30px;
 }
 
-#imgView span {
+.uploadSpan {
     display: block;
     font-size: 15px;
     margin-top: 30px;
 }
 
-#addPhoto {
+.addPhoto {
     width: 70px;
 }
+
+/** FILE */
+#drop-file{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10%;
+    margin-bottom: 20%;
+}
+
+#dropAreaFile{
+    background-color: var(--footer-bg-color);
+    text-align: center;
+    width: 270px;
+    height: max-content;
+    padding: 10px;
+    border-radius: 0.938rem;
+}
+
+#fileView{
+    width: auto;
+    height: 95%;
+    border: 2px dashed rgb(188, 164, 145);
+    background: rgba(247, 235, 224, 0.979);
+    margin: 5px;
+    padding: 10px;
+    border-radius: 0.75rem;
+}
+
+
 
 /** ----------  INPUTS --------------- */
 
@@ -238,11 +273,14 @@ nav {
     padding: 60px;
     border-radius: 0.938rem;
     box-shadow: 0.313rem 0.313rem 1.25rem 0rem rgba(0, 0, 0, 0.10);
+    height: max-content;
+    width: 850px;
 }
 
 .input-div {
     display: inline-flex;
     margin-top: 4%;
+    
 }
 
 .input-div label {
@@ -250,6 +288,7 @@ nav {
     color: var(--label-color);
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
+    width: 140px;
 }
 
 #inputStoryTitle::placeholder,
@@ -282,3 +321,5 @@ nav {
     margin-left: 4%;
     max-width: fit-content;
 }
+
+/** SWITCH  */

@@ -44,30 +44,37 @@
     </nav>
 
     <section id="UploadInfos">
-        <div class="container" id="outsideDiv">
+        <div class="container-fluid mx-auto" id="outsideDiv">
             <div class="row">
-                <div class="col-4">
-                    <!--todo: KÉP + FÁJL FELTÖLTÉSE  -->
-                    <div id="drop-image" class="text-center">
-                        <label for="inputPicture" id="dropArea">
+                <div class="col-4" id="upload">
+                    <!--todo: KÉP FELTÖLTÉSE | DRAG & DROP  -->
+                    <div id="drop-image" class="text-center align-content-center">
+                        <label for="inputPicture" id="dropAreaPicture">
                             <input type="file" accept="image/*" id="inputPicture" hidden>
                             <div id="imgView" class="align-middle">
-                                <img src="../icons/createBook/addPhoto.png" id="addPhoto">
-                                <p>Drag and drop or click here <br>to upload image</p>
-                                <span>Upload any images from desktop</span>
+                                <img class="addPhoto" src="../icons/createBook/upload-image.png" id="addPhoto">
+                                <p class="uploadP">Drag and drop or click here <br>to upload image</p>
+                                <span class="uploadSpan">Upload any images <br> from desktop</span>
                             </div>
                         </label>
                     </div>
 
-                    <!-- <input type="image" id="inputImage"> -->
-                    <!-- ide majd egy húzd ide a cuccot cucc kell -->
-
-                    <!-- <input type="file" id="inputFile"> -->
+                    <!-- TODO: FÁJL FELTÖLTÉSE | DRAG AND DROP -->
+                    <div id="drop-file" class="text-center">
+                        <label for="inputFile" id="dropAreaFile">
+                            <input type="file" accept=".pdf" id="inputFile" hidden>
+                            <div id="fileView" class="align-middle">
+                                <img class="addPhoto" src="../icons/createBook/upload-file.png" id="addFile">
+                                <p class="uploadP">Drag and drop or click here <br>to upload image</p>
+                                <span class="uploadSpan">Upload any images from desktop</span>
+                            </div>
+                        </label>
+                    </div>
                 </div>
 
                 <div class="col-8" id="inputs">
                     <!--TODO: INPUT MEZŐK  -->
-                    <form id="form" class="align-content-center">
+                    <form id="form">
                         <div class="form-group container">
                             <!--? STORY TITLE  -->
                             <div id="storyTitle-div" class="container">
@@ -155,6 +162,7 @@
                             </div>
 
                             <!--? ADULT LITERATURE - switch -->
+                           
                         </div>
 
                     </form>
