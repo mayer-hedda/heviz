@@ -62,22 +62,24 @@ const title = document.getElementById('inputStoryTitle');
 const description = document.getElementById('inputDescription');
 const selectAudience = document.getElementById("selectTargetAudience");
 const selectLanguage = document.getElementById('selectLanguage');
-const selectCopyRight = document.getElementById('selectCopyRight');
+// const selectCopyRight = document.getElementById('selectCopyRight');
 const selectCategory = document.getElementById('selectCategory');
 const charCounterTitle = document.getElementById('characterCounterTitle');
 const charCounterDes = document.getElementById('characterCounterDes');
 
+
+//?TITLE 
 function MinTitle(titleValue){
     if(titleValue > 3){
-        title.style.background = "rgb(255, 214, 220)";
-        title.style.borderColor = "rgb(243, 82, 93)";
+        title.classList.add('inputError');
+        console.log("Title error: too short - " + titleValue);
     }
 }
 
 title.addEventListener('input', (e)=>{
     e.preventDefault();
     const currentText = title.value;
-    const count = currentText.length;
+    let count = currentText.length;
     charCounterTitle.textContent = `${count}/100`;
 
     if (count >= 95) {
@@ -98,12 +100,21 @@ title.addEventListener('input', (e)=>{
     }
 })
 
+title.addEventListener('focusout', (e)=>{
+    e.preventDefault();
+    const titleValue = title.value;
+    if (titleValue == "") {
+        title.classList.add('inputError');
+    }
+    MinTitle(titleValue);
+})
+
 description.addEventListener('input', (e)=>{
     e.preventDefault();
     const currentText = description.value;
     const count = currentText.length;
     charCounterDes.textContent = `${count}/1000`;
-
+    
     if (count >= 950) {
         console.log("bemegy az ifbe");
         charCounterDes.classList.remove('counter');

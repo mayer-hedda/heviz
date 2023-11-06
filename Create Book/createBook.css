@@ -335,6 +335,10 @@ nav {
     font-size: medium;
 }
 
+.errorMessage {
+    margin-bottom: 0%;
+}
+
 #inputStoryTitle,
 #inputDescription {
     border: var(--input-border) 0.063rem solid;
@@ -354,6 +358,11 @@ nav {
 
 textarea {
     height: 280px !important;
+}
+
+.inputError{
+    background: rgb(255, 214, 220);
+    border: rgb(243, 82, 93), solid;
 }
 
 .counter {

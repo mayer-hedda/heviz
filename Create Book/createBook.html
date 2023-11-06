@@ -81,10 +81,14 @@
                                 <label id="storyTitle" class="formLabel">Story Title:</label><br>
                                 <input type="text" class="form-control" id="inputStoryTitle"
                                     placeholder="Untitled Story" maxlength="100" required>
-                                <!-- <div class="row"> -->
-                                    <!-- <p class="error" id="companyError">lol</p> error message -->
-                                    <p class="small counter" id="characterCounterTitle">0/100</p>
-                                <!-- </div> -->
+                                <div class="row ">
+                                    <div class="col-6">
+                                        <p class="error align-top errorMessage" id="titleErr"></p>
+                                    </div>
+                                    <div class="col-6">
+                                        <p class="small counter align-top" id="characterCounterTitle">0/100</p>
+                                    </div>
+                                </div>
                             </div>
 
                             <!--? STORY DESCRIPTION  -->
@@ -92,12 +96,21 @@
                                 <label id="description" class="formLabel">Description:</label><br>
                                 <textarea id="inputDescription" class="form-control" maxlength="1000"
                                     placeholder="Write here your book's description" required></textarea>
-                                <p class="small counter" id="characterCounterDes">0/1000</p>
+                                    <div class="row ">
+                                        <div class="col-6">
+                                            <p class="error align-top errorMessage" id="descriptErr"></p>
+                                        </div>
+                                        <div class="col-6">
+                                            <p class="small counter align-top" id="characterCounterDes">0/1000</p>
+                                        </div>
+                                    </div>
+                                
                             </div>
 
                             <!--? TAGS -->
 
                             <!--? TARGET AUDIENCE - dropdown -->
+                            
                             <div id="targetAudience-div" class="container input-div">
                                 <label id="targetAudience">Target Audience:</label>
                                 <select class="form-select select" id="selectTargetAudience">
@@ -107,6 +120,7 @@
                                     <option value="3">Adult (25+ years of age)</option>
                                 </select>
                             </div>
+                            <p class="error align-top errorMessage" id="audienceErr">lol</p>
 
                             <!--? LANGUAGE - dropdown -->
                             <div id="language-div" class="container input-div">
@@ -117,10 +131,11 @@
                                     <option value="2">English</option>
                                     <option value="3">German</option>
                                 </select>
+                                <div class="error align-top errorMessage" id="languageErr">lol</div>
                             </div>
 
                             <!--? COPYRIGHT - dropdown  -->
-                            <div id="copyRight-div" class="container input-div">
+                            <!-- <div id="copyRight-div" class="container input-div">
                                 <label id="copyRight">Copyright:</label>
                                 <select class="form-select select" id="selectCopyRight">
                                     <option value="0" selected>Minden jog fentartva</option>
@@ -128,7 +143,7 @@
                                     <option value="2">3rd</option>
                                     <option value="3">4th</option>
                                 </select>
-                            </div>
+                            </div> -->
 
                             <!--? CATEGORY - dropdown  -->
                             <div id="category-div" class="container input-div">
@@ -164,10 +179,11 @@
                                     <option value="27">Action</option>
                                     <option value="28">18+</option>
                                 </select>
+                                <p class="error errorMessage" id="cateroryErr">lol</p>
                             </div>
 
                             <!--? ADULT LITERATURE - switch -->
-                           
+
                         </div>
 
                     </form>
