@@ -476,7 +476,7 @@ function GeneralEvents() {
 
     inputCompany.addEventListener("", (e) => { })
 
-    //? BRITHDAY 
+
     
 
     datepicker.addEventListener("focusin", (e) => {

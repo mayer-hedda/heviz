@@ -4,30 +4,44 @@
 
 /**--------------- FONTS ---------------*/
 @font-face {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat-Regular';
     src: url("../fonts/Montserrat/static/Montserrat-Regular.ttf") format('truetype');
     font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat-Medium';
     src: url("../fonts/Montserrat/static/Montserrat-Medium.ttf") format('truetype');
     font-weight: 500;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat-SemiBold';
     src: url("../fonts/Montserrat/static/Montserrat-SemiBold.ttf") format('truetype');
     font-weight: 600;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'Poppins';
+    font-family: 'Poppins-Regular';
+    src: url(../fonts/Poppins/Poppins-Regular.ttf) format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins-Medium';
     src: url("../fonts/Poppins/Poppins-Medium.ttf") format('truetype');
     font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins-light';
+    src: url("../fonts/Poppins/Poppins-Light.ttf") format('truetype');
+    font-weight: 300;
     font-style: normal;
 }
 
@@ -47,7 +61,9 @@
     --input-card-bg: #FFFDF9;
     --input-border: #9495a9;
     --label-color: #37384E;
-    --placeholder-color: #78798F;
+    --placeholder-color: rgb(120, 121, 143);
+    --dragAndDrop-label: rgb(103, 92, 90);
+    --next-hover: rgb(100, 153, 132);
 }
 
 /** --------- EDIT CONTROL PANEL ------------- */
@@ -110,7 +126,7 @@ nav {
 
 .h4 {
     font-size: 1.313rem;
-    font-weight: 600;
+    font-family: 'Montserrat-SemiBold';
     /* margin: 12px 0px; */
 }
 
@@ -119,15 +135,13 @@ nav {
     letter-spacing: 0.013rem;
     line-height: 1.125rem;
     margin-bottom: 0rem;
-    font-family: 'Montserrat' sans-serif;
-    font-weight: 400;
+    font-family: 'Montserrat-Regular' sans-serif;
     color: var(--controlP-color);
 }
 
 #StoryName {
-    font-family: Montserrat;
+    font-family: 'Montserrat-SemiBold';
     font-size: 1.375rem;
-    font-weight: 600;
     letter-spacing: -0.013rem;
     color: var(--control-dark-text);
 }
@@ -151,10 +165,23 @@ nav {
     color: var(--control-Btn-text);
     text-align: center;
     align-items: center;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat-Medium', sans-serif;
     font-size: 0.938rem;
+    line-height: 100%;
+}
 
-    font-weight: 500;
+#Cancel:hover {
+    background-color: var(--input-border) !important;
+    height: fit-content;
+    width: fit-content;
+    padding: 0.625rem 0.875rem;
+    border-radius: 0.438rem;
+    background: #DEDEDB;
+    color: white;
+    text-align: center;
+    align-items: center;
+    font-family: 'Montserrat-Medium', sans-serif;
+    font-size: 0.938rem;
     line-height: 100%;
 }
 
@@ -168,9 +195,25 @@ nav {
     background: var(--controlNext-btn);
     color: #2B2729;
     text-align: center;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat-Medium', sans-serif;
     font-size: 0.938rem;
-    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: -0.013rem;
+    margin-left: 0.625rem;
+}
+
+#Next:hover{
+    display: inline-flex;
+    height: fit-content;
+    width: fit-content;
+    padding: 0.625rem 0.875rem;
+    align-items: center;
+    border-radius: 0.438rem;
+    background: var(--next-hover);
+    color: white;
+    text-align: center;
+    font-family: 'Montserrat-Medium', sans-serif;
+    font-size: 0.938rem;
     line-height: 100%;
     letter-spacing: -0.013rem;
     margin-left: 0.625rem;
@@ -182,8 +225,7 @@ nav {
 }
 
 /* #outsideDiv{
-    margin-left: 20px;
-    margin-right: 20px;
+   position: relative;
 } */
 /** --------- UPLOAD FILES ------------- */
 
@@ -195,11 +237,17 @@ nav {
     /* width: 100%; */
 }
 
+.uploadP{
+    font-family: 'Montserrat-Medium', sans-serif;
+    font-size: smaller;
+    color: var(--dragAndDrop-label);
+}
+
 #dropAreaPicture {
     width: 270px;
     height: 450px;
     padding: 10px;
-    
+
     /* padding-top: 10%; */
     background-color: var(--footer-bg-color);
     text-align: center;
@@ -228,8 +276,9 @@ nav {
 
 .uploadSpan {
     display: block;
-    font-size: 15px;
+    font-size: 17px;
     margin-top: 30px;
+    color: var(--dragAndDrop-label);
 }
 
 .addPhoto {
@@ -237,7 +286,7 @@ nav {
 }
 
 /** FILE */
-#drop-file{
+#drop-file {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -245,7 +294,7 @@ nav {
     margin-bottom: 20%;
 }
 
-#dropAreaFile{
+#dropAreaFile {
     background-color: var(--footer-bg-color);
     text-align: center;
     width: 270px;
@@ -254,7 +303,7 @@ nav {
     border-radius: 0.938rem;
 }
 
-#fileView{
+#fileView {
     width: auto;
     height: 95%;
     border: 2px dashed rgb(188, 164, 145);
@@ -275,25 +324,15 @@ nav {
     box-shadow: 0.313rem 0.313rem 1.25rem 0rem rgba(0, 0, 0, 0.10);
     height: max-content;
     width: 850px;
-}
+    margin-bottom: 50px;
 
-.input-div {
-    display: inline-flex;
-    margin-top: 4%;
-    
-}
-
-.input-div label {
-    align-self: center;
-    color: var(--label-color);
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-    width: 140px;
 }
 
 #inputStoryTitle::placeholder,
 #inputDescription::placeholder {
     color: var(--placeholder-color);
+    font-family: 'Poppins-light', sans-serif;
+    font-size: medium;
 }
 
 #inputStoryTitle,
@@ -303,16 +342,51 @@ nav {
 }
 
 #description-div {
-    margin-top: 4%;
+    margin-top: 0%;
 }
 
 #description-div label,
 #storyTitle-div label {
     margin-bottom: 1.5%;
     color: var(--label-color);
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
+    font-family: 'Poppins-Medium', sans-serif;
 }
+
+textarea {
+    height: 280px !important;
+}
+
+.counter {
+    text-align: end;
+    color: var(--input-border);
+    font-weight: lighter;
+    margin-bottom: 0%;
+}
+
+.counterErrorLight{
+    text-align: end;
+    color: #dc3545;
+    font-weight: lighter;
+}
+
+.counterErrorBold{
+    text-align: end;
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.input-div {
+    display: inline-flex;
+    margin-top: 4%;
+}
+
+.input-div label {
+    align-self: center;
+    color: var(--label-color);
+    font-family: 'Poppins-Medium', sans-serif;
+    width: 140px;
+}
+
 
 .select {
     border: var(--input-border) 0.063rem solid;
@@ -320,6 +394,14 @@ nav {
     border-radius: 0.938rem !important;
     margin-left: 4%;
     max-width: fit-content;
+    font-family: 'Poppins-light', sans-serif;
+    font-size: smaller !important;
+    cursor: pointer;
+}
+
+
+option:checked {
+    background-color: #b6f4dc;
 }
 
 /** SWITCH  */

@@ -57,11 +57,72 @@ dropAreaFile.addEventListener('drop', (e) => {
     console.log(inputFile.value);
 })
 
-//* OTHER INPUTS
+//* PROCESSING OTHER INPUTS
 const title = document.getElementById('inputStoryTitle');
-const kapcsolo = document.getElementById('check-apple');
+const description = document.getElementById('inputDescription');
+const selectAudience = document.getElementById("selectTargetAudience");
+const selectLanguage = document.getElementById('selectLanguage');
+const selectCopyRight = document.getElementById('selectCopyRight');
+const selectCategory = document.getElementById('selectCategory');
+const charCounterTitle = document.getElementById('characterCounterTitle');
+const charCounterDes = document.getElementById('characterCounterDes');
 
-kapcsolo.addEventListener('checked', (e) => {
+function MinTitle(titleValue){
+    if(titleValue > 3){
+        title.style.background = "rgb(255, 214, 220)";
+        title.style.borderColor = "rgb(243, 82, 93)";
+    }
+}
+
+title.addEventListener('input', (e)=>{
     e.preventDefault();
-    console.log(kapcsolo.value);
+    const currentText = title.value;
+    const count = currentText.length;
+    charCounterTitle.textContent = `${count}/100`;
+
+    if (count >= 95) {
+        console.log("bemegy az ifbe");
+        charCounterTitle.classList.remove('counter');
+        charCounterTitle.classList.add('counterErrorLight');
+        
+        if(count == 100){
+            charCounterTitle.classList.remove('counterErrorLight');
+            charCounterTitle.classList.add('counterErrorBold');
+        } else{
+            charCounterTitle.classList.remove('counterErrorBold');
+            charCounterTitle.classList.add('counterErrorLight');
+        }
+    }else{
+        charCounterTitle.classList.value= '';
+        charCounterTitle.classList.add('small', 'counter');
+    }
+})
+
+description.addEventListener('input', (e)=>{
+    e.preventDefault();
+    const currentText = description.value;
+    const count = currentText.length;
+    charCounterDes.textContent = `${count}/1000`;
+
+    if (count >= 950) {
+        console.log("bemegy az ifbe");
+        charCounterDes.classList.remove('counter');
+        charCounterDes.classList.add('counterErrorLight');
+        
+        if(count == 1000){
+            charCounterDes.classList.remove('counterErrorLight');
+            charCounterDes.classList.add('counterErrorBold');
+        } else{
+            charCounterDes.classList.remove('counterErrorBold');
+            charCounterDes.classList.add('counterErrorLight');
+        }
+    }else{
+        charCounterDes.classList.value= '';
+        charCounterDes.classList.add('small', 'counter');
+    }
+})
+
+//? example for the dropdown
+selectAudience.addEventListener('change', (e)=>{
+    console.log("You selected: " + e.target.value);
 })
