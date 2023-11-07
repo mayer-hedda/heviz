@@ -144,7 +144,7 @@ let FirstnameValid = false;
 let LastnameValid = false;
 let UsernameValid = false;
 let EmailValid = false;
-let DateValid = false;      //! TODO: Date validation
+let DateValid = false;      
 let CompanyValid = false;
 let PwdValid = false;
 let PwdAgainValid = false;
@@ -214,7 +214,6 @@ function validateEmail(emailValue) {
     const specReg = new RegExp("(?=.*[@])");
 
     if (emailValue.length < 3) {
-        emailError.innerHTML = `<p>Email address must be at least 3 characters long.</p>`;
         EmailValid = false;
         inputEmail.style.background = "rgb(255, 214, 220)";
         inputEmail.style.borderColor = "rgb(243, 82, 93)";

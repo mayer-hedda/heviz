@@ -78,22 +78,22 @@
                         <div class="form-group container">
                             <!--? STORY TITLE  -->
                             <div id="storyTitle-div" class="container">
-                                <label id="storyTitle" class="formLabel">Story Title:</label><br>
+                                <label id="storyTitle" class="formLabel" for="inputStoryTitle">Story Title:</label><br>
                                 <input type="text" class="form-control" id="inputStoryTitle"
-                                    placeholder="Untitled Story" maxlength="100" required>
+                                    placeholder="Untitled Story" maxlength="50" required>
                                 <div class="row ">
                                     <div class="col-6">
-                                        <p class="error align-top errorMessage" id="titleErr"></p>
+                                        <p class="errorMessage" id="titleErr"></p>
                                     </div>
                                     <div class="col-6">
-                                        <p class="small counter align-top" id="characterCounterTitle">0/100</p>
+                                        <p class="small counter align-top" id="characterCounterTitle">0/50</p>
                                     </div>
                                 </div>
                             </div>
 
                             <!--? STORY DESCRIPTION  -->
                             <div id="description-div" class="container ">
-                                <label id="description" class="formLabel">Description:</label><br>
+                                <label id="description" class="formLabel" for="inputDescription">Description:</label><br>
                                 <textarea id="inputDescription" class="form-control" maxlength="1000"
                                     placeholder="Write here your book's description" required></textarea>
                                     <div class="row ">
@@ -112,7 +112,7 @@
                             <!--? TARGET AUDIENCE - dropdown -->
                             
                             <div id="targetAudience-div" class="container input-div">
-                                <label id="targetAudience">Target Audience:</label>
+                                <label id="targetAudience" for="selectTargetAudience">Target Audience:</label>
                                 <select class="form-select select" id="selectTargetAudience">
                                     <option value="0" selected>Who is your audience</option>
                                     <option value="1">Young Adult (15-18 years of age)</option>
@@ -125,7 +125,7 @@
 
                             <!--? LANGUAGE - dropdown -->
                             <div id="language-div" class="container input-div">
-                                <label id="language">Language:</label>
+                                <label id="language" for="selectLanguage">Language:</label>
                                 <select class="form-select select" id="selectLanguage">
                                     <option value="0" selected>Choose an option</option>
                                     <option value="1">Hungarian</option>
@@ -135,20 +135,9 @@
                             </div>
                             <div class="container errorMessage" id="languageErr"></div>
 
-                            <!--? COPYRIGHT - dropdown  -->
-                            <!-- <div id="copyRight-div" class="container input-div">
-                                <label id="copyRight">Copyright:</label>
-                                <select class="form-select select" id="selectCopyRight">
-                                    <option value="0" selected>Minden jog fentartva</option>
-                                    <option value="1">2nd</option>
-                                    <option value="2">3rd</option>
-                                    <option value="3">4th</option>
-                                </select>
-                            </div> -->
-
                             <!--? CATEGORY - dropdown  -->
                             <div id="category-div" class="container input-div">
-                                <label id="category">Category:</label>
+                                <label id="category" for="selectCategory">Category:</label>
                                 <select class="form-select select" id="selectCategory">
                                     <option value="0" selected>Choose your book's category</option>
                                     <option value="1">Gastronomy</option>
