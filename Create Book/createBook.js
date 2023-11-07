@@ -67,16 +67,22 @@ const selectCategory = document.getElementById('selectCategory');
 const charCounterTitle = document.getElementById('characterCounterTitle');
 const charCounterDes = document.getElementById('characterCounterDes');
 
+//* ERROR FIELDS
+const titleError = document.getElementById('titleErr');
+const descriptionError = document.getElementById('descriptErr');
+const audienceError = document.getElementById('audienceErr');
+const languageError = document.getElementById('languageErr');
+const categoryError = document.getElementById('categoryErr');
 
 //?TITLE 
-function MinTitle(titleValue){
-    if(titleValue > 3){
+function MinTitle(titleValue) {
+    if (titleValue > 3) {
         title.classList.add('inputError');
         console.log("Title error: too short - " + titleValue);
     }
 }
 
-title.addEventListener('input', (e)=>{
+title.addEventListener('input', (e) => {
     e.preventDefault();
     const currentText = title.value;
     let count = currentText.length;
@@ -86,54 +92,58 @@ title.addEventListener('input', (e)=>{
         console.log("bemegy az ifbe");
         charCounterTitle.classList.remove('counter');
         charCounterTitle.classList.add('counterErrorLight');
-        
-        if(count == 100){
+
+        if (count == 100) {
             charCounterTitle.classList.remove('counterErrorLight');
             charCounterTitle.classList.add('counterErrorBold');
-        } else{
+        } else {
             charCounterTitle.classList.remove('counterErrorBold');
             charCounterTitle.classList.add('counterErrorLight');
         }
-    }else{
-        charCounterTitle.classList.value= '';
+    } else {
+        charCounterTitle.classList.value = '';
         charCounterTitle.classList.add('small', 'counter');
     }
 })
 
-title.addEventListener('focusout', (e)=>{
+title.addEventListener('focusout', (e) => {
     e.preventDefault();
     const titleValue = title.value;
     if (titleValue == "") {
         title.classList.add('inputError');
+        emailError.innerHTML = `<p>Email address must be at least 3 characters long.</p>`;
+
+    } else {
+
     }
     MinTitle(titleValue);
 })
 
-description.addEventListener('input', (e)=>{
+description.addEventListener('input', (e) => {
     e.preventDefault();
     const currentText = description.value;
     const count = currentText.length;
     charCounterDes.textContent = `${count}/1000`;
-    
+
     if (count >= 950) {
         console.log("bemegy az ifbe");
         charCounterDes.classList.remove('counter');
         charCounterDes.classList.add('counterErrorLight');
-        
-        if(count == 1000){
+
+        if (count == 1000) {
             charCounterDes.classList.remove('counterErrorLight');
             charCounterDes.classList.add('counterErrorBold');
-        } else{
+        } else {
             charCounterDes.classList.remove('counterErrorBold');
             charCounterDes.classList.add('counterErrorLight');
         }
-    }else{
-        charCounterDes.classList.value= '';
+    } else {
+        charCounterDes.classList.value = '';
         charCounterDes.classList.add('small', 'counter');
     }
 })
 
 //? example for the dropdown
-selectAudience.addEventListener('change', (e)=>{
+selectAudience.addEventListener('change', (e) => {
     console.log("You selected: " + e.target.value);
 })

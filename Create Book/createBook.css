@@ -335,8 +335,10 @@ nav {
     font-size: medium;
 }
 
-.errorMessage {
+.errorMessage, .errorMessage p {
     margin-bottom: 0%;
+    color: #EE1D52;
+    font-family: 'Poppins-Regular';
 }
 
 #inputStoryTitle,
@@ -363,6 +365,7 @@ textarea {
 .inputError{
     background: rgb(255, 214, 220);
     border: rgb(243, 82, 93), solid;
+    margin-left: 4%;
 }
 
 .counter {
@@ -386,7 +389,7 @@ textarea {
 
 .input-div {
     display: inline-flex;
-    margin-top: 4%;
+    margin-top: 3%;
 }
 
 .input-div label {
