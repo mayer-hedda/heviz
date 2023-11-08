@@ -66,6 +66,9 @@ const selectCategory = document.getElementById('selectCategory');
 const charCounterTitle = document.getElementById('characterCounterTitle');
 const charCounterDes = document.getElementById('characterCounterDes');
 
+const nextBtn = document.getElementById('Next');
+
+
 //* ERROR FIELDS
 const titleError = document.getElementById('titleErr');
 const descriptionError = document.getElementById('descriptErr');
@@ -74,11 +77,14 @@ const languageError = document.getElementById('languageErr');
 const categoryError = document.getElementById('categoryErr');
 
 //* VARIABLES FOR ACTIVATE BUTTON
-var titlePass = false; 
-var descriptionPass = false; 
-var audiencePass = false; 
-var languagePass = false; 
-var categoryPass = false; 
+var titlePass = false;
+var descriptionPass = false;
+var audiencePass = false;
+var languagePass = false;
+var categoryPass = false;
+
+
+//? FUNCTION FOR DROPDOWNS 
 
 
 // #############################################
@@ -127,23 +133,23 @@ title.addEventListener('focusout', (e) => {
         console.log("TitlePass value: " + titlePass);
     } else {
         const functionValue = MinTitle(titleValue);
-       if ( functionValue == false) {
-        titlePass = false;
-        titleError.innerText = "Title must be 3 caracter long.";
-        title.classList.add('inputError');
-        console.log("A title függvény értéke: " + functionValue);
-        console.log("TitlePass value: " + titlePass);
-       }else{
-        title.classList.add('inputPass');
-        titlePass = true;
-        console.log("TitlePass value: " + titlePass);
-        storyname.textContent = title.value;
-       }
+        if (functionValue == false) {
+            titlePass = false;
+            titleError.innerText = "Title must be 3 caracter long.";
+            title.classList.add('inputError');
+            console.log("A title függvény értéke: " + functionValue);
+            console.log("TitlePass value: " + titlePass);
+        } else {
+            title.classList.add('inputPass');
+            titlePass = true;
+            console.log("TitlePass value: " + titlePass);
+            storyname.textContent = title.value;
+        }
     }
-    
+
 })
 
-title.addEventListener('focusin', (e)=>{
+title.addEventListener('focusin', (e) => {
     e.preventDefault();
     title.classList.remove('inputError');
     title.classList.remove('inputPass');
@@ -152,7 +158,7 @@ title.addEventListener('focusin', (e)=>{
 })
 // #############################################
 //? DESCRIPTION
-function MinDesc(descriptionValue){
+function MinDesc(descriptionValue) {
     if (descriptionValue.length < 20) {
         description.classList.add('inputError');
         console.log("Description error: too short - " + descriptionValue);
@@ -185,7 +191,7 @@ description.addEventListener('input', (e) => {
     }
 })
 
-description.addEventListener('focusout', (e)=>{
+description.addEventListener('focusout', (e) => {
     e.preventDefault();
     const descValue = description.value;
     if (descValue == "") {
@@ -195,21 +201,21 @@ description.addEventListener('focusout', (e)=>{
         console.log("descriptionPass value: " + titlePass);
     } else {
         const functionValue = MinDesc(descValue);
-       if ( functionValue == false) {
-        descriptionPass = false;
-        descriptionError.innerText = "The description must be 20 caracter long.";
-        description.classList.add('inputError');
-        console.log("A descript. függvény értéke: " + functionValue);
-        console.log("descriptionPass value: " + titlePass);
-       }else{
-        description.classList.add('inputPass');
-        descriptionPass = true;
-        console.log("descriptionPass value: " + titlePass);
-       }
+        if (functionValue == false) {
+            descriptionPass = false;
+            descriptionError.innerText = "The description must be 20 caracter long.";
+            description.classList.add('inputError');
+            console.log("A descript. függvény értéke: " + functionValue);
+            console.log("descriptionPass value: " + titlePass);
+        } else {
+            description.classList.add('inputPass');
+            descriptionPass = true;
+            console.log("descriptionPass value: " + titlePass);
+        }
     }
 })
 
-description.addEventListener('focusin', (e)=>{
+description.addEventListener('focusin', (e) => {
     e.preventDefault();
     description.classList.remove('inputError');
     description.classList.remove('inputPass');
@@ -217,21 +223,21 @@ description.addEventListener('focusin', (e)=>{
 })
 
 // #############################################
-//? AUDIENCE DROPDOWN
-var audienceData;
 function VerifyDropdown(select, errorField, selection) {
     if (select.value == 0) {
         const errorMessage = `The ${selection} cannot be the default value.`;
         errorField.innerHTML = `<p>${errorMessage}</p>`;
+        console.log(selection + ": wrong choice");
         select.classList.add('inputError');
         return false;
     }
     return true;
 }
-
+//? AUDIENCE DROPDOWN
+var audienceData;
 selectAudience.addEventListener('focusout', (e) => {
     e.preventDefault();
-    audienceValue = e.target.value;
+    const audienceValue = e.target.value;
     console.log("You selected: " + audienceValue);
 
     const functionValue = VerifyDropdown(selectAudience, audienceError, "Audience");
@@ -250,11 +256,72 @@ selectAudience.addEventListener('focusin', (e) => {
     selectAudience.classList.remove('inputPass');
     audienceError.innerHTML = "";
 })
+// #############################################
+//? LANGUAGE DROPDOWN
+var languageData;
+selectLanguage.addEventListener('focusin', (e) => {
+    e.preventDefault();
+    selectLanguage.classList.remove('inputError');
+    selectLanguage.classList.remove('inputPass');
+    languageError.innerHTML = "";
+})
 
-// selectAudience.addEventListener('change', (e)=>{
-//     e.preventDefault();
-//     const functionValue = VerifyDropdown(selectAudience, audienceError, "Audience");
-//     if (condition) {
-        
-//     }
-// })
+selectLanguage.addEventListener('focusout', (e) => {
+    e.preventDefault();
+    const languageValue = e.target.value;
+    console.log("You selected: " + languageValue);
+
+    const functionValue = VerifyDropdown(selectLanguage, languageError, "Langugage");
+    if (functionValue == true) {
+        selectLanguage.classList.add('inputPass');
+        languagePass = true;
+        console.log("audiencePass value: " + languagePass);
+        languageData = languageValue;
+        console.log(languageData);
+    }
+})
+
+// #############################################
+//? CATEGORY DROPDOWN
+var categoryData;
+selectCategory.addEventListener('focusin', (e) => {
+    e.preventDefault();
+    selectCategory.classList.remove('inputError');
+    selectCategory.classList.remove('inputPass');
+    categoryError.innerHTML = "";
+})
+
+selectCategory.addEventListener('focusout', (e) => {
+    e.preventDefault();
+    const categoryValue = e.target.value;
+    console.log("You selected: " + categoryValue);
+
+    const functionValue = VerifyDropdown(selectCategory, categoryError, "Category");
+    if (functionValue == true) {
+        selectCategory.classList.add('inputPass');
+        categoryPass = true;
+        console.log("audiencePass value: " + categoryPass);
+        categoryData = categoryValue;
+        console.log(categoryData);
+    }
+})
+
+// console.log("gomb előtt még lefut");
+ActivateNext(nextBtn);
+
+
+
+// #############################################
+//? NEXT BUTTON 
+
+function ActivateNext(nextBtn) {
+    if (titlePass == true &&
+        descriptionPass == true &&
+        audiencePass == true &&
+        languagePass == true &&
+        categoryPass == true) {
+        console.log("Bumm aktív a gomb");
+        nextBtn.disabled = false;
+    }
+}
+

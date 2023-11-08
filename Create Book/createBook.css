@@ -219,6 +219,10 @@ nav {
     margin-left: 0.625rem;
 }
 
+#Next:disabled{
+    border-color: var(--controlNext-btn)!important;
+}
+
 /** --------- SECTION ------------- */
 #UploadInfos {
     margin-top: 6.25rem;
