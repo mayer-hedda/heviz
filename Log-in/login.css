@@ -1,0 +1,185 @@
+/* Rem és px közti váltószám: 16  KINDA*/
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins/Poppins-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins/Poppins-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/static/Inter-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+* {
+    position: relative;
+}
+
+/* TAGS */
+h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: bold;
+    color: rgba(65, 61, 63, 1);
+}
+
+form label {
+    margin-bottom: 1%;
+    padding-left: 1%;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 100%;
+    color: rgb(55, 56, 78);
+}
+
+form {
+
+    align-content: center;
+    padding: 2.5rem 3.4375rem;
+    /*40px és 55px volt*/
+    /* a 40-et megszoroztam 0,0625-el */
+    gap: 2.5rem;
+    position: relative;
+    width: 34.6875rem;
+    height: fit-content;
+
+}
+
+input {
+    width: 31, 25rem;
+}
+
+form p {
+    margin-bottom: 2%;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+}
+
+
+a:hover {
+    color: rgba(166, 3, 207, 0.9)
+}
+
+/* CLASSES */
+.error p {
+    color: #EE1D52;
+    font-family: 'Poppins', sans-serif;
+    font-size: 80%;
+    margin: 0%;
+    padding: 0%;
+
+}
+
+
+/* IDs */
+#outside-div {
+    background: #F8F8F4;
+    padding: 0% 10%;
+    box-sizing: content-box;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center !important;
+    position: relative;
+    margin-top: 5%;
+
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+    /* transform: translate(-50%, 50%); */
+
+    box-shadow: 0.625rem 0.625rem 0.625rem 0rem rgba(77, 66, 64, 0.40) !important;
+}
+
+
+
+#up-p {
+    color: #1e808d;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    margin-top: 0%;
+}
+
+/* email */
+
+
+#input-Email {
+    border-width: 0.1125rem;
+    border-color: rgb(144, 152, 180, 0.75);
+    background-color: transparent;
+    border-top-left-radius: 0.8rem;
+    border-top-right-radius: 0.8rem;
+    border-bottom-right-radius: 0.8rem;
+    border-bottom-left-radius: 0.8rem;
+    margin-bottom: 0rem;
+    align-items: center;
+}
+
+#input-Email::placeholder {
+    font-size: smaller;
+    color: rgb(120, 121, 143);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 0.75rem;
+}
+
+
+/* password */
+#input-Pwd::placeholder {
+    font-size: smaller;
+    color: rgb(120, 121, 143);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 0.75rem;
+}
+
+#input-Pwd {
+    border-width: 0.1125rem;
+    border-color: rgb(144, 152, 180, 0.75);
+    background-color: transparent;
+    border-top-left-radius: 0.8rem;
+    border-top-right-radius: 0.8rem;
+    border-bottom-right-radius: 0.8rem;
+    border-bottom-left-radius: 0.8rem;
+
+    margin-bottom: 0rem;
+}
+
+#forgotPwd {
+    margin-bottom: 8%;
+}
+
+#submitButton {
+    background-color: rgba(232, 181, 160, 1);
+
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+
+    border-radius: 5rem;
+    
+    font-size: 120%;
+    text-align: center;
+    font-family: Poppins;
+    font-weight: 500;
+    color: #332F31;
+    position: relative;
+    /* margin-bottom: 15%; */
+    border: 0rem;
+}
+
+#submitButton:hover {
+    background-color: #649984;
+    color: white;
+}

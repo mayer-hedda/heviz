@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS file -->
+    <link rel="stylesheet" href="signup.css">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <!-- date picker -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"> -->
+
+    <!--
+         
+    Date input mező kiegészítőinek forrásai:
+    https://flatpickr.js.org
+    https://github.com/flatpickr/flatpickr
+
+    -->
+
+    <title>Sign Up</title>
+    <!--? Icon a tabba -->
+    <link rel="icon" href="../icons/C-logo.svg" type="image/svg+xml">
+
+</head>
+
+<body style="background-color: #E7DAE0;">
+    <div class="container align-items-center " id="outside-div" style="margin-top: 3.8%;">
+        <div class="input-control row">
+            <div class="col-md-3 sidestuff"></div>
+            <form class="col-12 col-md-6" id="input-form" style="margin-top: 6%;">
+
+                <h1 class="text-center">Sign Up</h1>
+
+                <div class="row" id="nav">
+                    <div class="btn-field text-center">
+
+                        <div id="btns">
+                            <button class="active-btn" id="General" type="button">General</button> <!--DEFAULT-->
+
+                            <button class="disabled-btn" id="Publisher" type="button">Publisher</button>
+                        </div>
+
+                        <p class="text-center definition" id="GenP">For you to find your new favorite book or publish
+                            your own.</p> <!--DEFAULT-->
+
+                        <p class="text-center definition" id="PubP" hidden>For users whos working for a company or own a
+                            company.</p>
+
+                    </div>
+                </div>
+
+                <div class="row" id="names">
+                    <!--? Names for publishers-->
+                    <div class="form-group col-md-6">
+                        <!-- FIRST NAME -->
+                        <label for="inputFirst">First name:</label>
+                        <input type="text" id="inputFirst" class="form-control" placeholder="First name">
+                        <div class="error" id="firstError"></div> <!-- error message -->
+                    </div>
+
+                    <div class="form-group col-md-6" >
+                        <!-- LAST NAME -->
+                        <label for="inputLast">Last name:</label>
+                        <input type="text" id="inputLast" class="form-control" placeholder="Last name">
+                        <div class="error" id="lastError"></div> <!-- error message -->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <!--? USERNAME -->
+                    <div class="form-group" id="username">
+                        <label for="inputUser">User name:</label>
+                        <input type="text" id="inputUser" class="form-control" placeholder="somebody123">
+                        <div class="error row" id="userError"></div> <!-- error message -->
+                    </div>
+
+                    <!--? EMAIL -->
+                    <div class="form-group" id="email">
+                        <label for="inputEmail">Email address:</label>
+                        <input type="email" id="inputEmail" class="form-control" placeholder="example@gmail.com">
+                        <div class="error" id="emailError"></div> <!-- error message -->
+                    </div>
+
+                    <!--? BIRTH DATE FOR GENERAL -->
+                    
+                    <div class="form-group" id="birthDate">
+                        <label for="datepicker">Birth date:</label>
+                        <input type="date" id="datepicker" class="form-control" min="1923-01-01" max="2009-01-01" required>
+                        <div class="error" id="birthError"></div> <!-- error message -->
+                    </div>
+
+                    <!--? COMPANY NAME FOR PUBLISHERS-->
+                    <div class="form-group" id="company" hidden>
+                        <label for="inputCompany">Company name:</label>
+                        <input type="text" id="inputCompany" class="form-control"
+                            placeholder="Please enter a company name">
+                        <div class="error" id="companyError"></div> <!-- error message -->
+                    </div>
+
+                </div>
+
+                <!--? PASSWORDS -->
+                <div class="row" id="PWDs">
+                    <!-- SET PASSWORD -->
+                    <div class="form-group col-md-6">
+                        <label for="inputPwd">Password:</label>
+                        <input type="password" id="inputPwd" class="form-control" placeholder="Set password">
+                        <div class="error" id="firstPwdError"></div> <!-- error message -->
+                    </div>
+
+                    <!--? PASSWORD AGAIN -->
+                    <div class="form-group col-md-6">
+                        <label for="inputPwdAgain">Password again:</label>
+                        <input type="password" id="inputPwdAgain" class="form-control"
+                            placeholder="Confirm your password">
+                        <div class="error" id="lastPwdError"></div> <!-- error message -->
+
+                    </div>
+                </div>
+
+                <!-- ÁSZF AND MORE-->
+                <div class="form-group text-center" id="ASZF">
+                    <input type="checkbox" id="check-Aszf" required> I agree with terms and conditions. <br>
+                    <p id="link" class="text-center">Already a member? <a href="../Log-in/login.html">Log in</a></p>
+                    <div class="error" id="AszfError"></div> <!-- error message -->
+                </div>
+
+                <!-- BUTTON -->
+                <div class="form-group text-center" style="margin-bottom: 10%;">
+                    <button disabled id="submitButton" type="submit" class="btn">Sign Up</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- JavaScript -->
+    <script src="signup.js"></script>
+    <!-- ? futtatáshoz kell az api mappa -> ez mindig változik-->
+    <script src="../Api/index.js"></script>     
+
+
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+    <!-- date picker -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> -->
+</body>
+
+</html>

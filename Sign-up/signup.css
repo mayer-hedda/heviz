@@ -1,0 +1,403 @@
+/* VÁLTOZÓK */
+:root{
+    --error-BgColor: rgb(255, 214, 220);
+    --error-BorderColor: rgb(243, 82, 93);
+
+    --success-BgColor: rgb(241, 255, 231);
+    --success-BorderColor: rgb(98, 173, 107);
+}
+
+/* ---------------------------- FONTS ---------------------------- */
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins/Poppins-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url("../fonts/Poppins/Poppins-Regular.ttf") format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins/Poppins-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/static/Inter-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Lora';
+    src: url('../fonts/Lora/static/Lora-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url("../fonts/Montserrat/static/Montserrat-Medium.ttf") format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+/* ---------------------------- TAGS ---------------------------- */
+html {
+    min-height: 100%;
+    /* fill the screen height to allow vertical alignement */
+    display: grid;
+    /* display:flex works too since body is the only grid cell */
+}
+
+h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: bold;
+    color: rgba(65, 61, 63, 1) !important;
+    padding-bottom: 2%;
+
+}
+
+form {
+
+    align-content: center;
+    /* padding: 2.5rem 3.4375rem; */
+    /*40px és 55px volt*/
+    /* a 40-et megszoroztam 0,0625-el */
+    gap: 2.5rem;
+    position: relative;
+    width: 34.6875rem;
+    height: fit-content;
+    margin: none;
+    width: max-content;
+}
+
+form label {
+    margin-bottom: 1%;
+    padding-left: 1%;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 100%;
+    color: rgb(55, 56, 78);
+}
+
+/* DATE INPUT MEZŐ STÍLUSÁNAK FELÜLÍRÁSA */
+
+input[type="date"] {
+    /* Stílus beállítások */
+    -webkit-appearance: none;
+    /*ezekkel felülírjuk a böngésző alapértelmezett beállításait*/
+    -moz-appearance: none;
+    appearance: none;
+
+    border-width: 0.1125rem;
+    border-color: rgb(144, 152, 180, 0.75);
+    background-color: transparent;
+    border-top-left-radius: 0.8rem;
+    border-top-right-radius: 0.8rem;
+    border-bottom-right-radius: 0.8rem;
+    border-bottom-left-radius: 0.8rem;
+
+    margin-bottom: 1.5rem;
+}
+
+
+
+/* ---------------------------- CLASSES ---------------------------- */
+/* .sidestuff {
+    width: 6.25rem;
+} */
+
+.definition {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    color: rgba(30, 128, 141, 1);
+}
+
+.btn-field button.disabled-btn {
+    border: 0rem;
+    background-color: transparent;
+    font-family: 'Inter';
+    font-size: 1.5rem;
+    color: rgba(65, 61, 63);
+    text-align: center;
+}
+
+.btn-field button.active-btn {
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+
+    border: 0rem;
+    background-color: rgba(232, 181, 160, 1);
+
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+
+    font-family: 'Montserrat';
+    text-align: center;
+    color: rgba(65, 61, 63);
+
+}
+
+.error p {
+    color: #EE1D52;
+    font-family: 'Poppins', sans-serif;
+    font-size: 80%;
+    margin-top: 0%;
+    padding-top: 0%;
+}
+
+/* .btn-field button.disabled{
+   
+} */
+
+
+/* ---------------------------- ID-s ----------------------------*/
+#outside-div {
+    background: #F8F8F4;
+    padding-left: 0%;
+    padding-right: 0%;
+    box-sizing: border-box;
+    width: 60%;
+    flex-direction: column;
+    top: 50%;
+    left: 50%;
+    margin-top: -150px;
+    /* margin-left: -50px; */
+
+    /* transform: translate(0%, 50%); */
+
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+    box-shadow: 0.625rem 0.625rem 0.625rem 0rem rgba(77, 66, 64, 0.40) !important;
+
+}
+
+#nav p {
+    margin-bottom: 0.625rem;
+}
+
+#btns {
+    margin-bottom: 0.625rem;
+}
+
+#General {
+    margin-right: 10%;
+}
+
+#Publisher {
+    margin-left: 10%;
+}
+
+/* FIRST NAME */
+#names {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+#inputFirst {
+    border-width: 0.1125rem;
+    border-color: rgb(144, 152, 180, 0.75);
+    background-color: transparent;
+    border-top-left-radius: 0.8rem;
+    border-top-right-radius: 0.8rem;
+    border-bottom-right-radius: 0.8rem;
+    border-bottom-left-radius: 0.8rem;
+
+    margin-bottom: 0rem;
+}
+
+#inputFirst::placeholder {
+    font-size: smaller;
+    color: rgb(120, 121, 143);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 0.75rem;
+}
+
+/* LAST NAME */
+#inputLast {
+    border-width: 0.1125rem;
+    border-color: rgb(144, 152, 180, 0.75);
+    background-color: transparent;
+    border-top-left-radius: 0.8rem;
+    border-top-right-radius: 0.8rem;
+    border-bottom-right-radius: 0.8rem;
+    border-bottom-left-radius: 0.8rem;
+
+    margin-bottom: 0rem;
+}
+
+#inputLast::placeholder {
+    font-size: smaller;
+    color: rgb(120, 121, 143);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 0.75rem;
+}
+
+/* USERNAME */
+#inputUser {
+    border-width: 0.1125rem;
+    border-color: rgb(144, 152, 180, 0.75);
+    background-color: transparent;
+    border-top-left-radius: 0.8rem;
+    border-top-right-radius: 0.8rem;
+    border-bottom-right-radius: 0.8rem;
+    border-bottom-left-radius: 0.8rem;
+
+    /* margin-bottom: 1rem; */
+}
+
+#inputUser::placeholder {
+    font-size: smaller;
+    color: rgb(120, 121, 143);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 0.75rem;
+}
+
+/* EMAIL */
+#email{
+    margin-top: 1rem;
+}
+
+#inputEmail {
+    border-width: 0.1125rem;
+    border-color: rgb(144, 152, 180, 0.75);
+    background-color: transparent;
+    border-top-left-radius: 0.8rem;
+    border-top-right-radius: 0.8rem;
+    border-bottom-right-radius: 0.8rem;
+    border-bottom-left-radius: 0.8rem;
+    /* margin-top: 1rem; */
+    margin-bottom: 1rem;
+}
+
+#inputEmail::placeholder {
+    font-size: smaller;
+    color: rgb(120, 121, 143);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 0.75rem;
+}
+
+/* COMPANY */
+#inputCompany {
+    border-width: 0.1125rem;
+    border-color: rgb(144, 152, 180, 0.75);
+    background-color: transparent;
+    border-top-left-radius: 0.8rem;
+    border-top-right-radius: 0.8rem;
+    border-bottom-right-radius: 0.8rem;
+    border-bottom-left-radius: 0.8rem;
+
+    margin-bottom: 1rem;        /* ? 1.8rem*/
+}
+
+#inputCompany::placeholder {
+    font-size: smaller;
+    color: rgb(120, 121, 143);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 0.75rem;
+}
+
+/* FIRST PWD */
+#inputPwd {
+    border-width: 0.1125rem;
+    border-color: rgb(144, 152, 180, 0.75);
+    background-color: transparent;
+    border-top-left-radius: 0.8rem;
+    border-top-right-radius: 0.8rem;
+    border-bottom-right-radius: 0.8rem;
+    border-bottom-left-radius: 0.8rem;
+
+    margin-bottom: 1rem;
+}
+
+#inputPwd::placeholder {
+    font-size: smaller;
+    color: rgb(120, 121, 143);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 0.75rem;
+}
+
+/* SECOND PWD */
+
+#inputPwdAgain {
+    border-width: 0.1125rem;
+    border-color: rgb(144, 152, 180, 0.75);
+    background-color: transparent;
+    border-top-left-radius: 0.8rem;
+    border-top-right-radius: 0.8rem;
+    border-bottom-right-radius: 0.8rem;
+    border-bottom-left-radius: 0.8rem;
+
+    margin-bottom: 1rem;
+}
+
+#inputPwdAgain::placeholder {
+    font-size: smaller;
+    color: rgb(120, 121, 143);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 0.75rem;
+}
+
+#ASZF {
+    margin-top: 6%;
+    font-family: 'Poppins';
+    font-weight: 400;
+}
+
+#ASZF a {
+    font-family: 'Poppins';
+    font-weight: 400;
+}
+
+#submitButton {
+    border-radius: 5rem;
+
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+
+    border: 0rem;
+    background-color: rgba(232, 181, 160, 1);
+
+    font-size: 120%;
+    text-align: center;
+    font-family: Poppins;
+    font-weight: 500;
+    color: #332F31;
+    position: relative;
+}
+
+/* 
+.Added-Error{
+    border-color: var(--error-BorderColor);
+    background-color: var(--error-BgColor);
+}
+
+.Added-Success{
+    border-color: var(--success-BorderColor);
+    background-color: var(--success-BgColor);
+} */

@@ -1,0 +1,547 @@
+/** ----------- MEDIA QUERY */
+
+@media (max-width: 576px) {
+    nav .navbar-toggler {
+        order: 3 !important;
+        margin-left: 0rem !important;
+    }
+
+    section {
+        width: auto !important;
+    }
+
+    #signUpBtn {
+        align-items: center;
+    }
+
+    #title h1 #title p {
+        text-align: center;
+        max-width: 80%;
+        margin: 0 auto 1.5rem;
+    }
+
+    h1 {
+        max-width: 80% !important;
+        font-size: 3.125rem !important;
+    }
+
+    h2 {
+        max-width: 80% !important;
+        font-size: 1.75rem !important;
+        margin-top: 0.938rem !important;
+        margin-bottom: 0.938rem !important;
+    }
+
+    p {
+        max-width: 80% !important;
+        font-size: 1.375rem !important;
+    }
+
+    img {
+        max-block-size: 80% !important;
+    }
+
+    #FirstSectionBtn {
+        display: block;
+        /* Törölje a gomb alapértelmezett inline tulajdonságát */
+        margin: 0 auto;
+        /* Középre igazítás margin segítségével */
+    }
+
+    .textCentered {
+        text-align: center;
+        margin: 0 auto;
+    }
+
+
+
+    .pTagsMargin {
+        margin-bottom: 1.25rem !important;
+    }
+
+    .my-image {
+        display: block;
+        /* Blokk elemként kezeljük, hogy a margin: 0 auto; működjön */
+        margin: 0 auto;
+        /* Középre igazítás vízszintesen */
+    }
+
+
+    #fourth-section {
+        padding: 2.813rem;
+    }
+
+    #s4-btn1 {
+        margin-bottom: 0.938rem;
+
+    }
+
+    .gomb {
+        display: block;
+        /* Blokk elemként kezeljük, hogy a margin: 0 auto; működjön */
+        margin: 0 auto;
+        /* Középre igazítás vízszintesen */
+        text-align: center;
+    }
+
+    img.mx-auto {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email {
+        font-size: 0.938rem;
+    }
+
+    #footer-ul {
+        margin-top: 0.938rem;
+    }
+
+
+}
+
+/** ----------- VÁLTOZÓK DEFINIÁLÁSA */
+:root {
+    --primary-BTN-Bg-color: rgb(232, 181, 160);
+    --btn-text-color: rgb(51, 47, 49);
+    /*text color for:
+        -loginBTN text
+        - signupBTN text
+        - first section btn text
+        - fourth section btn text */
+    --mostUsed-text-color: rgb(65, 61, 63);
+    /* its for text colors*/
+    --dash-color: rgb(129, 105, 117);
+    /* its for btn dashes*/
+    --page-bg-color: rgb(247, 245, 236);
+    --footer-bg-color: rgb(246, 227, 205);
+    --navbar-a-color: rgb(151, 121, 110);
+    --navbar-a-hover-color: rgb(113, 145, 128);
+    --current-page-color: rgb(60, 32, 22);
+    --current-page-hover-color: rgb(68, 92, 79);
+    --white-col-btnBG-Text: rgb(248, 248, 244);
+    --brown-p-color: rgb(108, 78, 66);
+}
+
+/**--------------- FONTS ---------------*/
+@font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/static/Inter-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url("../fonts/Montserrat/static/Montserrat-Bold.ttf") format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url("../fonts/Montserrat/static/Montserrat-Medium.ttf") format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Pt sans';
+    src: url("../fonts/PT_Sans/PTSans-Regular.ttf") format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+/** --------------- TAG ALAPJÁN ---------------*/
+
+nav {
+    background-color: var(--page-bg-color);
+    /* backdrop-filter: blur(5px); */
+}
+
+footer {
+    border-top: 0.094rem solid var(--dash-color);
+    background-color: var(--footer-bg-color);
+    padding-top: 5%;
+    padding-right: 5%;
+    padding-left: 5%;
+}
+
+footer h3 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+}
+
+footer ul {
+    list-style-type: none;
+}
+
+footer ul li {
+    font-size: 1.25rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+footer a {
+    color: var(--mostUsed-text-color);
+}
+
+
+
+
+/** --------------- ID ALAPJÁN ---------------*/
+
+#navbar {
+    padding-right: 5%;
+    padding-left: 5%;
+}
+
+#navbar a {
+    font-size: larger;
+    display: inline;
+    padding: 0.938rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    color: var(--navbar-a-color);
+}
+
+#navbar a:hover {
+    color: var(--navbar-a-hover-color);
+    /* font-weight: 700; */
+    font-style: italic;
+}
+
+#Home {
+    /*? Az aktuális page */
+    color: var(--current-page-color) !important;
+    text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
+    /* ? távolság növelése az alláhúzás vonal és a szöveg alja között */
+    text-underline-offset: 0.281rem;
+}
+
+#Home:hover {
+    /*? aktuális page hover */
+    color: var(--current-page-hover-color) !important;
+    font-style: italic;
+}
+
+#loginBtn {
+    /*? navbar login btn-ja */
+    border-width: 0rem;
+    background-color: transparent;
+
+    font-size: larger;
+    color: var(--btn-text-color);
+    font-family: 'Inter', sans-serif;
+
+    margin-right: 0.9rem;
+    padding: 0.625rem 1.25rem;
+
+    transition: color 0.5s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    line-height: 1.125rem;
+
+    box-sizing: border-box;
+    /* A padding + border szélessége is hozzáadódik az elem méretéhez */
+}
+
+#loginBtn:hover {
+    /*? navbar login btn hover */
+    color: rgb(146, 104, 74);
+}
+
+#signUpBtn {
+    /*? navbar signup btn-ja */
+    font-size: larger;
+    font-family: 'Inter', sans-serif;
+    color: var(--btn-text-color);
+
+    border-width: 0rem;
+    border-radius: 1.5rem;
+
+    background-color: var(--primary-BTN-Bg-color);
+
+    padding: 0.625rem 1.25rem;
+
+    transition: color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    transition: background-color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    line-height: 1.125rem;
+
+    box-sizing: border-box;
+    /* A padding + border szélessége is hozzáadódik az elem méretéhez */
+}
+
+#signUpBtn:hover {
+    /*? navbar login btn hover */
+    transition: color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    transition: background-color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    background-color: var(--white-col-btnBG-Text);
+    color: var(--mostUsed-text-color);
+    border: dashed 0.094rem var(--dash-color);
+}
+
+#opening-text {
+    /*? first section id-ja */
+    padding-top: 11rem;
+    padding-bottom: 4.375rem;
+}
+
+#FirstSectionBtn {
+    /*? az első section-ben található button id-ja */
+    background-color: var(--primary-BTN-Bg-color);
+    color: var(--btn-text-color);
+    border-width: 0rem;
+    padding-right: 3.75rem;
+    padding-left: 3.75rem;
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+    border-radius: 3rem;
+    font-size: x-large;
+    font-family: 'Pt sans', sans-serif;
+    transition: color 0.8s ease;
+    transition: background-color 0.8s ease;
+    margin-top: 1.875rem;
+    line-height: 1.625rem;
+
+    box-sizing: border-box;
+    /* A padding + border szélessége is hozzáadódik az elem méretéhez */
+}
+
+#FirstSectionBtn:hover {
+    /*? az első section-ben található button hover*/
+    transition: color 0.8s ease;
+    transition: background-color 0.8s ease;
+    color: var(--mostUsed-text-color);
+    background-color: var(--white-col-btnBG-Text);
+    border: dashed 0.094rem var(--dash-color);
+    border-width: 0.094rem;
+    border-color: rgb(129, 105, 117);
+    line-height: 1.625rem;
+}
+
+#second-section {
+    /*? 2. section külső tag-je */
+    margin-right: 6%;
+    margin-left: 6%;
+    margin-top: 3%;
+    margin-bottom: 6%;
+}
+
+#second-section p,
+#third-section p {
+    text-align: justify;
+}
+
+#second-section-pic {
+    /*? A képet tartalmazó bal div id-ja */
+    display: flex;
+}
+
+#s2-pic1 {
+    /*? az img tag id-ja */
+    width: 24.375rem;
+    height: 17.844rem;
+    border-radius: 0.625rem;
+
+}
+
+#second-h2 {
+    /*? h2 tag */
+    font-size: 2.375rem;
+    font-family: 'Montserrat';
+    font-weight: 700;
+    color: var(--mostUsed-text-color);
+
+}
+
+#second-p {
+    /*? p tag */
+    margin-top: 2.063rem;
+    font-size: 1.375rem;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--brown-p-color);
+
+}
+
+#third-section {
+    margin-right: 8%;
+    margin-left: 6%;
+    margin-top: 3%;
+    margin-bottom: 6%;
+
+    padding: 1.875rem;
+}
+
+
+#third-h2 {
+    /*? h2 tag */
+    font-size: 2.375rem;
+    font-family: 'Montserrat';
+    font-weight: 700;
+    color: var(--mostUsed-text-color);
+
+}
+
+#third-p {
+    margin-top: 2.063rem;
+    font-size: 1.375rem;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--brown-p-color);
+}
+
+#s2-pic2 {
+    /*? az img tag id-ja */
+    width: 24.375rem;
+    height: 17.844rem;
+    border-radius: 0.625rem;
+
+}
+
+#fourth-section {
+    margin-right: 8%;
+    margin-left: 6%;
+    margin-top: 3%;
+    margin-bottom: 6%;
+    background-color: rgb(153, 88, 65);
+
+    border-radius: 1.25rem;
+    padding: 5rem;
+}
+
+#s4-h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 2.5rem;
+
+    line-height: 3.125rem;
+
+    color: var(--white-col-btnBG-Text);
+}
+
+#s4-p {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+
+    color: rgb(230, 214, 195);
+    font-size: 1.375rem;
+    line-height: 2.25rem;
+}
+
+#s4-btn1 {
+    background-color: rgb(246, 205, 188);
+    border-radius: 1.5rem;
+    padding: 0.75rem 1.25rem;
+    font-size: larger;
+    font-family: 'Pt sans', sans-serif;
+    color: var(--btn-text-color);
+    line-height: 1.125rem;
+
+    transition: color 0.8s ease;
+    transition: background-color 0.8s ease;
+
+    position: relative;
+
+    margin-right: 2%;
+    border: 0rem;
+
+    box-sizing: border-box;
+    /* A padding + border szélessége is hozzáadódik az elem méretéhez */
+
+}
+
+#s4-btn1:hover {
+    transition: color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    transition: background-color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    /*! background-color: rgb(168, 129, 113); */
+    color: var(--mostUsed-text-color);
+}
+
+#s4-btn2 {
+    border-style: solid;
+    border-width: 0.081rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 1.5rem;
+    background-color: transparent;
+    line-height: 1.125rem;
+    border-color: var(--white-col-btnBG-Text);
+
+    color: var(--white-col-btnBG-Text);
+
+    box-sizing: border-box;
+    /* A padding + border szélessége is hozzáadódik az elem méretéhez */
+
+}
+
+#footer-logo {
+    /* padding-left: 6%; */
+    display: flex;
+}
+
+
+
+/** --------------- CLASS ALAPJÁN ---------------*/
+
+.bigtext {
+    /*? nyitó szöveg h1 class */
+    letter-spacing: -0.063rem;
+    font-size: 4.063rem;
+    line-height: 5rem;
+    font-family: 'Montserrat';
+    font-weight: 700;
+    width: 50.313rem;
+    color: var(--mostUsed-text-color);
+}
+
+.above-big-text {
+    /*? nyitó szöveg p class */
+    font-size: 1.563rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    width: 39.25rem;
+    color: rgb(103, 91, 97);
+    margin-top: 0.938rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-secondary {
+    /*? a 2. és 3. section-ben található gombokhoz class */
+    background-color: rgb(64, 90, 26);
+    border: 0rem;
+    color: var(--white-col-btnBG-Text);
+    font-size: 1.375rem;
+    font-family: 'Pt sans', sans-serif;
+    font-weight: 400;
+    padding: 0.938rem 1.875rem 0.938rem 1.875rem;
+    border-radius: 6.25rem;
+    margin-top: 0.938rem;
+    line-height: 1.125rem;
+    transition: color 0.8s ease;
+    transition: background-color 0.8s ease;
+
+    box-sizing: border-box;
+    /* A padding + border szélessége is hozzáadódik az elem méretéhez */
+
+}
+
+.btn-secondary:hover {
+    background-color: rgb(187, 205, 149);
+    color: rgb(29, 38, 19);
+    transition: color 0.8s ease;
+    transition: background-color 0.8s ease;
+    border: dashed 0.094rem rgb(64, 90, 26);
+    line-height: 1.125rem;
+}
+
+.order-sm-4 {
+    order: 4 !important;
+}
