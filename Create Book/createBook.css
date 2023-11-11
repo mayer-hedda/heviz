@@ -76,7 +76,7 @@
     border-bottom: #6f6f6f 3px!important;
 } */
 
-nav {
+.nav {
     background-color: var(--page-bg-color);
     display: flex;
     align-self: center;
