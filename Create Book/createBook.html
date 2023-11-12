@@ -23,7 +23,7 @@
 
 <body style="background-color: #F7F5EC">
 
-    <!--todo: FELSŐ SÁV -->
+    <!--? FELSŐ SÁV -->
     <nav class="nav fixed-top" id="editControls">
         <div class="container-fluid">
 
@@ -31,13 +31,13 @@
                 <span class="h4"><i class="bi bi-chevron-left"></i></span>
             </button>
             <div class="controlText">
-                <p class="small group-title" id="controlP">Create a new World</p>
+                <p class="small group-title controlP" id="controlP">Create a new World</p>
                 <span class="h4" id="StoryName">Untitled Story</span>
             </div>
 
             <div class="buttons btn-field align-middle">
-                <button type="button" class="btn" id="Cancel">Cancel</button>
-                <button type="submit" class="btn" id="Next" >Next</button>
+                <a class="btn navBack" role="button" id="Cancel" href="#">Cancel</a>
+                <a class="btn" role="button" id="Next" href="nextPage.html">Next</a>
 
             </div>
         </div>
@@ -47,7 +47,7 @@
         <div class="container-fluid mx-auto" id="outsideDiv">
             <div class="row">
                 <div class="col-4" id="upload">
-                    <!--todo: KÉP FELTÖLTÉSE | DRAG & DROP  -->
+                    <!--? KÉP FELTÖLTÉSE | DRAG & DROP  -->
                     <div id="drop-image" class="text-center align-content-center">
                         <label for="inputPicture" id="dropAreaPicture">
                             <input type="file" accept="image/*" id="inputPicture" hidden>
@@ -59,7 +59,7 @@
                         </label>
                     </div>
 
-                    <!-- TODO: FÁJL FELTÖLTÉSE | DRAG AND DROP -->
+                    <!--? FÁJL FELTÖLTÉSE | DRAG AND DROP -->
                     <div id="drop-file" class="text-center">
                         <label for="inputFile" id="dropAreaFile">
                             <input type="file" accept=".pdf" id="inputFile" hidden>
@@ -107,14 +107,12 @@
                                 
                             </div>
 
-                            <!--? TAGS -->
-
                             <!--? TARGET AUDIENCE - dropdown -->
-                            
+                             <!--TODO: INFO-T HOZZÁADNI  -->
                             <div id="targetAudience-div" class="container input-div">
                                 <label id="targetAudience" for="selectTargetAudience">Target Audience:</label>
                                 <select class="form-select select" id="selectTargetAudience">
-                                    <option value="0" selected>Who is your audience</option>
+                                    <option value="0" selected >Who is your audience</option>
                                     <option value="1">Young Adult (15-18 years of age)</option>
                                     <option value="2">New Adult (18-25 years of age)</option>
                                     <option value="3">Adult (25+ years of age)</option>
@@ -126,7 +124,7 @@
                             <!--? LANGUAGE - dropdown -->
                             <div id="language-div" class="container input-div">
                                 <label id="language" for="selectLanguage">Language:</label>
-                                <select class="form-select select" id="selectLanguage">
+                                <select class="form-select select text-center" id="selectLanguage">
                                     <option value="0" selected>Choose an option</option>
                                     <option value="1">Hungarian</option>
                                     <option value="2">English</option>
@@ -136,9 +134,10 @@
                             <div class="container errorMessage" id="languageErr"></div>
 
                             <!--? CATEGORY - dropdown  -->
+                             <!--TODO: INFO-T HOZZÁADNI  -->
                             <div id="category-div" class="container input-div">
                                 <label id="category" for="selectCategory">Category:</label>
-                                <select class="form-select select" id="selectCategory">
+                                <select class="form-select select text-center" id="selectCategory">
                                     <option value="0" selected>Choose your book's category</option>
                                     <option value="1">Gastronomy</option>
                                     <option value="2">Travel</option>

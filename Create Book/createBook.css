@@ -25,6 +25,13 @@
 }
 
 @font-face {
+    font-family: 'Poppins-Light';
+    src: url(../fonts/Poppins/Poppins-Light.ttf) format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
     font-family: 'Poppins-Regular';
     src: url(../fonts/Poppins/Poppins-Regular.ttf) format('truetype');
     font-weight: 400;
@@ -52,15 +59,15 @@
     --mostUsed-text-color: rgb(65, 61, 63);
     --btn-text-color: rgb(51, 47, 49);
 
-    --controlP-color: #615C5E;
-    --control-dark-text: #4D474A;
-    --controlCancel-btn: #DEDEDB;
-    --controlNext-btn: #E8B5A0;
-    --control-Btn-text: #2B2729;
+    --controlP-color: rgb(97, 92, 94);
+    --control-dark-text: rgb(77, 71, 74);
+    --controlCancel-btn: rgb(222, 222, 219);
+    --controlNext-btn: rgb(232, 181, 160);
+    --control-Btn-text: rgb(43, 39, 41);
 
-    --input-card-bg: #FFFDF9;
-    --input-border: #9495a9;
-    --label-color: #37384E;
+    --input-card-bg: rgb(255, 253, 249);
+    --input-border: rgb(148, 149, 169);
+    --label-color: rgb(55, 56, 78);
     --placeholder-color: rgb(120, 121, 143);
     --dragAndDrop-label: rgb(103, 92, 90);
     --next-hover: rgb(100, 153, 132);
@@ -96,14 +103,11 @@
 
 #backArrow {
     display: inline-flex;
-    align-self: center;
+
 }
 
 #goBack {
     flex-shrink: 0;
-    /* padding-bottom: 4px; */
-
-    /* border: #D6D5D2 1px solid; */
 }
 
 .btn-text {
@@ -125,12 +129,13 @@
 }
 
 .h4 {
-    font-size: 1.313rem;
     font-family: 'Montserrat-SemiBold';
-    /* margin: 12px 0px; */
+    font-size: 1.375rem;
+    letter-spacing: -0.013rem;
+    color: var(--control-dark-text) !important;
 }
 
-#controlP {
+.controlP {
     font-size: 1rem;
     letter-spacing: 0.013rem;
     line-height: 1.125rem;
@@ -139,29 +144,25 @@
     color: var(--controlP-color);
 }
 
-#StoryName {
-    font-family: 'Montserrat-SemiBold';
-    font-size: 1.375rem;
-    letter-spacing: -0.013rem;
-    color: var(--control-dark-text);
-}
 
 .buttons {
-    display: inline-block;
-    margin-left: auto;
+    display: inline-flex;
+    /* flex-direction: row; */
+    margin-left: auto !important;
     position: absolute;
     right: 2.5rem;
+    margin-top: 10px !important;
     /* display: inline-flex; */
     align-self: center;
 }
 
-#Cancel {
-    background-color: var(--controlCancel-btn);
+#Cancel,
+#Back {
+    background-color: var(--controlCancel-btn) !important;
     height: fit-content;
     width: fit-content;
     padding: 0.625rem 0.875rem;
     border-radius: 0.438rem;
-    background: #DEDEDB;
     color: var(--control-Btn-text);
     text-align: center;
     align-items: center;
@@ -170,7 +171,9 @@
     line-height: 100%;
 }
 
-#Cancel:hover {
+
+#Cancel:hover,
+#Back:hover {
     background-color: var(--input-border) !important;
     height: fit-content;
     width: fit-content;
@@ -185,7 +188,8 @@
     line-height: 100%;
 }
 
-#Next {
+#Next,
+#Next2 {
     display: inline-flex;
     height: fit-content;
     width: fit-content;
@@ -202,7 +206,8 @@
     margin-left: 0.625rem;
 }
 
-#Next:hover{
+#Next:hover,
+#Next2:hover {
     display: inline-flex;
     height: fit-content;
     width: fit-content;
@@ -219,8 +224,8 @@
     margin-left: 0.625rem;
 }
 
-#Next:disabled{
-    border-color: var(--controlNext-btn)!important;
+#Next:disabled {
+    border-color: var(--controlNext-btn) !important;
 }
 
 /** --------- SECTION ------------- */
@@ -241,7 +246,7 @@
     /* width: 100%; */
 }
 
-.uploadP{
+.uploadP {
     font-family: 'Montserrat-Medium', sans-serif;
     font-size: smaller;
     color: var(--dragAndDrop-label);
@@ -321,7 +326,8 @@
 
 /** ----------  INPUTS --------------- */
 
-#inputs {
+#inputs,
+#inputsNextPage {
     background-color: var(--input-card-bg);
     padding: 60px;
     border-radius: 0.938rem;
@@ -329,21 +335,29 @@
     height: max-content;
     width: 850px;
     margin-bottom: 50px;
-
+    /* margin-top: 100px; */
 }
 
-#inputStoryTitle{
+#inputsNextPage {
+    margin-top: 100px;
+}
+
+#inputStoryTitle {
     margin-left: 0%;
 }
 
 #inputStoryTitle::placeholder,
-#inputDescription::placeholder {
+#inputDescription::placeholder,
+#inputBANumber::placeholder,
+#inputPrice::placeholder {
     color: var(--placeholder-color);
     font-family: 'Poppins-light', sans-serif;
-    font-size: medium;
+    font-size: 0.875rem;
 }
 
-.errorMessage, .errorMessage p {
+
+.errorMessage,
+.errorMessage p {
     margin-bottom: 0%;
     color: #EE1D52;
     font-family: 'Poppins-Regular';
@@ -351,7 +365,9 @@
 }
 
 #inputStoryTitle,
-#inputDescription {
+#inputDescription,
+#inputBANumber,
+#inputPrice {
     border: var(--input-border) 0.063rem solid;
     background-color: var(--input-card-bg);
 }
@@ -361,7 +377,9 @@
 }
 
 #description-div label,
-#storyTitle-div label {
+#storyTitle-div label,
+#BA-div label {
+    margin-top: 20px !important;
     margin-bottom: 1.5%;
     color: var(--label-color);
     font-family: 'Poppins-Medium', sans-serif;
@@ -371,15 +389,15 @@ textarea {
     height: 280px !important;
 }
 
-.inputError{
-    background: rgb(255, 214, 220)!important;
-    border-color: rgb(243, 82, 93)!important;
+.inputError {
+    background: rgb(255, 214, 220) !important;
+    border-color: rgb(243, 82, 93) !important;
     /* margin-left: 4%; */
 }
 
-.inputPass{
-    background-color: rgb(241, 255, 231)!important;
-    border-color: rgb(98, 173, 107)!important;
+.inputPass {
+    background-color: rgb(241, 255, 231) !important;
+    border-color: rgb(98, 173, 107) !important;
 }
 
 .counter {
@@ -389,16 +407,32 @@ textarea {
     margin-bottom: 0%;
 }
 
-.counterErrorLight{
+.counterErrorLight {
     text-align: end;
     color: #dc3545;
     font-weight: lighter;
 }
 
-.counterErrorBold{
+.counterErrorBold {
     text-align: end;
     color: #dc3545;
     font-weight: bold;
+}
+
+#price-div {
+    display: inline-flex;
+    margin-top: 3%;
+}
+
+#price-div label {
+    align-self: center;
+    color: var(--label-color);
+    font-family: 'Poppins-Medium', sans-serif;
+    width: 250px
+}
+
+#price-div input {
+    width: 150px;
 }
 
 .input-div {
@@ -410,7 +444,7 @@ textarea {
     align-self: center;
     color: var(--label-color);
     font-family: 'Poppins-Medium', sans-serif;
-    width: 140px;
+    width: 150px;
 }
 
 
@@ -430,4 +464,12 @@ option:checked {
     background-color: #b6f4dc;
 }
 
-/** SWITCH  */
+#radios {
+    display: flex;
+    flex-direction: column !important;
+}
+
+#radios label {
+    font-family: 'Poppins-Light', sans-serif;
+    font-size: 15px;
+}

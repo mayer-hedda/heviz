@@ -19,7 +19,7 @@
 </head>
 
 <body style="background-color: #F7F5EC">
-    <!--todo: FELSŐ SÁV -->
+    <!--? FELSŐ SÁV -->
     <nav class="nav fixed-top" id="editControls">
         <div class="container-fluid">
 
@@ -27,17 +27,89 @@
                 <span class="h4"><i class="bi bi-chevron-left"></i></span>
             </button>
             <div class="controlText">
-                <p class="small group-title" id="controlP">Create a new World</p>
+                <p class="small group-title controlP" id="controlPNext">Create a new World</p>
                 <span class="h4" id="StoryNameNext">Untitled Story</span>
             </div>
 
-            <div class="buttons btn-field align-middle">
-                <button type="button" class="btn" id="Cancel">Cancel</button>
-                <button type="submit" class="btn" id="Next">Next</button>
+            <div class="buttons btn-field ">
+                <a class="btn" role="button" id="Back" href="createBook.html">Back</a>
+                <a class="btn" role="button" href="#" id="Next2">Next</a>
 
             </div>
         </div>
     </nav>
+
+    <div class="container" id="inputsNextPage">
+        <form id="nextForm">
+            <div class="form-group container">
+                <!--? COPYRIGHT - dropdown -->
+                <!--TODO: INFO-T HOZZÁADNI  -->
+                <div id="copyRight-div" class="container input-div">
+                    <label id="copyRight" for="selectCopyRight">Copy Right:</label>
+                    <select class="form-select select text-center" id="selectCopyRight">
+                        <option value="0" selected>Choose the one that suits you best</option>
+                        <option value="1">All Rights Reserved</option>
+                        <option value="2">Public Domain</option>
+                        <option value="3">Creative Commons (CC) Attribution</option>
+                        <option value="4">(CC) Attrib. NonCommercial</option>
+                        <option value="5">(CC) Attrib. NonComm. NoDervis</option>
+                        <option value="6">(CC) Attrib. NonComm. ShareAlike</option>
+                        <option value="7">(CC) Attribution-ShareAlike</option>
+                        <option value="8">(CC) Attribution-NoDervis</option>
+                    </select>
+                </div>
+                <div class="container errorMessage" id="CopyRightErr"></div>
+
+                <!--? ADOULT CONTENT - dropdown -->
+                <!--TODO: INFO-T HOZZÁADNI  -->
+                <div id="copyRight-div" class="container input-div">
+                    <label id="copyRight" for="selectCopyRight">Adoult Content:</label>
+                    <select class="form-select select" id="selectCopyRight">
+                        <option value="0" selected>Please select</option>
+                        <option value="1">My book contains adult content.</option>
+                        <option value="2">My book is family friendly.</option>
+                    </select>
+                </div>
+                <div class="container errorMessage" id="CopyRightErr"></div>
+
+                <!--? RADIO BUTTONS  -->
+
+                <div id="publishing" class="container input-div">
+                    <label for="checkPublish" id="publishingLabel">Select one:</label>
+                    <div id="radios" class="container">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="radioSP" value="false">
+                            <label class="form-check-label d-inline" for="radioSP">
+                                I prefer self-publishing.
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="radioLC" value="false">
+                            <label class="form-check-label d-inline" for="radioLC">
+                                I am seeking a publisher for my book.
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="container errorMessage" id="RadioErr"></div>
+
+
+                <!--? Bank account number -> disabled  -->
+                <div id="BA-div" class="container" hidden>
+                    <label id="LabelBA" class="formLabel" for="inputBANumber">Bank Account Number:</label><br>
+                    <input type="text" class="form-control" id="inputBANumber"
+                        placeholder="Bank Account Number">
+                </div>
+                <div class="container errorMessage" id="BAErr"></div>
+
+
+                <div id="price-div" class="container" hidden    >
+                    <label id="priceLabel" for="inputPrice">Enter the price of your book:</label>
+                    <input type="number" id="inputPrice" class="form-control" placeholder="6 000ft" required>
+                </div>
+            </div>
+        </form>
+    </div>
 
 
     <!--? BOOTSTRAP  -->
@@ -46,6 +118,7 @@
         crossorigin="anonymous"></script>
     <!--? JAVASCRIPT  -->
     <script src="createBook.js"></script>
+    <script src="nextPage.js"></script>
 </body>
 
 </html>
