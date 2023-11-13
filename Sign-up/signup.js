@@ -473,10 +473,6 @@ function GeneralEvents() {
         }
     })
 
-    inputCompany.addEventListener("", (e) => { })
-
-
-    
 
     datepicker.addEventListener("focusin", (e) => {
         e.preventDefault();

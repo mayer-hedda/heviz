@@ -45,23 +45,41 @@ inputFile.addEventListener("change", (e) => {
 });
 
 function uploadFile() {
-    let fileLink = URL.createObjectURL(inputFile.files[0]);
+    // let fileLink = URL.createObjectURL(inputFile.files[0]);
+    console.log(inputFile.value);
     imgView.textContent = "";
-    // const perjel = RegExp("\\");
-    // const lastIndex = filePath.lastIndexOf(perjel);
-    // let fileName = inputFile.value.slice(inputFile.value.indexOf(lastIndex+1));
+   
+    var fileName = inputFile.value.split('\\').pop();
+    console.log("perjel után: " + fileName );
     //todo: MEGCSINÁLNI, HOGY CSAK A filename.pdf-ET ÍRJA KI 
     fileView.innerHTML = `
         <img class="addPhoto" src="../icons/createBook/upload-file.png" id="addFile">
         <p class="uploadP">You uploaded this:<br> ${inputFile.value}</p>
     `;
     // console.log("Lefutott az uploadfile");
-    if (fileLink == "") {
+    if (inputFile.value == "") {
         filePass = false;
         console.log("pic pass value:" + filePass);
     } else {
         filePass = true;
         console.log("pic pass value:" + filePass);
+    }
+}
+
+function contact() {
+    var file = document.getElementById("file");
+    file.onchange = function() {
+        if (!file.value == "") {
+            var filesize = (file.files[0].size / 1024)+1;
+            var extra = " KiB";
+            if (filesize >= 1024) {
+                filesize = filesize / 1024;
+                extra = " MiB";
+            }
+            var span = document.getElementById("filename");
+            filesize = Math.round(filesize);
+            span.innerHTML = file.value.split("\").pop() + " (" + filesize + extra +"));
+        }
     }
 }
 
