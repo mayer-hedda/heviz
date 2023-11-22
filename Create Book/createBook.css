@@ -232,6 +232,14 @@
    position: relative;
 } */
 /** --------- UPLOAD FILES ------------- */
+.info{
+    align-items: bottom;
+}
+
+/* .sorba{
+    display: flex;
+    flex-direction: row;
+} */
 
 /** IMAGE */
 #drop-image {

@@ -1,3 +1,11 @@
+//* popover
+// $(document).ready(function () {
+//     $('[data-toggle="popover"]').popover();
+// });
+
+// const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+// const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
+
 //* DRAG AND DROP IMAGE TO COVER PHOTO + UPLOAD FILE
 const dropAreaPicture = document.getElementById('dropAreaPicture');
 const inputPicture = document.getElementById('inputPicture');
@@ -48,9 +56,9 @@ function uploadFile() {
     // let fileLink = URL.createObjectURL(inputFile.files[0]);
     console.log(inputFile.value);
     imgView.textContent = "";
-   
+
     var fileName = inputFile.value.split('\\').pop();
-    console.log("perjel után: " + fileName );
+    console.log("perjel után: " + fileName);
     //todo: MEGCSINÁLNI, HOGY CSAK A filename.pdf-ET ÍRJA KI 
     fileView.innerHTML = `
         <img class="addPhoto" src="../icons/createBook/upload-file.png" id="addFile">
@@ -68,9 +76,9 @@ function uploadFile() {
 
 function contact() {
     var file = document.getElementById("file");
-    file.onchange = function() {
+    file.onchange = function () {
         if (!file.value == "") {
-            var filesize = (file.files[0].size / 1024)+1;
+            var filesize = (file.files[0].size / 1024) + 1;
             var extra = " KiB";
             if (filesize >= 1024) {
                 filesize = filesize / 1024;
@@ -78,7 +86,7 @@ function contact() {
             }
             var span = document.getElementById("filename");
             filesize = Math.round(filesize);
-            span.innerHTML = file.value.split("\").pop() + " (" + filesize + extra +"));
+            span.innerHTML = file.value.split("\").pop() + "(" + filesize + extra +"));
         }
     }
 }
@@ -130,231 +138,231 @@ var categoryPass = false;
 
 // #############################################
 // function Events() {
-    const storyname = document.getElementById('StoryName');
-    //? TITLE 
-    function MinTitle(titleValue) {
-        if (titleValue.length < 3) {
-            title.classList.add('inputError');
-            console.log("Title error: too short - " + titleValue);
-            return false;
-        }
-        return true;
+const storyname = document.getElementById('StoryName');
+//? TITLE 
+function MinTitle(titleValue) {
+    if (titleValue.length < 3) {
+        title.classList.add('inputError');
+        console.log("Title error: too short - " + titleValue);
+        return false;
     }
+    return true;
+}
 
-    title.addEventListener('input', (e) => {
-        e.preventDefault();
-        const currentText = title.value;
-        let count = currentText.length;
-        charCounterTitle.textContent = `${count}/50`;
+title.addEventListener('input', (e) => {
+    e.preventDefault();
+    const currentText = title.value;
+    let count = currentText.length;
+    charCounterTitle.textContent = `${count}/50`;
 
-        if (count >= 45) {
-            // console.log("bemegy az ifbe");
-            charCounterTitle.classList.remove('counter');
-            charCounterTitle.classList.add('counterErrorLight');
+    if (count >= 45) {
+        // console.log("bemegy az ifbe");
+        charCounterTitle.classList.remove('counter');
+        charCounterTitle.classList.add('counterErrorLight');
 
-            if (count == 50) {
-                charCounterTitle.classList.remove('counterErrorLight');
-                charCounterTitle.classList.add('counterErrorBold');
-            } else {
-                charCounterTitle.classList.remove('counterErrorBold');
-                charCounterTitle.classList.add('counterErrorLight');
-            }
+        if (count == 50) {
+            charCounterTitle.classList.remove('counterErrorLight');
+            charCounterTitle.classList.add('counterErrorBold');
         } else {
-            charCounterTitle.classList.value = '';
-            charCounterTitle.classList.add('small', 'counter');
+            charCounterTitle.classList.remove('counterErrorBold');
+            charCounterTitle.classList.add('counterErrorLight');
         }
-    })
+    } else {
+        charCounterTitle.classList.value = '';
+        charCounterTitle.classList.add('small', 'counter');
+    }
+})
 
-    title.addEventListener('focusout', (e) => {
-        e.preventDefault();
-        const titleValue = title.value;
-        if (titleValue == "") {
-            title.classList.add('inputError');
-            titleError.innerText = "Title cannot be empty";
+title.addEventListener('focusout', (e) => {
+    e.preventDefault();
+    const titleValue = title.value;
+    if (titleValue == "") {
+        title.classList.add('inputError');
+        titleError.innerText = "Title cannot be empty";
+        titlePass = false;
+        console.log("TitlePass value: " + titlePass);
+    } else {
+        const functionValue = MinTitle(titleValue);
+        if (functionValue == false) {
             titlePass = false;
+            titleError.innerText = "Title must be 3 caracter long.";
+            title.classList.add('inputError');
+            console.log("A title függvény értéke: " + functionValue);
             console.log("TitlePass value: " + titlePass);
         } else {
-            const functionValue = MinTitle(titleValue);
-            if (functionValue == false) {
-                titlePass = false;
-                titleError.innerText = "Title must be 3 caracter long.";
-                title.classList.add('inputError');
-                console.log("A title függvény értéke: " + functionValue);
-                console.log("TitlePass value: " + titlePass);
-            } else {
-                title.classList.add('inputPass');
-                titlePass = true;
-                console.log("TitlePass value: " + titlePass);
-                storyname.textContent = title.value;
-            }
+            title.classList.add('inputPass');
+            titlePass = true;
+            console.log("TitlePass value: " + titlePass);
+            storyname.textContent = title.value;
         }
-
-    })
-
-    title.addEventListener('focusin', (e) => {
-        e.preventDefault();
-        title.classList.remove('inputError');
-        title.classList.remove('inputPass');
-        titleError.innerText = "";
-        storyname.textContent = "Untitled Story";
-    })
-    // #############################################
-    //? DESCRIPTION
-    function MinDesc(descriptionValue) {
-        if (descriptionValue.length < 20) {
-            description.classList.add('inputError');
-            console.log("Description error: too short - " + descriptionValue);
-            return false;
-        }
-        return true;
     }
 
-    description.addEventListener('input', (e) => {
-        e.preventDefault();
-        const currentText = description.value;
-        const count = currentText.length;
-        charCounterDes.textContent = `${count}/1000`;
+})
 
-        if (count >= 950) {
-            console.log("bemegy az ifbe");
-            charCounterDes.classList.remove('counter');
-            charCounterDes.classList.add('counterErrorLight');
+title.addEventListener('focusin', (e) => {
+    e.preventDefault();
+    title.classList.remove('inputError');
+    title.classList.remove('inputPass');
+    titleError.innerText = "";
+    storyname.textContent = "Untitled Story";
+})
+// #############################################
+//? DESCRIPTION
+function MinDesc(descriptionValue) {
+    if (descriptionValue.length < 20) {
+        description.classList.add('inputError');
+        console.log("Description error: too short - " + descriptionValue);
+        return false;
+    }
+    return true;
+}
 
-            if (count == 1000) {
-                charCounterDes.classList.remove('counterErrorLight');
-                charCounterDes.classList.add('counterErrorBold');
-            } else {
-                charCounterDes.classList.remove('counterErrorBold');
-                charCounterDes.classList.add('counterErrorLight');
-            }
+description.addEventListener('input', (e) => {
+    e.preventDefault();
+    const currentText = description.value;
+    const count = currentText.length;
+    charCounterDes.textContent = `${count}/1000`;
+
+    if (count >= 950) {
+        console.log("bemegy az ifbe");
+        charCounterDes.classList.remove('counter');
+        charCounterDes.classList.add('counterErrorLight');
+
+        if (count == 1000) {
+            charCounterDes.classList.remove('counterErrorLight');
+            charCounterDes.classList.add('counterErrorBold');
         } else {
-            charCounterDes.classList.value = '';
-            charCounterDes.classList.add('small', 'counter');
+            charCounterDes.classList.remove('counterErrorBold');
+            charCounterDes.classList.add('counterErrorLight');
         }
-    })
+    } else {
+        charCounterDes.classList.value = '';
+        charCounterDes.classList.add('small', 'counter');
+    }
+})
 
-    description.addEventListener('focusout', (e) => {
-        e.preventDefault();
-        const descValue = description.value;
-        if (descValue == "") {
-            description.classList.add('inputError');
-            descriptionError.innerText = "The description field cannot be empty";
+description.addEventListener('focusout', (e) => {
+    e.preventDefault();
+    const descValue = description.value;
+    if (descValue == "") {
+        description.classList.add('inputError');
+        descriptionError.innerText = "The description field cannot be empty";
+        descriptionPass = false;
+        console.log("descriptionPass value: " + titlePass);
+    } else {
+        const functionValue = MinDesc(descValue);
+        if (functionValue == false) {
             descriptionPass = false;
+            descriptionError.innerText = "The description must be 20 caracter long.";
+            description.classList.add('inputError');
+            console.log("A descript. függvény értéke: " + functionValue);
             console.log("descriptionPass value: " + titlePass);
         } else {
-            const functionValue = MinDesc(descValue);
-            if (functionValue == false) {
-                descriptionPass = false;
-                descriptionError.innerText = "The description must be 20 caracter long.";
-                description.classList.add('inputError');
-                console.log("A descript. függvény értéke: " + functionValue);
-                console.log("descriptionPass value: " + titlePass);
-            } else {
-                description.classList.add('inputPass');
-                descriptionPass = true;
-                console.log("descriptionPass value: " + titlePass);
-            }
+            description.classList.add('inputPass');
+            descriptionPass = true;
+            console.log("descriptionPass value: " + titlePass);
         }
-    })
-
-    description.addEventListener('focusin', (e) => {
-        e.preventDefault();
-        description.classList.remove('inputError');
-        description.classList.remove('inputPass');
-        descriptionError.innerText = "";
-    })
-
-    // #############################################
-    function VerifyDropdown(select, errorField, selection) {
-        if (select.value == 0) {
-            const errorMessage = `The ${selection} cannot be the default value.`;
-            errorField.innerHTML = `<p>${errorMessage}</p>`;
-            console.log(selection + ": wrong choice");
-            select.classList.add('inputError');
-            return false;
-        }
-        return true;
     }
-    //? AUDIENCE DROPDOWN
-    var audienceData;
-    selectAudience.addEventListener('focusout', (e) => {
-        e.preventDefault();
-        const audienceValue = e.target.value;
-        console.log("You selected: " + audienceValue);
+})
 
-        const functionValue = VerifyDropdown(selectAudience, audienceError, "Audience");
-        if (functionValue == true) {
-            selectAudience.classList.add('inputPass');
-            audiencePass = true;
-            console.log("audiencePass value: " + audiencePass);
-            audienceData = audienceValue;
-            console.log(audienceData);
-        }
-    })
+description.addEventListener('focusin', (e) => {
+    e.preventDefault();
+    description.classList.remove('inputError');
+    description.classList.remove('inputPass');
+    descriptionError.innerText = "";
+})
 
-    selectAudience.addEventListener('focusin', (e) => {
-        e.preventDefault();
-        selectAudience.classList.remove('inputError');
-        selectAudience.classList.remove('inputPass');
-        audienceError.innerHTML = "";
-    })
-    // #############################################
-    //? LANGUAGE DROPDOWN
-    var languageData;
-    selectLanguage.addEventListener('focusin', (e) => {
-        e.preventDefault();
-        selectLanguage.classList.remove('inputError');
-        selectLanguage.classList.remove('inputPass');
-        languageError.innerHTML = "";
-    })
+// #############################################
+function VerifyDropdown(select, errorField, selection) {
+    if (select.value == 0) {
+        const errorMessage = `The ${selection} cannot be the default value.`;
+        errorField.innerHTML = `<p>${errorMessage}</p>`;
+        console.log(selection + ": wrong choice");
+        select.classList.add('inputError');
+        return false;
+    }
+    return true;
+}
+//? AUDIENCE DROPDOWN
+var audienceData;
+selectAudience.addEventListener('focusout', (e) => {
+    e.preventDefault();
+    const audienceValue = e.target.value;
+    console.log("You selected: " + audienceValue);
 
-    selectLanguage.addEventListener('focusout', (e) => {
-        e.preventDefault();
-        const languageValue = e.target.value;
-        console.log("You selected: " + languageValue);
+    const functionValue = VerifyDropdown(selectAudience, audienceError, "Audience");
+    if (functionValue == true) {
+        selectAudience.classList.add('inputPass');
+        audiencePass = true;
+        console.log("audiencePass value: " + audiencePass);
+        audienceData = audienceValue;
+        console.log(audienceData);
+    }
+})
 
-        const functionValue = VerifyDropdown(selectLanguage, languageError, "Langugage");
-        if (functionValue == true) {
-            selectLanguage.classList.add('inputPass');
-            languagePass = true;
-            console.log("audiencePass value: " + languagePass);
-            languageData = languageValue;
-            console.log(languageData);
-        }
-    })
+selectAudience.addEventListener('focusin', (e) => {
+    e.preventDefault();
+    selectAudience.classList.remove('inputError');
+    selectAudience.classList.remove('inputPass');
+    audienceError.innerHTML = "";
+})
+// #############################################
+//? LANGUAGE DROPDOWN
+var languageData;
+selectLanguage.addEventListener('focusin', (e) => {
+    e.preventDefault();
+    selectLanguage.classList.remove('inputError');
+    selectLanguage.classList.remove('inputPass');
+    languageError.innerHTML = "";
+})
 
-    // #############################################
-    //? CATEGORY DROPDOWN
-    var categoryData;
-    selectCategory.addEventListener('focusin', (e) => {
-        e.preventDefault();
-        selectCategory.classList.remove('inputError');
-        selectCategory.classList.remove('inputPass');
-        categoryError.innerHTML = "";
-    })
+selectLanguage.addEventListener('focusout', (e) => {
+    e.preventDefault();
+    const languageValue = e.target.value;
+    console.log("You selected: " + languageValue);
 
-    selectCategory.addEventListener('focusout', (e) => {
-        e.preventDefault();
-        const categoryValue = e.target.value;
-        console.log("You selected: " + categoryValue);
+    const functionValue = VerifyDropdown(selectLanguage, languageError, "Langugage");
+    if (functionValue == true) {
+        selectLanguage.classList.add('inputPass');
+        languagePass = true;
+        console.log("audiencePass value: " + languagePass);
+        languageData = languageValue;
+        console.log(languageData);
+    }
+})
 
-        const functionValue = VerifyDropdown(selectCategory, categoryError, "Category");
-        if (functionValue == true) {
-            selectCategory.classList.add('inputPass');
-            categoryPass = true;
-            console.log("audiencePass value: " + categoryPass);
-            categoryData = categoryValue;
-            console.log(categoryData);
-        }
-    })
+// #############################################
+//? CATEGORY DROPDOWN
+var categoryData;
+selectCategory.addEventListener('focusin', (e) => {
+    e.preventDefault();
+    selectCategory.classList.remove('inputError');
+    selectCategory.classList.remove('inputPass');
+    categoryError.innerHTML = "";
+})
 
-    // console.log("gomb előtt még lefut");
-    // ActivateNext(nextBtn);
+selectCategory.addEventListener('focusout', (e) => {
+    e.preventDefault();
+    const categoryValue = e.target.value;
+    console.log("You selected: " + categoryValue);
+
+    const functionValue = VerifyDropdown(selectCategory, categoryError, "Category");
+    if (functionValue == true) {
+        selectCategory.classList.add('inputPass');
+        categoryPass = true;
+        console.log("audiencePass value: " + categoryPass);
+        categoryData = categoryValue;
+        console.log(categoryData);
+    }
+})
+
+// console.log("gomb előtt még lefut");
+// ActivateNext(nextBtn);
 // }
 
 
 // #############################################
-//? NEXT BUTTON 
+//? NEXT BUTTON
 
 // function ActivateNext(nextBtn) {
 //     if (filePass == true &&
@@ -370,4 +378,4 @@ var categoryPass = false;
 // }
 
 //* NEXT PAGE
- 
+

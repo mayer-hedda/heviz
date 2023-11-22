@@ -325,9 +325,8 @@ nav {
 .right-side {
     border-left: 0.125rem solid rgb(235, 210, 186);
     /* margin-top: 50px; */
-    position: fixed;
-    top: 20;
-    bottom: 20;
+    position: sticky;
+    top: 90px;
     left: 70%;
     height: 65vh;
     /* vh - A böngésző ablak magasságát veszi figyelembe */
@@ -443,6 +442,10 @@ nav {
     letter-spacing: -0.5px;
 }
 
+.modal-content {
+    z-index: 2000;
+}
+
 #modalLabel-tag{
     margin-top: 0.625rem;
 }
@@ -485,6 +488,10 @@ footer ul li {
 
 footer a {
     color: rgb(65, 61, 63);
+}
+
+footer a:hover{
+    color: #B43C82;
 }
 
 #footer-logo {

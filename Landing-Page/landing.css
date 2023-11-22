@@ -101,6 +101,8 @@
     }
 
 
+
+
 }
 
 /** ----------- VÁLTOZÓK DEFINIÁLÁSA */
@@ -186,6 +188,10 @@ footer ul li {
 
 footer a {
     color: var(--mostUsed-text-color);
+}
+
+footer a:hover{
+    color: #B43C82;
 }
 
 

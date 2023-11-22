@@ -47,7 +47,9 @@
         <div class="container-fluid mx-auto" id="outsideDiv">
             <div class="row">
                 <div class="col-4" id="upload">
+                    <!-- TODO: KELLENEK AZ INFO IKONOK -->
                     <!--? KÉP FELTÖLTÉSE | DRAG & DROP  -->
+                    <!-- <div class="sorba"> -->
                     <div id="drop-image" class="text-center align-content-center">
                         <label for="inputPicture" id="dropAreaPicture">
                             <input type="file" accept="image/*" id="inputPicture" hidden>
@@ -58,6 +60,10 @@
                             </div>
                         </label>
                     </div>
+                    <span data-bs-toggle="popover" data-bs-placement="right" data-bs-custom-class="custom-popover">
+                        <a><i class="bi bi-info-circle"></i></a>
+                    </span>
+                    <!-- </div> -->
 
                     <!--? FÁJL FELTÖLTÉSE | DRAG AND DROP -->
                     <div id="drop-file" class="text-center">
@@ -73,12 +79,18 @@
                 </div>
 
                 <div class="col-8" id="inputs">
-                    <!--TODO: INPUT MEZŐK  -->
+                    <!--? INPUT MEZŐK  -->
                     <form id="form">
                         <div class="form-group container">
                             <!--? STORY TITLE  -->
                             <div id="storyTitle-div" class="container">
-                                <label id="storyTitle" class="formLabel" for="inputStoryTitle">Story Title:</label><br>
+                                <label id="storyTitle" class="formLabel" for="inputStoryTitle">Story Title:
+                                </label>
+                                    <a data-bs-toggle="popover" data-bs-placement="right"
+                                    data-bs-custom-class="custom-popover"
+                                    data-bs-trigger="hover click"
+                                    data-bs-content="Ez egy példa szöveg"><i class="bi bi-info-circle"></i></a>
+                                <br>
                                 <input type="text" class="form-control" id="inputStoryTitle"
                                     placeholder="Untitled Story" maxlength="50" required>
                                 <div class="row ">
@@ -89,37 +101,39 @@
                                         <p class="small counter align-top" id="characterCounterTitle">0/50</p>
                                     </div>
                                 </div>
+
                             </div>
 
                             <!--? STORY DESCRIPTION  -->
                             <div id="description-div" class="container ">
-                                <label id="description" class="formLabel" for="inputDescription">Description:</label><br>
+                                <label id="description" class="formLabel"
+                                    for="inputDescription">Description:</label><br>
                                 <textarea id="inputDescription" class="form-control" maxlength="1000"
                                     placeholder="Write here your book's description" required></textarea>
-                                    <div class="row ">
-                                        <div class="col-6">
-                                            <p class="error align-top errorMessage" id="descriptErr"></p>
-                                        </div>
-                                        <div class="col-6">
-                                            <p class="small counter align-top" id="characterCounterDes">0/1000</p>
-                                        </div>
+                                <div class="row ">
+                                    <div class="col-6">
+                                        <p class="error align-top errorMessage" id="descriptErr"></p>
                                     </div>
-                                
+                                    <div class="col-6">
+                                        <p class="small counter align-top" id="characterCounterDes">0/1000</p>
+                                    </div>
+                                </div>
+
                             </div>
 
                             <!--? TARGET AUDIENCE - dropdown -->
-                             <!--TODO: INFO-T HOZZÁADNI  -->
+                            <!--TODO: INFO-T HOZZÁADNI  -->
                             <div id="targetAudience-div" class="container input-div">
                                 <label id="targetAudience" for="selectTargetAudience">Target Audience:</label>
                                 <select class="form-select select" id="selectTargetAudience">
-                                    <option value="0" selected >Who is your audience</option>
+                                    <option value="0" selected>Who is your audience</option>
                                     <option value="1">Young Adult (15-18 years of age)</option>
                                     <option value="2">New Adult (18-25 years of age)</option>
                                     <option value="3">Adult (25+ years of age)</option>
                                 </select>
                             </div>
                             <div class="container errorMessage" id="audienceErr"></div>
-                            
+
 
                             <!--? LANGUAGE - dropdown -->
                             <div id="language-div" class="container input-div">
@@ -134,7 +148,7 @@
                             <div class="container errorMessage" id="languageErr"></div>
 
                             <!--? CATEGORY - dropdown  -->
-                             <!--TODO: INFO-T HOZZÁADNI  -->
+                            <!--TODO: INFO-T HOZZÁADNI  -->
                             <div id="category-div" class="container input-div">
                                 <label id="category" for="selectCategory">Category:</label>
                                 <select class="form-select select text-center" id="selectCategory">
