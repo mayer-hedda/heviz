@@ -19,7 +19,7 @@ public class Token {
         Instant now = Instant.now();
         int id = u.getId();
         String token = Jwts.builder()
-                .setIssuer("ChapterX")
+                .setIssuer("CyberRead")
                 .setSubject("Vizsga")
                 .claim("id", id)
                 .setIssuedAt(Date.from(now))
