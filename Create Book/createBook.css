@@ -202,7 +202,7 @@
     margin-left: 0.625rem;
 }
 
-#Next:hover{
+#Next:hover {
     display: inline-flex;
     height: fit-content;
     width: fit-content;
@@ -219,8 +219,8 @@
     margin-left: 0.625rem;
 }
 
-#Next:disabled{
-    border-color: var(--controlNext-btn)!important;
+#Next:disabled {
+    border-color: var(--controlNext-btn) !important;
 }
 
 /** --------- SECTION ------------- */
@@ -232,7 +232,7 @@
    position: relative;
 } */
 /** --------- UPLOAD FILES ------------- */
-.info{
+.info {
     align-items: bottom;
 }
 
@@ -249,7 +249,7 @@
     /* width: 100%; */
 }
 
-.uploadP{
+.uploadP {
     font-family: 'Montserrat-Medium', sans-serif;
     font-size: smaller;
     color: var(--dragAndDrop-label);
@@ -340,7 +340,7 @@
 
 }
 
-#inputStoryTitle{
+#inputStoryTitle {
     margin-left: 0%;
 }
 
@@ -351,25 +351,30 @@
     font-size: medium;
 }
 
-.errorMessage, .errorMessage p {
+.errorMessage,
+.errorMessage p {
     margin-bottom: 0%;
     color: #EE1D52;
     font-family: 'Poppins-Regular';
     font-size: small;
+    margin-left: 2% !important;
 }
 
 #inputStoryTitle,
-#inputDescription {
+#inputDescription,
+#inputBankNum,
+#BookPrice {
     border: var(--input-border) 0.063rem solid;
     background-color: var(--input-card-bg);
 }
 
 #description-div {
-    margin-top: 0%;
+    margin-top: 2%;
 }
 
 #description-div label,
-#storyTitle-div label {
+#storyTitle-div label,
+#bankAcc-div label {
     margin-bottom: 1.5%;
     color: var(--label-color);
     font-family: 'Poppins-Medium', sans-serif;
@@ -379,15 +384,15 @@ textarea {
     height: 280px !important;
 }
 
-.inputError{
-    background: rgb(255, 214, 220)!important;
-    border-color: rgb(243, 82, 93)!important;
+.inputError {
+    background: rgb(255, 214, 220) !important;
+    border-color: rgb(243, 82, 93) !important;
     /* margin-left: 4%; */
 }
 
-.inputPass{
-    background-color: rgb(241, 255, 231)!important;
-    border-color: rgb(98, 173, 107)!important;
+.inputPass {
+    background-color: rgb(241, 255, 231) !important;
+    border-color: rgb(98, 173, 107) !important;
 }
 
 .counter {
@@ -397,13 +402,13 @@ textarea {
     margin-bottom: 0%;
 }
 
-.counterErrorLight{
+.counterErrorLight {
     text-align: end;
     color: #dc3545;
     font-weight: lighter;
 }
 
-.counterErrorBold{
+.counterErrorBold {
     text-align: end;
     color: #dc3545;
     font-weight: bold;
@@ -412,6 +417,7 @@ textarea {
 .input-div {
     display: inline-flex;
     margin-top: 3%;
+    position: relative;
 }
 
 .input-div label {
@@ -438,17 +444,65 @@ option:checked {
     background-color: #b6f4dc;
 }
 
+#copyrightP {
+    /* position: absolute; */
+    margin: 0;
+    top: 50%;
+    margin-left: 4%;
+}
+
+#copyrightP a {
+    color: rgb(89, 91, 203);
+}
+
+#copyrightP a:hover {
+    color: #B43C82;
+}
 
 #radios {
     display: flex;
     flex-direction: column !important;
+    margin-left: 4%;
 }
 
 #radios label {
-    font-family: 'Poppins-Light', sans-serif;
+    font-family: 'Poppins-Regular', sans-serif;
     font-size: 15px;
+    width: fit-content;
+}
+
+#bankAcc-div {
+    margin-top: 4%;
+}
+
+#BookPrice-div label {
+    width: 200px !important;
+    margin-left: 2%;
+}
+
+#BookPrice {
+    /* margin-left: 2%; */
+    width: 150px;
+}
+
+#priceP{
+    margin-left: 2%;
+    width: 500px;
 }
 
 
 /* --------------- */
 
+.info {
+    float: right;
+}
+
+
+#targetAudience-div {
+    position: relative;
+}
+
+.infoalter {
+    margin-left: 1%;
+    padding-top: 0.7%;
+}

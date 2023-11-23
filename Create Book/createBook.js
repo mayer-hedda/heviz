@@ -1,10 +1,4 @@
-//* popover
-// $(document).ready(function () {
-//     $('[data-toggle="popover"]').popover();
-// });
 
-// const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-// const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
 
 //* DRAG AND DROP IMAGE TO COVER PHOTO + UPLOAD FILE
 const dropAreaPicture = document.getElementById('dropAreaPicture');
