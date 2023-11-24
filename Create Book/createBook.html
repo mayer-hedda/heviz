@@ -196,7 +196,8 @@
                             <!--? COPY RIGHT  -->
                             <div id="CopyRight-div" class="container input-div">
                                 <label id="copyright" for="copyrightP">CopyRight:</label>
-                                <p id="copyrightP">Please read the relevant article of the <a href="#">Terms and
+                                <p id="copyrightP">Please read the relevant article of the <a class="link"
+                                        href="#">Terms and
                                         Conditions</a>.</p>
                             </div>
 
@@ -227,7 +228,7 @@
 
                             <!--TODO: NINCS MEGÍRVA A JS  -->
                             <!--? BANK ACC NUMBER  -->
-                            <div id="bankAcc-div" class="container ">
+                            <div id="bankAcc-div" class="container " hidden>
                                 <label id="bankAcc" class="formLabel" for="inputBankNum">Bank Account Number:
                                 </label>
                                 <i class="bi bi-info-circle info" tabindex="0" data-bs-toggle="popover"
@@ -242,16 +243,22 @@
 
                         <!--? BOOK PRICE -->
                         <!--TODO: FORINT FELTÜNTETÉSE + JS NINCS MEGÍRVA  -->
-                        <div id="BookPrice-div" class="container input-div">
-                            <label id="Price" for="BookPrice">Your book's Price: <i class="bi bi-info-circle infoalter"
-                                    tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Please note that the final price is structured as follows: 
+                        <div id="bookPrice-outsideDiv" hidden>
+                            <div id="BookPrice-div" class="container input-div">
+                                <label id="Price" for="BookPrice">Your book's Price: <i
+                                        class="bi bi-info-circle infoalter" tabindex="0" data-bs-toggle="popover"
+                                        data-bs-trigger="hover focus" data-bs-content="Please note that the final price is structured as follows: 
                                     the price given by you + 20%."></i></label>
-                            <input class="form-control" type="number" id="BookPrice">
+                                <input class="form-control" type="number" id="BookPrice">
 
+                            </div>
+                            <div class="container" id="priceP">
+                                <p>If you need more information on this matter, please refer to the relevant section in
+                                    the <a class="link" href="#"> Terms and Conditions</a>.</p>
+                            </div>
+
+                            <div class="container errorMessage" id="PriceError"></div>
                         </div>
-                        <div class="container" id="priceP"><p>If you need more information on this matter, please refer to the relevant section in the Terms and Conditions.</p></div>
-
-                        <div class="container errorMessage" id="PriceError"></div>
                 </div>
 
                 </form>

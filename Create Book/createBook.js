@@ -129,7 +129,6 @@ var categoryPass = false;
 
 //? FUNCTION FOR DROPDOWNS 
 
-
 // #############################################
 // function Events() {
 const storyname = document.getElementById('StoryName');
@@ -277,6 +276,7 @@ function VerifyDropdown(select, errorField, selection) {
     }
     return true;
 }
+
 //? AUDIENCE DROPDOWN
 var audienceData;
 selectAudience.addEventListener('focusout', (e) => {
@@ -293,6 +293,8 @@ selectAudience.addEventListener('focusout', (e) => {
         console.log(audienceData);
     }
 })
+
+selectAudience.addEventListener('change')
 
 selectAudience.addEventListener('focusin', (e) => {
     e.preventDefault();
@@ -371,5 +373,5 @@ selectCategory.addEventListener('focusout', (e) => {
 //     }
 // }
 
-//* NEXT PAGE
+
 

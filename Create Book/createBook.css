@@ -451,11 +451,11 @@ option:checked {
     margin-left: 4%;
 }
 
-#copyrightP a {
+.link {
     color: rgb(89, 91, 203);
 }
 
-#copyrightP a:hover {
+.link:hover {
     color: #B43C82;
 }
 
@@ -488,6 +488,9 @@ option:checked {
 #priceP{
     margin-left: 2%;
     width: 500px;
+    font-size: smaller;
+    font-family: 'Poppins-light';
+    margin-top: 1.5%;
 }
 
 
