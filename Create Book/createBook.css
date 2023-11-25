@@ -363,7 +363,7 @@
 #inputStoryTitle,
 #inputDescription,
 #inputBankNum,
-#BookPrice {
+#inputBookPrice {
     border: var(--input-border) 0.063rem solid;
     background-color: var(--input-card-bg);
 }
@@ -480,9 +480,10 @@ option:checked {
     margin-left: 2%;
 }
 
-#BookPrice {
+#inputBookPrice {
     /* margin-left: 2%; */
     width: 150px;
+    margin-bottom: 1%;
 }
 
 #priceP{

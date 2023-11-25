@@ -105,6 +105,8 @@ const description = document.getElementById('inputDescription');
 const selectAudience = document.getElementById("selectTargetAudience");
 const selectLanguage = document.getElementById('selectLanguage');
 const selectCategory = document.getElementById('selectCategory');
+const bankAccNumber = document.getElementById('inputBankNum');
+const bookPrice = document.getElementById('inputBookPrice');
 
 const charCounterTitle = document.getElementById('characterCounterTitle');
 const charCounterDes = document.getElementById('characterCounterDes');
@@ -118,6 +120,8 @@ const descriptionError = document.getElementById('descriptErr');
 const audienceError = document.getElementById('audienceErr');
 const languageError = document.getElementById('languageErr');
 const categoryError = document.getElementById('categoryErr');
+const bankError = document.getElementById('BankNumError');
+const priceError = document.getElementById('PriceError');
 
 //* VARIABLES FOR ACTIVATE BUTTON
 var titlePass = false;
@@ -125,11 +129,10 @@ var descriptionPass = false;
 var audiencePass = false;
 var languagePass = false;
 var categoryPass = false;
+var publishingPass = false;   //! nincs használva
+var bankPass = false; //! csak akkor kell ha selpublish
+var pricePass = false; //! csak akkor kell ha selpublish
 
-
-//? FUNCTION FOR DROPDOWNS 
-
-// #############################################
 // function Events() {
 const storyname = document.getElementById('StoryName');
 //? TITLE 
@@ -241,7 +244,7 @@ description.addEventListener('focusout', (e) => {
         description.classList.add('inputError');
         descriptionError.innerText = "The description field cannot be empty";
         descriptionPass = false;
-        console.log("descriptionPass value: " + titlePass);
+        console.log("descriptionPass value: " + descriptionPass);
     } else {
         const functionValue = MinDesc(descValue);
         if (functionValue == false) {
@@ -249,11 +252,11 @@ description.addEventListener('focusout', (e) => {
             descriptionError.innerText = "The description must be 20 caracter long.";
             description.classList.add('inputError');
             console.log("A descript. függvény értéke: " + functionValue);
-            console.log("descriptionPass value: " + titlePass);
+            console.log("descriptionPass value: " + descriptionPass);
         } else {
             description.classList.add('inputPass');
             descriptionPass = true;
-            console.log("descriptionPass value: " + titlePass);
+            console.log("descriptionPass value: " + descriptionPass);
         }
     }
 })
@@ -266,7 +269,15 @@ description.addEventListener('focusin', (e) => {
 })
 
 // #############################################
+function disableDefaultOption(select) {
+    const defaultOption = select.querySelector('option[value="0"]');
+    if (defaultOption) {
+        defaultOption.disabled = true;
+    }
+}
+
 function VerifyDropdown(select, errorField, selection) {
+
     if (select.value == 0) {
         const errorMessage = `The ${selection} cannot be the default value.`;
         errorField.innerHTML = `<p>${errorMessage}</p>`;
@@ -294,7 +305,12 @@ selectAudience.addEventListener('focusout', (e) => {
     }
 })
 
-selectAudience.addEventListener('change')
+selectAudience.addEventListener('change', function () {
+    // Az alapértelmezett érték letiltása, ha már választottak
+    if (this.value !== "0") {
+        disableDefaultOption(this);
+    }
+});
 
 selectAudience.addEventListener('focusin', (e) => {
     e.preventDefault();
@@ -327,6 +343,13 @@ selectLanguage.addEventListener('focusout', (e) => {
     }
 })
 
+selectLanguage.addEventListener('change', function () {
+    // Az alapértelmezett érték letiltása, ha már választottak
+    if (this.value !== "0") {
+        disableDefaultOption(this);
+    }
+});
+
 // #############################################
 //? CATEGORY DROPDOWN
 var categoryData;
@@ -352,11 +375,116 @@ selectCategory.addEventListener('focusout', (e) => {
     }
 })
 
-// console.log("gomb előtt még lefut");
-// ActivateNext(nextBtn);
-// }
+selectCategory.addEventListener('change', function () {
+    // Az alapértelmezett érték letiltása, ha már választottak
+    if (this.value !== "0") {
+        disableDefaultOption(this);
+    }
+});
 
 
+//? Radio Buttons
+const checkboxes = document.querySelectorAll('.checkinput');
+const bankAccDiv = document.getElementById('bankAcc-div');
+const priceDiv = document.getElementById('bookPrice-outsideDiv');
+var publishingForm;
+var pubCheck = false;
+var selfCheck = false;
+checkboxes.forEach(function (radioButton) {
+    radioButton.addEventListener('change', function () {
+        // Ellenőrizze, hogy melyik rádiógomb van bejelölve
+        if (this.checked) {
+            publishingForm = this.id;
+            // console.log("Bejelölt rádiógomb: " + publishingForm);
+            if (publishingForm == "SelfPublish") {
+                console.log("Aktívak a mezők");
+                bankAccDiv.hidden = false;
+                priceDiv.hidden = false;
+
+                selfCheck = true;
+                pubCheck = false;
+                console.warn('Selfcheck value: ', selfCheck);
+                console.warn('Pubcheck value: ', pubCheck);
+            }
+
+            if (publishingForm == "PublisherPublish") {
+                console.log("Mezők deaktiválása");
+                bankAccDiv.hidden = true;
+                priceDiv.hidden = true;
+
+                pubCheck = true;
+                selfCheck = false;
+                console.warn('Selfcheck value: ', selfCheck);
+                console.warn('Pubcheck value: ', pubCheck);
+
+            }
+        }
+    });
+});
+
+function validateChecks(errorField, pubCheck, selfCheck){
+    /**
+     * input parameters
+     * @param {errorField} - Div
+     * @param {pubCheck} - Boolean
+     * @param {selfCheck} - Boolean
+     * 
+    */
+
+    if (pubCheck == false && selfCheck == false) {
+        errorField.innerHTML = `<p>You have to choose one option.</p>`;
+    }
+
+    if (pubCheck != false || selfCheck != false) {
+        errorField.innerHTML = '';
+
+    }
+}
+
+
+//? BANK ACC NUMBER
+
+
+//? MIN PRICE
+function minPrice(priceValue){
+    if (priceValue < 1000) {
+        bookPrice.classList.add('inputError');
+        console.log("price error: too low");
+        return false;
+    }
+    return true;
+}
+
+bookPrice.addEventListener('focusout', (e)=>{
+    e.preventDefault();
+    const priceValue = bookPrice.value;
+    if (priceValue == "") {
+        bookPrice.classList.add('inputError');
+        priceError.innerText = "The price field cannot be empty";
+        pricePass = false;
+        console.log("pricePass value: " + pricePass);
+    } else {
+        const minFunctionValue = minPrice(priceValue);
+        if (minFunctionValue == false) {
+            pricePass = false;
+            priceError.innerText = "The price must be a minimum of 1000 Hungarian Forints!";
+            bookPrice.classList.add('inputError');
+            console.log("A minPrice függvény értéke: " + minFunctionValue);
+            console.log("pricePass value: " + pricePass);
+        } else {
+            bookPrice.classList.add('inputPass');
+            pricePass = true;
+            console.log("pricePass value: " + descriptionPass);
+        }
+    }
+})
+
+bookPrice.addEventListener('focusin', (e) => {
+    e.preventDefault();
+    bookPrice.classList.remove('inputError');
+    bookPrice.classList.remove('inputPass');
+    priceError.innerText = "";
+})
 // #############################################
 //? NEXT BUTTON
 

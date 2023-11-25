@@ -158,7 +158,8 @@
                                 <label id="category" for="selectCategory">Category: <i
                                         class="bi bi-info-circle infoalter" tabindex="0" data-bs-toggle="popover"
                                         data-bs-trigger="hover focus"
-                                        data-bs-content="Select the category that best fits your book."></i></label>
+                                        data-bs-content="Choose the category that best represents your book. If you're unsure, explore the 'Discovery' 
+                                        tab to see what books other authors have published in each category."></i></label>
                                 <select class="form-select select text-center" id="selectCategory">
                                     <option value="0" selected>Choose your book's category</option>
                                     <option value="1">Gastronomy</option>
@@ -201,7 +202,8 @@
                                         Conditions</a>.</p>
                             </div>
 
-                            <!--TODO: NINCS MEGÍRVA A JS  -->
+                            <!--TODO: NINCS MEGHÍVVA A VALIDÁLÓ FÜGGVÉNY  -->
+                            <!--* adatkinyerés: Check  -->
                             <!--? CHECKBOX - PUBLISHER - NOT PUBLISHER  -->
                             <div id="publishing-div" class="container input-div">
                                 <label id="publishing" for="selecter">Select one: <i class="bi bi-info-circle infoalter"
@@ -209,19 +211,19 @@
                                         data-bs-content="We need to know how you want to publish your book. Select if you're looking for a publisher or if you're a self-publisher. If you change your mind, you can change this later."></i></label>
                                 <div id="radios">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="slectOne" id="SelfPublish">
+                                        <input class="form-check-input checkinput" type="radio" name="slectOne"
+                                            id="SelfPublish">
                                         <label class="form-check-label" for="SelfPublish">
                                             I prefer self-publishing.
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="slectOne"
+                                        <input class="form-check-input checkinput" type="radio" name="slectOne"
                                             id="PublisherPublish">
                                         <label class="form-check-label" for="PublisherPublish">I am seeking a publisher
                                             for my book.</label>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="container errorMessage" id="checkboxError"></div>
 
@@ -249,15 +251,16 @@
                                         class="bi bi-info-circle infoalter" tabindex="0" data-bs-toggle="popover"
                                         data-bs-trigger="hover focus" data-bs-content="Please note that the final price is structured as follows: 
                                     the price given by you + 20%."></i></label>
-                                <input class="form-control" type="number" id="BookPrice">
+                                <input class="form-control" type="number" id="inputBookPrice">
 
                             </div>
+                            <div class="container errorMessage" id="PriceError"></div>
                             <div class="container" id="priceP">
                                 <p>If you need more information on this matter, please refer to the relevant section in
                                     the <a class="link" href="#"> Terms and Conditions</a>.</p>
                             </div>
 
-                            <div class="container errorMessage" id="PriceError"></div>
+
                         </div>
                 </div>
 
