@@ -134,43 +134,43 @@ p {
 /** --------------- FIRST-SECTION ---------------*/
 
 #first-section {
-    margin-top: 5.625rem;
-    padding-right: 5%;
-    padding-left: 5%;
-}
-
-#first-section h1 {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 600;
-    font-size: 1.875rem;
-    text-decoration: underline 0.125rem;
-    text-underline-offset: 0.438rem;
-
-}
-
-#first-card-group{
-    padding-right: 5%;
-    padding-left: 5%;
-}
-
-.cardStyle {
-    display: flex;
-    flex-direction: row;
-    background-color: var(--card-bg) !important;
-    width: 25rem !important;
-    height: 15.625rem !important;
-    margin-right: 1.875rem;
-    border-radius: 0.938rem!important;
-    border-style: none !important;
-    margin-top: 1.875rem !important;
+    margin-left: 5%;
+    margin-right: 5%;
+    
 }
 
 #first-section img{
-    width: 8.125rem !important;
-    margin-top: 2.188rem;
-    margin-bottom: 2.188rem;
-    margin-left: 0.313rem;
-    border-radius: 0.313rem;
+    position: relative;
+    top: -80px;
+    left: 40px;
+    width: 230px;
+    height: 410px;
+    background-position: center;
+    background-size: cover;
+    margin-right: 0px;
+
+    border-radius: 15px;
+    /* box-shadow: 4px rgba(0, 0, 0, 0.582)!important; */
+}
+
+#welcome{
+    margin-top: 90px;
+}
+
+.bigcard{
+    width: 900px!important;
+    height: 400px;
+    margin-top: 10%;
+    /* box-sizing: border-box; */
+
+    border-radius: 15px;
+}
+
+
+.myCardTextH1{
+    /* width: 50px!important; */
+    margin-left: 2%;
+    margin-top: 4%;
 }
 
 
