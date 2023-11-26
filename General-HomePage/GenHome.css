@@ -24,6 +24,11 @@
     /* -------- MARGIN - PADDING --------*/
     /* --default-padding: auto 5%; */
 
+    --card-height: 370;
+    --pic-height: 400;
+    /* --offset: 60; */
+    --max-lines: 6;
+    --line-height: 1.5;
 }
 
 /**--------------- FONTS ---------------*/
@@ -35,32 +40,54 @@
 }
 
 @font-face {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat-Bold';
     src: url("../fonts/Montserrat/static/Montserrat-Bold.ttf") format('truetype');
     font-weight: 700;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat-SemiBold';
     src: url("../fonts/Montserrat/static/Montserrat-SemiBold.ttf") format('truetype');
     font-weight: 600;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat-Medium';
     src: url("../fonts/Montserrat/static/Montserrat-Medium.ttf") format('truetype');
     font-weight: 500;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'Pt sans';
+    font-family: 'PTsans-Regular';
     src: url("../fonts/PT_Sans/PTSans-Regular.ttf") format('truetype');
     font-weight: 400;
     font-style: normal;
 }
+
+@font-face {
+    font-family: 'Poppins-Regular';
+    src: url(../fonts/Poppins/Poppins-Regular.ttf) format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins-Medium';
+    src: url("../fonts/Poppins/Poppins-Medium.ttf") format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins-light';
+    src: url("../fonts/Poppins/Poppins-Light.ttf") format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
 
 /** --------------- NAVBAR ---------------*/
 
@@ -130,49 +157,115 @@ p {
     /* Mutató kurzor megjelenítése, hogy látható legyen, kattintható */
 }
 
+/** --------------- TITLES ---------------*/
+#welcome{
+    margin-top: 100px;
+    font-family: 'Montserrat-SemiBold', sans-serif;
+    letter-spacing: -1px;
+    font-size: 35px;
+}
+
+.subtitle{
+    font-family: 'Montserrat-Medium';
+    letter-spacing: -0.5px;
+    margin-bottom: 2%;
+}
 
 /** --------------- FIRST-SECTION ---------------*/
 
+
 #first-section {
-    margin-left: 5%;
-    margin-right: 5%;
+    margin-top: 40px;
+    height: 520px;
+    display: flex;
+    margin-bottom: 50px;
+}
+
+.full-card {
+    background-color: #EAD7BE;
+    margin-top: 85px;
+    /* margin-left: 100px !important; */
+    border-radius: 20px!important;
+    width: 900px!important;
+    height: fit-content;
+    border-radius: 15px!important;
+    box-shadow: 8px 8px 4px #3a3a3a2c;
+    /* border-color: linear-gradient(to right, #EAD7BE, #E8B5A0); */
+    /* border: 10px!important; */
     
 }
 
-#first-section img{
+.picSide img {
+    width: 210px;
+    height: var(--pic-height);
+
     position: relative;
-    top: -80px;
-    left: 40px;
-    width: 230px;
-    height: 410px;
-    background-position: center;
-    background-size: cover;
-    margin-right: 0px;
-
-    border-radius: 15px;
-    /* box-shadow: 4px rgba(0, 0, 0, 0.582)!important; */
+    top: -40px;
+    left: 30px;
+    border-radius: 10px;
+    box-shadow: 8px 8px 4px #b8ab9876;
 }
 
-#welcome{
-    margin-top: 90px;
+.card-bg {
+    height: 100%!important;
+    /* width: 900px; */
 }
 
-.bigcard{
-    width: 900px!important;
-    height: 400px;
-    margin-top: 10%;
-    /* box-sizing: border-box; */
-
-    border-radius: 15px;
+.textSide{
+    display: inline-block;
 }
 
+.textH2 {
+    margin-top: 30px !important;
+    /* margin-left: 20px; */
+    font-family: 'Poppins-Medium', sans-serif;
+    font-size: 27px;
+}
 
-.myCardTextH1{
-    /* width: 50px!important; */
-    margin-left: 2%;
+.description {
+    /** Csak az első 7 sort mutassa a leírásból => van hogy a szó közepén vágja el */
+    display: -webkit-box;
+    -webkit-line-clamp: var(--max-lines);
+    -webkit-box-orient: vertical;
+    overflow: hidden!important;
+    /* line-height: var(--line-height); */
+    text-align: justify;
+    padding-left: 0!important;
+    padding-top: 0%;
+    padding-bottom: 0!important;
+    padding-right: 40px;
+    font-family: 'Poppins-Regular', sans-serif;
+    font-size: 18px!important;
     margin-top: 4%;
 }
 
+.more-btn{
+    /* align-items: end; */
+    align-self: baseline!important;
+    color: white!important;
+    border: 3px solid #895372;
+    /* border-color: linear-gradient(145deg, #995D7F, #713D5A)!important; */
+    border-radius: 20px!important;
+    font-family: 'PTsans-Regular', sans-serif!important;
+    font-size: 18px!important;
+    letter-spacing: 0.7px;
+    background: linear-gradient(145deg, #713D5A, #995D7F)!important;
+    padding-left: 30px!important;
+    padding-right: 30px!important;
+}
+
+.more-btn:hover{
+    background-color: linear-gradient(145deg, #e29cc4, #be83a5)!important;
+    color: var(--mostUsed-text-color)!important;
+    font-family: 'PTsans-Regular', sans-serif!important;
+    font-size: 18px!important;
+    letter-spacing: 0.7px;
+}
+
+/** --------------- SECOND SECTION ---------------*/
+ #second-section{
+    margin-bottom: 5%;
+ }
 
 /** --------------- FOOTER ---------------*/
 
@@ -206,5 +299,3 @@ footer a {
     /* padding-left: 6%; */
     display: flex;
 }
-
-

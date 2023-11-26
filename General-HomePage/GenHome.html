@@ -52,27 +52,73 @@
     </nav>
 
 
+    <h1 id="welcome" class="container">Welcome User!</h1>
+    <!--? FIRST SECTION => RANDOM NAGY KÁRTYA  -->
+    <section id="first-section" class="container">
 
-    <!--TODO: FIRST SECTION => RANDOM NAGY KÁRTYA  -->
-    <section id="first-section" style="background-color: brown;">
-        <h1 id="welcome" class="container">Welcome!</h1>
-        <div class="container bigcard" style="background-color: aqua;">
-            <div id="bigCard">
-                <div class="row">
-                    <div class="col-4">
-                        <!--* KÉP HELYE -->
-                        <img src="../pictures/probakep.jpg">
+        <div id="first-s-card" class="container full-card">
+            <div class="row card-bg" style="border: 3px">
+                <div class="col-4 picSide">
+                    <img src="../pictures/probakep.jpg">
+                </div>
+
+                <div class="col-8 textSide">
+                    <h2 class="textH2">Könyv címe</h2>
+                    <p class="description">Natoque mollis tristique et bibendum dignissim imperdiet senectus, torquent
+                        mattis congue rutrum
+                        mus neque dictum iaculis, metus venenatis lectus cras scelerisque orci. Ac iaculis duis sociis
+                        porta curae vestibulum blandit laoreet, platea cursus inceptos feugiat magnis venenatis senectus
+                        scelerisque, nunc litora pharetra neque himenaeos vehicula torquent. Felis aenean libero enim
+                        porta natoque potenti porttitor praesent, sapien nunc ante bibendum magnis metus imperdiet
+                        velit, rhoncus nostra convallis ut aliquet torquent mus. empus porttitor torquent blandit nec
+                        cursus scelerisque molestie ridiculus, phasellus urna pharetra morbi metus mauris eleifend
+                        tellus, conubia litora aenean pulvinar convallis vestibulum integer. Nibh gravida dis quisque
+                        condimentum lectus nunc sed at convallis augue consequat, nec elementum tristique fringilla
+                        magnis pharetra mattis faucibus semper.</p>
+
+                    <!--TODO: POPUP ABLAK  -->
+                    <button type="menu" class="btn more-btn">Read More</button>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <h2 class="container subtitle">Books of the month:</h2>
+    <!-- TODO: SECOND SECTION => Most popular books of the month -->
+    <section id="second-section" class="container">
+
+        <div class="container first-row">
+            <div class="row text-center">
+                <div class="col-3">
+                    <div class="cover-photo" style="background-color: aquamarine;">
+                        <!--* ÁLTALAM GONDOLT MAGASSÁG + SZÉLESSÉG  -->
+                        <img src="../pictures/first-section-book-example.jpg" class="cover" style="width: 270px; height: 400px;">
                     </div>
+                </div>
+                <div class="col-3">
+                    <div class="cover-photo" style="background-color: aquamarine;">
+                        <!--* CREATE BOOK KÉP FELTÖLTÉS MÉRETEI  -->
+                        <img src="../pictures/probakep2.jpg" class="cover" style="width: 270px; height: 450px;">
+                    </div>
+                </div>
 
-                    <div class="col-8 myCardText" id="card-text-div">
-                        <!--* SZOVEG HELYE -->
-                        <h1 class="myCardTextH1">cím</h1>
+                <!--* ha nem állítom be a szélességet akkor összecsúsznak  -->
+                <div class="col-3">
+                    <div class="cover-photo" style="background-color: aquamarine;">
+                        <img src="../pictures/probakep2.jpg" class="cover" style="height: 400px;">
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="cover-photo" style="background-color: aquamarine;">
+                        <img src="../pictures/first-section-book-example.jpg" class="cover" style="height: 400px;">
                     </div>
                 </div>
             </div>
         </div>
+
     </section>
-    <!-- TODO: SECOND SECTION => Most popular books of the month -->
 
 
 
