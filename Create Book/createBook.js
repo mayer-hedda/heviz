@@ -14,17 +14,35 @@ var picPass = false;
 //? IMAGE
 inputPicture.addEventListener("change", uploadImage);
 
+var height, width;
+
+
 function uploadImage() {
     let imgLink = URL.createObjectURL(inputPicture.files[0]);
     imgView.style.backgroundImage = `url(${imgLink})`;
     imgView.textContent = "";
     imgView.style.border = 0;
+
+    var img = new Image();
+    img.src = imgLink;
+
+    img.onload = function(){
+        height = img.naturalHeight;
+        width = img.naturalWidth;
+        console.log("A kép szélessége: " + width);
+        console.log("A kép magassága: " + height);
+    }
+
+    
+
     if (imgLink == "") {
         picPass = false;
         console.log("pic pass value:" + picPass);
+
     } else {
         picPass = true;
         console.log("pic pass value:" + picPass);
+
     }
 }
 
