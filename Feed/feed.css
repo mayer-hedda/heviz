@@ -296,6 +296,11 @@ nav {
 
 }
 
+#like{
+    width: 40px!important;
+    height: 40px!important;
+}
+
 .like-and-share span {
     margin-bottom: 5px !important;
     cursor: pointer;
@@ -303,12 +308,13 @@ nav {
 
 .like {
     margin-right: 0.625rem !important;
-
+    
 }
 
 .like:hover {
-    fill: rgb(151, 24, 12) !important;
-    color: rgb(151, 24, 12) !important;
+    fill: rgb(185, 24, 10) !important;
+    color: rgb(185, 24, 10) !important;
+    cursor: pointer;
 }
 
 .share {
@@ -316,8 +322,9 @@ nav {
 }
 
 .share:hover {
-    fill: rgb(151, 24, 12) !important;
-    color: rgb(151, 24, 12) !important;
+    /* fill: rgb(152, 88, 201) !important; */
+    color: var(--dash-color)!important;
+    cursor: pointer;
 }
 
 /** SIDE BAR */
