@@ -324,7 +324,7 @@ footer a:hover{
     transition: color 0.8s ease;
     transition: background-color 0.8s ease;
     color: var(--mostUsed-text-color);
-    background-color: var(--white-col-btnBG-Text);
+    background-color: rgb(247, 245, 236);
     border: dashed 0.094rem var(--dash-color);
     border-width: 0.094rem;
     border-color: rgb(129, 105, 117);

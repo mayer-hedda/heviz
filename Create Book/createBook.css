@@ -273,7 +273,8 @@
     border: 2px dashed rgb(188, 164, 145);
     background: rgba(247, 235, 224, 0.979);
     /* align-content: center; */
-    margin-top: 10px;
+    margin-top: 15px;
+    margin-left: 5px;
     /* align-items: inherit; */
     object-fit: cover;
     top: 10;
