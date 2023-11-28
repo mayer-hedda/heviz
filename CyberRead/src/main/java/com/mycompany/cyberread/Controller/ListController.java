@@ -6,13 +6,10 @@ package com.mycompany.cyberread.Controller;
 
 import com.mycompany.cyberread.Exception.ListException;
 import com.mycompany.cyberread.Service.ListService;
+
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Produces;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.json.JSONArray;
@@ -61,6 +58,14 @@ public class ListController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response getMostListedBooksOfTheMoth() throws ListException {
         JSONArray result = ListService.getMostListedBooksOfTheMoth();
+        return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+    }
+
+    @GET
+    @Path("getPostsByFollowedUsers")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getPostsByFollowedUsers(@HeaderParam("Authorization") String token) throws ListException {
+        JSONArray result = ListService.getPostsByFollowedUsers(token);
         return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
     }
 }

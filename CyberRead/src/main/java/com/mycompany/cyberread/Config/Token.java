@@ -20,13 +20,13 @@ public class Token {
         int id = u.getId();
         String token = Jwts.builder()
                 .setIssuer("CyberRead")
-                .setSubject("Vizsga")
+                .setSubject("vizsga")
                 .claim("id", id)
                 .setIssuedAt(Date.from(now))
                 .setExpiration(Date.from(now.plus(7, ChronoUnit.DAYS)))
                 .signWith(
                         SignatureAlgorithm.HS256,
-                        TextCodec.BASE64.decode("RXogbGVzeiBhIHRpdGtvcyBrdWxjcw==")
+                        TextCodec.BASE64.decode("Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=")
                 )
                 .compact();
 
@@ -35,13 +35,19 @@ public class Token {
 
     public static int decodeJwt(String token) {
         try {
-            byte[] secret = Base64.getDecoder().decode("RXogbGVzeiBhIHRpdGtvcyBrdWxjcw==");
+            byte[] secret = Base64.getDecoder().decode("Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=");
             Jws<Claims> result;
             result = Jwts.parser().setSigningKey(Keys.hmacShaKeyFor(secret)).parseClaimsJws(token);
-            return 1;
-        }
-        catch (Exception ex) {
-            System.err.println("Error: " + ex.getMessage());
+            int id = result.getBody().get("id", Integer.class);
+            User u = new User(id);
+            if (id == u.getId()) {
+                return 1;
+            } else {
+                //a token érvénytelen
+                return 3;
+            }
+        } catch (Exception ex) {
+            System.err.println("Hiba: " + ex.getMessage());
             //A token lejárt
             return 2;
         }
@@ -49,7 +55,7 @@ public class Token {
     }
 
     public static User getUserByToken(String token) {
-        byte[] secret = Base64.getDecoder().decode("RXogbGVzeiBhIHRpdGtvcyBrdWxjcw==");
+        byte[] secret = Base64.getDecoder().decode("Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=");
         Jws<Claims> result;
         result = Jwts.parser().setSigningKey(Keys.hmacShaKeyFor(secret)).parseClaimsJws(token);
         int id = result.getBody().get("id", Integer.class);
@@ -58,7 +64,7 @@ public class Token {
     }
 
     public static Integer getUserIdByToken(String token) {
-        byte[] secret = Base64.getDecoder().decode("RXogbGVzeiBhIHRpdGtvcyBrdWxjcw==");
+        byte[] secret = Base64.getDecoder().decode("Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=");
         Jws<Claims> result;
         result = Jwts.parser().setSigningKey(Keys.hmacShaKeyFor(secret)).parseClaimsJws(token);
         Integer id = result.getBody().get("id", Integer.class);

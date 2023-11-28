@@ -14,6 +14,8 @@ public class PublisherRegistration {
     private String email;
     private String companyName;
     private String password;
+    private Boolean aszf;
+
 
     public String getFirstName() {
         return firstName;
@@ -37,6 +39,10 @@ public class PublisherRegistration {
 
     public String getPassword() {
         return password;
+    }
+
+    public Boolean getAszf() {
+        return aszf;
     }
 
 

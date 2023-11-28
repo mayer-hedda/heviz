@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 public class UserService {
 
-    public static String publisherRegistration(String firstName, String lastName, String username, String email, String companyName, String password) {
+    public static String publisherRegistration(String firstName, String lastName, String username, String email, String companyName, String password, Boolean aszf) {
         try {
             if(!User.firstNameCheck(firstName)) {
                 return "";
@@ -23,7 +23,9 @@ public class UserService {
                 return "";
             } else if(!User.passwordCheck(password)) {
                 return "";
-            }else if(PublisherRegistration.publisherRegistration(username, firstName, lastName, companyName, email, password)) {
+            } else if(!aszf) {
+                return "Kötelező mező!";
+            } else if(PublisherRegistration.publisherRegistration(username, firstName, lastName, companyName, email, password)) {
                 return "Successful registration!";
             } else {
                 return "Unsuccessful registration!";
@@ -33,7 +35,7 @@ public class UserService {
         }
     }
 
-    public static String generalRegistration(String username, String firstName, String lastName, String email, String birthdate, String password) {
+    public static String generalRegistration(String username, String firstName, String lastName, String email, String birthdate, String password, Boolean aszf) {
         try {
             if(!User.usernameCheck(username)) {
                 return "";
@@ -43,6 +45,8 @@ public class UserService {
                 return "";
             } else if(!User.passwordCheck(password)) {
                 return "";
+            } else if(!aszf) {
+                return "Kötelező mező!";
             } else if(GeneralRegistration.generalRegistration(username, firstName, lastName, email, birthdate, password)) {
                 return "Successful registration!";
             } else {

@@ -14,6 +14,7 @@ public class GeneralRegistration {
     private String email;
     private String birthdate;
     private String password;
+    private Boolean aszf;
 
     public String getUsername() {
         return username;
@@ -37,6 +38,10 @@ public class GeneralRegistration {
 
     public String getPassword() {
         return password;
+    }
+
+    public Boolean getAszf() {
+        return aszf;
     }
 
 

@@ -144,7 +144,18 @@ public class User implements Serializable {
     }
 
     public User(Integer id) {
-        this.id = id;
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+        
+        try {
+            User u = em.find(User.class, id);
+            this.id = u.getId();
+        } catch(Exception ex) {
+            System.out.println(ex.getMessage());
+        } finally {
+            em.clear();
+            em.close();
+        }
     }
 
     public User(Integer id, String username, String email, String password, String rank, boolean publicEmail, boolean publicPhone, boolean tutorial, Date registrationTime, boolean active, int coverColorId, int userId) {
