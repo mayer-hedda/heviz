@@ -8,6 +8,7 @@ import com.mycompany.cyberread.Config.Token;
 import com.mycompany.cyberread.Exception.ListException;
 import com.mycompany.cyberread.Helpers.GetPostsByFollowedUsers;
 import com.mycompany.cyberread.Modell.List;
+import com.mycompany.cyberread.Modell.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -53,7 +54,7 @@ public class ListService {
 
             return jsonArray;
         } catch (Exception ex) {
-            throw new ListException("Error in getPostsByFollowedUsers() method!");
+            throw new ListException("Error in getPostsByFollowedUsers() method in ListService!");
         }
     }
     

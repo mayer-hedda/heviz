@@ -151,7 +151,7 @@ public class List implements Serializable {
             return listList;
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
-            throw new ListException("Error in getMostListedBooksOfTheMoth");
+            throw new ListException("Error in getMostListedBooksOfTheMoth() method in List Class!");
         } finally {
             em.clear();
             em.close();
@@ -190,7 +190,7 @@ public class List implements Serializable {
             return listList;
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
-            throw new ListException("Error in getMostListedBooksOfTheMoth");
+            throw new ListException("Error in getPostsByFollowedUsers() method in List Class!");
         } finally {
             em.clear();
             em.close();

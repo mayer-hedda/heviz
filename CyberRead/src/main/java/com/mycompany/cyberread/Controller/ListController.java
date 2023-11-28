@@ -4,6 +4,7 @@
  */
 package com.mycompany.cyberread.Controller;
 
+import com.mycompany.cyberread.Config.Token;
 import com.mycompany.cyberread.Exception.ListException;
 import com.mycompany.cyberread.Service.ListService;
 
@@ -56,16 +57,42 @@ public class ListController {
     @GET
     @Path("getMostListedBooksOfTheMoth")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response getMostListedBooksOfTheMoth() throws ListException {
-        JSONArray result = ListService.getMostListedBooksOfTheMoth();
-        return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+    public Response getMostListedBooksOfTheMoth(@HeaderParam("Token") String jwt) throws ListException {
+        if(jwt == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
+        } else {
+            int tokenCheckResult = Token.decodeJwt(jwt);
+            
+            switch (tokenCheckResult) {
+                case 1: 
+                    JSONArray result = ListService.getMostListedBooksOfTheMoth();
+                    return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                case 2: 
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
+                default:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
+            }
+        }
     }
 
     @GET
     @Path("getPostsByFollowedUsers")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response getPostsByFollowedUsers(@HeaderParam("Authorization") String token) throws ListException {
-        JSONArray result = ListService.getPostsByFollowedUsers(token);
-        return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+    public Response getPostsByFollowedUsers(@HeaderParam("Token") String jwt) throws ListException {
+        if(jwt == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
+        } else {
+            int tokenCheckResult = Token.decodeJwt(jwt);
+            
+            switch (tokenCheckResult) {
+                case 1: 
+                    JSONArray result = ListService.getPostsByFollowedUsers(jwt);
+                    return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                case 2: 
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
+                default:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
+            }
+        }
     }
 }

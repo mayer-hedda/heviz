@@ -59,25 +59,64 @@ public class UserController {
     @POST
     @Path("publisherRegistration")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response publisherRegistration(PublisherRegistration u) {
-        String result = UserService.publisherRegistration(u.getFirstName(), u.getLastName(), u.getUsername(), u.getEmail(), u.getCompanyName(), u.getPassword(), u.getAszf());
-        return Response.status(Response.Status.OK).entity(result).type(MediaType.APPLICATION_JSON).build();
+    public Response publisherRegistration(@HeaderParam("Token") String jwt, PublisherRegistration u) {
+        if(jwt == null) {
+            String result = UserService.publisherRegistration(u.getFirstName(), u.getLastName(), u.getUsername(), u.getEmail(), u.getCompanyName(), u.getPassword(), u.getAszf());
+            return Response.status(Response.Status.OK).entity(result).type(MediaType.APPLICATION_JSON).build();
+        } else {
+            int tokenCheckResult = decodeJwt(jwt);
+
+            switch (tokenCheckResult) {
+                case 1:
+                    return Response.status(Response.Status.FOUND).entity("User has token!").build();
+                case 2:
+                    return  Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").build();
+                default:
+                    return  Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").build();
+            }
+        }
     }
 
     @POST
     @Path("generalRegistration")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response generalRegistration(GeneralRegistration u) {
-        String result = UserService.generalRegistration(u.getUsername(), u.getFirstName(), u.getLastName(), u.getEmail(), u.getBirthdate(), u.getPassword(), u.getAszf());
-        return Response.status(Response.Status.OK).entity(result).type(MediaType.APPLICATION_JSON).build();
+    public Response generalRegistration(@HeaderParam("Token") String jwt, GeneralRegistration u) {
+        if(jwt == null) {
+            String result = UserService.generalRegistration(u.getUsername(), u.getFirstName(), u.getLastName(), u.getEmail(), u.getBirthdate(), u.getPassword(), u.getAszf());
+            return Response.status(Response.Status.OK).entity(result).type(MediaType.APPLICATION_JSON).build();
+        } else {
+            int tokenCheckResult = decodeJwt(jwt);
+
+            switch (tokenCheckResult) {
+                case 1:
+                    return Response.status(Response.Status.FOUND).entity("User has token!").build();
+                case 2:
+                    return  Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").build();
+                default:
+                    return  Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").build();
+            }
+        }
     }
 
     @POST
     @Path("login")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response login(User u) {
-        JSONObject result = UserService.login(u.getEmail(), u.getPassword());
-        return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+    public Response login(@HeaderParam("Token") String jwt, User u) {
+        if(jwt == null) {
+            JSONObject result = UserService.login(u.getEmail(), u.getPassword());
+            return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+        } else {
+            int tokenCheckResult = decodeJwt(jwt);
+
+            switch (tokenCheckResult) {
+                case 1:
+                    return Response.status(Response.Status.FOUND).entity("User has token!").build();
+                case 2:
+                    return  Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").build();
+                default:
+                    return  Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").build();
+            }
+        }
     }
 
     @GET
@@ -86,12 +125,13 @@ public class UserController {
     public Response token(@HeaderParam("Token") String jwt) {
         int tokenCheckResult = decodeJwt(jwt);
 
-        if(tokenCheckResult == 1) {
-            return Response.status(Response.Status.OK).entity("Verify").build();
-        } else if(tokenCheckResult == 2) {
-            return  Response.status(Response.Status.UNAUTHORIZED).entity("2").build();
-        } else {
-            return  Response.status(Response.Status.UNAUTHORIZED).entity("3").build();
+        switch (tokenCheckResult) {
+            case 1:
+                return Response.status(Response.Status.FOUND).entity("User has token!").build();
+            case 2:
+                return  Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").build();
+            default:
+                return  Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").build();
         }
     }
 }

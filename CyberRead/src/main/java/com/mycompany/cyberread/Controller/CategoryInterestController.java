@@ -4,6 +4,7 @@
  */
 package com.mycompany.cyberread.Controller;
 
+import com.mycompany.cyberread.Config.Token;
 import com.mycompany.cyberread.Helpers.AddCategoryInterest;
 import com.mycompany.cyberread.Service.CategoryInterestService;
 import javax.ws.rs.core.Context;
@@ -11,6 +12,7 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
@@ -58,8 +60,19 @@ public class CategoryInterestController {
     @POST
     @Path("addCategoryInterest")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response AddCategoryInterest(AddCategoryInterest u) {
-        String result = CategoryInterestService.addCategoryInterest(u.getUserId(), u.getCategoryNames());
-        return Response.status(Response.Status.OK).entity(result).type(MediaType.APPLICATION_JSON).build();
+    public Response AddCategoryInterest(@HeaderParam("Token") String jwt, AddCategoryInterest u) {
+        if(jwt == null) {
+            String result = CategoryInterestService.addCategoryInterest(u.getUserId(), u.getCategoryNames());
+            return Response.status(Response.Status.OK).entity(result).type(MediaType.APPLICATION_JSON).build();
+        } else {
+            int tokenCheckResult = Token.decodeJwt(jwt);
+            
+            if(tokenCheckResult == 1) {
+                return Response.status(Response.Status.FOUND).entity("User has token!").build();
+            } else {
+                String result = CategoryInterestService.addCategoryInterest(u.getUserId(), u.getCategoryNames());
+                return Response.status(Response.Status.OK).entity(result).type(MediaType.APPLICATION_JSON).build();
+            }
+        }
     }
 }
