@@ -158,6 +158,43 @@ p {
     /* Mutató kurzor megjelenítése, hogy látható legyen, kattintható */
 }
 
+#navbarNav{
+    margin-left: 60px;
+}
+
+#writingBtn{
+    font-size: medium;
+    font-family: 'Inter', sans-serif;
+    color: var(--btn-text-color);
+
+    border-width: 0rem;
+    border-radius: 1.5rem;
+
+    background-color: var(--primary-BTN-Bg-color);
+
+    padding: 0.625rem 1.25rem;
+
+    transition: color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    transition: background-color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    line-height: 1.125rem;
+
+    box-sizing: border-box;
+    margin-right: 50px;
+    /* align-items: self-end; */
+}
+
+#writingBtn:hover{
+    transition: color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    transition: background-color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    background-color: rgb(247, 245, 236);
+    color: var(--mostUsed-text-color);
+    border: dashed 0.094rem var(--dash-color);
+}
+
 /** --------------- TITLES AND ROWS---------------*/
 #welcome {
     margin-top: 100px;
@@ -256,26 +293,25 @@ p {
     font-size: 18px !important;
     letter-spacing: 0.7px;
     background: linear-gradient(145deg, #713D5A, #995D7F) !important;
-
-    /* transition: background-color 0.5s linear!important; */
-
-    /* transition: border 0.5s ; */
-    padding-left: 30px !important;
-    padding-right: 30px !important;
+    padding: 5px 20px 5px;
+    text-decoration: none;
+    /* transition: color 0.8s ease !important;
+    transition: background-color 0.8s ease!important; */
 }
 
 .moreBtn:hover {
     background: linear-gradient(145deg, #38423B, #3F5E5A) !important;
     border: 3px solid #2F3731;
-    /* color: var(--mostUsed-text-color)!important; */
+    /* transition: color 0.8s ease!important;
+    transition: background-color 0.8s ease!important; */
     font-family: 'PTsans-Regular', sans-serif !important;
     font-size: 18px !important;
     letter-spacing: 0.7px;
-
+    
 }
 
 /** --------------- SECOND SECTION ---------------*/
-#second-section {
+.sub-sections {
     margin-bottom: 5%;
 }
 
@@ -350,6 +386,8 @@ p {
     font-family: 'Poppins-Regular', sans;
     font-size: medium;
     cursor: pointer;
+    transition: color 0.8s ease;
+    transition: background-color 0.8s ease;
 }
 
 .cover-btn:hover{
@@ -357,8 +395,21 @@ p {
     color: white;
     border: dashed 0.094rem white;
     cursor: pointer;
+    transition: color 0.8s ease;
+    transition: background-color 0.8s ease;
 }
 
+/** --------------- THIRD SECTION ---------------*/
+
+.sMoreBtn{
+    background-color: #f1b9a0;
+    color: var(--btn-text-color);
+    text-decoration: none;
+    padding: 10px 25px 10px;
+    font-size: 20px;
+    border-radius: 10px;
+    align-self: center;
+}
 /** --------------- FOOTER ---------------*/
 
 footer {

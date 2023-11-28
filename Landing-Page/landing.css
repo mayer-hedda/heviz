@@ -68,7 +68,10 @@
 
 
     #fourth-section {
-        padding: 2.813rem;
+        padding-bottom: 40px!important;
+        padding-top: 30px!important;
+        padding-left: 20px!important;
+        padding-right: 20px!important;
     }
 
     #s4-btn1 {
@@ -287,7 +290,7 @@ footer a:hover{
     /*átmenet a hover és a rendes állapot között*/
     transition: background-color 0.8s ease;
     /*átmenet a hover és a rendes állapot között*/
-    background-color: var(--white-col-btnBG-Text);
+    background-color: rgb(247, 245, 236);
     color: var(--mostUsed-text-color);
     border: dashed 0.094rem var(--dash-color);
 }
@@ -372,7 +375,7 @@ footer a:hover{
     font-size: 1.375rem;
     font-family: 'Montserrat', sans-serif;
     color: var(--brown-p-color);
-
+    text-align: justify!important;
 }
 
 #third-section {
@@ -466,8 +469,10 @@ footer a:hover{
     /*átmenet a hover és a rendes állapot között*/
     transition: background-color 0.8s ease;
     /*átmenet a hover és a rendes állapot között*/
-    /*! background-color: rgb(168, 129, 113); */
-    color: var(--mostUsed-text-color);
+    background-color: transparent;
+    color: var(--white-col-btnBG-Text);
+    border: dashed 0.094rem var(--white-col-btnBG-Text);
+
 }
 
 #s4-btn2 {
@@ -478,11 +483,21 @@ footer a:hover{
     background-color: transparent;
     line-height: 1.125rem;
     border-color: var(--white-col-btnBG-Text);
-
+    font-size: medium!important;
     color: var(--white-col-btnBG-Text);
 
+    transition: color 0.8s ease;
+    transition: background-color 0.8s ease;
     box-sizing: border-box;
     /* A padding + border szélessége is hozzáadódik az elem méretéhez */
+
+}
+
+#s4-btn2:hover{
+    background-color: var(--white-col-btnBG-Text);
+    color: #4B2F1B;
+    transition: color 0.8s ease;
+    transition: background-color 0.8s ease;
 
 }
 
