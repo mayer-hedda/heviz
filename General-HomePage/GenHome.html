@@ -41,14 +41,14 @@
                     <a class="nav-link" id="Write" href="#">Write</a>
                     <a class="nav-link" id="SavedBooks" href="#">Saved Books</a>
                 </div>
-                
+
             </div>
-            
+
             <button role="button" type="submit" class="btn align-content-center" id="writingBtn"
-                    onclick="window.location.href='../Create Book/createBook.html'">
-                    Start Witing
-                </button>
-                
+                onclick="window.location.href='../Create Book/createBook.html'">
+                Start Witing
+            </button>
+
             <!--? Profilkép helye -->
             <div id="profile-icon"></div>
             <!--? User nevének helye -->
@@ -70,7 +70,7 @@
                 </div>
 
                 <div class="col-8 textSide">
-                    <h2 class="textH2">Könyv címe</h2>
+                    <h2 class="textH2">Book Title</h2>
                     <p class="description">Natoque mollis tristique et bibendum dignissim imperdiet senectus, torquent
                         mattis congue rutrum
                         mus neque dictum iaculis, metus venenatis lectus cras scelerisque orci. Ac iaculis duis sociis
@@ -84,7 +84,7 @@
                         magnis pharetra mattis faucibus semper.</p>
 
                     <!--TODO: POPUP ABLAK  -->
-                    <a role="button" class="moreBtn" href="#">Start Reading</a>
+                    <button type="button" class="moreBtn" href="#">Start Reading</button>
                 </div>
             </div>
 
@@ -92,9 +92,28 @@
 
     </section>
 
-    <h2 class="container subtitle">Books of the month:</h2>
+
     <!-- TODO: SECOND SECTION => Most popular books of the month -->
     <section id="second-section" class="container sub-sections">
+        <h2 class=" subtitle">Books of the month:</h2>
+        <div class="container medium-card" style="background-color: #EAD7BE;">
+            <div class="row">
+                <div class="col-3">
+                    <!--? Picture => Alt-nak mehet majd a könyv címe -->
+                    <!-- <div style="background-color: brown;"> -->
+                    <img class="medium-pic" src="../pictures/first-section-book-example.jpg">
+                    <!-- </div> -->
+                </div>
+
+                <div class="col-9 medium-right-side">
+                    <!--? Author + Book Title  -->
+                    <h2 class="container medium-h2">Book title</h2>
+                    <p class="username">@user12345</p>
+                    <button type="button" class="moreBtn-medium align-bottom" href="#">Start Reading</button>
+
+                </div>
+            </div>
+        </div>
 
         <div class="book-row">
             <div class="row text-center">
@@ -196,10 +215,30 @@
 
     </section>
 
-    <h2 class="container subtitle">Based on your favorite books:</h2>
+
     <!-- TODO: THIRD SECTION => Based on your favorite books: -->
 
     <section id="third-section" class="container sub-sections">
+        <h2 class="container subtitle">Based on your favorite books:</h2>
+        <div class="container medium-card" style="background-color: #EAD7BE;">
+            <div class="row">
+                <div class="col-3">
+                    <!--? Picture => Alt-nak mehet majd a könyv címe -->
+                    <!-- <div style="background-color: brown;"> -->
+                    <img class="medium-pic" src="../pictures/first-section-book-example.jpg">
+                    <!-- </div> -->
+                </div>
+
+                <div class="col-9 medium-right-side">
+                    <!--? Author + Book Title  -->
+                    <h2 class="container medium-h2">Book title</h2>
+                    <p class="username">@user12345</p>
+                    <button type="button" class="moreBtn-medium align-bottom" href="#">Start Reading</button>
+
+                </div>
+            </div>
+        </div>
+        
         <div class="book-row">
             <div class="row text-center">
                 <div class="col-3">
@@ -298,15 +337,35 @@
             </div>
         </div>
         <div class="container text-center">
-            <a href="#" role="button" id="thirdBtnMore" class="sMoreBtn" >Search More</a>
+            <a href="#" role="button" id="thirdBtnMore" class="sMoreBtn">Search More</a>
 
         </div>
     </section>
 
-    <h2 class="container subtitle">Books published by a Publisher:</h2>
+
     <!-- TODO: THIRD SECTION => Based on your favorite books: -->
 
     <section id="fourth-section" class="container sub-sections">
+        <h2 class="container subtitle">Books published by a Publisher:</h2>
+        <div class="container medium-card" style="background-color: #EAD7BE;">
+            <div class="row">
+                <div class="col-3">
+                    <!--? Picture => Alt-nak mehet majd a könyv címe -->
+                    <!-- <div style="background-color: brown;"> -->
+                    <img class="medium-pic" src="../pictures/first-section-book-example.jpg">
+                    <!-- </div> -->
+                </div>
+
+                <div class="col-9 medium-right-side">
+                    <!--? Author + Book Title  -->
+                    <h2 class="container medium-h2">Book title</h2>
+                    <p class="username">@user12345</p>
+                    <button type="button" class="moreBtn-medium align-bottom" href="#">Start Reading</button>
+
+                </div>
+            </div>
+        </div>
+        
         <div class="book-row">
             <div class="row text-center">
                 <div class="col-3">
@@ -405,7 +464,7 @@
             </div>
         </div>
         <div class="container text-center">
-            <a href="#" role="button" id="fourthBtnMore" class="sMoreBtn" >Search More</a>
+            <a href="#" role="button" id="fourthBtnMore" class="sMoreBtn">Search More</a>
 
         </div>
     </section>

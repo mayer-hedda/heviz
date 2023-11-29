@@ -70,7 +70,7 @@
 
 @font-face {
     font-family: 'Poppins-Regular';
-    src: url(../fonts/Poppins/Poppins-Regular.ttf) format('truetype');
+    src: url('../fonts/Poppins/Poppins-Regular.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
 }
@@ -195,7 +195,7 @@ p {
     border: dashed 0.094rem var(--dash-color);
 }
 
-/** --------------- TITLES AND ROWS---------------*/
+/** --------------- TITLES AND ROWS NAD GENERAL STUFF ---------------*/
 #welcome {
     margin-top: 100px;
     font-family: 'Montserrat-SemiBold', sans-serif;
@@ -207,10 +207,67 @@ p {
     font-family: 'Montserrat-Medium';
     letter-spacing: -0.5px;
     margin-bottom: 2%;
+    margin-left: 20px;
 }
 
 .book-row{
     margin-bottom: 50px;
+}
+
+.medium-card{
+    width: 600px;
+    height: 250px;
+    margin-bottom: 50px;
+    display: flexbox;
+    border-radius: 15px;
+    box-shadow: 6px 6px 3px #3a3a3a2c;
+
+}
+
+.medium-pic{
+    width: 170px;
+    height: 250px;
+    object-fit: cover;
+    background-position: center;
+    background-size: cover;
+    align-content: start;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    box-shadow: 4px 0px 3px #3a3a3a2c;
+
+}
+
+.col-3{
+    padding-left: 0!important;
+    padding-right: 0!important;
+}
+
+.medium-h2{
+    margin-top: 30px;
+    margin-left: 25px;
+    font-size: 25px;
+    font-family: 'Poppins-Medium', sans-serif;
+    margin-bottom: 1%;
+}
+
+.username{
+    margin-top: 0;
+    margin-left: 20px;
+    font-size: 18px;
+    color: rgb(65, 61, 63) !important;
+    font-family: 'Montserrat', sans-serif;
+    padding-top: 0;
+}
+
+.medium-right-side{
+    display: flex;
+    flex-direction: column;
+}
+
+.moreBtn-medium{
+    /* align-items: baseline; */
+    margin-left: 30px;
+    margin-top: 13%;
 }
 
 /** --------------- FIRST-SECTION ---------------*/
@@ -260,7 +317,7 @@ p {
 .textH2 {
     margin-top: 30px !important;
     /* margin-left: 20px; */
-    font-family: 'Poppins-Medium', sans-serif;
+    font-family: 'Montserrat-SemiBold', sans-serif;
     font-size: 27px;
 }
 
@@ -282,7 +339,7 @@ p {
 }
 
 
-.moreBtn {
+.moreBtn, .moreBtn-medium {
     /* align-items: end; */
     align-self: baseline !important;
     color: white !important;
