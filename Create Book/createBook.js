@@ -50,12 +50,26 @@ dropAreaPicture.addEventListener('dragover', (e) => {
     e.preventDefault();
 })
 
+// Képfeltöltés eseménykezelője
 dropAreaPicture.addEventListener('drop', (e) => {
     e.preventDefault();
     inputPicture.files = e.dataTransfer.files;
+    const allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif']; // Elfogadott képformátumok MIME típusokban
+
+    // Ellenőrizze a kép fájltípusát
+    const fileType = inputPicture.files[0].type;
+    if (!allowedImageTypes.includes(fileType)) {
+        alert('Csak JPEG, PNG vagy GIF képeket tölthetsz fel!');
+        inputPicture.value = ''; // Töröljük a fájlmező tartalmát
+        picPass = false;
+        console.log("pic pass value:" + picPass);
+        return;
+    }
+
     uploadImage();
     console.log(inputPicture.value);
-})
+    console.log("lefut a drop a képnél");
+});
 
 //? FILE
 inputFile.addEventListener("change", (e) => {
@@ -107,13 +121,28 @@ dropAreaFile.addEventListener('dragover', (e) => {
     e.preventDefault();
 })
 
+// Fájlfeltöltés eseménykezelője
 dropAreaFile.addEventListener('drop', (e) => {
     e.preventDefault();
     inputFile.files = e.dataTransfer.files;
+    const allowedFileExtensions = ['.pdf', '.doc']; // Elfogadott fájlkiterjesztések
+
+    // Ellenőrizze a fájl kiterjesztését
+    const fileName = inputFile.value.split('.').pop(); // Fájlnév utolsó része, a kiterjesztés
+    const fileExtension = '.' + fileName.split('.').pop().toLowerCase(); // Kiterjesztés kisbetűsen
+    if (!allowedFileExtensions.includes(fileExtension)) {
+        alert('Csak .pdf vagy .doc fájlokat tölthetsz fel!');
+        inputFile.value = ''; // Töröljük a fájlmező tartalmát
+        filePass = false;
+        console.log("pic pass value:" + filePass);
+        return;
+    }
+
     uploadFile();
     console.log(inputFile.value);
     console.log("lefut a drop a fájlnál");
-})
+});
+
 
 
 
