@@ -34,24 +34,31 @@
 
             <div class="collapse navbar-collapse  justify-content-center" id="navbarNav">
                 <div class="navbar-nav text-center">
-                    <a class="nav-link active" id="HomePage" href="../General-HomePage/GenHome.html">Home Page</a>
-                    <a class="nav-link" id="Feed" aria-current="page" href="../Feed/feed.html">Feed</a>
+                    <a class="nav-link active" aria-current="page" id="HomePage"
+                        href="../General-HomePage/GenHome.html">Home Page</a>
+                    <a class="nav-link" id="Feed" href="../Feed/feed.html">Feed</a>
                     <a class="nav-link" id="Explore" href="#">Explore</a>
                     <a class="nav-link" id="Write" href="#">Write</a>
                     <a class="nav-link" id="SavedBooks" href="#">Saved Books</a>
                 </div>
+                
             </div>
-            <div id="profile">
-                <!--? Profilkép helye -->
-                <div id="profile-icon"></div>
-                <!--? User nevének helye -->
-                <div id="user-name">
-                    <p id="userName-p">User123</p>
-                </div>
+            
+            <button role="button" type="submit" class="btn align-content-center" id="writingBtn"
+                    onclick="window.location.href='../Create Book/createBook.html'">
+                    Start Witing
+                </button>
+                
+            <!--? Profilkép helye -->
+            <div id="profile-icon"></div>
+            <!--? User nevének helye -->
+            <div id="user-name">
+                <p id="userName-p">User123</p>
             </div>
         </div>
     </nav>
 
+    
     <section id="first-section">
 
         <div class="container-fluid">
@@ -131,7 +138,7 @@
         <!-- TODO: POSZT ÍRÁSA GOMB A POPUPHOZ -->
         <div class="modal fade" tabindex="-1" id="postModal" tabindex="-1" aria-labelledby="postModalLabel"
                             aria-hidden="true" >
-                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-dialog modal-dialog-centered modal-lg" >
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h1 class="modal-title fs-5" id="postModalLabel">Write a Post!</h1>
@@ -156,6 +163,8 @@
                                 </div>
                             </div>
                         </div>
+
+                        
     </section>
 
     <!-- TODO: FOOTER -->

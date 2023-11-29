@@ -440,22 +440,22 @@ checkboxes.forEach(function (radioButton) {
     });
 });
 
-function validateChecks(errorField, pubCheck, selfCheck){
+function validateChecks(pubCheck, selfCheck){
     /**
      * input parameters
-     * @param {errorField} - Div
      * @param {pubCheck} - Boolean
      * @param {selfCheck} - Boolean
      * 
     */
 
-    if (pubCheck == false && selfCheck == false) {
-        errorField.innerHTML = `<p>You have to choose one option.</p>`;
+    if ((pubCheck == false && selfCheck == false) || (pubCheck == true && selfCheck == true) ) {
+        // errorField.innerHTML = `<p>You have to choose one option.</p>`;
+        return false;
     }
 
     if (pubCheck != false || selfCheck != false) {
         errorField.innerHTML = '';
-
+        return true;
     }
 }
 
@@ -505,19 +505,17 @@ bookPrice.addEventListener('focusin', (e) => {
 })
 // #############################################
 //? NEXT BUTTON
-
-// function ActivateNext(nextBtn) {
-//     if (filePass == true &&
-//         picPass == true &&
-//         titlePass == true &&
-//         descriptionPass == true &&
-//         audiencePass == true &&
-//         languagePass == true &&
-//         categoryPass == true) {
-//         console.log("Bumm aktív a gomb");
-//         nextBtn.disabled = false;
-//     }
-// }
+const checkError = document.getElementById('checkboxError');
+nextBtn.addEventListener('click', (e)=>{
+    e.preventDefault();
+    let valid = validateChecks(pubCheck, selfCheck);
+    if(valid == true){
+        window.location.href = '#';
+    }else{
+        checkError.innerHTML = '<p>You have to choose one option.</p>';
+        // TODO: MEG KELL OLDANI, HOGY MIUTÁN VÁLASZTOTT EGY OPTION-T AKKOR TŰNJÖN EL A HIBA
+    }
+})
 
 
 

@@ -380,6 +380,7 @@ p {
 .cover-btn{
     text-decoration: none;
     background-color: #ffc4ab;
+    border: solid 0.094rem #ffc4ab;
     color: var(--mostUsed-text-color);
     padding: 10px 20px 10px;
     border-radius: 30px;

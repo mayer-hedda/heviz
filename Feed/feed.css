@@ -104,7 +104,7 @@
 /** --------------- NAVBAR ---------------*/
 
 nav {
-    background-color: var(--Background-color);
+    background-color: var(--page-bg-color);
 
 }
 
@@ -115,7 +115,7 @@ nav {
 }
 
 #navbar a,
-#navbar p {
+p {
     font-size: larger;
     display: inline;
     padding: 0.938rem;
@@ -130,6 +130,8 @@ nav {
 #navbar p {
     color: var(--navbar-p-color) !important;
 }
+
+
 
 #navbar a:hover {
     color: var(--navbar-a-hover-color);
@@ -151,19 +153,10 @@ nav {
     font-style: italic;
 }
 
-#profile{
-    display: flex;
-    /* align-self: center; */
-}
-
-#user-name{
-    align-self: center;
-}
-
 #profile-icon {
-    width: 3.125rem;
-    height: 3.125rem;
+    width: 50px;
     /* Állítsd be a kívánt szélességet és magasságot */
+    height: 50px;
     border-radius: 50%;
     /* Kör alak kialakítása */
     background-image: url('../pictures/default-profile-pic.png');
@@ -174,6 +167,43 @@ nav {
     /* A kép középre igazítása */
     cursor: pointer;
     /* Mutató kurzor megjelenítése, hogy látható legyen, kattintható */
+}
+
+#navbarNav{
+    margin-left: 60px;
+}
+
+#writingBtn{
+    font-size: medium;
+    font-family: 'Inter', sans-serif;
+    color: var(--btn-text-color);
+
+    border-width: 0rem;
+    border-radius: 1.5rem;
+
+    background-color: var(--primary-BTN-Bg-color);
+
+    padding: 0.625rem 1.25rem;
+
+    transition: color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    transition: background-color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    line-height: 1.125rem;
+
+    box-sizing: border-box;
+    margin-right: 50px;
+    /* align-items: self-end; */
+}
+
+#writingBtn:hover{
+    transition: color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    transition: background-color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    background-color: rgb(247, 245, 236);
+    color: var(--mostUsed-text-color);
+    border: dashed 0.094rem var(--dash-color);
 }
 
 /** --------------- FIRST-SECTION ---------------*/
@@ -308,7 +338,13 @@ nav {
 
 .like {
     margin-right: 0.625rem !important;
-    
+    fill: rgb(45, 24, 16);
+}
+
+.liked{
+    fill: rgb(185, 24, 10) !important;
+    color: rgb(185, 24, 10) !important;
+    cursor: pointer;
 }
 
 .like:hover {
