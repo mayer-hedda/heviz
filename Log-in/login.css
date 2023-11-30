@@ -177,9 +177,15 @@ a:hover {
     position: relative;
     /* margin-bottom: 15%; */
     border: 0rem;
+    transition: color 0.8s ease;
+    transition: background-color 0.8s ease;
+
 }
 
 #submitButton:hover {
     background-color: #649984;
     color: white;
+    transition: color 0.8s ease;
+    transition: background-color 0.8s ease;
+
 }

@@ -346,7 +346,8 @@
 }
 
 #inputStoryTitle::placeholder,
-#inputDescription::placeholder {
+#inputDescription::placeholder,
+#inputBankNum::placeholder {
     color: var(--placeholder-color);
     font-family: 'Poppins-light', sans-serif;
     font-size: medium;
@@ -519,6 +520,7 @@ option:checked {
     align-items: center;
     justify-content: space-between;
 }
+
 #middle {
     display: flex;
     flex-direction: row;

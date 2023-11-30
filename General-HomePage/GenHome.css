@@ -166,8 +166,8 @@ p {
     font-size: medium;
     font-family: 'Inter', sans-serif;
     color: var(--btn-text-color);
-
-    border-width: 0rem;
+    border: solid var(--primary-BTN-Bg-color);
+    /* border-width: 0rem; */
     border-radius: 1.5rem;
 
     background-color: var(--primary-BTN-Bg-color);
@@ -216,7 +216,7 @@ p {
 
 .medium-card{
     width: 600px;
-    height: 250px;
+    height: 300px;
     margin-bottom: 50px;
     display: flexbox;
     border-radius: 15px;
@@ -226,7 +226,7 @@ p {
 
 .medium-pic{
     width: 170px;
-    height: 250px;
+    height: 300px;
     object-fit: cover;
     background-position: center;
     background-size: cover;
@@ -257,6 +257,22 @@ p {
     color: rgb(65, 61, 63) !important;
     font-family: 'Montserrat', sans-serif;
     padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.medium-desc{
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden !important;
+
+    margin-top: 0;
+    margin-left: 20px;
+    padding-bottom: 0;
+
+    font-family: 'Poppins-light', sans-serif;
+    font-size: 16px;
 }
 
 .medium-right-side{
@@ -267,7 +283,7 @@ p {
 .moreBtn-medium{
     /* align-items: baseline; */
     margin-left: 30px;
-    margin-top: 13%;
+    margin-top: 5%;
 }
 
 /** --------------- FIRST-SECTION ---------------*/
@@ -356,9 +372,13 @@ p {
     transition: background-color 0.8s ease!important; */
 }
 
-.moreBtn:hover {
+.moreBtn:hover, .moreBtn-medium:hover {
     background: linear-gradient(145deg, #38423B, #3F5E5A) !important;
     border: 3px solid #2F3731;
+
+    /*! NEM MŰKÖDIK A TRANSITION  */
+    transition: color 0.8s ease!important;
+    transition: background-color 0.8s ease!important;
     /* transition: color 0.8s ease!important;
     transition: background-color 0.8s ease!important; */
     font-family: 'PTsans-Regular', sans-serif !important;
@@ -465,8 +485,18 @@ p {
     text-decoration: none;
     padding: 10px 25px 10px;
     font-size: 20px;
-    border-radius: 10px;
+    border-radius: 30px;
     align-self: center;
+    transition: color 0.8s ease;
+    transition: background-color 0.8s ease;
+
+}
+
+.sMoreBtn:hover{
+    background-color: #649984;
+    color: white;
+    transition: color 0.8s ease;
+    transition: background-color 0.8s ease;
 }
 /** --------------- FOOTER ---------------*/
 
@@ -494,6 +524,44 @@ footer ul li {
 
 footer a {
     color: var(--mostUsed-text-color);
+}
+
+#footer-logo {
+    /* padding-left: 6%; */
+    display: flex;
+}
+
+/** --------------- FOOTER ---------------*/
+
+footer {
+    border-top: 0.094rem solid var(--dash-color);
+    background-color: var(--footer-bg-color);
+    padding-top: 5%;
+    padding-right: 5%;
+    padding-left: 5%;
+    /* margin-top: 20px; */
+}
+
+footer h3 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+}
+
+footer ul {
+    list-style-type: none;
+}
+
+footer ul li {
+    font-size: 1.25rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+footer a {
+    color: rgb(65, 61, 63);
+}
+
+footer a:hover {
+    color: #B43C82;
 }
 
 #footer-logo {

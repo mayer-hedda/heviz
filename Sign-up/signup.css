@@ -389,6 +389,17 @@ input[type="date"] {
     font-weight: 500;
     color: #332F31;
     position: relative;
+    transition: color 0.8s ease;
+    transition: background-color 0.8s ease;
+
+}
+
+#submitButton:hover {
+    background-color: #649984;
+    color: white;
+    transition: color 0.8s ease;
+    transition: background-color 0.8s ease;
+
 }
 
 /* 
