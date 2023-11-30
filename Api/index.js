@@ -67,7 +67,6 @@ function generalRegistration(raw) {
 /**
  * 
  *  @param {JSON} raw = {
-        "userId": 1,
         "categoryNames": [
             "regény",
             "szépirodalom",
@@ -141,13 +140,13 @@ function getAllHelpCenter() {
 }
 
 
-function getMostListedBooksOfTheMoth() {
+function getMostListedBooksOfTheMonth() {
     var requestOptions = {
         method: 'GET',
         redirect: 'follow'
     };
         
-    fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/List/getMostListedBooksOfTheMoth", requestOptions)
+    fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/List/getMostListedBooksOfTheMonth", requestOptions)
         .then(response => response.text())
         .then(result => {
             return result;
@@ -159,7 +158,6 @@ function getMostListedBooksOfTheMoth() {
 /**
  * 
  *  @param {JSON} raw = {
- *      "userId": 1,
         "postId": 2
  *  }
  */
@@ -188,7 +186,6 @@ function addPostlike(raw) {
 /**
  * 
  *  @param {JSON} raw = {
- *      "userId": 1,
         "postId": 1
  *  }
  */
