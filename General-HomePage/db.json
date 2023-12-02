@@ -1,0 +1,93 @@
+{ 
+    "bigCard": [
+        {
+            "id": 1,
+            "imgURL": "../pictures/genHomeTestPics/Darkshots.jpg",
+            "title": "Dark Shots",
+            "username": "SamanthaFolks",
+            "description": "The story begins in 2017 from the perspective of a young girl and continues woth a jump to 2019. We follow the lives of four young people through the eyes of Sam as they from a rock band and vote of confidence in and old highschool firend, but will they trust the right person?! As the story unfolds, they become embroiled in a murder investigation during a field trip gone wrong, and the stranger and stranger events reveal Samantha Howell's darkest self, and love is found. Wonder how the young girl copes with it all? Here's your chance!"
+        }
+    ],
+
+    "mediumCard":[
+        {
+            "id": 1, 
+            "imgURL": "",
+            "title": "Solider Thing",
+            "username": "SamanthaFolks",
+            "description": "The story is told through the eyes of Bryan Decker. Bryan was an American soldier until 2050. He completed several successful deployments as the leader of a special operations team, until his stubbornness caused him to lose everything he had spent his life building.  He was relegated to the bottom rung of a ladder that was the exact opposite of his life. The story takes place in 2052, where Bryan is living out his days in total lethargy, mourning the unjust loss of his old life, and his best friend comes to his rescue and, together with his old superior, they create something new. Bryan and his friend Cody find themselves leading a new team to fight for what they truly believe in."
+        },
+
+        {
+            "id": 2,
+            "imgURL": "",
+            "title": "X-Men Blue: Origins (2023)",
+            "username": "comicFan123",
+            "description":"THE DEFINITIVE NIGHTCRAWLER ORIGIN STORY! This is the one you can't miss, True Believer! You think you know how the beloved blue devil came into this troubled world? You think you know the tale of his mendacious mamma Mystique? You don't! Mother and son reunite in a mold-shattering tale that exposes secrets held for decades and redefines both characters forever. A collector's item in the making."
+        },
+
+        {
+            "id": 3,
+            "imgURL": "",
+            "title": "The Mortal Instruments: City of Bones",
+            "username": "CassandraClare",
+            "description": "When fifteen-year-old Clary Fray heads out to the Pandemonium Club in New York City, she hardly expects to witness a murder― much less a murder committed by three teenagers covered with strange tattoos and brandishing bizarre weapons. Then the body disappears into thin air. It's hard to call the police when the murderers are invisible to everyone else and when there is nothing―not even a smear of blood―to show that a boy has died. Or was he a boy? ..."
+        }, 
+
+        {
+            "id": 4,
+            "imgURL": "",
+            "title": "The Hunger Games",
+            "username": "SuzanneCollins14",
+            "description": "Sixteen-year-old Katniss Everdeen, who lives alone with her mother and younger sister, regards it as a death sentence when she steps forward to take her sister's place in the Games. But Katniss has been close to dead before—and survival, for her, is second nature. Without really meaning to, she becomes a contender. But if she is to win, she will have to start making choices that weight survival against humanity and life against love."
+        },
+
+        {
+            "id": 5,
+            "imgURL": "",
+            "title": "The Maze Runner",
+            "username": "JamesDashner",
+            "description": "When Thomas wakes up in the lift, the only thing he can remember is his name. He's surrounded by strangers—boys whose memories are also gone. Outside the towering stone walls that surround them is a limitless, ever-changing maze. It's the only way out—and no one's ever made it through alive."
+        },
+
+        {
+            "id": 6,
+            "imgURL": "",
+            "title": "The Little Prince",
+            "username": "antonie123",
+            "description": "A pilot stranded in the desert awakes one morning to see, standing before him, the most extraordinary little fellow. 'Please,' asks the stranger, 'draw me a sheep.' And the pilot realizes that when life's events are too difficult to understand, there is no choice but to succumb to their mysteries. He pulls out pencil and paper... And thus begins this wise and enchanting fable that, in teaching the secret of what is really important in life, has changed forever the world for its readers."
+        },
+
+        {
+            "id": 7,
+            "imgURL": "",
+            "title": "The Hunger Games #3: Mockingjay",
+            "username": "SuzanneCollins14",
+            "description": "Katniss Everdeen, girl on fire, has survived, even though her home has been destroyed. Gale has escaped. Katniss's family is safe. Peeta has been captured by the Capitol. District 13 really does exist. There are rebels. There are new leaders. A revolution is unfolding. It is by design that Katniss was rescued from the arena in the cruel and haunting Quarter Quell, and it is by design that she has long been part of the revolution without knowing it."
+        },
+
+        {
+            "id": 8,
+            "imgURL": "",
+            "title": "Harry Potter and the Sorcerer's Stone",
+            "username": "JKRowling44",
+            "description": "Harry Potter has never even heard of Hogwarts when the letters start dropping on the doormat at number four, Privet Drive. Addressed in green ink on yellowish parchment with a purple seal, they are swiftly confiscated by his grisly aunt and uncle. Then, on Harry's eleventh birthday, a great beetle-eyed giant of a man called Rubeus Hagrid bursts in with some astonishing news: Harry Potter is a wizard, and he has a place at Hogwarts School of Witchcraft and Wizardry. An incredible adventure is about to begin!"
+        },
+
+        {
+            "id": 9,
+            "imgURL": "",
+            "title": "Dune",
+            "username": "FrnakHerbert",
+            "description": "Set on the desert planet Arrakis, Dune is the story of the boy Paul Atreides, heir to a noble family tasked with ruling an inhospitable world where the only thing of value is the 'spice' melange, a drug capable of extending life and enhancing consciousness. Coveted across the known universe, melange is a prize worth killing for..."
+        },
+
+        {
+            "id": 10,
+            "imgURL": "",
+            "title": "Game of Thrones: A Song of Ice and Fire",
+            "username": "author33",
+            "description": "Winter is coming. Such is the stern motto of House Stark, the northernmost of the fiefdoms that owe allegiance to King Robert Baratheon in far-off King’s Landing. There Eddard Stark of Winterfell rules in Robert's name. There his family dwells in peace and comfort: his proud wife, Catelyn; his sons Robb, Brandon, and Rickon; his daughters Sansa and Arya; and his bastard son, Jon Snow. Far to the north, behind the towering Wall, lie savage Wildings and worse—unnatural things relegated to myth during the centuries-long summer, but proving all too real and all too deadly in the turning of the season. [...]"
+        }
+    ]
+}

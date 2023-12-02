@@ -14,7 +14,7 @@ fetch(dataUrl)
     })
 
     .then(data => {
-        const posts = data.posts;
+        const posts = data.posts;       //* ezzel hivatkozik a json azon tömbjében amiben az adatok vannak
         for (const posts of data.posts) {
             // console.log(`Felhasználónév: ${posts.username}`);
             // console.log('felhaszn');

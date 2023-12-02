@@ -365,9 +365,13 @@
 #inputStoryTitle,
 #inputDescription,
 #inputBankNum,
-#inputBookPrice {
+#inputBookPrice, #Currency {
     border: var(--input-border) 0.063rem solid;
     background-color: var(--input-card-bg);
+}
+
+#Currency{
+    height: 38px;
 }
 
 #description-div {
@@ -482,10 +486,11 @@ option:checked {
     margin-left: 2%;
 }
 
-#inputBookPrice {
+#price {
     /* margin-left: 2%; */
     width: 150px;
     margin-bottom: 1%;
+    margin-top: 2%;
 }
 
 #priceP {
