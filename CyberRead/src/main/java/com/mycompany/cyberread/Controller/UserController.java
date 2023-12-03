@@ -4,6 +4,7 @@
  */
 package com.mycompany.cyberread.Controller;
 
+import com.mycompany.cyberread.Config.Token;
 import com.mycompany.cyberread.Helpers.GeneralRegistration;
 import com.mycompany.cyberread.Helpers.PublisherRegistration;
 import com.mycompany.cyberread.Modell.User;
@@ -17,6 +18,8 @@ import javax.ws.rs.core.Response;
 import org.json.JSONObject;
 
 import static com.mycompany.cyberread.Config.Token.decodeJwt;
+import com.mycompany.cyberread.Exception.UserException;
+import org.json.JSONArray;
 
 /**
  * REST Web Service
@@ -132,6 +135,50 @@ public class UserController {
                 return  Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").build();
             default:
                 return  Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").build();
+        }
+    }
+    
+    @GET
+    @Path("getUserRecommendations")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getUserRecommendations(@HeaderParam("Token") String jwt) throws UserException {
+        if(jwt == null) {
+            return  Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").build();
+        } else {
+            int tokenCheckResult = Token.decodeJwt(jwt);
+            
+            switch(tokenCheckResult) {
+                case 1:
+                    Integer userId = Token.getUserIdByToken(jwt);
+                    JSONArray result = UserService.getUserRecommendations(userId);
+                    return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                case 2:
+                    return  Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").build();
+                default:
+                    return  Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").build();
+            }
+        }
+    }
+    
+    @GET
+    @Path("getBankAccountNumberByUserId")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getBankAccountNumberByUserId(@HeaderParam("Token") String jwt) throws UserException {
+        if(jwt == null) {
+            return  Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").build();
+        } else {
+            int tokenCheckResult = Token.decodeJwt(jwt);
+            
+            switch(tokenCheckResult) {
+                case 1:
+                    Integer userId = Token.getUserIdByToken(jwt);
+                    JSONObject result = UserService.getBankAccountNumberByUserId(userId);
+                    return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                case 2:
+                    return  Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").build();
+                default:
+                    return  Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").build();
+            }
         }
     }
 }

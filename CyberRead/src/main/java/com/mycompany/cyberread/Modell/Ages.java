@@ -4,15 +4,22 @@
  */
 package com.mycompany.cyberread.Modell;
 
+import com.mycompany.cyberread.Exception.AgesException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.ParameterMode;
+import javax.persistence.Persistence;
+import javax.persistence.StoredProcedureQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -122,6 +129,70 @@ public class Ages implements Serializable {
     @Override
     public String toString() {
         return "com.mycompany.cyberread.Modell.Ages[ id=" + id + " ]";
+    }
+    
+    
+    // --- MY PROCEDURES ---
+    public static Boolean getAgesById(Integer agesId) throws AgesException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getAgesById");
+
+            spq.registerStoredProcedureParameter("agesIdIN", Integer.class, ParameterMode.IN);
+
+            spq.setParameter("agesIdIN", agesId);
+
+            spq.execute();
+            
+            java.util.List<Object[]> resultList = spq.getResultList();
+            
+            return !resultList.isEmpty();
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new AgesException("Error in getAgesById() methode in Ages class!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    public static ArrayList<Ages> getAllAges() throws AgesException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getAllAges");
+
+            spq.execute();
+            
+            java.util.List<Object[]> resultList = spq.getResultList();
+            ArrayList<Ages> ages = new ArrayList();
+            
+            resultList.stream().map(result -> {
+                Integer id = (Integer) result[0];
+                String name = (String) result[1];
+                Integer minAge = (Integer) result[2];
+                Integer maxAge = (Integer) result[3];
+                Ages age = new Ages(id, name, minAge, maxAge);
+                return age;
+            }).forEachOrdered(age -> {
+                ages.add(age);
+            });
+            
+            return ages;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new AgesException("Error in getAllAges() methode in Ages class!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
     }
     
 }

@@ -4,16 +4,22 @@
  */
 package com.mycompany.cyberread.Modell;
 
+import com.mycompany.cyberread.Exception.PostlikeException;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.ParameterMode;
+import javax.persistence.Persistence;
+import javax.persistence.StoredProcedureQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -124,6 +130,96 @@ public class Postlike implements Serializable {
     @Override
     public String toString() {
         return "com.mycompany.cyberread.Modell.Postlike[ id=" + id + " ]";
+    }
+    
+    
+    
+    // ----- MY PROCEDURES -----
+    
+    public static boolean addPostLike(Integer userId, Integer postId) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("addPostLike");
+
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("postIdIN", Integer.class, ParameterMode.IN);
+
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("postIdIN", postId);
+
+            spq.execute();
+
+            return true;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            return false;
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    public static boolean getPostLikeForUserIdAndPostId(Integer userId, Integer postId) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getPostLikeForUserIdAndPostId");
+
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("postIdIN", Integer.class, ParameterMode.IN);
+
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("postIdIN", postId);
+
+            spq.execute();
+
+            java.util.List<Object[]> resultList = spq.getResultList();
+            
+            return resultList.isEmpty();
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            return false;
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    public static boolean deletePostLike(Integer userId, Integer postId) throws PostlikeException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("deletePostLike");
+
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("postIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("result", Boolean.class, ParameterMode.OUT);
+
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("postIdIN", postId);
+
+            spq.execute();
+            
+            Boolean result = (Boolean) spq.getOutputParameterValue("result");
+            
+            return result;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new PostlikeException("Error in the deletePostLike() methode in Postlike class!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
     }
     
 }

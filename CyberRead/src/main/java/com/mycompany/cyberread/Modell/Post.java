@@ -4,16 +4,24 @@
  */
 package com.mycompany.cyberread.Modell;
 
+import com.mycompany.cyberread.Exception.PostException;
+import com.mycompany.cyberread.Helpers.GetPostsByFollowedUsers;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.ParameterMode;
+import javax.persistence.Persistence;
+import javax.persistence.StoredProcedureQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -126,6 +134,136 @@ public class Post implements Serializable {
     @Override
     public String toString() {
         return "com.mycompany.cyberread.Modell.Post[ id=" + id + " ]";
+    }
+    
+    
+    
+    // --- MY PROCEDURES ---
+    public static boolean getPostById(Integer postId) throws PostException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getPostById");
+
+            spq.registerStoredProcedureParameter("postIdIN", Integer.class, ParameterMode.IN);
+
+            spq.setParameter("postIdIN", postId);
+
+            spq.execute();
+
+            java.util.List<Object[]> resultList = spq.getResultList();
+            
+            return !resultList.isEmpty();
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new PostException("Error in getPostById() method in Post class!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    public static boolean getPostByUserId(Integer userId) throws PostException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getPostByUserId");
+
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+
+            spq.setParameter("userIdIN", userId);
+
+            spq.execute();
+
+            java.util.List<Object[]> resultList = spq.getResultList();
+            
+            return !resultList.isEmpty();
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new PostException("Error in getPostByUserId() method in Post class!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    public static ArrayList<GetPostsByFollowedUsers> getPostsByFollowedUsers(Integer userId) throws PostException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getPostsByFollowedUsers");
+
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+
+            spq.setParameter("userIdIN", userId);
+
+            spq.execute();
+
+            java.util.List<Object[]> resultList = spq.getResultList();
+            ArrayList<GetPostsByFollowedUsers> posts = new ArrayList();
+            
+            resultList.stream().map(result -> {
+                String username = (String) result[0];
+                String image = (String) result[1];
+                String postTime = (String) result[2];
+                String postText = (String) result[3];
+                Boolean liked;
+                if((int) result[4] == 0) {
+                    liked = false;
+                } else {
+                    liked = true;
+                }
+                
+                GetPostsByFollowedUsers p = new GetPostsByFollowedUsers(username, image, postTime, postText, liked);
+                return p;
+            }).forEachOrdered(p -> {
+                posts.add(p);
+            });
+            
+            return posts;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new PostException("Error in getPostsByFollowedUsers() method in Post class!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    public static Boolean addPost(Integer userId, String text) throws PostException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("addPost");
+
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("textIN", String.class, ParameterMode.IN);
+
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("textIN", text);
+
+            spq.execute();
+            
+            return true;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new PostException("Error in addPost() method in Post class!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
     }
     
 }

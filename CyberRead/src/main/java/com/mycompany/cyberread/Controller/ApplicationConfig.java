@@ -29,9 +29,15 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(com.mycompany.cyberread.Config.CorsFilter.class);
+        resources.add(com.mycompany.cyberread.Controller.AgesController.class);
+        resources.add(com.mycompany.cyberread.Controller.BookController.class);
+        resources.add(com.mycompany.cyberread.Controller.CategoryController.class);
         resources.add(com.mycompany.cyberread.Controller.CategoryInterestController.class);
         resources.add(com.mycompany.cyberread.Controller.HelpCenterController.class);
+        resources.add(com.mycompany.cyberread.Controller.LanguageController.class);
         resources.add(com.mycompany.cyberread.Controller.ListController.class);
+        resources.add(com.mycompany.cyberread.Controller.PostController.class);
+        resources.add(com.mycompany.cyberread.Controller.PostLikeController.class);
         resources.add(com.mycompany.cyberread.Controller.UserController.class);
     }
     

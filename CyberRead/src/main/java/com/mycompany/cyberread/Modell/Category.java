@@ -5,6 +5,7 @@
 package com.mycompany.cyberread.Modell;
 
 import com.mycompany.cyberread.Exception.CategoryException;
+import com.mycompany.cyberread.Exception.LanguageException;
 import java.io.Serializable;
 import java.util.HashMap;
 import javax.persistence.Basic;
@@ -17,6 +18,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.ParameterMode;
 import javax.persistence.Persistence;
 import javax.persistence.StoredProcedureQuery;
 import javax.persistence.Table;
@@ -139,7 +141,7 @@ public class Category implements Serializable {
             return categoryList;
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
-            throw new CategoryException("Error in getAllCategory");
+            throw new CategoryException("Error in getAllCategory() methode in Category class!");
         } finally {
             em.clear();
             em.close();
@@ -147,4 +149,30 @@ public class Category implements Serializable {
         }
     }
     
+    public static Boolean getCategoryByName(String categoryName) throws CategoryException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getCategoryByName");
+
+            spq.registerStoredProcedureParameter("categoryNameIN", String.class, ParameterMode.IN);
+
+            spq.setParameter("categoryNameIN", categoryName);
+
+            spq.execute();
+            
+            java.util.List<Object[]> resultList = spq.getResultList();
+            
+            return !resultList.isEmpty();
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new CategoryException("Error in getCategoryByName() methide in Category class!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
 }

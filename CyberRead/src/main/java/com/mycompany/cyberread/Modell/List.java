@@ -5,7 +5,6 @@
 package com.mycompany.cyberread.Modell;
 
 import com.mycompany.cyberread.Exception.ListException;
-import com.mycompany.cyberread.Helpers.GetPostsByFollowedUsers;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -127,17 +126,17 @@ public class List implements Serializable {
     
     
     // ----- MY PROCEDURES -----
-    public static java.util.List<List> getMostListedBooksOfTheMoth() throws ListException {
+    public static java.util.List<List> getMostListedBooksOfTheMonth() throws ListException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_CyberRead_war_1.0-SNAPSHOTPU");
         EntityManager em = emf.createEntityManager();
 
         try {
-            StoredProcedureQuery spq = em.createStoredProcedureQuery("getMostListedBooksOfTheMoth");
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getMostListedBooksOfTheMonth");
 
             spq.execute();
 
             java.util.List<Object[]> resultList = spq.getResultList();
-            java.util.List<List> listList = new ArrayList<>();
+            java.util.List<List> listList = new ArrayList();
 
 
             for(Object[] result : resultList) {
@@ -152,45 +151,6 @@ public class List implements Serializable {
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
             throw new ListException("Error in getMostListedBooksOfTheMoth() method in List Class!");
-        } finally {
-            em.clear();
-            em.close();
-            emf.close();
-        }
-    }
-
-    public static java.util.List<GetPostsByFollowedUsers> getPostsByFollowedUsers(Integer userId) throws ListException {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_CyberRead_war_1.0-SNAPSHOTPU");
-        EntityManager em = emf.createEntityManager();
-
-        try {
-            StoredProcedureQuery spq = em.createStoredProcedureQuery("getPostsByFollowedUsers");
-
-            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
-
-            spq.setParameter("userIdIN", userId);
-
-            spq.execute();
-
-            java.util.List<Object[]> resultList = spq.getResultList();
-            java.util.List<GetPostsByFollowedUsers> listList = new ArrayList<>();
-
-
-            for(Object[] result : resultList) {
-                String username = (String) result[0];
-                String image = (String) result[1];
-                String postTime = (String) result[2];
-                String postText = (String) result[3];
-                Boolean liked = (Boolean) result[4];
-
-                GetPostsByFollowedUsers l = new GetPostsByFollowedUsers(username, image, postTime, postText, liked);
-                listList.add(l);
-            }
-
-            return listList;
-        } catch(Exception ex) {
-            System.err.println(ex.getMessage());
-            throw new ListException("Error in getPostsByFollowedUsers() method in List Class!");
         } finally {
             em.clear();
             em.close();

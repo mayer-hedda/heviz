@@ -10,10 +10,13 @@ import com.mycompany.cyberread.Exception.EmailException;
 import com.mycompany.cyberread.Exception.FirstNameException;
 import com.mycompany.cyberread.Exception.LastNameException;
 import com.mycompany.cyberread.Exception.PasswordException;
+import com.mycompany.cyberread.Exception.UserException;
 import com.mycompany.cyberread.Exception.UsernameException;
+import com.mycompany.cyberread.Helpers.GetUserRecommendations;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -37,7 +40,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author eepseelona
+ * @author Hédy
  */
 @Entity
 @Table(name = "user")
@@ -60,6 +63,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "User.findByTutorial", query = "SELECT u FROM User u WHERE u.tutorial = :tutorial"),
     @NamedQuery(name = "User.findByRegistrationTime", query = "SELECT u FROM User u WHERE u.registrationTime = :registrationTime"),
     @NamedQuery(name = "User.findByActive", query = "SELECT u FROM User u WHERE u.active = :active"),
+    @NamedQuery(name = "User.findByBankAccountNumber", query = "SELECT u FROM User u WHERE u.bankAccountNumber = :bankAccountNumber"),
     @NamedQuery(name = "User.findByCoverColorId", query = "SELECT u FROM User u WHERE u.coverColorId = :coverColorId"),
     @NamedQuery(name = "User.findByUserId", query = "SELECT u FROM User u WHERE u.userId = :userId")})
 public class User implements Serializable {
@@ -131,6 +135,9 @@ public class User implements Serializable {
     @NotNull
     @Column(name = "active")
     private boolean active;
+    @Size(max = 30)
+    @Column(name = "bankAccountNumber")
+    private String bankAccountNumber;
     @Basic(optional = false)
     @NotNull
     @Column(name = "coverColorId")
@@ -144,18 +151,7 @@ public class User implements Serializable {
     }
 
     public User(Integer id) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_CyberRead_war_1.0-SNAPSHOTPU");
-        EntityManager em = emf.createEntityManager();
-        
-        try {
-            User u = em.find(User.class, id);
-            this.id = u.getId();
-        } catch(Exception ex) {
-            System.out.println(ex.getMessage());
-        } finally {
-            em.clear();
-            em.close();
-        }
+        this.id = id;
     }
 
     public User(Integer id, String username, String email, String password, String rank, boolean publicEmail, boolean publicPhone, boolean tutorial, Date registrationTime, boolean active, int coverColorId, int userId) {
@@ -301,6 +297,14 @@ public class User implements Serializable {
         this.active = active;
     }
 
+    public String getBankAccountNumber() {
+        return bankAccountNumber;
+    }
+
+    public void setBankAccountNumber(String bankAccountNumber) {
+        this.bankAccountNumber = bankAccountNumber;
+    }
+
     public int getCoverColorId() {
         return coverColorId;
     }
@@ -367,6 +371,70 @@ public class User implements Serializable {
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
             return new User();
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    public static ArrayList<GetUserRecommendations> getUserRecommendations(Integer userId) throws UserException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getUserRecommendations");
+
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+
+            spq.setParameter("userIdIN", userId);
+
+            spq.execute();
+
+            java.util.List<Object[]> resultList = spq.getResultList();
+            ArrayList<GetUserRecommendations> users = new ArrayList();
+            
+            resultList.stream().map(result -> {
+                String image = (String) result[0];
+                String username = (String) result[1];
+                
+                GetUserRecommendations u = new GetUserRecommendations(image, username);
+                return u;
+            }).forEachOrdered(p -> {
+                users.add(p);
+            });
+            
+            return users;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new UserException("Error in getUserRecommendations() methode in User class!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    public static String getBankAccountNumberByUserId(Integer userId) throws UserException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getBankAccountNumberByUserId");
+
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("bankAccountNumberOUT", String.class, ParameterMode.OUT);
+
+            spq.setParameter("userIdIN", userId);
+
+            spq.execute();
+            
+            return (String) spq.getOutputParameterValue("bankAccountNumberOUT");
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new UserException("Error in getBankAccountNumberByUserId() methode in User class!");
         } finally {
             em.clear();
             em.close();

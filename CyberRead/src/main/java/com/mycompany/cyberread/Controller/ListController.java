@@ -57,7 +57,7 @@ public class ListController {
     @GET
     @Path("getMostListedBooksOfTheMoth")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response getMostListedBooksOfTheMoth(@HeaderParam("Token") String jwt) throws ListException {
+    public Response getMostListedBooksOfTheMonth(@HeaderParam("Token") String jwt) throws ListException {
         if(jwt == null) {
             return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
         } else {
@@ -65,28 +65,7 @@ public class ListController {
             
             switch (tokenCheckResult) {
                 case 1: 
-                    JSONArray result = ListService.getMostListedBooksOfTheMoth();
-                    return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
-                case 2: 
-                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
-                default:
-                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
-            }
-        }
-    }
-
-    @GET
-    @Path("getPostsByFollowedUsers")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response getPostsByFollowedUsers(@HeaderParam("Token") String jwt) throws ListException {
-        if(jwt == null) {
-            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
-        } else {
-            int tokenCheckResult = Token.decodeJwt(jwt);
-            
-            switch (tokenCheckResult) {
-                case 1: 
-                    JSONArray result = ListService.getPostsByFollowedUsers(jwt);
+                    JSONArray result = ListService.getMostListedBooksOfTheMonth();
                     return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
                 case 2: 
                     return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();

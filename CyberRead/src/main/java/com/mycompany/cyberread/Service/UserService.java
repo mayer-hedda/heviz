@@ -1,10 +1,13 @@
 package com.mycompany.cyberread.Service;
 
 import com.mycompany.cyberread.Config.Token;
-import com.mycompany.cyberread.Modell.Helpcenter;
+import com.mycompany.cyberread.Exception.UserException;
 import com.mycompany.cyberread.Modell.User;
 import com.mycompany.cyberread.Helpers.PublisherRegistration;
 import com.mycompany.cyberread.Helpers.GeneralRegistration;
+import com.mycompany.cyberread.Helpers.GetUserRecommendations;
+import java.util.ArrayList;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class UserService {
@@ -62,10 +65,43 @@ public class UserService {
         String token = Token.createJwt(u);
 
         JSONObject obj = new JSONObject();
-        obj.put("user", u.toString());
         obj.put("jwt", token);
 
         return obj;
+    }
+    
+    public static JSONArray getUserRecommendations(Integer userId) throws UserException {
+        try {
+            ArrayList<GetUserRecommendations> users = User.getUserRecommendations(userId);
+            JSONArray result = new JSONArray();
+            
+            for(GetUserRecommendations user : users) {
+                JSONObject json = new JSONObject();
+                json.put("username", user.getUsername());
+                json.put("image", user.getImage());
+                
+                result.put(json);
+            }
+
+            return result;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new UserException("Error in getUserRecommendations() methode in UserService!");
+        }
+    }
+    
+    public static JSONObject getBankAccountNumberByUserId(Integer userId) throws UserException {
+        try {
+            String bankAccountNumber = User.getBankAccountNumberByUserId(userId);
+            
+            JSONObject result = new JSONObject();
+            result.put("bankAccountNumber", bankAccountNumber);
+            
+            return result;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new UserException("Error in getBankAccountNumberByUserId() method in UserService!");
+        }
     }
 
 }
