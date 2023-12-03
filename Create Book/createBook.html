@@ -70,8 +70,8 @@
                             <input type="file" accept=".pdf" id="inputFile" hidden>
                             <div id="fileView" class="align-middle">
                                 <img class="addPhoto" src="../icons/createBook/upload-file.png" id="addFile">
-                                <p class="uploadP">Drag and drop or click here <br>to upload image</p>
-                                <span class="uploadSpan">Upload any images from desktop</span>
+                                <p class="uploadP">Drag and drop or click here <br>to upload file</p>
+                                <span class="uploadSpan">Upload any files from desktop</span>
                             </div>
                         </label>
                     </div>
@@ -126,7 +126,7 @@
                                 <label id="targetAudience" for="selectTargetAudience">Target Audience:</label>
                                 <i class="bi bi-info-circle infoalter" tabindex="0" data-bs-toggle="popover"
                                     data-bs-trigger="hover focus"
-                                    data-bs-content="Select the target age group for your book here."></i>
+                                    data-bs-content="Select the target age group for your book here." id="target-info"></i>
                                 <select class="form-select select" id="selectTargetAudience">
                                     <option value="0" selected>Who is your audience</option>
                                     <option value="1">Young Adult (15-18 years of age)</option>
@@ -201,6 +201,13 @@
                                 <p id="copyrightP">Please read the relevant article of the <a class="link"
                                         href="#">Terms and
                                         Conditions</a>.</p>
+                            </div>
+
+                            <!--? ADULT LITERATURE  -->
+                            <div id="adult-div" class="container input-div">
+                                <label id="adult" for="adultCheck">Adult Literature:</label>
+                                <input type="checkbox" class="form-check-input align-middle" id="adultCheck"><p id="adultP">This book contains adult content (e.g., adult themes, language, and situations).</p>
+                                
                             </div>
 
                             <!--TODO: NINCS MEGHÍVVA A VALIDÁLÓ FÜGGVÉNY  -->

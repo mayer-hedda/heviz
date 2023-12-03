@@ -430,9 +430,16 @@ textarea {
     align-self: center;
     color: var(--label-color);
     font-family: 'Poppins-Medium', sans-serif;
-    width: 140px;
+    width: 160px;
 }
 
+#adultCheck{
+    margin-left: 30px;
+}
+
+#adultP{
+    margin-left: 10px;
+}
 
 .select {
     border: var(--input-border) 0.063rem solid;
@@ -516,6 +523,10 @@ option:checked {
 .infoalter {
     margin-left: 1%;
     padding-top: 0.7%;
+}
+
+#target-info{
+    margin-left: 0!important;
 }
 
 
