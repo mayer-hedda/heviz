@@ -424,6 +424,7 @@ p {
     position: relative;
     display: inline-block;
     overflow: hidden;
+    margin-top: 10%;
     /* border-radius: 15px; */
 }
 

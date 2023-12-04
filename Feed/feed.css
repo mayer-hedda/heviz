@@ -159,7 +159,7 @@ p {
     height: 50px;
     border-radius: 50%;
     /* Kör alak kialakítása */
-    background-image: url('../pictures/default-profile-pic.png');
+    /* background-image: url(); */
     /* Alapértelmezett kép beállítása */
     background-size: cover;
     /* A kép méretezése a konténerhez */
@@ -223,7 +223,7 @@ p {
     padding: 2.8rem;
     border-radius: 0.938rem;
     width: 43.75rem;
-    height: auto;
+    height: fit-content;
     margin-bottom: 3.125rem;
     position: relative;
 }
@@ -286,6 +286,7 @@ p {
     font-weight: 400;
     font-size: 1.125rem;
     text-align: justify;
+    padding: 0!important;
 }
 
 .last-row {
@@ -317,6 +318,7 @@ p {
     display: flex;
     position: absolute;
     right: 1.563rem;
+    bottom: 15px;
 }
 
 .like-and-share img {

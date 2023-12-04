@@ -11,6 +11,15 @@ const s2_mediumC_user = document.getElementById('s2-mediumC-user');
 const s2_mediumC_p = document.getElementById('s2-mediumC-p');
 
 const s2_first_row = document.getElementById('s2-first-row');
+const s2_second_row = document.getElementById('s2-second-row');
+
+const s3_mediumCardPic_div = document.getElementById('s3-mediumCardPic-div');
+const s3_mediumC_h2 = document.getElementById('s3-mediumC-h2');
+const s3_mediumC_user = document.getElementById('s3-mediumC-user');
+const s3_mediumC_desc = document.getElementById('s3-mediumC-desc');
+
+const s3_first_row = document.getElementById('s3-first-row');
+const s3_secont_row = document.getElementById('s3-second-row');
 
 fetch(dataURL)
     .then(response => {
@@ -21,6 +30,7 @@ fetch(dataURL)
     })
 
     .then(data => {
+        //* S1 CARD
         const bigCard = data.bigCard;
         for (const bigCard of data.bigCard) {
             // console.log(`username: ${bigCard.username}`);
@@ -33,41 +43,97 @@ fetch(dataURL)
             s1_bigCard_h2.innerText = `${bigCard.title}`;
             s1_bigCard_p.innerText = `${bigCard.description}`;
             s1_bigCard_user.innerText = `@${bigCard.username}`;
+        }
 
+        //* S2 MEDUM CARD 
+
+        const mediumCard_s2 = data.mediumCard[0];
+        s2_mediumC_picDiv.innerHTML = `
+
+            <img class="medium-pic" src="${mediumCard_s2.imgURL}" alt="${mediumCard_s2.title} cover">
+        
+        `;
+        s2_mediumC_h2.innerText = `${mediumCard_s2.title}`;
+        s2_mediumC_user.innerText = `@${mediumCard_s2.username}`;
+        s2_mediumC_p.innerText = `${mediumCard_s2.description}`;
+
+
+        //* S2 FIRST ROW 
+        for (let i = 1; i <= 4; i++) {
+            const mediumCard = data.mediumCard[i];
+
+            s2_first_row.innerHTML += `
+            
+                    <div class="col-3">
+                        <div class="cover-photo">
+
+                            <img src="${mediumCard.imgURL}" alt="${mediumCard.title}" class="cover">
+                            <div class="overlay">
+                                <p class="book-title">${mediumCard.title}</p>
+                                <p class="author-p">@${mediumCard.username}</p>
+                                <a role="button" class="cover-btn" href="#">Start Reading</a>
+                            </div>
+                        </div>
+                    </div>
+            
+            `;
 
         }
 
-        const mediumCard_first = data.mediumCard[0];
-        s2_mediumC_picDiv.innerHTML = `
+        //* s3 MEDIUM CARD
+        const mediumCard_s3 = data.mediumCard[0];
+        s3_mediumCardPic_div.innerHTML = `
 
-            <img class="medium-pic" src="${mediumCard_first.imgURL}" alt="${mediumCard_first.title} cover">
+            <img class="medium-pic" src="${mediumCard_s3.imgURL}" alt="${mediumCard_s2.title} cover">
         
         `;
-        s2_mediumC_h2.innerText = `${mediumCard_first.title}`;
-        s2_mediumC_user.innerText = `@${mediumCard_first.username}`;
-        s2_mediumC_p.innerText = `${mediumCard_first.description}`;
+        s3_mediumC_h2.innerText = `${mediumCard_s3.title}`;
+        s3_mediumC_user.innerText = `@${mediumCard_s3.username}`;
+        s3_mediumC_desc.innerText = `${mediumCard_s3.description}`;
 
-        // ! HA BENT VAN A FOR AKKOR VALAMIÉRT ÖSSZESZARJA MAGÁT A BÖNGÉSZŐ
-        // for (let i = 1; i = 4; i++) {
-        //     const mediumCard = data.mediumCard[i];
-        //     console.log(mediumCard);
-            
-        //     s2_first_row.innerHTML = `
-            
-        //             <div class="col-3">
-        //                 <div class="cover-photo">
+        //* S3 FIRST ROW
+        for (let i = 1; i <= 4; i++) {
+            const mediumCard = data.mediumCard[i];
 
-        //                     <img src="${mediumCard.imgURL}" alt="${mediumCard.title}" class="cover">
-        //                     <div class="overlay">
-        //                         <p class="book-title">${mediumCard.title}</p>
-        //                         <p class="author-p">${mediumCard.username}</p>
-        //                         <a role="button" class="cover-btn" href="#">Start Reading</a>
-        //                     </div>
-        //                 </div>
-        //             </div>
+            s3_first_row.innerHTML += `
             
-        //     `;
-        // }
+                    <div class="col-3">
+                        <div class="cover-photo">
+
+                            <img src="${mediumCard.imgURL}" alt="${mediumCard.title}" class="cover">
+                            <div class="overlay">
+                                <p class="book-title">${mediumCard.title}</p>
+                                <p class="author-p">@${mediumCard.username}</p>
+                                <a role="button" class="cover-btn" href="#">Start Reading</a>
+                            </div>
+                        </div>
+                    </div>
+            
+            `;
+
+        }
+
+        for (let i = 5; i <= 8; i++) {
+            const mediumCard = data.mediumCard[i];
+
+            s3_first_row.innerHTML += `
+            
+                    <div class="col-3">
+                        <div class="cover-photo">
+
+                            <img src="${mediumCard.imgURL}" alt="${mediumCard.title}" class="cover">
+                            <div class="overlay">
+                                <p class="book-title">${mediumCard.title}</p>
+                                <p class="author-p">@${mediumCard.username}</p>
+                                <a role="button" class="cover-btn" href="#">Start Reading</a>
+                            </div>
+                        </div>
+                    </div>
+            
+            `;
+
+        }
+
 
 
     })

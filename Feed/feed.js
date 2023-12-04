@@ -40,9 +40,7 @@ fetch(dataUrl)
                     </div>
 
                     <div class="last-row">
-                        <div class="tags">
-                            <a href="#" class="tag-design">#Book Title</a>
-                        </div>
+                        
                         <div class="like-and-share">
                             <div class="d-flex flex-column align-items-center emptyLike">
                                 
