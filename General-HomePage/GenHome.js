@@ -19,7 +19,23 @@ const s3_mediumC_user = document.getElementById('s3-mediumC-user');
 const s3_mediumC_desc = document.getElementById('s3-mediumC-desc');
 
 const s3_first_row = document.getElementById('s3-first-row');
-const s3_secont_row = document.getElementById('s3-second-row');
+const s3_second_row = document.getElementById('s3-second-row');
+
+const s4_mediumCardPic_div = document.getElementById('s4-mediumCardPic-div');
+const s4_mediumC_h2 = document.getElementById('s4-mediumC-h2');
+const s4_mediumC_user = document.getElementById('s4-mediumC-user');
+const s4_mediumC_desc = document.getElementById('s4-mediumC-desc');
+
+const s4_first_row = document.getElementById('s4-first-row');
+const s4_second_row = document.getElementById('s4-second-row');
+
+const s5_mediumCardPic_div = document.getElementById('s5-mediumCardPic-div');
+const s5_mediumC_h2 = document.getElementById('s5-mediumC-h2');
+const s5_mediumC_user = document.getElementById('s5-mediumC-user');
+const s5_mediumC_desc = document.getElementById('s5-mediumC-desc');
+
+const s5_first_row = document.getElementById('s5-first-row');
+const s5_second_row = document.getElementById('s5-second-row');
 
 fetch(dataURL)
     .then(response => {
@@ -113,10 +129,11 @@ fetch(dataURL)
 
         }
 
+        //* S3 SECOND ROW
         for (let i = 5; i <= 8; i++) {
             const mediumCard = data.mediumCard[i];
 
-            s3_first_row.innerHTML += `
+            s3_second_row.innerHTML += `
             
                     <div class="col-3">
                         <div class="cover-photo">
@@ -134,6 +151,116 @@ fetch(dataURL)
 
         }
 
+        //* s4 MEDIUM CARD
+        const mediumCard_s4 = data.mediumCard[0];
+        s4_mediumCardPic_div.innerHTML = `
+
+            <img class="medium-pic" src="${mediumCard_s4.imgURL}" alt="${mediumCard_s4.title} cover">
+        
+        `;
+        s4_mediumC_h2.innerText = `${mediumCard_s4.title}`;
+        s4_mediumC_user.innerText = `@${mediumCard_s4.username}`;
+        s4_mediumC_desc.innerText = `${mediumCard_s4.description}`;
+
+        //* S4 FIRST ROW
+        for (let i = 1; i <= 4; i++) {
+            const mediumCard = data.mediumCard[i];
+
+            s4_first_row.innerHTML += `
+            
+                    <div class="col-3">
+                        <div class="cover-photo">
+
+                            <img src="${mediumCard.imgURL}" alt="${mediumCard.title}" class="cover">
+                            <div class="overlay">
+                                <p class="book-title">${mediumCard.title}</p>
+                                <p class="author-p">@${mediumCard.username}</p>
+                                <a role="button" class="cover-btn" href="#">Start Reading</a>
+                            </div>
+                        </div>
+                    </div>
+            
+            `;
+
+        }
+
+        //* S4 SECOND ROW
+        for (let i = 5; i <= 8; i++) {
+            const mediumCard = data.mediumCard[i];
+
+            s4_second_row.innerHTML += `
+            
+                    <div class="col-3">
+                        <div class="cover-photo">
+
+                            <img src="${mediumCard.imgURL}" alt="${mediumCard.title}" class="cover">
+                            <div class="overlay">
+                                <p class="book-title">${mediumCard.title}</p>
+                                <p class="author-p">@${mediumCard.username}</p>
+                                <a role="button" class="cover-btn" href="#">Start Reading</a>
+                            </div>
+                        </div>
+                    </div>
+            
+            `;
+
+        }
+
+        //* s5 MEDIUM CARD
+        const mediumCard_s5 = data.mediumCard[0];
+        s5_mediumCardPic_div.innerHTML = `
+
+            <img class="medium-pic" src="${mediumCard_s5.imgURL}" alt="${mediumCard_s5.title} cover">
+        
+        `;
+        s5_mediumC_h2.innerText = `${mediumCard_s5.title}`;
+        s5_mediumC_user.innerText = `@${mediumCard_s5.username}`;
+        s5_mediumC_desc.innerText = `${mediumCard_s5.description}`;
+
+
+        //* S5 FIRST ROW
+        for (let i = 1; i <= 4; i++) {
+            const mediumCard = data.mediumCard[i];
+
+            s5_first_row.innerHTML += `
+            
+                    <div class="col-3">
+                        <div class="cover-photo">
+
+                            <img src="${mediumCard.imgURL}" alt="${mediumCard.title}" class="cover">
+                            <div class="overlay">
+                                <p class="book-title">${mediumCard.title}</p>
+                                <p class="author-p">@${mediumCard.username}</p>
+                                <a role="button" class="cover-btn" href="#">Start Reading</a>
+                            </div>
+                        </div>
+                    </div>
+            
+            `;
+
+        }
+
+        //* S5 SECOND ROW
+        for (let i = 5; i <= 8; i++) {
+            const mediumCard = data.mediumCard[i];
+
+            s5_second_row.innerHTML += `
+            
+                    <div class="col-3">
+                        <div class="cover-photo">
+
+                            <img src="${mediumCard.imgURL}" alt="${mediumCard.title}" class="cover">
+                            <div class="overlay">
+                                <p class="book-title">${mediumCard.title}</p>
+                                <p class="author-p">@${mediumCard.username}</p>
+                                <a role="button" class="cover-btn" href="#">Start Reading</a>
+                            </div>
+                        </div>
+                    </div>
+            
+            `;
+
+        }
 
 
     })

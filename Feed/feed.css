@@ -513,13 +513,18 @@ p {
 
 /** --------------- FOOTER ---------------*/
 
+#footer-logo {
+    /* padding-left: 6%; */
+    display: flex;
+}
+
 footer {
     border-top: 0.094rem solid var(--dash-color);
     background-color: var(--footer-bg-color);
     padding-top: 5%;
     padding-right: 5%;
     padding-left: 5%;
-    /* margin-top: 20px; */
+    height: 325px;
 }
 
 footer h3 {
@@ -537,14 +542,19 @@ footer ul li {
 }
 
 footer a {
-    color: rgb(65, 61, 63);
+    color: var(--mostUsed-text-color);
 }
 
-footer a:hover {
+footer a:hover{
     color: #B43C82;
 }
 
-#footer-logo {
-    /* padding-left: 6%; */
-    display: flex;
+#copy-right-div{
+    float: right!important;
+}
+
+#copy-right{
+    font-size: small;
+    font-family: 'Poppins-Regular', sans-serif;
+    
 }
