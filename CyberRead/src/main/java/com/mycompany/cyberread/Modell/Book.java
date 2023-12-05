@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.cyberread.Modell;
 
+import com.mycompany.cyberread.Exception.BookException;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -25,11 +22,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.json.JSONObject;
 
-/**
- *
- * @author eepseelona
- */
 @Entity
 @Table(name = "book")
 @XmlRootElement
@@ -323,6 +317,225 @@ public class Book implements Serializable {
     @Override
     public String toString() {
         return "com.mycompany.cyberread.Modell.Book[ id=" + id + " ]";
+    }
+    
+    
+    // --- MY PROCEDURES ---
+    public static JSONObject getBookDetailsById(Integer bookId) throws BookException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        JSONObject bookDetails = new JSONObject();
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getBookDetailsById");
+
+            spq.registerStoredProcedureParameter("bookIdIN", Integer.class, ParameterMode.IN);
+            spq.setParameter("bookIdIN", bookId);
+
+            spq.execute();
+            
+            java.util.List<Object[]> resultList = spq.getResultList();
+            if (!resultList.isEmpty()) {
+                Object[] result = resultList.get(0);
+                
+                bookDetails.put("bookId", result[0]);
+                bookDetails.put("title", result[1]);
+                bookDetails.put("description", result[2]);
+                
+                JSONObject targetAudience = new JSONObject();
+                targetAudience.put("name", result[3]);
+                targetAudience.put("minAge", result[4]);
+                targetAudience.put("maxAge", result[5]);
+                bookDetails.put("targetAudience", targetAudience);
+                
+                JSONObject language = new JSONObject();
+                language.put("code", result[6]);
+                language.put("lang", result[7]);
+                bookDetails.put("language", language);
+                
+                bookDetails.put("adultFiction", result[8]);
+                bookDetails.put("category", result[9]);
+                bookDetails.put("status", result[10]);
+                bookDetails.put("price", result[11]);
+                bookDetails.put("coverImage", result[12]);
+                bookDetails.put("bookFile", result[13]);
+                bookDetails.put("bankAccountNumber", result[14]);
+            }
+            
+            return bookDetails;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getBookDetailsById() method in Book class!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    public static JSONObject getOneRandomBook() throws BookException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        JSONObject bookDetails = new JSONObject();
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getOneRandomBook");
+
+            spq.execute();
+            
+            java.util.List<Object[]> resultList = spq.getResultList();
+            if (!resultList.isEmpty()) {
+                Object[] result = resultList.get(0);
+                
+                bookDetails.put("bookId", result[0]);
+                bookDetails.put("coverImage", result[1]);
+                bookDetails.put("title", result[2]);
+                bookDetails.put("writer", result[3]);
+                bookDetails.put("publisher", result[4]);
+                bookDetails.put("description", result[5]);
+                bookDetails.put("bookRating", result[6]);
+                
+                JSONObject language = new JSONObject();
+                language.put("code", result[7]);
+                language.put("lang", result[8]);
+                bookDetails.put("language", language);
+            }
+            
+            return bookDetails;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getOneRandomBook() method in Book class!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    public static JSONObject getBooksPublished() throws BookException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        JSONObject books = new JSONObject();
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getBooksPublished");
+
+            spq.execute();
+            
+            java.util.List<Object[]> resultList = spq.getResultList();
+            for(Object[] result : resultList) {    
+                JSONObject bookDetails = new JSONObject();
+                
+                bookDetails.put("bookId", result[0]);
+                bookDetails.put("coverImage", result[1]);
+                bookDetails.put("title", result[2]);
+                bookDetails.put("writer", result[3]);
+                bookDetails.put("publisher", result[4]);
+                bookDetails.put("description", result[5]);
+                bookDetails.put("bookRating", result[6]);
+                
+                JSONObject language = new JSONObject();
+                language.put("code", result[7]);
+                language.put("lang", result[8]);
+                bookDetails.put("language", language);
+                
+                books.put("publishedBooks", bookDetails);
+            }
+            
+            return books;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getBooksPublished() method in Book class!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    public static JSONObject getBooksSelfPublished() throws BookException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        JSONObject books = new JSONObject();
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getBooksSelfPublished");
+
+            spq.execute();
+            
+            java.util.List<Object[]> resultList = spq.getResultList();
+            for(Object[] result : resultList) {    
+                JSONObject bookDetails = new JSONObject();
+                
+                bookDetails.put("bookId", result[0]);
+                bookDetails.put("coverImage", result[1]);
+                bookDetails.put("title", result[2]);
+                bookDetails.put("writer", result[3]);
+                bookDetails.put("description", result[4]);
+                bookDetails.put("bookRating", result[5]);
+                
+                JSONObject language = new JSONObject();
+                language.put("code", result[6]);
+                language.put("lang", result[7]);
+                bookDetails.put("language", language);
+                
+                books.put("selfPublishedBooks", bookDetails);
+            }
+            
+            return books;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getBooksSelfPublished() method in Book class!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    public static JSONObject getRecommandedBooks(Integer userId) throws BookException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        JSONObject books = new JSONObject();
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getRecommandedBooks");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+
+            spq.setParameter("userIdIN", userId);
+
+            spq.execute();
+            
+            java.util.List<Object[]> resultList = spq.getResultList();
+            for(Object[] result : resultList) {    
+                JSONObject bookDetails = new JSONObject();
+                
+                bookDetails.put("bookId", result[0]);
+                bookDetails.put("coverImage", result[1]);
+                bookDetails.put("title", result[2]);
+                bookDetails.put("writer", result[3]);
+                bookDetails.put("publisher", result[4]);
+                bookDetails.put("description", result[5]);
+                bookDetails.put("bookRating", result[6]);
+                
+                JSONObject language = new JSONObject();
+                language.put("code", result[7]);
+                language.put("lang", result[8]);
+                bookDetails.put("language", language);
+                
+                books.put("publishedBooks", bookDetails);
+            }
+            
+            return books;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getRecommandedBooks() method in Book class!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
     }
     
 }

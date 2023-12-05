@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/WebServices/GenericResource.java to edit this template
- */
 package com.mycompany.cyberread.Controller;
 
 import com.mycompany.cyberread.Config.Token;
@@ -71,7 +67,7 @@ public class UserController {
 
             switch (tokenCheckResult) {
                 case 1:
-                    return Response.status(Response.Status.FOUND).entity("User has token!").build();
+                    return Response.status(Response.Status.FOUND).entity(Token.getUserRankByToken(jwt)).build();
                 case 2:
                     return  Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").build();
                 default:
@@ -92,7 +88,7 @@ public class UserController {
 
             switch (tokenCheckResult) {
                 case 1:
-                    return Response.status(Response.Status.FOUND).entity("User has token!").build();
+                    return Response.status(Response.Status.FOUND).entity(Token.getUserRankByToken(jwt)).build();
                 case 2:
                     return  Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").build();
                 default:
@@ -113,7 +109,7 @@ public class UserController {
 
             switch (tokenCheckResult) {
                 case 1:
-                    return Response.status(Response.Status.FOUND).entity("User has token!").build();
+                    return Response.status(Response.Status.FOUND).entity(Token.getUserRankByToken(jwt)).build();
                 case 2:
                     return  Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").build();
                 default:
@@ -130,7 +126,7 @@ public class UserController {
 
         switch (tokenCheckResult) {
             case 1:
-                return Response.status(Response.Status.FOUND).entity("User has token!").build();
+                return Response.status(Response.Status.FOUND).entity(Token.getUserRankByToken(jwt)).build();
             case 2:
                 return  Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").build();
             default:
@@ -146,12 +142,17 @@ public class UserController {
             return  Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").build();
         } else {
             int tokenCheckResult = Token.decodeJwt(jwt);
+            String rank = Token.getUserRankByToken(jwt);
             
             switch(tokenCheckResult) {
                 case 1:
-                    Integer userId = Token.getUserIdByToken(jwt);
-                    JSONArray result = UserService.getUserRecommendations(userId);
-                    return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                    if(rank.equals("general")) {
+                        Integer userId = Token.getUserIdByToken(jwt);
+                        JSONArray result = UserService.getUserRecommendations(userId);
+                        return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                    } else {
+                        return Response.status(Response.Status.FORBIDDEN).entity("You are not authorised to access this page!").type(MediaType.APPLICATION_JSON).build();
+                    }
                 case 2:
                     return  Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").build();
                 default:

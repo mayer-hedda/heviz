@@ -55,7 +55,7 @@ public class ListController {
     
     // ----- MY ENDPOINTS -----
     @GET
-    @Path("getMostListedBooksOfTheMoth")
+    @Path("getMostListedBooksOfTheMonth")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response getMostListedBooksOfTheMonth(@HeaderParam("Token") String jwt) throws ListException {
         if(jwt == null) {

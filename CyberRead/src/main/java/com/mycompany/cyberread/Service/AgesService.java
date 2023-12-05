@@ -15,16 +15,16 @@ public class AgesService {
             JSONArray array = new JSONArray();
             JSONObject result = new JSONObject();
 
-            for(Ages age : ages) {
+            ages.stream().map(age -> {
                 JSONObject json = new JSONObject();
-
                 json.put("id", age.getId());
                 json.put("name", age.getName());
                 json.put("minAge", age.getMinAge());
                 json.put("maxAge", age.getMaxAge());
-
+                return json;
+            }).forEachOrdered(json -> {
                 array.put(json);
-            }
+            });
             result.put("targetAudience", array);
             
             return result;

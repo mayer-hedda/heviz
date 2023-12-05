@@ -17,11 +17,13 @@ public class Token {
     public static String createJwt(User u) {
 
         Instant now = Instant.now();
-        int id = u.getId();
         String token = Jwts.builder()
                 .setIssuer("CyberRead")
                 .setSubject("vizsga")
-                .claim("id", id)
+                .claim("id", u.getId())
+                .claim("image", u.getImage())
+                .claim("username", u.getUsername())
+                .claim("rank", u.getRank())
                 .setIssuedAt(Date.from(now))
                 .setExpiration(Date.from(now.plus(7, ChronoUnit.DAYS)))
                 .signWith(
@@ -69,6 +71,14 @@ public class Token {
         result = Jwts.parser().setSigningKey(Keys.hmacShaKeyFor(secret)).parseClaimsJws(token);
         Integer id = result.getBody().get("id", Integer.class);
         return id;
+    }
+    
+    public static String getUserRankByToken(String token) {
+        byte[] secret = Base64.getDecoder().decode("Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=");
+        Jws<Claims> result;
+        result = Jwts.parser().setSigningKey(Keys.hmacShaKeyFor(secret)).parseClaimsJws(token);
+        String rank = result.getBody().get("rank", String.class);
+        return rank;
     }
 
 }

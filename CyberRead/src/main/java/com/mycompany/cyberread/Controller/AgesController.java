@@ -1,13 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/WebServices/GenericResource.java to edit this template
- */
 package com.mycompany.cyberread.Controller;
 
 import com.mycompany.cyberread.Config.Token;
 import com.mycompany.cyberread.Exception.AgesException;
 import com.mycompany.cyberread.Service.AgesService;
-import com.mycompany.cyberread.Service.BookService;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
@@ -18,7 +13,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**

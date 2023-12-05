@@ -1,5 +1,6 @@
 package com.mycompany.cyberread.Helpers;
 
+import com.mycompany.cyberread.Exception.BookException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.ParameterMode;
@@ -86,7 +87,7 @@ public class AddBook {
     
     
     // --- MY PROCEDURES ---
-    public static Boolean addBook(Integer userId, String title, String description, Integer targetAudience, String language, Boolean adultFiction, String category, Integer statusId, Integer price, String coverImage, String text, String bankAccountNumber) {
+    public static Boolean addBook(Integer userId, String title, String description, Integer targetAudience, String language, Boolean adultFiction, String category, Integer statusId, Integer price, String coverImage, String text, String bankAccountNumber) throws BookException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.mycompany_CyberRead_war_1.0-SNAPSHOTPU");
         EntityManager em = emf.createEntityManager();
 
@@ -125,7 +126,7 @@ public class AddBook {
             return true;
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
-            return false;
+            throw new BookException("Error in addBook() method in AddBook class!");
         } finally {
             em.clear();
             em.close();
