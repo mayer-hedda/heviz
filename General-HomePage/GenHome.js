@@ -87,7 +87,7 @@ fetch(dataURL)
                             <div class="overlay">
                                 <p class="book-title">${mediumCard.title}</p>
                                 <p class="author-p">@${mediumCard.username}</p>
-                                <a role="button" class="cover-btn" href="#">Start Reading</a>
+                                <button class="cover-btn">Start Reading</button>
                             </div>
                         </div>
                     </div>
@@ -120,7 +120,7 @@ fetch(dataURL)
                             <div class="overlay">
                                 <p class="book-title">${mediumCard.title}</p>
                                 <p class="author-p">@${mediumCard.username}</p>
-                                <a role="button" class="cover-btn" href="#">Start Reading</a>
+                                <button class="cover-btn">Start Reading</button>
                             </div>
                         </div>
                     </div>
@@ -142,7 +142,7 @@ fetch(dataURL)
                             <div class="overlay">
                                 <p class="book-title">${mediumCard.title}</p>
                                 <p class="author-p">@${mediumCard.username}</p>
-                                <a role="button" class="cover-btn" href="#">Start Reading</a>
+                                <button  class="cover-btn">Start Reading</button>
                             </div>
                         </div>
                     </div>
@@ -175,7 +175,7 @@ fetch(dataURL)
                             <div class="overlay">
                                 <p class="book-title">${mediumCard.title}</p>
                                 <p class="author-p">@${mediumCard.username}</p>
-                                <a role="button" class="cover-btn" href="#">Start Reading</a>
+                                <button class="cover-btn">Start Reading</button>
                             </div>
                         </div>
                     </div>
@@ -197,7 +197,7 @@ fetch(dataURL)
                             <div class="overlay">
                                 <p class="book-title">${mediumCard.title}</p>
                                 <p class="author-p">@${mediumCard.username}</p>
-                                <a role="button" class="cover-btn" href="#">Start Reading</a>
+                                <button  class="cover-btn">Start Reading</button>
                             </div>
                         </div>
                     </div>
@@ -231,7 +231,7 @@ fetch(dataURL)
                             <div class="overlay">
                                 <p class="book-title">${mediumCard.title}</p>
                                 <p class="author-p">@${mediumCard.username}</p>
-                                <a role="button" class="cover-btn" href="#">Start Reading</a>
+                                <button  class="cover-btn">Start Reading</button>
                             </div>
                         </div>
                     </div>
@@ -253,7 +253,7 @@ fetch(dataURL)
                             <div class="overlay">
                                 <p class="book-title">${mediumCard.title}</p>
                                 <p class="author-p">@${mediumCard.username}</p>
-                                <a role="button" class="cover-btn" href="#">Start Reading</a>
+                                <button  class="cover-btn">Start Reading</button>
                             </div>
                         </div>
                     </div>
