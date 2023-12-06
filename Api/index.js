@@ -1,12 +1,13 @@
 /**
  * 
  *  @param {JSON} raw = {
- *      "username": "elso_publisher",
-        "firstName": "elso",
+ *      "username": "masodik_publisher",
+        "firstName": "masodik",
         "lastName": "publisher",
-        "companyName": "elso_company",
-        "email": "elso@publisher.com",
-        "password": "Alma123*"
+        "companyName": "masodik_company",
+        "email": "masodik@publisher.com",
+        "password": "Alma123*",
+        "aszf": true
  *  }
  */
 function publisherRegistration(raw) {
@@ -18,11 +19,11 @@ function publisherRegistration(raw) {
     var requestOptions = {
     method: 'POST',
     headers: myHeaders,
-    body: postData,
+    body: raw,
     redirect: 'follow'
     };
 
-    fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/User/publisherRegistration", requestOptions)
+    fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/publisherRegistration", requestOptions)
     .then(response => response.text())
     .then(result => {
         return result;
@@ -33,15 +34,16 @@ function publisherRegistration(raw) {
 
 /**
  * 
- *  @param {JSON} raw = {
-        "username": "harmadik_general",
+ * @param {JSON} raw = {
+ *      "username": "harmadik_general",
         "firstName": "harmadik",
         "lastName": "general",
         "email": "harmadik@general.com",
-        "birthdate": "2008-08-29",
-        "password": "Alma123*"
-    *  }
-    */
+        "birthdate": "2000-11-12",
+        "password": "Alma123*",
+        "aszf": true
+ * }
+ */
 function generalRegistration(raw) {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -51,11 +53,11 @@ function generalRegistration(raw) {
     var requestOptions = {
     method: 'POST',
     headers: myHeaders,
-    body: postData,
+    body: raw,
     redirect: 'follow'
     };
 
-    fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/User/generalRegistration", requestOptions)
+    fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/generalRegistration", requestOptions)
     .then(response => response.text())
     .then(result => {
         return result;
@@ -66,43 +68,11 @@ function generalRegistration(raw) {
 
 /**
  * 
- *  @param {JSON} raw = {
-        "categoryNames": [
-            "regény",
-            "szépirodalom",
-            "utazás"
-        ]
-    }
-    */
-function addCategoryInterest(raw) {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    var postData = JSON.stringify(raw);
-
-    var requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    body: postData,
-    redirect: 'follow'
-    };
-
-    fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/CategoryInterest/addCategoryInterest", requestOptions)
-    .then(response => response.text())
-    .then(result => {
-        return result;
-    })
-    .catch(error => console.log('error', error));
-}
-
-
-/**
- * 
- *  @param {JSON} raw = {
-        "email": "elso@publisher.com",
+ * @param {JSON} raw = {
+ *      "email": "elso@general.com",
         "password": "Alma123*"
-    }
-    */
+ * }
+ */
 function login(raw) {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -112,11 +82,15 @@ function login(raw) {
     var requestOptions = {
     method: 'POST',
     headers: myHeaders,
-    body: postData,
+    body: raw,
     redirect: 'follow'
     };
 
-    fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/User/login", requestOptions)
+    fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/login", requestOptions)
+    .then(response => response.json())
+    .then(result => {
+        localStorage.setItem("Token", result.jwt)
+    })
     .then(response => response.text())
     .then(result => {
         return result;
@@ -125,84 +99,21 @@ function login(raw) {
 }
 
 
-function getAllHelpCenter() {
-    var requestOptions = {
-        method: 'GET',
-        redirect: 'follow'
-    };
-        
-    fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/HelpCenter/getAllHelpCenter", requestOptions)
-        .then(response => response.text())
-        .then(result => {
-            return result;
-        })
-        .catch(error => console.log('error', error));
-}
-
-
-function getMostListedBooksOfTheMonth() {
-    var requestOptions = {
-        method: 'GET',
-        redirect: 'follow'
-    };
-        
-    fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/List/getMostListedBooksOfTheMonth", requestOptions)
-        .then(response => response.text())
-        .then(result => {
-            return result;
-        })
-        .catch(error => console.log('error', error));
-}
-
-
-/**
- * 
- *  @param {JSON} raw = {
-        "postId": 2
- *  }
- */
-function addPostlike(raw) {
+function token() {
     var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
 
-    var postData = JSON.stringify(raw);
+    var storedToken = localStorage.getItem("Token");
+    if(storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
 
     var requestOptions = {
-    method: 'POST',
+    method: 'GET',
     headers: myHeaders,
-    body: postData,
     redirect: 'follow'
     };
 
-    fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/Postlike/addPostlike", requestOptions)
-    .then(response => response.text())
-    .then(result => {
-        return result;
-    })
-    .catch(error => console.log('error', error));
-}
-
-
-/**
- * 
- *  @param {JSON} raw = {
-        "postId": 1
- *  }
- */
-function deletePostlike(raw) {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    var postData = JSON.stringify(raw);
-
-    var requestOptions = {
-    method: 'DELETE',
-    headers: myHeaders,
-    body: postData,
-    redirect: 'follow'
-    };
-
-    fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/Postlike/deletePostlike", requestOptions)
+    fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/token", requestOptions)
     .then(response => response.text())
     .then(result => {
         return result;
