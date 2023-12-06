@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta author="Mayer Hedda">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <img src="./4d9ce607-a9fb-4d72-9c86-69830fdbdeb2.webp" alt="holdak" id="myImage">
+    <button onclick="szin()">asd</button>
+
+    <script>
+        function szin() {
+            var img = document.getElementById('myImage');
+            var canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+
+            var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            var data = imageData.data;
+            var colorCounts = {};
+
+            for (var i = 0; i < data.length; i += 4) {
+                var rgba = [data[i], data[i + 1], data[i + 2], data[i + 3]]; // R, G, B, Alpha
+                var hex = "#" + ("000000" + rgbToHex(rgba[0], rgba[1], rgba[2])).slice(-6);
+                if (!colorCounts[hex]) {
+                    colorCounts[hex] = 0;
+                }
+                colorCounts[hex]++;
+            }
+
+            var mostCommonColor = Object.keys(colorCounts).reduce(function(a, b){ return colorCounts[a] > colorCounts[b] ? a : b });
+
+            console.log("A leggyakoribb szín a képen:", mostCommonColor);
+            document.body.style.backgroundColor = mostCommonColor;
+        };
+
+        function rgbToHex(r, g, b) {
+            return ((r << 16) | (g << 8) | b).toString(16);
+        }
+
+    </script>
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <img src="./4d9ce607-a9fb-4d72-9c86-69830fdbdeb2.webp" alt="holdak" id="myImage">
+    <button onclick="szin()">Kép legvilágosabb színe</button>
+
+    <script>
+        function szin() {
+            var img = document.getElementById('myImage');
+            var canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+
+            var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            var data = imageData.data;
+            var brightestColor = [0, 0, 0]; // Kezdetben fekete szín
+
+            for (var i = 0; i < data.length; i += 4) {
+                var rgb = [data[i], data[i + 1], data[i + 2]]; // R, G, B
+                if (rgb[0] + rgb[1] + rgb[2] > brightestColor[0] + brightestColor[1] + brightestColor[2]) {
+                    brightestColor = rgb;
+                }
+            }
+
+            var hex = "#" + ("000000" + rgbToHex(brightestColor[0], brightestColor[1], brightestColor[2])).slice(-6); // RGB szín hex formátumban
+
+            console.log("A legvilágosabb szín a képen:", hex);
+            document.body.style.backgroundColor = hex;
+        };
+
+        function rgbToHex(r, g, b) {
+            return ((r << 16) | (g << 8) | b).toString(16);
+        }
+    </script>
+</body>
+</html> -->
