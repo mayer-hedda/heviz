@@ -55,6 +55,13 @@
 }
 
 @font-face {
+    font-family: 'Montserrat-Regular';
+    src: url("../fonts/Montserrat/static/Montserrat-Regular.ttf") format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
     font-family: 'Montserrat-Medium';
     src: url("../fonts/Montserrat/static/Montserrat-Medium.ttf") format('truetype');
     font-weight: 500;
@@ -108,7 +115,7 @@ nav {
 }
 
 #navbar a,
-p {
+#navbar p {
     font-size: larger;
     display: inline;
     padding: 0.938rem;
@@ -256,13 +263,15 @@ p {
 
 .username{
     margin-top: 0;
-    margin-left: 20px;
+    margin-left: 25px;
     font-size: 18px;
     color: rgb(65, 61, 63) !important;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat-Medium', sans-serif;
     padding-top: 0;
     padding-bottom: 0;
+    padding-left: 12px;
     margin-bottom: 0;
+    color: rgb(99, 76, 62)!important;
 }
 
 .medium-desc{
@@ -270,13 +279,14 @@ p {
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden !important;
-
-    margin-top: 0;
-    margin-left: 20px;
+    margin-top: 15px;
+    margin-left: 25px;
     padding-bottom: 0;
-
     font-family: 'Poppins-light', sans-serif;
     font-size: 16px;
+    padding-left: 12px;
+    text-align: justify;
+    padding-right: 20px;
 }
 
 .medium-right-side{
@@ -514,6 +524,132 @@ p {
     transition: color 0.8s ease;
     transition: background-color 0.8s ease;
 }
+/** MODAL */
+.modal-content {
+    background: linear-gradient( 180deg, #88d6b7, #f7e1c6 77.6%) !important;
+    border-radius: 15px;
+    border-width: 0;
+    /* position: relative; */
+    text-align: center;
+    /* align-items: center; */
+}
+
+.modal-header {
+    border-bottom: none;
+}
+
+.save-btn, .shopping-btn {
+    background-color: #fffcf6a4;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 9px;
+    padding-bottom: 12px;
+    border-radius: 80px;
+    border-width: 0;
+    margin-left: 5px;
+    color: rgb(63, 63, 63);
+
+}
+
+.save-btn:hover, .shopping-btn:hover{
+    background-color: #fffcf6d7;
+}
+
+.shopping-btn{
+    margin-right: 200px;
+}
+
+.btn-close {
+    background-color: #fffcf6;
+    margin-right: 5px !important;
+    padding: 10px !important;
+    border-radius: 20px;
+}
+
+.modal-img {
+    width: 243px;
+    height: 400px;
+    /* margin-left: 110px;
+    margin-right: 110px; */
+    /* position: absolute; */
+    align-self: center;
+    border-radius: 10px;
+}
+
+.modal-h3 {
+    margin-top: 5%;
+}
+
+.modal-p {
+    font-size: 20px;
+    color: rgb(80, 80, 80);
+}
+
+.babszem {
+    width: fit-content;
+    display: inline-flex;
+    padding-top: 10px;
+    padding-bottom: 10px!important;
+    padding-left: 30px;
+    padding-right: 30px;
+    background-color: #e9b8af;
+    column-gap: 20px;
+    text-align: center!important;
+    border-radius: 40px;
+    color: #2C1810;
+    margin-top: 5%;
+}
+
+
+.colDiv{
+    padding-top: 15px;
+    width: 80px;
+    text-align: center;
+}
+
+.babszem-margin{
+    margin-right: 10px;
+}
+
+.modal-description{
+    margin-top: 25px;
+    margin-left: 50px;
+    margin-right: 50px;
+    text-align: justify;
+    font-family: 'Poppins-light', sans-serif;
+    
+}
+
+.modal-footer {
+    border-top: none;
+    padding-bottom: 25px;
+    padding-right: 50px;
+}
+
+.modal-cover-btn{
+    text-decoration: none;
+    background:  #895372 !important;
+    border: 0.094rem solid #895372;
+    color: white;
+    padding: 10px 20px 10px;
+    border-radius: 30px;
+    font-family: 'Poppins-Regular', sans;
+    font-size: 18px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    transition: background-color 0.8s ease;
+}
+
+.modal-cover-btn:hover{
+    background-color: transparent!important;
+    color: #2C1810;
+    border: dashed 0.094rem #2C1810;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    transition: background-color 0.8s ease;
+}
+
+
 /** --------------- FOOTER ---------------*/
 
 #footer-logo {

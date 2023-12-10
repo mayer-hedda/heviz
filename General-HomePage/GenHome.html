@@ -83,7 +83,7 @@
                     </p>
 
                     <!--TODO: POPUP ABLAK  -->
-                    <button type="button" class="moreBtn" href="#">Start Reading</button>
+                    <button type="button" class="moreBtn" data-bs-toggle="modal" data-bs-target="#modalID">Start Reading</button>
                 </div>
             </div>
 
@@ -91,6 +91,76 @@
 
     </section>
 
+        <!-- Modal -->
+        <div id="modalID" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+    
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <!--TODO: klikkre váltson át a teli bookmark-ra  -->
+                        <button class="save-btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+                                <path
+                                    d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
+                            </svg></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <!-- <h4 class="modal-title">Modal Header</h4> -->
+                    </div>
+                    <div class="modal-body">
+                        <img src="HungerGames3.jpg" class="modal-img">
+                        <h3 class="modal-h3">The HungerGames3</h3>
+                        <p class="modal-p">Suzanne Collins</p>
+    
+                        <div class="babszem text-center">
+    
+                            <div class="col-3 colDiv babszem-margin">
+                                <h4 class="align-middle">96</h4>
+                                <p>Pages</p>
+                            </div>
+                            <div class="col-3 colDiv babszem-margin">
+                                <h4>7.3</h4>
+                                <p>Ranking</p>
+                            </div>
+                            <div class="col-3 colDiv">
+                                <h4>ENG</h4>
+                                <p>Language</p>
+                            </div>
+                        </div>
+    
+                        <div class="modal-description">
+                            <p class="">Lorem ipsum dolor sit amet consectetur adipiscing elit imperdiet montes, bibendum
+                                nulla
+                                id convallis sem in integer dignissim. Tortor eu eget porttitor augue nunc pellentesque
+                                elementum dictumst, sociis sociosqu praesent tellus etiam vehicula senectus vestibulum,
+                                habitant montes interdum consequat nec rhoncus vitae. Fames accumsan litora nec euismod
+                                egestas, curabitur risus volutpat sagittis. Tellus senectus rhoncus ultrices auctor
+                                pellentesque class, hac diam curabitur tincidunt vestibulum odio, non dui morbi montes
+                                porttitor. Blandit donec malesuada vel tellus nunc maecenas, vivamus aenean suspendisse
+                                eros luctus feugiat turpis, dapibus nulla cubilia dignissim ornare. Euismod rutrum netus
+                                sodales consequat mus donec odio ante ridiculus molestie conubia enim sollicitudin,
+                                tempus dictumst fermentum pharetra mauris congue vestibulum dignissim magna vitae curae
+                                sagittis.</p>
+                        </div>
+    
+                    </div>
+                    <div class="modal-footer">
+                        <button class="shopping-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                class="bi bi-cart-plus" viewBox="0 0 16 16">
+                                <path
+                                    d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9z" />
+                                <path
+                                    d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+                            </svg>
+                        </button>
+                        <button type="button" class="btn btn-default modal-cover-btn" data-dismiss="modal">Let's Read!</button>
+                    </div>
+                </div>
+    
+            </div>
+        </div>
+    
 
     <!-- TODO: SECOND SECTION => Most popular books of the month -->
     <section id="second-section" class="container sub-sections">
