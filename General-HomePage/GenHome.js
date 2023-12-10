@@ -1,5 +1,6 @@
 //* LOADING DATAS
 const dataURL = './db.json';
+
 const s1_bigCard_div = document.getElementById('bigCard-Pic');
 const s1_bigCard_h2 = document.getElementById('s1-bigCard-h2');
 const s1_bigCard_user = document.getElementById('s1-bigCard-user');
@@ -36,6 +37,15 @@ const s5_mediumC_desc = document.getElementById('s5-mediumC-desc');
 
 const s5_first_row = document.getElementById('s5-first-row');
 const s5_second_row = document.getElementById('s5-second-row');
+
+//* MODAL
+const modal_body = document.getElementById('modal-body');
+const modal_title = document.getElementById('modal-title');
+const modal_author = document.getElementById('modal-author');
+const modal_pages = document.getElementById('modal-pages');
+const modal_ranking = document.getElementById('modal-ranking');
+const modal_language = document.getElementById('modal-language');
+const modal_desc = document.getElementById('modal-desc');
 
 fetch(dataURL)
     .then(response => {
@@ -87,7 +97,7 @@ fetch(dataURL)
                             <div class="overlay">
                                 <p class="book-title">${mediumCard.title}</p>
                                 <p class="author-p">@${mediumCard.username}</p>
-                                <button class="cover-btn">Start Reading</button>
+                                <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID">Start Reading</button>
                             </div>
                         </div>
                     </div>
@@ -120,7 +130,7 @@ fetch(dataURL)
                             <div class="overlay">
                                 <p class="book-title">${mediumCard.title}</p>
                                 <p class="author-p">@${mediumCard.username}</p>
-                                <button class="cover-btn">Start Reading</button>
+                                <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID">Start Reading</button>
                             </div>
                         </div>
                     </div>
@@ -142,7 +152,7 @@ fetch(dataURL)
                             <div class="overlay">
                                 <p class="book-title">${mediumCard.title}</p>
                                 <p class="author-p">@${mediumCard.username}</p>
-                                <button  class="cover-btn">Start Reading</button>
+                                <button  class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID">Start Reading</button>
                             </div>
                         </div>
                     </div>
@@ -175,12 +185,13 @@ fetch(dataURL)
                             <div class="overlay">
                                 <p class="book-title">${mediumCard.title}</p>
                                 <p class="author-p">@${mediumCard.username}</p>
-                                <button class="cover-btn">Start Reading</button>
+                                <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID">Start Reading</button>
                             </div>
                         </div>
                     </div>
             
             `;
+            
 
         }
 
@@ -197,7 +208,7 @@ fetch(dataURL)
                             <div class="overlay">
                                 <p class="book-title">${mediumCard.title}</p>
                                 <p class="author-p">@${mediumCard.username}</p>
-                                <button  class="cover-btn">Start Reading</button>
+                                <button  class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID">Start Reading</button>
                             </div>
                         </div>
                     </div>
@@ -231,7 +242,7 @@ fetch(dataURL)
                             <div class="overlay">
                                 <p class="book-title">${mediumCard.title}</p>
                                 <p class="author-p">@${mediumCard.username}</p>
-                                <button  class="cover-btn">Start Reading</button>
+                                <button  class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID">Start Reading</button>
                             </div>
                         </div>
                     </div>
@@ -253,7 +264,7 @@ fetch(dataURL)
                             <div class="overlay">
                                 <p class="book-title">${mediumCard.title}</p>
                                 <p class="author-p">@${mediumCard.username}</p>
-                                <button  class="cover-btn">Start Reading</button>
+                                <button  class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID">Start Reading</button>
                             </div>
                         </div>
                     </div>
@@ -265,9 +276,3 @@ fetch(dataURL)
 
     })
 
-// ------------------ hover effekt a borítóknak -----------------------
-// const covers = document.getElementsByClassName('cover');
-
-// covers.addEventListener('mouseenter', (e)=>{
-//     e.preventDefault();
-// })
