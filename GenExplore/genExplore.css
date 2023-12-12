@@ -174,11 +174,11 @@ nav {
     /* Mutató kurzor megjelenítése, hogy látható legyen, kattintható */
 }
 
-#navbarNav{
+#navbarNav {
     margin-left: 90px;
 }
 
-#writingBtn{
+#writingBtn {
     font-size: medium;
     font-family: 'Inter', sans-serif;
     color: var(--btn-text-color);
@@ -201,7 +201,7 @@ nav {
     /* align-items: self-end; */
 }
 
-#writingBtn:hover{
+#writingBtn:hover {
     transition: color 0.8s ease;
     /*átmenet a hover és a rendes állapot között*/
     transition: background-color 0.3s ease;
@@ -212,20 +212,21 @@ nav {
 }
 
 /** ---------- SECTION ONE ----------------------  */
-#s1{
+#s1 {
     margin-top: 75px;
     background-color: #EAD7BE;
     height: fit-content;
     padding-top: 25px;
     padding-bottom: 10px;
+    /* position: fixed; */
 }
 
-#search-input{
+#search-input {
     width: 500px;
     margin-left: 72px;
 }
 
-#searchKeyword{
+#searchKeyword {
     border-radius: 100px 0px 0px 100px;
     border-color: #cdb5aa;
     background-color: #FFF9F5;
@@ -235,12 +236,12 @@ nav {
     font-size: 18px;
 }
 
-#searchKeyword::placeholder{
+#searchKeyword::placeholder {
     color: #735646ea;
     font-size: 18px;
 }
 
-#searchBTN{
+#searchBTN {
     border-radius: 0px 100px 100px 0px;
     /* background-color: #F6EFEA; */
     background-color: #FFF9F5;
@@ -249,25 +250,66 @@ nav {
     border-color: #cdb5aa;
     width: 60px;
 }
+
 /** --------------- H2 + SECOND SECTION ---------------*/
 #title-h2{
+    margin-top: 250px!important;
+}
+
+.rowPics {
+    width: 217px;
+    height: 242px;
+    /* filter: blur(1px); */
+}
+
+.image-container {
+    text-align: center;
+    /* A tartalomat középre igazítja */
+    position: relative;
+    margin-bottom: 50px;
+ 
+}
+
+.category-name {
+    display: block;
+    /* Minden kategória név egy új sorban jelenjen meg */
+    font-weight: bold;
+    /* Vastagabb betűtípus a kiemeléshez, opcionális */
+    position: absolute;
+    bottom: 20px;
+    left: 5%;
+    right: 5%;
+    font-size: 22px;
+    color: white;
+    font-family: 'Montserrat-Regular', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-shadow: rgba(0, 0, 0, 0.685) 2px 1px 4px; 
+}
+
+
+#title-h2 {
     font-family: 'Inter-SemiBold', sans-serif;
-    text-transform: uppercase!important;
+    text-transform: uppercase !important;
     font-size: 30px;
     margin-top: 100px;
     margin-bottom: 50px;
 }
 
-#first-row-pics{
+.rows {
     display: inline-flex;
     column-gap: 40px;
-    vertical-align: middle;
+    /* vertical-align: middle!important; */
 }
 
-#first-row-pics img{
+.rows img {
     border-radius: 30px;
     border: 3.5px solid #E8B5A0;
+    object-fit: cover;
+    backdrop-filter: blur(1px);
 }
+
+
 
 /** --------------- FOOTER ---------------*/
 
@@ -303,16 +345,16 @@ footer a {
     color: var(--mostUsed-text-color);
 }
 
-footer a:hover{
+footer a:hover {
     color: #B43C82;
 }
 
-#copy-right-div{
-    float: right!important;
+#copy-right-div {
+    float: right !important;
 }
 
-#copy-right{
+#copy-right {
     font-size: small;
     font-family: 'Poppins-Regular', sans-serif;
-    
+
 }

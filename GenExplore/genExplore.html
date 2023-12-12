@@ -32,8 +32,8 @@
 
             <div class="collapse navbar-collapse  justify-content-center" id="navbarNav">
                 <div class="navbar-nav text-center">
-                    <a class="nav-link" aria-current="page" id="HomePage"
-                        href="../General-HomePage/GenHome.html">Home Page</a>
+                    <a class="nav-link" aria-current="page" id="HomePage" href="../General-HomePage/GenHome.html">Home
+                        Page</a>
                     <a class="nav-link" id="Feed" href="../Feed/feed.html">Feed</a>
                     <a class="nav-link  active" id="Explore" href="#">Explore</a>
                     <a class="nav-link" id="SavedBooks" href="#">Saved Books</a>
@@ -57,27 +57,179 @@
         </div>
     </nav>
 
-    <section id="s1" class="container-fluid">
+    <section id="s1" class="container-fluid fixed-top">
         <!-- ha középen szeretném akkor a container osztályt kell a search-input divre tenni -->
         <div class="input-group mb-3 " id="search-input">
             <input type="text" class="form-control" placeholder="Search" id="searchKeyword">
-            <button class="btn btn-default" type="submit" id="searchBTN"><svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 4px; margin-bottom: 4px; color: #2C1810;" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-              </svg></button>
-            </div>
+            <button class="btn btn-default" type="submit" id="searchBTN"><svg xmlns="http://www.w3.org/2000/svg"
+                    style="margin-right: 4px; margin-bottom: 4px; color: #2C1810;" width="20" height="20"
+                    fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                    <path
+                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                </svg></button>
+        </div>
 
     </section>
 
     <h2 class="container" id="title-h2">All categories:</h2>
 
     <section class="container text-center" id="s2">
-        <div id="first-row-pics">
-            <img src="../pictures/Explore/Gastronomy.jpg" alt="Gastronomy">
-            <img src="../pictures/Explore/Travel.jpg" alt="Travel">
-            <img src="../pictures/Explore/Sport.jpg" alt="Sport">
-            <img src="../pictures/Explore/Family.jpg" alt="Family">
+        <div class="rows" id="first-row-pics">
+            
+            <div class="image-container" id="Gastronomy">
+                <img class="rowPics" src="../pictures/Explore/Gastronomy.jpg" alt="Gastronomy">
+                <span class="category-name text-center">Gastronomy</span>
+            </div>
+
+            <div class="image-container" id="Travel">
+                <img class="rowPics" src="../pictures/Explore/Travel.jpg" alt="Travel">
+                <span class="category-name text-center">Travel</span>
+            </div>
+
+            <div class="image-container" id="Sport">
+                <img class="rowPics" src="../pictures/Explore/Sport.jpg" alt="Sport">
+                <span class="category-name text-center">Sport</span>
+            </div>
+
+            <div class="image-container" id="Family">
+                <img class="rowPics" src="../pictures/Explore/Family.jpg" alt="Family">
+                <span class="category-name text-center">Family</span>
+            </div>        
+        </div>
+
+        <div class="rows" id="second-row-pics">
+            <div class="image-container" id="Romantic">
+                <img class="rowPics" src="../pictures/Explore/Romantic.jpg" alt="Romantic">
+                <span class="category-name text-center">Romantic</span>
+            </div>  
+
+            <div class="image-container" id="Sci-Fi">
+                <img class="rowPics" src="../pictures/Explore/Sci-Fi.jpg" alt="Sci-Fi">
+                <span class="category-name text-center">Sci-Fi</span>
+            </div>  
+
+            <div class="image-container" id="Adventure">
+                <img class="rowPics" src="../pictures/Explore/Adventure.jpg" alt="Adventure">
+                <span class="category-name text-center">Adventure</span>
+            </div>  
+
+            <div class="image-container" id="Literature">
+                <img class="rowPics" src="../pictures/Explore/Literature.jpg" alt="Literature">
+                <span class="category-name text-center">Literature</span>
+            </div>  
+        </div>
+
+        <div class="rows" id="third-row-pics">
+            <div class="image-container" id="Youth-Novels">
+                <img class="rowPics" src="../pictures/Explore/Youth-Novels.jpg" alt="Youth-Novels">
+                <span class="category-name text-center">Youth <br>Novels</span>
+            </div>  
+
+            <div class="image-container" id="Lexicons">
+                <img class="rowPics" src="../pictures/Explore/Lexicons.jpg" alt="Lexicons">
+                <span class="category-name text-center">Lexicons</span>
+            </div>  
+
+            <div class="image-container" id="Poems">
+                <img class="rowPics" src="../pictures/Explore/Poems.jpg" alt="Poems">
+                <span class="category-name text-center">Poems</span>
+            </div>  
+
+            <div class="image-container" id="Tv-series">
+                <img class="rowPics" src="../pictures/Explore/Tv-series.jpg" alt="Tv-series">
+                <span class="category-name text-center">Tv series</span>
+            </div>  
+        </div>
+
+        <div class="rows" id="fourth-row-pics">
+            <div class="image-container" id="Religion">
+                <img class="rowPics" src="../pictures/Explore/Religion.jpg" alt="Religion">
+                <span class="category-name text-center">Religion</span>
+            </div>  
+
+            <div class="image-container" id="Horror-Thriller">
+                <img class="rowPics" src="../pictures/Explore/Horror-Thriller.jpg" alt="Horror-Thriller">
+                <span class="category-name text-center">Horror, Thriller</span>
+            </div>  
+
+            <div class="image-container" id="Crime">
+                <img class="rowPics" src="../pictures/Explore/Crime.jpg" alt="Crime">
+                <span class="category-name text-center">Crime</span>
+            </div>  
+
+            <div class="image-container" id="Comic-book">
+                <img class="rowPics" src="../pictures/Explore/Comic-book.jpg" alt="Comic-book">
+                <span class="category-name text-center">Comic book</span>
+            </div>  
+        </div>
+
+        <div class="rows" id="fifth-row-pics">
+            <div class="image-container" id="Biography">
+                <img class="rowPics" src="../pictures/Explore/Biography.jpg" alt="Biography">
+                <span class="category-name text-center">Biography</span>
+            </div>  
+
+            <div class="image-container" id="Novel">
+                <img class="rowPics" src="../pictures/Explore/Novel.jpg" alt="Novel">
+                <span class="category-name text-center">Novel</span>
+            </div>  
+
+            <div class="image-container" id="Informative">
+                <img class="rowPics" src="../pictures/Explore/Informative.jpg" alt="Informative">
+                <span class="category-name text-center">Informative</span>
+            </div>  
+
+            <div class="image-container" id="Lifestyle-and-health">
+                <img class="rowPics" src="../pictures/Explore/Lifestyle-and-health.jpg" alt="Lifestyle-and-health">
+                <span class="category-name text-center">Lifestyle <br>and health</span>
+            </div>  
+        </div>
+
+        <div class="rows" id="sixth-row-pics">
+            <div class="image-container" id="Associate-science">
+                <img class="rowPics" src="../pictures/Explore/Associate-science.jpg" alt="Associate-science">
+                <span class="category-name text-center">Associate <br>science</span>
+            </div>  
+
+            <div class="image-container" id="Hobby-and-freetime">
+                <img class="rowPics" src="../pictures/Explore/Hobby-and-freetime.jpg" alt="Hobby-and-freetime">
+                <span class="category-name text-center">Hobby and<br> freetime</span>
+            </div>  
+
+            <div class="image-container" id="Comedy">
+                <img class="rowPics" src="../pictures/Explore/Comedy.jpg" alt="Comedy">
+                <span class="category-name text-center">Comedy</span>
+            </div>  
+
+            <div class="image-container" id="Art-Arch">
+                <img class="rowPics" src="../pictures/Explore/Art-Arch..jpg" alt="Art-Arch">
+                <span class="category-name text-center">Art and Architecture</span>
+            </div>  
+        </div>
+
+        <div class="rows" id="seventh-row-pics">
+            <div class="image-container" id="Reference">
+                <img class="rowPics" src="../pictures/Explore/Reference.jpg" alt="Reference">
+                <span class="category-name text-center">Reference books</span>
+            </div>  
+
+            <div class="image-container" id="Dictionary">
+                <img class="rowPics" src="../pictures/Explore/Dictionary.jpg" alt="Dictionary">
+                <span class="category-name text-center">Dictionary</span>
+            </div>  
+
+            <div class="image-container" id="Action">
+                <img class="rowPics" src="../pictures/Explore/Action.jpg" alt="Action">
+                <span class="category-name text-center">Action</span>
+            </div>  
+
+            <div class="image-container" id="eighteenPlus">
+                <img class="rowPics" src="../pictures/Explore/18+.jpg" alt="eighteenPlus">
+                <span class="category-name text-center">18 plus</span>
+            </div>  
         </div>
     </section>
+
 
     <!-- BOOTSTRAP -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
