@@ -1,0 +1,409 @@
+@font-face {
+
+    font-family: 'Montserrat';
+    src: url('../fonts/Montserrat/static/Montserrat-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+
+}
+
+@font-face {
+
+    font-family: 'Montserrat';
+    src: url('../fonts/Montserrat/static/Montserrat-Regular.ttf');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+
+    font-family: 'Montserrat';
+    src: url('../fonts/Montserrat/static/Montserrat-Medium.ttf');
+    font-weight: 500;
+    font-style: normal;
+
+}
+
+@font-face {
+
+    font-family: 'Montserrat';
+    src: url('../fonts/Montserrat/static/Montserrat-Light.ttf');
+    font-weight: 300;
+    font-style: normal;
+
+}
+:root {
+    --primary-BTN-Bg-color: rgb(232, 181, 160);
+    /* --------------------------------------------------
+    text color for:
+        -loginBTN text
+        - signupBTN text
+        - first section btn text
+        - fourth section btn text
+
+    */
+    --btn-text-color: rgb(51, 47, 49);
+    /*--------------------------------------------- 
+        its for text colors
+    */
+    --mostUsed-text-color: rgb(65, 61, 63);
+    /* -----------------------------------------------
+        its for btn dashes
+    */
+    --dash-color: rgb(129, 105, 117);
+}
+
+nav {
+    background-color: rgb(247, 245, 236);
+    /* backdrop-filter: blur(5px); */
+}
+
+#navbar {
+    padding-right: 5%;
+    padding-left: 5%;
+}
+
+.asd {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+#navbar a {
+    font-size: larger;
+    display: inline;
+    padding: 10px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    color: rgb(151, 121, 110);
+}
+
+#navbar a:hover {
+    color: rgb(113, 145, 128);
+    /* font-weight: 700; */
+    font-style: italic;
+}
+
+
+#AboutUs {
+    /*? Az aktuális page */
+    color: rgb(60, 32, 22) !important;
+    text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
+    /* ? távolság növelése az alláhúzás vonal és a szöveg alja között */
+    text-underline-offset: 0.281rem;
+}
+
+
+#AboutUs:hover {
+    /*? aktuális page hover */
+    color: rgb(68, 92, 79) !important;
+    font-style: italic;
+}
+
+#loginBtn {
+    /*? navbar login btn-ja */
+    border-width: 0rem;
+    background-color: transparent;
+
+    font-size: larger;
+    color: var(--btn-text-color);
+    font-family: 'Inter', sans-serif;
+
+    margin-right: 0.9rem;
+    padding: 0.625rem 1.25rem;
+
+    transition: color 0.5s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    line-height: 1.125rem;
+
+    box-sizing: border-box;
+    /* A padding + border szélessége is hozzáadódik az elem méretéhez */
+}
+
+#loginBtn:hover {
+    /*? navbar login btn hover */
+    color: rgb(146, 104, 74);
+}
+
+#signUpBtn {
+    /*? navbar signup btn-ja */
+    font-size: larger;
+    font-family: 'Inter', sans-serif;
+    color: var(--btn-text-color);
+
+    border-width: 0rem;
+    border-radius: 1.5rem;
+
+    background-color: var(--primary-BTN-Bg-color);
+
+    padding: 0.625rem 1.25rem;
+
+    transition: color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    transition: background-color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    line-height: 1.125rem;
+
+    box-sizing: border-box;
+    /* A padding + border szélessége is hozzáadódik az elem méretéhez */
+}
+
+#signUpBtn:hover {
+    /*? navbar login btn hover */
+    transition: color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    transition: background-color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    background-color: rgb(248, 248, 244);
+    color: var(--mostUsed-text-color);
+    border: dashed 0.094rem var(--dash-color);
+}
+
+.first-section {
+
+   background-color: #EAD7BE;
+   padding-bottom: 50px;
+   margin-bottom: 128px;
+
+}
+
+.firstsection-h2 {
+
+    margin-top: 40px;
+    font-family: 'Montserrat';
+    font-weight: 600;
+    text-underline-offset: 30px;
+    text-decoration: underline 2px var(--primary-BTN-Bg-color);
+}
+
+.firstsection-ptags{
+
+    margin-top: 80px;
+}
+
+.firstsection-p1 {
+
+    margin-top: 40px;
+    font-family: 'Montserrat';
+    font-size: 20px;
+
+}
+
+.firstsection-p2 {
+
+    margin-top: 10px;
+    font-family: 'Montserrat';
+    font-size: 20px;
+
+}
+
+.firstsection-p3 {
+
+    margin-top: 10px;
+    font-family: 'Montserrat';
+    font-size: 20px;
+
+}
+
+.firstsection-picture {
+
+    height: max-content;
+    float: right;
+    margin-top: 50px;
+
+}
+
+.Members{
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 100px;
+
+}
+
+.KissVivien {
+
+    color: #2C1810;
+    font-family: Montserrat;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.75px;
+    font-size: 25px;
+
+}
+
+.KissViviRole {
+
+    color: #2C1810;
+    font-family: Montserrat;
+    font-weight: 400;
+    letter-spacing: 1.19px;
+    font-size: 17px;
+    text-transform: lowercase;
+
+}
+
+.MayerHedda{
+
+    color: #2C1810;
+    font-family: Montserrat;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.75px;
+    font-size: 25px;
+
+}
+
+.MayerHediRole {
+
+    color: #2C1810;
+    font-family: Montserrat;
+    font-weight: 400;
+    letter-spacing: 1.19px;
+    font-size: 17px;
+    text-transform: lowercase;
+
+}
+
+.SzirenyiVivien {
+
+    color: #2C1810;
+    font-family: Montserrat;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.75px;
+    font-size: 25px;
+
+}
+
+.SzirenyiViviRole {
+
+    color: #2C1810;
+    font-family: Montserrat;
+    font-weight: 400;
+    letter-spacing: 1.19px;
+    font-size: 17px;
+    text-transform: lowercase;
+
+}
+
+
+
+.int_bg1 {
+    
+    background-color: #E5D9CA;
+    padding-top: 20px;
+
+}
+
+.IntText-Vivi1 {
+
+    color: #2C1810;
+    font-family: Montserrat;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 1.26px;
+    margin-top: 60px;
+
+}
+
+.KissViviInt_Role{
+
+    color: #2C1810;
+    font-size: 20px;
+    font-family: Montserrat;
+    font-weight: 500;
+    letter-spacing: 1.40px;
+
+}
+
+.int_bg2{
+    
+    background-color: #E5D9CA;
+    padding-top: 20px;
+
+}
+
+.IntText-Hedi {
+
+    color: #2C1810;
+    font-family: Montserrat;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 1.26px;
+    margin-top: 60px;
+
+}
+
+.third-section, .fourth-section, .fifth-section{
+    margin-top: 3%;
+    background-color: #E5D9CA;
+}
+
+.MayerHediInt_Role {
+
+    color: #2C1810;
+    font-size: 20px;
+    font-family: Montserrat;
+    font-weight: 500;
+    letter-spacing: 1.40px; 
+
+}
+
+.int_bg3 {
+    
+    background-color: #E5D9CA;
+    padding-top: 20px;
+
+}
+
+
+.IntText_Vivi2 {
+
+    color: #2C1810;
+    font-family: Montserrat;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 1.26px;
+    margin-top: 60px;
+
+}
+
+.SzirenyiViviInt_Role {
+
+    color: #2C1810;
+    font-size: 20px;
+    font-family: Montserrat;
+    font-weight: 500;
+    letter-spacing: 1.40px; 
+
+}
+
+footer {
+
+    margin-top: 100px;
+    border-top: 0.094rem solid var(--dash-color);
+       background-color: #F6E3CD;
+       padding-top: 5%;
+       padding-right: 5%;
+       padding-left: 5%;  
+   
+   
+   }
+   
+   footer h3 {
+       font-size: 28px;
+       margin-bottom: 16px;
+   }
+   
+   footer ul {
+       list-style-type: none;
+   }
+   
+   footer ul li {
+       font-size: 20px;
+       font-family: 'Montserrat', sans-serif;
+   }
+   
+   footer a {
+       color: var(--mostUsed-text-color);
+   }
