@@ -1,24 +1,34 @@
+/** ---- FONTS ---- */
+
+@font-face {
+    font-family: 'Inter-Medium';
+    src: url('../fonts/Inter/static/Inter-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
 @font-face {
 
-    font-family: 'Montserrat';
+    font-family: 'Montserrat-Semibold';
     src: url('../fonts/Montserrat/static/Montserrat-SemiBold.ttf') format('truetype');
     font-weight: 600;
     font-style: normal;
 
 }
 
+
 @font-face {
 
-    font-family: 'Montserrat';
-    src: url('../fonts/Montserrat/static/Montserrat-Regular.ttf');
+    font-family: 'Montserrat-Regular';
+    src: url('../fonts/Montserrat/static/Montserrat-Regular.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
 
-    font-family: 'Montserrat';
-    src: url('../fonts/Montserrat/static/Montserrat-Medium.ttf');
+    font-family: 'Montserrat-Medium';
+    src: url('../fonts/Montserrat/static/Montserrat-Medium.ttf') format('truetype');
     font-weight: 500;
     font-style: normal;
 
@@ -26,75 +36,101 @@
 
 @font-face {
 
-    font-family: 'Montserrat';
-    src: url('../fonts/Montserrat/static/Montserrat-Light.ttf');
+    font-family: 'Montserrat-Light';
+    src: url('../fonts/Montserrat/static/Montserrat-Light.ttf') format('truetype');
     font-weight: 300;
     font-style: normal;
 
 }
+
+@font-face {
+    font-family: 'Montserrat-Bold';
+    src: url("../fonts/Montserrat/static/Montserrat-Bold.ttf") format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Pt-sans-Regular';
+    src: url("../fonts/PT_Sans/PTSans-Regular.ttf") format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+/** ----- VÁLTOZÓK ---------- */
+
 :root {
     --primary-BTN-Bg-color: rgb(232, 181, 160);
-    /* --------------------------------------------------
-    text color for:
+    --btn-text-color: rgb(51, 47, 49);
+    /*text color for:
         -loginBTN text
         - signupBTN text
         - first section btn text
-        - fourth section btn text
-
-    */
-    --btn-text-color: rgb(51, 47, 49);
-    /*--------------------------------------------- 
-        its for text colors
-    */
+        - fourth section btn text */
     --mostUsed-text-color: rgb(65, 61, 63);
-    /* -----------------------------------------------
-        its for btn dashes
-    */
+    /* its for text colors*/
     --dash-color: rgb(129, 105, 117);
+    /* its for btn dashes*/
+    --page-bg-color: rgb(247, 245, 236);
+    --footer-bg-color: rgb(246, 227, 205);
+    --navbar-a-color: rgb(151, 121, 110);
+    --navbar-a-hover-color: rgb(113, 145, 128);
+    --current-page-color: rgb(60, 32, 22);
+    --current-page-hover-color: rgb(68, 92, 79);
+    --white-col-btnBG-Text: rgb(248, 248, 244);
+    --brown-p-color: rgb(108, 78, 66);
+}
+
+/** --- CSS -----  */
+
+body{
+    scroll-behavior: smooth!important; /* Smooth scrolling beállítása */
 }
 
 nav {
-    background-color: rgb(247, 245, 236);
+    background-color: var(--page-bg-color);
     /* backdrop-filter: blur(5px); */
 }
+
 
 #navbar {
     padding-right: 5%;
     padding-left: 5%;
 }
 
-.asd {
+/* .asd {
     margin-left: 0 !important;
     margin-right: 0 !important;
-}
+} */
+
 #navbar a {
     font-size: larger;
     display: inline;
-    padding: 10px;
+    padding: 0.938rem;
     font-family: 'Inter', sans-serif;
     font-weight: 500;
-    color: rgb(151, 121, 110);
+    color: var(--navbar-a-color);
 }
 
 #navbar a:hover {
-    color: rgb(113, 145, 128);
+    color: var(--navbar-a-hover-color);
     /* font-weight: 700; */
     font-style: italic;
 }
 
 
-#AboutUs {
+.active {
     /*? Az aktuális page */
-    color: rgb(60, 32, 22) !important;
+    color: var(--current-page-color) !important;
     text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
     /* ? távolság növelése az alláhúzás vonal és a szöveg alja között */
     text-underline-offset: 0.281rem;
 }
 
 
-#AboutUs:hover {
+.active:hover {
     /*? aktuális page hover */
-    color: rgb(68, 92, 79) !important;
+    color: var(--current-page-hover-color) !important;
     font-style: italic;
 }
 
@@ -152,37 +188,46 @@ nav {
     /*átmenet a hover és a rendes állapot között*/
     transition: background-color 0.8s ease;
     /*átmenet a hover és a rendes állapot között*/
-    background-color: rgb(248, 248, 244);
+    background-color: rgb(247, 245, 236);
     color: var(--mostUsed-text-color);
     border: dashed 0.094rem var(--dash-color);
 }
 
-.first-section {
+#s1-outsideDiv {
+    display: inline-flex;
+    padding-right: 0%;
+}
 
-   background-color: #EAD7BE;
-   padding-bottom: 50px;
-   margin-bottom: 128px;
+.first-section {
+    margin-top: 75px;
+    background-color: #EAD7BE;
+    margin-bottom: 128px;
+    padding-right: 0%;
+    padding-left: 5%;
 
 }
 
 .firstsection-h2 {
 
-    margin-top: 40px;
-    font-family: 'Montserrat';
+    padding-top: 40px;
+    font-family: 'Montserrat-Semibold', sans-serif;
     font-weight: 600;
     text-underline-offset: 30px;
-    text-decoration: underline 2px var(--primary-BTN-Bg-color);
+    text-decoration: underline 3px var(--primary-BTN-Bg-color);
+    text-underline-offset: 20px;
 }
 
-.firstsection-ptags{
-
+.firstsection-ptags {
+    padding-bottom: 50px;
     margin-top: 80px;
+    text-align: justify;
+    font-family: 'Montserrat-Regular', sans-serif;
 }
 
 .firstsection-p1 {
 
     margin-top: 40px;
-    font-family: 'Montserrat';
+    /* font-family: 'Montserrat'; */
     font-size: 20px;
 
 }
@@ -190,7 +235,7 @@ nav {
 .firstsection-p2 {
 
     margin-top: 10px;
-    font-family: 'Montserrat';
+    /* font-family: 'Montserrat'; */
     font-size: 20px;
 
 }
@@ -198,67 +243,90 @@ nav {
 .firstsection-p3 {
 
     margin-top: 10px;
-    font-family: 'Montserrat';
+    /* font-family: 'Montserrat'; */
     font-size: 20px;
 
 }
 
+#s1-picDiv {
+    padding-left: 9.1%;
+}
+
 .firstsection-picture {
 
-    height: max-content;
-    float: right;
-    margin-top: 50px;
+    height: 100%;
+
+    margin: 0 0;
+    align-content: end !important;
 
 }
 
-.Members{
+.memberIMG{
+    width: 300px!important;
+    margin-bottom: 5%;
+}
+
+.Members {
 
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 100px;
+    /* margin: 100px; */
+    text-align: center;
 
+}
+
+.Members a{
+    text-decoration: none;
+}
+
+.Members h2:hover{
+    color: var(--navbar-a-hover-color);
+}
+
+.Members img:hover{
+    cursor: pointer;
 }
 
 .KissVivien {
 
     color: #2C1810;
-    font-family: Montserrat;
-    font-weight: 500;
+    font-family: 'Montserrat-Semibold', sans-serif;
+    /* font-weight: 500; */
     text-transform: uppercase;
-    letter-spacing: 1.75px;
-    font-size: 25px;
+    letter-spacing: 1px;
+    font-size: 20px;
 
 }
 
 .KissViviRole {
 
     color: #2C1810;
-    font-family: Montserrat;
-    font-weight: 400;
-    letter-spacing: 1.19px;
+    font-family: 'Montserrat-Regular', sans-serif;
+    /* font-weight: 400; */
+    letter-spacing: 1.1px;
     font-size: 17px;
     text-transform: lowercase;
 
 }
 
-.MayerHedda{
+.MayerHedda {
 
     color: #2C1810;
-    font-family: Montserrat;
-    font-weight: 500;
+    font-family: 'Montserrat-Semibold', sans-serif;
+    /* font-weight: 500; */
     text-transform: uppercase;
-    letter-spacing: 1.75px;
-    font-size: 25px;
+    letter-spacing: 1px;
+    font-size: 20px;
 
 }
 
 .MayerHediRole {
 
     color: #2C1810;
-    font-family: Montserrat;
-    font-weight: 400;
-    letter-spacing: 1.19px;
+    font-family: 'Montserrat-Regular', sans-serif;
+    /* font-weight: 400; */
+    letter-spacing: 1.1px;
     font-size: 17px;
     text-transform: lowercase;
 
@@ -267,143 +335,99 @@ nav {
 .SzirenyiVivien {
 
     color: #2C1810;
-    font-family: Montserrat;
-    font-weight: 500;
+    font-family: 'Montserrat-Semibold', sans-serif;
+    /* font-weight: 500; */
     text-transform: uppercase;
-    letter-spacing: 1.75px;
-    font-size: 25px;
+    letter-spacing: 1px;
+    font-size: 20px;
 
 }
 
 .SzirenyiViviRole {
 
     color: #2C1810;
-    font-family: Montserrat;
+    font-family: 'Montserrat-Regular', sans-serif;
     font-weight: 400;
-    letter-spacing: 1.19px;
+    letter-spacing: 1.1px;
     font-size: 17px;
     text-transform: lowercase;
 
 }
 
+.int_bg {
 
-
-.int_bg1 {
-    
     background-color: #E5D9CA;
-    padding-top: 20px;
+    padding: 50px 100px;
 
 }
 
-.IntText-Vivi1 {
+.IntName{
+    font-family: 'Montserrat-Semibold', sans-serif;
+    font-size: 30px;
+    margin-bottom: 0;
+}
+
+.IntText {
 
     color: #2C1810;
-    font-family: Montserrat;
+    font-family: 'Montserrat-Regular', sans-serif;
     font-size: 18px;
     font-weight: 400;
     letter-spacing: 1.26px;
-    margin-top: 60px;
-
+    margin-top: 30px;
+    text-align: justify;
 }
 
-.KissViviInt_Role{
+.IntRole {
 
     color: #2C1810;
     font-size: 20px;
-    font-family: Montserrat;
+    font-family: 'Montserrat-Medium', sans-serif;
     font-weight: 500;
     letter-spacing: 1.40px;
 
 }
 
-.int_bg2{
-    
-    background-color: #E5D9CA;
-    padding-top: 20px;
 
-}
-
-.IntText-Hedi {
-
-    color: #2C1810;
-    font-family: Montserrat;
-    font-size: 18px;
-    font-weight: 400;
-    letter-spacing: 1.26px;
-    margin-top: 60px;
-
-}
-
-.third-section, .fourth-section, .fifth-section{
+.third-section,
+.fourth-section,
+.fifth-section {
     margin-top: 3%;
     background-color: #E5D9CA;
 }
 
-.MayerHediInt_Role {
-
-    color: #2C1810;
-    font-size: 20px;
-    font-family: Montserrat;
-    font-weight: 500;
-    letter-spacing: 1.40px; 
-
-}
-
-.int_bg3 {
-    
-    background-color: #E5D9CA;
-    padding-top: 20px;
-
-}
-
-
-.IntText_Vivi2 {
-
-    color: #2C1810;
-    font-family: Montserrat;
-    font-size: 18px;
-    font-weight: 400;
-    letter-spacing: 1.26px;
-    margin-top: 60px;
-
-}
-
-.SzirenyiViviInt_Role {
-
-    color: #2C1810;
-    font-size: 20px;
-    font-family: Montserrat;
-    font-weight: 500;
-    letter-spacing: 1.40px; 
-
+.fifth-section{
+    margin-bottom: 50px;
 }
 
 footer {
 
-    margin-top: 100px;
     border-top: 0.094rem solid var(--dash-color);
-       background-color: #F6E3CD;
-       padding-top: 5%;
-       padding-right: 5%;
-       padding-left: 5%;  
-   
-   
-   }
-   
-   footer h3 {
-       font-size: 28px;
-       margin-bottom: 16px;
-   }
-   
-   footer ul {
-       list-style-type: none;
-   }
-   
-   footer ul li {
-       font-size: 20px;
-       font-family: 'Montserrat', sans-serif;
-   }
-   
-   footer a {
-       color: var(--mostUsed-text-color);
-   }
+    background-color: var(--footer-bg-color);
+    padding-top: 5%;
+    padding-right: 5%;
+    padding-left: 5%;
+
+}
+
+footer h3 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+}
+
+footer ul {
+    list-style-type: none;
+}
+
+footer ul li {
+    font-size: 1.25rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+footer a {
+    color: var(--mostUsed-text-color);
+}
+
+footer a:hover {
+    color: #B43C82;
+}

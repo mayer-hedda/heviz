@@ -222,7 +222,7 @@ footer a:hover{
     font-style: italic;
 }
 
-#Home {
+.active {
     /*? Az aktuális page */
     color: var(--current-page-color) !important;
     text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
@@ -230,11 +230,12 @@ footer a:hover{
     text-underline-offset: 0.281rem;
 }
 
-#Home:hover {
+.active:hover {
     /*? aktuális page hover */
     color: var(--current-page-hover-color) !important;
     font-style: italic;
 }
+
 
 #loginBtn {
     /*? navbar login btn-ja */
