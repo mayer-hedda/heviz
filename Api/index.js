@@ -833,3 +833,46 @@
         })
         .catch(error => console.log('error', error));
     }
+
+
+    /**
+     * @return
+        * 200:
+            * posts by followed user
+                * id
+                * username
+                * image
+                * post time
+                * post description
+                * liked
+        * 
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+     */
+    function getFeedPosts() {
+        var myHeaders = new Headers();
+
+        var storedToken = localStorage.getItem("Token");
+        if(storedToken) {
+            myHeaders.append("Token", storedToken);
+        }
+
+        var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+        };
+
+        fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/post/getFeedPosts", requestOptions)
+        .then(response => {
+            return response.json().then(data => {
+                return { 
+                    status: response.status, 
+                    data: data 
+                };
+            });
+        })
+        .catch(error => console.log('error', error));
+    }
