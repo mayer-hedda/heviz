@@ -1,36 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  <persistence-unit name="com.mycompany_CyberRead_war_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+  <persistence-unit name="com.exam_CyberRead_war_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <class>com.mycompany.cyberread.Modell.Pay</class>
-    <class>com.mycompany.cyberread.Modell.Language</class>
-    <class>com.mycompany.cyberread.Modell.Tag</class>
-    <class>com.mycompany.cyberread.Modell.Publisher</class>
-    <class>com.mycompany.cyberread.Modell.Bookrating</class>
-    <class>com.mycompany.cyberread.Modell.Post</class>
-    <class>com.mycompany.cyberread.Modell.Aszf</class>
-    <class>com.mycompany.cyberread.Modell.UserXSubscription</class>
-    <class>com.mycompany.cyberread.Modell.Bookreport</class>
-    <class>com.mycompany.cyberread.Modell.Copyright</class>
-    <class>com.mycompany.cyberread.Modell.Read</class>
-    <class>com.mycompany.cyberread.Modell.Color</class>
-    <class>com.mycompany.cyberread.Modell.Follow</class>
-    <class>com.mycompany.cyberread.Modell.Helpcenter</class>
-    <class>com.mycompany.cyberread.Modell.Category</class>
-    <class>com.mycompany.cyberread.Modell.Bookshopping</class>
-    <class>com.mycompany.cyberread.Modell.Booksopened</class>
-    <class>com.mycompany.cyberread.Modell.Postlike</class>
-    <class>com.mycompany.cyberread.Modell.Categoryinterest</class>
-    <class>com.mycompany.cyberread.Modell.Subscription</class>
-    <class>com.mycompany.cyberread.Modell.Ages</class>
-    <class>com.mycompany.cyberread.Modell.General</class>
-    <class>com.mycompany.cyberread.Modell.Search</class>
-    <class>com.mycompany.cyberread.Modell.Book</class>
-    <class>com.mycompany.cyberread.Modell.Forgotpassword</class>
-    <class>com.mycompany.cyberread.Modell.Userrating</class>
-    <class>com.mycompany.cyberread.Modell.PostXTag</class>
-    <class>com.mycompany.cyberread.Modell.List</class>
-    <class>com.mycompany.cyberread.Modell.User</class>
+    <class>com.exam.cyberread.Model.Book</class>
+    <class>com.exam.cyberread.Model.Bookrating</class>
+    <class>com.exam.cyberread.Model.User</class>
+    <class>com.exam.cyberread.Model.Targetaudience</class>
+    <class>com.exam.cyberread.Model.Category</class>
+    <class>com.exam.cyberread.Model.Language</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/cyberread?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
