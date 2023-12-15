@@ -428,7 +428,7 @@
             "languageId": 1,
             "adultFiction": true,
             "categoryId": 1,
-            "statusId": 2,
+            "statusId": 2,      // 1: looking for a publisher       2: self-publish
             "price": 1200,
             "coverImage": "Ez a kép elérési útja",
             "file": "Ez a könyv elérési útja",
@@ -526,6 +526,68 @@
         };
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getBookDetails", requestOptions)
+        .then(response => response.text())
+        .then(result => {
+            return result;
+        })
+        .catch(error => console.log('error', error));
+    }
+
+
+    /**
+     * @param {JSON} raw = {
+     *      "id": 1,
+            "title": "Negyedik könyv",
+            "description": "Ez a negyedik könyv leírása.",
+            "targetAudienceId": 1,
+            "languageId": 1,
+            "adultFiction": true,
+            "categoryId": 1,
+            "statusId": 2,      // 1: looking for a publisher       2: self-publish
+            "price": 1200,
+            "coverImage": "Ez a kép elérési útja",
+            "file": "Ez a könyv elérési útja",
+            "bankAccountNumber": "12345678"
+     *  }
+     *
+     * @return
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+            * 
+        * 200:
+            * errors (if something value is wrong):
+                * storyTitleError
+                * descriptionError
+                * targetAudienceError
+                * languageError
+                * categoryError
+                * priceError
+                * statusError
+                * bankAccountNumberError
+                * coverImageError
+                * bookFileError
+     */
+    function setBook(raw) {
+        var myHeaders = new Headers();
+
+        myHeaders.append("Content-Type", "application/json");
+        var storedToken = localStorage.getItem("Token");
+        if(storedToken) {
+            myHeaders.append("Token", storedToken);
+        }
+
+        var postData = JSON.stringify(raw);
+
+        var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+        };
+
+        fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/setBook", requestOptions)
         .then(response => response.text())
         .then(result => {
             return result;
