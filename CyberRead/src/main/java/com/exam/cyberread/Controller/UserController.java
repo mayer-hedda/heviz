@@ -17,6 +17,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 
@@ -90,9 +91,10 @@ public class UserController {
         * aszf
      * 
      * @return 
-        * error: Returns possible errors at field level
-        * Successfully registration
-        * Unsuccessfully registration
+        * 200: Successfully registration
+        * 409: Unsuccessfully registration
+        * 422: 
+            * error: Returns possible errors at field level
      * 
      * @throws UserException: Something wrong
      */
@@ -102,9 +104,9 @@ public class UserController {
     public Response generalRegistration(GeneralRegistrationDto userDetails) throws UserException {
         String result = UserService.generalRegistration(userDetails.getUsername(), userDetails.getFirstName(), userDetails.getLastName(), userDetails.getEmail(), userDetails.getBirthdate(), userDetails.getPassword(), userDetails.getAszf());
         if(result.equals("1")) {
-            return Response.status(Response.Status.OK).entity("Successfully registration!").type(MediaType.APPLICATION_JSON).build();
+            return Response.status(Response.Status.OK).build();
         } else if(result.equals("2")) {
-            return Response.status(Response.Status.CONFLICT).entity("Unsuccessfully registration!").type(MediaType.APPLICATION_JSON).build();
+            return Response.status(Response.Status.CONFLICT).build();
         }
         return Response.status(422).entity(result).type(MediaType.APPLICATION_JSON).build();
     }
@@ -121,9 +123,10 @@ public class UserController {
         * aszf
      * 
      * @return 
-        * error: Returns possible errors at field level
-        * Successfully registration
-        * Unsuccessfully registration
+        * 200: Successfully registration
+        * 409: Unsuccessfully registration
+        * 422: 
+            * error: Returns possible errors at field level
      * 
      * @throws UserException: Something wrong
      */
@@ -133,9 +136,9 @@ public class UserController {
     public Response publisherRegistration(PublisherRegistrationDto userDetails) throws UserException {
         String result = UserService.publisherRegistration(userDetails.getUsername(), userDetails.getFirstName(), userDetails.getLastName(), userDetails.getCompanyName(), userDetails.getEmail(), userDetails.getPassword(), userDetails.getAszf());
         if(result.equals("1")) {
-            return Response.status(Response.Status.OK).entity("Successfully registration!").type(MediaType.APPLICATION_JSON).build();
+            return Response.status(Response.Status.OK).build();
         } else if(result.equals("2")) {
-            return Response.status(Response.Status.CONFLICT).entity("Unsuccessfully registration!").type(MediaType.APPLICATION_JSON).build();
+            return Response.status(Response.Status.CONFLICT).build();
         }
         return Response.status(422).entity(result).type(MediaType.APPLICATION_JSON).build();
     }
@@ -145,16 +148,21 @@ public class UserController {
      * @param jwt: user's jwt token
      * 
      * @return 
-        * image: profile picture displayed in navbar
-        * username: username displayed in navbar
-        * rank: check authorization
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 302:
+            * image: profile picture displayed in navbar
+            * username: username displayed in navbar
+            * rank: check authorization
      */
     @GET
     @Path("token")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response token(@HeaderParam("Token") String jwt) {
         if(jwt == null) {
-            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").build();
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
         } else {
             int tokenCheckResult = Token.decodeJwt(jwt);
 
@@ -163,9 +171,47 @@ public class UserController {
                     JSONObject data = Token.getDataByToken(jwt);
                     return Response.status(Response.Status.FOUND).entity(data.toString()).type(MediaType.APPLICATION_JSON).build();
                 case 2:
-                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").build();
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
                 default:
-                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").build();
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
+            }
+        }
+    }
+    
+    
+    /**
+     * @param jwt
+     * 
+     * @return
+        * 200:
+            * recommanded users
+                * image
+                * username
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+     * 
+     * @throws UserException: Something wrong
+     */
+    @GET
+    @Path("getRecommandedUsers")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getRecommandedUsers(@HeaderParam("Token") String jwt) throws UserException {
+        if(jwt == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
+        } else {
+            int tokenCheckResult = Token.decodeJwt(jwt);
+
+            switch (tokenCheckResult) {
+                case 1:
+                    Integer userId = Token.getUserIdByToken(jwt);
+                    JSONArray result = UserService.getRecommandedUsers(userId);
+                    return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                case 2:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
+                default:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
             }
         }
     }

@@ -1,7 +1,6 @@
 package com.exam.cyberread.Service;
 
 import com.exam.cyberread.Exception.BookException;
-import com.exam.cyberread.Exception.TargetAudienceException;
 import com.exam.cyberread.Model.Book;
 import com.exam.cyberread.Model.Category;
 import com.exam.cyberread.Model.Language;

@@ -1,5 +1,3 @@
-com\exam\cyberread\Controller\UserController.class
-com\exam\cyberread\Model\Book.class
 com\exam\cyberread\Controller\ApplicationConfig.class
 com\exam\cyberread\Model\Language.class
 com\exam\cyberread\Exception\UserException.class
@@ -8,3 +6,5 @@ com\exam\cyberread\Model\Category.class
 com\exam\cyberread\Service\UserService.class
 com\exam\cyberread\Model\Targetaudience.class
 com\exam\cyberread\Config\Token.class
+com\exam\cyberread\Controller\UserController.class
+com\exam\cyberread\Model\Book.class

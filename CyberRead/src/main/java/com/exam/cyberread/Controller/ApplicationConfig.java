@@ -22,6 +22,8 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(com.exam.cyberread.Controller.BookController.class);
+        resources.add(com.exam.cyberread.Controller.PostController.class);
+        resources.add(com.exam.cyberread.Controller.PostlikeController.class);
         resources.add(com.exam.cyberread.Controller.UserController.class);
     }
     

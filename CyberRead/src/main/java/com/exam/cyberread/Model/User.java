@@ -1,7 +1,9 @@
 package com.exam.cyberread.Model;
 
+import com.exam.cyberread.Exception.UserException;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,6 +23,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 
 @Entity
@@ -446,6 +450,53 @@ public class User implements Serializable {
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
             return false;
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * 
+     * @return
+        * recommanded users
+            * image
+            * username
+     * 
+     * @throws UserException: Something wrong
+     */
+    public static JSONArray getRecommandedUsers(Integer userId) throws UserException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getRecommandedUsers");
+
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+
+            spq.setParameter("userIdIN", userId);
+
+            spq.execute();
+            
+            List<Object[]> resultList = spq.getResultList();
+            JSONArray users = new JSONArray();
+            
+            for(Object[] result : resultList) {
+                JSONObject user = new JSONObject();
+                
+                user.put("image", result[0]);
+                user.put("username", result[1]);
+                
+                users.put(user);
+            }
+            
+            return users;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new UserException("Error in getRecommandedUsers() method!");
         } finally {
             em.clear();
             em.close();

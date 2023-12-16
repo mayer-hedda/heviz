@@ -5,6 +5,7 @@ import com.exam.cyberread.Exception.UserException;
 import com.exam.cyberread.Model.User;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 
@@ -234,6 +235,26 @@ public class UserService {
         } catch(Exception ex) {
             System.out.println(ex.getMessage());
             throw new UserException("Error in registrationDetailsCheck() method!");
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * 
+     * @return
+        * recommanded users
+            * image
+            * username
+     * 
+     * @throws UserException: Something wrong
+     */
+    public static JSONArray getRecommandedUsers(Integer userId) throws UserException {
+        try{
+            return User.getRecommandedUsers(userId);
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new UserException("Error in getRecommamdedUsers() method!");
         }
     }
     

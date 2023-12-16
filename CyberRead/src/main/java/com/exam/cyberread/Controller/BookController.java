@@ -59,7 +59,10 @@ public class BookController {
      * 
      * @return 
         * 200: 5 most saved books of the month
-        * 401: User hasn't token / Invalid token
+        * 401: 
+            * User hasn't token
+            * Invalid token
+            * The token has expired
         * 403: User is not general user
      * 
      * @throws BookException: Something wrong
@@ -69,7 +72,7 @@ public class BookController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response getMostSavedBooksOfTheMonth(@HeaderParam("Token") String jwt) throws BookException {
         if(jwt == null) {
-            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").build();
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
         } else {
             int tokenCheckResult = Token.decodeJwt(jwt);
 
@@ -82,12 +85,12 @@ public class BookController {
                             JSONArray result = BookService.getMostSavedBooksOfTheMonth(userId);
                             return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
                         default:
-                            return Response.status(Response.Status.FORBIDDEN).entity("You are not authorised to access this page!").build();
+                            return Response.status(Response.Status.FORBIDDEN).build();
                     }
                 case 2:
-                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").build();
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
                 default:
-                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").build();
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
             }
         }
     }
@@ -98,7 +101,10 @@ public class BookController {
      * 
      * @return 
         * 200: 9 random published books
-        * 401: User hasn't token / Invalid token
+        * 401: 
+            * User hasn't token
+            * Invalid token
+            * The token has expired
         * 403: User is not general user
      * 
      * @throws BookException: Something wrong
@@ -108,7 +114,7 @@ public class BookController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response getPublishedBooks(@HeaderParam("Token") String jwt) throws BookException {
         if(jwt == null) {
-            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").build();
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
         } else {
             int tokenCheckResult = Token.decodeJwt(jwt);
 
@@ -121,12 +127,12 @@ public class BookController {
                             JSONArray result = BookService.getPublishedBooks(userId);
                             return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
                         default:
-                            return Response.status(Response.Status.FORBIDDEN).entity("You are not authorised to access this page!").build();
+                            return Response.status(Response.Status.FORBIDDEN).build();
                     }
                 case 2:
-                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").build();
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
                 default:
-                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").build();
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
             }
         }
     }
@@ -137,7 +143,10 @@ public class BookController {
      * 
      * @return 
         * 200: 9 random self-published books
-        * 401: User hasn't token / Invalid token
+        * 401: 
+            * User hasn't token
+            * Invalid token
+            * The token has expired
         * 403: User is not general user
      * 
      * @throws BookException: Something wrong
@@ -147,7 +156,7 @@ public class BookController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response getSelfPublishedBooks(@HeaderParam("Token") String jwt) throws BookException {
         if(jwt == null) {
-            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").build();
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
         } else {
             int tokenCheckResult = Token.decodeJwt(jwt);
 
@@ -160,12 +169,12 @@ public class BookController {
                             JSONArray result = BookService.getSelfPublishedBooks(userId);
                             return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
                         default:
-                            return Response.status(Response.Status.FORBIDDEN).entity("You are not authorised to access this page!").build();
+                            return Response.status(Response.Status.FORBIDDEN).build();
                     }
                 case 2:
-                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").build();
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
                 default:
-                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").build();
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
             }
         }
     }
@@ -176,7 +185,10 @@ public class BookController {
      * 
      * @return 
         * 200: 1 random book
-        * 401: User hasn't token / Invalid token
+        * 401: 
+            * User hasn't token
+            * Invalid token
+            * The token has expired
         * 403: User is not general user
      * 
      * @throws BookException: Something wrong
@@ -186,7 +198,7 @@ public class BookController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response getOneRandomBook(@HeaderParam("Token") String jwt) throws BookException {
         if(jwt == null) {
-            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").build();
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
         } else {
             int tokenCheckResult = Token.decodeJwt(jwt);
 
@@ -199,12 +211,12 @@ public class BookController {
                             JSONArray result = BookService.getOneRandomBook(userId);
                             return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
                         default:
-                            return Response.status(Response.Status.FORBIDDEN).entity("You are not authorised to access this page!").build();
+                            return Response.status(Response.Status.FORBIDDEN).build();
                     }
                 case 2:
-                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").build();
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
                 default:
-                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").build();
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
             }
         }
     }
@@ -215,7 +227,10 @@ public class BookController {
      * 
      * @return 
         * 200: 1 random book
-        * 401: User hasn't token / Invalid token
+        * 401: 
+            * User hasn't token
+            * Invalid token
+            * The token has expired
         * 403: User is not general user
      * 
      * @throws BookException: Something wrong
@@ -225,7 +240,7 @@ public class BookController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response getRecommandedBooks(@HeaderParam("Token") String jwt) throws BookException {
         if(jwt == null) {
-            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").build();
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
         } else {
             int tokenCheckResult = Token.decodeJwt(jwt);
 
@@ -238,12 +253,12 @@ public class BookController {
                             JSONArray result = BookService.getRecommandedBooks(userId);
                             return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
                         default:
-                            return Response.status(Response.Status.FORBIDDEN).entity("You are not authorised to access this page!").build();
+                            return Response.status(Response.Status.FORBIDDEN).build();
                     }
                 case 2:
-                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").build();
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
                 default:
-                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").build();
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
             }
         }
     }
@@ -257,8 +272,11 @@ public class BookController {
         *   all target audiences
         *   all categories
         *   all languages
-        * 401: User hasn't token / Invalid token
-        * 403: User is not general user
+        * 401: 
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 403: User is not a general user
      * 
      * @throws BookException: Something wrong
      */
@@ -267,7 +285,7 @@ public class BookController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response getDropDownValues(@HeaderParam("Token") String jwt) throws BookException {
         if(jwt == null) {
-            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").build();
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
         } else {
             int tokenCheckResult = Token.decodeJwt(jwt);
 
@@ -279,12 +297,12 @@ public class BookController {
                             JSONObject result = BookService.getDropDownValues();
                             return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
                         default:
-                            return Response.status(Response.Status.FORBIDDEN).entity("You are not authorised to access this page!").build();
+                            return Response.status(Response.Status.FORBIDDEN).build();
                     }
                 case 2:
-                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").build();
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
                 default:
-                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").build();
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
             }
         }
     }
@@ -308,7 +326,14 @@ public class BookController {
         * bank account number
      * 
      * @return
-        * errors: if something value is wrong
+        * 200: Successfully added the book
+        * 401: 
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 403: User is not a general user
+        * 422:
+            * errors: if something value is wrong
      * 
      * @throws BookException: Something wrong
      */
@@ -317,7 +342,7 @@ public class BookController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addBook(@HeaderParam("Token") String jwt, Book bookDetails) throws BookException {
         if(jwt == null) {
-            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").build();
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
         } else {
             int tokenCheckResult = Token.decodeJwt(jwt);
 
@@ -334,12 +359,12 @@ public class BookController {
                                 return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
                             }
                         default:
-                            return Response.status(Response.Status.FORBIDDEN).entity("You are not authorised to access this page!").build();
+                            return Response.status(Response.Status.FORBIDDEN).build();
                     }
                 case 2:
-                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").build();
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
                 default:
-                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").build();
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
             }
         }
     }
@@ -350,18 +375,24 @@ public class BookController {
      * @param book
      * 
      * @return
-        * id
-        * title
-        * description
-        * target audience id
-        * language id
-        * adult fiction
-        * category id
-        * status id
-        * price
-        * cover image
-        * file
-        * bank account number
+        * 200:
+            * id
+            * title
+            * description
+            * target audience id
+            * language id
+            * adult fiction
+            * category id
+            * status id
+            * price
+            * cover image
+            * file
+            * bank account number
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 403: User is not a general user
      * 
      * @throws BookException: Something wrong
      */
@@ -370,7 +401,7 @@ public class BookController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response getBookDetails(@HeaderParam("Token") String jwt, Book book) throws BookException {
         if(jwt == null) {
-            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").build();
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
         } else {
             int tokenCheckResult = Token.decodeJwt(jwt);
 
@@ -382,12 +413,12 @@ public class BookController {
                             JSONObject result = BookService.getBookDetails(book.getId());
                             return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
                         default:
-                            return Response.status(Response.Status.FORBIDDEN).entity("You are not authorised to access this page!").build();
+                            return Response.status(Response.Status.FORBIDDEN).build();
                     }
                 case 2:
-                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").build();
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
                 default:
-                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").build();
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
             }
         }
     }
@@ -412,7 +443,14 @@ public class BookController {
         * bank account number
      * 
      * @return
-        * errors: if something value is wrong
+        * 200: Successfully set the book
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 403: User is not a general user
+        * 422: 
+            * errors: if something value is wrong
      * 
      * @throws BookException: Something wrong
      */
@@ -421,7 +459,7 @@ public class BookController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response setBook(@HeaderParam("Token") String jwt, Book bookDetails) throws BookException {
         if(jwt == null) {
-            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").build();
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
         } else {
             int tokenCheckResult = Token.decodeJwt(jwt);
 
@@ -437,12 +475,12 @@ public class BookController {
                                 return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
                             }
                         default:
-                            return Response.status(Response.Status.FORBIDDEN).entity("You are not authorised to access this page!").build();
+                            return Response.status(Response.Status.FORBIDDEN).build();
                     }
                 case 2:
-                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").build();
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
                 default:
-                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").build();
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
             }
         }
     }
