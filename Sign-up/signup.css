@@ -401,14 +401,3 @@ input[type="date"] {
     transition: background-color 0.8s ease;
 
 }
-
-/* 
-.Added-Error{
-    border-color: var(--error-BorderColor);
-    background-color: var(--error-BgColor);
-}
-
-.Added-Success{
-    border-color: var(--success-BorderColor);
-    background-color: var(--success-BgColor);
-} */
