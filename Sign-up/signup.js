@@ -431,7 +431,7 @@ function validateDate(date) {
                 datepicker.style.borderColor = "rgb(243, 82, 93)";
                 console.log("User is not 15 years old yet. User birth date is: " + year + " / " + month + " / " + day);
                 return false;
-            }else{
+            } else {
                 // Itt adunk true értéket mert már napra pontosan betöltötte a 15-öt
                 datepicker.style.background = "rgb(241, 255, 231)";
                 datepicker.style.borderColor = "rgb(98, 173, 107)";
@@ -479,7 +479,7 @@ function validateFirstPwd(pwdValue) {
     const numReg = new RegExp("(?=.*[0-9])");
     const specReg = new RegExp("(?=.*[!@#$%^&=?.,><*])");
 
-    if (firstPwdValue == "") {
+    if (pwdValue == "") {
         firstPwdError.innerHTML = `<p>Password field cannot be empty</p>`;
         e.target.style.background = "rgb(255, 214, 220)";
         e.target.style.borderColor = "rgb(243, 82, 93)";
@@ -558,15 +558,7 @@ function matchPwd(pwdValue, pwdAgainValue) {
     }
 }
 
-function checkAszf(aszfCheckbox) {
-    if (aszfCheckbox.checked) {
-        AszfError.innerHTML = "";
-        AszfValid = true;
-    } else {
-        AszfError.innerHTML = `<p>You must agree to the terms and conditions.</p>`;
-        AszfValid = false;
-    }
-}
+
 
 //? ADD EVENT LISTENERS
 //! GENERAL
@@ -890,7 +882,9 @@ function PublisherEvents() {
 submitButton.addEventListener("click", async (e) => {
     e.preventDefault();
     var postData;
-    checkAszf(checkAszf);
+
+
+
     if (isPublisher == true) {
 
         if (AszfValid == true) {
@@ -921,6 +915,8 @@ submitButton.addEventListener("click", async (e) => {
 
     } else {
 
+
+
         if (AszfValid == true) {
             inputUser.value = '';
             inputFirst.value = '';
@@ -941,7 +937,7 @@ submitButton.addEventListener("click", async (e) => {
                 "aszf": true
             };
 
-            const response = publisherRegistration(postData);
+            const response = generalRegistration(postData);
             console.log('Válasz a backendtől:', response);
         }
 
@@ -965,11 +961,22 @@ submitButton.addEventListener('click', (e) => {
  * @param {Variable} submitButton - The variable that's contains the submit button's id.
  */
 function General_Submit_Activate(submitButton) {
+    if (checkAszf.checked) {
+        AszfError.innerHTML = "";
+        console.log("Checkbox checked");
+        AszfValid = true;
+    } else {
+        AszfError.innerHTML = `<p>You must agree to the terms and conditions.</p>`;
+        AszfValid = false;
+    }
+    
     if (UsernameValid == true &&
         EmailValid == true &&
         PwdValid == true &&
         PwdAgainValid == true &&
         AszfValid == true) {
+
+        
 
         console.log("Legyen aktív a btn");
         submitButton.disabled = false;
@@ -986,6 +993,16 @@ function General_Submit_Activate(submitButton) {
  * @param {Variable} submitButton - The variable that's contains the submit button's id.
  */
 function Publisher_Submit_Activate(submitButton) {
+    
+    if (checkAszf.checked) {
+        AszfError.innerHTML = "";
+        console.log("Checkbox checked");
+        AszfValid = true;
+    } else {
+        AszfError.innerHTML = `<p>You must agree to the terms and conditions.</p>`;
+        AszfValid = false;
+    }
+    
     if (FirstnameValid == true &&
         LastnameValid == true &&
         UsernameValid == true &&
@@ -994,7 +1011,8 @@ function Publisher_Submit_Activate(submitButton) {
         PwdValid == true &&
         PwdAgainValid == true &&
         AszfValid == true) {
-        // checkAszf(checkAszf);
+
+        
         console.log("Legyen aktív a btn");
         submitButton.disabled = false;
     }
