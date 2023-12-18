@@ -112,7 +112,7 @@ inputPwd.addEventListener("focusin", (e) => {
 EVENT LISTENERS - SUBMIT BUTTON
 */
 
-submitButtonubmitButton.addEventListener("click", async (e) => {
+submitButton.addEventListener("click", async (e) => {
     e.preventDefault();
     
         const postData = {

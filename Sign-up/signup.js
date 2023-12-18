@@ -413,7 +413,7 @@ function validateDate(date) {
         console.log("User is not 15 years old yet. User birth date is: " + year + " / " + month + " / " + day);
         return false;
 
-    } else {
+    } else if (ageYear == 15) {
 
         if (month > currentMonth) {
             // Ha az évek közt eltelt 15 év viszont ebben az évben még nem értünk a születési hónapjába
@@ -441,6 +441,11 @@ function validateDate(date) {
         }
 
 
+    } else {
+        console.log("The user's age: " + ageYear);
+        datepicker.style.background = "rgb(241, 255, 231)";
+        datepicker.style.borderColor = "rgb(98, 173, 107)";
+        return true;
     }
 }
 
@@ -908,7 +913,7 @@ submitButton.addEventListener("click", async (e) => {
             };
 
             const response = publisherRegistration(postData);   //itt hívjuk meg az endpointot
-            console.log(response); //kiírja azt az adatot amit elküldött a backendnek
+            console.log('Válasz a backendtől: ' + response); //kiírja azt az adatot amit elküldött a backendnek
 
         }
 
@@ -969,14 +974,14 @@ function General_Submit_Activate(submitButton) {
         AszfError.innerHTML = `<p>You must agree to the terms and conditions.</p>`;
         AszfValid = false;
     }
-    
+
     if (UsernameValid == true &&
         EmailValid == true &&
         PwdValid == true &&
         PwdAgainValid == true &&
         AszfValid == true) {
 
-        
+
 
         console.log("Legyen aktív a btn");
         submitButton.disabled = false;
@@ -993,7 +998,7 @@ function General_Submit_Activate(submitButton) {
  * @param {Variable} submitButton - The variable that's contains the submit button's id.
  */
 function Publisher_Submit_Activate(submitButton) {
-    
+
     if (checkAszf.checked) {
         AszfError.innerHTML = "";
         console.log("Checkbox checked");
@@ -1002,7 +1007,7 @@ function Publisher_Submit_Activate(submitButton) {
         AszfError.innerHTML = `<p>You must agree to the terms and conditions.</p>`;
         AszfValid = false;
     }
-    
+
     if (FirstnameValid == true &&
         LastnameValid == true &&
         UsernameValid == true &&
@@ -1012,7 +1017,7 @@ function Publisher_Submit_Activate(submitButton) {
         PwdAgainValid == true &&
         AszfValid == true) {
 
-        
+
         console.log("Legyen aktív a btn");
         submitButton.disabled = false;
     }
