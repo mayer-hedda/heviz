@@ -724,7 +724,11 @@ function GeneralEvents() {
         PwdAgainValid = matchPwd(g_pwd1, g_pwd2);
         console.log("PwdAgainValid value:" + PwdAgainValid);
 
-        // If it's not in the last event, it doesn't work.
+
+    })
+
+    checkbox.addEventListener("change", (e) => {
+        e.preventDefault();
         General_Submit_Activate(submitButton);
         console.log("General events are completed.");
     })
@@ -876,11 +880,13 @@ function PublisherEvents() {
         e.preventDefault();
         p_pwd2 = inputPwdAgain.value;
         PwdAgainValid = matchPwd(p_pwd1, p_pwd2);
+    })
 
-        //    If it's not in the last event, it doesn't work.
+    checkbox.addEventListener("change", (e) => {
         Publisher_Submit_Activate(submitButton);
         console.log("Publisher events are completed.");
     })
+
 }
 
 //backenddel való összekötés
@@ -901,6 +907,24 @@ submitButton.addEventListener("click", async (e) => {
             inputPwd.value = '';
             inputPwdAgain.value = '';
             datepicker.value = '';
+
+            inputUser.style.background = "";
+            inputFirst.style.background = "";
+            inputLast.style.background = "";
+            inputCompany.style.background = "";
+            inputEmail.style.background = "";
+            inputPwd.style.background = "";
+            inputPwdAgain.style.background = "";
+            datepicker.style.background = "";
+
+            inputFirst.style.border = "";
+            inputLast.style.border = "";
+            inputUser.style.border = "";
+            inputCompany.style.border = "";
+            inputEmail.style.border = "";
+            inputPwd.style.border = "";
+            inputPwdAgain.style.border = "";
+            datepicker.style.border = "";
 
             postData = {
                 "username": p_userName,
@@ -931,6 +955,24 @@ submitButton.addEventListener("click", async (e) => {
             inputPwd.value = '';
             inputPwdAgain.value = '';
             datepicker.value = '';
+
+            inputUser.style.background = "";
+            inputFirst.style.background = "";
+            inputLast.style.background = "";
+            inputCompany.style.background = "";
+            inputEmail.style.background = "";
+            inputPwd.style.background = "";
+            inputPwdAgain.style.background = "";
+            datepicker.style.background = "";
+
+            inputFirst.style.border = "";
+            inputLast.style.border = "";
+            inputUser.style.border = "";
+            inputCompany.style.border = "";
+            inputEmail.style.border = "";
+            inputPwd.style.border = "";
+            inputPwdAgain.style.border = "";
+            datepicker.style.border = "";
 
             postData = {
                 "username": g_userName,

@@ -361,6 +361,11 @@ input[type="date"] {
     font-size: 0.75rem;
 }
 
+#checkLabel{
+    font-family: 'Poppins';
+    font-weight: 400;
+}
+
 #ASZF {
     margin-top: 6%;
     font-family: 'Poppins';
