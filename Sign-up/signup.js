@@ -558,6 +558,16 @@ function matchPwd(pwdValue, pwdAgainValue) {
     }
 }
 
+function checkAszf(aszfCheckbox) {
+    if (aszfCheckbox.checked) {
+        AszfError.innerHTML = "";
+        AszfValid = true;
+    } else {
+        AszfError.innerHTML = `<p>You must agree to the terms and conditions.</p>`;
+        AszfValid = false;
+    }
+}
+
 //? ADD EVENT LISTENERS
 //! GENERAL
 
@@ -880,14 +890,8 @@ function PublisherEvents() {
 submitButton.addEventListener("click", async (e) => {
     e.preventDefault();
     var postData;
+    checkAszf(checkAszf);
     if (isPublisher == true) {
-        if (checkAszf.checked) {
-            AszfError.innerHTML = "";
-            AszfValid = true;
-        } else {
-            AszfError.innerHTML = `<p>You must agree to the terms and conditions.</p>`;
-            AszfValid = false;
-        }
 
         if (AszfValid == true) {
             inputUser.value = '';
@@ -900,12 +904,12 @@ submitButton.addEventListener("click", async (e) => {
             datepicker.value = '';
 
             postData = {
-                "username": inputUser.value,
-                "firstName": inputFirst.value,
-                "lastName": inputLast.value,
-                "companyName": inputCompany.value,
-                "email": inputEmail.value,
-                "password": inputPwd.value,
+                "username": p_userName,
+                "firstName": p_firstName,
+                "lastName": p_lastName,
+                "companyName": p_company,
+                "email": p_email,
+                "password": p_pwd1,
                 "aszf": true
             };
 
@@ -916,14 +920,6 @@ submitButton.addEventListener("click", async (e) => {
 
 
     } else {
-        if (checkAszf.checked) {
-            AszfError.innerHTML = "";
-            AszfValid = true;
-        } else {
-            AszfError.innerHTML = `<p>You must agree to the terms and conditions.</p>`;
-            console.log("aszf unchecked");
-            AszfValid = false;
-        }
 
         if (AszfValid == true) {
             inputUser.value = '';
@@ -936,12 +932,13 @@ submitButton.addEventListener("click", async (e) => {
             datepicker.value = '';
 
             postData = {
-                "username": inputUser.value,
-                "firstName": inputFirst.value,
-                "lastName": inputLast.value,
-                "email": inputEmail.value,
-                "birthdate": datepicker.value,
-                "password": inputPwd.value
+                "username": g_userName,
+                "firstName": g_firstName,
+                "lastName": g_lastName,
+                "email": g_email,
+                "birthdate": g_date,
+                "password": g_pwd1,
+                "aszf": true
             };
 
             const response = publisherRegistration(postData);
@@ -957,17 +954,37 @@ submitButton.addEventListener('click', (e) => {
 
 })
 
+/**
+ * Documentation
+ * -------------
+ * This is for activating the submit button when the general
+ * form active.
+ * The parameter is the submit button's id
+
+ * 
+ * @param {Variable} submitButton - The variable that's contains the submit button's id.
+ */
 function General_Submit_Activate(submitButton) {
     if (UsernameValid == true &&
         EmailValid == true &&
         PwdValid == true &&
-        PwdAgainValid == true) {
+        PwdAgainValid == true &&
+        AszfValid == true) {
 
         console.log("Legyen aktív a btn");
         submitButton.disabled = false;
     }
 }
 
+/**
+ * Documentation
+ * -------------
+ * This is for activating the submit button when the publisher
+ * form active.
+ * The parameter is the submit button's id
+ * 
+ * @param {Variable} submitButton - The variable that's contains the submit button's id.
+ */
 function Publisher_Submit_Activate(submitButton) {
     if (FirstnameValid == true &&
         LastnameValid == true &&
@@ -975,7 +992,8 @@ function Publisher_Submit_Activate(submitButton) {
         EmailValid == true &&
         CompanyValid == true &&
         PwdValid == true &&
-        PwdAgainValid == true) {
+        PwdAgainValid == true &&
+        AszfValid == true) {
         // checkAszf(checkAszf);
         console.log("Legyen aktív a btn");
         submitButton.disabled = false;
