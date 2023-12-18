@@ -21,6 +21,7 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(com.exam.cyberread.Config.CorsFilter.class);
         resources.add(com.exam.cyberread.Controller.BookController.class);
         resources.add(com.exam.cyberread.Controller.PostController.class);
         resources.add(com.exam.cyberread.Controller.PostlikeController.class);
