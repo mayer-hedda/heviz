@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2023. Dec 19. 23:52
+-- Létrehozás ideje: 2023. Dec 20. 00:22
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -988,7 +988,27 @@ INSERT INTO `post` (`id`, `userId`, `description`, `postTime`) VALUES
 (3, 36, 'I recently finished a captivating novel that I couldn\'t put down! It\'s a gripping mystery by a talented new author. The character development and intricate plot had me hooked from the first page. Can\'t wait to dive into more of their work. What\'s everyone else reading right now? I\'m also on the lookout for recommendations for my next read, so if you\'ve come across something that you couldn\'t get enough of, please share!', '2023-12-19 22:44:20'),
 (4, 1, 'Ez egy random magyr poszt, mert gondolom lesznek magyar felhasználói is az oldalnak és akkor már legyen ilyen is.', '2023-12-19 22:46:10'),
 (5, 2, 'Az xy könyvnek a folytatása valamikor várható, valójába nmég én sem tudom mikor, de majd lesz valami.', '2023-12-19 22:46:45'),
-(6, 7, 'xd', '2023-12-19 22:46:45');
+(6, 7, 'xd', '2023-12-19 22:46:45'),
+(7, 1, 'This is an English post. Lorem ipsum dolor sit amet, consectetur adipiscing elit.', '2023-01-01 07:00:00'),
+(8, 2, 'Das ist ein deutscher Beitrag. Lorem ipsum dolor sit amet, consectetur adipiscing elit.', '2023-01-02 09:30:00'),
+(9, 3, 'Questa è una pubblicazione in italiano. Lorem ipsum dolor sit amet, consectetur adipiscing elit.', '2023-01-03 10:45:00'),
+(10, 4, 'Ez egy magyar poszt. Lorem ipsum dolor sit amet, consectetur adipiscing elit.', '2023-01-04 13:20:00'),
+(11, 5, 'Ceci est une publication en français. Lorem ipsum dolor sit amet, consectetur adipiscing elit.', '2023-01-05 15:10:00'),
+(12, 6, 'Another English post. Sed ut perspiciatis unde omnis iste natus error sit voluptatem.', '2023-01-06 17:00:00'),
+(13, 7, 'Ein weiterer deutscher Beitrag. Sed ut perspiciatis unde omnis iste natus error sit voluptatem.', '2023-01-07 19:05:00'),
+(14, 8, 'Un altro post italiano. Sed ut perspiciatis unde omnis iste natus error sit voluptatem.', '2023-01-08 21:30:00'),
+(15, 9, 'Még egy magyar poszt. Sed ut perspiciatis unde omnis iste natus error sit voluptatem.', '2023-01-09 08:45:00'),
+(16, 10, 'Encore une publication en français. Sed ut perspiciatis unde omnis iste natus error sit voluptatem.', '2023-01-10 11:00:00'),
+(17, 11, 'English post here. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.', '2023-01-11 14:20:00'),
+(18, 12, 'Deutscher Beitrag hier. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.', '2023-01-12 17:40:00'),
+(19, 13, 'Pubblicazione italiana qui. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.', '2023-01-13 20:00:00'),
+(20, 14, 'Magyar poszt itt. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.', '2023-01-14 09:10:00'),
+(21, 15, 'Publication en français ici. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.', '2023-01-15 11:30:00'),
+(22, 16, 'Another English post. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.', '2023-01-16 13:45:00'),
+(23, 17, 'Ein weiterer deutscher Beitrag. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.', '2023-01-17 15:55:00'),
+(24, 18, 'Un altro post italiano. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.', '2023-01-18 18:00:00'),
+(25, 19, 'Még egy magyar poszt. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.', '2023-01-19 20:15:00'),
+(26, 20, 'Encore une publication en français. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.', '2023-01-20 08:20:00');
 
 -- --------------------------------------------------------
 
@@ -1422,7 +1442,7 @@ ALTER TABLE `payment`
 -- AUTO_INCREMENT a táblához `post`
 --
 ALTER TABLE `post`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT a táblához `postlike`
