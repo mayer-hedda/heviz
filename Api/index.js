@@ -41,6 +41,9 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/publisherRegistration", requestOptions)
         .then(response => {
+            if(response.status == 200 || response.status == 422) {
+                return { status: response.status };
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -93,6 +96,9 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/generalRegistration", requestOptions)
         .then(response => {
+            if(response.status == 200 || response.status == 422) {
+                return { status: response.status }
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -176,6 +182,14 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/token", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return {
+                        status: response.status,
+                        data: data
+                    }
+                })
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -228,6 +242,16 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getMostSavedBooksOfTheMonth", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 403) {
+                return { status: response.status }
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -277,6 +301,16 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getPublishedBooks", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 403) {
+                return { status: response.status }
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -326,6 +360,16 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getSelfPublishedBooks", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 403) {
+                return { status: response.status }
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -375,6 +419,16 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getOneRandomBook", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 403) {
+                return { status: response.status }
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -424,6 +478,16 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getRecommandedBooks", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 403) {
+                return { status: response.status }
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -477,6 +541,16 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getDropDownValues", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 403) {
+                return { status: response.status }
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -546,6 +620,16 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/addBook", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 403 || response.status == 200) {
+                return { status: response.status }
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -605,6 +689,16 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getBookDetails", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 403) {
+                return { status: response.status }
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -675,6 +769,16 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/setBook", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 403 || response.status == 200) {
+                return { status: response.status }
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -728,6 +832,16 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/post/addPost", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 409 || response.status == 200) {
+                return { status: response.status }
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -776,6 +890,16 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/postlike/postLike", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 200) {
+                return { status: response.status }
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -824,6 +948,16 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/postlike/postDislike", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 200) {
+                return { status: response.status }
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -867,6 +1001,14 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/post/getFeedPosts", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -906,6 +1048,14 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/getRecommandedUsers", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
