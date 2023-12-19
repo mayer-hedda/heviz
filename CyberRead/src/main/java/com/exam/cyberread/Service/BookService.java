@@ -105,6 +105,7 @@ public class BookService {
         * book description
         * pages number
         * book rating
+        * language
         * saved
      * 
      * @throws BookException: Something wrong

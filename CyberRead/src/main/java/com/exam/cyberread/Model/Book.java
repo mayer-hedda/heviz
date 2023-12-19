@@ -2,6 +2,7 @@ package com.exam.cyberread.Model;
 
 import com.exam.cyberread.Exception.BookException;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -378,9 +379,11 @@ public class Book implements Serializable {
         * author name
         * first name
         * last name
+        * publisher company name
         * book description
         * pages number
         * book rating
+        * language
         * saved
      * 
      * @throws BookException: Something wrong
@@ -411,7 +414,7 @@ public class Book implements Serializable {
                 book.put("publisher", (String) result[6]);
                 book.put("description", (String) result[7]);
                 book.put("pagesNumber", (Integer) result[8]);
-                book.put("rating", (Integer) result[9]);
+                book.put("rating", (BigDecimal) result[9]);
                 book.put("language", (String) result[10]);
                 if((Integer) result[11] == 0) {
                     book.put("saved", false);
@@ -444,9 +447,11 @@ public class Book implements Serializable {
         * author name
         * first name
         * last name
+        * publisher company name
         * book description
         * pages number
         * book rating
+        * language
         * saved
      * 
      * @throws BookException: Something wrong
@@ -477,7 +482,7 @@ public class Book implements Serializable {
                 book.put("publisher", (String) result[6]);
                 book.put("description", (String) result[7]);
                 book.put("pagesNumber", (Integer) result[8]);
-                book.put("rating", (Integer) result[9]);
+                book.put("rating", (BigDecimal) result[9]);
                 book.put("language", (String) result[10]);
                 if((Integer) result[11] == 0) {
                     book.put("saved", false);
@@ -513,6 +518,7 @@ public class Book implements Serializable {
         * book description
         * pages number
         * book rating
+        * language
         * saved
      * 
      * @throws BookException: Something wrong
@@ -540,12 +546,11 @@ public class Book implements Serializable {
                 book.put("authorName", (String) result[3]);
                 book.put("firstName", (String) result[4]);
                 book.put("lastName", (String) result[5]);
-                book.put("publisher", (String) result[6]);
-                book.put("description", (String) result[7]);
-                book.put("pagesNumber", (Integer) result[8]);
-                book.put("rating", (Integer) result[9]);
-                book.put("language", (String) result[10]);
-                if((Integer) result[11] == 0) {
+                book.put("description", (String) result[6]);
+                book.put("pagesNumber", (Integer) result[7]);
+                book.put("rating", (BigDecimal) result[8]);
+                book.put("language", (String) result[9]);
+                if((Integer) result[10] == 0) {
                     book.put("saved", false);
                 } else {
                     book.put("saved", true);
@@ -576,9 +581,11 @@ public class Book implements Serializable {
         * author name
         * first name
         * last name
+        * publisher company name
         * book description
         * pages number
         * book rating
+        * language
         * saved
      * 
      * @throws BookException: Something wrong
@@ -609,7 +616,7 @@ public class Book implements Serializable {
                 book.put("publisher", (String) result[6]);
                 book.put("description", (String) result[7]);
                 book.put("pagesNumber", (Integer) result[8]);
-                book.put("rating", (Integer) result[9]);
+                book.put("rating", (BigDecimal) result[9]);
                 book.put("language", (String) result[10]);
                 if((Integer) result[11] == 0) {
                     book.put("saved", false);
@@ -642,9 +649,11 @@ public class Book implements Serializable {
         * author name
         * first name
         * last name
+        * publisher company name
         * book description
         * pages number
         * book rating
+        * language
         * saved
      * 
      * @throws BookException: Something wrong
@@ -675,7 +684,7 @@ public class Book implements Serializable {
                 book.put("publisher", (String) result[6]);
                 book.put("description", (String) result[7]);
                 book.put("pagesNumber", (Integer) result[8]);
-                book.put("rating", (Integer) result[9]);
+                book.put("rating", (BigDecimal) result[9]);
                 book.put("language", (String) result[10]);
                 if((Integer) result[11] == 0) {
                     book.put("saved", false);
