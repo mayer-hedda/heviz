@@ -120,7 +120,11 @@
      *  }
      *
      * @return
-        * 200: jwt token
+        * 200: 
+            * token
+            * first
+                * true: when the user logs in for the first time
+                * false: if the user is not logging in for the first time
         * 422: loginError
      */
     function login(raw) {
