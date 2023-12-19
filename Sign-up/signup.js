@@ -592,6 +592,7 @@ function GeneralEvents() {
 
         } else {
             FirstnameValid = upTo3(g_firstName, "First name", inputFirst, firstError);
+            General_Submit_Activate(submitButton);
         }
     })
 
@@ -615,6 +616,7 @@ function GeneralEvents() {
 
         } else {
             LastnameValid = upTo3(g_lastName, "Last name", inputLast, lastError);
+            General_Submit_Activate(submitButton);
         }
     })
 
@@ -645,6 +647,7 @@ function GeneralEvents() {
 
         } else {
             UsernameValid = upTo3(g_userName, "Username", inputUser, userError);
+            General_Submit_Activate(submitButton);
         }
     })
 
@@ -669,6 +672,7 @@ function GeneralEvents() {
         } else {
             EmailValid = validateEmail(g_email);
             console.log("EmailValid value: " + EmailValid);
+            General_Submit_Activate(submitButton);
         }
     })
 
@@ -692,6 +696,7 @@ function GeneralEvents() {
             DateValid = false;
         } else {
             DateValid = validateDate(g_date);
+            General_Submit_Activate(submitButton);
         }
 
     })
@@ -708,6 +713,7 @@ function GeneralEvents() {
         e.preventDefault();
         g_pwd1 = inputPwd.value;
         PwdValid = validateFirstPwd(g_pwd1);
+        General_Submit_Activate(submitButton);
     })
 
     //? PASSWORD 2
@@ -723,7 +729,7 @@ function GeneralEvents() {
         g_pwd2 = inputPwdAgain.value;
         PwdAgainValid = matchPwd(g_pwd1, g_pwd2);
         console.log("PwdAgainValid value:" + PwdAgainValid);
-
+        General_Submit_Activate(submitButton);
 
     })
 
@@ -761,6 +767,7 @@ function PublisherEvents() {
 
         } else {
             FirstnameValid = upTo3(p_firstName, "First name", inputFirst, firstError);
+            Publisher_Submit_Activate(submitButton);
         }
     })
 
@@ -783,6 +790,7 @@ function PublisherEvents() {
 
         } else {
             LastnameValid = upTo3(p_lastName, "Last name", inputLast, lastError);
+            Publisher_Submit_Activate(submitButton);
         }
     })
 
@@ -813,6 +821,7 @@ function PublisherEvents() {
 
         } else {
             UsernameValid = upTo3(p_userName, "Username", inputUser, userError);
+            Publisher_Submit_Activate(submitButton);
         }
     })
 
@@ -836,6 +845,7 @@ function PublisherEvents() {
         } else {
             EmailValid = validateEmail(p_email);
             console.log("EmailValid value: " + EmailValid);
+            Publisher_Submit_Activate(submitButton);
         }
     })
 
@@ -851,6 +861,7 @@ function PublisherEvents() {
         e.preventDefault();
         p_company = inputCompany.value;
         CompanyValid = validateCompany(p_company);
+        Publisher_Submit_Activate(submitButton);
     })
 
     // Fist pwd field events
@@ -865,6 +876,7 @@ function PublisherEvents() {
         e.preventDefault();
         p_pwd1 = inputPwd.value;
         PwdValid = validateFirstPwd(p_pwd1);
+        Publisher_Submit_Activate(submitButton);
     })
 
     // Second password field events
@@ -880,6 +892,7 @@ function PublisherEvents() {
         e.preventDefault();
         p_pwd2 = inputPwdAgain.value;
         PwdAgainValid = matchPwd(p_pwd1, p_pwd2);
+        Publisher_Submit_Activate(submitButton);
     })
 
     checkbox.addEventListener("change", (e) => {
