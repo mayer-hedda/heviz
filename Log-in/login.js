@@ -1,95 +1,44 @@
-/*
-get -> visszakapjuk az adatokat
-delete -> törlés
-post -> új adatok
-put -> adatmódosízás
-
-let: blokkon kívül + belül elérhető, értéke módosítható
-const: nem változhat az értéke + blokkhoz kötött
-let: blokkhoz kötött, de értéke változhat
-
-
-*/
-
-//Mezők kiszedése ID alapján
+// variables
 const submitButton = document.getElementById("submitButton");
 const inputEmail = document.getElementById("input-Email");
 const inputPwd = document.getElementById("input-Pwd");
-let emailError = document.getElementById("email_error");
-let pwdError = document.getElementById("pwd_Error");
-
-//segédek
+const emailError = document.getElementById("email_error");
+const pwdError = document.getElementById("pwd_Error");
 let emailValid = false;
 let pwdValid = false;
 
-//FUNCTIONS
-
-function EmailCheck(emailValue) {
-    if (emailValue.length < 3) {
-        emailError.innerHTML = `<p>Email address must be at least 3 characters long.</p>`;
-        emailValid = false;
-    } else {
-        //TODO: ide be kell majd kötni, hogy egyezik-e az eltárolt adattal
-        //TODO: ha igen a email_seged = true, ha nem akkor hibaüzenet
-        emailValid = true;
-    }
-    console.log("email seged: " + emailValid);
-    BtnActivate();
-}
-
-function PwdCheck(pwdValue) {
-    if (pwdValue.length < 8) {
-        pwdError.innerHTML = `<p>Password address must be at least 8 characters long.</p>`;
-        pwdValid = false;
-    } else {
-        //TODO: adatbázisból megnézni, hogy egyezik-e a fiókhoz tartozó adattal
-        //TODO: ha igen akkor pwd_seged = true, ha nem akkor hibaüzenet
-        pwdValid = true;
-        BtnActivate();
-        pwdError.innerHTML = "";
-        
-    }
-    console.log("Megvan a karakterszám " + pwdValid);
-}
-
+// FUNCTIONS
+// active button
 function BtnActivate(){
     if(pwdValid == true && emailValid == true){
         submitButton.disabled = false;
-        console.log("A gomb aktív.");
     }else{
         submitButton.disabled = true;
-        console.log("A gomb nem aktív");
     }
 }
 
-/*
-EVENT LISTENERS - EMAIL
-*/
+// EVENT LISTENERS
+// email
 inputEmail.addEventListener("focusout", (e) => {
     e.preventDefault();
-    //muszály itt kiszedni az adatot mert sorrendbe fut le
     const emailValue = inputEmail.value;
-    // console.log(emailValue);
     if (emailValue == "") {
         emailError.innerHTML = `<p>Email field cannot be empty.</p>`;
         e.target.style.background = "#FEEFEC";
         emailValid = false;
     } else {
-        EmailCheck(emailValue);
-        // console.log(emailValue);
+        emailValid = true;
+        BtnActivate();
     }
 })
-
 inputEmail.addEventListener("focusin", (e) => {
     e.preventDefault();
     e.target.style.background = "";
     emailError.innerHTML = "";
 })
 
-/*
-EVENT LISTENERS - PASSWORD
-*/
-inputPwd.addEventListener("input", (e) => {
+// password
+inputPwd.addEventListener("focusout", (e) => {
     e.preventDefault();
     const pwdValue = inputPwd.value;
     if(pwdValue == ""){
@@ -97,32 +46,40 @@ inputPwd.addEventListener("input", (e) => {
         e.target.style.background = "#FEEFEC";
         pwdValid = false;
     }else{
-        PwdCheck(pwdValue);
-        // console.log(pwdValue);
+        pwdValid = true;
+        BtnActivate();
     }
 })
-
 inputPwd.addEventListener("focusin", (e) => {
     e.preventDefault();
     e.target.style.background = "";
     pwdError.innerHTML = "";
 })
 
-/*
-EVENT LISTENERS - SUBMIT BUTTON
-*/
-
-submitButton.addEventListener("click", async (e) => {
-    e.preventDefault();
+// ENDPOINT
+async function login() {
+    const postData = {
+        email: inputEmail.value,
+        password: inputPwd.value
+    };
     
-        const postData = {
-            "email": inputEmail.value,
-            "password": inputPwd.value
-        };
-
-        const response = publisherRegistration(postData);   //itt hívjuk meg az endpointot
-        console.log(response); //kiírja azt az adatot amit elküldött a backendnek
-
-        inputEmail.value = '';
-        inputPwd.value = '';
-})
+    const response = await fetch('http://localhost:9990/webresources/User/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(postData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Hálózati hiba: ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Válasz a backendtől:', data);
+    })
+    .catch(error => {
+        console.error('Hálózati hiba:', error);
+    });
+}

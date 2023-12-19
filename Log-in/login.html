@@ -24,37 +24,41 @@
         <!-- <div class="container-fluid align-items-center"> -->
 
         <form id="full-form" class="align-content-center">
-            <h1 class="text-center" style="margin-bottom: 1%;">Log In</h1>
-            <p class="text-center" id="up-p">Welcome back!</p>
+            <h1 class="text-center" style="margin-bottom: 1%;">Login</h1>
+            <p class="text-center" id="up-p">Welcome!</p>
             <div class="form-group container">
                 <!-- E-mail -->
                 <div class="form-group col-sm-6 col-md-12" id="email">
                     <label class="text" for="input-Email">E-mail address:</label>
                     <input type="email" class="form-control align-content-center" id="input-Email"
-                        placeholder="example@gmail.com" required><br>
+                        placeholder="example@gmail.com" required>
                     <!-- required -> szükséges -->
                     <!-- email error message -->
                     <div class="error" id="email_error"></div>
                 </div>
 
                 <!-- Password -->
-                <div class="form-group col-sm-6 col-md-12 align-items-baseline">
+                <div class="form-group col-sm-6 col-md-12 align-items-baseline" id="pwd">
                     <label for="input-Pwd">Password:</label>
                     <input type="password" class="form-control align-content-center" id="input-Pwd"
-                        placeholder="Enter password!" required><br>
+                        placeholder="Enter password!" required>
+
                     <!-- password error message -->
                     <div class="error" id="pwd_Error" style="margin-top: 0%; padding-top: 0%;"></div>
+
+                    <p id="forgotPwd">Forgot your password? <a href="#">Click here, to get a new one!</a></p>
+
                 </div>
 
                 <!-- Button -->
                 <div class="form-group text-center">
-                    <p class="align-middle" id="link">Don't have an account? <a href="../Sign-up/signup.html"> Sign
-                            Up!</a></p>
-                    <p id="backToLanding" class="text-center">If you need to explore more before signing up, you can
-                        always go back to our <a href="../Landing-Page/landing.html">Home Page</a></p>
-                    <p id="forgotPwd">Forgot your password? <a href="#">Click here, to get a new one!</a></p>
+                    
+                    <!-- <p id="backToLanding" class="text-center">If you need to explore more before signing up, you can
+                        always go back to our <a href="../Landing-Page/landing.html">Home Page</a></p> -->
 
                     <button disabled="true" id="submitButton" type="submit" class="btn text-center">Log In</button>
+                    <p class="align-middle mt-3" id="link" >Don't have an account? <a href="../Sign-up/signup.html"> Sign
+                        Up!</a></p>
                 </div>
 
                 <!-- <p style="color: red; font-family: 'Poppins'; font-size: small;">ÁLÁRME ÁLÁRME</p> -->

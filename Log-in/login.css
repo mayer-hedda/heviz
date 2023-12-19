@@ -70,11 +70,12 @@ a:hover {
 }
 
 /* CLASSES */
+
 .error p {
     color: #EE1D52;
     font-family: 'Poppins', sans-serif;
     font-size: 80%;
-    margin: 0%;
+    margin: 0%!important;
     padding: 0%;
 
 }
@@ -111,7 +112,9 @@ a:hover {
 }
 
 /* email */
-
+#email{
+    margin-bottom: 1rem;
+}
 
 #input-Email {
     border-width: 0.1125rem;
@@ -135,6 +138,10 @@ a:hover {
 
 
 /* password */
+#pwd{
+    margin-bottom: 1rem;
+}
+
 #input-Pwd::placeholder {
     font-size: smaller;
     color: rgb(120, 121, 143);
