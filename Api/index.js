@@ -214,9 +214,11 @@
                 * author name
                 * first name
                 * last name
+                * publisher company name
                 * book description
                 * pages number
                 * book rating
+                * language
                 * saved
         * 
         * 401: 
@@ -273,9 +275,11 @@
                 * author name
                 * first name
                 * last name
+                * publisher company name
                 * book description
                 * pages number
                 * book rating
+                * language
                 * saved
         * 
         * 401: 
@@ -332,9 +336,11 @@
                 * author name
                 * first name
                 * last name
+                * publisher company name
                 * book description
                 * pages number
                 * book rating
+                * language
                 * saved
         * 
         * 401: 
@@ -391,9 +397,11 @@
                 * author name
                 * first name
                 * last name
+                * publisher company name
                 * book description
                 * pages number
                 * book rating
+                * language
                 * saved
         * 
         * 401:
@@ -450,9 +458,11 @@
                 * author name
                 * first name
                 * last name
+                * publisher company name
                 * book description
                 * pages number
                 * book rating
+                * language
                 * saved
         * 
         * 401:
