@@ -1083,3 +1083,120 @@
         })
         .catch(error => console.log('error', error));
     }
+
+
+
+// ----- CATEGORY INTEREST -----
+
+    /**
+     * @param {JSON} raw = {
+     *      "categoryIds": [
+     *          1,
+     *          2,
+     *          3,
+     *          4
+     *      ]
+     *  }
+     * 
+     * @return
+        * 200:
+            * recommanded users
+                * username
+                * image
+        * 
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 
+        * 422:
+            * error:
+                * categoryInterestError
+     */
+    function addCategoryInterest(raw) {
+        var myHeaders = new Headers();
+
+        myHeaders.append("Content-Type", "application/json");
+
+        var storedToken = localStorage.getItem("Token");
+        if(storedToken) {
+            myHeaders.append("Token", storedToken);
+        }
+
+        var postData = JSON.stringify(raw);
+
+        var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+        };
+
+        fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/categoryinterest/addCategoryInterest", requestOptions)
+        .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 200) {
+                return { status: response.status }
+            }
+            return response.json().then(data => {
+                return { 
+                    status: response.status, 
+                    data: data 
+                };
+            });
+        })
+        .catch(error => console.log('error', error));
+    }
+
+
+    /**
+     * @return
+        * 200:
+            * category id
+            * category name
+            * category image
+        * 
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+     */
+    function getAllCategory() {
+        var myHeaders = new Headers();
+
+        var storedToken = localStorage.getItem("Token");
+        if(storedToken) {
+            myHeaders.append("Token", storedToken);
+        }
+
+        var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+        };
+
+        fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/category/getAllCategory", requestOptions)
+        .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            }
+            return response.json().then(data => {
+                return { 
+                    status: response.status, 
+                    data: data 
+                };
+            });
+        })
+        .catch(error => console.log('error', error));
+    }
