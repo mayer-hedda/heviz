@@ -133,11 +133,12 @@ public class User implements Serializable {
         this.id = id;
     }
     
-    public User(Integer id, String username, String image, String rank) {
+    public User(Integer id, String username, String image, String rank, Boolean active) {
         this.id = id;
         this.username = username;
         this.image = image;
         this.rank = rank;
+        this.active = active;
     }
 
     public User(Integer id, String username, String email, String password, String rank, String firstName, String lastName, boolean publicEmail, boolean publicPhoneNumber, Date registrationTime, boolean active, int coverColorId, int userId) {
@@ -343,6 +344,7 @@ public class User implements Serializable {
             spq.registerStoredProcedureParameter("usernameOUT", String.class, ParameterMode.OUT);
             spq.registerStoredProcedureParameter("imageOUT", String.class, ParameterMode.OUT);
             spq.registerStoredProcedureParameter("rankOUT", String.class, ParameterMode.OUT);
+            spq.registerStoredProcedureParameter("activeOUT", Boolean.class, ParameterMode.OUT);
 
             spq.setParameter("emailIN", email);
             spq.setParameter("passwordIN", password);
@@ -353,8 +355,9 @@ public class User implements Serializable {
             String username = (String) spq.getOutputParameterValue("usernameOUT");
             String image = (String) spq.getOutputParameterValue("imageOUT");
             String rank = (String) spq.getOutputParameterValue("rankOUT");
+            Boolean active = (Boolean) spq.getOutputParameterValue("activeOUT");
 
-            return new User(id, username, image, rank);
+            return new User(id, username, image, rank, active);
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
             return new User();

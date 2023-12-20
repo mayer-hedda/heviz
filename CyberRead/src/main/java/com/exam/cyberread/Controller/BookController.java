@@ -324,6 +324,7 @@ public class BookController {
         * cover image
         * file
         * bank account number
+        * chapter number
      * 
      * @return
         * 200: Successfully added the book
@@ -352,7 +353,7 @@ public class BookController {
                     switch(rank) {
                         case "general": 
                             Integer userId = Token.getUserIdByToken(jwt);
-                            JSONObject result = BookService.addBook(userId, bookDetails.getTitle(), bookDetails.getDescription(), bookDetails.getTargetAudienceId(), bookDetails.getLanguageId(), bookDetails.getAdultFiction(), bookDetails.getCategoryId(), bookDetails.getStatusId(), bookDetails.getPrice(), bookDetails.getCoverImage(), bookDetails.getFile(), bookDetails.getBankAccountNumber());
+                            JSONObject result = BookService.addBook(userId, bookDetails.getTitle(), bookDetails.getDescription(), bookDetails.getTargetAudienceId(), bookDetails.getLanguageId(), bookDetails.getAdultFiction(), bookDetails.getCategoryId(), bookDetails.getStatusId(), bookDetails.getPrice(), bookDetails.getCoverImage(), bookDetails.getFile(), bookDetails.getBankAccountNumber(), bookDetails.getChapterNumber());
                             if(result.isEmpty()) {
                                 return Response.status(Response.Status.OK).build();
                             } else {
@@ -441,6 +442,7 @@ public class BookController {
         * cover image
         * file
         * bank account number
+        * chapter number
      * 
      * @return
         * 200: Successfully set the book
@@ -468,7 +470,7 @@ public class BookController {
                     String rank = Token.getUserRankByToken(jwt);
                     switch(rank) {
                         case "general": 
-                            JSONObject result = BookService.setBook(bookDetails.getId(), bookDetails.getTitle(), bookDetails.getDescription(), bookDetails.getTargetAudienceId(), bookDetails.getLanguageId(), bookDetails.getAdultFiction(), bookDetails.getCategoryId(), bookDetails.getStatusId(), bookDetails.getPrice(), bookDetails.getCoverImage(), bookDetails.getFile(), bookDetails.getBankAccountNumber());
+                            JSONObject result = BookService.setBook(bookDetails.getId(), bookDetails.getTitle(), bookDetails.getDescription(), bookDetails.getTargetAudienceId(), bookDetails.getLanguageId(), bookDetails.getAdultFiction(), bookDetails.getCategoryId(), bookDetails.getStatusId(), bookDetails.getPrice(), bookDetails.getCoverImage(), bookDetails.getFile(), bookDetails.getBankAccountNumber(), bookDetails.getChapterNumber());
                             if(result.isEmpty()) {
                                 return Response.status(Response.Status.OK).build();
                             } else {

@@ -62,7 +62,11 @@ public class UserController {
         * password: user password
      * 
      * @return 
-        * 200: token
+        * 200: 
+            * token
+            * first
+                * true: when the user logs in for the first time
+                * false: if the user is not logging in for the first time
         * 422: login error
      * 
      * @throws UserException: Something wrong!

@@ -722,6 +722,8 @@ public class Book implements Serializable {
      * @param coverImage
      * @param file
      * @param bankAccountNumber
+     * @param chapterNumber
+     * @param freeChapterNumber
      * 
      * @return
         * 1: Successfully add book
@@ -737,7 +739,7 @@ public class Book implements Serializable {
      * 
      * @throws BookException: Something wrong
      */
-    public static Integer addBook(Integer userId, String title, String description, Integer targetAudienceId, Integer languageId, Boolean adultFiction, Integer categoryId, Integer statusId, Integer price, String coverImage, String file, String bankAccountNumber) throws BookException {
+    public static Integer addBook(Integer userId, String title, String description, Integer targetAudienceId, Integer languageId, Boolean adultFiction, Integer categoryId, Integer statusId, Integer price, String coverImage, String file, String bankAccountNumber, Integer chapterNumber, Integer freeChapterNumber) throws BookException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
         EntityManager em = emf.createEntityManager();
 
@@ -756,6 +758,8 @@ public class Book implements Serializable {
             spq.registerStoredProcedureParameter("coverImageIN", String.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("fileIN", String.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("bankAccountNumberIN", String.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("chapterNumberIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("freeChapterNumberIN", Integer.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
 
             spq.setParameter("userIdIN", userId);
@@ -770,6 +774,8 @@ public class Book implements Serializable {
             spq.setParameter("coverImageIN", coverImage);
             spq.setParameter("fileIN", file);
             spq.setParameter("bankAccountNumberIN", bankAccountNumber);
+            spq.setParameter("chapterNumberIN", chapterNumber);
+            spq.setParameter("freeChapterNumberIN", freeChapterNumber);
 
             spq.execute();
             
@@ -861,6 +867,8 @@ public class Book implements Serializable {
      * @param coverImage
      * @param file
      * @param bankAccountNumber
+     * @param chapterNumber
+     * @param freeChapterNumber
      * 
      * @return
         * 1: Successfully add book
@@ -876,7 +884,7 @@ public class Book implements Serializable {
      * 
      * @throws BookException: Something wrong
      */
-    public static Integer setBook(Integer bookId, String title, String description, Integer targetAudienceId, Integer languageId, Boolean adultFiction, Integer categoryId, Integer statusId, Integer price, String coverImage, String file, String bankAccountNumber) throws BookException {
+    public static Integer setBook(Integer bookId, String title, String description, Integer targetAudienceId, Integer languageId, Boolean adultFiction, Integer categoryId, Integer statusId, Integer price, String coverImage, String file, String bankAccountNumber, Integer chapterNumber, Integer freeChapterNumber) throws BookException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
         EntityManager em = emf.createEntityManager();
 
@@ -895,6 +903,8 @@ public class Book implements Serializable {
             spq.registerStoredProcedureParameter("coverImageIN", String.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("fileIN", String.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("bankAccountNumberIN", String.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("chapterNumberIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("freeChapterNumberIN", Integer.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
 
             spq.setParameter("bookIdIN", bookId);
@@ -909,6 +919,8 @@ public class Book implements Serializable {
             spq.setParameter("coverImageIN", coverImage);
             spq.setParameter("fileIN", file);
             spq.setParameter("bankAccountNumberIN", bankAccountNumber);
+            spq.setParameter("chapterNumberIN", chapterNumber);
+            spq.setParameter("freeChapterNumberIN", freeChapterNumber);
 
             spq.execute();
             

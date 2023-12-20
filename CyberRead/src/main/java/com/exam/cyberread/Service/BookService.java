@@ -184,85 +184,29 @@ public class BookService {
      * @param coverImage
      * @param file
      * @param bankAccountNumber
+     * @param chapterNumber
      * 
      * @return
         * errors: if something value is wrong
      * 
      * @throws BookException: Something wrong
      */
-    public static JSONObject addBook(Integer userId, String title, String description, Integer targetAudienceId, Integer languageId, Boolean adultFiction, Integer categoryId, Integer statusId, Integer price, String coverImage, String file, String bankAccountNumber) throws BookException {
+    public static JSONObject addBook(Integer userId, String title, String description, Integer targetAudienceId, Integer languageId, Boolean adultFiction, Integer categoryId, Integer statusId, Integer price, String coverImage, String file, String bankAccountNumber, Integer chapterNumber) throws BookException {
         try {
-            JSONObject errors = new JSONObject();
+            JSONObject errors = BookService.bookDetailsCheck(title, description, targetAudienceId, languageId, adultFiction, categoryId, price, statusId, bankAccountNumber, coverImage, file);
+            Integer freeChapterNumber = null;
 
-            if(title == null || title.isEmpty()) {
-                errors.put("storyTitleError", "Title field cannot be empty!");
-            } else if(title.length() < 3) {
-                errors.put("storyTitleError", "Title must be 3 caracter long!");
-            } else if(title.length() > 50) {
-                errors.put("storyTitleError", "The title cannot be longer than 50 characters!");
-            }
-
-            if(description == null || description.isEmpty()) {
-                errors.put("descriptionError", "The description field cannot be empty!");
-            } else if(description.length() < 20) {
-                errors.put("descriptionError", "The description must be 20 caracter long.");
-            } else if(description.length() > 1000) {
-                errors.put("descriptionError", "The description cannot be longer than 1000 characters!");
-            }
-
-            if(targetAudienceId == null) {
-                errors.put("targetAudienceError", "The target audience field cannot be empty!");
-            }
-            
-            if(languageId == null) {
-                errors.put("languageError", "The language field cannot be empty!");
-            }
-            
-            if(adultFiction == null) {
-                adultFiction = false;
-            }
-            
-            if(categoryId == null) {
-                errors.put("categoryError", "The category field cannot be empty!");
-            }
-            
-            if(price != null) {
-                if(price < 1000) {
-                    errors.put("priceError", "The price must be a minimum of 1000 Hungarian Forints!");
-                } else {
-                    price = (int) (price / 0.80);
-                }
-            }
-            
-            if(statusId == null) {
-                errors.put("statusError", "You have to choose one option!");
-            } else if(statusId < 1 || statusId > 2) {
-                errors.put("statusError", "The option does not exist!");
+            if(chapterNumber == null) {
+                errors.put("chapterNumberError", "The chapter number field cannot be empty!");
+            } else if(chapterNumber < 0) {
+                errors.put("chapterNumberError", "The book cannot have less than zero chapters!");
             } else {
-                if(statusId == 2 && price == null) {
-                    errors.put("priceError", "The price field cannot be empty!");
-                } else if(statusId == 1) {
-                    price = 0;
-                }
-                
-                if(statusId == 2 && (bankAccountNumber == null || bankAccountNumber.isEmpty())) {
-                    errors.put("bankAccountNumberError", "The bank account number field cannot be empty!");
-                } else if(statusId == 1) {
-                    bankAccountNumber = "";
-                }
-            }
-            
-            if(coverImage == null || coverImage.isEmpty()) {
-                errors.put("coverImageError", "The cover image cannot be empty!");
-            }
-            
-            if(file == null || file.isEmpty()) {
-                errors.put("bookFileError", "The book file cannot be empty!");
+                freeChapterNumber = (int) Math.round(chapterNumber * 0.2);
             }
             
             
             if(errors.isEmpty()) {
-                Integer result = Book.addBook(userId, title, description, targetAudienceId, languageId, adultFiction, categoryId, statusId, price, coverImage, file, bankAccountNumber);
+                Integer result = Book.addBook(userId, title, description, targetAudienceId, languageId, adultFiction, categoryId, statusId, price, coverImage, file, bankAccountNumber, chapterNumber, freeChapterNumber);
                 
                 switch(result) {
                     case 2:
@@ -346,85 +290,29 @@ public class BookService {
      * @param coverImage
      * @param file
      * @param bankAccountNumber
+     * @param chapterNumber
      * 
      * @return
         * errors: if something value is wrong
      *
      * @throws BookException: Something wrong
      */
-    public static JSONObject setBook(Integer bookId, String title, String description, Integer targetAudienceId, Integer languageId, Boolean adultFiction, Integer categoryId, Integer statusId, Integer price, String coverImage, String file, String bankAccountNumber) throws BookException {
+    public static JSONObject setBook(Integer bookId, String title, String description, Integer targetAudienceId, Integer languageId, Boolean adultFiction, Integer categoryId, Integer statusId, Integer price, String coverImage, String file, String bankAccountNumber, Integer chapterNumber) throws BookException {
         try{
-            JSONObject errors = new JSONObject();
-
-            if(title == null || title.isEmpty()) {
-                errors.put("storyTitleError", "Title field cannot be empty!");
-            } else if(title.length() < 3) {
-                errors.put("storyTitleError", "Title must be 3 caracter long!");
-            } else if(title.length() > 50) {
-                errors.put("storyTitleError", "The title cannot be longer than 50 characters!");
-            }
-
-            if(description == null || description.isEmpty()) {
-                errors.put("descriptionError", "The description field cannot be empty!");
-            } else if(description.length() < 20) {
-                errors.put("descriptionError", "The description must be 20 caracter long.");
-            } else if(description.length() > 1000) {
-                errors.put("descriptionError", "The description cannot be longer than 1000 characters!");
-            }
-
-            if(targetAudienceId == null) {
-                errors.put("targetAudienceError", "The target audience field cannot be empty!");
-            }
+            JSONObject errors = BookService.bookDetailsCheck(title, description, targetAudienceId, languageId, adultFiction, categoryId, price, statusId, bankAccountNumber, coverImage, file);
+            Integer freeChapterNumber = null;
             
-            if(languageId == null) {
-                errors.put("languageError", "The language field cannot be empty!");
-            }
-            
-            if(adultFiction == null) {
-                adultFiction = false;
-            }
-            
-            if(categoryId == null) {
-                errors.put("categoryError", "The category field cannot be empty!");
-            }
-            
-            if(price != null) {
-                if(price < 1000) {
-                    errors.put("priceError", "The price must be a minimum of 1000 Hungarian Forints!");
-                } else {
-                    price = (int) (price / 0.80);
-                }
-            }
-            
-            if(statusId == null) {
-                errors.put("statusError", "You have to choose one option!");
-            } else if(statusId < 1 || statusId > 2) {
-                errors.put("statusError", "The option does not exist!");
+            if(chapterNumber == null) {
+                errors.put("chapterNumberError", "The chapter number field cannot be empty!");
+            } else if(chapterNumber < 0) {
+                errors.put("chapterNumberError", "The book cannot have less than zero chapters!");
             } else {
-                if(statusId == 2 && price == null) {
-                    errors.put("priceError", "The price field cannot be empty!");
-                } else if(statusId == 1) {
-                    price = 0;
-                }
-                
-                if(statusId == 2 && (bankAccountNumber == null || bankAccountNumber.isEmpty())) {
-                    errors.put("bankAccountNumberError", "The bank account number field cannot be empty!");
-                } else if(statusId == 1) {
-                    bankAccountNumber = "";
-                }
-            }
-            
-            if(coverImage == null || coverImage.isEmpty()) {
-                errors.put("coverImageError", "The cover image cannot be empty!");
-            }
-            
-            if(file == null || file.isEmpty()) {
-                errors.put("bookFileError", "The book file cannot be empty!");
+                freeChapterNumber = (int) Math.round(chapterNumber * 0.2);
             }
             
             
             if(errors.isEmpty()) {
-                Integer result = Book.setBook(bookId, title, description, targetAudienceId, languageId, adultFiction, categoryId, statusId, price, coverImage, file, bankAccountNumber);
+                Integer result = Book.setBook(bookId, title, description, targetAudienceId, languageId, adultFiction, categoryId, statusId, price, coverImage, file, bankAccountNumber, chapterNumber, freeChapterNumber);
                         
                 switch(result) {
                     case 2:
@@ -460,6 +348,103 @@ public class BookService {
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
             throw new BookException("Error in setBook() method!");
+        }
+    }
+    
+    
+    /**
+     * @param title
+     * @param description
+     * @param targetAudienceId
+     * @param languageId
+     * @param adultFiction
+     * @param categoryId
+     * @param price
+     * @param statusId
+     * @param bankAccountNumber
+     * @param coverImage
+     * @param file
+     * 
+     * @return error
+        * If empty then all data is correct
+        * Else there is an error in the data
+     * 
+     * @throws com.exam.cyberread.Exception.BookException 
+     */
+    public static JSONObject bookDetailsCheck(String title, String description, Integer targetAudienceId, Integer languageId, Boolean adultFiction, Integer categoryId, Integer price, Integer statusId, String bankAccountNumber, String coverImage, String file) throws BookException {
+        try {
+            JSONObject errors = new JSONObject();
+
+            if(title == null || title.isEmpty()) {
+                errors.put("storyTitleError", "Title field cannot be empty!");
+            } else if(title.length() < 3) {
+                errors.put("storyTitleError", "Title must be 3 caracter long!");
+            } else if(title.length() > 50) {
+                errors.put("storyTitleError", "The title cannot be longer than 50 characters!");
+            }
+
+            if(description == null || description.isEmpty()) {
+                errors.put("descriptionError", "The description field cannot be empty!");
+            } else if(description.length() < 20) {
+                errors.put("descriptionError", "The description must be 20 caracter long.");
+            } else if(description.length() > 1000) {
+                errors.put("descriptionError", "The description cannot be longer than 1000 characters!");
+            }
+
+            if(targetAudienceId == null) {
+                errors.put("targetAudienceError", "The target audience field cannot be empty!");
+            }
+
+            if(languageId == null) {
+                errors.put("languageError", "The language field cannot be empty!");
+            }
+
+            if(adultFiction == null) {
+                adultFiction = false;
+            }
+
+            if(categoryId == null) {
+                errors.put("categoryError", "The category field cannot be empty!");
+            }
+
+            if(price != null) {
+                if(price < 1000) {
+                    errors.put("priceError", "The price must be a minimum of 1000 Hungarian Forints!");
+                } else {
+                    price = (int) (price / 0.80);
+                }
+            }
+
+            if(statusId == null) {
+                errors.put("statusError", "You have to choose one option!");
+            } else if(statusId < 1 || statusId > 2) {
+                errors.put("statusError", "The option does not exist!");
+            } else {
+                if(statusId == 2 && price == null) {
+                    errors.put("priceError", "The price field cannot be empty!");
+                } else if(statusId == 1) {
+                    price = 0;
+                }
+
+                if(statusId == 2 && (bankAccountNumber == null || bankAccountNumber.isEmpty())) {
+                    errors.put("bankAccountNumberError", "The bank account number field cannot be empty!");
+                } else if(statusId == 1) {
+                    bankAccountNumber = "";
+                }
+            }
+
+            if(coverImage == null || coverImage.isEmpty()) {
+                errors.put("coverImageError", "The cover image cannot be empty!");
+            }
+
+            if(file == null || file.isEmpty()) {
+                errors.put("bookFileError", "The book file cannot be empty!");
+            }
+
+            return errors;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in bookDetailsCheck() method!");
         }
     }
     

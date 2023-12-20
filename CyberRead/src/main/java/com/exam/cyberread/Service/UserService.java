@@ -16,8 +16,13 @@ public class UserService {
      * @param password: user password
      * 
      * @return 
-        * jwt token
-        * loginError
+        * data
+            * jwt token
+            * first
+                * true: when the user logs in for the first time
+                * false: if the user is not logging in for the first time
+        * error (if invalid email or password):
+            * loginError
      * 
      * @throws UserException: Something wrong
      */
@@ -29,6 +34,7 @@ public class UserService {
             if(user.getId() != null) {
                 String token = Token.createJwt(user);
                 result.put("jwt", token);
+                result.put("first", user.getActive());
             } else {
                 result.put("loginError", "Invalid email address or password!");
             }
