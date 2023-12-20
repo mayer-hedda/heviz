@@ -588,7 +588,8 @@
             "price": 1200,
             "coverImage": "Ez a kép elérési útja",
             "file": "Ez a könyv elérési útja",
-            "bankAccountNumber": "HU12345678"
+            "bankAccountNumber": "HU12345678",
+            "chapterNumber": 20
      *  }
      * 
      * @return
@@ -613,6 +614,7 @@
                 * bankAccountNumberError
                 * coverImageError
                 * bookFileError
+                * chapterNumberError
      */
     function addBook(raw) {
         var myHeaders = new Headers();
@@ -737,7 +739,8 @@
             "price": 1200,
             "coverImage": "Ez a kép elérési útja",
             "file": "Ez a könyv elérési útja",
-            "bankAccountNumber": "12345678"
+            "bankAccountNumber": "12345678",
+            "chapterNumber": 20
      *  }
      *
      * @return
@@ -762,6 +765,7 @@
                 * bankAccountNumberError
                 * coverImageError
                 * bookFileError
+                * chapterNumberError
      */
     function setBook(raw) {
         var myHeaders = new Headers();
