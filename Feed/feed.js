@@ -5,6 +5,35 @@
 const dataUrl = './db.json';
 const pcGroup = document.getElementById("kulsoPostCard");
 
+// CONTROL MODAL INPUT
+const modal_textarea = document.getElementById('message-text');
+const characterCounterText = document.getElementById('characterCounter');
+const charCounterDes = document.getElementById('characterCounter');
+
+modal_textarea.addEventListener('input', (e) => {
+    e.preventDefault();
+    const currentText = modal_textarea.value;
+    let count = currentText.length;
+    characterCounterText.textContent = `${count}/1000`;
+
+    if (count >= 950) {
+        console.log("bemegy az ifbe");
+        charCounterDes.classList.remove('counter');
+        charCounterDes.classList.add('counterErrorLight');
+
+        if (count == 1000) {
+            charCounterDes.classList.remove('counterErrorLight');
+            charCounterDes.classList.add('counterErrorBold');
+        } else {
+            charCounterDes.classList.remove('counterErrorBold');
+            charCounterDes.classList.add('counterErrorLight');
+        }
+    } else {
+        charCounterDes.classList.value = '';
+        charCounterDes.classList.add('small', 'counter');
+    }
+});
+
 fetch(dataUrl)
     .then(response => {
         if (!response.ok) {
@@ -77,23 +106,23 @@ const like = document.querySelector('.like');
 const liked = document.querySelector('.liked');
 
 
-like.addEventListener('click', function(){
+like.addEventListener('click', function () {
     e.preventDefault();
     console.log("lájkoltad");
     // Látható elem elrejtése
 
-  like.classList.add('hidden');
-  like.classList.remove('visible')
-  // Rejtett elem megjelenítése
-  liked.classList.remove('hidden');
-  liked.classList.add('visible');
+    like.classList.add('hidden');
+    like.classList.remove('visible')
+    // Rejtett elem megjelenítése
+    liked.classList.remove('hidden');
+    liked.classList.add('visible');
 })
 
-liked.addEventListener('click', function(){
+liked.addEventListener('click', function () {
     e.preventDefault();
     console.log("ki lájkoltad");
     hiddenLike.classList.add('hidden');
-  // Látható elem megjelenítése
-  visibleLike.classList.remove('hidden');
+    // Látható elem megjelenítése
+    visibleLike.classList.remove('hidden');
 })
 

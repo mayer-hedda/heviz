@@ -126,7 +126,8 @@
                                 <label id="targetAudience" for="selectTargetAudience">Target Audience:</label>
                                 <i class="bi bi-info-circle infoalter" tabindex="0" data-bs-toggle="popover"
                                     data-bs-trigger="hover focus"
-                                    data-bs-content="Select the target age group for your book here." id="target-info"></i>
+                                    data-bs-content="Select the target age group for your book here."
+                                    id="target-info"></i>
                                 <select class="form-select select" id="selectTargetAudience">
                                     <option value="0" selected>Who is your audience</option>
                                     <option value="1">Young Adult (15-18 years of age)</option>
@@ -206,8 +207,10 @@
                             <!--? ADULT LITERATURE  -->
                             <div id="adult-div" class="container input-div">
                                 <label id="adult" for="adultCheck">Adult Literature:</label>
-                                <input type="checkbox" class="form-check-input align-middle" id="adultCheck"><p id="adultP">This book contains adult content (e.g., adult themes, language, and situations).</p>
-                                
+                                <input type="checkbox" class="form-check-input align-middle" id="adultCheck">
+                                <p id="adultP">This book contains adult content (e.g., adult themes, language, and
+                                    situations).</p>
+
                             </div>
 
                             <!--TODO: NINCS MEGHÍVVA A VALIDÁLÓ FÜGGVÉNY  -->
@@ -237,46 +240,62 @@
 
 
                             <!--TODO: NINCS MEGÍRVA A JS  -->
-                            <!--? BANK ACC NUMBER  -->
-                            <div id="bankAcc-div" class="container " hidden>
-                                <label id="bankAcc" class="formLabel" for="inputBankNum">Bank Account Number:
-                                </label>
-                                <i class="bi bi-info-circle info" tabindex="0" data-bs-toggle="popover"
-                                    data-bs-trigger="hover focus" data-bs-content="We need to know where 
-                                    your revenue is going. Please give us your IBAN number"></i>
-                                <input type="text" class="form-control" id="inputBankNum"
-                                    placeholder="GB 12 ABCD 102030 12345678">
-
-                                <div class="container errorMessage" id="BankNumError"></div>
-                            </div>
-
-                        </div>
-
-                        <!--? BOOK PRICE -->
-                        <!--TODO: FORINT FELTÜNTETÉSE + JS NINCS MEGÍRVA  -->
-                        <div id="bookPrice-outsideDiv" hidden>
-                            <div id="BookPrice-div" class="container input-div">
-                                <label id="Price" for="BookPrice">Your book's Price: <i
-                                        class="bi bi-info-circle infoalter" tabindex="0" data-bs-toggle="popover"
-                                        data-bs-trigger="hover focus" data-bs-content="Please note that the final price is structured as follows: 
-                                    the price given by you + 20%."></i></label>
-
-                                <div class="input-group mb-3" id="price">
-                                    <input type="number" class="form-control" id="inputBookPrice"
-                                        aria-describedby="basic-addon1" min="0">
-                                        <span class="input-group-text" id="Currency">FT</span>
+                            <div id="activate-self" hidden>
+                                <!--? CHAPTER NUMBER  -->
+                                <div id="chapter-div" class="container input-div">
+                                    <label for="" class="formLabel" id="chapterLabel">Chapter number:</label>
+                                    <i class="bi bi-info-circle info" tabindex="0" data-bs-toggle="popover"
+                                        data-bs-trigger="hover focus"
+                                        data-bs-content="How many chapters are in your book?"></i>
+                                    <input type="number" class="form-control" id="chapter-number" min="0" oninput="this.value = Math.abs(this.value)">
+                                    <div class="container errorMessage" id="chapterError"></div>
                                 </div>
-                                <!-- <input class="form-control" type="number" id="inputBookPrice"> -->
+
+                                <!--? BANK ACC NUMBER  -->
+                                <div id="bankAcc-div" class="container ">
+                                    <label id="bankAcc" class="formLabel" for="inputBankNum">Bank Account Number:
+                                    </label>
+                                    <i class="bi bi-info-circle info" tabindex="0" data-bs-toggle="popover"
+                                        data-bs-trigger="hover focus"
+                                        data-bs-content="We need to know where your revenue is going. Please give us your IBAN number"></i>
+                                    <input type="text" class="form-control align-middle" id="inputBankNum"
+                                        placeholder="GB 12 ABCD 102030 12345678">
+
+                                    <div class="errorMessage align-middle" id="BankNumError"></div>
+                                </div>
+
+                                <!--? BOOK PRICE -->
+                            <!--TODO: FORINT FELTÜNTETÉSE + JS NINCS MEGÍRVA  -->
+                            <div id="bookPrice-outsideDiv">
+                                <div id="BookPrice-div" class="container input-div">
+                                    <label id="Price" for="inputBookPrice">Your book's Price: <i
+                                            class="bi bi-info-circle infoalter" tabindex="0" data-bs-toggle="popover"
+                                            data-bs-trigger="hover focus"
+                                            data-bs-content="Please note that the final price is structured as follows: the price given by you + 20%."></i></label>
+
+                                    <div class="input-group mb-3" id="price">
+                                        <input type="number" class="form-control" id="inputBookPrice"
+                                            aria-describedby="basic-addon1" min="0">
+                                        <span class="input-group-text" id="Currency">FT</span>
+                                    </div>
+                                    <!-- <input class="form-control" type="number" id="inputBookPrice"> -->
+
+                                </div>
+                                <div class="container errorMessage" id="PriceError"></div>
+                                <div class="container" id="priceP">
+                                    <p>If you need more information on this matter, please refer to the relevant section
+                                        in
+                                        the <a class="link" href="#"> Terms and Conditions</a>.</p>
+                                </div>
+
 
                             </div>
-                            <div class="container errorMessage" id="PriceError"></div>
-                            <div class="container" id="priceP">
-                                <p>If you need more information on this matter, please refer to the relevant section in
-                                    the <a class="link" href="#"> Terms and Conditions</a>.</p>
+
                             </div>
 
-
+                            
                         </div>
+
                 </div>
 
                 </form>

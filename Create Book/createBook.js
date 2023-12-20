@@ -26,14 +26,14 @@ function uploadImage() {
     var img = new Image();
     img.src = imgLink;
 
-    img.onload = function(){
+    img.onload = function () {
         height = img.naturalHeight;
         width = img.naturalWidth;
         console.log("A kép szélessége: " + width);
         console.log("A kép magassága: " + height);
     }
 
-    
+
 
     if (imgLink == "") {
         picPass = false;
@@ -152,6 +152,7 @@ const description = document.getElementById('inputDescription');
 const selectAudience = document.getElementById("selectTargetAudience");
 const selectLanguage = document.getElementById('selectLanguage');
 const selectCategory = document.getElementById('selectCategory');
+const chapter_number = document.getElementById('chapter-number');
 const bankAccNumber = document.getElementById('inputBankNum');
 const bookPrice = document.getElementById('inputBookPrice');
 
@@ -167,6 +168,7 @@ const descriptionError = document.getElementById('descriptErr');
 const audienceError = document.getElementById('audienceErr');
 const languageError = document.getElementById('languageErr');
 const categoryError = document.getElementById('categoryErr');
+const chapterError = document.getElementById('chapterError');
 const bankError = document.getElementById('BankNumError');
 const priceError = document.getElementById('PriceError');
 
@@ -177,6 +179,7 @@ var audiencePass = false;
 var languagePass = false;
 var categoryPass = false;
 var publishingPass = false;   //! nincs használva
+var chapterPass = false;
 var bankPass = false; //! csak akkor kell ha selpublish
 var pricePass = false; //! csak akkor kell ha selpublish
 
@@ -432,8 +435,8 @@ selectCategory.addEventListener('change', function () {
 
 //? Radio Buttons
 const checkboxes = document.querySelectorAll('.checkinput');
-const bankAccDiv = document.getElementById('bankAcc-div');
-const priceDiv = document.getElementById('bookPrice-outsideDiv');
+const self_inputs = document.getElementById('activate-self');
+
 var publishingForm;
 var pubCheck = false;
 var selfCheck = false;
@@ -445,8 +448,7 @@ checkboxes.forEach(function (radioButton) {
             // console.log("Bejelölt rádiógomb: " + publishingForm);
             if (publishingForm == "SelfPublish") {
                 console.log("Aktívak a mezők");
-                bankAccDiv.hidden = false;
-                priceDiv.hidden = false;
+                self_inputs.hidden = false;
 
                 selfCheck = true;
                 pubCheck = false;
@@ -456,8 +458,7 @@ checkboxes.forEach(function (radioButton) {
 
             if (publishingForm == "PublisherPublish") {
                 console.log("Mezők deaktiválása");
-                bankAccDiv.hidden = true;
-                priceDiv.hidden = true;
+                self_inputs.hidden = true;
 
                 pubCheck = true;
                 selfCheck = false;
@@ -469,15 +470,9 @@ checkboxes.forEach(function (radioButton) {
     });
 });
 
-function validateChecks(pubCheck, selfCheck){
-    /**
-     * input parameters
-     * @param {pubCheck} - Boolean
-     * @param {selfCheck} - Boolean
-     * 
-    */
+function validateChecks(pubCheck, selfCheck) {
 
-    if ((pubCheck == false && selfCheck == false) || (pubCheck == true && selfCheck == true) ) {
+    if ((pubCheck == false && selfCheck == false) || (pubCheck == true && selfCheck == true)) {
         // errorField.innerHTML = `<p>You have to choose one option.</p>`;
         return false;
     }
@@ -488,12 +483,70 @@ function validateChecks(pubCheck, selfCheck){
     }
 }
 
+//?CHAPTER NUMBER INPUT PASS TRUE
+chapter_number.addEventListener('focusout', (e)=>{
+    e.preventDefault();
+    if (chapter_number.value != "") {
+        chapterPass = true;
+        chapter_number.classList.add('inputPass');
+    }else{
+        chapter_number.classList.remove('inputPass');
+        chapter_number.classList.add('inputError');
+        chapterError.innerHTML = `<p>This field cannot be empty.</p>`;
+
+    }
+})
+
+
 
 //? BANK ACC NUMBER
 
+function bankValidation(bankValue) {
+    console.log("Input IBAN: " + bankValue);
+    const removeSpaces = bankValue.replace(/ /g, "");
+
+    if (bankValue == "") {
+        bankAccNumber.classList.add('inputError');
+        bankError.innerHTML = `<p>This field cannot be empty.</p>`;
+        console.log("The bank field is empty.");
+        return false;
+
+    } else if (removeSpaces.length < 15) {
+        bankAccNumber.classList.add('inputError');
+        bankError.innerHTML = `<p>This value is too short. The IBAN number should be between 15 and 34 characters.</p>`;
+        console.log("The bank value is too short.");
+        return false;
+
+    } else if (removeSpaces.length > 34) {
+        bankAccNumber.classList.add('inputError');
+        bankError.innerHTML = `<p>This value is too long. The IBAN number should be between 15 and 34 characters.</p>`;
+        console.log("The bank value is too long.");
+        return false;
+
+    } else if (removeSpaces.length >= 15 && removeSpaces.length <= 34) {
+        bankAccNumber.classList.add('inputPass');
+        const upperCase = removeSpaces.toUpperCase();
+        console.log("IBAN number converted to upper case: " + upperCase);
+        return true;
+    }
+
+}
+
+bankAccNumber.addEventListener('focusout', (e) => {
+    e.preventDefault();
+    const bankValue = bankAccNumber.value;
+    bankPass = bankValidation(bankValue);
+})
+
+bankAccNumber.addEventListener('focusin', (e) => {
+    e.preventDefault();
+    bankAccNumber.classList.remove('inputError');
+    bankAccNumber.classList.remove('inputPass');
+    bankError.innerHTML = "";
+})
 
 //? MIN PRICE
-function minPrice(priceValue){
+function minPrice(priceValue) {
     if (priceValue < 1000) {
         bookPrice.classList.add('inputError');
         console.log("price error: too low");
@@ -502,12 +555,12 @@ function minPrice(priceValue){
     return true;
 }
 
-bookPrice.addEventListener('focusout', (e)=>{
+bookPrice.addEventListener('focusout', (e) => {
     e.preventDefault();
     const priceValue = bookPrice.value;
     if (priceValue == "") {
         bookPrice.classList.add('inputError');
-        priceError.innerText = "The price field cannot be empty";
+        priceError.innerHTML = `<p class="priceErrorP">The price field cannot be empty</p>`;
         pricePass = false;
         console.log("pricePass value: " + pricePass);
     } else {
@@ -535,13 +588,13 @@ bookPrice.addEventListener('focusin', (e) => {
 // #############################################
 //? NEXT BUTTON
 const checkError = document.getElementById('checkboxError');
-nextBtn.addEventListener('click', (e)=>{
+nextBtn.addEventListener('click', (e) => {
     e.preventDefault();
     let valid = validateChecks(pubCheck, selfCheck);
-    if(valid == true){
+    if (valid == true) {
         window.location.href = '#';
-    }else{
-        checkError.innerHTML = '<p>You have to choose one option.</p>';
+    } else {
+        checkError.innerHTML = '<p class="optionErr">You have to choose one option.</p>';
         // TODO: MEG KELL OLDANI, HOGY MIUTÁN VÁLASZTOTT EGY OPTION-T AKKOR TŰNJÖN EL A HIBA
     }
 })

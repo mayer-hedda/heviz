@@ -37,17 +37,17 @@
                     <a class="nav-link active" aria-current="page" id="HomePage"
                         href="../General-HomePage/GenHome.html">Home Page</a>
                     <a class="nav-link" id="Feed" href="../Feed/feed.html">Feed</a>
-                    <a class="nav-link" id="Explore" href="#">Explore</a>
+                    <a class="nav-link" id="Explore" href="../GenExplore/genExplore.html">Explore</a>
                     <a class="nav-link" id="SavedBooks" href="#">Saved Books</a>
                 </div>
-                
+
             </div>
-            
+
             <button role="button" type="submit" class="btn align-content-center" id="writingBtn"
-                    onclick="window.location.href='../Create Book/createBook.html'">
-                    Start Witing
-                </button>
-                
+                onclick="window.location.href='../Create Book/createBook.html'">
+                Start Witing
+            </button>
+
             <!--? Profilkép helye -->
             <div id="profile-icon"></div>
             <!--? User nevének helye -->
@@ -57,7 +57,7 @@
         </div>
     </nav>
 
-    
+
     <section id="first-section">
 
         <div class="container-fluid">
@@ -128,7 +128,7 @@
 
                         <button type="button" class="btn" id="post-BTN" data-bs-toggle="modal"
                             data-bs-target="#postModal"><i class="bi bi-plus-circle"></i> What's in your mind?</button>
-                      
+
                     </div>
                 </div>
             </div>
@@ -136,34 +136,42 @@
 
         <!-- TODO: POSZT ÍRÁSA GOMB A POPUPHOZ -->
         <div class="modal fade" tabindex="-1" id="postModal" tabindex="-1" aria-labelledby="postModalLabel"
-                            aria-hidden="true" >
-                            <div class="modal-dialog modal-dialog-centered modal-lg" >
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="postModalLabel">Write a Post!</h1>
-                                    </div>
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="postModalLabel">Write a Post!</h1>
+                    </div>
 
-                                    <div class="modal-body">
-                                        <form>
-                                            <label for="message-text" id="modalLabel-input"
-                                                class="col-form-label modalLabel">Tell us what's going
-                                                on:</label>
-                                            <textarea class="form-control" id="message-text"></textarea>
-
-                                        </form>
-                                    </div>
-
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                                            id="close-btn">Close</button>
-                                        <button type="button" class="btn btn-primary" id="LetsPost-btn">Let's
-                                            Post!</button>
-                                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <label for="message-text" id="modalLabel-input" class="col-form-label modalLabel">Tell us
+                                what's going
+                                on:</label>
+                            <textarea class="form-control" id="message-text" maxlength="1000"></textarea>
+                            <div class="row ">
+                                <div class="col-10">
+                                    <p class="error align-top errorMessage" id="textError"></p>
+                                </div>
+                                <div class="col-2">
+                                    <p class="small counter align-top" id="characterCounter">0/1000</p>
                                 </div>
                             </div>
-                        </div>
 
-                        
+                        </form>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            id="close-btn">Close</button>
+                        <button type="button" class="btn btn-primary" id="LetsPost-btn">Let's
+                            Post!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </section>
 
     <!-- TODO: FOOTER -->
@@ -196,8 +204,8 @@
                 <div id="copy-right-div" class="text-end">
                     <!--? copyright logo -->
                     <!--? Minden jog fentartva -->
-                    <p id="copy-right" class=""><img src="../icons/copyright.svg"
-                            style="margin-right: 0.313rem;">2023 All rights reserved.</p>
+                    <p id="copy-right" class=""><img src="../icons/copyright.svg" style="margin-right: 0.313rem;">2023
+                        All rights reserved.</p>
                 </div>
             </div>
 

@@ -233,7 +233,8 @@
 } */
 /** --------- UPLOAD FILES ------------- */
 .info {
-    align-items: bottom;
+    /* align-items: bottom; */
+    margin-top: 1.5%;
 }
 
 /* .sorba{
@@ -359,18 +360,20 @@
     color: #EE1D52;
     font-family: 'Poppins-Regular';
     font-size: small;
-    margin-left: 2% !important;
+    /* margin-left: 2%; */
 }
 
 #inputStoryTitle,
 #inputDescription,
 #inputBankNum,
-#inputBookPrice, #Currency {
+#inputBookPrice,
+#Currency,
+#chapter-number {
     border: var(--input-border) 0.063rem solid;
     background-color: var(--input-card-bg);
 }
 
-#Currency{
+#Currency {
     height: 38px;
 }
 
@@ -380,10 +383,19 @@
 
 #description-div label,
 #storyTitle-div label,
-#bankAcc-div label {
+#bankAcc-div label,
+#chapterLabel {
     margin-bottom: 1.5%;
     color: var(--label-color);
     font-family: 'Poppins-Medium', sans-serif;
+}
+
+#chapterLabel{
+    width: 50%;
+}
+
+#chapterError p{
+    margin-top: 7%;
 }
 
 textarea {
@@ -394,6 +406,11 @@ textarea {
     background: rgb(255, 214, 220) !important;
     border-color: rgb(243, 82, 93) !important;
     /* margin-left: 4%; */
+}
+
+
+.priceErrorP{
+    margin-left: 31%!important;
 }
 
 .inputPass {
@@ -433,11 +450,11 @@ textarea {
     width: 160px;
 }
 
-#adultCheck{
+#adultCheck {
     margin-left: 30px;
 }
 
-#adultP{
+#adultP {
     margin-left: 10px;
 }
 
@@ -493,7 +510,13 @@ option:checked {
     margin-left: 2%;
 }
 
-#price {
+#chapter-number{
+    margin-left: 5%;
+    height: 4%;
+}
+
+#price,
+#chapter-number {
     /* margin-left: 2%; */
     width: 150px;
     margin-bottom: 1%;
@@ -525,8 +548,8 @@ option:checked {
     padding-top: 0.7%;
 }
 
-#target-info{
-    margin-left: 0!important;
+#target-info {
+    margin-left: 0 !important;
 }
 
 

@@ -48,9 +48,7 @@
     --grey-btn-bg: rgb(222, 222, 219);
     --popup-h1: rgb(77, 71, 74);
     --popup-label: rgb(97, 92, 94);
-    /* -------- MARGIN - PADDING --------*/
-    /* --default-padding: auto 5%; */
-
+    --input-border: rgb(148, 149, 169);
 }
 
 /**--------------- FONTS ---------------*/
@@ -279,6 +277,7 @@ p {
     padding-left: 1.875rem;
     padding-right: 3.125rem;
     width: fit-content;
+    text-align: justify;
 }
 
 .post-text {
@@ -508,7 +507,24 @@ p {
     margin-top: 0.625rem;
 }
 
+.counter {
+    margin-left: 30px;
+    color: var(--input-border);
+    font-weight: lighter;
+    margin-bottom: 0%;
+}
 
+.counterErrorLight {
+    text-align: end;
+    color: #dc3545;
+    font-weight: lighter;
+}
+
+.counterErrorBold {
+    text-align: end;
+    color: #dc3545;
+    font-weight: bold;
+}
 
 
 /** --------------- FOOTER ---------------*/
