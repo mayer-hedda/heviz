@@ -1200,3 +1200,184 @@
         })
         .catch(error => console.log('error', error));
     }
+
+
+
+// ----- PUBLISHER HOME -----
+
+    /**
+     * @return
+        * 200:
+            * book id
+            * cover image
+            * title
+            * author name
+            * first name
+            * last name
+            * book description
+            * pages number
+            * book rating
+            * language
+            * saved
+        * 
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 
+        * 403: User is not a publisher user
+     */
+    function getOneRandomLookingForPublisherBook() {
+        var myHeaders = new Headers();
+
+        var storedToken = localStorage.getItem("Token");
+        if(storedToken) {
+            myHeaders.append("Token", storedToken);
+        }
+        
+        var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+        };
+
+        fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getOneRandomLookingForPublisherBook", requestOptions)
+        .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 403) {
+                return { status: response.status };
+            }
+            return response.json().then(data => {
+                return { 
+                    status: response.status, 
+                    data: data 
+                };
+            });
+        })
+        .catch(error => console.log('error', error));
+    }
+
+
+    /**
+     * @return
+        * 200:
+            * book id
+            * cover image
+            * title
+            * author name
+            * first name
+            * last name
+            * book description
+            * pages number
+            * book rating
+            * language
+            * saved
+        * 
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 
+        * 403: User is not a publisher user
+     */
+    function getRecommandedBooksForPublisher() {
+        var myHeaders = new Headers();
+
+        var storedToken = localStorage.getItem("Token");
+        if(storedToken) {
+            myHeaders.append("Token", storedToken);
+        }
+        
+        var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+        };
+
+        fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getRecommandedBooksForPublisher", requestOptions)
+        .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 403) {
+                return { status: response.status };
+            }
+            return response.json().then(data => {
+                return { 
+                    status: response.status, 
+                    data: data 
+                };
+            });
+        })
+        .catch(error => console.log('error', error));
+    }
+
+
+    /**
+     * @return
+        * 200:
+            * 4 random category's books
+                * book id
+                * cover image
+                * title
+                * author name
+                * first name
+                * last name
+                * book description
+                * pages number
+                * book rating
+                * language
+                * saved
+        * 
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 
+        * 403: User is not a publisher user
+     */
+    function getRandomBookByCategory() {
+        var myHeaders = new Headers();
+
+        var storedToken = localStorage.getItem("Token");
+        if(storedToken) {
+            myHeaders.append("Token", storedToken);
+        }
+        
+        var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+        };
+
+        fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getRandomBookByCategory", requestOptions)
+        .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 403) {
+                return { status: response.status };
+            }
+            return response.json().then(data => {
+                return { 
+                    status: response.status, 
+                    data: data 
+                };
+            });
+        })
+        .catch(error => console.log('error', error));
+    }
