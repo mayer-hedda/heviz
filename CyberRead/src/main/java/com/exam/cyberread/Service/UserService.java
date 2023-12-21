@@ -5,6 +5,8 @@ import com.exam.cyberread.Exception.UserException;
 import com.exam.cyberread.Model.User;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -193,24 +195,33 @@ public class UserService {
             }
 
             // email check
-            if(email == null || email.isEmpty()) {
-                error.put("emailError", "The email field cannot be empty!");
-            } else {
-                int at = email.indexOf("@");
-                int dot = email.indexOf(".");
+            Pattern specReg = Pattern.compile("(?=.*[@])");
+            Matcher matcher = specReg.matcher(email);
 
-                if(email.length() < 3) {
-                    error.put("emailError", "Email address must be at least 3 characters long!");
-                } else if (!email.matches(".*[@].*")) {
-                    error.put("emailError", "Please include the '@' symbol in your email address!");
-                } else if (at == 0) {
-                    error.put("emailError", "Email address cannot empty before \"@\" symbol!");
-                } else if (at <= 3) {
-                    error.put("emailError", "Please ensure you have at least 3 characters before the \"@\" symbol!");
-                } else if (!email.matches("(.*[.].*)")) {
-                    error.put("emailError", "Last part of email doesn't include dot!");
-                } else if (dot - at < 2) {
-                    error.put("emailError", "Last part of email before dot is not enough!");
+            if (!matcher.find()) {
+                error.put("emailError", "Email address must contain the '@' symbol.");
+            } else {
+                String[] emailParts = email.split("@");
+
+                if (emailParts[0].isEmpty()) {
+                    error.put("emailError", "Email address cannot be empty before '@' symbol.");
+                } else if (emailParts[0].length() < 4) {
+                    error.put("emailError", "Please ensure you have at least 4 characters before the '@' symbol.");
+                } else if (!email.contains(".")) {
+                    error.put("emailError", "Please include the '.' (dot) symbol in your email address.");
+                } else {
+                    String lastPart = emailParts[1];
+
+                    if (lastPart.isEmpty() || lastPart.indexOf(".") == -1 || lastPart.lastIndexOf(".") == lastPart.length() - 1) {
+                        error.put("emailError", "Last part of email is missing or empty.");
+                    } else {
+                        String[] domainParts = lastPart.split("\\.");
+                        String beforeDot = domainParts[0];
+
+                        if (beforeDot.isEmpty() || beforeDot.length() < 2) {
+                            error.put("emailError", "Please ensure you have at least 2 characters before the '.' (dot) symbol.");
+                        }
+                    }
                 }
             }
 

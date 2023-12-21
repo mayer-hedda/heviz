@@ -934,5 +934,201 @@ public class Book implements Serializable {
             emf.close();
         }
     }
+    
+    
+    /**
+     * @param userId
+     * 
+     * @return
+        * book id
+        * cover image
+        * title
+        * author name
+        * first name
+        * last name
+        * book description
+        * pages number
+        * book rating
+        * language
+        * saved
+     * 
+     * @throws BookException: Something wrong
+     */
+    public static JSONArray getOneRandomLookingForPublisherBook(Integer userId) throws BookException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getOneRandomLookingForPublisherBook");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.setParameter("userIdIN", userId);
+
+            spq.execute();
+            
+            List<Object[]> resultList = spq.getResultList();
+            JSONArray books = new JSONArray();
+            
+            for(Object[] result : resultList) { 
+                JSONObject book = new JSONObject();
+                book.put("id", (Integer) result[0]);
+                book.put("coverImage", (String) result[1]);
+                book.put("title", (String) result[2]);
+                book.put("authorName", (String) result[3]);
+                book.put("firstName", (String) result[4]);
+                book.put("lastName", (String) result[5]);
+                book.put("description", (String) result[6]);
+                book.put("pagesNumber", (Integer) result[7]);
+                book.put("rating", (BigDecimal) result[8]);
+                book.put("language", (String) result[9]);
+                if((Integer) result[10] == 0) {
+                    book.put("saved", false);
+                } else {
+                    book.put("saved", true);
+                }
+                
+                books.put(book);
+            }
+            
+            return books;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getOneRandomLookingForPublisherBook() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId: id of the logged in user
+     * 
+     * @return
+        * book id
+        * cover image
+        * title
+        * author name
+        * first name
+        * last name
+        * book description
+        * pages number
+        * book rating
+        * language
+        * saved
+     * 
+     * @throws BookException: Something wrong
+     */
+    public static JSONArray getRecommandedBooksForPublisher(Integer userId) throws BookException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getRecommandedBooksForPublisher");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.setParameter("userIdIN", userId);
+
+            spq.execute();
+            
+            List<Object[]> resultList = spq.getResultList();
+            JSONArray books = new JSONArray();
+            
+            for(Object[] result : resultList) { 
+                JSONObject book = new JSONObject();
+                book.put("id", (Integer) result[0]);
+                book.put("coverImage", (String) result[1]);
+                book.put("title", (String) result[2]);
+                book.put("authorName", (String) result[3]);
+                book.put("firstName", (String) result[4]);
+                book.put("lastName", (String) result[5]);
+                book.put("description", (String) result[6]);
+                book.put("pagesNumber", (Integer) result[7]);
+                book.put("rating", (BigDecimal) result[8]);
+                book.put("language", (String) result[9]);
+                if((Integer) result[10] == 0) {
+                    book.put("saved", false);
+                } else {
+                    book.put("saved", true);
+                }
+                
+                books.put(book);
+            }
+            
+            return books;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getRecommandedBooksForPublisher() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * 
+     * @return
+        * book id
+        * category name
+        * cover image
+        * title
+        * author name
+        * first name
+        * last name
+        * book description
+        * pages number
+        * book rating
+        * language
+        * saved
+     * 
+     * @throws BookException: Something wrong
+     */
+    public static JSONArray getRandomBookByCategory(Integer userId) throws BookException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getRandomBookByCategory");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.setParameter("userIdIN", userId);
+
+            spq.execute();
+            
+            List<Object[]> resultList = spq.getResultList();
+            JSONArray books = new JSONArray();
+            
+            for(Object[] result : resultList) { 
+                JSONObject book = new JSONObject();
+                book.put("id", (Integer) result[0]);
+                book.put("categoryName", (String) result[1]);
+                book.put("coverImage", (String) result[2]);
+                book.put("title", (String) result[3]);
+                book.put("authorName", (String) result[4]);
+                book.put("firstName", (String) result[5]);
+                book.put("lastName", (String) result[6]);
+                book.put("description", (String) result[7]);
+                book.put("pagesNumber", (Integer) result[8]);
+                book.put("rating", (BigDecimal) result[9]);
+                book.put("language", (String) result[10]);
+                book.put("saved", (Boolean) result[11]);
+                
+                books.put(book);
+            }
+            
+            return books;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getRandomBookByCategory() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
         
 }

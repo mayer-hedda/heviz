@@ -21,6 +21,7 @@ public class BookService {
         * author name
         * first name
         * last name
+        * publisher company name
         * book description
         * pages number
         * book rating
@@ -48,6 +49,7 @@ public class BookService {
         * author name
         * first name
         * last name
+        * publisher company name
         * book description
         * pages number
         * book rating
@@ -102,6 +104,7 @@ public class BookService {
         * author name
         * first name
         * last name
+        * publisher company name
         * book description
         * pages number
         * book rating
@@ -130,6 +133,7 @@ public class BookService {
         * author name
         * first name
         * last name
+        * publisher company name
         * book description
         * pages number
         * book rating
@@ -160,7 +164,7 @@ public class BookService {
             JSONObject values = new JSONObject();
             
             values.put("targetAudiences", Targetaudience.getAllTargetAudiences());
-            values.put("categories", Category.getAllCategories());
+            values.put("categories", Category.getAllCategoryForPublication());
             values.put("languages", Language.getAllLanguages());
             
             return values;
@@ -445,6 +449,109 @@ public class BookService {
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
             throw new BookException("Error in bookDetailsCheck() method!");
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * 
+     * @return
+        * book id
+        * cover image
+        * title
+        * author name
+        * first name
+        * last name
+        * book description
+        * pages number
+        * book rating
+        * language
+        * saved
+     * 
+     * @throws BookException: Something wrong
+     */
+    public static JSONArray getOneRandomLookingForPublisherBook(Integer userId) throws BookException {
+        try {
+            return Book.getOneRandomLookingForPublisherBook(userId);
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getOneRandomLookingForPublisherBook() method!");
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * 
+     * @return
+        * book id
+        * cover image
+        * title
+        * author name
+        * first name
+        * last name
+        * book description
+        * pages number
+        * book rating
+        * language
+        * saved
+     * 
+     * @throws BookException 
+     */
+    public static JSONArray getRecommandedBooksForPublisher(Integer userId) throws BookException {
+        try {
+            return Book.getRecommandedBooksForPublisher(userId);
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getRecommandedBooksForPublisher() method!");
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * 
+     * @return
+        * book id
+        * cover image
+        * title
+        * author name
+        * first name
+        * last name
+        * book description
+        * pages number
+        * book rating
+        * language
+        * saved
+     * 
+     * @throws BookException: Something wrong
+     */
+    public static JSONObject getRandomBookByCategory(Integer userId) throws BookException {
+        try {
+            JSONArray books = Book.getRandomBookByCategory(userId);
+
+            JSONObject result = new JSONObject();
+
+            for (int i = 0; i < books.length(); i++) {
+                JSONObject bookData = books.getJSONObject(i);
+                String categoryName = bookData.getString("categoryName");
+                bookData.remove("categoryName");
+
+                if (!result.has(categoryName)) {
+                    JSONArray categoryBooks = new JSONArray();
+                    categoryBooks.put(bookData);
+                    result.put(categoryName, categoryBooks);
+                } else {
+                    JSONArray categoryBooks = result.getJSONArray(categoryName);
+                    categoryBooks.put(bookData);
+                    result.put(categoryName, categoryBooks);
+                }
+            }
+            return result;
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getRandomBookByCategory() method!");
         }
     }
     

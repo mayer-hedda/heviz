@@ -114,7 +114,7 @@ public class Category implements Serializable {
     
     
     
-    // --- MY PROCEDURES ---
+    // --- MY PROCEDURES ---    
     /**
      * @return
         * category id
@@ -122,12 +122,12 @@ public class Category implements Serializable {
      *
      * @throws CategoryException: Something wrong
      */
-    public static JSONArray getAllCategories() throws CategoryException {
+    public static JSONArray getAllCategoryForPublication() throws CategoryException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
         EntityManager em = emf.createEntityManager();
 
         try {
-            StoredProcedureQuery spq = em.createStoredProcedureQuery("getAllCategories");
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getAllCategory");
             
             spq.execute();
             
@@ -145,7 +145,48 @@ public class Category implements Serializable {
             return categories;
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
-            throw new CategoryException("Error in getAllCategories() method!");
+            throw new CategoryException("Error in getAllCategoryForPublication() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+        
+    /**
+     * @return
+        * category id
+        * category name
+        * category image
+     *
+     * @throws CategoryException: Something wrong
+     */
+    public static JSONArray getAllCategory() throws CategoryException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getAllCategory");
+            
+            spq.execute();
+            
+            List<Object[]> resultList = spq.getResultList();
+            JSONArray categories = new JSONArray();
+            
+            for(Object[] result : resultList) { 
+                JSONObject category = new JSONObject();
+                category.put("id", (Integer) result[0]);
+                category.put("name", (String) result[1]);
+                category.put("image", (String) result[2]);
+                
+                categories.put(category);
+            }
+            
+            return categories;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new CategoryException("Error in getAllCategory() method!");
         } finally {
             em.clear();
             em.close();
