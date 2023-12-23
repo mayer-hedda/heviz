@@ -17,8 +17,13 @@
     <!-- <script src="https://kit.fontawesome.com/59b3debb91.js" crossorigin="anonymous"></script> -->
 
     <title>Create Book</title>
+    
     <!--? Icon a tabba -->
-    <link rel="icon" href="../icons/C-logo.svg" type="image/svg+xml">
+    <!-- fehér -->
+    <link rel="icon" href="../icons/C-logo-white.svg" type="image/svg+xml">
+    <!-- fekete -->
+    <!-- <link rel="icon" href="../icons/C-logo.svg" type="image/svg+xml"> -->
+
 </head>
 
 <body style="background-color: #F7F5EC">
@@ -247,7 +252,8 @@
                                     <i class="bi bi-info-circle info" tabindex="0" data-bs-toggle="popover"
                                         data-bs-trigger="hover focus"
                                         data-bs-content="How many chapters are in your book?"></i>
-                                    <input type="number" class="form-control" id="chapter-number" min="0" oninput="this.value = Math.abs(this.value)">
+                                    <input type="number" class="form-control" id="chapter-number" min="0"
+                                        oninput="this.value = Math.abs(this.value)">
                                     <div class="container errorMessage" id="chapterError"></div>
                                 </div>
 
@@ -265,35 +271,36 @@
                                 </div>
 
                                 <!--? BOOK PRICE -->
-                            <!--TODO: FORINT FELTÜNTETÉSE + JS NINCS MEGÍRVA  -->
-                            <div id="bookPrice-outsideDiv">
-                                <div id="BookPrice-div" class="container input-div">
-                                    <label id="Price" for="inputBookPrice">Your book's Price: <i
-                                            class="bi bi-info-circle infoalter" tabindex="0" data-bs-toggle="popover"
-                                            data-bs-trigger="hover focus"
-                                            data-bs-content="Please note that the final price is structured as follows: the price given by you + 20%."></i></label>
+                                <!--TODO: FORINT FELTÜNTETÉSE + JS NINCS MEGÍRVA  -->
+                                <div id="bookPrice-outsideDiv">
+                                    <div id="BookPrice-div" class="container input-div">
+                                        <label id="Price" for="inputBookPrice">Your book's Price: <i
+                                                class="bi bi-info-circle infoalter" tabindex="0"
+                                                data-bs-toggle="popover" data-bs-trigger="hover focus"
+                                                data-bs-content="Please note that the final price is structured as follows: the price given by you + 20%."></i></label>
 
-                                    <div class="input-group mb-3" id="price">
-                                        <input type="number" class="form-control" id="inputBookPrice"
-                                            aria-describedby="basic-addon1" min="0">
-                                        <span class="input-group-text" id="Currency">FT</span>
+                                        <div class="input-group mb-3" id="price">
+                                            <input type="number" class="form-control" id="inputBookPrice"
+                                                aria-describedby="basic-addon1" min="0">
+                                            <span class="input-group-text" id="Currency">FT</span>
+                                        </div>
+                                        <!-- <input class="form-control" type="number" id="inputBookPrice"> -->
+
                                     </div>
-                                    <!-- <input class="form-control" type="number" id="inputBookPrice"> -->
+                                    <div class="container errorMessage" id="PriceError"></div>
+                                    <div class="container" id="priceP">
+                                        <p>If you need more information on this matter, please refer to the relevant
+                                            section
+                                            in
+                                            the <a class="link" href="#"> Terms and Conditions</a>.</p>
+                                    </div>
+
 
                                 </div>
-                                <div class="container errorMessage" id="PriceError"></div>
-                                <div class="container" id="priceP">
-                                    <p>If you need more information on this matter, please refer to the relevant section
-                                        in
-                                        the <a class="link" href="#"> Terms and Conditions</a>.</p>
-                                </div>
-
 
                             </div>
 
-                            </div>
 
-                            
                         </div>
 
                 </div>

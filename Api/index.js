@@ -41,6 +41,9 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/publisherRegistration", requestOptions)
         .then(response => {
+            if(response.status == 200 || response.status == 422) {
+                return { status: response.status };
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -93,6 +96,9 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/generalRegistration", requestOptions)
         .then(response => {
+            if(response.status == 200 || response.status == 422) {
+                return { status: response.status }
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -114,7 +120,11 @@
      *  }
      *
      * @return
-        * 200: jwt token
+        * 200: 
+            * token
+            * first
+                * true: when the user logs in for the first time
+                * false: if the user is not logging in for the first time
         * 422: loginError
      */
     function login(raw) {
@@ -176,6 +186,14 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/token", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return {
+                        status: response.status,
+                        data: data
+                    }
+                })
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -200,9 +218,11 @@
                 * author name
                 * first name
                 * last name
+                * publisher company name
                 * book description
                 * pages number
                 * book rating
+                * language
                 * saved
         * 
         * 401: 
@@ -228,6 +248,16 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getMostSavedBooksOfTheMonth", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 403) {
+                return { status: response.status }
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -249,9 +279,11 @@
                 * author name
                 * first name
                 * last name
+                * publisher company name
                 * book description
                 * pages number
                 * book rating
+                * language
                 * saved
         * 
         * 401: 
@@ -277,6 +309,16 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getPublishedBooks", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 403) {
+                return { status: response.status }
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -298,9 +340,11 @@
                 * author name
                 * first name
                 * last name
+                * publisher company name
                 * book description
                 * pages number
                 * book rating
+                * language
                 * saved
         * 
         * 401: 
@@ -326,6 +370,16 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getSelfPublishedBooks", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 403) {
+                return { status: response.status }
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -347,9 +401,11 @@
                 * author name
                 * first name
                 * last name
+                * publisher company name
                 * book description
                 * pages number
                 * book rating
+                * language
                 * saved
         * 
         * 401:
@@ -375,6 +431,16 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getOneRandomBook", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 403) {
+                return { status: response.status }
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -396,9 +462,11 @@
                 * author name
                 * first name
                 * last name
+                * publisher company name
                 * book description
                 * pages number
                 * book rating
+                * language
                 * saved
         * 
         * 401:
@@ -424,6 +492,16 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getRecommandedBooks", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 403) {
+                return { status: response.status }
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -477,6 +555,16 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getDropDownValues", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 403) {
+                return { status: response.status }
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -500,7 +588,8 @@
             "price": 1200,
             "coverImage": "Ez a kép elérési útja",
             "file": "Ez a könyv elérési útja",
-            "bankAccountNumber": "HU12345678"
+            "bankAccountNumber": "HU12345678",
+            "chapterNumber": 20
      *  }
      * 
      * @return
@@ -525,6 +614,7 @@
                 * bankAccountNumberError
                 * coverImageError
                 * bookFileError
+                * chapterNumberError
      */
     function addBook(raw) {
         var myHeaders = new Headers();
@@ -546,6 +636,16 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/addBook", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 403 || response.status == 200) {
+                return { status: response.status }
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -605,6 +705,16 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getBookDetails", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 403) {
+                return { status: response.status }
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -629,7 +739,8 @@
             "price": 1200,
             "coverImage": "Ez a kép elérési útja",
             "file": "Ez a könyv elérési útja",
-            "bankAccountNumber": "12345678"
+            "bankAccountNumber": "12345678",
+            "chapterNumber": 20
      *  }
      *
      * @return
@@ -654,6 +765,7 @@
                 * bankAccountNumberError
                 * coverImageError
                 * bookFileError
+                * chapterNumberError
      */
     function setBook(raw) {
         var myHeaders = new Headers();
@@ -675,6 +787,16 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/setBook", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 403 || response.status == 200) {
+                return { status: response.status }
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -728,6 +850,16 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/post/addPost", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 409 || response.status == 200) {
+                return { status: response.status }
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -776,6 +908,16 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/postlike/postLike", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 200) {
+                return { status: response.status }
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -824,6 +966,16 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/postlike/postDislike", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 200) {
+                return { status: response.status }
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -867,6 +1019,14 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/post/getFeedPosts", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 
@@ -906,6 +1066,312 @@
 
         fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/getRecommandedUsers", requestOptions)
         .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            }
+            return response.json().then(data => {
+                return { 
+                    status: response.status, 
+                    data: data 
+                };
+            });
+        })
+        .catch(error => console.log('error', error));
+    }
+
+
+
+// ----- CATEGORY INTEREST -----
+
+    /**
+     * @param {JSON} raw = {
+     *      "categoryIds": [
+     *          1,
+     *          2,
+     *          3,
+     *          4
+     *      ]
+     *  }
+     * 
+     * @return
+        * 200:
+            * recommanded users
+                * username
+                * image
+        * 
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 
+        * 422:
+            * error:
+                * categoryInterestError
+     */
+    function addCategoryInterest(raw) {
+        var myHeaders = new Headers();
+
+        myHeaders.append("Content-Type", "application/json");
+
+        var storedToken = localStorage.getItem("Token");
+        if(storedToken) {
+            myHeaders.append("Token", storedToken);
+        }
+
+        var postData = JSON.stringify(raw);
+
+        var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+        };
+
+        fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/categoryinterest/addCategoryInterest", requestOptions)
+        .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 200) {
+                return { status: response.status }
+            }
+            return response.json().then(data => {
+                return { 
+                    status: response.status, 
+                    data: data 
+                };
+            });
+        })
+        .catch(error => console.log('error', error));
+    }
+
+
+    /**
+     * @return
+        * 200:
+            * category id
+            * category name
+            * category image
+        * 
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+     */
+    function getAllCategory() {
+        var myHeaders = new Headers();
+
+        var storedToken = localStorage.getItem("Token");
+        if(storedToken) {
+            myHeaders.append("Token", storedToken);
+        }
+
+        var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+        };
+
+        fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/category/getAllCategory", requestOptions)
+        .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            }
+            return response.json().then(data => {
+                return { 
+                    status: response.status, 
+                    data: data 
+                };
+            });
+        })
+        .catch(error => console.log('error', error));
+    }
+
+
+
+// ----- PUBLISHER HOME -----
+
+    /**
+     * @return
+        * 200:
+            * book id
+            * cover image
+            * title
+            * author name
+            * first name
+            * last name
+            * book description
+            * pages number
+            * book rating
+            * language
+            * saved
+        * 
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 
+        * 403: User is not a publisher user
+     */
+    function getOneRandomLookingForPublisherBook() {
+        var myHeaders = new Headers();
+
+        var storedToken = localStorage.getItem("Token");
+        if(storedToken) {
+            myHeaders.append("Token", storedToken);
+        }
+        
+        var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+        };
+
+        fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getOneRandomLookingForPublisherBook", requestOptions)
+        .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 403) {
+                return { status: response.status };
+            }
+            return response.json().then(data => {
+                return { 
+                    status: response.status, 
+                    data: data 
+                };
+            });
+        })
+        .catch(error => console.log('error', error));
+    }
+
+
+    /**
+     * @return
+        * 200:
+            * book id
+            * cover image
+            * title
+            * author name
+            * first name
+            * last name
+            * book description
+            * pages number
+            * book rating
+            * language
+            * saved
+        * 
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 
+        * 403: User is not a publisher user
+     */
+    function getRecommandedBooksForPublisher() {
+        var myHeaders = new Headers();
+
+        var storedToken = localStorage.getItem("Token");
+        if(storedToken) {
+            myHeaders.append("Token", storedToken);
+        }
+        
+        var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+        };
+
+        fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getRecommandedBooksForPublisher", requestOptions)
+        .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 403) {
+                return { status: response.status };
+            }
+            return response.json().then(data => {
+                return { 
+                    status: response.status, 
+                    data: data 
+                };
+            });
+        })
+        .catch(error => console.log('error', error));
+    }
+
+
+    /**
+     * @return
+        * 200:
+            * 4 random category's books
+                * book id
+                * cover image
+                * title
+                * author name
+                * first name
+                * last name
+                * book description
+                * pages number
+                * book rating
+                * language
+                * saved
+        * 
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 
+        * 403: User is not a publisher user
+     */
+    function getRandomBookByCategory() {
+        var myHeaders = new Headers();
+
+        var storedToken = localStorage.getItem("Token");
+        if(storedToken) {
+            myHeaders.append("Token", storedToken);
+        }
+        
+        var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+        };
+
+        fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getRandomBookByCategory", requestOptions)
+        .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 403) {
+                return { status: response.status };
+            }
             return response.json().then(data => {
                 return { 
                     status: response.status, 

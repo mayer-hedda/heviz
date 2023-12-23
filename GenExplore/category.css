@@ -1,4 +1,4 @@
-/** ----------- VÁLTOZÓK DEFINIÁLÁSA */
+/* ----------- VÁLTOZÓK DEFINIÁLÁSA */
 :root {
     /* -----------COLORS -----------*/
     --primary-BTN-Bg-color: rgb(232, 181, 160);
@@ -21,51 +21,19 @@
     --current-page-hover-color: rgb(68, 92, 79);
     --card-bg: rgb(234, 215, 190);
 
-    /* -------- MARGIN - PADDING --------*/
-    /* --default-padding: auto 5%; */
 
     --card-height: 400px;
     --card-width: 270px;
-    /* --pic-height: 400; */
-    /* --offset: 60; */
     --max-lines: 6;
     --line-height: 1.5;
 }
 
+/*--------------- FONTS ---------------*/
 
-/**--------------- FONTS ---------------*/
 @font-face {
     font-family: 'Inter-Medium';
     src: url('../fonts/Inter/static/Inter-Medium.ttf') format('truetype');
     font-weight: 500;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Inter-SemiBold';
-    src: url('../fonts/Inter/static/Inter-SemiBold.ttf') format('truetype');
-    font-weight: 600;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Montserrat-Bold';
-    src: url("../fonts/Montserrat/static/Montserrat-Bold.ttf") format('truetype');
-    font-weight: 700;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Montserrat-SemiBold';
-    src: url("../fonts/Montserrat/static/Montserrat-SemiBold.ttf") format('truetype');
-    font-weight: 600;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Montserrat-Regular';
-    src: url("../fonts/Montserrat/static/Montserrat-Regular.ttf") format('truetype');
-    font-weight: 400;
     font-style: normal;
 }
 
@@ -76,39 +44,7 @@
     font-style: normal;
 }
 
-@font-face {
-    font-family: 'PTsans-Regular';
-    src: url("../fonts/PT_Sans/PTSans-Regular.ttf") format('truetype');
-    font-weight: 400;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Poppins-Regular';
-    src: url('../fonts/Poppins/Poppins-Regular.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Poppins-Medium';
-    src: url("../fonts/Poppins/Poppins-Medium.ttf") format('truetype');
-    font-weight: 500;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Poppins-light';
-    src: url("../fonts/Poppins/Poppins-Light.ttf") format('truetype');
-    font-weight: 300;
-    font-style: normal;
-}
-
-/** --------------- NAVBAR ---------------*/
-
-/* *{
-    position: relative;
-} */
+/* --------------- NAVBAR ---------------*/
 
 nav {
     background-color: var(--page-bg-color);
@@ -118,7 +54,6 @@ nav {
 #navbar {
     padding-right: 5%;
     padding-left: 5%;
-    /* padding: var(--default-padding); */
 }
 
 #navbar a,
@@ -139,11 +74,10 @@ nav {
 
 #navbar a:hover {
     color: var(--navbar-a-hover-color);
-    /* font-weight: 700; */
     font-style: italic;
 }
 
-.active {
+.active-page {
     /*? Az aktuális page */
     color: var(--current-page-color) !important;
     text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
@@ -151,6 +85,7 @@ nav {
     text-underline-offset: 0.281rem;
 }
 
+.active-page:hover,
 .active:hover {
     /*? aktuális page hover */
     color: var(--current-page-hover-color) !important;
@@ -182,7 +117,7 @@ nav {
     font-family: 'Inter-Medium', sans-serif;
     color: var(--btn-text-color);
     border: solid var(--primary-BTN-Bg-color);
-    /* border-width: 0rem; */
+
     border-radius: 1.5rem;
 
     background-color: var(--primary-BTN-Bg-color);
@@ -197,7 +132,7 @@ nav {
 
     box-sizing: border-box;
     margin-right: 50px;
-    /* align-items: self-end; */
+
 }
 
 #writingBtn:hover {
@@ -210,104 +145,117 @@ nav {
     border: dashed 0.094rem var(--dash-color);
 }
 
-/** ---------- SECTION ONE ----------------------  */
+/* ---------- SECTION ONE ----------------------  */
 #s1 {
     margin-top: 75px;
     background-color: #EAD7BE;
-    height: fit-content;
-    padding-top: 25px;
+    height: 96px;
+}
+
+#back-arrow-div{
+    padding: 0px;
+}
+
+#back-arrow {
+    margin: 20px;
+    border: none;
+    background-color: transparent;
+    /* padding: 0px; */
+}
+
+#category-name-div {
+    height: 96px;
+    padding-top: 10px;
     padding-bottom: 10px;
-    /* position: fixed; */
 }
 
-#search-input {
-    width: 500px;
-    margin-left: 72px;
-}
-
-#searchKeyword {
-    border-radius: 100px 0px 0px 100px;
-    border-color: #cdb5aa;
-    background-color: #FFF9F5;
-    padding-left: 15px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    font-size: 18px;
-}
-
-#searchKeyword::placeholder {
-    color: #735646ea;
-    font-size: 18px;
-}
-
-#searchBTN {
-    border-radius: 0px 100px 100px 0px;
-    /* background-color: #F6EFEA; */
-    background-color: #FFF9F5;
-    /* border: 1px solid #cdb5aa; */
-    border-left: 0;
-    border-color: #cdb5aa;
-    width: 60px;
-}
-
-/** --------------- H2 + SECOND SECTION ---------------*/
-#title-h2{
-    margin-top: 250px!important;
-}
-
-.rowPics {
-    width: 217px;
-    height: 242px;
-    /* filter: blur(1px); */
-}
-
-.image-container {
-    text-align: center;
-    /* A tartalomat középre igazítja */
-    position: relative;
-    margin-bottom: 50px;
- 
-}
-
-.category-name {
-    display: block;
-    /* Minden kategória név egy új sorban jelenjen meg */
-    font-weight: bold;
-    /* Vastagabb betűtípus a kiemeléshez, opcionális */
-    position: absolute;
-    bottom: 20px;
-    left: 5%;
-    right: 5%;
-    font-size: 22px;
-    color: white;
-    font-family: 'Montserrat-Regular', sans-serif;
+.category-name-h1 {
+    font-family: 'Montserrat-Medium', sans-serif;
+    font-size: 40px;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    text-shadow: rgba(0, 0, 0, 0.685) 2px 1px 4px; 
-}
-
-
-#title-h2 {
-    font-family: 'Inter-SemiBold', sans-serif;
-    text-transform: uppercase !important;
-    font-size: 30px;
-    margin-top: 100px;
-    margin-bottom: 50px;
-}
-
-.rows {
-    display: inline-flex;
-    column-gap: 40px;
+    letter-spacing: 5.25px;
     /* vertical-align: middle!important; */
+    /* line-height: 50px; */
+    margin-bottom: 0px;
 }
 
-.rows img {
-    border-radius: 30px;
-    border: 3.5px solid #E8B5A0;
-    object-fit: cover;
-    backdrop-filter: blur(1px);
+.breadcrumb a {
+    color: var(--navbar-p-color);
+    text-underline-offset: 3px;
 }
 
+/* ---------- SECTION TWO ----------------------  */
+#s2 {
+    margin-top: 171px;
+}
+
+/* ----- LEFT SIDE */
+
+#left-side {
+    position: sticky !important;
+    height: 80vh;
+    background: #F5EADC;
+}
+
+#left-side-h3 {
+    color: #2C1810;
+    font-family: 'Montserrat-Medium', sans-seri;
+    margin-top: 30px;
+}
+
+form{
+    margin-top: 20px;
+}
+
+#search-input{
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border: solid 1px #cdb5aa;
+    background-color: #FFF9F5;
+}
+
+#search-input::placeholder{
+    color: #735646ea;
+}
+
+#search-btn{
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    background-color: #FFF9F5;
+    border-color: #cdb5aa;
+    border-left: 0;
+}
+
+#most-saved-books{
+    margin-top: 30px;
+    border-top: solid 1px #cdb5aa;
+}
+
+.checkbox-filter{
+
+
+    border-bottom: solid 1px #cdb5aa;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.checkbox-filter label{
+    font-size: 20px;
+    font-family: 'Montserrat-Medium', sans-seri;
+}
+
+.checkbox-filter input{
+    margin-top: 7px;
+    width: 16px;
+    height: 16px;
+    background-color: #FFF9F5;
+    border-color: #cdb5aa;
+}
+
+.checkbox-filter input:checked{
+    background-color: var(--navbar-p-color);
+    border-color: var(--navbar-p-color);
+}
 
 
 /** --------------- FOOTER ---------------*/
@@ -344,16 +292,16 @@ footer a {
     color: var(--mostUsed-text-color);
 }
 
-footer a:hover {
+footer a:hover{
     color: #B43C82;
 }
 
-#copy-right-div {
-    float: right !important;
+#copy-right-div{
+    float: right!important;
 }
 
-#copy-right {
+#copy-right{
     font-size: small;
     font-family: 'Poppins-Regular', sans-serif;
-
+    
 }

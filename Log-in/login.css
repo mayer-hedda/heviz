@@ -1,21 +1,28 @@
 /* Rem és px közti váltószám: 16  KINDA*/
 
 @font-face {
-    font-family: 'Poppins';
+    font-family: 'Poppins-Light';
     src: url('../fonts/Poppins/Poppins-Light.ttf') format('truetype');
     font-weight: 300;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'Poppins';
+    font-family: 'Poppins-Regular';
+    src: url('../fonts/Poppins/Poppins-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins-Medium';
     src: url('../fonts/Poppins/Poppins-Medium.ttf') format('truetype');
     font-weight: 500;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'Inter';
+    font-family: 'Inter-Bold';
     src: url('../fonts/Inter/static/Inter-Bold.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
@@ -35,8 +42,7 @@ h1 {
 form label {
     margin-bottom: 1%;
     padding-left: 1%;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
+    font-family: 'Poppins-Medium', sans-serif;
     font-size: 100%;
     color: rgb(55, 56, 78);
 }
@@ -60,8 +66,8 @@ input {
 
 form p {
     margin-bottom: 2%;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 300;
+    font-family: 'Poppins-Light', sans-serif;
+    
 }
 
 
@@ -106,8 +112,7 @@ a:hover {
 
 #up-p {
     color: #1e808d;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
+    font-family: 'Poppins-Medium', sans-serif;
     margin-top: 0%;
 }
 
@@ -116,7 +121,7 @@ a:hover {
     margin-bottom: 1rem;
 }
 
-#input-Email {
+#input-Email, #modalEmail {
     border-width: 0.1125rem;
     border-color: rgb(144, 152, 180, 0.75);
     background-color: transparent;
@@ -128,11 +133,11 @@ a:hover {
     align-items: center;
 }
 
-#input-Email::placeholder {
+#input-Email::placeholder, #modalEmail::placeholder {
     font-size: smaller;
     color: rgb(120, 121, 143);
-    font-family: 'Poppins', sans-serif;
-    font-weight: 300;
+    font-family: 'Poppins-Light', sans-serif;
+    
     font-size: 0.75rem;
 }
 
@@ -145,8 +150,7 @@ a:hover {
 #input-Pwd::placeholder {
     font-size: smaller;
     color: rgb(120, 121, 143);
-    font-family: 'Poppins', sans-serif;
-    font-weight: 300;
+    font-family: 'Poppins-Light', sans-serif;
     font-size: 0.75rem;
 }
 
@@ -163,7 +167,8 @@ a:hover {
 }
 
 #forgotPwd {
-    margin-bottom: 8%;
+    margin-bottom: 5%;
+    margin-top: 5%;
 }
 
 #submitButton {
@@ -178,9 +183,8 @@ a:hover {
     
     font-size: 120%;
     text-align: center;
-    font-family: Poppins;
-    font-weight: 500;
-    color: #332F31;
+    font-family: 'Poppins-Medium', sans-serif;
+    color: rgb(51, 47, 49);
     position: relative;
     /* margin-bottom: 15%; */
     border: 0rem;
@@ -195,4 +199,34 @@ a:hover {
     transition: color 0.8s ease;
     transition: background-color 0.8s ease;
 
+}
+
+.modal-content{
+    border-radius: 15px;
+}
+
+.modal-header{
+   border-bottom: none;
+}
+
+#modalLabel{
+    font-family: 'Poppins-Regular', sans-serif;
+    color: rgb(55, 56, 78);
+
+}
+
+#modalSubmit{
+    background-color: rgba(232, 181, 160, 1);
+    border: none;
+    border-radius: 3rem;
+    padding: 7px 20px;
+    font-family: 'Poppins-Regular', sans-serif;
+    color: rgb(69, 58, 64);
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 15px;
+}
+
+.modal-footer{
+    border-top: none;
 }
