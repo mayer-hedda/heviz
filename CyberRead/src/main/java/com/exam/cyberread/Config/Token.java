@@ -118,6 +118,21 @@ public class Token {
     /**
      * @param token
      * 
+     * @return username
+     */
+    public static String getUsernameByToken(String token) {
+        byte[] secret = Base64.getDecoder().decode("Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=");
+        Jws<Claims> result;
+        result = Jwts.parser().setSigningKey(Keys.hmacShaKeyFor(secret)).parseClaimsJws(token);
+        
+        String username = result.getBody().get("username", String.class);
+        return username;
+    }
+    
+    
+    /**
+     * @param token
+     * 
      * @return userRank
      */
     public static String getUserRankByToken(String token) {

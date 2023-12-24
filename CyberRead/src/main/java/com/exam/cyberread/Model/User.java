@@ -2,6 +2,7 @@ package com.exam.cyberread.Model;
 
 import com.exam.cyberread.Exception.UserException;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -125,6 +126,8 @@ public class User implements Serializable {
     @NotNull
     @Column(name = "userId")
     private int userId;
+    
+    private String profileUsername;
 
     public User() {
     }
@@ -291,6 +294,10 @@ public class User implements Serializable {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+    
+    public String getProfileUsername() {
+        return profileUsername;
     }
 
     @Override
@@ -500,6 +507,122 @@ public class User implements Serializable {
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
             throw new UserException("Error in getRecommandedUsers() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId: logged in user id
+     * @param username: username of the logged in user
+     * @param profileUsername: username associated with the opened profile
+     * 
+     * @return
+        * general user profile:
+            * username
+            * image
+            * following
+            * first name
+            * last name
+            * book count
+            * saved book count
+            * followers count
+            * intro description
+            * website
+            * cover color code
+            * ownProfile
+        * publisher user profile:
+            * username
+            * image
+            * following
+            * company name
+            * book count
+            * saved book count
+            * followers count
+            * intro description
+            * website
+            * cover color code
+            * ownProfile
+        * error: profileUsernameError
+     * 
+     * @throws UserException: Something wrong
+     */
+    public static JSONObject getUserDetails(Integer userId, String username, String profileUsername) throws UserException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getUserDetails");
+
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("usernameIN", String.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("profileUsernameIN", String.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
+
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("usernameIN", username);
+            spq.setParameter("profileUsernameIN", profileUsername);
+
+            spq.execute();
+            
+            Integer resultOUT = (Integer) spq.getOutputParameterValue("result");
+            
+            if(resultOUT == 1) {
+                List<Object[]> resultList = spq.getResultList();
+                JSONObject userDetails = new JSONObject();
+
+                for(Object[] result : resultList) {
+                    String rank = (String) result[0];
+                    if(rank.equals("general")) {
+                        userDetails.put("username", (String) result[1]);
+                        userDetails.put("image", (String) result[2]);
+                        if((Integer) result[3] == 0) {
+                            userDetails.put("following", false);
+                        } else {
+                            userDetails.put("following", true);
+                        }
+                        userDetails.put("firstName", (String) result[4]);
+                        userDetails.put("lastName", (String) result[5]);
+                        userDetails.put("bookCount", (BigInteger) result[6]);
+                        userDetails.put("savedBookCount", (BigInteger) result[7]);
+                        userDetails.put("followersCount", (BigInteger) result[8]);
+                        userDetails.put("introDescription", (String) result[9]);
+                        userDetails.put("website", (String) result[10]);
+                        userDetails.put("coverColorCode", (String) result[11]);
+                        userDetails.put("ownProfile", (Boolean) result[12]);
+                    } else if(rank.equals("publisher")) {
+                        userDetails.put("username", (String) result[1]);
+                        userDetails.put("image", (String) result[2]);
+                        if((Integer) result[3] == 0) {
+                            userDetails.put("following", false);
+                        } else {
+                            userDetails.put("following", true);
+                        }
+                        userDetails.put("companyName", (String) result[4]);
+                        userDetails.put("bookCount", (BigInteger) result[5]);
+                        userDetails.put("savedBookCount", (BigInteger) result[6]);
+                        userDetails.put("followersCount", (BigInteger) result[7]);
+                        userDetails.put("introDescription", (String) result[8]);
+                        userDetails.put("website", (String) result[9]);
+                        userDetails.put("coverColorCode", (String) result[10]);
+                        userDetails.put("ownProfile", (Boolean) result[11]);
+                    }               
+                }
+            
+                return userDetails;
+            } else {
+                JSONObject error = new JSONObject();
+                
+                error.put("profileUsernameError", "This user dosn't exists!");
+                
+                return error;
+            }
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new UserException("Error in getUsrDetails() method!");
         } finally {
             em.clear();
             em.close();

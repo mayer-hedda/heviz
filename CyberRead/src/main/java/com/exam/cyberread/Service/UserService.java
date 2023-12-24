@@ -4,6 +4,9 @@ import com.exam.cyberread.Config.Token;
 import com.exam.cyberread.Exception.UserException;
 import com.exam.cyberread.Model.User;
 import java.text.SimpleDateFormat;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -70,17 +73,25 @@ public class UserService {
             JSONObject error = UserService.registrationDetailsCheck(username, firstName, lastName, email, password, aszf);
             
             // birthdate check
-            if(birthdate == null || birthdate.isEmpty()) {
+            LocalDate now = LocalDate.now();
+
+            if (birthdate == null || birthdate.isEmpty()) {
                 error.put("birthdateError", "The birthdate field cannot be empty!");
             } else {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Date date = dateFormat.parse(birthdate);
-                Date now = new Date();
-                long diff = now.getTime() - date.getTime();
-                long diffDays = diff / (24 * 60 * 60 * 1000);
+                try {
+                    LocalDate date = LocalDate.parse(birthdate);
 
-                if(diffDays < 5478) {
-                    error.put("birthdateError", "You are too young!");
+                    if (date.isAfter(now) || date.isEqual(now)) {
+                        error.put("birthdateError", "Invalid birthdate format!");
+                    } else {
+                        Period period = Period.between(date, now);
+
+                        if (period.getYears() < 15) {
+                            error.put("birthdateError", "You are too young!");
+                        }
+                    }
+                } catch (DateTimeException e) {
+                    error.put("birthdateError", "Invalid birthdate format!");
                 }
             }
             
@@ -195,31 +206,39 @@ public class UserService {
             }
 
             // email check
-            Pattern specReg = Pattern.compile("(?=.*[@])");
-            Matcher matcher = specReg.matcher(email);
-
-            if (!matcher.find()) {
-                error.put("emailError", "Email address must contain the '@' symbol.");
+            if(email == null || email.isEmpty()) {
+                error.put("emailError", "The email field cannot be empty!");
             } else {
-                String[] emailParts = email.split("@");
-
-                if (emailParts[0].isEmpty()) {
-                    error.put("emailError", "Email address cannot be empty before '@' symbol.");
-                } else if (emailParts[0].length() < 4) {
-                    error.put("emailError", "Please ensure you have at least 4 characters before the '@' symbol.");
-                } else if (!email.contains(".")) {
-                    error.put("emailError", "Please include the '.' (dot) symbol in your email address.");
+                Pattern specReg = Pattern.compile("(?=.*[@])");
+                Matcher matcher = specReg.matcher(email);
+            
+                if (!matcher.find()) {
+                    error.put("emailError", "Email address must contain the '@' symbol!");
                 } else {
-                    String lastPart = emailParts[1];
+                    String[] emailParts = email.split("@");
 
-                    if (lastPart.isEmpty() || lastPart.indexOf(".") == -1 || lastPart.lastIndexOf(".") == lastPart.length() - 1) {
-                        error.put("emailError", "Last part of email is missing or empty.");
+                    if(emailParts.length == 0) {
+                        error.put("emailError", "Email address must contain more than just the '@' symbol!");
+                    } else if (emailParts[0].length() == 0) {
+                        error.put("emailError", "Email address cannot be empty before '@' symbol!");
+                    } else if (emailParts[0].length() < 4) {
+                        error.put("emailError", "Please ensure you have at least 4 characters before the '@' symbol!");
+                    } else if(emailParts.length == 1 && email.charAt(email.length() - 1) == '@') {
+                        error.put("emailError", "Last part of email is missing or empty!");
                     } else {
-                        String[] domainParts = lastPart.split("\\.");
-                        String beforeDot = domainParts[0];
+                        String lastPart = emailParts[1];
 
-                        if (beforeDot.isEmpty() || beforeDot.length() < 2) {
-                            error.put("emailError", "Please ensure you have at least 2 characters before the '.' (dot) symbol.");
+                        if(!lastPart.contains(".")) {
+                            error.put("emailError", "Please enter '.' (period) after the '@' in your email address!");
+                        } else {
+                            String[] domainParts = lastPart.split("\\.");
+                            String beforeDot = domainParts[0];
+
+                            if (beforeDot.isEmpty() || beforeDot.length() < 2) {
+                                error.put("emailError", "Please ensure you have at least 2 characters before the '.' (dot) symbol!");
+                            } else if(email.charAt(email.length() - 1) == '.' || domainParts[1].length() < 2) { 
+                                error.put("emailError", "Please ensure you have at least 2 characters after the '.' (dot) symbol!");
+                            }
                         }
                     }
                 }
@@ -237,7 +256,7 @@ public class UserService {
                 if(password.length() < 8) {
                     error.put("passwordError", "Password must be at least 8 characters long!");
                 } else if(password.length() > 100) {
-                    error.put("passwordError", "The password cannot be longer than 50 characters!");
+                    error.put("passwordError", "The password cannot be longer than 100 characters!");
                 } else if (!password.matches(upperRegex) || !password.matches(lowerRegex) || !password.matches(numberRegex) || !password.matches(specialRegex)) {
                     error.put("passwordError", "The password must contain at least 1 lowercase letter, 1 uppercase letter, 1 number and 1 special character!");
                 }
@@ -272,6 +291,51 @@ public class UserService {
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
             throw new UserException("Error in getRecommamdedUsers() method!");
+        }
+    }
+    
+    
+    /**
+     * @param userId: logged in user id
+     * @param username: username of the logged in user
+     * @param profileUsername: username associated with the opened profile
+     * 
+     * @return
+        * general user profile:
+            * username
+            * image
+            * following
+            * first name
+            * last name
+            * book count
+            * saved book count
+            * followers count
+            * intro description
+            * website
+            * cover color code
+            * ownProfile
+        * publisher user profile:
+            * username
+            * image
+            * following
+            * company name
+            * book count
+            * saved book count
+            * followers count
+            * intro description
+            * website
+            * cover color code
+            * ownProfile
+        * error: profileUsernameError
+     * 
+     * @throws UserException: Something wrong
+     */
+    public static JSONObject getUserDetails(Integer userId, String username, String profileUsername) throws UserException {
+        try {
+            return User.getUserDetails(userId, username, profileUsername);
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new UserException("Error in getUserDetails() method!");
         }
     }
     

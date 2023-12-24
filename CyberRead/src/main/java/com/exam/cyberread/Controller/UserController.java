@@ -220,4 +220,70 @@ public class UserController {
         }
     }
     
+    
+    /**
+     * @param jwt
+     * @param user
+     * 
+     * @return
+        * 200:
+            * general user profile:
+                * username
+                * image
+                * following
+                * first name
+                * last name
+                * book count
+                * saved book count
+                * followers count
+                * intro description
+                * website
+                * cover color code
+                * ownProfile
+            * publisher user profile:
+                * username
+                * image
+                * following
+                * company name
+                * book count
+                * saved book count
+                * followers count
+                * intro description
+                * website
+                * cover color code
+                * ownProfile
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 422: profileUsernameError
+     * 
+     * @throws UserException: Something wrong
+     */
+    @POST
+    @Path("getUserDetails")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getUserDetails(@HeaderParam("Token") String jwt, User user) throws UserException {
+        if(jwt == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
+        } else {
+            int tokenCheckResult = Token.decodeJwt(jwt);
+
+            switch (tokenCheckResult) {
+                case 1:
+                    Integer userId = Token.getUserIdByToken(jwt);
+                    String usrname = Token.getUsernameByToken(jwt);
+                    JSONObject result = UserService.getUserDetails(userId, usrname, user.getProfileUsername());
+                    if(result.length() == 1) {
+                        return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                    }
+                    return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                case 2:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
+                default:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
+            }
+        }
+    }
+    
 }
