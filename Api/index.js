@@ -1381,3 +1381,85 @@
         })
         .catch(error => console.log('error', error));
     }
+
+
+
+// ----- PROFILES -----
+
+    /**
+     * @param {JSON} raw = {
+     *      "profileUsername" = "lilapapucs"
+     *  }
+     * 
+     * @returns
+        * 200:
+            * general user profile:
+                * username
+                * image
+                * following
+                * first name
+                * last name
+                * book count
+                * saved book count
+                * followers count
+                * intro description
+                * website
+                * cover color code
+                * ownProfile
+            * publisher user profile:
+                * username
+                * image
+                * following
+                * company name
+                * book count
+                * saved book count
+                * followers count
+                * intro description
+                * website
+                * cover color code
+                * ownProfile
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 422: profileUsernameError
+     */
+    function getUserDetails(raw) {
+        var myHeaders = new Headers();
+
+        myHeaders.append("Content-Type", "application/json");
+        var storedToken = localStorage.getItem("Token");
+        if(storedToken) {
+            myHeaders.append("Token", storedToken);
+        }
+
+        var postData = JSON.stringify(raw);
+
+        var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+        };
+
+        fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/getUserDetails", requestOptions)
+        .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            } else if(response.status == 403) {
+                return { status: response.status };
+            }
+            return response.json().then(data => {
+                return { 
+                    status: response.status, 
+                    data: data 
+                };
+            });
+        })
+        .catch(error => console.log('error', error));
+    }
