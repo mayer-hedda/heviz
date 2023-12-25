@@ -1394,6 +1394,7 @@
      * @returns
         * 200:
             * general user profile:
+                * rank
                 * username
                 * image
                 * following
@@ -1407,6 +1408,7 @@
                 * cover color code
                 * ownProfile
             * publisher user profile:
+                * rank
                 * username
                 * image
                 * following
@@ -1451,8 +1453,137 @@
                         data: data 
                     };
                 });
-            } else if(response.status == 403) {
-                return { status: response.status };
+            }
+            return response.json().then(data => {
+                return { 
+                    status: response.status, 
+                    data: data 
+                };
+            });
+        })
+        .catch(error => console.log('error', error));
+    }
+
+
+    /**
+     * @param {JSON} raw = {
+     *      "profileUsername": "lilapapucs"
+     *  }
+     * 
+     * @return
+        * 200:
+            * books:
+                * book id
+                * category name
+                * cover image
+                * title
+                * author name
+                * first name
+                * last name
+                * company name
+                * book description
+                * pages number
+                * book rating
+                * language
+                * saved
+            * own books
+        * 
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 
+        * 422: prifileUsernameError
+     */
+    function getUserBooks(raw) {
+        var myHeaders = new Headers();
+
+        myHeaders.append("Content-Type", "application/json");
+        var storedToken = localStorage.getItem("Token");
+        if(storedToken) {
+            myHeaders.append("Token", storedToken);
+        }
+
+        var postData = JSON.stringify(raw);
+
+        var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+        };
+
+        fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getUserBooks", requestOptions)
+        .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
+            }
+            return response.json().then(data => {
+                return { 
+                    status: response.status, 
+                    data: data 
+                };
+            });
+        })
+        .catch(error => console.log('error', error));
+    }
+
+
+    /** 
+     * @param {JSON} raw = {
+     *      "profileUsername": "lilapapucs"
+     *  }
+     * 
+     * @return
+        * 200:
+            * posts:
+                * post id
+                * username
+                * image
+                * post time
+                * description
+                * liked
+            * own posts
+        * 
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 
+        * 422: prifileUsernameError
+     */
+    function getUserPosts(raw) {
+        var myHeaders = new Headers();
+
+        myHeaders.append("Content-Type", "application/json");
+        var storedToken = localStorage.getItem("Token");
+        if(storedToken) {
+            myHeaders.append("Token", storedToken);
+        }
+
+        var postData = JSON.stringify(raw);
+
+        var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+        };
+
+        fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/post/getUserPosts", requestOptions)
+        .then(response => {
+            if(response.status == 401) {
+                return response.text().then(data => {
+                    return { 
+                        status: response.status, 
+                        data: data 
+                    };
+                });
             }
             return response.json().then(data => {
                 return { 
