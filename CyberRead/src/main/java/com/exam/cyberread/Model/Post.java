@@ -226,4 +226,73 @@ public class Post implements Serializable {
         }
     }
     
+    
+    /**
+     * @param userId: logged in user id
+     * @param profileUsername: username associated with the opened profile
+     * 
+     * @return
+        * posts:
+            * post id
+            * username
+            * image
+            * post time
+            * description
+            * liked
+        * own posts
+     * 
+     * @throws PostException: Something wrong
+     */
+    public static JSONObject getUserPosts(Integer userId, String profileUsername) throws PostException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getUserPosts");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("profileUsernameIN", String.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
+            spq.registerStoredProcedureParameter("ownPosts", Boolean.class, ParameterMode.OUT);
+            
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("profileUsernameIN", profileUsername);
+
+            spq.execute();
+            
+            List<Object[]> resultList = spq.getResultList();
+            
+            if((Integer) spq.getOutputParameterValue("result") == 1) {
+                JSONArray posts = new JSONArray();
+
+                for(Object[] result : resultList) { 
+                    JSONObject post = new JSONObject();
+                    post.put("id", (Integer) result[0]);
+                    post.put("username", (String) result[1]);
+                    post.put("image", (String) result[2]);
+                    post.put("postTime", (String) result[3]);
+                    post.put("description", (String) result[4]);
+                    if((Integer) result[5] == 0) {
+                        post.put("liked", false);
+                    } else {
+                        post.put("liked", true);
+                    }
+
+                    posts.put(post);
+                }
+
+                return new JSONObject().put("myBooks", posts).put("ownPosts", (Boolean) spq.getOutputParameterValue("ownPosts"));
+            } else {
+                return new JSONObject().put("profileUsernameError", "This user dosn't exists!");
+            }
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new PostException("Error in getUserPosts() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
 }

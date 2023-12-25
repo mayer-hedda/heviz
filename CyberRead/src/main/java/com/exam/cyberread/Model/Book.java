@@ -1130,5 +1130,89 @@ public class Book implements Serializable {
             emf.close();
         }
     }
+    
+    
+    /**
+     * @param userId: logged in user id
+     * @param profileUsername: username associated with the opened profile
+     * 
+     * @return
+        * books
+            * book id
+            * category name
+            * cover image
+            * title
+            * author name
+            * first name
+            * last name
+            * company name
+            * book description
+            * pages number
+            * book rating
+            * language
+            * saved
+        * ownBooks
+     * 
+     * @throws BookException: Something wrong
+     */
+    public static JSONObject getUserBooks(Integer userId, String profileUsername) throws BookException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getUserBooks");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("profileUsernameIN", String.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
+            spq.registerStoredProcedureParameter("ownBooks", Boolean.class, ParameterMode.OUT);
+            
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("profileUsernameIN", profileUsername);
+
+            spq.execute();
+            
+            if((Integer) spq.getOutputParameterValue("result") == 1) {
+                List<Object[]> resultList = spq.getResultList();
+                JSONArray books = new JSONArray();
+
+                for(Object[] result : resultList) { 
+                    JSONObject book = new JSONObject();
+                    book.put("id", (Integer) result[0]);
+                    book.put("coverImage", (String) result[1]);
+                    book.put("title", (String) result[2]);
+                    book.put("authorName", (String) result[3]);
+                    book.put("firstName", (String) result[4]);
+                    book.put("lastName", (String) result[5]);
+                    book.put("companyName", (String) result[6]);
+                    book.put("description", (String) result[7]);
+                    book.put("pagesNumber", (Integer) result[8]);
+                    book.put("rating", (BigDecimal) result[9]);
+                    book.put("language", (String) result[10]);
+                    if((Integer) result[11] == 0) {
+                        book.put("saved", false);
+                    } else {
+                        book.put("saved", true);
+                    }
+
+                    books.put(book);
+                }
+
+                return new JSONObject().put("myBooks", books).put("ownBooks", (Boolean) spq.getOutputParameterValue("ownBooks"));
+            } else {
+                JSONObject error = new JSONObject();
+                error.put("profileUsernameError", "This user dosn't exists!");
+                
+                return error;
+            }
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getUserBooks() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
         
 }

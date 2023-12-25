@@ -3,11 +3,9 @@ package com.exam.cyberread.Service;
 import com.exam.cyberread.Config.Token;
 import com.exam.cyberread.Exception.UserException;
 import com.exam.cyberread.Model.User;
-import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.json.JSONArray;
@@ -302,6 +300,7 @@ public class UserService {
      * 
      * @return
         * general user profile:
+            * rank
             * username
             * image
             * following
@@ -315,6 +314,7 @@ public class UserService {
             * cover color code
             * ownProfile
         * publisher user profile:
+            * rank
             * username
             * image
             * following

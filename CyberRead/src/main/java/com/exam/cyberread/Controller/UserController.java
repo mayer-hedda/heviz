@@ -228,6 +228,7 @@ public class UserController {
      * @return
         * 200:
             * general user profile:
+                * rank
                 * username
                 * image
                 * following
@@ -241,6 +242,7 @@ public class UserController {
                 * cover color code
                 * ownProfile
             * publisher user profile:
+                * rank
                 * username
                 * image
                 * following

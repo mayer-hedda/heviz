@@ -522,6 +522,7 @@ public class User implements Serializable {
      * 
      * @return
         * general user profile:
+            * rank
             * username
             * image
             * following
@@ -535,6 +536,7 @@ public class User implements Serializable {
             * cover color code
             * ownProfile
         * publisher user profile:
+            * rank
             * username
             * image
             * following
@@ -576,6 +578,7 @@ public class User implements Serializable {
 
                 for(Object[] result : resultList) {
                     String rank = (String) result[0];
+                    userDetails.put("rank", rank);
                     if(rank.equals("general")) {
                         userDetails.put("username", (String) result[1]);
                         userDetails.put("image", (String) result[2]);
@@ -622,7 +625,7 @@ public class User implements Serializable {
             }
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
-            throw new UserException("Error in getUsrDetails() method!");
+            throw new UserException("Error in getUserDetails() method!");
         } finally {
             em.clear();
             em.close();

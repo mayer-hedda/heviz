@@ -3,6 +3,7 @@ package com.exam.cyberread.Controller;
 import com.exam.cyberread.Config.Token;
 import com.exam.cyberread.Exception.BookException;
 import com.exam.cyberread.Model.Book;
+import com.exam.cyberread.Model.User;
 import com.exam.cyberread.Service.BookService;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -638,6 +639,61 @@ public class BookController {
                         default:
                             return Response.status(Response.Status.FORBIDDEN).build();
                     }
+                case 2:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
+                default:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
+            }
+        }
+    }
+    
+    
+    /**
+     * @param jwt
+     * @param user
+     * 
+     * @return
+        * 200:
+            * books:
+                * book id
+                * category name
+                * cover image
+                * title
+                * author name
+                * first name
+                * last name
+                * company name
+                * book description
+                * pages number
+                * book rating
+                * language
+                * saved
+            * own books
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 422: profilUsernameError
+     * 
+     * @throws BookException: Something wrong
+     */
+    @POST
+    @Path("getUserBooks")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getUserBooks(@HeaderParam("Token") String jwt, User user) throws BookException {
+        if(jwt == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
+        } else {
+            int tokenCheckResult = Token.decodeJwt(jwt);
+
+            switch(tokenCheckResult) {
+                case 1: 
+                    Integer userId = Token.getUserIdByToken(jwt);
+                    JSONObject result = BookService.getUserBooks(userId, user.getProfileUsername());
+                    if(result.length() == 1) {
+                        return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                    }
+                    return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
                 case 2:
                     return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
                 default:

@@ -65,4 +65,30 @@ public class PostService {
         }
     }
     
+    
+    /**
+     * @param userId: logged in user id
+     * @param profileUsername: username associated with the opened profile
+     * 
+     * @return
+        * posts:
+            * post id
+            * username
+            * image
+            * post time
+            * description
+            * liked
+        * own posts
+     * 
+     * @throws PostException: Something wrong
+     */
+    public static JSONObject getUserPosts(Integer userId, String profileUsername) throws PostException {
+        try {
+            return Post.getUserPosts(userId, profileUsername);
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new PostException("Error in getUserPosts() method!");
+        }
+    }
+    
 }

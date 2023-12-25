@@ -555,4 +555,37 @@ public class BookService {
         }
     }
     
+    
+    /**
+     * @param userId: logged in user id
+     * @param profileUsername: username associated with the opened profile
+     * 
+     * @return
+        * books:
+            * book id
+            * category name
+            * cover image
+            * title
+            * author name
+            * first name
+            * last name
+            * company name
+            * book description
+            * pages number
+            * book rating
+            * language
+            * saved
+        * own books
+     * 
+     * @throws BookException: Something wrong
+     */
+    public static JSONObject getUserBooks(Integer userId, String profileUsername) throws BookException {
+        try {
+            return Book.getUserBooks(userId, profileUsername);
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getUserBooks() method!");
+        }
+    }
+    
 }

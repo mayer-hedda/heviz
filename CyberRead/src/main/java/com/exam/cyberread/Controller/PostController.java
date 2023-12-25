@@ -3,6 +3,7 @@ package com.exam.cyberread.Controller;
 import com.exam.cyberread.Config.Token;
 import com.exam.cyberread.Exception.PostException;
 import com.exam.cyberread.Model.Post;
+import com.exam.cyberread.Model.User;
 import com.exam.cyberread.Service.PostService;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -16,6 +17,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 
 @Path("post")
@@ -128,6 +130,54 @@ public class PostController {
                 case 1:
                     int userId = Token.getUserIdByToken(jwt);
                     JSONArray result = PostService.getFeedPosts(userId);
+                    return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                case 2:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
+                default:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
+            }
+        }
+    }
+    
+    
+    /**
+     * @param jwt
+     * @param user
+     * 
+     * @return
+        * 200:
+            * posts:
+                * post id
+                * username
+                * image
+                * post time
+                * description
+                * liked
+            * own posts
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 422: profilUsernameError
+     * 
+     * @throws PostException: Something wrong
+     */
+    @POST
+    @Path("getUserPosts")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getUserPosts(@HeaderParam("Token") String jwt, User user) throws PostException {
+        if(jwt == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
+        } else {
+            int tokenCheckResult = Token.decodeJwt(jwt);
+
+            switch(tokenCheckResult) {
+                case 1:
+                    int userId = Token.getUserIdByToken(jwt);
+                    JSONObject result = PostService.getUserPosts(userId, user.getProfileUsername());
+                    if(result.length() == 1) {
+                        return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                    }
                     return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
                 case 2:
                     return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
