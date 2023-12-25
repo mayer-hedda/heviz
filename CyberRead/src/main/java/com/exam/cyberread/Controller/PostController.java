@@ -158,7 +158,7 @@ public class PostController {
             * User hasn't token
             * Invalid token
             * The token has expired
-        * 422: profilUsernameError
+        * 422: profileUsernameError
      * 
      * @throws PostException: Something wrong
      */
