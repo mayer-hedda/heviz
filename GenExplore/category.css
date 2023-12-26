@@ -199,7 +199,7 @@ nav {
 
 #left-side-h3 {
     color: #2C1810;
-    font-family: 'Montserrat-Medium', sans-seri;
+    font-family: 'Montserrat-Medium', sans-serif;
     margin-top: 30px;
 }
 
@@ -211,11 +211,18 @@ form{
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
     border: solid 1px #cdb5aa;
+    border-right: none;
     background-color: #FFF9F5;
 }
 
 #search-input::placeholder{
     color: #735646ea;
+}
+
+#search-input:focus{
+    /* border-color: transparent; */
+    border-right: none;
+    box-shadow: none;
 }
 
 #search-btn{
@@ -257,6 +264,42 @@ form{
     border-color: var(--navbar-p-color);
 }
 
+/* accordion element */
+.accordion-item, .accordion-button {
+    background-color: #F5EADC;
+}
+
+.accordion-button:not(.collapsed){
+    box-shadow: none;
+    background-color: #EAD7BE;
+    color: #2C1810;
+}
+
+.accordion-button:focus{
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.accordion-button{
+    color: #2C1810;
+    font-family: 'Montserrat-Medium', sans-serif;
+    font-size: 20px;
+}
+
+.form-check-input{
+    border-color: #cdb5aa;
+}
+
+.form-check-input:checked {
+    background-color: brown; /* Barna szín beállítása */
+    border-color: brown; /* Keret színe a bejelölt állapotban */
+    color: white; /* Szövegszín a bejelölt állapotban, hogy látható maradjon */
+}
+
+.form-check-input:focus{
+    border-color: transparent;
+    box-shadow: none;
+}
 
 /** --------------- FOOTER ---------------*/
 
