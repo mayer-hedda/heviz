@@ -245,7 +245,6 @@ nav {
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
     box-shadow: 4px 0px 3px #3a3a3a2c;
-
 }
 
 .col-3{
@@ -400,12 +399,6 @@ nav {
 .moreBtn:hover, .moreBtn-medium:hover {
     background: linear-gradient(145deg, #38423B, #3F5E5A) !important;
     border: 3px solid #2F3731;
-
-    /*! NEM MŰKÖDIK A TRANSITION  */
-    transition: color 0.8s ease!important;
-    transition: background-color 0.8s ease!important;
-    /* transition: color 0.8s ease!important;
-    transition: background-color 0.8s ease!important; */
     font-family: 'PTsans-Regular', sans-serif !important;
     font-size: 18px !important;
     letter-spacing: 0.7px;
@@ -482,7 +475,7 @@ nav {
 
 .cover-btn{
     text-decoration: none;
-    background-color: #ffc4ab;
+    background-color: #ffc4ab !important;
     border: solid 0.094rem #ffc4ab;
     color: var(--mostUsed-text-color);
     padding: 10px 20px 10px;
@@ -495,7 +488,7 @@ nav {
 }
 
 .cover-btn:hover{
-    background-color: transparent;
+    /* background-color: transparent; */
     color: white;
     border: dashed 0.094rem white;
     cursor: pointer;
@@ -524,6 +517,7 @@ nav {
     transition: color 0.8s ease;
     transition: background-color 0.8s ease;
 }
+
 /** MODAL */
 .modal-content {
     background: linear-gradient( 180deg, #88d6b7, #f7e1c6 77.6%) !important;
