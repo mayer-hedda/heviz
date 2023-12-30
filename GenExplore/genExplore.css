@@ -104,11 +104,32 @@
     font-style: normal;
 }
 
+/* ------- Scrollbar ------- */
+/* scrollbar width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* scrollbar Track */
+::-webkit-scrollbar-track {
+    background: transparent;
+
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #92827a;
+    border-radius: 20px;
+    
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #ACA09A;
+}
+
 /** --------------- NAVBAR ---------------*/
 
-/* *{
-    position: relative;
-} */
 
 nav {
     background-color: var(--page-bg-color);
@@ -223,6 +244,15 @@ nav {
 #search-input {
     width: 500px;
     margin-left: 72px;
+}
+
+#search-input::placeholder {
+    color: #735646ea;
+}
+
+#search-input:focus {
+    border-right: none;
+    box-shadow: none;
 }
 
 #searchKeyword {
