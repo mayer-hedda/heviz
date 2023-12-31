@@ -76,10 +76,10 @@ public class UserController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response login(User user) throws UserException {
         JSONObject result = UserService.login(user.getEmail(), user.getPassword());
-        if(result.isEmpty()) {
-            return Response.status(Response.Status.OK).build();
-        } else{
+        if(result.has("loginError")) {
             return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+        } else {
+            return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
         }
     }
     
