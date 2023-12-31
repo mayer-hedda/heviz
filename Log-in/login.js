@@ -9,10 +9,10 @@ let pwdValid = false;
 
 // FUNCTIONS
 // active button
-function BtnActivate(){
-    if(pwdValid == true && emailValid == true){
+function BtnActivate() {
+    if (pwdValid == true && emailValid == true) {
         submitButton.disabled = false;
-    }else{
+    } else {
         submitButton.disabled = true;
     }
 }
@@ -41,11 +41,11 @@ inputEmail.addEventListener("focusin", (e) => {
 inputPwd.addEventListener("focusout", (e) => {
     e.preventDefault();
     const pwdValue = inputPwd.value;
-    if(pwdValue == ""){
+    if (pwdValue == "") {
         pwdError.innerHTML = `<p>Password field cannot be empty.</p>`;
         e.target.style.background = "#FEEFEC";
         pwdValid = false;
-    }else{
+    } else {
         pwdValid = true;
         BtnActivate();
     }
@@ -56,30 +56,93 @@ inputPwd.addEventListener("focusin", (e) => {
     pwdError.innerHTML = "";
 })
 
+/*
+EVENT LISTENERS - SUBMIT BUTTON
+*/
+
+submitButton.addEventListener("click", async (e) => {
+    e.preventDefault();
+
+    const postData = {
+        "email": inputEmail.value,
+        "password": inputPwd.value
+    };
+
+    const response = login(postData);   //itt hívjuk meg az endpointot
+    console.log(response); //kiírja azt az adatot amit elküldött a backendnek
+
+    inputEmail.value = '';
+    inputPwd.value = '';
+})
+
 // ENDPOINT
 async function login() {
+    console.log("bemegy a loginba");
     const postData = {
         email: inputEmail.value,
         password: inputPwd.value
     };
-    
-    const response = await fetch('http://localhost:9990/webresources/User/login', {
+
+    // console.log(postData);
+
+    const response = await fetch('http://localhost:9990/webresources/user/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(postData)
+
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Hálózati hiba: ' + response.statusText);
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Hálózati hiba: ' + response.statusText);
+            }
+            console.log(localStorage.getItem);
+            return response.json();
+        })
+        .then(data => {
+            console.log('Válasz a backendtől:', data);
+        })
+        .catch(error => {
+            console.error('Hálózati hiba:', error);
+        });
+
+    // token vizsgálata
+    if (response && response.token) {
+        localStorage.setItem("Token", response.token);
+        const userData = await token();
+
+        try{
+            if (userData.status === 302) {
+                const rank = userData.data.rank;
+    
+                switch (rank) {
+                    case 'general':
+                        loadHtmlFile('../General-HomePage/GenHome.html');
+                        break;
+                   
+                    case 'publisher':
+                        // loadHtmlFile('defaultHome.html');
+                        console.log("Ez egy publisher profil lesz");
+                        break;
+                }
+            } else if (userData.status === 401) {
+                // Ezzel elvileg láthatom majd console-on hogy mit küld vissza a backend
+                console.log("Az állapotkód: " + userData.status);
+                console.log("A hibaüzenet: " + userData.headers.get("X-Message"));
+            }
         }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Válasz a backendtől:', data);
-    })
-    .catch(error => {
-        console.error('Hálózati hiba:', error);
-    });
+
+        catch(error) {
+            if(!error.status){
+                console.log("Hiba történt a kéréssel: " + error.message);
+            } else {
+                console.log("Az állapotkód: " + error.status);
+                console.log("A hibaüzenet: " + error.headers.get("X-Message"));
+            }
+        }
+        
+    }
+
+
 }

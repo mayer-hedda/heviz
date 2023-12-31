@@ -27,6 +27,3 @@ const Dictionary = document.getElementById('Dictionary');
 const Action = document.getElementById('Action');
 const eighteenPlus = document.getElementById('eighteenPlus');
 
-function LoadCategoryPage(categoryName, ) {
-    
-}
