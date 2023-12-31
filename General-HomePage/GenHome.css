@@ -511,12 +511,12 @@ nav {
 }
 
 .cover-btn:hover{
-    /* background-color: transparent; */
+    background-color: transparent!important;
     color: white;
     border: dashed 0.094rem white;
     cursor: pointer;
     transition: color 0.3s ease;
-    transition: background-color 0.8s ease;
+    transition: background-color 0.4s ease;
 }
 
 /** --------------- THIRD SECTION ---------------*/

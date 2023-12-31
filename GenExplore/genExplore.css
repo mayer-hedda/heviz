@@ -296,7 +296,7 @@ nav {
     /* A tartalomat középre igazítja */
     position: relative;
     margin-bottom: 50px;
- 
+    cursor: pointer;
 }
 
 .category-name {
