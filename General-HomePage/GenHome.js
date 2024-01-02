@@ -98,6 +98,7 @@ async function loadRandomBook(){
                     }else if(randomBookData.status === 403){
                         // nincs jogosultsága ehhez az oldalhoz
                         // ! ide mit töltsek be?
+                        console.log("You don't have permission to load this page");
                     }
                 }
                 catch(error) {

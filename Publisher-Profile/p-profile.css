@@ -1,0 +1,119 @@
+:root{
+    /* Colors */
+    --primary: rgb(232, 181, 160);
+    --primary-text: rgb(51, 47, 49);
+    --page-color: rgb(247, 245, 236);
+    --footer-bg-color: rgb(246, 227, 205);
+    --card-bg: rgb(234, 215, 190);
+}
+
+/* ------- Fonts ----------- */
+@font-face {
+    font-family: 'Poppins-Regular';
+    src: url('../fonts/Poppins/Poppins-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins-Medium';
+    src: url("../fonts/Poppins/Poppins-Medium.ttf") format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat-SemiBold';
+    src: url("../fonts/Montserrat/static/Montserrat-SemiBold.ttf") format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat-Medium';
+    src: url("../fonts/Montserrat/static/Montserrat-Medium.ttf") format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat-Bold';
+    src: url("../fonts/Montserrat/static/Montserrat-Bold.ttf") format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* ----------------------- */
+
+html, body{
+    background-color: var(--page-color);
+    margin: 0;
+    padding: 0;
+}
+
+/* -------- First section --------- */
+#s1{
+    background-color: var(--primary);
+    margin: 0;
+    height: 40vh;
+}
+#nav{
+    display: flex;
+    justify-content: space-between;
+    background-color: transparent;
+}
+
+.nav-element{
+    padding-top: 30px;
+    position: relative;
+    color: var(--primary-text);
+}
+
+#back-arrow{
+    padding-left: 10px;
+}
+
+#settings{
+    padding-right: 30px;
+}
+
+/* -------- Second section --------- */
+#s2{
+    display: flex;
+}
+
+#profile-pic-div{
+    margin-top: -120px;
+}
+
+#name{
+    font-size: 38px;
+    margin-left: 50px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-family: 'Montserrat-SemiBold', sans-serif;
+}
+
+#number-container{
+    display: flex;
+    justify-content: space-evenly;
+    gap: 15%;
+    text-align: center;
+    background-color: #EAD7BE;
+    padding-left: 25px;
+    padding-right: 25px;
+    border-radius: 40px;
+    width: 400px;
+    margin-left: 20px;
+}
+
+.number{
+    margin-bottom: 2px;
+    margin-top: 16px;
+    font-family: 'Montserrat-Medium', sans-serif;
+    font-size: 20px;
+}
+
+.number-caption{
+    font-family: 'Poppins-Regular', sans-serif;
+}
