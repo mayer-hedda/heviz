@@ -105,7 +105,7 @@
 
 /* scrollbar Track */
 ::-webkit-scrollbar-track {
-    background: transparent;
+    background: rgb(235, 233, 224);
 
 }
 
@@ -113,14 +113,13 @@
 ::-webkit-scrollbar-thumb {
     background: #92827a;
     border-radius: 20px;
-    
+
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #ACA09A;
 }
-
 
 /** --------------- NAVBAR ---------------*/
 

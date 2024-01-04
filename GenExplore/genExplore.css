@@ -112,7 +112,7 @@
 
 /* scrollbar Track */
 ::-webkit-scrollbar-track {
-    background: transparent;
+    background: rgb(235, 233, 224);
 
 }
 
@@ -120,7 +120,7 @@
 ::-webkit-scrollbar-thumb {
     background: #92827a;
     border-radius: 20px;
-    
+
 }
 
 /* Handle on hover */
@@ -161,7 +161,8 @@ nav {
 #navbar a:hover {
     color: var(--navbar-a-hover-color);
     /* font-weight: 700; */
-    font-style: italic;
+    text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
+    text-underline-offset: 0.281rem;
 }
 
 .active {
@@ -175,7 +176,7 @@ nav {
 .active:hover {
     /*? aktuális page hover */
     color: var(--current-page-hover-color) !important;
-    font-style: italic;
+    /* font-style: italic; */
 }
 
 #profile-icon {
