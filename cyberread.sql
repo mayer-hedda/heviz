@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Jan 08. 00:22
+-- Létrehozás ideje: 2024. Jan 08. 00:42
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -591,8 +591,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserDetails` (IN `userIdIN` INT,
             LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
             INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
             WHERE `user`.`id` = profileUserId;
-            
-            SET result = 1;
         ELSEIF profileUserRank = "publisher" THEN
             SELECT
                 `user`.`rank`,
@@ -612,11 +610,41 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserDetails` (IN `userIdIN` INT,
             INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
             INNER JOIN `publisher` ON `publisher`.`id` = `user`.`userId`
             WHERE `user`.`id` = profileUserId;
-            
-            SET result = 1;
         END IF;
+        
+        SET result = 1;
     ELSE
         SET result = 2;
+    END IF;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserPosts` (IN `userIdIN` INT, IN `profileUsernameIN` VARCHAR(50), OUT `result` INT, OUT `ownPosts` BOOLEAN)   BEGIN
+
+	DECLARE profileUserId INT;
+    
+    IF EXISTS (SELECT * FROM `user` WHERE `user`.`username` = profileUsernameIN) THEN
+        SELECT `user`.`id` INTO profileUserId
+        FROM `user`
+        WHERE `user`.`username` = profileUsernameIN;
+        
+        SET ownPosts = (profileUserId = userIdIN);
+        
+        SELECT
+          	`post`.`id`,
+            `user`.`username`,
+            `user`.`image`,
+            `post`.`postTime`,
+            `post`.`description`,
+            IF(`postlike`.`userId` IS NOT NULL, TRUE, FALSE) AS `liked`
+        FROM `post`
+        INNER JOIN `user` ON `user`.`id` = `post`.`userId`
+        LEFT JOIN `postlike` ON `postlike`.`postId` = `post`.`id` AND `postlike`.`userId` = userIdIN
+        WHERE `user`.`id` = profileUserId;
+        
+        SET result = 1;
+    ELSE
+    	SET result = 2;
     END IF;
 
 END$$
