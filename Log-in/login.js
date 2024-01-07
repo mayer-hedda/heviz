@@ -6,6 +6,7 @@ const emailError = document.getElementById("email_error");
 const pwdError = document.getElementById("pwd_Error");
 let emailValid = false;
 let pwdValid = false;
+const generalHomeURL = '../General-HomePage/GenHome.html';
 
 // FUNCTIONS
 // active button
@@ -70,171 +71,90 @@ submitButton.addEventListener("click", async (e) => {
     const responseLogin = await login(postData);
     console.log(responseLogin);
 
-    // var status;
-    // var jwt;
-   
-    // const response = await fetch('http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/login', {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(postData)
-    // })
-    // // console.log(response);
+    switch (responseLogin.status) {
+        case 200:
+            const responseToken = await token();
+            
+            switch (responseToken.status) {
+                case 302:
+                    
+                    switch (responseToken.data.rank) {
+                        case 'general':
+                            
+                            window.location.assign(generalHomeURL);
+                            break;
+                    
+                        case 'publisher':
+                            console.log("Ő egy publisher lesz");
+                            break;
+                    }
+                    break;
+            
+                case 401:
+                    console.error(responseToken.data);
+                    break;
+            }
 
-    // .then(response => {
-    //     if (!response.ok) {
-    //         throw new Error('Hálózati hiba: ' + response.statusText);
-    //     }
-    //     return response;
-    // })
-    // response.json().then(data => {
-    //     console.log('Válasz a backendtől:', data);
-    //     status = response.status;
-    //     jwt = data.jwt;
-    // })
-    // .then(response =>{
-    //     switch (status) {
-    //         case 200:
-                
-                
-        
-    //         default:
-    //             break;
-    //     }
-    // })
-    // .catch(error => {
-    //     console.error('Hálózati hiba:', error);
-    // });
+            break;
+        case 422:
+            console.error(responseLogin.data);
+            break;
     
+    }
+
     
-//    console.log(response.status);
-    // console.log(data);
-    // switch(response.status){
-    //     case 200:
-    //         const tokenResponse = await fetch('http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/token', {
-    //             method: 'GET',
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             }
-    //         })
-    //         console.log(tokenResponse);
-    // }
-
-
     inputEmail.value = '';
     inputPwd.value = '';
 })
 
-// function login(raw) {
-//     var myHeaders = new Headers();
-//     myHeaders.append("Content-Type", "application/json");
-
-//     var postData = JSON.stringify(raw);
-
-//     var requestOptions = {
-//         method: 'POST',
-//         headers: myHeaders,
-//         body: postData,
-//         redirect: 'follow'
-//     };
-
-//     fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/login", requestOptions)
-//         .then(response => {
-//             return response.json().then(data => {
-//                 localStorage.setItem("Token", data.jwt);
-//                 return {
-//                     status: response.status,
-//                     data: data
-//                 };
-//             })
-//         })
-//         .catch(error => console.log('error', error));
-// }
-
-// ENDPOINT
-// async function login() {
-//     console.log("bemegy a loginba");
-
-//     // console.log(postData);
-
-//     const response = await fetch('http://localhost:9990/webresources/user/login', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify(postData)
-
-//     })
-//         .then(response => {
-//             if (!response.ok) {
-//                 throw new Error('Hálózati hiba: ' + response.statusText);
-//             }
-//             console.log(localStorage.getItem);
-//             return response.json();
-//         })
-//         .then(data => {
-//             console.log('Válasz a backendtől:', data);
-//         })
-//         .catch(error => {
-//             console.error('Hálózati hiba:', error);
-//         });
-
-//     // token vizsgálata
-//     if (response && response.token) {
-        
-//         const userData = await token();
-//         const localToken = localStorage.getItem();
-//         console.log(localToken);
-
-//         try{
-//             switch (userData.status) {
-//                 case 302:
-//                     const rank = userData.data.rank;
-//                     switch (rank) {
-//                         case 'general':
-//                             loadHtmlFile('../General-HomePage/GenHome.html');
-//                             break;
-                    
-//                         case 'publisher':
-//                             console.log("publisher lesz");
-//                             break;
-//                     }
-//                     break;
-            
-//                 default:
-//                     break;
-//             }
-//             // if (userData.status === 302) {
-//             //     const rank = userData.data.rank;
+async function login() {
+    const postData = {
+        email: inputEmail.value,
+        password: inputPwd.value
+    };
     
-//             //     switch (rank) {
-//             //         case 'general':
-//             //             loadHtmlFile('../General-HomePage/GenHome.html');
-//             //             break;
-                   
-//             //         case 'publisher':
-//             //             // loadHtmlFile('defaultHome.html');
-//             //             console.log("Ez egy publisher profil lesz");
-//             //             break;
-//             //     }
-//             // } else if (userData.status === 401) {
-//             //     // Ezzel elvileg láthatom majd console-on hogy mit küld vissza a backend
-//             //     console.log("Az állapotkód: " + userData.status);
-//             //     console.log("A hibaüzenet: " + userData.headers.get("X-Message"));
-//             // }
-//         }
+    const response = await fetch('http://localhost:9990/webresources/User/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(postData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Hálózati hiba: ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Válasz a backendtől:', data);
+    })
+    .catch(error => {
+        console.error('Hálózati hiba:', error);
+    });
+}
 
-//         catch(error) {
-//             if(!error.status){
-//                 console.log("Hiba történt a kéréssel: " + error.message);
-//             } else {
-//                 console.log("Az állapotkód: " + error.status);
-//                 console.log("A hibaüzenet: " + error.headers.get("X-Message"));
-//             }
-//         }
-        
-//     }
+async function token(){
+    const tokenResponese = await fetch('http://localhost:8080/webresources/user/token', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
 
+    .then(tokenResponese =>{
+        if (!tokenResponese.ok) {
+            throw new Error('Hálózati hiba: ' + response.statusText);
+        }
 
-// }
+        return tokenResponese.json();
+    })
+
+    .then(data => {
+        console.log("Válasz a backendtől: ", data);
+    })
+
+    .catch(error => {
+        console.error('Hálózati hiba:', error);
+    })
+}

@@ -127,7 +127,7 @@ function generalRegistration(raw) {
             * false: if the user is not logging in for the first time
     * 422: loginError
  */
-function login(raw) {
+async function login(raw) {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -140,17 +140,20 @@ function login(raw) {
         redirect: 'follow'
     };
 
-    fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/login", requestOptions)
-        .then(response => {
-            return response.json().then(data => {
-                localStorage.setItem("Token", data.jwt);
-                return {
-                    status: response.status,
-                    data: data
-                };
-            })
-        })
-        .catch(error => console.log('error', error));
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/login", requestOptions);
+        const data = await response.json();
+
+        localStorage.setItem("Token", data.jwt);
+
+        return {
+            status: response.status,
+            data: data
+        };
+    } catch (error) {
+        console.log('error', error);
+        return { error: error };
+    }
 }
 
 
@@ -170,7 +173,7 @@ function login(raw) {
         * Invalid token
         * The token has expired
  */
-function token() {
+async function token() {
     var myHeaders = new Headers();
 
     var storedToken = localStorage.getItem("Token");
@@ -184,26 +187,33 @@ function token() {
         redirect: 'follow'
     };
 
-    fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/token", requestOptions)
-        .then(response => {
-            if (response.status == 401) {
-                return response.text().then(data => {
-                    return {
-                        status: response.status,
-                        data: data
-                    }
-                })
-            }
-            return response.json().then(data => {
-                return {
-                    status: response.status,
-                    data: data
-                };
-            });
-        })
-        .catch(error => console.log('error', error));
-}
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/token", requestOptions);
+        
+        
+        const data = await response.json();
 
+        console.log(data);
+        if (response.status == 302) {
+            return {
+                status: response.status,
+                data: data
+            };
+        } else if (response.status == 401) {
+            return {
+                status: response.status,
+                data: data
+            }
+        }else{
+            console.error("Invalid status code: ", response.status);
+        }
+
+
+    } catch (error) {
+        console.log('error', error);
+        return { error: error }
+    }
+}
 
 
 // ----- GENERAL HOME -----
@@ -211,7 +221,7 @@ function token() {
 /**
  * @return
     * 200:
-        * 9 most saved books of the month details
+        * 6 most saved books of the month details
             * book id
             * cover image
             * title
@@ -232,7 +242,7 @@ function token() {
     * 
     * 403: You are not authorised to access this page
  */
-function getMostSavedBooksOfTheMonth() {
+async function getMostSavedBooksOfTheMonth() {
     var myHeaders = new Headers();
 
     var storedToken = localStorage.getItem("Token");
@@ -246,26 +256,35 @@ function getMostSavedBooksOfTheMonth() {
         redirect: 'follow'
     };
 
-    fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getMostSavedBooksOfTheMonth", requestOptions)
-        .then(response => {
-            if (response.status == 401) {
-                return response.text().then(data => {
-                    return {
-                        status: response.status,
-                        data: data
-                    };
-                });
-            } else if (response.status == 403) {
-                return { status: response.status }
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getMostSavedBooksOfTheMonth", requestOptions);
+        const data = await response.json();
+        console.log(data);
+
+        if (response.status == 200) {
+            return {
+                status: response.status,
+                data: data
+            };
+        }else if(response.status == 401){
+            return {
+                status: response.status,
+                data: data
             }
-            return response.json().then(data => {
-                return {
-                    status: response.status,
-                    data: data
-                };
-            });
-        })
-        .catch(error => console.log('error', error));
+        }else if(response.status == 403){
+            return {
+                status: response.status,
+                data: data
+            }
+        }else{
+            console.error("Invalid status code: ", response.status);
+        }
+
+
+    } catch (error) {
+        console.log('error ', error);
+        return { error: error }
+    }
 }
 
 
@@ -340,7 +359,7 @@ function getPublishedBooks() {
             * author name
             * first name
             * last name
-            * publisher company name
+            * publisher name
             * book description
             * pages number
             * book rating
@@ -415,7 +434,7 @@ function getSelfPublishedBooks() {
     * 
     * 403: You are not authorised to access this page
  */
-function getOneRandomBook() {
+async function getOneRandomBook() {
     var myHeaders = new Headers();
 
     var storedToken = localStorage.getItem("Token");
@@ -429,26 +448,34 @@ function getOneRandomBook() {
         redirect: 'follow'
     };
 
-    fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getOneRandomBook", requestOptions)
-        .then(response => {
-            if (response.status == 401) {
-                return response.text().then(data => {
-                    return {
-                        status: response.status,
-                        data: data
-                    };
-                });
-            } else if (response.status == 403) {
-                return { status: response.status }
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getOneRandomBook", requestOptions);
+        const data = await response.json();
+        // console.log(data);
+
+        if(response.status == 200){
+            return {
+                status: response.status,
+                data: data
+            };
+        }else if(response.status == 401){
+            return{
+                status: response.status,
+                data: data
+            };
+        }else if(response.status == 403){
+            return{
+                status: response.status,
+                data: data
             }
-            return response.json().then(data => {
-                return {
-                    status: response.status,
-                    data: data
-                };
-            });
-        })
-        .catch(error => console.log('error', error));
+        }else{
+            console.error("Invalid status code: ", response.status);
+        }
+
+    } catch (error) {
+        console.log('error ', error);
+        return { error: error }
+    }
 }
 
 
@@ -476,7 +503,7 @@ function getOneRandomBook() {
     * 
     * 403: You are not authorised to access this page
  */
-function getRecommandedBooks() {
+async function getRecommandedBooks() {
     var myHeaders = new Headers();
 
     var storedToken = localStorage.getItem("Token");
@@ -490,26 +517,37 @@ function getRecommandedBooks() {
         redirect: 'follow'
     };
 
-    fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getRecommandedBooks", requestOptions)
-        .then(response => {
-            if (response.status == 401) {
-                return response.text().then(data => {
-                    return {
-                        status: response.status,
-                        data: data
-                    };
-                });
-            } else if (response.status == 403) {
-                return { status: response.status }
-            }
-            return response.json().then(data => {
-                return {
-                    status: response.status,
-                    data: data
-                };
-            });
-        })
-        .catch(error => console.log('error', error));
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getRecommandedBooks", requestOptions);
+
+        const data = await response.json();
+        console.log("getRecommandedBooks(): ",data);
+
+        if(response.status == 200){
+            return {
+                status: response.status,
+                data: data
+            };
+        }else if(response.status == 401){
+            return {
+                status: response.status,
+                data: data
+            };
+        }else if(response.status == 403){
+            return {
+                status: response.status,
+                data: data
+            };
+        }else{
+            console.error("Invalid status code: ", response.status);
+
+        }
+        
+    } catch (error) {
+        console.log('error', error);
+        return { error: error }
+    }
+
 }
 
 
