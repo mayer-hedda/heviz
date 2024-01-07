@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Jan 07. 23:55
+-- Létrehozás ideje: 2024. Jan 08. 00:22
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -476,6 +476,85 @@ LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userI
 WHERE `book`.`status` = "self-published"
 ORDER BY RAND()
 LIMIT 9$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserBooks` (IN `userIdIN` INT, IN `profileUsernameIN` VARCHAR(50), OUT `result` INT, OUT `ownBooks` BOOLEAN)   BEGIN
+
+	DECLARE profileUserId INT;
+    DECLARE profileUserRank VARCHAR(20);
+    
+    IF EXISTS (SELECT * FROM `user` WHERE `user`.`username` = profileUsernameIN) THEN
+        SELECT `user`.`id` INTO profileUserId
+        FROM `user`
+        WHERE `user`.`username` = profileUsernameIN;
+        
+        SELECT `user`.`rank` INTO profileUserRank
+        FROM `user`
+        WHERE `user`.`id` = profileUserId;
+        
+        SET ownBooks = (profileUserId = userIdIN);
+        
+        IF profileUserRank = "general" THEN
+            SELECT
+                `book`.`id`,
+                `book`.`coverImage`,
+                `book`.`title`,
+                `general`.`authorName`,
+                `user`.`firstName`,
+                `user`.`lastName`,
+                `publisher`.`companyName`,
+                `book`.`description`,
+                `book`.`pagesNumber`,
+                `bookrat`.`rat`,
+                `language`.`code`,
+                IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+            FROM `book`
+            INNER JOIN `user` ON `user`.`id` = `book`.`writerId`
+            INNER JOIN `general` ON `general`.`id` = `user`.`userId`
+            LEFT JOIN `publisher` ON `publisher`.`id` = `book`.`publisherId`
+            INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+            LEFT JOIN (
+                SELECT `bookrating`.`bookId`,
+                AVG(`bookrating`.`rating`) AS `rat`
+                FROM `bookrating`
+                GROUP BY `bookrating`.`bookId`
+            ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+            LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+            WHERE `book`.`writerId` = profileUserId;
+        ELSEIF profileUserRank = "publisher" THEN
+        	SELECT
+                `book`.`id`,
+                `book`.`coverImage`,
+                `book`.`title`,
+                `general`.`authorName`,
+                `user`.`firstName`,
+                `user`.`lastName`,
+                `publisher`.`companyName`,
+                `book`.`description`,
+                `book`.`pagesNumber`,
+                `bookrat`.`rat`,
+                `language`.`code`,
+                IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+            FROM `book`
+            INNER JOIN `user` ON `user`.`id` = `book`.`writerId`
+            INNER JOIN `general` ON `general`.`id` = `user`.`userId`
+            LEFT JOIN `publisher` ON `publisher`.`id` = `book`.`publisherId`
+            INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+            LEFT JOIN (
+                SELECT `bookrating`.`bookId`,
+                AVG(`bookrating`.`rating`) AS `rat`
+                FROM `bookrating`
+                GROUP BY `bookrating`.`bookId`
+            ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+            LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+            WHERE `book`.`publisherId` = profileUserId;
+        END IF;
+        
+        SET result = 1;
+    ELSE
+    	SET result = 2;
+    END IF;
+
+END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserDetails` (IN `userIdIN` INT, IN `usernameIN` VARCHAR(50), IN `profileUsernameIN` VARCHAR(50), OUT `result` INT)   BEGIN
     DECLARE profileUserId INT;
