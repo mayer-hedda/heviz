@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2023. Dec 24. 01:12
--- Kiszolgáló verziója: 10.4.28-MariaDB
--- PHP verzió: 8.2.4
+-- Létrehozás ideje: 2024. Jan 07. 23:55
+-- Kiszolgáló verziója: 10.4.32-MariaDB
+-- PHP verzió: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -478,23 +478,21 @@ ORDER BY RAND()
 LIMIT 9$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserDetails` (IN `userIdIN` INT, IN `usernameIN` VARCHAR(50), IN `profileUsernameIN` VARCHAR(50), OUT `result` INT)   BEGIN
-
     DECLARE profileUserId INT;
     DECLARE profileUserRank VARCHAR(20);
     DECLARE userIdMatch BOOLEAN;
-    
-    IF EXISTS (SELECT * FROM `user` WHERE `user`.`username` = profileUsernameIN) THEN
 
+    IF EXISTS (SELECT * FROM `user` WHERE `user`.`username` = profileUsernameIN) THEN
         SELECT `user`.`id` INTO profileUserId
         FROM `user`
         WHERE `user`.`username` = profileUsernameIN;
-
+        
         SELECT `user`.`rank` INTO profileUserRank
         FROM `user`
         WHERE `user`.`id` = profileUserId;
-
+        
         SET userIdMatch = (profileUserId = userIdIN);
-
+        
         IF profileUserRank = "general" THEN
             SELECT
                 `user`.`rank`,
@@ -503,19 +501,19 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserDetails` (IN `userIdIN` INT,
                 IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
                 `user`.`firstName`,
                 `user`.`lastName`,
-                COUNT(`book`.`id`) AS bookCount,
-                COUNT(`saved`.`id`) AS savedCount,
-                COUNT(`followCount`.`id`) AS followCount,
+                (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`writerId` = profileUserId) AS bookCount,
+                (SELECT COUNT(`saved`.`id`) FROM `saved` WHERE `saved`.`userId` = profileUserId) AS savedCount,
+                (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
                 `user`.`introDescription`,
                 `user`.`website`,
                 `color`.`code`,
                 userIdMatch AS userIdMatchFlag
             FROM `user`
             LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
-            LEFT JOIN `book` ON `book`.`writerId` = profileUserId
-            LEFT JOIN `saved` ON `saved`.`userId` = profileUserId
-            LEFT JOIN `follow` AS `followCount` ON `follow`.`followedId` = profileUserId
-            INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`;
+            INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
+            WHERE `user`.`id` = profileUserId;
+            
+            SET result = 1;
         ELSEIF profileUserRank = "publisher" THEN
             SELECT
                 `user`.`rank`,
@@ -523,27 +521,25 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserDetails` (IN `userIdIN` INT,
                 `user`.`image`,
                 IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
                 `publisher`.`companyName`,
-                COUNT(`book`.`id`) AS bookCount,
-                COUNT(`saved`.`id`) AS savedCount,
-                COUNT(`followCount`.`id`) AS followCount,
+                (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`writerId` = profileUserId) AS bookCount,
+                (SELECT COUNT(`saved`.`id`) FROM `saved` WHERE `saved`.`userId` = profileUserId) AS savedCount,
+                (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
                 `user`.`introDescription`,
                 `user`.`website`,
                 `color`.`code`,
                 userIdMatch AS userIdMatchFlag
             FROM `user`
             LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
-            LEFT JOIN `book` ON `book`.`writerId` = profileUserId
-            LEFT JOIN `saved` ON `saved`.`userId` = profileUserId
-            LEFT JOIN `follow` AS `followCount` ON `follow`.`followedId` = profileUserId
             INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
-            INNER JOIN `publisher` ON `publisher`.`id` = `user`.`userId`;
+            INNER JOIN `publisher` ON `publisher`.`id` = `user`.`userId`
+            WHERE `user`.`id` = profileUserId;
+            
+            SET result = 1;
         END IF;
-        
-        SET result = 1;
     ELSE
-    	SET result = 2;
+        SET result = 2;
     END IF;
-    
+
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `login` (IN `emailIN` VARCHAR(50), IN `passwordIN` VARCHAR(100), OUT `userIdOUT` INT, OUT `usernameOUT` VARCHAR(50), OUT `imageOUT` VARCHAR(100), OUT `rankOUT` ENUM("admin","general","publisher"), OUT `activeOUT` BOOLEAN)   BEGIN
@@ -597,35 +593,23 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `publisherRegistration` (IN `usernam
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `select` ()   SELECT DISTINCT
-            `book`.`id`, 
-            `category`.`name`,
-            `book`.`coverImage`, 
-            `book`.`title`, 
-            `general`.`authorName`,
-            `writer`.`firstName`,
-            `writer`.`lastName`,
-            `book`.`description`,
-            `book`.`pagesNumber`,
-            `bookrat`.`rat`, 
-            `language`.`code`, 
-            IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
-        FROM `book`
-        INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-        INNER JOIN `general` ON `general`.`id` = `writer`.`userId`
-        LEFT JOIN (
-            SELECT `bookrating`.`bookId`,
-            AVG(`bookrating`.`rating`) AS `rat`
-            FROM `bookrating`
-            GROUP BY `bookrating`.`bookId`
-        ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
-        INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
-        INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
-        LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = 1
-        WHERE `book`.`status` = "looking for a publisher" AND
-        `book`.`categoryId` = 12
-        ORDER BY RAND()
-        LIMIT 9$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `select` ()   SELECT
+                `user`.`rank`,
+                `user`.`username`,
+                `user`.`image`,
+                -- IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
+                `user`.`firstName`,
+                `user`.`lastName`,
+                -- (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`writerId` = 1) AS bookCount,
+                -- (SELECT COUNT(`saved`.`id`) FROM `saved` WHERE `saved`.`userId` = 1) AS savedCount,
+                -- (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = 1) AS followCount,
+                `user`.`introDescription`,
+                `user`.`website`,
+                `color`.`code`
+            FROM `user`
+            -- LEFT JOIN `follow` ON `follow`.`followedId` = 1 AND `follow`.`followerId` = 1
+            LEFT JOIN `color` ON `color`.`id` = `user`.`coverColorId`
+            -- WHERE `follow`.`followerId` = 1$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `setBook` (IN `bookIdIN` INT, IN `titleIN` VARCHAR(50), IN `descriptionIN` VARCHAR(1000), IN `targetAudienceIdIN` INT, IN `languageIdIN` INT, IN `adultFictionIN` BOOLEAN, IN `categoryIdIN` INT, IN `statusIdIN` INT, IN `priceIN` INT, IN `coverImageIN` VARCHAR(100), IN `fileIN` VARCHAR(100), IN `bankAccountNumberIN` VARCHAR(30), IN `chapterNumberIN` INT, IN `freeChapterNumberIN` INT, OUT `result` INT)   BEGIN
     
