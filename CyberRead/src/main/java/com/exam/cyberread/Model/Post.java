@@ -1,6 +1,7 @@
 package com.exam.cyberread.Model;
 
 import com.exam.cyberread.Exception.PostException;
+import java.sql.Timestamp;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -270,7 +271,7 @@ public class Post implements Serializable {
                     post.put("id", (Integer) result[0]);
                     post.put("username", (String) result[1]);
                     post.put("image", (String) result[2]);
-                    post.put("postTime", (String) result[3]);
+                    post.put("postTime", (Timestamp) result[3]);
                     post.put("description", (String) result[4]);
                     if((Integer) result[5] == 0) {
                         post.put("liked", false);
@@ -281,7 +282,7 @@ public class Post implements Serializable {
                     posts.put(post);
                 }
 
-                return new JSONObject().put("myBooks", posts).put("ownPosts", (Boolean) spq.getOutputParameterValue("ownPosts"));
+                return new JSONObject().put("myPosts", posts).put("ownPosts", (Boolean) spq.getOutputParameterValue("ownPosts"));
             } else {
                 return new JSONObject().put("profileUsernameError", "This user dosn't exists!");
             }
