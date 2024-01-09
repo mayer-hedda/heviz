@@ -1,7 +1,7 @@
 @font-face {
 
     font-family: 'Montserrat';
-    src: url('../Profile/fonts/Montserrat/Montserrat-VariableFont_wght.ttf') format('truetype');
+    src: url('../fonts/Montserrat/static/Montserrat-SemiBold.ttf') format('truetype');
     font-weight: 600;
     font-style: normal;
 
@@ -10,7 +10,7 @@
 @font-face {
 
     font-family: 'Montserrat';
-    src: url('../Profile/fonts/Montserrat/Montserrat-VariableFont_wght.ttf');
+    src: url('../fonts/Montserrat/static/Montserrat-Regular.ttf');
     font-weight: 400;
     font-style: normal;
 }
@@ -18,7 +18,7 @@
 @font-face {
 
     font-family: 'Montserrat';
-    src: url('../Profile/fonts/Montserrat/Montserrat-VariableFont_wght.ttf');
+    src: url('../fonts/Montserrat/static/Montserrat-Medium.ttf') format('truetype');
     font-weight: 500;
     font-style: normal;
 
@@ -26,21 +26,13 @@
 
 @font-face {
 
-    font-family: 'Inter';
-    src: url('../Profile/fonts/Inter/Inter-VariableFont_slnt\,wght.ttf');
-    font-weight: 500;
+    font-family: 'Montserrat';
+    src: url('../fonts/Montserrat/static/Montserrat-Light.ttf') format('truetype');
+    font-weight: 300;
     font-style: normal;
 
 }
 
-@font-face {
-
-    font-family: 'Inter';
-    src: url('../Profile/fonts/Inter/Inter-VariableFont_slnt\,wght.ttf');
-    font-weight: 600;
-    font-style: normal;
-
-}
 .wallpaper {
 
     background-color: #E8B5A0;
@@ -303,8 +295,10 @@
 
 }
 
-footer {
 
+
+footer {
+    
     margin-top: 100px;
     border-top: 0.094rem solid var(--dash-color);
        background-color: #F6E3CD;
@@ -312,8 +306,8 @@ footer {
        padding-right: 5%;
        padding-left: 5%;  
    
-   
    }
+   
    
    footer h3 {
        font-size: 28px;
