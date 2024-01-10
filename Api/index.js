@@ -98,7 +98,7 @@ async function generalRegistration(raw) {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/generalRegistration", requestOptions);
-        const data = response.json();
+        const data = await response.json();
 
         if (response.status == 200 || response.status == 409) {
             return { status: response.status }
@@ -192,7 +192,7 @@ async function token() {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/token", requestOptions);
-        const data = response.json();
+        const data = await response.json();
 
         if(response.status == 302) {
             return {
@@ -203,7 +203,7 @@ async function token() {
 
         return {
             status: response.status,
-            data: response.text()
+            data: await response.text()
         }
     } catch(error) {
         return { error: error }
@@ -254,7 +254,7 @@ async function getMostSavedBooksOfTheMonth() {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getMostSavedBooksOfTheMonth", requestOptions);
-        const data = response.json();
+        const data = await response.json();
 
         if(response.ok) {
             return {
@@ -264,7 +264,7 @@ async function getMostSavedBooksOfTheMonth() {
         } else if(response.status = 401) {
             return {
                 status: response.status,
-                data: response.text()
+                data: await response.text()
             }
         }
 
@@ -315,7 +315,7 @@ async function getPublishedBooks() {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getPublishedBooks", requestOptions);
-        const data = response.json();
+        const data = await response.json();
 
         if(response.ok) {
             return {
@@ -325,7 +325,7 @@ async function getPublishedBooks() {
         } else if(response.status = 401) {
             return {
                 status: response.status,
-                data: response.text()
+                data: await response.text()
             }
         }
 
@@ -376,7 +376,7 @@ async function getSelfPublishedBooks() {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getSelfPublishedBooks", requestOptions);
-        const data = response.json();
+        const data = await response.json();
 
         if(response.ok) {
             return {
@@ -386,7 +386,7 @@ async function getSelfPublishedBooks() {
         } else if(response.status = 401) {
             return {
                 status: response.status,
-                data: response.text()
+                data: await response.text()
             }
         }
 
@@ -437,7 +437,7 @@ async function getOneRandomBook() {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getOneRandomBook", requestOptions);
-        const data = response.json();
+        const data = await response.json();
 
         if(response.ok) {
             return {
@@ -447,7 +447,7 @@ async function getOneRandomBook() {
         } else if(response.status = 401) {
             return {
                 status: response.status,
-                data: response.text()
+                data: await response.text()
             }
         }
 
@@ -498,7 +498,7 @@ async function getRecommandedBooks() {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getRecommandedBooks", requestOptions);
-        const data = response.json();
+        const data = await response.json();
 
         if(response.ok) {
             return {
@@ -508,7 +508,7 @@ async function getRecommandedBooks() {
         } else if(response.status = 401) {
             return {
                 status: response.status,
-                data: response.text()
+                data: await response.text()
             }
         }
 
@@ -561,7 +561,7 @@ async function getDropDownValues() {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getDropDownValues", requestOptions);
-        const data = response.json();
+        const data = await response.json();
 
         if(response.ok) {
             return {
@@ -571,7 +571,7 @@ async function getDropDownValues() {
         } else if(response.status = 401) {
             return {
                 status: response.status,
-                data: response.text()
+                data: await response.text()
             }
         }
 
@@ -642,12 +642,12 @@ async function addBook(raw) {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/addBook", requestOptions);
-        const data = response.json();
+        const data = await response.json();
 
         if(response.status == 401) {
             return { 
                 status: response.status,
-                data: response.text()
+                data: await response.text()
             }
         } else if(response.status == 422) {
             return {
@@ -711,7 +711,7 @@ async function getBookDetails(raw) {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getBookDetails", requestOptions);
-        const data = response.json();
+        const data = await response.json();
 
         if(response.ok) {
             return {
@@ -721,7 +721,7 @@ async function getBookDetails(raw) {
         } else if(response.status == 401) {
             return {
                 status: response.status,
-                data: response.text()
+                data: await response.text()
             }
         }
 
@@ -793,7 +793,7 @@ async function setBook(raw) {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/setBook", requestOptions);
-        const data = response.json();
+        const data = await response.json();
 
         if(response.status == 422) {
             return {
@@ -803,7 +803,7 @@ async function setBook(raw) {
         } else if(response.status == 401) {
             return {
                 status: response.status,
-                data: response.text()
+                data: await response.text()
             }
         }
 
@@ -856,12 +856,12 @@ async function addPost(raw) {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/post/addPost", requestOptions);
-        const data = response.json();
+        const data = await response.json();
 
         if(response.status == 401) {
             return {
                 status: response.status,
-                data: response.text()
+                data: await response.text()
             }
         } else if(response.status == 422) {
             return {
@@ -914,12 +914,12 @@ async function postLike(raw) {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/postlike/postLike", requestOptions);
-        const data = response.json();
+        const data = await response.json();
 
         if(response.status == 401) {
             return {
                 status: response.status,
-                data: response.text()
+                data: await response.text()
             }
         } else if( response.status == 422) {
             return {
@@ -972,12 +972,12 @@ async function postDislike(raw) {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/postlike/postDislike", requestOptions);
-        const data = response.json();
+        const data = await response.json();
 
         if(response.status == 401) {
             return {
                 status: response.status,
-                data: response.text()
+                data: await response.text()
             }
         } else if( response.status == 422) {
             return {
@@ -1025,7 +1025,7 @@ async function getFeedPosts() {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/post/getFeedPosts", requestOptions);
-        const data = response.json();
+        const data = await response.json();
 
         if(response.ok) {
             return {
@@ -1036,7 +1036,7 @@ async function getFeedPosts() {
 
         return {
             status: response.status,
-            data: response.text()
+            data: await response.text()
         }
     } catch(error) {
         return { error: error }
@@ -1072,7 +1072,7 @@ async function getRecommandedUsers() {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/getRecommandedUsers", requestOptions);
-        const data = response.json();
+        const data = await response.json();
 
         if(response.ok) {
             return {
@@ -1083,7 +1083,7 @@ async function getRecommandedUsers() {
 
         return {
             status: response.status,
-            data: response.text()
+            data: await response.text()
         }
     } catch(error) {
         return { error: error }
@@ -1140,12 +1140,12 @@ async function addCategoryInterest(raw) {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/categoryinterest/addCategoryInterest", requestOptions);
-        const data = response.json();
+        const data = await response.json();
 
         if(response.status == 401) {
             return {
                 status: response.status,
-                data: response.text()
+                data: await response.text()
             }
         }
 
@@ -1187,12 +1187,12 @@ async function getAllCategory() {
 
     try{
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/category/getAllCategory", requestOptions);
-        const data = response.json();
+        const data = await response.json();
 
         if(response.status == 401) {
             return {
                 status: response.status,
-                data: response.text()
+                data: await response.text()
             }
         }
 
@@ -1247,7 +1247,7 @@ async function getOneRandomLookingForPublisherBook() {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getOneRandomLookingForPublisherBook", requestOptions);
-        const data = response.json();
+        const data = await response.json();
 
         if(response.ok) {
             return {
@@ -1257,7 +1257,7 @@ async function getOneRandomLookingForPublisherBook() {
         } else if(response.status == 401) {
             return {
                 status: response.status,
-                data: response.text()
+                data: await response.text()
             }
         }
 
@@ -1306,7 +1306,7 @@ async function getRecommandedBooksForPublisher() {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getRecommandedBooksForPublisher", requestOptions);
-        const data = response.json();
+        const data = await response.json();
 
         if(response.ok) {
             return {
@@ -1316,7 +1316,7 @@ async function getRecommandedBooksForPublisher() {
         } else if(response.status == 401) {
             return {
                 status: response.status,
-                data: response.text()
+                data: await response.text()
             }
         }
 
@@ -1366,7 +1366,7 @@ async function getRandomBookByCategory() {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getRandomBookByCategory", requestOptions);
-        const data = response.json();
+        const data = await response.json();
 
         if(response.ok) {
             return {
@@ -1376,7 +1376,7 @@ async function getRandomBookByCategory() {
         } else if(response.status == 401) {
             return {
                 status: response.status,
-                data: response.text()
+                data: await response.text()
             }
         }
 
@@ -1450,12 +1450,12 @@ async function getUserDetails(raw) {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/getUserDetails", requestOptions);
-        const data = response.json();
+        const data = await response.json();
 
         if(response.status == 401) {
             return {
                 status: response.status,
-                data: response.text()
+                data: await response.text()
             }
         }
 
@@ -1519,12 +1519,12 @@ async function getUserBooks(raw) {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getUserBooks", requestOptions);
-        const data = response.json();
+        const data = await response.json();
 
         if(response.status == 401) {
             return {
                 status: response.status,
-                data: response.text()
+                data: await response.text()
             }
         }
 
@@ -1581,12 +1581,12 @@ async function getUserPosts(raw) {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/post/getUserPosts", requestOptions);
-        const data = response.json();
+        const data = await response.json();
 
         if(response.status == 401) {
             return {
                 status: response.status,
-                data: response.text()
+                data: await response.text()
             }
         }
 
@@ -1594,6 +1594,386 @@ async function getUserPosts(raw) {
             status: response.status,
             data: data
         }
+    } catch(error) {
+        return { error: error }
+    }
+}
+
+
+/**
+ * @param {JSON} raw = {
+ *      "id": 1
+ *  }
+ * 
+ * @return:
+    * 200: Successfully saved the book
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 422: saveBookError 
+ */
+async function saveBook(raw) {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/saveBook", requestOptions);
+        const data = await response.json();
+
+        if(response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        } else if(response.status == 422) {
+            return {
+                status: response.status,
+                data: data
+            }
+        }
+
+        return { status: response.status }
+    } catch(error) {
+        return { error: error }
+    }
+}
+
+
+/**
+ * @param {JSON} raw = {
+ *      "id": 1
+ *  }
+ * 
+ * @return
+    * 200: Successfully delete the book saved
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 422: deleteSavedBookError
+ */
+async function deleteSavedBook(raw) {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/deleteSavedBook", requestOptions);
+        const data = await response.json();
+
+        if(response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        } else if(response.status == 422) {
+            return {
+                status: response.status,
+                data: data
+            }
+        }
+
+        return { status: response.status }
+    } catch(error) {
+        return { error: error }
+    }
+}
+
+
+/**
+ * @param {JSON} raw = {
+ *      "followedId": 2
+ *  }
+ * 
+ * @return
+    * 200: Successfully follow the user
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 422: followUserError
+ */
+async function followUser(raw) {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/follow/followUser", requestOptions);
+        const data = await response.json();
+
+        if(response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        } else if(response.status == 422) {
+            return {
+                status: response.status,
+                data: data
+            }
+        }
+
+        return { status: response.status }
+    } catch(error) {
+        return { error: error }
+    }
+}
+
+
+/**
+ * @param {JSON} raw = {
+ *      "followedId": 1
+ *  }
+ * 
+ * @return
+    * 200: Successfully follow the user
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 422: unfollowedUserError 
+ */
+async function unfollowedUser(raw) {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/follow/unfollowedUser", requestOptions);
+        const data = await response.json();
+
+        if(response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        } else if(response.status == 422) {
+            return {
+                status: response.status,
+                data: data
+            }
+        }
+
+        return { status: response.status }
+    } catch(error) {
+        return { error: error }
+    }
+}
+
+
+/**
+ * @param {JSON} raw = {
+ *      "id": 1
+ *  }
+ * 
+ * @return
+    * 200: Successfully delete post
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 422: deletePostError 
+ */
+async function deletePost(raw) {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/post/deletePost", requestOptions);
+        const data = await response.json();
+
+        if(response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        } else if(response.status == 422) {
+            return {
+                status: response.status,
+                data: data
+            }
+        }
+
+        return { status: response.status }
+    } catch(error) {
+        return { error: error }
+    }
+}
+
+
+/**
+ * @param {JSON} raw = {
+ *      "id": 1,
+ *      "description": "Ez egy módosított leírás!"
+ *  }
+ * 
+ * @return
+    * 200: Successfully update post
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 422: updatePostError 
+ */
+async function updatePost(raw) {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/post/updatePost", requestOptions);
+        const data = await response.json();
+
+        if(response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        } else if(response.status == 422) {
+            return {
+                status: response.status,
+                data: data
+            }
+        }
+
+        return { status: response.status }
+    } catch(error) {
+        return { error: error }
+    }
+}
+
+
+/**
+ * @param {JSON} raw = {
+ *      "id": 1
+ *  }
+ * 
+ * @return
+    * 200: Successfully delete the book
+    * 403: User is not a general user
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 422: deleteBookError 
+ */
+async function deleteBook(raw) {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/deleteBook", requestOptions);
+        const data = await response.json();
+
+        if(response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        } else if(response.status == 422) {
+            return {
+                status: response.status,
+                data: data
+            }
+        }
+
+        return { status: response.status }
     } catch(error) {
         return { error: error }
     }
