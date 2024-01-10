@@ -18,66 +18,44 @@
     <link rel="icon" href="../icons/C-logo-white.svg" type="image/svg+xml">
     <!-- fekete -->
     <!-- <link rel="icon" href="../icons/C-logo.svg" type="image/svg+xml"> -->
-    
+
 </head>
 
 <body style="background-color: #E7DAE0;">
 
-    <div class="container align-content-center card-group" style="margin-top: 8%;" id="outside-div">
-        <!-- <div class="input-control"> -->
+    
 
-        <!-- <div class="container-fluid align-items-center"> -->
+    <div class="container form">
+        <form>
+            <h1 class="text-center">Login</h1>
+            <p class="text-center up-p">Welcome!</p>
+            <div class="form-group">
 
-        <form id="full-form" class="align-content-center">
-            <h1 class="text-center" style="margin-bottom: 1%;">Login</h1>
-            <p class="text-center" id="up-p">Welcome!</p>
-            <div class="form-group container">
-                <!-- E-mail -->
-                <div class="form-group col-sm-6 col-md-12" id="email">
-                    <label class="text" for="input-Email">E-mail address:</label>
-                    <input type="email" class="form-control align-content-center" id="input-Email"
-                        placeholder="example@gmail.com" required>
-                    <!-- required -> szükséges -->
-                    <!-- email error message -->
-                    <div class="error" id="email_error"></div>
+                <!-- email -->
+                <div class="form-group">
+                    <label for="inputEmail">Email address:</label>
+                    <input type="email" class="form-control" id="inputEmail" placeholder="Enter your email address" required>
+                    <div class="error" id="emailError"></div>
+                    <br>
                 </div>
 
-                <!-- Password -->
-                <div class="form-group col-sm-6 col-md-12 align-items-baseline" id="pwd">
-                    <label for="input-Pwd">Password:</label>
-                    <input type="password" class="form-control align-content-center" id="input-Pwd"
-                        placeholder="Enter password!" required>
-
-                    <!-- password error message -->
-                    <div class="error" id="pwd_Error" style="margin-top: 0%; padding-top: 0%;"></div>
-
-                    <p id="forgotPwd">Forgot your password? <a href="#"
-                            onclick="document.getElementById('modalButton').click();">Click here, to get a new one!</a>
-                    </p>
-                    <button id="modalButton" type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#pwdModal" style="display: none;"></button>
-
+                <!-- password -->
+                <div class="form-group">
+                    <label for="inputPwd">Password:</label>
+                    <input type="password" class="form-control" id="inputPwd" placeholder="Enter your password" required>
+                    <div class="error" id="pwdError"></div>
+                    <p id="forgotPwd" class="text-center"><a href="#">Forgot your password?</a></p>
+                    <br>
                 </div>
 
-                <!-- Button -->
+                <!-- login button -->
                 <div class="form-group text-center">
+                    <button disabled="true" type="submit" class="btn text-center" id="submitButton" onclick="login()">Login</button>
 
-                    <!-- <p id="backToLanding" class="text-center">If you need to explore more before signing up, you can
-                        always go back to our <a href="../Landing-Page/landing.html">Home Page</a></p> -->
-
-                    <button disabled="true" id="submitButton" type="submit" class="btn text-center">Log In</button>
-                    <p class="align-middle mt-3" id="link">Don't have an account? <a href="../Sign-up/signup.html"> Sign
-                            Up!</a></p>
+                    <p>Don't have an account? <a href="../Sign-up/signup.html">Sign Up!</a></p>
                 </div>
-
-                <!-- <p style="color: red; font-family: 'Poppins'; font-size: small;">ÁLÁRME ÁLÁRME</p> -->
-                
             </div>
         </form>
-
-
-        <!-- </div> -->
-        <!-- </div> -->
     </div>
 
     <!-- Modal -->
@@ -92,8 +70,7 @@
                     <!-- Email -->
                     <div class="mb-3">
                         <label for="modalEmail" class="form-label" id="modalLabel">Email address</label>
-                        <input type="email" class="form-control" id="modalEmail"
-                            placeholder="name@example.com">
+                        <input type="email" class="form-control" id="modalEmail" placeholder="name@example.com">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -108,7 +85,7 @@
     <script src="login.js"></script>
     <!-- ? futtatáshoz kell az api mappa -> ez mindig változik-->
     <script src="../Api/index.js"></script>
-    
+
 
     <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"

@@ -1,9 +1,9 @@
 // variables
 const submitButton = document.getElementById("submitButton");
-const inputEmail = document.getElementById("input-Email");
-const inputPwd = document.getElementById("input-Pwd");
-const emailError = document.getElementById("email_error");
-const pwdError = document.getElementById("pwd_Error");
+const inputEmail = document.getElementById("inputEmail");
+const inputPwd = document.getElementById("inputPwd");
+const emailError = document.getElementById("emailError");
+const pwdError = document.getElementById("pwdError");
 let emailValid = false;
 let pwdValid = false;
 const generalHomeURL = '../General-HomePage/GenHome.html';

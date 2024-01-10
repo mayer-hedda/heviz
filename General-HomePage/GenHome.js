@@ -62,10 +62,22 @@ window.onload = async function() {
         	        console.log("Random book response: ", responseRandomBook);
                     LoadRandomBook(responseRandomBook);
 
-                    const responseBooksOfMonth = await getMostSavedBooksOfTheMonth();
-                    console.log("Most saved books of month response: ", responseBooksOfMonth);
-                    OneRowAndMediumCard("Books of the month", responseBooksOfMonth, s2_mediumC_picDiv, s2_mediumC_h2, s2_mediumC_author, s2_mediumC_p, s2_first_row )
+                    // const responseBooksOfMonth = await getMostSavedBooksOfTheMonth();
+                    // console.log("Most saved books of month response: ", responseBooksOfMonth);
+                    // OneRowAndMediumCard("Books of the month", responseBooksOfMonth, s2_mediumC_picDiv, s2_mediumC_h2, s2_mediumC_author, s2_mediumC_p, s2_first_row );
+
+                    const responseRecommanded = await getRecommandedBooks();
+                    console.log("Recommanded books for you: ", responseRecommanded);
+                    TwoRowAndMediumCard("Recommanded books for you", responseRecommanded, s3_mediumCardPic_div, s3_mediumC_h2, s3_mediumC_author, s3_mediumC_desc, s3_first_row, s3_second_row );
                     
+                    const responsePublisher = await getPublishedBooks();
+                    console.log("Publisher books: ", responsePublisher);
+                    TwoRowAndMediumCard("Publisher books", responsePublisher, s4_mediumCardPic_div, s4_mediumC_h2, s4_mediumC_author, s4_mediumC_desc, s4_first_row, s4_second_row);
+
+                    const responseSelfPublished = await getSelfPublishedBooks();
+                    console.log("Self-published books: ", responseSelfPublished);
+                    TwoRowAndMediumCard("Self-published books", responseSelfPublished, s5_mediumCardPic_div, s5_mediumC_h2, s5_mediumC_author, s5_mediumC_desc, s5_first_row, s5_second_row)
+
                     break;
             
                 case 'publisher':
@@ -132,6 +144,81 @@ async function getMostSavedBooksOfTheMonth(){
     })
 }
 
+async function getRecommandedBooks(){
+    const getRecommandedResponse = await fetch('http://localhost:8080/webresources/book/getMostSavedBooksOfTheMonth', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+    .then(getRecommandedResponse =>{
+        if (!getRecommandedResponse.ok) {
+            throw new Error('Hálózati hiba: ' + response.statusText);
+        }
+
+        return getRecommandedResponse.json();
+    })
+
+    .then(data => {
+        console.log("Válasz a backendtől: ", data);
+    })
+
+    .catch(error => {
+        console.error('Hálózati hiba:', error);
+    })
+}
+
+async function getPublishedBooks(){
+    const getPublisherBookResponse = await fetch('http://localhost:8080/webresources/book/getMostSavedBooksOfTheMonth', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+    .then(getPublisherBookResponse =>{
+        if (!getPublisherBookResponse.ok) {
+            throw new Error('Hálózati hiba: ' + response.statusText);
+        }
+
+        return getPublisherBookResponse.json();
+    })
+
+    .then(data => {
+        console.log("Válasz a backendtől: ", data);
+    })
+
+    .catch(error => {
+        console.error('Hálózati hiba:', error);
+    })
+}
+
+async function getSelfPublishedBooks(){
+    const getSelfResponse = await fetch('http://localhost:8080/webresources/book/getMostSavedBooksOfTheMonth', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+    .then(getSelfResponse =>{
+        if (!getSelfResponse.ok) {
+            throw new Error('Hálózati hiba: ' + response.statusText);
+        }
+
+        return getSelfResponse.json();
+    })
+
+    .then(data => {
+        console.log("Válasz a backendtől: ", data);
+    })
+
+    .catch(error => {
+        console.error('Hálózati hiba:', error);
+    })
+}
+
 async function token(){
     const tokenResponese = await fetch('http://localhost:8080/webresources/user/token', {
         method: 'GET',
@@ -158,7 +245,7 @@ async function token(){
 }
 
 // Loading datas
-async function LoadRandomBook(response) {
+function LoadRandomBook(response) {
     const coverImage = response.data[0].coverImage;
     
     if (coverImage == "Ez a kép elérési útja") {
@@ -184,8 +271,6 @@ async function LoadRandomBook(response) {
 }
 
 
-
-
 /**
  * Documentation
  * --------------
@@ -203,7 +288,7 @@ async function LoadRandomBook(response) {
 function OneRowAndMediumCard(sectionName ,response, mediumC_PicDiv, mediumC_h2, mediumC_author, mediumC_description, firstRow){
     // Medium cards
     const mediumCover = response.data[0].coverImage;
-    if (coverImage == "Ez a kép elérési útja"){
+    if (mediumCover == "Ez a kép elérési útja"){
         mediumC_PicDiv.innerHTML = `
         <img src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
         `
@@ -243,174 +328,79 @@ function OneRowAndMediumCard(sectionName ,response, mediumC_PicDiv, mediumC_h2, 
 
 }
 
+/**
+ * Documentation
+ * -------------
+ * IMPORTANT: Every HTML element param is an ID or a variable
+ * 
+ * @param {String} sectionName - Name of the section where I insert the card and the row
+ * @param {JSON} response - The response from the Backend
+ * @param {HTMLDivElement} mediumC_PicDiv - The id of div of the card's picture
+ * @param {HTMLHeadingElement} mediumC_h2 - The id of H2 tag where I insert the book's title
+ * @param {HTMLParagraphElement} mediumC_author - The id of P tag where I insert the book's author name
+ * @param {HTMLParagraphElement} mediumC_description - The id of the P tag where I insert the book's description
+ * @param {HTMLDivElement} firstRow - The id of the first row's div
+ * @param {HTMLDivElement} secondRow - The id of the second row's div
+ * 
+ */
+function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, mediumC_author, mediumC_description, firstRow, secondRow ) {
+    // Medium cards
+    const mediumCover = response.data[0].coverImage;
+    if (mediumCover == "Ez a kép elérési útja"){
+        mediumC_PicDiv.innerHTML = `
+        <img src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
+        `
+    }else{
+        // Ide majd az elési utat kell megadni az scr-be, de mivel a db-ben nincs fent a tényleges kép 
+        // ezért a szemléltetés miatt mindenhol a standard-et töltöm be 
+        console.log(sectionName," Medium Card Cover book path: ", coverImage);
 
-//         //* s3 MEDIUM CARD
-//         const mediumCard_s3 = data.mediumCard[0];
-//         s3_mediumCardPic_div.innerHTML = `
+        mediumC_PicDiv.innerHTML = `
 
-//             <img class="medium-pic" src="${mediumCard_s3.imgURL}" alt="${mediumCard_s2.title} cover">
+            <img src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
+        `
+    }
+
+    mediumC_h2.innerText = `${response.data[0].title}`;
+    mediumC_author.innerText = `${response.data[0].firstName} ${response.data[0].lastName}`;
+    mediumC_description.innerText = `${response.data[0].description}`;
+
+    // <img src="${response.data[i].coverImage}" alt="${response.data[i].title}" class="cover">
+    for(let i =1; i<=4; i++){
+        //! Itt lehetne egy vizsgálat hogy van e rendes url a teszt adathoz
+        firstRow.innerHTML += `
+            <div class="col-3">
+                <div class="cover-photo">
+                    <img src="../pictures/standard-book-cover.jpg" alt="${response.data[i].title}" class="cover">
+
+                    <div class="overlay">
+                        <p class="book-title">${response.data[i].title}</p>
+                        <p class="author-p">${response.data[i].firstName} ${response.data[i].lastName}</p>
+                        <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID">Show Details</button>
+                    </div>
+                </div>
+            </div>
         
-//         `;
-//         s3_mediumC_h2.innerText = `${mediumCard_s3.title}`;
-//         s3_mediumC_user.innerText = `@${mediumCard_s3.username}`;
-//         s3_mediumC_desc.innerText = `${mediumCard_s3.description}`;
+        `
+    }
 
-//         //* S3 FIRST ROW
-//         for (let i = 1; i <= 4; i++) {
-//             const mediumCard = data.mediumCard[i];
+    for(let i = 5; i<=8; i++){
+        secondRow.innerHTML += `
+            <div class="col-3">
+                <div class="cover-photo">
+                    <img src="../pictures/standard-book-cover.jpg" alt="${response.data[i].title}" class="cover">
 
-//             s3_first_row.innerHTML += `
-            
-//                     <div class="col-3">
-//                         <div class="cover-photo">
-
-//                             <img src="${mediumCard.imgURL}" alt="${mediumCard.title}" class="cover">
-//                             <div class="overlay">
-//                                 <p class="book-title">${mediumCard.title}</p>
-//                                 <p class="author-p">@${mediumCard.username}</p>
-//                                 <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID">Start Reading</button>
-//                             </div>
-//                         </div>
-//                     </div>
-            
-//             `;
-
-//         }
-
-//         //* S3 SECOND ROW
-//         for (let i = 5; i <= 8; i++) {
-//             const mediumCard = data.mediumCard[i];
-
-//             s3_second_row.innerHTML += `
-            
-//                     <div class="col-3">
-//                         <div class="cover-photo">
-
-//                             <img src="${mediumCard.imgURL}" alt="${mediumCard.title}" class="cover">
-//                             <div class="overlay">
-//                                 <p class="book-title">${mediumCard.title}</p>
-//                                 <p class="author-p">@${mediumCard.username}</p>
-//                                 <button  class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID">Start Reading</button>
-//                             </div>
-//                         </div>
-//                     </div>
-            
-//             `;
-
-//         }
-
-//         //* s4 MEDIUM CARD
-//         const mediumCard_s4 = data.mediumCard[0];
-//         s4_mediumCardPic_div.innerHTML = `
-
-//             <img class="medium-pic" src="${mediumCard_s4.imgURL}" alt="${mediumCard_s4.title} cover">
+                    <div class="overlay">
+                        <p class="book-title">${response.data[i].title}</p>
+                        <p class="author-p">${response.data[i].firstName} ${response.data[i].lastName}</p>
+                        <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID">Show Details</button>
+                    </div>
+                </div>
+            </div>
         
-//         `;
-//         s4_mediumC_h2.innerText = `${mediumCard_s4.title}`;
-//         s4_mediumC_user.innerText = `@${mediumCard_s4.username}`;
-//         s4_mediumC_desc.innerText = `${mediumCard_s4.description}`;
-
-//         //* S4 FIRST ROW
-//         for (let i = 1; i <= 4; i++) {
-//             const mediumCard = data.mediumCard[i];
-
-//             s4_first_row.innerHTML += `
-            
-//                     <div class="col-3">
-//                         <div class="cover-photo">
-
-//                             <img src="${mediumCard.imgURL}" alt="${mediumCard.title}" class="cover">
-//                             <div class="overlay">
-//                                 <p class="book-title">${mediumCard.title}</p>
-//                                 <p class="author-p">@${mediumCard.username}</p>
-//                                 <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID">Start Reading</button>
-//                             </div>
-//                         </div>
-//                     </div>
-            
-//             `;
-            
-
-//         }
-
-//         //* S4 SECOND ROW
-//         for (let i = 5; i <= 8; i++) {
-//             const mediumCard = data.mediumCard[i];
-
-//             s4_second_row.innerHTML += `
-            
-//                     <div class="col-3">
-//                         <div class="cover-photo">
-
-//                             <img src="${mediumCard.imgURL}" alt="${mediumCard.title}" class="cover">
-//                             <div class="overlay">
-//                                 <p class="book-title">${mediumCard.title}</p>
-//                                 <p class="author-p">@${mediumCard.username}</p>
-//                                 <button  class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID">Start Reading</button>
-//                             </div>
-//                         </div>
-//                     </div>
-            
-//             `;
-
-//         }
-
-//         //* s5 MEDIUM CARD
-//         const mediumCard_s5 = data.mediumCard[0];
-//         s5_mediumCardPic_div.innerHTML = `
-
-//             <img class="medium-pic" src="${mediumCard_s5.imgURL}" alt="${mediumCard_s5.title} cover">
-        
-//         `;
-//         s5_mediumC_h2.innerText = `${mediumCard_s5.title}`;
-//         s5_mediumC_user.innerText = `@${mediumCard_s5.username}`;
-//         s5_mediumC_desc.innerText = `${mediumCard_s5.description}`;
+        `
+    }
+}
 
 
-//         //* S5 FIRST ROW
-//         for (let i = 1; i <= 4; i++) {
-//             const mediumCard = data.mediumCard[i];
-
-//             s5_first_row.innerHTML += `
-            
-//                     <div class="col-3">
-//                         <div class="cover-photo">
-
-//                             <img src="${mediumCard.imgURL}" alt="${mediumCard.title}" class="cover">
-//                             <div class="overlay">
-//                                 <p class="book-title">${mediumCard.title}</p>
-//                                 <p class="author-p">@${mediumCard.username}</p>
-//                                 <button  class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID">Start Reading</button>
-//                             </div>
-//                         </div>
-//                     </div>
-            
-//             `;
-
-//         }
-
-//         //* S5 SECOND ROW
-//         for (let i = 5; i <= 8; i++) {
-//             const mediumCard = data.mediumCard[i];
-
-//             s5_second_row.innerHTML += `
-            
-//                     <div class="col-3">
-//                         <div class="cover-photo">
-
-//                             <img src="${mediumCard.imgURL}" alt="${mediumCard.title}" class="cover">
-//                             <div class="overlay">
-//                                 <p class="book-title">${mediumCard.title}</p>
-//                                 <p class="author-p">@${mediumCard.username}</p>
-//                                 <button  class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID">Start Reading</button>
-//                             </div>
-//                         </div>
-//                     </div>
-            
-//             `;
-
-//         }
-
-
-//     })
 
