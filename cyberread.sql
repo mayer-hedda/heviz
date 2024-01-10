@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Jan 08. 00:42
+-- Létrehozás ideje: 2024. Jan 10. 02:21
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -85,6 +85,64 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `addPost` (IN `userIdIN` INT, IN `descriptionIN` VARCHAR(1000))   INSERT INTO `post` (`post`.`userId`, `post`.`description`)
 VALUES (userIdIN, descriptionIN)$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteBook` (IN `userIdIN` INT, IN `bookIdIN` INT, OUT `result` INT)   BEGIN
+
+	IF (SELECT `book`.`writerId` FROM `book` WHERE `book`.`id` = bookIdIN) != userIdIN THEN
+		SET result = 3;
+    ELSEIF EXISTS (SELECT * FROM `book` WHERE `book`.`id` = bookIdIN) THEN
+    	DELETE FROM `book`
+        WHERE `book`.`id` = bookIdIN;
+        
+        SET result = 1;
+    ELSE
+    	SET result = 2;
+    END IF;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deletePost` (IN `userIdIN` INT, IN `postIdIN` INT, OUT `result` INT)   BEGIN
+
+	IF (SELECT `post`.`userId` FROM `post` WHERE `post`.`id` = postIdIN) != userIdIN THEN
+    	SET result = 3;
+    ELSEIF EXISTS (SELECT * FROM `post` WHERE `post`.`userId` = userIdIN AND `post`.`id` = postIdIN) THEN
+    	DELETE FROM `post`
+        WHERE `post`.`userId` = userIdIN AND `post`.`id` = postIdIN;
+        
+        SET result = 1;
+    ELSE
+    	SET result = 2;
+    END IF;
+	
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteSavedBook` (IN `userIdIN` INT, IN `bookIdIN` INT, OUT `result` INT)   BEGIN
+
+	IF NOT EXISTS (SELECT * FROM `saved` WHERE `saved`.`userId` = userIdIN AND `saved`.`bookId` = bookIdIN) THEN
+    	SET result = 2;
+    ELSE
+    	DELETE FROM `saved`
+        WHERE `saved`.`userId` = userIdIN AND `saved`.`bookId` = bookIdIN;
+        
+        SET result = 1;
+    END IF;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `followUser` (IN `userIdIN` INT, IN `followUserIdIN` INT, OUT `result` INT)   BEGIN
+
+	IF userIdIN = followUserIdIN THEN
+    	SET result = 3;
+	ELSEIF NOT EXISTS (SELECT * FROM `follow` WHERE `follow`.`followerId` = userIdIN AND `follow`.`followedId` = followUserIdIN) THEN
+    	INSERT INTO `follow` (`follow`.`followerId`, `follow`.`followedId`)
+        VALUE (userIdIN, followUserIdIN);
+        
+        SET result = 1;
+    ELSE
+    	SET result = 2;
+    END IF;
+
+END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `generalRegistration` (IN `usernameIN` VARCHAR(50), IN `firstNameIN` VARCHAR(50), IN `lastNameIN` VARCHAR(50), IN `emailIN` VARCHAR(50), IN `birthdateIN` DATE, IN `passwordIN` VARCHAR(100))   BEGIN
 
@@ -519,7 +577,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserBooks` (IN `userIdIN` INT, I
                 GROUP BY `bookrating`.`bookId`
             ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
             LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-            WHERE `book`.`writerId` = profileUserId;
+            WHERE `book`.`writerId` = profileUserId
+        ORDER BY `book`.`publishedTime` DESC;
         ELSEIF profileUserRank = "publisher" THEN
         	SELECT
                 `book`.`id`,
@@ -546,7 +605,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserBooks` (IN `userIdIN` INT, I
                 GROUP BY `bookrating`.`bookId`
             ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
             LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-            WHERE `book`.`publisherId` = profileUserId;
+            WHERE `book`.`publisherId` = profileUserId
+        ORDER BY `book`.`publishedTime` DESC;
         END IF;
         
         SET result = 1;
@@ -599,7 +659,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserDetails` (IN `userIdIN` INT,
                 IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
                 `publisher`.`companyName`,
                 (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`writerId` = profileUserId) AS bookCount,
-                (SELECT COUNT(`saved`.`id`) FROM `saved` WHERE `saved`.`userId` = profileUserId) AS savedCount,
+                (SELECT COUNT(`writers`.`writerId`) FROM (SELECT DISTINCT `book`.`writerId` FROM `book` WHERE `book`.`publisherId` = profileUserId) AS `writers`) AS writerCount,
                 (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
                 `user`.`introDescription`,
                 `user`.`website`,
@@ -640,7 +700,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserPosts` (IN `userIdIN` INT, I
         FROM `post`
         INNER JOIN `user` ON `user`.`id` = `post`.`userId`
         LEFT JOIN `postlike` ON `postlike`.`postId` = `post`.`id` AND `postlike`.`userId` = userIdIN
-        WHERE `user`.`id` = profileUserId;
+        WHERE `user`.`id` = profileUserId
+        ORDER BY `post`.`postTime` DESC;
         
         SET result = 1;
     ELSE
@@ -700,6 +761,23 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `publisherRegistration` (IN `usernam
 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `saveBook` (IN `userIdIN` INT, IN `bookIdIN` INT, OUT `result` INT)   BEGIN
+
+	IF NOT EXISTS (SELECT * FROM `saved` WHERE `saved`.`userId` = userIdIN AND `saved`.`bookId` = bookIdIN) THEN
+
+        INSERT INTO `saved` (`saved`.`userId`, `saved`.`bookId`)
+        VALUE (userIdIN, bookIdIN);
+        
+        SET result = 1;
+        
+    ELSE
+    	
+        SET result = 2;
+        
+    END IF;
+    
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `select` ()   SELECT
                 `user`.`rank`,
                 `user`.`username`,
@@ -716,7 +794,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `select` ()   SELECT
             FROM `user`
             -- LEFT JOIN `follow` ON `follow`.`followedId` = 1 AND `follow`.`followerId` = 1
             LEFT JOIN `color` ON `color`.`id` = `user`.`coverColorId`
-            -- WHERE `follow`.`followerId` = 1$$
+            WHERE `follow`.`followerId` = 1$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `setBook` (IN `bookIdIN` INT, IN `titleIN` VARCHAR(50), IN `descriptionIN` VARCHAR(1000), IN `targetAudienceIdIN` INT, IN `languageIdIN` INT, IN `adultFictionIN` BOOLEAN, IN `categoryIdIN` INT, IN `statusIdIN` INT, IN `priceIN` INT, IN `coverImageIN` VARCHAR(100), IN `fileIN` VARCHAR(100), IN `bankAccountNumberIN` VARCHAR(30), IN `chapterNumberIN` INT, IN `freeChapterNumberIN` INT, OUT `result` INT)   BEGIN
     
@@ -829,6 +907,35 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `setBook` (IN `bookIdIN` INT, IN `ti
 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `unfollowedUser` (IN `userIdIN` INT, IN `followUserIdIN` INT, OUT `result` INT)   BEGIN
+
+	IF EXISTS (SELECT * FROM `follow` WHERE `follow`.`followerId` = userIdIN AND `follow`.`followedId` = followUserIdIN) THEN
+    	DELETE FROM `follow`
+        WHERE `follow`.`followerId` = userIdIN AND `follow`.`followedId` = followUserIdIN;
+    	
+        SET result = 1;
+    ELSE
+    	SET result = 2;
+    END IF;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updatePost` (IN `userIdIN` INT, IN `postIdIN` INT, IN `postDescriptionIN` VARCHAR(1000), OUT `result` INT)   BEGIN
+
+	IF (SELECT `post`.`userId` FROM `post` WHERE `post`.`id` = postIdIN) != userIdIN THEN
+    	SET result = 3;
+    ELSEIF EXISTS (SELECT * FROM `post` WHERE `post`.`id` = postIdIN AND `post`.`userId` = userIdIN) THEN
+    	UPDATE `post`
+        SET `post`.`description` = postDescriptionIN AND `post`.`postTime` = CURRENT_TIMESTAMP()
+        WHERE `post`.`id` = postIdIN;
+        
+        SET result = 1;
+    ELSE
+    	SET result = 2;
+    END IF;
+
+END$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -877,7 +984,7 @@ CREATE TABLE `book` (
 --
 
 INSERT INTO `book` (`id`, `title`, `status`, `writerId`, `publisherId`, `publishedTime`, `rating`, `description`, `price`, `coverImage`, `file`, `chapterNumber`, `freeChapterNumber`, `pagesNumber`, `adultFiction`, `bankAccountNumber`, `languageId`, `targetAudienceId`, `categoryId`) VALUES
-(1, 'The Mystery of the Lost Key', 'looking for a publisher', 3, NULL, '2023-12-17 17:58:06', NULL, 'A thrilling mystery novel that keeps you on the edge of your seat.', 1500, 'pictures/book/The-Mystery-of-the-Lost-Key', '', 30, 6, 200, 0, '1234567890', 1, 4, 12),
+(1, 'The Mystery of the Lost Key', 'published by', 3, 9, '2023-12-17 17:58:06', NULL, 'A thrilling mystery novel that keeps you on the edge of your seat.', 1500, 'pictures/book/The-Mystery-of-the-Lost-Key', '', 30, 6, 200, 0, '1234567890', 1, 4, 12),
 (2, 'Echoes of Eternity', 'published by', 5, 7, '2023-12-17 17:58:06', NULL, 'An epic fantasy saga spanning across realms and generations.', 2500, 'pictures/book/Echoes-of-Eternity', '', 40, 8, 350, 0, '0987654321', 2, 5, 18),
 (3, 'Beyond the Horizon', 'self-published', 8, NULL, '2023-12-17 17:58:06', NULL, 'A journey of self-discovery and adventure in the heart of the unknown.', 1800, 'pictures/book/Beyond-the-Horizon', '', 25, 5, 180, 0, '1357902468', 3, 3, 9),
 (4, 'The Enigma Code', 'self-published', 10, NULL, '2023-12-17 17:58:38', NULL, 'A gripping thriller revealing the secrets of an encrypted message.', 2200, 'pictures/book/The-Enigma-Code', '', 35, 7, 280, 1, '2468135790', 4, 2, 7),
@@ -920,8 +1027,7 @@ INSERT INTO `book` (`id`, `title`, `status`, `writerId`, `publisherId`, `publish
 (41, 'Negyedik könyv', 'looking for a publisher', 1, NULL, '2023-12-20 00:14:50', NULL, 'Ez a negyedik könyv leírása.', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 100, 20, 0, 1, NULL, 1, 1, 1),
 (42, 'Negyedik könyv', 'looking for a publisher', 1, NULL, '2023-12-20 08:08:20', NULL, 'Ez a negyedik könyv leírása.', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, NULL, 1, 1, 1),
 (43, 'Negyedik könyv', 'looking for a publisher', 1, NULL, '2023-12-20 08:09:22', NULL, 'Ez a negyedik könyv leírása.', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, NULL, 1, 1, 1),
-(44, 'Negyedik könyv', 'looking for a publisher', 1, NULL, '2023-12-20 08:09:31', NULL, 'Ez a negyedik könyv leírása.', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 2, 0, 0, 1, NULL, 1, 1, 1),
-(45, 'Negyedik könyv', 'self-published', 1, NULL, '2023-12-20 08:18:09', NULL, 'Ez a negyedik könyv leírása.', 1250, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, '12345678', 1, 1, 1);
+(45, 'Negyedik könyv', 'published by', 3, 9, '2023-12-20 08:18:09', NULL, 'Ez a negyedik könyv leírása.', 1250, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, '12345678', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1207,7 +1313,8 @@ INSERT INTO `follow` (`id`, `followerId`, `followedId`, `followingTime`) VALUES
 (17, 24, 10, '2023-12-19 22:25:59'),
 (18, 16, 12, '2023-12-19 22:25:59'),
 (19, 27, 2, '2023-12-19 22:25:59'),
-(20, 27, 4, '2023-12-19 22:25:59');
+(20, 27, 4, '2023-12-19 22:25:59'),
+(23, 1, 32, '2024-01-08 22:18:57');
 
 -- --------------------------------------------------------
 
@@ -1395,10 +1502,9 @@ INSERT INTO `post` (`id`, `userId`, `description`, `postTime`) VALUES
 (1, 34, 'Hey fellow bookworms! Just finished reading an amazing thriller - The Silent Observer by Jane Doe. Gripping plot, couldn\'t put it down!', '2023-10-24 19:45:00'),
 (2, 35, 'The plot is a rollercoaster of emotions, and there are unexpected twists that kept me turning the pages well into the night. What I appreciated most about this book is how it explores the complexities of relationships and how people cope with tragedy. It\'s a story that will stay with me for a long time.', '2023-10-15 11:56:00'),
 (3, 36, 'I recently finished a captivating novel that I couldn\'t put down! It\'s a gripping mystery by a talented new author. The character development and intricate plot had me hooked from the first page. Can\'t wait to dive into more of their work. What\'s everyone else reading right now? I\'m also on the lookout for recommendations for my next read, so if you\'ve come across something that you couldn\'t get enough of, please share!', '2023-12-19 22:44:20'),
-(4, 1, 'Ez egy random magyr poszt, mert gondolom lesznek magyar felhasználói is az oldalnak és akkor már legyen ilyen is.', '2023-12-19 22:46:10'),
 (5, 2, 'Az xy könyvnek a folytatása valamikor várható, valójába nmég én sem tudom mikor, de majd lesz valami.', '2023-12-19 22:46:45'),
 (6, 7, 'xd', '2023-12-19 22:46:45'),
-(7, 1, 'This is an English post. Lorem ipsum dolor sit amet, consectetur adipiscing elit.', '2023-01-01 07:00:00'),
+(7, 1, '0', '2023-01-01 07:00:00'),
 (8, 2, 'Das ist ein deutscher Beitrag. Lorem ipsum dolor sit amet, consectetur adipiscing elit.', '2023-01-02 09:30:00'),
 (9, 3, 'Questa è una pubblicazione in italiano. Lorem ipsum dolor sit amet, consectetur adipiscing elit.', '2023-01-03 10:45:00'),
 (10, 4, 'Ez egy magyar poszt. Lorem ipsum dolor sit amet, consectetur adipiscing elit.', '2023-01-04 13:20:00'),
@@ -1820,7 +1926,7 @@ ALTER TABLE `color`
 -- AUTO_INCREMENT a táblához `follow`
 --
 ALTER TABLE `follow`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT a táblához `forgotpassword`
@@ -1874,7 +1980,7 @@ ALTER TABLE `publisher`
 -- AUTO_INCREMENT a táblához `saved`
 --
 ALTER TABLE `saved`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT a táblához `targetaudience`
