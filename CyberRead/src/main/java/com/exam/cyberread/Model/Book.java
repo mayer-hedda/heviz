@@ -1214,5 +1214,133 @@ public class Book implements Serializable {
             emf.close();
         }
     }
+    
+    
+    /**
+     * @param userId
+     * @param bookId
+     * 
+     * @return
+        * saveBookError
+     * 
+     * @throws BookException: Something wrong
+     */
+    public static JSONObject saveBook(Integer userId, Integer bookId) throws BookException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("saveBook");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("bookIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
+            
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("bookIdIN", bookId);
+
+            spq.execute();
+            
+            JSONObject error = new JSONObject();
+            if((Integer) spq.getOutputParameterValue("result") == 2) {
+                error.put("saveBookError", "This book is alredy saved!");
+            }
+            
+            return error;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in saveBook() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param bookId
+     * 
+     * @return
+        * deleteSavedBookError
+     * 
+     * @throws BookException: Something wrong
+     */
+    public static JSONObject deleteSavedBook(Integer userId, Integer bookId) throws BookException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("deleteSavedBook");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("bookIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
+            
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("bookIdIN", bookId);
+
+            spq.execute();
+            
+            JSONObject error = new JSONObject();
+            if((Integer) spq.getOutputParameterValue("result") == 2) {
+                error.put("deleteSavedBookError", "This book has not yet been saved!");
+            }
+            
+            return error;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in deleteSavedBook() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param bookId
+     * 
+     * @return
+        * deleteBookError
+     * 
+     * @throws BookException: Something wrong
+     */
+    public static JSONObject deleteBook(Integer userId, Integer bookId) throws BookException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("deleteBook");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("bookIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
+            
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("bookIdIN", bookId);
+
+            spq.execute();
+            
+            JSONObject error = new JSONObject();
+            if((Integer) spq.getOutputParameterValue("result") == 2) {
+                error.put("deleteBookError", "This book dosn't exist!");
+            } else if((Integer) spq.getOutputParameterValue("result") == 3) {
+                error.put("deleteBookError", "This book is not your book!");
+            }
+            
+            return error;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in deleteBook() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
         
 }

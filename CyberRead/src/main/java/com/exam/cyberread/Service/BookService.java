@@ -588,4 +588,61 @@ public class BookService {
         }
     }
     
+    
+    /**
+     * @param userId
+     * @param bookId
+     * 
+     * @return
+        * saveBookError
+     * 
+     * @throws BookException: Something wrong
+     */
+    public static JSONObject saveBook(Integer userId, Integer bookId) throws BookException {
+        try {
+            return Book.saveBook(userId, bookId);
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in saveBook() method!");
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param bookId
+     * 
+     * @return
+        * deleteSavedBookError
+     * 
+     * @throws BookException: Something wrong
+     */
+    public static JSONObject deleteSavedBook(Integer userId, Integer bookId) throws BookException {
+        try {
+            return Book.deleteSavedBook(userId, bookId);
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in deleteSavedBook() method!");
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param bookId
+     * 
+     * @return
+        * deleteBookError
+     * 
+     * @throws BookException: Something wrong
+     */
+    public static JSONObject deleteBook(Integer userId, Integer bookId) throws BookException {
+        try {
+            return Book.deleteBook(userId, bookId);
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in deleteBook() method!");
+        }
+    }
+    
 }

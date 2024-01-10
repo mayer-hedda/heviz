@@ -702,4 +702,132 @@ public class BookController {
         }
     }
     
+    
+    /**
+     * @param jwt
+     * @param book
+     * 
+     * @return
+        * 200: Successfully saved the book
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 422: saveBookError
+     * 
+     * @throws BookException: Something wrong
+     */
+    @POST
+    @Path("saveBook")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response saveBook(@HeaderParam("Token") String jwt, Book book) throws BookException {
+        if(jwt == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
+        } else {
+            int tokenCheckResult = Token.decodeJwt(jwt);
+
+            switch(tokenCheckResult) {
+                case 1: 
+                    Integer userId = Token.getUserIdByToken(jwt);
+                    JSONObject result = BookService.saveBook(userId, book.getId());
+                    if(result.isEmpty()) {
+                        return Response.status(Response.Status.OK).build();
+                    }
+                    return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                case 2:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
+                default:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
+            }
+        }
+    }
+    
+    
+    /**
+     * @param jwt
+     * @param book
+     * 
+     * @return
+        * 200: Successfully delete the book saved
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 422: deleteSavedBookError
+     * 
+     * @throws BookException: Something wrong
+     */
+    @POST
+    @Path("deleteSavedBook")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteSavedBook(@HeaderParam("Token") String jwt, Book book) throws BookException {
+        if(jwt == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
+        } else {
+            int tokenCheckResult = Token.decodeJwt(jwt);
+
+            switch(tokenCheckResult) {
+                case 1: 
+                    Integer userId = Token.getUserIdByToken(jwt);
+                    JSONObject result = BookService.deleteSavedBook(userId, book.getId());
+                    if(result.isEmpty()) {
+                        return Response.status(Response.Status.OK).build();
+                    }
+                    return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                case 2:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
+                default:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
+            }
+        }
+    }
+    
+    
+    /**
+     * @param jwt
+     * @param book
+     * 
+     * @return
+        * 200: Successfully delete the book
+        * 403: User is not a general user
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 422: deleteBookError
+     * 
+     * @throws BookException: Something wrong
+     */
+    @POST
+    @Path("deleteBook")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteBook(@HeaderParam("Token") String jwt, Book book) throws BookException {
+        if(jwt == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
+        } else {
+            int tokenCheckResult = Token.decodeJwt(jwt);
+
+            switch(tokenCheckResult) {
+                case 1: 
+                    String rank = Token.getUserRankByToken(jwt);
+                    
+                    switch(rank) {
+                        case "general":
+                            Integer userId = Token.getUserIdByToken(jwt);
+                            JSONObject result = BookService.deleteBook(userId, book.getId());
+                            if(result.isEmpty()) {
+                                return Response.status(Response.Status.OK).build();
+                            }
+                            return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                        default:
+                            return Response.status(Response.Status.FORBIDDEN).build();
+                    }
+                case 2:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
+                default:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
+            }
+        }
+    }
+    
 }

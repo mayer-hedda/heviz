@@ -91,4 +91,43 @@ public class PostService {
         }
     }
     
+    
+    /**
+     * @param userId
+     * @param postId
+     * 
+     * @return
+        * deletePostError
+     * 
+     * @throws PostException: Something wrong
+     */
+    public static JSONObject deletePost(Integer userId, Integer postId) throws PostException {
+        try {
+            return Post.deletePost(userId, postId);
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new PostException("Error in deletePost() method!");
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param postId
+     * @param postDescription
+     * 
+     * @return
+        * updatePostError
+     * 
+     * @throws PostException: Something wrong
+     */
+    public static JSONObject updatePost(Integer userId, Integer postId, String postDescription) throws PostException {
+        try {
+            return Post.updatePost(userId, postId, postDescription);
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new PostException("Error in updatePost() method!");
+        }
+    }
+    
 }

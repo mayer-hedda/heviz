@@ -187,4 +187,84 @@ public class PostController {
         }
     }
     
+    
+    /**
+     * @param jwt
+     * @param post
+     * 
+     * @return
+        * 200: Successfully delete post
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 422: deletePostError
+     * 
+     * @throws PostException: Something wrong
+     */
+    @POST
+    @Path("deletePost")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deletePost(@HeaderParam("Token") String jwt, Post post) throws PostException {
+        if(jwt == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
+        } else {
+            int tokenCheckResult = Token.decodeJwt(jwt);
+
+            switch(tokenCheckResult) {
+                case 1:
+                    int userId = Token.getUserIdByToken(jwt);
+                    JSONObject result = PostService.deletePost(userId, post.getId());
+                    if(result.isEmpty()) {
+                        return Response.status(Response.Status.OK).build();
+                    }
+                    return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                case 2:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
+                default:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
+            }
+        }
+    }
+    
+    
+    /**
+     * @param jwt
+     * @param post
+     * 
+     * @return
+        * 200: Successfully update post
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 422: updatePostError
+     * 
+     * @throws PostException: Something wrong
+     */
+    @POST
+    @Path("updatePost")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updatePost(@HeaderParam("Token") String jwt, Post post) throws PostException {
+        if(jwt == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
+        } else {
+            int tokenCheckResult = Token.decodeJwt(jwt);
+
+            switch(tokenCheckResult) {
+                case 1:
+                    int userId = Token.getUserIdByToken(jwt);
+                    JSONObject result = PostService.updatePost(userId, post.getId(), post.getDescription());
+                    if(result.isEmpty()) {
+                        return Response.status(Response.Status.OK).build();
+                    }
+                    return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                case 2:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
+                default:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
+            }
+        }
+    }
+    
 }

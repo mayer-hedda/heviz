@@ -606,7 +606,7 @@ public class User implements Serializable {
                         }
                         userDetails.put("companyName", (String) result[4]);
                         userDetails.put("bookCount", (BigInteger) result[5]);
-                        userDetails.put("savedBookCount", (BigInteger) result[6]);
+                        userDetails.put("writerCount", (BigInteger) result[6]);
                         userDetails.put("followersCount", (BigInteger) result[7]);
                         userDetails.put("introDescription", (String) result[8]);
                         userDetails.put("website", (String) result[9]);

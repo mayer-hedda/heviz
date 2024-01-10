@@ -296,4 +296,95 @@ public class Post implements Serializable {
         }
     }
     
+    
+    /**
+     * @param userId
+     * @param postId
+     * 
+     * @return
+        * deletePostError
+     * 
+     * @throws PostException: Something wrong
+     */
+    public static JSONObject deletePost(Integer userId, Integer postId) throws PostException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("deletePost");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("postIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
+            
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("postIdIN", postId);
+
+            spq.execute();
+                        
+            JSONObject error = new JSONObject();
+            if((Integer) spq.getOutputParameterValue("result") == 2) {
+                error.put("deletePostError", "This post doesn't exist!");
+            } else if((Integer) spq.getOutputParameterValue("result") == 3) {
+                error.put("deletePostError", "This post is not your post!");
+            }
+            
+            return error;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new PostException("Error in deletePost() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param postId
+     * @param postDescription
+     * 
+     * @return
+        * updatePostError
+     * 
+     * @throws PostException: Something wrong
+     */
+    public static JSONObject updatePost(Integer userId, Integer postId, String postDescription) throws PostException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("updatePost");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("postIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("postDescriptionIN", String.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
+            
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("postIdIN", postId);
+            spq.setParameter("postDescriptionIN", postDescription);
+
+            spq.execute();
+                        
+            JSONObject error = new JSONObject();
+            if((Integer) spq.getOutputParameterValue("result") == 2) {
+                error.put("updatePostError", "This post doesn't exist!");
+            } else if((Integer) spq.getOutputParameterValue("result") == 3) {
+                error.put("updatePostError", "This post is not your post!");
+            }
+            
+            return error;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new PostException("Error in updatePost() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
 }

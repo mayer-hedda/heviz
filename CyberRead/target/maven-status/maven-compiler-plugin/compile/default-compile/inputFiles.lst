@@ -8,10 +8,13 @@ C:\Users\Hédy\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyber
 C:\Users\Hédy\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Controller\CategoryController.java
 C:\Users\Hédy\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Exception\LanguageException.java
 C:\Users\Hédy\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Controller\ApplicationConfig.java
+C:\Users\Hédy\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Model\Follow.java
 C:\Users\Hédy\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Model\Book.java
 C:\Users\Hédy\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Model\Category.java
 C:\Users\Hédy\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Controller\UserController.java
+C:\Users\Hédy\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Service\FollowService.java
 C:\Users\Hédy\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Model\Postlike.java
+C:\Users\Hédy\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Controller\FollowController.java
 C:\Users\Hédy\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Model\Categoryinterest.java
 C:\Users\Hédy\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Service\PostlikeService.java
 C:\Users\Hédy\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Exception\CategoryinterestException.java
@@ -26,6 +29,7 @@ C:\Users\Hédy\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyber
 C:\Users\Hédy\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Service\CategoryinterestService.java
 C:\Users\Hédy\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Config\CorsFilter.java
 C:\Users\Hédy\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Controller\PostlikeController.java
+C:\Users\Hédy\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Exception\FollowException.java
 C:\Users\Hédy\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Controller\PostController.java
 C:\Users\Hédy\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Model\Post.java
 C:\Users\Hédy\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Dto\AddCategoryInterest.java
