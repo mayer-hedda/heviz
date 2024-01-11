@@ -1,9 +1,101 @@
 /** ----------- MEDIA QUERY */
+@media (max-width:400px) {
+    h1 {
+        max-width: 80%;
+        font-size: 50px !important;
+    }
 
-@media (max-width: 576px) {
+    #firstP {
+        max-width: 80%;
+    }
+
+    .my-image {
+        width: 300px !important;
+        height: 200px !important;
+    }
+
+    #second-section-pic,
+    #third-section-pic,
+    #s4 {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+    }
+
+    #s2-pic1,
+    #s2-pic2 {
+        margin-bottom: 25px;
+    }
+
+    h2 {
+        text-align: center;
+        font-size: 30px !important;
+    }
+
+    #second-p,
+    #third-p {
+        font-size: 20px !important;
+    }
+
+    #third-p {
+        width: 260px !important;
+    }
+
+    #left-column {
+        display: block;
+        place-items: center;
+    }
+
+    #fourth-section h2 {
+        font-size: 25px !important;
+        line-height: 30px;
+        width: 250px;
+    }
+
+    #s4-btn1 {
+        margin-bottom: 20px;
+    }
+
+    #s4-p {
+        font-size: 18px !important;
+        line-height: 20px !important;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email {
+        font-size: 15px !important;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    #footer-ul {
+        margin-top: 0.938rem;
+    }
+
+    #footer-logo-div {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+    }
+
+    #footer-logo {
+        width: 150px;
+    }
+
+}
+
+@media (min-width: 400px) and (max-width: 576px) {
     nav .navbar-toggler {
         order: 3 !important;
-        margin-left: 0rem !important;
+        margin-left: auto !important;
+
     }
 
     section {
@@ -64,14 +156,30 @@
         /* Blokk elemként kezeljük, hogy a margin: 0 auto; működjön */
         margin: 0 auto;
         /* Középre igazítás vízszintesen */
+
+    }
+
+    #third-section-pic {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+    }
+
+    #third-section-pic img {
+        width: 391px;
+    }
+
+    #third-p {
+        width: 312px !important;
     }
 
 
+
     #fourth-section {
-        padding-bottom: 40px!important;
-        padding-top: 30px!important;
-        padding-left: 20px!important;
-        padding-right: 20px!important;
+        padding-bottom: 40px !important;
+        padding-top: 30px !important;
+        padding-left: 20px !important;
+        padding-right: 20px !important;
     }
 
     #s4-btn1 {
@@ -86,6 +194,18 @@
         /* Középre igazítás vízszintesen */
         text-align: center;
     }
+
+    #btns {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #btns button {
+        width: fit-content;
+    }
+
 
     img.mx-auto {
         display: block;
@@ -103,9 +223,285 @@
         margin-top: 0.938rem;
     }
 
+    #footer-logo-div {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+    }
+
+}
+
+@media (min-width: 577px) and (max-width: 767px) {
+    nav .navbar-toggler {
+        order: 3 !important;
+        margin-left: auto !important;
+    }
+
+    section {
+        width: auto !important;
+    }
+
+    #btns {
+        display: flex;
+        place-items: center;
+        flex-direction: column;
+    }
+
+    #btns button {
+        width: fit-content;
+    }
+
+    h1 {
+        max-width: 80%;
+        font-size: 45px !important;
+        line-height: 60px !important;
+    }
+
+    #opening-text p {
+        max-width: 80%;
+        font-size: 20px;
+    }
+
+    #opening-text button {
+        font-size: 23px;
+    }
+
+    #s2-row-div,
+    #s3-row-div {
+        display: grid;
+    }
+
+    #second-section-pic {
+        margin-right: 20px !important;
+        padding-left: 0px;
+        margin-left: 120px;
+    }
+
+    #s2-pic1,
+    #s2-pic2 {
+        width: 350px !important;
+        height: 250px !important;
+
+    }
+
+    #second-section-text {
+        display: block;
+        place-items: center;
+        margin-top: 30px;
+        margin-left: 100px;
+        width: fit-content;
+    }
+
+    #second-section-text h2 {
+        max-width: 80%;
+        margin-left: 10px;
+        font-size: 35px;
+    }
+
+    #second-p {
+        width: 300px;
+        margin-left: 20px;
+        font-size: 20px !important;
+    }
+
+    #second-section button,
+    #s3-btn {
+        font-size: 20px;
+        margin-left: 50px;
+    }
+
+    #third-section-pic {
+        margin-left: 70px;
+    }
+
+    #left-column {
+        margin-left: 100px;
+    }
+
+    #third-h2 {
+        font-size: 35px !important;
+        width: 300px !important;
+    }
+
+    #third-p {
+        width: 300px !important;
+        font-size: 20px;
+    }
+
+    #s3-btn {
+        width: 220px !important;
+    }
+
+    #s4-h2 {
+        font-size: 40px !important;
+    }
+
+    #s4 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #s4-p {
+        font-size: 20px !important;
+    }
+
+    #s4-btn1 {
+        margin-bottom: 15px !important;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email {
+        font-size: 0.938rem;
+    }
+
+    #footer-ul {
+        margin-top: 0.938rem;
+    }
+
+    #footer-logo-div {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+    }
+}
+
+@media(min-width: 767px) and (max-width: 968px) {
+    #btns {
+        display: flex;
+        place-items: center;
+        flex-direction: column;
+    }
 
 
+    h1 {
+        max-width: 80%;
+        font-size: 45px !important;
+        line-height: 60px !important;
+    }
 
+    #opening-text p {
+        max-width: 80%;
+        font-size: 20px;
+    }
+
+    #opening-text button {
+        font-size: 23px;
+    }
+
+    #s2-pic1,
+    #s2-pic2 {
+        /* 117.56 */
+        width: 350px !important;
+        height: 232.44px !important;
+    }
+
+    h2 {
+        font-size: 30px !important;
+
+    }
+
+    #second-p,
+    #third-p {
+        font-size: 20px !important;
+    }
+
+    #s2-btn,
+    #s3-btn {
+        font-size: 20px;
+    }
+
+    #third-section-pic {
+        order: 6 !important;
+
+    }
+
+    #third-section {
+        padding-left: 0px !important;
+        margin-right: 50px !important;
+        padding-right: 0px !important;
+    }
+
+    #third-h2 {
+        text-align: left !important;
+        width: 350px !important;
+    }
+
+    #left-column {
+        padding-left: 0px !important;
+    }
+
+}
+
+@media(min-width: 969px) and (max-width: 1000px) {
+    #btns{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #btns button{
+        width: fit-content;
+    }
+   
+    h1{
+        max-width: 80%;
+        font-size: 50px!important;
+        line-height: 70px!important;
+    }
+
+    #firstP{
+        max-width: 80%;
+        font-size: 20px;
+    }
+
+    #opening-text button {
+        font-size: 23px;
+    }
+
+    #s2-pic1,
+    #s2-pic2 {
+        /* 117.56 */
+        width: 350px !important;
+        height: 232.44px !important;
+    }
+
+    h2 {
+        font-size: 30px !important;
+
+    }
+
+    #second-p,
+    #third-p {
+        font-size: 20px !important;
+    }
+
+    #s2-btn,
+    #s3-btn {
+        font-size: 20px;
+    }
+
+    #third-section-pic {
+        order: 6 !important;
+
+    }
+
+    #third-section {
+        padding-left: 0px !important;
+        margin-right: 50px !important;
+        padding-right: 0px !important;
+    }
+
+    #third-h2 {
+        text-align: left !important;
+        width: 350px !important;
+    }
+
+    #left-column {
+        padding-left: 0px !important;
+    }
 }
 
 /** ----------- VÁLTOZÓK DEFINIÁLÁSA */
@@ -218,7 +614,7 @@ footer a {
     color: var(--mostUsed-text-color);
 }
 
-footer a:hover{
+footer a:hover {
     color: #B43C82;
 }
 
@@ -232,35 +628,9 @@ footer a:hover{
     padding-left: 5%;
 }
 
-#navbar a {
-    font-size: larger;
-    display: inline;
-    padding: 0.938rem;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    color: var(--navbar-a-color);
+#btns {
+    margin-left: auto;
 }
-
-#navbar a:hover {
-    color: var(--navbar-a-hover-color);
-    /* font-weight: 700; */
-    font-style: italic;
-}
-
-.active {
-    /*? Az aktuális page */
-    color: var(--current-page-color) !important;
-    text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
-    /* ? távolság növelése az alláhúzás vonal és a szöveg alja között */
-    text-underline-offset: 0.281rem;
-}
-
-.active:hover {
-    /*? aktuális page hover */
-    color: var(--current-page-hover-color) !important;
-    font-style: italic;
-}
-
 
 #loginBtn {
     /*? navbar login btn-ja */
@@ -401,10 +771,11 @@ footer a:hover{
     font-size: 1.375rem;
     font-family: 'Montserrat', sans-serif;
     color: var(--brown-p-color);
-    text-align: justify!important;
+    text-align: justify !important;
 }
 
 #third-section {
+    display: flex;
     margin-right: 8%;
     margin-left: 6%;
     margin-top: 3%;
@@ -437,6 +808,7 @@ footer a:hover{
     border-radius: 0.625rem;
 
 }
+
 
 #fourth-section {
     margin-right: 8%;
@@ -509,7 +881,7 @@ footer a:hover{
     background-color: transparent;
     line-height: 1.125rem;
     border-color: var(--white-col-btnBG-Text);
-    font-size: medium!important;
+    font-size: medium !important;
     color: var(--white-col-btnBG-Text);
 
     transition: color 0.8s ease;
@@ -519,7 +891,7 @@ footer a:hover{
 
 }
 
-#s4-btn2:hover{
+#s4-btn2:hover {
     background-color: var(--white-col-btnBG-Text);
     color: #4B2F1B;
     transition: color 0.8s ease;

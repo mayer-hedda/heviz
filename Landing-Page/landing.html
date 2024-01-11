@@ -31,27 +31,21 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse  justify-content-center" id="navbarNav">
-                <div class="navbar-nav text-center">
-                    <a class="nav-link active" aria-current="page" id="Home"
-                        href="../Landing-Page/landing.html">Home</a>
-                    <a class="nav-link" id="AboutUs" href="../About Us/aboutus.html">About Us</a>
-                    <a class="nav-link" id="Partners" href="#">Partners</a>
-                    <a class="nav-link" id="Tutorials" href="#">Tutorials</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div id="btns">
+                    <!-- ? onclick esemény kell a hivatkozáshoz mert a bootstrap btn-ben nincs href -->
+                    <button type="button" class="btn align-content-center" id="loginBtn"
+                        onclick="window.location.href='../Log-in/login.html'">
+                        Log In
+                    </button>
+    
+                    <button role="button" type="submit" class="btn align-content-center" id="signUpBtn"
+                        onclick="window.location.href='../Sign-up/signup.html'">
+                        Sign Up
+                    </button>
                 </div>
             </div>
-            <div class="text-end text-sm-center">
-                <!-- ? onclick esemény kell a hivatkozáshoz mert a bootstrap btn-ben nincs href -->
-                <button type="button" class="btn align-content-center" id="loginBtn"
-                    onclick="window.location.href='../Log-in/login.html'">
-                    Log In
-                </button>
-
-                <button role="button" type="submit" class="btn align-content-center" id="signUpBtn"
-                    onclick="window.location.href='../Sign-up/signup.html'">
-                    Sign Up
-                </button>
-            </div>
+            
 
         </div>
     </nav>
@@ -79,7 +73,7 @@
     <section id="second-section">
         <!-- alcím + p + gomb -->
         <div class="container-fluid justify-content-center">
-            <div class="row ">
+            <div class="row " id="s2-row-div">
                 <div class="col-12 col-sm-6 row-cols-md-6 order-1 order-sm-1 order-md-1" id="second-section-pic">
                     <!--? kép -->
                     <img src="../pictures/landing-first.jpg" class="my-image align-content-start align-self-md-center"
@@ -111,7 +105,7 @@
 
     <section id="third-section">
         <div class="container-fluid align-content-center">
-            <div class="row">
+            <div class="row" id="s3-row-div">
                 <div class="col-12 col-sm-6 order-lg-3 order-xl-3 order-sm-4 order-md-4" id="left-column">
                     <!-- alcím + p + gomb -->
                     <h2 id="third-h2"
@@ -131,7 +125,7 @@
                             style="margin-left: 0.625rem;"></i></button>
                 </div>
 
-                <div class="col-12 col-sm-6 row-cols-md-6 order-lg-4 order-xl-4 order-sm-3 order-md-3 text-end"
+                <div class="col-12 col-sm-6 row-cols-md-6 order-lg-4 order-xl-4 order-sm-3 text-end"
                     id="third-section-pic">
                     <img src="../pictures/landing-second.jpg"
                         class="my-image col-12 col-sm-6 row-cols-md-6 order-1 order-sm-1 order-md-1" id="s2-pic2" />
@@ -144,7 +138,7 @@
     <!-- ? FOURTH SECTION -->
 
     <section id="fourth-section">
-        <div class="container">
+        <div class="container" id="s4">
             <div class="text-center" id="fourth-section-div">
                 <h2 id="s4-h2" class="textCentered">Ready to get started?</h2>
                 <p id="s4-p" class="textCentered pTagsMargin">Create an account or learn more about using our site.</p>
@@ -170,7 +164,7 @@
         <div class="container-fluid align-content-center">
 
             <div class="row">
-                <div class=" col-12 col-sm-6 d-flex align-items-center mx-auto">
+                <div class=" col-12 col-sm-6 d-flex align-items-center mx-auto" id="footer-logo-div">
                     <!-- capterX logo -->
                     <img src="../pictures/LOGO.svg" id="footer-logo">
                 </div>
@@ -190,6 +184,8 @@
                         </li>
                         <li id="help-center"><i class="bi bi-info-circle-fill" style="margin-right: 0.625rem;"></i><a
                                 href="#">Help Center</a></li>
+                                <li id="help-center"><i class="bi bi-info-circle-fill" style="margin-right: 0.625rem;"></i><a
+                                    href="../About Us/aboutus.html">About Us</a></li>
                     </ul>
                 </div>
                 <div>
