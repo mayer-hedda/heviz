@@ -286,20 +286,28 @@ function LoadRandomBook(response) {
  * 
  */
 function OneRowAndMediumCard(sectionName ,response, mediumC_PicDiv, mediumC_h2, mediumC_author, mediumC_description, firstRow){
+    var dataCount = 0;
+    for(let i = 0; i <= response.data.length; i++){
+        dataCount++;
+    }
+    console.log( sectionName, " Number of data: " + dataCount);
+
+    
+    
     // Medium cards
     const mediumCover = response.data[0].coverImage;
     if (mediumCover == "Ez a kép elérési útja"){
         mediumC_PicDiv.innerHTML = `
-        <img src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
+        <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
         `
     }else{
         // Ide majd az elési utat kell megadni az scr-be, de mivel a db-ben nincs fent a tényleges kép 
         // ezért a szemléltetés miatt mindenhol a standard-et töltöm be 
-        console.log(sectionName," Medium Card Cover book path: ", coverImage);
+        console.log(sectionName," Medium Card Cover book path: ", mediumCover);
 
         mediumC_PicDiv.innerHTML = `
 
-            <img src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
+            <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
         `
     }
 
@@ -308,23 +316,48 @@ function OneRowAndMediumCard(sectionName ,response, mediumC_PicDiv, mediumC_h2, 
     mediumC_description.innerText = `${response.data[0].description}`;
 
     // <img src="${response.data[i].coverImage}" alt="${response.data[i].title}" class="cover">
-    for(let i =1; i<=4; i++){
-        //! Itt lehetne egy vizsgálat hogy van e rendes url a teszt adathoz
-        firstRow.innerHTML += `
-            <div class="col-3">
-                <div class="cover-photo">
-                    <img src="../pictures/standard-book-cover.jpg" alt="${response.data[i].title}" class="cover">
-
-                    <div class="overlay">
-                        <p class="book-title">${response.data[i].title}</p>
-                        <p class="author-p">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                        <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID">Show Details</button>
+    if (dataCount >= 4) {
+        for(let i =1; i<=4; i++){
+            console.log("Cím: ", response.data[i].title );
+            //! Itt lehetne egy vizsgálat hogy van e rendes url a teszt adathoz
+            firstRow.innerHTML += `
+                <div class="col-3">
+                    <div class="cover-photo">
+                        <img src="../pictures/standard-book-cover.jpg" alt="${response.data[i].title} cover">
+    
+                        <div class="overlay">
+                            <p class="book-title">${response.data[i].title}</p>
+                            <p class="author-p">${response.data[i].firstName} ${response.data[i].lastName}</p>
+                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID">Show Details</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        
-        `
+            
+            `
+        } 
+    }else if(dataCount > 0){
+        for(let i=1; i <= response.data.length; i++){
+            firstRow.innerHTML += `
+                <div class="col-3">
+                    <div class="cover-photo">
+                        <img src="../pictures/standard-book-cover.jpg" alt="${response.data[i].title} cover">
+    
+                        <div class="overlay">
+                            <p class="book-title">${response.data[i].title}</p>
+                            <p class="author-p">${response.data[i].firstName} ${response.data[i].lastName}</p>
+                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID">Show Details</button>
+                        </div>
+                    </div>
+                </div>
+            
+            `
+        }
+
+        console.error("Missing datas. Numbers of datas: " + dataCount);
+    }else{
+        console.error("I don't get any data.");
     }
+    
 
 }
 
@@ -344,20 +377,26 @@ function OneRowAndMediumCard(sectionName ,response, mediumC_PicDiv, mediumC_h2, 
  * 
  */
 function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, mediumC_author, mediumC_description, firstRow, secondRow ) {
+    var dataCount = 0;
+    for(let i = 0; i <= response.data.length; i++){
+        dataCount++;
+    }
+    console.log("Number of data: " + dataCount);
+    
     // Medium cards
     const mediumCover = response.data[0].coverImage;
     if (mediumCover == "Ez a kép elérési útja"){
         mediumC_PicDiv.innerHTML = `
-        <img src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
+        <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
         `
     }else{
         // Ide majd az elési utat kell megadni az scr-be, de mivel a db-ben nincs fent a tényleges kép 
         // ezért a szemléltetés miatt mindenhol a standard-et töltöm be 
-        console.log(sectionName," Medium Card Cover book path: ", coverImage);
+        console.log(sectionName," Medium Card Cover book path: ", mediumCover);
 
         mediumC_PicDiv.innerHTML = `
 
-            <img src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
+            <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
         `
     }
 
@@ -366,40 +405,88 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
     mediumC_description.innerText = `${response.data[0].description}`;
 
     // <img src="${response.data[i].coverImage}" alt="${response.data[i].title}" class="cover">
-    for(let i =1; i<=4; i++){
-        //! Itt lehetne egy vizsgálat hogy van e rendes url a teszt adathoz
-        firstRow.innerHTML += `
-            <div class="col-3">
-                <div class="cover-photo">
-                    <img src="../pictures/standard-book-cover.jpg" alt="${response.data[i].title}" class="cover">
-
-                    <div class="overlay">
-                        <p class="book-title">${response.data[i].title}</p>
-                        <p class="author-p">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                        <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID">Show Details</button>
+    if (dataCount >= 4) {
+        for(let i =1; i<=4; i++){
+            //! Itt lehetne egy vizsgálat hogy van e rendes url a teszt adathoz
+            firstRow.innerHTML += `
+                <div class="col-3">
+                    <div class="cover-photo">
+                        <img src="../pictures/standard-book-cover.jpg" alt="${response.data[i].title}" class="cover">
+    
+                        <div class="overlay">
+                            <p class="book-title">${response.data[i].title}</p>
+                            <p class="author-p">${response.data[i].firstName} ${response.data[i].lastName}</p>
+                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID">Show Details</button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            
+            `
+        }
+
+        if (dataCount >4 && dataCount <=9 ) {
+            for(let i = 5; i<=8; i++){
+                secondRow.innerHTML += `
+                    <div class="col-3">
+                        <div class="cover-photo">
+                            <img src="../pictures/standard-book-cover.jpg" alt="${response.data[i].title}" class="cover">
         
-        `
-    }
+                            <div class="overlay">
+                                <p class="book-title">${response.data[i].title}</p>
+                                <p class="author-p">${response.data[i].firstName} ${response.data[i].lastName}</p>
+                                <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID">Show Details</button>
+                            </div>
+                        </div>
+                    </div>
+                
+                `
+            }
+        }else if(dataCount > 4){
+            for(let i = 5; i<= response.data.length; i++){
+                secondRow.innerHTML += `
+                    <div class="col-3">
+                        <div class="cover-photo">
+                            <img src="../pictures/standard-book-cover.jpg" alt="${response.data[i].title}" class="cover">
+        
+                            <div class="overlay">
+                                <p class="book-title">${response.data[i].title}</p>
+                                <p class="author-p">${response.data[i].firstName} ${response.data[i].lastName}</p>
+                                <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID">Show Details</button>
+                            </div>
+                        </div>
+                    </div>
+                
+                `
+            }
+        }else{
+            console.error("I can't load the second row, because some data's missing. Number of datas: " + dataCount);
+        }
 
-    for(let i = 5; i<=8; i++){
-        secondRow.innerHTML += `
-            <div class="col-3">
-                <div class="cover-photo">
-                    <img src="../pictures/standard-book-cover.jpg" alt="${response.data[i].title}" class="cover">
-
-                    <div class="overlay">
-                        <p class="book-title">${response.data[i].title}</p>
-                        <p class="author-p">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                        <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID">Show Details</button>
+    }else if(dataCount > 0){
+        for(let i=1; i <= dataCount; i++){
+            firstRow.innerHTML += `
+                <div class="col-3">
+                    <div class="cover-photo">
+                        <img src="../pictures/standard-book-cover.jpg" alt="${response.data[i].title} cover">
+    
+                        <div class="overlay">
+                            <p class="book-title">${response.data[i].title}</p>
+                            <p class="author-p">${response.data[i].firstName} ${response.data[i].lastName}</p>
+                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID">Show Details</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        
-        `
+            
+            `
+        }
+
+        console.error("Missing datas. Numbers of datas: " + dataCount);
+    }else{
+        console.error("I don't get any data.");
     }
+    
+
+    
 }
 
 
