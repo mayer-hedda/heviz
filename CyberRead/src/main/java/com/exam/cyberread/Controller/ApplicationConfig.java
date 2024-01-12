@@ -26,6 +26,7 @@ public class ApplicationConfig extends Application {
         resources.add(com.exam.cyberread.Controller.CategoryController.class);
         resources.add(com.exam.cyberread.Controller.CategoryinterestController.class);
         resources.add(com.exam.cyberread.Controller.FollowController.class);
+        resources.add(com.exam.cyberread.Controller.HelpcenterController.class);
         resources.add(com.exam.cyberread.Controller.PostController.class);
         resources.add(com.exam.cyberread.Controller.PostlikeController.class);
         resources.add(com.exam.cyberread.Controller.UserController.class);
