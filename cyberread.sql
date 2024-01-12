@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Jan 10. 02:21
+-- Létrehozás ideje: 2024. Jan 12. 03:01
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -155,6 +155,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `generalRegistration` (IN `usernameI
     VALUES (usernameIN, emailIN, SHA1(passwordIN), "general", firstNameIN, lastNameIN, @userId);
 
 END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getActiveHelpCenter` ()   SELECT `helpcenter`.`id`, `helpcenter`.`question`, `helpcenter`.`answer`
+FROM `helpcenter`
+WHERE `helpcenter`.`active` = 1$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllCategory` ()   SELECT *
 FROM `category`$$
