@@ -108,7 +108,7 @@ async function generalRegistration(raw) {
             status: response.status,
             data: data
         }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -194,7 +194,7 @@ async function token() {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/token", requestOptions);
         const data = await response.json();
 
-        if(response.status == 302) {
+        if (response.status == 302) {
             return {
                 status: response.status,
                 data: data
@@ -205,7 +205,7 @@ async function token() {
             status: response.status,
             data: await response.text()
         }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -256,12 +256,12 @@ async function getMostSavedBooksOfTheMonth() {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getMostSavedBooksOfTheMonth", requestOptions);
         const data = await response.json();
 
-        if(response.ok) {
+        if (response.ok) {
             return {
                 status: response.status,
                 data: data
             }
-        } else if(response.status = 401) {
+        } else if (response.status = 401) {
             return {
                 status: response.status,
                 data: await response.text()
@@ -269,7 +269,7 @@ async function getMostSavedBooksOfTheMonth() {
         }
 
         return { status: response.status }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -317,12 +317,12 @@ async function getPublishedBooks() {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getPublishedBooks", requestOptions);
         const data = await response.json();
 
-        if(response.ok) {
+        if (response.ok) {
             return {
                 status: response.status,
                 data: data
             }
-        } else if(response.status = 401) {
+        } else if (response.status = 401) {
             return {
                 status: response.status,
                 data: await response.text()
@@ -330,7 +330,7 @@ async function getPublishedBooks() {
         }
 
         return { status: response.status }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -378,12 +378,12 @@ async function getSelfPublishedBooks() {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getSelfPublishedBooks", requestOptions);
         const data = await response.json();
 
-        if(response.ok) {
+        if (response.ok) {
             return {
                 status: response.status,
                 data: data
             }
-        } else if(response.status = 401) {
+        } else if (response.status = 401) {
             return {
                 status: response.status,
                 data: await response.text()
@@ -391,7 +391,7 @@ async function getSelfPublishedBooks() {
         }
 
         return { status: response.status }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -439,12 +439,12 @@ async function getOneRandomBook() {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getOneRandomBook", requestOptions);
         const data = await response.json();
 
-        if(response.ok) {
+        if (response.ok) {
             return {
                 status: response.status,
                 data: data
             }
-        } else if(response.status = 401) {
+        } else if (response.status = 401) {
             return {
                 status: response.status,
                 data: await response.text()
@@ -452,7 +452,7 @@ async function getOneRandomBook() {
         }
 
         return { status: response.status }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -500,12 +500,12 @@ async function getRecommandedBooks() {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getRecommandedBooks", requestOptions);
         const data = await response.json();
 
-        if(response.ok) {
+        if (response.ok) {
             return {
                 status: response.status,
                 data: data
             }
-        } else if(response.status = 401) {
+        } else if (response.status = 401) {
             return {
                 status: response.status,
                 data: await response.text()
@@ -513,7 +513,7 @@ async function getRecommandedBooks() {
         }
 
         return { status: response.status }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -563,12 +563,12 @@ async function getDropDownValues() {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getDropDownValues", requestOptions);
         const data = await response.json();
 
-        if(response.ok) {
+        if (response.ok) {
             return {
                 status: response.status,
                 data: data
             }
-        } else if(response.status = 401) {
+        } else if (response.status = 401) {
             return {
                 status: response.status,
                 data: await response.text()
@@ -576,7 +576,7 @@ async function getDropDownValues() {
         }
 
         return { status: response.status }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -644,12 +644,12 @@ async function addBook(raw) {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/addBook", requestOptions);
         const data = await response.json();
 
-        if(response.status == 401) {
-            return { 
+        if (response.status == 401) {
+            return {
                 status: response.status,
                 data: await response.text()
             }
-        } else if(response.status == 422) {
+        } else if (response.status == 422) {
             return {
                 status: response.status,
                 data: data
@@ -657,7 +657,7 @@ async function addBook(raw) {
         }
 
         return { status: response.status }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -713,12 +713,12 @@ async function getBookDetails(raw) {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getBookDetails", requestOptions);
         const data = await response.json();
 
-        if(response.ok) {
+        if (response.ok) {
             return {
                 status: response.status,
                 data: data
             }
-        } else if(response.status == 401) {
+        } else if (response.status == 401) {
             return {
                 status: response.status,
                 data: await response.text()
@@ -726,7 +726,7 @@ async function getBookDetails(raw) {
         }
 
         return { status: response.status }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -795,12 +795,12 @@ async function setBook(raw) {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/setBook", requestOptions);
         const data = await response.json();
 
-        if(response.status == 422) {
+        if (response.status == 422) {
             return {
                 status: response.status,
                 data: data
             }
-        } else if(response.status == 401) {
+        } else if (response.status == 401) {
             return {
                 status: response.status,
                 data: await response.text()
@@ -808,7 +808,7 @@ async function setBook(raw) {
         }
 
         return { status: response.status }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -858,12 +858,12 @@ async function addPost(raw) {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/post/addPost", requestOptions);
         const data = await response.json();
 
-        if(response.status == 401) {
+        if (response.status == 401) {
             return {
                 status: response.status,
                 data: await response.text()
             }
-        } else if(response.status == 422) {
+        } else if (response.status == 422) {
             return {
                 status: response.status,
                 data: data
@@ -871,7 +871,7 @@ async function addPost(raw) {
         }
 
         return { status: response.status }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -916,12 +916,12 @@ async function postLike(raw) {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/postlike/postLike", requestOptions);
         const data = await response.json();
 
-        if(response.status == 401) {
+        if (response.status == 401) {
             return {
                 status: response.status,
                 data: await response.text()
             }
-        } else if( response.status == 422) {
+        } else if (response.status == 422) {
             return {
                 status: response.status,
                 data: data
@@ -929,7 +929,7 @@ async function postLike(raw) {
         }
 
         return { status: response.status }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -974,12 +974,12 @@ async function postDislike(raw) {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/postlike/postDislike", requestOptions);
         const data = await response.json();
 
-        if(response.status == 401) {
+        if (response.status == 401) {
             return {
                 status: response.status,
                 data: await response.text()
             }
-        } else if( response.status == 422) {
+        } else if (response.status == 422) {
             return {
                 status: response.status,
                 data: data
@@ -987,7 +987,7 @@ async function postDislike(raw) {
         }
 
         return { status: response.status }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -1027,7 +1027,7 @@ async function getFeedPosts() {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/post/getFeedPosts", requestOptions);
         const data = await response.json();
 
-        if(response.ok) {
+        if (response.ok) {
             return {
                 status: response.status,
                 data: data
@@ -1038,7 +1038,7 @@ async function getFeedPosts() {
             status: response.status,
             data: await response.text()
         }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -1074,7 +1074,7 @@ async function getRecommandedUsers() {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/getRecommandedUsers", requestOptions);
         const data = await response.json();
 
-        if(response.ok) {
+        if (response.ok) {
             return {
                 status: response.status,
                 data: data
@@ -1085,7 +1085,7 @@ async function getRecommandedUsers() {
             status: response.status,
             data: await response.text()
         }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -1142,7 +1142,7 @@ async function addCategoryInterest(raw) {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/categoryinterest/addCategoryInterest", requestOptions);
         const data = await response.json();
 
-        if(response.status == 401) {
+        if (response.status == 401) {
             return {
                 status: response.status,
                 data: await response.text()
@@ -1153,7 +1153,7 @@ async function addCategoryInterest(raw) {
             status: response.status,
             data: data
         }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -1185,11 +1185,11 @@ async function getAllCategory() {
         redirect: 'follow'
     };
 
-    try{
+    try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/category/getAllCategory", requestOptions);
         const data = await response.json();
 
-        if(response.status == 401) {
+        if (response.status == 401) {
             return {
                 status: response.status,
                 data: await response.text()
@@ -1200,7 +1200,7 @@ async function getAllCategory() {
             status: response.status,
             data: data
         }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -1249,12 +1249,12 @@ async function getOneRandomLookingForPublisherBook() {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getOneRandomLookingForPublisherBook", requestOptions);
         const data = await response.json();
 
-        if(response.ok) {
+        if (response.ok) {
             return {
                 status: response.status,
                 data: data
             }
-        } else if(response.status == 401) {
+        } else if (response.status == 401) {
             return {
                 status: response.status,
                 data: await response.text()
@@ -1262,7 +1262,7 @@ async function getOneRandomLookingForPublisherBook() {
         }
 
         return { status: response.status }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -1308,12 +1308,12 @@ async function getRecommandedBooksForPublisher() {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getRecommandedBooksForPublisher", requestOptions);
         const data = await response.json();
 
-        if(response.ok) {
+        if (response.ok) {
             return {
                 status: response.status,
                 data: data
             }
-        } else if(response.status == 401) {
+        } else if (response.status == 401) {
             return {
                 status: response.status,
                 data: await response.text()
@@ -1321,7 +1321,7 @@ async function getRecommandedBooksForPublisher() {
         }
 
         return { status: response.status }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -1368,12 +1368,12 @@ async function getRandomBookByCategory() {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getRandomBookByCategory", requestOptions);
         const data = await response.json();
 
-        if(response.ok) {
+        if (response.ok) {
             return {
                 status: response.status,
                 data: data
             }
-        } else if(response.status == 401) {
+        } else if (response.status == 401) {
             return {
                 status: response.status,
                 data: await response.text()
@@ -1381,7 +1381,7 @@ async function getRandomBookByCategory() {
         }
 
         return { status: response.status }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -1452,7 +1452,7 @@ async function getUserDetails(raw) {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/getUserDetails", requestOptions);
         const data = await response.json();
 
-        if(response.status == 401) {
+        if (response.status == 401) {
             return {
                 status: response.status,
                 data: await response.text()
@@ -1463,7 +1463,7 @@ async function getUserDetails(raw) {
             status: response.status,
             data: data
         }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -1521,7 +1521,7 @@ async function getUserBooks(raw) {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getUserBooks", requestOptions);
         const data = await response.json();
 
-        if(response.status == 401) {
+        if (response.status == 401) {
             return {
                 status: response.status,
                 data: await response.text()
@@ -1532,7 +1532,7 @@ async function getUserBooks(raw) {
             status: response.status,
             data: data
         }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -1583,7 +1583,7 @@ async function getUserPosts(raw) {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/post/getUserPosts", requestOptions);
         const data = await response.json();
 
-        if(response.status == 401) {
+        if (response.status == 401) {
             return {
                 status: response.status,
                 data: await response.text()
@@ -1594,7 +1594,7 @@ async function getUserPosts(raw) {
             status: response.status,
             data: data
         }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -1635,12 +1635,12 @@ async function saveBook(raw) {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/saveBook", requestOptions);
         const data = await response.json();
 
-        if(response.status == 401) {
+        if (response.status == 401) {
             return {
                 status: response.status,
                 data: await response.text()
             }
-        } else if(response.status == 422) {
+        } else if (response.status == 422) {
             return {
                 status: response.status,
                 data: data
@@ -1648,7 +1648,7 @@ async function saveBook(raw) {
         }
 
         return { status: response.status }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -1689,12 +1689,12 @@ async function deleteSavedBook(raw) {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/deleteSavedBook", requestOptions);
         const data = await response.json();
 
-        if(response.status == 401) {
+        if (response.status == 401) {
             return {
                 status: response.status,
                 data: await response.text()
             }
-        } else if(response.status == 422) {
+        } else if (response.status == 422) {
             return {
                 status: response.status,
                 data: data
@@ -1702,7 +1702,7 @@ async function deleteSavedBook(raw) {
         }
 
         return { status: response.status }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -1743,12 +1743,12 @@ async function followUser(raw) {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/follow/followUser", requestOptions);
         const data = await response.json();
 
-        if(response.status == 401) {
+        if (response.status == 401) {
             return {
                 status: response.status,
                 data: await response.text()
             }
-        } else if(response.status == 422) {
+        } else if (response.status == 422) {
             return {
                 status: response.status,
                 data: data
@@ -1756,7 +1756,7 @@ async function followUser(raw) {
         }
 
         return { status: response.status }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -1797,12 +1797,12 @@ async function unfollowedUser(raw) {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/follow/unfollowedUser", requestOptions);
         const data = await response.json();
 
-        if(response.status == 401) {
+        if (response.status == 401) {
             return {
                 status: response.status,
                 data: await response.text()
             }
-        } else if(response.status == 422) {
+        } else if (response.status == 422) {
             return {
                 status: response.status,
                 data: data
@@ -1810,7 +1810,7 @@ async function unfollowedUser(raw) {
         }
 
         return { status: response.status }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -1851,12 +1851,12 @@ async function deletePost(raw) {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/post/deletePost", requestOptions);
         const data = await response.json();
 
-        if(response.status == 401) {
+        if (response.status == 401) {
             return {
                 status: response.status,
                 data: await response.text()
             }
-        } else if(response.status == 422) {
+        } else if (response.status == 422) {
             return {
                 status: response.status,
                 data: data
@@ -1864,7 +1864,7 @@ async function deletePost(raw) {
         }
 
         return { status: response.status }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -1906,12 +1906,12 @@ async function updatePost(raw) {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/post/updatePost", requestOptions);
         const data = await response.json();
 
-        if(response.status == 401) {
+        if (response.status == 401) {
             return {
                 status: response.status,
                 data: await response.text()
             }
-        } else if(response.status == 422) {
+        } else if (response.status == 422) {
             return {
                 status: response.status,
                 data: data
@@ -1919,7 +1919,7 @@ async function updatePost(raw) {
         }
 
         return { status: response.status }
-    } catch(error) {
+    } catch (error) {
         return { error: error }
     }
 }
@@ -1961,12 +1961,12 @@ async function deleteBook(raw) {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/deleteBook", requestOptions);
         const data = await response.json();
 
-        if(response.status == 401) {
+        if (response.status == 401) {
             return {
                 status: response.status,
                 data: await response.text()
             }
-        } else if(response.status == 422) {
+        } else if (response.status == 422) {
             return {
                 status: response.status,
                 data: data
@@ -1974,6 +1974,33 @@ async function deleteBook(raw) {
         }
 
         return { status: response.status }
+    } catch (error) {
+        return { error: error }
+    }
+}
+
+
+/**
+ * @returns 
+    * 200:
+        * id
+        * question
+        * answer
+ */
+async function getActiveHelpCenter() {
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/helpcenter/getActiveHelpCenter", requestOptions);
+        const data = await response.json();
+
+        return {
+            status: response.status,
+            data: data
+        }
     } catch(error) {
         return { error: error }
     }
