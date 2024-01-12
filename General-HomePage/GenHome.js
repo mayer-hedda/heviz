@@ -68,6 +68,7 @@ window.onload = async function() {
 
                     const responseRecommanded = await getRecommandedBooks();
                     console.log("Recommanded books for you: ", responseRecommanded);
+                    console.log("Első title: ",responseRecommanded.data[0].title);
                     TwoRowAndMediumCard("Recommanded books for you", responseRecommanded, s3_mediumCardPic_div, s3_mediumC_h2, s3_mediumC_author, s3_mediumC_desc, s3_first_row, s3_second_row );
                     
                     const responsePublisher = await getPublishedBooks();
@@ -307,7 +308,7 @@ function OneRowAndMediumCard(sectionName ,response, mediumC_PicDiv, mediumC_h2, 
 
         mediumC_PicDiv.innerHTML = `
 
-            <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
+            <img class="medium-pic" src="${mediumCover}" alt="${response.data[0].title} cover">
         `
     }
 
@@ -318,8 +319,9 @@ function OneRowAndMediumCard(sectionName ,response, mediumC_PicDiv, mediumC_h2, 
     // <img src="${response.data[i].coverImage}" alt="${response.data[i].title}" class="cover">
     if (dataCount >= 4) {
         for(let i =1; i<=4; i++){
-            console.log("Cím: ", response.data[i].title );
-            //! Itt lehetne egy vizsgálat hogy van e rendes url a teszt adathoz
+            // console.log("Cím: ", response.data[i].title );
+            
+            
             firstRow.innerHTML += `
                 <div class="col-3">
                     <div class="cover-photo">
@@ -425,7 +427,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
         }
 
         if (dataCount >4 && dataCount <=9 ) {
-            for(let i = 5; i<=8; i++){
+            for(let i = 5; i<= response.data.length - 1; i++){
                 secondRow.innerHTML += `
                     <div class="col-3">
                         <div class="cover-photo">
@@ -442,7 +444,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                 `
             }
         }else if(dataCount > 4){
-            for(let i = 5; i<= response.data.length; i++){
+            for(let i = 5; i<= response.data.length - 1; i++){
                 secondRow.innerHTML += `
                     <div class="col-3">
                         <div class="cover-photo">
