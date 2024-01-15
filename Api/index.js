@@ -785,7 +785,7 @@ async function setBook(raw) {
     var postData = JSON.stringify(raw);
 
     var requestOptions = {
-        method: 'POST',
+        method: 'PUT',
         headers: myHeaders,
         body: postData,
         redirect: 'follow'
@@ -964,7 +964,7 @@ async function postDislike(raw) {
     var postData = JSON.stringify(raw);
 
     var requestOptions = {
-        method: 'POST',
+        method: 'DELETE',
         headers: myHeaders,
         body: postData,
         redirect: 'follow'
@@ -1679,7 +1679,7 @@ async function deleteSavedBook(raw) {
     var postData = JSON.stringify(raw);
 
     var requestOptions = {
-        method: 'POST',
+        method: 'DELETE',
         headers: myHeaders,
         body: postData,
         redirect: 'follow'
@@ -1787,7 +1787,7 @@ async function unfollowedUser(raw) {
     var postData = JSON.stringify(raw);
 
     var requestOptions = {
-        method: 'POST',
+        method: 'DELETE',
         headers: myHeaders,
         body: postData,
         redirect: 'follow'
@@ -1841,7 +1841,7 @@ async function deletePost(raw) {
     var postData = JSON.stringify(raw);
 
     var requestOptions = {
-        method: 'POST',
+        method: 'DELETE',
         headers: myHeaders,
         body: postData,
         redirect: 'follow'
@@ -1896,7 +1896,7 @@ async function updatePost(raw) {
     var postData = JSON.stringify(raw);
 
     var requestOptions = {
-        method: 'POST',
+        method: 'PUT',
         headers: myHeaders,
         body: postData,
         redirect: 'follow'
@@ -1951,7 +1951,7 @@ async function deleteBook(raw) {
     var postData = JSON.stringify(raw);
 
     var requestOptions = {
-        method: 'POST',
+        method: 'DELETE',
         headers: myHeaders,
         body: postData,
         redirect: 'follow'
