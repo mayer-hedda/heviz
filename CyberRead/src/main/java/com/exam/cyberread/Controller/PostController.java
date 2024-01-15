@@ -8,6 +8,7 @@ import com.exam.cyberread.Service.PostService;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -202,7 +203,7 @@ public class PostController {
      * 
      * @throws PostException: Something wrong
      */
-    @POST
+    @DELETE
     @Path("deletePost")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deletePost(@HeaderParam("Token") String jwt, Post post) throws PostException {
@@ -242,7 +243,7 @@ public class PostController {
      * 
      * @throws PostException: Something wrong
      */
-    @POST
+    @PUT
     @Path("updatePost")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updatePost(@HeaderParam("Token") String jwt, Post post) throws PostException {

@@ -8,6 +8,7 @@ import com.exam.cyberread.Service.BookService;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -457,7 +458,7 @@ public class BookController {
      * 
      * @throws BookException: Something wrong
      */
-    @POST
+    @PUT
     @Path("setBook")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response setBook(@HeaderParam("Token") String jwt, Book bookDetails) throws BookException {
@@ -757,7 +758,7 @@ public class BookController {
      * 
      * @throws BookException: Something wrong
      */
-    @POST
+    @DELETE
     @Path("deleteSavedBook")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteSavedBook(@HeaderParam("Token") String jwt, Book book) throws BookException {
@@ -798,7 +799,7 @@ public class BookController {
      * 
      * @throws BookException: Something wrong
      */
-    @POST
+    @DELETE
     @Path("deleteBook")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteBook(@HeaderParam("Token") String jwt, Book book) throws BookException {
