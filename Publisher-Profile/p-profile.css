@@ -1,6 +1,7 @@
 :root {
     /* Colors */
     --primary: rgb(232, 181, 160);
+    --primary-hover: #649984;
     --primary-text: rgb(44, 24, 16);
     --page-color: rgb(247, 245, 236);
     --footer-bg-color: rgb(246, 227, 205);
@@ -248,7 +249,8 @@ body {
     border-radius: 30px;
     margin-bottom: 50px;
     width: 600px;
-    box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25) inset, -4px -4px 4px 0px rgba(247, 245, 236, 0.288) inset;
+    box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25) inset, -4px -4px 4px 0px rgba(247, 245, 236, 0.401) inset;
+    
 }
 
 .intro-h2,
@@ -623,4 +625,65 @@ body {
     /* fill: rgb(152, 88, 201) !important; */
     color: var(--dash-color) !important;
     cursor: pointer;
+}
+
+/* Profil picture popup */
+#profilePicture-popup .modal-header{
+    border: none;
+}
+
+#imgView{
+    border: dashed 1.5px #3a3a3a2c;
+    border-radius: 10px;
+    padding: 40px;
+}
+
+#add-photo-icon{
+    color: rgb(149, 150, 161);
+    margin-bottom: 20px;
+}
+
+.uploadP{
+    margin-bottom: 5px;
+    color: rgb(69, 69, 82);
+}
+
+.uploadSpan{
+    color: rgb(69, 69, 82);
+}
+
+#imgView{
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    background-position: center;
+    background-size: cover;
+}
+
+#profilePicture-popup .modal-footer{
+    border: none;
+}
+
+.saveChanges-btn{
+    background-color: var(--primary);
+    color: var(--primary-text);
+    transition:  background-color 0.8s ease;
+}
+
+.saveChanges-btn:hover{
+    background-color: var(--primary-hover);
+    color: white;
+    transition: background-color 0.8s ease;
+}
+
+.cancel-btn{
+    background-color: rgb(211, 211, 220);
+    color: var(--primary-text);
+    transition:  background-color 0.8s ease;
+}
+
+.cancel-btn:hover{
+    background-color: rgb(137, 137, 145);
+    color: whitesmoke;
+    transition:  background-color 0.8s ease;
 }
