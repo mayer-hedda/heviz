@@ -14,7 +14,7 @@
     <!-- CSS file -->
     <link rel="stylesheet" href="GenHome.css" />
     <title>Home</title>
-    
+
     <!--? Icon a tabba -->
     <!-- fehér -->
     <link rel="icon" href="../icons/C-logo-white.svg" type="image/svg+xml">
@@ -56,6 +56,7 @@
             <!--? Profilkép helye -->
             <div id="profile-icon">
                 <!--* be kell szúrnom egy img taget  -->
+                <img src="../pictures/default-profile-pic-man.png" id="default-profile-pic">
             </div>
             <!--? User nevének helye -->
             <div id="user-name">
@@ -130,10 +131,11 @@
         <div class="book-row">
             <div class="row text-center" id="s2-first-row">
                 <!--* BOOK COVERS -->
+
             </div>
         </div>
 
-        
+
 
     </section>
 
@@ -266,6 +268,7 @@
 
     </section>
 
+
     <!-- Modal -->
     <div id="modalID" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-scrollable">
@@ -283,41 +286,38 @@
                     <!-- <h4 class="modal-title">Modal Header</h4> -->
                 </div>
                 <div class="modal-body" id="modal-body">
-                    <!--! EZT A KÉPET KELL KIKOMMENTELNI AHHOZ HOGY A BE ELKÜLDJE A  -->
-                    <img src="../pictures/genHomeTestPics/HungerGames3.jpg" class="modal-img">
-                    <h3 class="modal-h3" id="modal-title">The HungerGames3</h3>
-                    <p class="modal-p" id="modal-author">Suzanne Collins</p>
+                    <!--! EZT A KÉPET KELL KIKOMMENTELNI AHHOZ HOGY A BE ELKÜLDJE -->
+                    <!-- ide kell beszúrni a képet js-en keresztül -->
+                    <!-- <img src="../pictures/genHomeTestPics/HungerGames3.jpg" class="modal-img"> -->
+
+                    <!-- book title -->
+                    <h3 class="modal-h3" id="modal-title"></h3>
+
+                    <!-- author -->
+                    <p class="modal-p" id="modal-author"></p>
 
                     <div class="babszem text-center">
 
                         <div class="col-3 colDiv babszem-margin">
-                            <h4 class="align-middle" id="modal-pages">96</h4>
+                            <!-- page number -->
+                            <h4 class="align-middle" id="modal-pages"></h4>
                             <p>Pages</p>
                         </div>
                         <div class="col-3 colDiv babszem-margin">
-                            <h4 id="modal-ranking">7.3</h4>
+                            <!-- ranking number -->
+                            <h4 id="modal-ranking"></h4>
                             <p>Ranking</p>
                         </div>
                         <div class="col-3 colDiv">
-                            <h4 id="modal-language">ENG</h4>
+                            <!-- language -->
+                            <h4 id="modal-language"></h4>
                             <p>Language</p>
                         </div>
                     </div>
 
                     <div class="modal-description">
-                        <p id="modal-desc">Lorem ipsum dolor sit amet consectetur adipiscing elit imperdiet montes,
-                            bibendum
-                            nulla
-                            id convallis sem in integer dignissim. Tortor eu eget porttitor augue nunc pellentesque
-                            elementum dictumst, sociis sociosqu praesent tellus etiam vehicula senectus vestibulum,
-                            habitant montes interdum consequat nec rhoncus vitae. Fames accumsan litora nec euismod
-                            egestas, curabitur risus volutpat sagittis. Tellus senectus rhoncus ultrices auctor
-                            pellentesque class, hac diam curabitur tincidunt vestibulum odio, non dui morbi montes
-                            porttitor. Blandit donec malesuada vel tellus nunc maecenas, vivamus aenean suspendisse
-                            eros luctus feugiat turpis, dapibus nulla cubilia dignissim ornare. Euismod rutrum netus
-                            sodales consequat mus donec odio ante ridiculus molestie conubia enim sollicitudin,
-                            tempus dictumst fermentum pharetra mauris congue vestibulum dignissim magna vitae curae
-                            sagittis.</p>
+                        <!-- descriptipn -->
+                        <p id="modal-desc"></p>
                     </div>
 
                 </div>
@@ -336,17 +336,17 @@
                         </div>
 
                         <div class="col-6">
-                            <button type="button" class="btn btn-default modal-cover-btn" data-dismiss="modal">Let's Read!</button>
+                            <button type="button" class="btn btn-default modal-cover-btn" data-dismiss="modal">Let's
+                                Read!</button>
 
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
 
         </div>
     </div>
-
 
     <!-- TODO: FOOTER -->
     <footer class="footer">

@@ -176,13 +176,13 @@ nav {
     font-style: italic;
 }
 
-#profile-icon {
+#profile-icon img{
     width: 50px;
     /* Állítsd be a kívánt szélességet és magasságot */
     height: 50px;
     border-radius: 50%;
     /* Kör alak kialakítása */
-    background-image: url('../pictures/default-profile-pic.png');
+    /* background-image: url('../pictures/default-profile-pic.png'); */
     /* Alapértelmezett kép beállítása */
     background-size: cover;
     /* A kép méretezése a konténerhez */

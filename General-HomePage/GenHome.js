@@ -1,4 +1,6 @@
 const username = document.getElementById('userName-p');
+const profilePic = document.getElementById('profile-icon');
+const defaultP_pic = document.getElementById('default-profile-pic');
 
 //* LOADING DATAS
 const dataURL = './db.json';
@@ -39,27 +41,23 @@ const s5_mediumC_desc = document.getElementById('s5-mediumC-desc');
 const s5_first_row = document.getElementById('s5-first-row');
 const s5_second_row = document.getElementById('s5-second-row');
 
-//* MODAL
-const modal_body = document.getElementById('modal-body');
-const modal_title = document.getElementById('modal-title');
-const modal_author = document.getElementById('modal-author');
-const modal_pages = document.getElementById('modal-pages');
-const modal_ranking = document.getElementById('modal-ranking');
-const modal_language = document.getElementById('modal-language');
-const modal_desc = document.getElementById('modal-desc');
 
 // LOADING PAGE
-window.onload = async function() {
+window.onload = async function () {
     const tokenResponse = await token();
     // username to the navbar
     username.innerText = `@${tokenResponse.data.username}`;
+    if (tokenResponse.data.image) {
+        defaultP_pic.hidden = true;
+        profilePic.innerHTML = `<img src="${response.data.image}" alt="${response.data.username} profile picture"></img>`;
+    }
 
     switch (tokenResponse.status) {
         case 302:
             switch (tokenResponse.data.rank) {
                 case 'general':
                     const responseRandomBook = await getOneRandomBook();
-        	        console.log("Random book response: ", responseRandomBook);
+                    console.log("Random book response: ", responseRandomBook);
                     LoadRandomBook(responseRandomBook);
 
                     // const responseBooksOfMonth = await getMostSavedBooksOfTheMonth();
@@ -68,9 +66,9 @@ window.onload = async function() {
 
                     const responseRecommanded = await getRecommandedBooks();
                     console.log("Recommanded books for you: ", responseRecommanded);
-                    console.log("Első title: ",responseRecommanded.data[0].title);
-                    TwoRowAndMediumCard("Recommanded books for you", responseRecommanded, s3_mediumCardPic_div, s3_mediumC_h2, s3_mediumC_author, s3_mediumC_desc, s3_first_row, s3_second_row );
-                    
+                    console.log("Első title: ", responseRecommanded.data[0].title);
+                    TwoRowAndMediumCard("Recommanded books for you", responseRecommanded, s3_mediumCardPic_div, s3_mediumC_h2, s3_mediumC_author, s3_mediumC_desc, s3_first_row, s3_second_row);
+
                     const responsePublisher = await getPublishedBooks();
                     console.log("Publisher books: ", responsePublisher);
                     TwoRowAndMediumCard("Publisher books", responsePublisher, s4_mediumCardPic_div, s4_mediumC_h2, s4_mediumC_author, s4_mediumC_desc, s4_first_row, s4_second_row);
@@ -80,14 +78,14 @@ window.onload = async function() {
                     TwoRowAndMediumCard("Self-published books", responseSelfPublished, s5_mediumCardPic_div, s5_mediumC_h2, s5_mediumC_author, s5_mediumC_desc, s5_first_row, s5_second_row)
 
                     break;
-            
+
                 case 'publisher':
                     console.error("You don't have access to this page!");
                     // Ide kell majd a publisher home linkje
                     break;
             }
             break;
-    
+
         case 422:
             console.error(responseLogin.data);
             break;
@@ -95,7 +93,7 @@ window.onload = async function() {
 };
 
 // API
-async function getOneRandomBook(){
+async function getOneRandomBook() {
     const getRandomResponse = await fetch('http://localhost:8080/webresources/book/getOneRandomBook', {
         method: 'GET',
         headers: {
@@ -103,24 +101,24 @@ async function getOneRandomBook(){
         }
     })
 
-    .then(getRandomResponse =>{
-        if (!getRandomResponse.ok) {
-            throw new Error('Hálózati hiba: ' + response.statusText);
-        }
+        .then(getRandomResponse => {
+            if (!getRandomResponse.ok) {
+                throw new Error('Hálózati hiba: ' + response.statusText);
+            }
 
-        return getRandomResponse.json();
-    })
+            return getRandomResponse.json();
+        })
 
-    .then(data => {
-        console.log("Válasz a backendtől: ", data);
-    })
+        .then(data => {
+            console.log("Válasz a backendtől: ", data);
+        })
 
-    .catch(error => {
-        console.error('Hálózati hiba:', error);
-    })
+        .catch(error => {
+            console.error('Hálózati hiba:', error);
+        })
 }
 
-async function getMostSavedBooksOfTheMonth(){
+async function getMostSavedBooksOfTheMonth() {
     const getBooksOfTheMonthResponse = await fetch('http://localhost:8080/webresources/book/getMostSavedBooksOfTheMonth', {
         method: 'GET',
         headers: {
@@ -128,24 +126,24 @@ async function getMostSavedBooksOfTheMonth(){
         }
     })
 
-    .then(getBooksOfTheMonthResponse =>{
-        if (!getBooksOfTheMonthResponse.ok) {
-            throw new Error('Hálózati hiba: ' + response.statusText);
-        }
+        .then(getBooksOfTheMonthResponse => {
+            if (!getBooksOfTheMonthResponse.ok) {
+                throw new Error('Hálózati hiba: ' + response.statusText);
+            }
 
-        return getBooksOfTheMonthResponse.json();
-    })
+            return getBooksOfTheMonthResponse.json();
+        })
 
-    .then(data => {
-        console.log("Válasz a backendtől: ", data);
-    })
+        .then(data => {
+            console.log("Válasz a backendtől: ", data);
+        })
 
-    .catch(error => {
-        console.error('Hálózati hiba:', error);
-    })
+        .catch(error => {
+            console.error('Hálózati hiba:', error);
+        })
 }
 
-async function getRecommandedBooks(){
+async function getRecommandedBooks() {
     const getRecommandedResponse = await fetch('http://localhost:8080/webresources/book/getMostSavedBooksOfTheMonth', {
         method: 'GET',
         headers: {
@@ -153,24 +151,24 @@ async function getRecommandedBooks(){
         }
     })
 
-    .then(getRecommandedResponse =>{
-        if (!getRecommandedResponse.ok) {
-            throw new Error('Hálózati hiba: ' + response.statusText);
-        }
+        .then(getRecommandedResponse => {
+            if (!getRecommandedResponse.ok) {
+                throw new Error('Hálózati hiba: ' + response.statusText);
+            }
 
-        return getRecommandedResponse.json();
-    })
+            return getRecommandedResponse.json();
+        })
 
-    .then(data => {
-        console.log("Válasz a backendtől: ", data);
-    })
+        .then(data => {
+            console.log("Válasz a backendtől: ", data);
+        })
 
-    .catch(error => {
-        console.error('Hálózati hiba:', error);
-    })
+        .catch(error => {
+            console.error('Hálózati hiba:', error);
+        })
 }
 
-async function getPublishedBooks(){
+async function getPublishedBooks() {
     const getPublisherBookResponse = await fetch('http://localhost:8080/webresources/book/getMostSavedBooksOfTheMonth', {
         method: 'GET',
         headers: {
@@ -178,24 +176,24 @@ async function getPublishedBooks(){
         }
     })
 
-    .then(getPublisherBookResponse =>{
-        if (!getPublisherBookResponse.ok) {
-            throw new Error('Hálózati hiba: ' + response.statusText);
-        }
+        .then(getPublisherBookResponse => {
+            if (!getPublisherBookResponse.ok) {
+                throw new Error('Hálózati hiba: ' + response.statusText);
+            }
 
-        return getPublisherBookResponse.json();
-    })
+            return getPublisherBookResponse.json();
+        })
 
-    .then(data => {
-        console.log("Válasz a backendtől: ", data);
-    })
+        .then(data => {
+            console.log("Válasz a backendtől: ", data);
+        })
 
-    .catch(error => {
-        console.error('Hálózati hiba:', error);
-    })
+        .catch(error => {
+            console.error('Hálózati hiba:', error);
+        })
 }
 
-async function getSelfPublishedBooks(){
+async function getSelfPublishedBooks() {
     const getSelfResponse = await fetch('http://localhost:8080/webresources/book/getMostSavedBooksOfTheMonth', {
         method: 'GET',
         headers: {
@@ -203,24 +201,24 @@ async function getSelfPublishedBooks(){
         }
     })
 
-    .then(getSelfResponse =>{
-        if (!getSelfResponse.ok) {
-            throw new Error('Hálózati hiba: ' + response.statusText);
-        }
+        .then(getSelfResponse => {
+            if (!getSelfResponse.ok) {
+                throw new Error('Hálózati hiba: ' + response.statusText);
+            }
 
-        return getSelfResponse.json();
-    })
+            return getSelfResponse.json();
+        })
 
-    .then(data => {
-        console.log("Válasz a backendtől: ", data);
-    })
+        .then(data => {
+            console.log("Válasz a backendtől: ", data);
+        })
 
-    .catch(error => {
-        console.error('Hálózati hiba:', error);
-    })
+        .catch(error => {
+            console.error('Hálózati hiba:', error);
+        })
 }
 
-async function token(){
+async function token() {
     const tokenResponese = await fetch('http://localhost:8080/webresources/user/token', {
         method: 'GET',
         headers: {
@@ -228,34 +226,34 @@ async function token(){
         }
     })
 
-    .then(tokenResponese =>{
-        if (!tokenResponese.ok) {
-            throw new Error('Hálózati hiba: ' + response.statusText);
-        }
+        .then(tokenResponese => {
+            if (!tokenResponese.ok) {
+                throw new Error('Hálózati hiba: ' + response.statusText);
+            }
 
-        return tokenResponese.json();
-    })
+            return tokenResponese.json();
+        })
 
-    .then(data => {
-        console.log("Válasz a backendtől: ", data);
-    })
+        .then(data => {
+            console.log("Válasz a backendtől: ", data);
+        })
 
-    .catch(error => {
-        console.error('Hálózati hiba:', error);
-    })
+        .catch(error => {
+            console.error('Hálózati hiba:', error);
+        })
 }
 
 // Loading datas
 function LoadRandomBook(response) {
     const coverImage = response.data[0].coverImage;
-    
+
     if (coverImage == "Ez a kép elérési útja") {
         s1_bigCard_div.innerHTML = `
             
              <img src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
             
         `;
-    }else{
+    } else {
         // Ide majd az elési utat kell megadni az scr-be, de mivel a db-ben nincs fent a tényleges kép 
         // ezért a szemléltetés miatt mindenhol a standard-et töltöm be 
         console.log("Cover book path: ", coverImage);
@@ -286,25 +284,25 @@ function LoadRandomBook(response) {
  * @param {HTMLDivElement} firstRow - The id of the first row's div
  * 
  */
-function OneRowAndMediumCard(sectionName ,response, mediumC_PicDiv, mediumC_h2, mediumC_author, mediumC_description, firstRow){
+function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, mediumC_author, mediumC_description, firstRow) {
     var dataCount = 0;
-    for(let i = 0; i <= response.data.length; i++){
+    for (let i = 0; i <= response.data.length; i++) {
         dataCount++;
     }
-    console.log( sectionName, " Number of data: " + dataCount);
+    console.log(sectionName, " Number of data: " + dataCount);
 
-    
-    
+
+
     // Medium cards
     const mediumCover = response.data[0].coverImage;
-    if (mediumCover == "Ez a kép elérési útja"){
+    if (mediumCover == "Ez a kép elérési útja") {
         mediumC_PicDiv.innerHTML = `
         <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
         `
-    }else{
+    } else {
         // Ide majd az elési utat kell megadni az scr-be, de mivel a db-ben nincs fent a tényleges kép 
         // ezért a szemléltetés miatt mindenhol a standard-et töltöm be 
-        console.log(sectionName," Medium Card Cover book path: ", mediumCover);
+        console.log(sectionName, " Medium Card Cover book path: ", mediumCover);
 
         mediumC_PicDiv.innerHTML = `
 
@@ -318,10 +316,10 @@ function OneRowAndMediumCard(sectionName ,response, mediumC_PicDiv, mediumC_h2, 
 
     // <img src="${response.data[i].coverImage}" alt="${response.data[i].title}" class="cover">
     if (dataCount >= 4) {
-        for(let i =1; i<=4; i++){
+        for (let i = 1; i <= 4; i++) {
             // console.log("Cím: ", response.data[i].title );
-            
-            
+
+
             firstRow.innerHTML += `
                 <div class="col-3">
                     <div class="cover-photo">
@@ -330,15 +328,15 @@ function OneRowAndMediumCard(sectionName ,response, mediumC_PicDiv, mediumC_h2, 
                         <div class="overlay">
                             <p class="book-title">${response.data[i].title}</p>
                             <p class="author-p">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID">Show Details</button>
+                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="">Show Details</button>
                         </div>
                     </div>
                 </div>
             
             `
-        } 
-    }else if(dataCount > 0){
-        for(let i=1; i <= response.data.length; i++){
+        }
+    } else if (dataCount > 0) {
+        for (let i = 1; i <= response.data.length - 1; i++) {
             firstRow.innerHTML += `
                 <div class="col-3">
                     <div class="cover-photo">
@@ -356,10 +354,10 @@ function OneRowAndMediumCard(sectionName ,response, mediumC_PicDiv, mediumC_h2, 
         }
 
         console.error("Missing datas. Numbers of datas: " + dataCount);
-    }else{
+    } else {
         console.error("I don't get any data.");
     }
-    
+
 
 }
 
@@ -378,23 +376,23 @@ function OneRowAndMediumCard(sectionName ,response, mediumC_PicDiv, mediumC_h2, 
  * @param {HTMLDivElement} secondRow - The id of the second row's div
  * 
  */
-function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, mediumC_author, mediumC_description, firstRow, secondRow ) {
+function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, mediumC_author, mediumC_description, firstRow, secondRow) {
     var dataCount = 0;
-    for(let i = 0; i <= response.data.length; i++){
+    for (let i = 0; i <= response.data.length; i++) {
         dataCount++;
     }
     console.log("Number of data: " + dataCount);
-    
+
     // Medium cards
     const mediumCover = response.data[0].coverImage;
-    if (mediumCover == "Ez a kép elérési útja"){
+    if (mediumCover == "Ez a kép elérési útja") {
         mediumC_PicDiv.innerHTML = `
         <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
         `
-    }else{
+    } else {
         // Ide majd az elési utat kell megadni az scr-be, de mivel a db-ben nincs fent a tényleges kép 
         // ezért a szemléltetés miatt mindenhol a standard-et töltöm be 
-        console.log(sectionName," Medium Card Cover book path: ", mediumCover);
+        console.log(sectionName, " Medium Card Cover book path: ", mediumCover);
 
         mediumC_PicDiv.innerHTML = `
 
@@ -406,9 +404,19 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
     mediumC_author.innerText = `${response.data[0].firstName} ${response.data[0].lastName}`;
     mediumC_description.innerText = `${response.data[0].description}`;
 
+    var rating;
+
     // <img src="${response.data[i].coverImage}" alt="${response.data[i].title}" class="cover">
     if (dataCount >= 4) {
-        for(let i =1; i<=4; i++){
+        for (let i = 1; i <= 4; i++) {
+
+            if (response.data[i].rating !== undefined) {
+               rating = response.data[i].rating;
+            }else{
+                console.log( response.data[i].title," rating is undefined");
+                // rating = '';
+            }
+
             //! Itt lehetne egy vizsgálat hogy van e rendes url a teszt adathoz
             firstRow.innerHTML += `
                 <div class="col-3">
@@ -418,16 +426,18 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                         <div class="overlay">
                             <p class="book-title">${response.data[i].title}</p>
                             <p class="author-p">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID">Show Details</button>
+                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData(${response.data}, ${response.data[i].id})">Show Details</button>
                         </div>
                     </div>
                 </div>
-            
+
+                
             `
         }
 
-        if (dataCount >4 && dataCount <=9 ) {
-            for(let i = 5; i<= response.data.length - 1; i++){
+        if (dataCount > 4 && dataCount <= 9) {
+            for (let i = 5; i <= response.data.length - 1; i++) {
+
                 secondRow.innerHTML += `
                     <div class="col-3">
                         <div class="cover-photo">
@@ -443,8 +453,8 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                 
                 `
             }
-        }else if(dataCount > 4){
-            for(let i = 5; i<= response.data.length - 1; i++){
+        } else if (dataCount > 4) {
+            for (let i = 5; i <= response.data.length - 1; i++) {
                 secondRow.innerHTML += `
                     <div class="col-3">
                         <div class="cover-photo">
@@ -460,12 +470,12 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                 
                 `
             }
-        }else{
+        } else {
             console.error("I can't load the second row, because some data's missing. Number of datas: " + dataCount);
         }
 
-    }else if(dataCount > 0){
-        for(let i=1; i <= dataCount; i++){
+    } else if (dataCount > 0) {
+        for (let i = 1; i <= dataCount; i++) {
             firstRow.innerHTML += `
                 <div class="col-3">
                     <div class="cover-photo">
@@ -483,13 +493,53 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
         }
 
         console.error("Missing datas. Numbers of datas: " + dataCount);
-    }else{
+    } else {
         console.error("I don't get any data.");
     }
-    
-
-    
 }
 
+//* MODAL
+const modal_body = document.getElementById('modal-body');
+const modal_title = document.getElementById('modal-title');
+const modal_author = document.getElementById('modal-author');
+const modal_pages = document.getElementById('modal-pages');
+const modal_ranking = document.getElementById('modal-ranking');
+const modal_language = document.getElementById('modal-language');
+const modal_desc = document.getElementById('modal-desc');
+
+// const modalData = new bootstrap.Modal(document.getElementById('modalID'));
+function loadModalData(...args) {
+
+    const selectedBook = data[id];
+    console.log("Modal lefut");
+    console.log("A könyv id-ja: " + selectedBook);
+
+    // if (selectedBook.coverImage != "Ez a kép elérési útja") {
+    //     // ide kell majd beilleszteni a kép url-jét az src helyére
+    //     modal_body.innerHTML = `<img src="../pictures/standard-book-cover.jpg" class="modal-img">`;
+    //     console.log("képnek nincs elérésije");
+    // } else {
+    //     console.log("Képnek van elérésije");
+    //     modal_body.innerHTML = `<img src="../pictures/standard-book-cover.jpg" class="modal-img">`;
+    // }
+
+    // console.log("Cím: ", selectedBook.title);
+
+    // modal_title.innerText = `${title}`;
+    
+    // modal_author.innerText = `${authorFirst} ${authorLast}`;
+    // modal_pages.innerText = `${pages}`;
+
+
+    // if (ranking != null) {
+    //     modal_ranking.innerText = `${ranking}`;
+    // } else {
+    //     modal_ranking.innerText = "-";
+    // }
+
+
+    // modal_language.innerText = `${language}`;
+    // modal_desc.innerText = `${desc}`;
+}
 
 

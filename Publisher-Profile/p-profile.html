@@ -28,7 +28,7 @@
 
             <div class="container-fluid" id="nav">
                 <div class="nav-element" id="back-arrow">
-                    <button class="border-0 bg-transparent">
+                    <button class="border-0 bg-transparent" onclick="history.back()">
                         <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" fill="currentColor"
                             class="bi bi-arrow-left" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
@@ -52,6 +52,7 @@
                 </div>
             </div>
 
+           
 
         </div>
 
@@ -59,8 +60,18 @@
 
     <section class="container-fluid" id="s2">
         <div id="profile-pic-div">
-            <img class="rounded-5" src="../pictures/default-profile-pic-man.png" height="240" width="240">
+            <img class="rounded-circle shadow-sm" src="../pictures/default-profile-pic-man.png" height="240" width="240">
+            
         </div>
+
+        <div id="edit-pic-div" hidden> <!--Csak akkor látható ha a saját profilja-->
+            <button id="edit-picture" class="rounded-circle">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                    <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
+                  </svg>
+            </button>
+        </div>
+        
 
         <div id="my-datas">
             <div id="company-name">
@@ -86,6 +97,18 @@
             </div>
         </div>
 
+        <div id="follow-btn-div">
+            <button type="button" id="follow-btn" class="btn rounded-5">Follow</button>
+        </div>
+
+        <div id="edit-coverCol-div" hidden> <!--Csak akkor látható ha a saját profilja-->
+            <button id="edit-coverColor" class="btn rounded-circle">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                    <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
+                  </svg>
+            </button>
+        </div>
+
     </section>
 
 
@@ -95,21 +118,22 @@
                 <div class="personal-card" id="introdution">
                     <h2 class="intro-h2">Introdution:</h2>
                     <div class="intro-text-div">
-                        <textarea id="" class="h-auto intro-text border-0" readonly>Lorem ipsum dolor sit amet consectetur adipiscing, elit sollicitudin massa vestibulum dui facilisi habitant, tempor habitasse est ultricies urna. Ullamcorper tincidunt ante aptent vitae cum mauris curabitur nascetur hac sed torquent a netus, sollicitudin leo placerat scelerisque est nunc taciti convallis conubia interdum habitant. In mattis inceptos lectus fringilla facilisi nullam massa gravida, taciti neque venenatis sodales suscipit lacinia sem turpis ante, parturient ad mollis a ut leo at. 
+                        <textarea class="h-auto intro-text border-0" readonly>Lorem ipsum dolor sit amet consectetur adipiscing, elit sollicitudin massa vestibulum dui facilisi habitant, tempor habitasse est ultricies urna. Ullamcorper tincidunt ante aptent vitae cum mauris curabitur nascetur hac sed torquent a netus, sollicitudin leo placerat scelerisque est nunc taciti convallis conubia interdum habitant. In mattis inceptos lectus fringilla facilisi nullam massa gravida, taciti neque venenatis sodales suscipit lacinia sem turpis ante, parturient ad mollis a ut leo at. 
                         </textarea>
+                        <button class="btn" id="save-btn" hidden>Save</button>
                     </div>
 
                     <div id="membership">
                         <p class="member-p">Member since:</p>
                         <p class="member-year">2016</p>
-                        <div class="info-edit-div">
+                        <button class="info-edit-div border-0 bg-transparent">
                             <p> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                                     class="bi bi-pen" viewBox="0 0 16 16">
                                     <path
                                         d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z" />
                                 </svg></p>
                             <p class="info-edit">Edit</p>
-                        </div>
+                        </button>
 
                     </div>
                 </div>
@@ -134,76 +158,150 @@
             </div>
             <div class="col-6" id="posts-and-books">
                 <div class="container-fluid pb-header-btns" id="pb-header">
-                    <button class="active-btn btn-h2 border-0" id="our-books">Our Books</button>  <!-- DEFAULT -->
+                    <button class="active-btn btn-h2 border-0" id="our-books">Our Books</button> <!-- DEFAULT -->
                     <button class="disabled-btn btn-h2 border-0" id="our-posts">Our Posts</button>
                 </div>
 
-                <div class="container" id="books">
+
+                <!-- BOOK CARDS -->
+                <div class="container" id="books"> <!-- DEFAULT -->
                     <!-- books -->
-                <div class="container medium-card" style="background-color: #EAD7BE;">
-                    <div class="row">
-                        <div class="col-3 my-col3" id="s5-mediumCardPic-div">
-                            <!--? Picture => Alt-nak mehet majd a könyv címe -->
-                            <!-- <div style="background-color: brown;"> -->
-                            <img class="medium-pic" src="../pictures/first-section-book-example.jpg">
-                            <!-- </div> -->
+                    <div class="container medium-card" style="background-color: #EAD7BE;">
+                        <div class="row">
+                            <div class="col-3 my-col3" id="s5-mediumCardPic-div">
+                                <!--? Picture => Alt-nak mehet majd a könyv címe -->
+                                <!-- <div style="background-color: brown;"> -->
+                                <img class="medium-pic" src="../pictures/first-section-book-example.jpg">
+                                <!-- </div> -->
+                            </div>
+
+                            <div class="col-9 medium-right-side">
+                                <!--? Author + Book Title  -->
+                                <h2 class="container medium-h2" id="s5-mediumC-h2">Book Title</h2>
+                                <p class="username" id="s5-mediumC-user">@user123</p>
+                                <p class="medium-desc" id="s5-mediumC-desc">Lorem ipsum dolor sit amet consectetur
+                                    adipiscing elit mi, maecenas at fermentum eu aliquet rhoncus nostra, porttitor
+                                    vulputate
+                                    pretium fringilla inceptos duis tristique. Natoque rhoncus netus lobortis venenatis
+                                    torquent sodales dignissim hac facilisi, lectus curabitur convallis litora risus
+                                    commodo
+                                    dictumst iaculis diam, velit etiam lacinia potenti tellus duis nec magna. Congue
+                                    sagittis tincidunt proin et praesent sollicitudin lacinia tempor fames, vivamus
+                                    condimentum molestie dui diam facilisi odio dis sapien vel, velit posuere porta
+                                    conubia
+                                    senectus sociosqu morbi dignissim. Rutrum venenatis habitasse mauris ornare eros
+                                    egestas, rhoncus risus proin malesuada interdum. Lobortis blandit et porta ridiculus
+                                    mauris lectus sollicitudin cursus mollis, natoque convallis luctus arcu lacus
+                                    curabitur
+                                    vitae a suscipit rutrum,</p>
+                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
+                                    data-bs-target="#modalID">Start Reading</button>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- books -->
+                    <div class="container medium-card" style="background-color: #EAD7BE;">
+                        <div class="row">
+                            <div class="col-3 my-col3" id="s5-mediumCardPic-div">
+                                <!--? Picture => Alt-nak mehet majd a könyv címe -->
+                                <!-- <div style="background-color: brown;"> -->
+                                <img class="medium-pic" src="../pictures/first-section-book-example.jpg">
+                                <!-- </div> -->
+                            </div>
+
+                            <div class="col-9 medium-right-side">
+                                <!--? Author + Book Title  -->
+                                <h2 class="container medium-h2" id="s5-mediumC-h2">Book Title</h2>
+                                <p class="username" id="s5-mediumC-user">@user123</p>
+                                <p class="medium-desc" id="s5-mediumC-desc">Lorem ipsum dolor sit amet consectetur
+                                    adipiscing elit mi, maecenas at fermentum eu aliquet rhoncus nostra, porttitor
+                                    vulputate
+                                    pretium fringilla inceptos duis tristique. Natoque rhoncus netus lobortis venenatis
+                                    torquent sodales dignissim hac facilisi, lectus curabitur convallis litora risus
+                                    commodo
+                                    dictumst iaculis diam, velit etiam lacinia potenti tellus duis nec magna. Congue
+                                    sagittis tincidunt proin et praesent sollicitudin lacinia tempor fames, vivamus
+                                    condimentum molestie dui diam facilisi odio dis sapien vel, velit posuere porta
+                                    conubia
+                                    senectus sociosqu morbi dignissim. Rutrum venenatis habitasse mauris ornare eros
+                                    egestas, rhoncus risus proin malesuada interdum. Lobortis blandit et porta ridiculus
+                                    mauris lectus sollicitudin cursus mollis, natoque convallis luctus arcu lacus
+                                    curabitur
+                                    vitae a suscipit rutrum,</p>
+                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
+                                    data-bs-target="#modalID">Start Reading</button>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- POST CARDS -->
+                <div class="container" id="posts" hidden>
+                    <div class="post-card ">
+                        <div class="first-row">
+                            <!--? profil kép helye  -->
+                            <div class="post-profile-icon rounded-circle shadow-sm"
+                                style="background-image: url('../pictures/default-profile-pic-astronaut.png');"></div>
+                            <!--? User nevének helye -->
+                            <div class="userName">
+                                <p class="card-user-name">Kiadó neve</p>
+                            </div>
+                            <div class="cardDate align-content-end">
+                                <p class="card-date-text">2024-01-22</p>
+                            </div>
                         </div>
 
-                        <div class="col-9 medium-right-side">
-                            <!--? Author + Book Title  -->
-                            <h2 class="container medium-h2" id="s5-mediumC-h2">Book Title</h2>
-                            <p class="username" id="s5-mediumC-user">@user123</p>
-                            <p class="medium-desc" id="s5-mediumC-desc">Lorem ipsum dolor sit amet consectetur
-                                adipiscing elit mi, maecenas at fermentum eu aliquet rhoncus nostra, porttitor vulputate
-                                pretium fringilla inceptos duis tristique. Natoque rhoncus netus lobortis venenatis
-                                torquent sodales dignissim hac facilisi, lectus curabitur convallis litora risus commodo
-                                dictumst iaculis diam, velit etiam lacinia potenti tellus duis nec magna. Congue
-                                sagittis tincidunt proin et praesent sollicitudin lacinia tempor fames, vivamus
-                                condimentum molestie dui diam facilisi odio dis sapien vel, velit posuere porta conubia
-                                senectus sociosqu morbi dignissim. Rutrum venenatis habitasse mauris ornare eros
-                                egestas, rhoncus risus proin malesuada interdum. Lobortis blandit et porta ridiculus
-                                mauris lectus sollicitudin cursus mollis, natoque convallis luctus arcu lacus curabitur
-                                vitae a suscipit rutrum,</p>
-                            <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
-                                data-bs-target="#modalID">Start Reading</button>
+                        <div class="postText">
+                            <p class="post-text">Lorem ipsum dolor sit amet consectetur adipiscing elit torquent, auctor
+                                luctus lectus odio congue penatibus venenatis, felis vivamus placerat diam porttitor
+                                tristique aenean. Iaculis praesent phasellus neque commodo eget tincidunt nec fusce
+                                quam, urna auctor per lacinia montes nostra mus sociosqu, volutpat est bibendum faucibus
+                                natoque proin aptent hac.</p>
+                        </div>
 
+                        <div class="last-row">
+
+                            <div class="like-and-share">
+                                <div class="d-flex flex-column align-items-center emptyLike">
+
+
+                                    <div class="like visible">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23"
+                                            fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                            <path
+                                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                        </svg>
+                                    </div>
+
+                                    <div class="liked hidden" style="margin-right: 10px;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23"
+                                            fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd"
+                                                d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" />
+                                        </svg>
+                                    </div>
+
+
+                                </div>
+                                <div class="d-flex flex-column align-items-center">
+                                    <div class="share"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="23"
+                                            fill="currentColor" class="bi bi-share-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5" />
+                                        </svg></div>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- books -->
-                <div class="container medium-card" style="background-color: #EAD7BE;">
-                    <div class="row">
-                        <div class="col-3 my-col3" id="s5-mediumCardPic-div">
-                            <!--? Picture => Alt-nak mehet majd a könyv címe -->
-                            <!-- <div style="background-color: brown;"> -->
-                            <img class="medium-pic" src="../pictures/first-section-book-example.jpg">
-                            <!-- </div> -->
-                        </div>
 
-                        <div class="col-9 medium-right-side">
-                            <!--? Author + Book Title  -->
-                            <h2 class="container medium-h2" id="s5-mediumC-h2">Book Title</h2>
-                            <p class="username" id="s5-mediumC-user">@user123</p>
-                            <p class="medium-desc" id="s5-mediumC-desc">Lorem ipsum dolor sit amet consectetur
-                                adipiscing elit mi, maecenas at fermentum eu aliquet rhoncus nostra, porttitor vulputate
-                                pretium fringilla inceptos duis tristique. Natoque rhoncus netus lobortis venenatis
-                                torquent sodales dignissim hac facilisi, lectus curabitur convallis litora risus commodo
-                                dictumst iaculis diam, velit etiam lacinia potenti tellus duis nec magna. Congue
-                                sagittis tincidunt proin et praesent sollicitudin lacinia tempor fames, vivamus
-                                condimentum molestie dui diam facilisi odio dis sapien vel, velit posuere porta conubia
-                                senectus sociosqu morbi dignissim. Rutrum venenatis habitasse mauris ornare eros
-                                egestas, rhoncus risus proin malesuada interdum. Lobortis blandit et porta ridiculus
-                                mauris lectus sollicitudin cursus mollis, natoque convallis luctus arcu lacus curabitur
-                                vitae a suscipit rutrum,</p>
-                            <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
-                                data-bs-target="#modalID">Start Reading</button>
-
-                        </div>
-                    </div>
-                </div>
-
-                </div>
             </div>
         </div>
     </section>

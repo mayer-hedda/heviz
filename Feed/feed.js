@@ -54,7 +54,7 @@ fetch(dataUrl)
                 <div class="post-card ">
                     <div class="first-row">
                         <!--? profil kép helye  -->
-                        <div class="post-profile-icon" style="background-image: url('${posts.profilPicURL}');"></div>
+                        <div class="post-profile-icon rounded-circle shadow-sm" style="background-image: url('${posts.profilPicURL}');"></div>
                         <!--? User nevének helye -->
                         <div class="userName">
                             <p class="card-user-name">${posts.username}</p>
