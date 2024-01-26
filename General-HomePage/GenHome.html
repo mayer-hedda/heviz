@@ -88,7 +88,7 @@
                     </p>
 
                     <!--TODO: POPUP ABLAK  -->
-                    <button type="button" class="moreBtn" data-bs-toggle="modal" data-bs-target="#modalID">Start
+                    <button type="button" id="randomBook-btn" class="moreBtn" data-bs-toggle="modal" data-bs-target="#modalID">Start
                         Reading</button>
                 </div>
             </div>
@@ -103,6 +103,7 @@
     <!-- TODO: SECOND SECTION => Most popular books of the month -->
     <section id="second-section" class="container sub-sections">
         <h2 class=" subtitle">Books of the month:</h2>
+        <!-- Medium card -->
         <div class="container medium-card" style="background-color: #EAD7BE;" id="s2-mediumC">
             <div class="row">
                 <div class="col-3" id="s2-mediumC-pic">
@@ -122,7 +123,7 @@
                         <!--* DESCRIPTION PLACE  -->
                     </p>
                     <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
-                        data-bs-target="#modalID">Start Reading</button>
+                        data-bs-target="#modalID" id="s2-mediumC-btn">Start Reading</button>
 
                 </div>
             </div>
@@ -157,7 +158,7 @@
                     <p class="username" id="s3-mediumC-author"></p>
                     <p class="medium-desc" id="s3-mediumC-desc"></p>
                     <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
-                        data-bs-target="#modalID">Start Reading</button>
+                        data-bs-target="#modalID" id="s3-mediumC-btn">Start Reading</button>
 
                 </div>
             </div>
@@ -200,7 +201,7 @@
                     <p class="username" id="s4-mediumC-author"></p>
                     <p class="medium-desc" id="s4-mediumC-desc"></p>
                     <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
-                        data-bs-target="#modalID">Start Reading</button>
+                        data-bs-target="#modalID" id="s4-mediumC-btn">Start Reading</button>
 
                 </div>
             </div>
@@ -243,7 +244,7 @@
                     <p class="username" id="s5-mediumC-author"></p>
                     <p class="medium-desc" id="s5-mediumC-desc"></p>
                     <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
-                        data-bs-target="#modalID">Start Reading</button>
+                        data-bs-target="#modalID" id="s5-mediumC-btn">Start Reading</button>
 
                 </div>
             </div>
@@ -283,12 +284,12 @@
                                 d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
                         </svg></button>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    <!-- <h4 class="modal-title">Modal Header</h4> -->
+                    
                 </div>
                 <div class="modal-body" id="modal-body">
                     <!--! EZT A KÉPET KELL KIKOMMENTELNI AHHOZ HOGY A BE ELKÜLDJE -->
                     <!-- ide kell beszúrni a képet js-en keresztül -->
-                    <!-- <img src="../pictures/genHomeTestPics/HungerGames3.jpg" class="modal-img"> -->
+                    <img src="../pictures/standard-book-cover.jpg" class="modal-img" id="modal-img">
 
                     <!-- book title -->
                     <h3 class="modal-h3" id="modal-title"></h3>
