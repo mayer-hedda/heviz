@@ -1980,6 +1980,9 @@ async function deleteBook(raw) {
 }
 
 
+
+// ----- HELP CENTER -----
+
 /**
  * @returns 
     * 200:
@@ -2002,6 +2005,136 @@ async function getActiveHelpCenter() {
             data: data
         }
     } catch(error) {
+        return { error: error }
+    }
+}
+
+
+
+// ----- 1 KATEGÓRIA KÖNYVEI -----
+
+/**
+ * @param {JSON} raw = {
+ *      "id": 1
+ * }
+ * 
+ * @return:
+    * 200:
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+            * saved
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+ */
+async function getAllBooksByCategory(raw) {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getAllBooksByCategory", requestOptions);
+        const data = await response.json();
+
+        if (response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        }
+
+        return { status: response.status }
+    } catch (error) {
+        return { error: error }
+    }
+}
+
+
+/**
+ * @param {JSON} raw = {
+ *      "filter":           1: a-z
+                            2: z-a
+                            3: dátum - legutóbb feltöltött elöl
+                            4: dátum - legkorábban feltöltött elöl
+                            5: legolcsóbb elöl
+                            6: legdrágább elöl
+                            7: listázottság alapján - leglistázottabb elöl
+                            8: legjobban eladott - legtöbbet eladott elöl
+ * }
+ * 
+ * @return
+    * 200:
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+            * saved
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+ */
+async function getAllBooksByCategory(raw) {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getFilteredBooks", requestOptions);
+        const data = await response.json();
+
+        if (response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        }
+
+        return { status: response.status }
+    } catch (error) {
         return { error: error }
     }
 }
