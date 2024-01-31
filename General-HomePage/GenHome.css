@@ -196,7 +196,7 @@ nav {
     margin-left: 90px;
 }
 
-#writingBtn{
+#writingBtn, #writingBtn-zeroData{
     font-size: medium;
     font-family: 'Inter', sans-serif;
     color: var(--btn-text-color);
@@ -219,7 +219,7 @@ nav {
     /* align-items: self-end; */
 }
 
-#writingBtn:hover{
+#writingBtn:hover, #writingBtn-zeroData:hover{
     transition: color 0.8s ease;
     /*átmenet a hover és a rendes állapot között*/
     transition: background-color 0.3s ease;
@@ -541,6 +541,20 @@ nav {
     transition: background-color 0.8s ease;
 }
 
+/* ----------------- Zero data ---------------------- */
+.zero-data{
+    font-size: 20px;
+    margin-top: 5%;
+    width: 900px;
+    font-family: 'Poppins-Regular', sans-serif;
+}
+
+#writing-zeroData{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /* ---------------- MODAL ---------------------------*/
 .modal-content {
     background: linear-gradient(180deg, #ffeed8, #F0D0BC 100%) !important;
@@ -698,12 +712,13 @@ nav {
 }
 
 footer {
+    
     border-top: 0.094rem solid var(--dash-color);
     background-color: var(--footer-bg-color);
     padding-top: 5%;
     padding-right: 5%;
     padding-left: 5%;
-    height: 325px;
+    height: 300px;
 }
 
 footer h3 {

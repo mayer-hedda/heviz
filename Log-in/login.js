@@ -39,7 +39,7 @@ inputEmail.addEventListener("focusin", (e) => {
 })
 
 // password
-inputPwd.addEventListener("focusout", (e) => {
+inputPwd.addEventListener('input', (e) => {
     e.preventDefault();
     const pwdValue = inputPwd.value;
     if (pwdValue == "") {

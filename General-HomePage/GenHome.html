@@ -69,7 +69,7 @@
     <h1 id="welcome" class="container">Welcome User!</h1>
     <!--? FIRST SECTION => RANDOM NAGY KÁRTYA  -->
     <section id="first-section" class="container">
-
+        <!-- Default value: hidden = false -->
         <div id="first-s-card" class="container full-card">
             <div class="row card-bg" style="border: 3px">
                 <div class="col-4 picSide" id="bigCard-Pic">
@@ -88,7 +88,8 @@
                     </p>
 
                     <!--TODO: POPUP ABLAK  -->
-                    <button type="button" id="randomBook-btn" class="moreBtn" data-bs-toggle="modal" data-bs-target="#modalID">Start
+                    <button type="button" id="randomBook-btn" class="moreBtn" data-bs-toggle="modal"
+                        data-bs-target="#modalID">Start
                         Reading</button>
                 </div>
             </div>
@@ -102,6 +103,7 @@
 
     <!-- TODO: SECOND SECTION => Most popular books of the month -->
     <section id="second-section" class="container sub-sections">
+        <!-- Default value: hidden = false -->
         <h2 class=" subtitle">Books of the month:</h2>
         <!-- Medium card -->
         <div class="container medium-card" style="background-color: #EAD7BE;" id="s2-mediumC">
@@ -144,6 +146,7 @@
     <!-- TODO: THIRD SECTION => Based on your favorite books: -->
 
     <section id="third-section" class="container sub-sections">
+        <!-- Default value: hidden = false -->
         <h2 class="container subtitle">Based on your favorite books:</h2>
         <div class="container medium-card" style="background-color: #EAD7BE;">
             <div class="row">
@@ -185,6 +188,7 @@
     <!-- TODO: FOURT SECTION  -->
 
     <section id="fourth-section" class="container sub-sections">
+        <!-- Default value: hidden = false -->
         <h2 class="container subtitle">Books published by a Publisher:</h2>
         <div class="container medium-card" style="background-color: #EAD7BE;">
             <div class="row">
@@ -228,6 +232,7 @@
 
 
     <section id="fifth-section" class="container sub-sections">
+        <!-- Default value: hidden = false -->
         <h2 class=" subtitle">Books self-published by authors.</h2>
         <div class="container medium-card" style="background-color: #EAD7BE;">
             <div class="row">
@@ -284,7 +289,7 @@
                                 d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
                         </svg></button>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    
+
                 </div>
                 <div class="modal-body" id="modal-body">
                     <!--! EZT A KÉPET KELL KIKOMMENTELNI AHHOZ HOGY A BE ELKÜLDJE -->
@@ -349,8 +354,24 @@
         </div>
     </div>
 
+    <div class="zero-data container" id="zero-dataContainer" hidden>
+        <!-- Default value: hidden = true -->
+        <p class="text-center">We regret to inform you that currently, there are no books available in our
+            database, and we are unable to
+            load content for you. However, we encourage you to be the first one to publish on our platform. Your
+            contribution could kick-start a vibrant community of readers and writers. Thank you for your understanding
+            and potential contribution.</p>
+        <div id="writing-zeroData">
+            <button role="button" type="submit" class="btn align-content-center" id="writingBtn-zeroData"
+                onclick="window.location.href='../Create Book/createBook.html'">
+                Start Writing
+            </button>
+        </div>
+
+    </div>
+
     <!-- TODO: FOOTER -->
-    <footer class="footer">
+    <footer class="footer ">
         <div class="container-fluid align-content-center">
 
             <div class="row">
@@ -362,8 +383,7 @@
                     <!-- hasznos linkek -->
                     <h3 id="footer-h3" class="textCentered">Useful Links</h3>
                     <ul id="footer-ul">
-                        <li id="phone-num"><i class="bi bi-telephone-fill" style="margin-right: 0.625rem;"></i>+36 70
-                            847 9363</li>
+
                         <li id="email"><i class="bi bi-google"
                                 style="margin-right: 0.625rem;"></i>cyberread2023@gmail.com
                         </li>

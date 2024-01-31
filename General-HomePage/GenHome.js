@@ -58,6 +58,19 @@ const modal_desc = document.getElementById('modal-desc');
 
 // Segéd változók
 let resp_imgURL, resp_title, resp_firstName, resp_lastName, resp_description, resp_language, resp_rating, resp_pageNumber;
+let s1 = false;
+let s2 = false;
+let s3 = false;
+let s4 = false;
+let s5 = false;
+
+// Section tags
+const first_section = document.getElementById('first-section');
+const second_section = document.getElementById('second-section');
+const third_section = document.getElementById('third-section');
+const fourth_section = document.getElementById('fourth-section');
+const fifth_section = document.getElementById('fifth-section');
+const zero_dataContainer = document.getElementById('zero-dataContainer');
 
 // LOADING PAGE
 window.onload = async function () {
@@ -75,24 +88,67 @@ window.onload = async function () {
                 case 'general':
                     const responseRandomBook = await getOneRandomBook();
                     console.log("Random book response: ", responseRandomBook);
-                    LoadRandomBook(responseRandomBook);
+                 // egy nagy random könyv
+                    if (responseRandomBook.data.length === 0) {
+                        first_section.hidden = true;
+                       
+                        zero_dataContainer.hidden = false;
+                    } else {
+                        LoadRandomBook(responseRandomBook);
+                        s1 = true;
+                    }
 
-                    // const responseBooksOfMonth = await getMostSavedBooksOfTheMonth();
-                    // console.log("Most saved books of month response: ", responseBooksOfMonth);
-                    // OneRowAndMediumCard("Books of the month", responseBooksOfMonth, s2_mediumC_picDiv, s2_mediumC_h2, s2_mediumC_author, s2_mediumC_p, s2_mediumC_btn, s2_first_row );
+                    const responseBooksOfMonth = await getMostSavedBooksOfTheMonth();
+                    console.log("Most saved books of month response: ", responseBooksOfMonth);
+                    // legtöbbet elmentett könyvek a hónapban
+                    if (responseBooksOfMonth.data.length === 0) {
+                        // console.log("nincs adat");
+                        second_section.hidden = true;
+
+                    } else {
+                        OneRowAndMediumCard("Books of the month", responseBooksOfMonth, s2_mediumC_picDiv, s2_mediumC_h2, s2_mediumC_author, s2_mediumC_p, s2_mediumC_btn, s2_first_row);
+                        s2 = true;
+                    }
 
                     const responseRecommanded = await getRecommandedBooks();
                     console.log("Recommanded books for you: ", responseRecommanded);
-                    // console.log("Első title: ", responseRecommanded.data[0].title);
-                    TwoRowAndMediumCard("Recommanded books for you", responseRecommanded, s3_mediumCardPic_div, s3_mediumC_h2, s3_mediumC_author, s3_mediumC_desc, s3_mediumC_btn, s3_first_row, s3_second_row);
+
+                    if (responseRecommanded.data.length === 0) {
+                        third_section.hidden = true;
+                    } else {
+                        TwoRowAndMediumCard("Recommanded books for you", responseRecommanded, s3_mediumCardPic_div, s3_mediumC_h2, s3_mediumC_author, s3_mediumC_desc, s3_mediumC_btn, s3_first_row, s3_second_row);
+                        s3 = true;
+                    }
 
                     const responsePublisher = await getPublishedBooks();
                     console.log("Publisher books: ", responsePublisher);
-                    TwoRowAndMediumCard("Publisher books", responsePublisher, s4_mediumCardPic_div, s4_mediumC_h2, s4_mediumC_author, s4_mediumC_desc, s4_mediumC_btn, s4_first_row, s4_second_row);
+
+                    if (responsePublisher.data.length === 0) {
+                        third_section.hidden = true;
+                    } else {
+                        TwoRowAndMediumCard("Publisher books", responsePublisher, s4_mediumCardPic_div, s4_mediumC_h2, s4_mediumC_author, s4_mediumC_desc, s4_mediumC_btn, s4_first_row, s4_second_row);
+                        s4 = true;
+                    }
+
 
                     const responseSelfPublished = await getSelfPublishedBooks();
                     console.log("Self-published books: ", responseSelfPublished);
-                    TwoRowAndMediumCard("Self-published books", responseSelfPublished, s5_mediumCardPic_div, s5_mediumC_h2, s5_mediumC_author, s5_mediumC_desc, s5_mediumC_btn, s5_first_row, s5_second_row)
+
+                    if (responseRecommanded.data.length === 0) {
+                        fourth_section.hidden = true;
+                    } else {
+                        TwoRowAndMediumCard("Self-published books", responseSelfPublished, s5_mediumCardPic_div, s5_mediumC_h2, s5_mediumC_author, s5_mediumC_desc, s5_mediumC_btn, s5_first_row, s5_second_row)
+                        s5 = true;
+                    }
+
+                    if (s1 == false &&
+                        s2 == false &&
+                        s3 == false &&
+                        s4 == false &&
+                        s5 == false) {
+                        
+                            zero_dataContainer.hidden = false;
+                    }
 
                     break;
 
@@ -287,12 +343,12 @@ function LoadRandomBook(response) {
 
     random_book_btn.addEventListener('click', (e) => {
         e.preventDefault();
-        
+
         if (response.data[0].coverImage != "Ez a kép elérési útja") {
-            
+
             console.log("Kép elérési útja: " + response.data[0].coverImage);
             modal_img.src = `../${response.data[0].coverImage}.jpg`;
-        } else{
+        } else {
             modal_img.src = "../pictures/standard-book-cover.jpg";
 
         }
@@ -302,10 +358,10 @@ function LoadRandomBook(response) {
         // console.error("Cím: ", response.data[0].title);
         modal_author.innerText = `${response.data[0].firstName} ${response.data[0].lastName}`;
         modal_pages.innerText = `${response.data[0].pagesNumber}`;
-        
-        if(response.data[0].rating){
+
+        if (response.data[0].rating) {
             modal_ranking.innerText = `${response.data[0].rating}`;
-        }else{
+        } else {
             modal_ranking.innerText = "-";
         }
 
@@ -331,7 +387,7 @@ function LoadRandomBook(response) {
  * @param {HTMLDivElement} firstRow - The id of the first row's div
  * 
  */
-function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, mediumC_author, mediumC_description, mediumC_btn , firstRow) {
+function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, mediumC_author, mediumC_description, mediumC_btn, firstRow) {
     var dataCount = 0;
     for (let i = 0; i <= response.data.length; i++) {
         dataCount++;
@@ -363,12 +419,12 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
 
     mediumC_btn.addEventListener('click', (e) => {
         e.preventDefault();
-        
+
         if (response.data[0].coverImage != "Ez a kép elérési útja") {
-            
+
             console.log("Kép elérési útja: " + response.data[0].coverImage);
             modal_img.src = `../${response.data[0].coverImage}.jpg`;
-        } else{
+        } else {
             modal_img.src = "../pictures/standard-book-cover.jpg";
 
         }
@@ -378,10 +434,10 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
         // console.error("Cím: ", response.data[0].title);
         modal_author.innerText = `${response.data[0].firstName} ${response.data[0].lastName}`;
         modal_pages.innerText = `${response.data[0].pagesNumber}`;
-        
-        if(response.data[0].rating){
+
+        if (response.data[0].rating) {
             modal_ranking.innerText = `${response.data[0].rating}`;
-        }else{
+        } else {
             modal_ranking.innerText = "-";
         }
 
@@ -464,7 +520,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
         <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
         `
     } else {
-       
+
         console.log(sectionName, " Medium Card Cover book path: ", mediumCover);
 
         mediumC_PicDiv.innerHTML = `
@@ -478,7 +534,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
 
     mediumC_btn.addEventListener('click', (e) => {
         e.preventDefault();
-        
+
         if (response.data[0].coverImage != "Ez a kép elérési útja") {
             console.log("Kép elérési útja: " + response.data[0].coverImage);
             modal_img.src = `../${response.data[0].coverImage}.jpg`;
@@ -489,8 +545,8 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
         modal_title.innerText = `${response.data[0].title}`;
         modal_author.innerText = `${response.data[0].firstName} ${response.data[0].lastName}`;
         modal_pages.innerText = `${response.data[0].pagesNumber}`;
-        
-        if(response.data[0].rating) {
+
+        if (response.data[0].rating) {
             modal_ranking.innerText = `${response.data[0].rating}`;
         } else {
             modal_ranking.innerText = "-";
@@ -502,7 +558,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
 
     if (dataCount >= 4) {
         for (let i = 1; i <= 4; i++) {
-            if(response.data[i].coverImage != "Ez a kép elérési útja") {
+            if (response.data[i].coverImage != "Ez a kép elérési útja") {
                 firstRow.innerHTML += `
                     <div class="col-3">
                         <div class="cover-photo">
@@ -532,7 +588,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
         }
 
         for (let i = 5; i < dataCount; i++) {
-            if(response.data[i].coverImage != "Ez a kép elérési útja") {
+            if (response.data[i].coverImage != "Ez a kép elérési útja") {
                 secondRow.innerHTML += `
                     <div class="col-3">
                         <div class="cover-photo">
@@ -587,22 +643,22 @@ function loadModalData(url, title, firstName, lastName, description, language, r
 
     if (url != "Ez a kép elérési útja") {
         modal_img.src = `../${url}.jpg`;
-    }else{
+    } else {
         modal_img.src = "../pictures/standard-book-cover.jpg";
     }
 
     modal_title.innerText = `${title}`;
     modal_author.innerText = `${firstName} ${lastName}`;
     modal_pages.innerText = `${pages}`;
-    if(rating){
+    if (rating) {
         modal_ranking.innerText = `${rating}`;
-    }else{
+    } else {
         modal_ranking.innerText = "-";
     }
 
     modal_language.innerText = `${language}`;
     modal_desc.innerText = `${description}`;
-    
+
 }
 
 

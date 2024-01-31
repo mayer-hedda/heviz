@@ -425,13 +425,13 @@ nav {
 }
 
 footer {
-
+    
     border-top: 0.094rem solid var(--dash-color);
     background-color: var(--footer-bg-color);
     padding-top: 5%;
     padding-right: 5%;
     padding-left: 5%;
-
+    height: 300px;
 }
 
 footer h3 {

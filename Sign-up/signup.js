@@ -92,7 +92,7 @@ const datepicker = document.getElementById("datepicker");
 const inputCompany = document.getElementById("inputCompany");
 const inputPwd = document.getElementById("inputPwd");
 const inputPwdAgain = document.getElementById("inputPwdAgain");
-const checkAszf = document.getElementById("check-Aszf");
+const checkAszf = document.getElementById("checkAszf");
 
 //*Error divs
 let firstError = document.getElementById("firstError");
@@ -724,7 +724,7 @@ function GeneralEvents() {
         lastPwdError.innerHTML = "";
     })
 
-    inputPwdAgain.addEventListener("focusout", (e) => {
+    inputPwdAgain.addEventListener('input', (e) => {
         e.preventDefault();
         g_pwd2 = inputPwdAgain.value;
         PwdAgainValid = matchPwd(g_pwd1, g_pwd2);
@@ -888,7 +888,7 @@ function PublisherEvents() {
     })
 
     // Button function called in this event
-    inputPwdAgain.addEventListener("focusout", (e) => {
+    inputPwdAgain.addEventListener("input", (e) => {
         e.preventDefault();
         p_pwd2 = inputPwdAgain.value;
         PwdAgainValid = matchPwd(p_pwd1, p_pwd2);
