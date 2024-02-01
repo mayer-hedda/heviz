@@ -42,14 +42,15 @@ async function publisherRegistration(raw) {
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/publisherRegistration", requestOptions);
         
-        if (response.status == 200 || response.status == 409) {
-            return { status: response.status }
+        if (response.status == 422) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
         }
+
+        return { status: response.status }
         
-        return {
-            status: response.status,
-            data: await response.json()
-        }
     } catch (error) {
         return { error: error };
     }
@@ -98,14 +99,14 @@ async function generalRegistration(raw) {
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/generalRegistration", requestOptions);
         
-        if (response.status == 200 || response.status == 409) {
-            return { status: response.status }
+        if (response.status == 422) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
         }
         
-        return {
-            status: response.status,
-            data: await response.json()
-        }
+        return { status: response.status }
     } catch (error) {
         return { error: error }
     }
@@ -147,10 +148,14 @@ async function login(raw) {
 
         localStorage.setItem("Token", data.jwt);
 
-        return {
-            status: response.status,
-            data: await response.json()
-        };
+        if(response.status == 200 || response.status == 422) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
+        }
+
+        return { status: response.status }
     } catch (error) {
         return { error: error };
     }
@@ -195,12 +200,14 @@ async function token() {
                 status: response.status,
                 data: await response.json()
             }
+        } else if(response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
         }
 
-        return {
-            status: response.status,
-            data: await response.text()
-        }
+        return { status: response.status }
     } catch (error) {
         return { error: error }
     }
@@ -1015,12 +1022,14 @@ async function getFeedPosts() {
                 status: response.status,
                 data: await response.json()
             }
+        } else if(response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
         }
 
-        return {
-            status: response.status,
-            data: await response.text()
-        }
+        return { status: response.status }
     } catch (error) {
         return { error: error }
     }
@@ -1061,12 +1070,14 @@ async function getRecommandedUsers() {
                 status: response.status,
                 data: await response.json()
             }
+        } else if(response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
         }
 
-        return {
-            status: response.status,
-            data: await response.text()
-        }
+        return { status: response.status }
     } catch (error) {
         return { error: error }
     }
@@ -1128,12 +1139,14 @@ async function addCategoryInterest(raw) {
                 status: response.status,
                 data: await response.text()
             }
+        } else if(response.status == 200 || response.status == 422) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
         }
 
-        return {
-            status: response.status,
-            data: await response.json()
-        }
+        return { status: response.status }
     } catch (error) {
         return { error: error }
     }
@@ -1174,12 +1187,14 @@ async function getAllCategory() {
                 status: response.status,
                 data: await response.text()
             }
+        } else if(response.status == 200) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
         }
 
-        return {
-            status: response.status,
-            data: await response.json()
-        }
+        return { status: response.status }
     } catch (error) {
         return { error: error }
     }
@@ -1433,12 +1448,14 @@ async function getUserDetails(raw) {
                 status: response.status,
                 data: await response.text()
             }
+        } else if(response.status == 200 || response.status == 422) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
         }
 
-        return {
-            status: response.status,
-            data: await response.json()
-        }
+        return { status: response.status }
     } catch (error) {
         return { error: error }
     }
@@ -1501,12 +1518,14 @@ async function getUserBooks(raw) {
                 status: response.status,
                 data: await response.text()
             }
+        } else if(response.status == 200 || response.status == 422) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
         }
 
-        return {
-            status: response.status,
-            data: await response.json()
-        }
+        return { status: response.status }
     } catch (error) {
         return { error: error }
     }
@@ -1562,12 +1581,14 @@ async function getUserPosts(raw) {
                 status: response.status,
                 data: await response.text()
             }
+        } else if(response.status == 200 || response.status == 422) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
         }
 
-        return {
-            status: response.status,
-            data: await response.json()
-        }
+        return { status: response.status }
     } catch (error) {
         return { error: error }
     }
@@ -1966,10 +1987,14 @@ async function getActiveHelpCenter() {
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/helpcenter/getActiveHelpCenter", requestOptions);
 
-        return {
-            status: response.status,
-            data: await response.json()
+        if(response.status == 200) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
         }
+
+        return { status: response.status }
     } catch(error) {
         return { error: error }
     }
