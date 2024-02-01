@@ -223,7 +223,7 @@ function upTo3(value, inputName, inputId, errorDiv) {
  */
 
 function validateEmail(emailValue) {
-    let allowedChars =  /^[a-z1-9@.]+$/;
+    let allowedChars = /^[a-z1-9@.]+$/;
     //* to check @ character
     const specReg = new RegExp("(?=.*[@])");
     if (specReg.test(emailValue) == false) {
@@ -688,7 +688,7 @@ function GeneralEvents() {
                 e.target.style.background = "rgb(255, 214, 220)";
                 e.target.style.borderColor = "rgb(243, 82, 93)";
                 user_chars = false;
-            }else{
+            } else {
                 user_chars = true;
                 e.target.style.background = "rgb(241, 255, 231)";
                 e.target.style.borderColor = "rgb(98, 173, 107)";
@@ -899,7 +899,7 @@ function PublisherEvents() {
                 e.target.style.background = "rgb(255, 214, 220)";
                 e.target.style.borderColor = "rgb(243, 82, 93)";
                 user_chars = false;
-            }else{
+            } else {
                 user_chars = true;
                 e.target.style.background = "rgb(241, 255, 231)";
                 e.target.style.borderColor = "rgb(98, 173, 107)";
@@ -1043,20 +1043,19 @@ submitButton.addEventListener("click", async (e) => {
             };
 
             console.log("Megnyomtad a gombot és elküldted az adatot");
-            const responseGen = await publisherRegistration(postData);   //itt hívjuk meg az endpointot
-            console.log(responseGen.status); //kiírja azt az adatot amit elküldött a backendnek
+            const responsePub = await publisherRegistration(postData);   //itt hívjuk meg az endpointot
+            console.log(responsePub.status); //kiírja azt az adatot amit elküldött a backendnek
 
-            switch (responseGen.status) {
-                case 200:
-                    submitButton.setAttribute("onclick", "window.location.href='../Log-in/login.html'");
-                    break;
+            if (responsePub.status == 200) {
 
-                case 409:
-                    alert("Error 409: Unsuccessfully registration");
-                    break;
+                window.location.href = "../Log-in/login.html";
 
-                case 422:
-                    alert("Error 422: Please fill in the fields correctly.")
+            } else if (responsePub.status == 409) {
+                alert("Error 409: Unsuccessfully registration");
+            } else if (responsePub.status == 422) {
+                alert("Error 422: Please fill in the fields correctly.")
+            } else {
+                alert(responsePub.status + ": Unexpected problem.");
             }
 
         } else {
@@ -1102,19 +1101,18 @@ submitButton.addEventListener("click", async (e) => {
             const responseGen = await generalRegistration(postData);
             console.log(responseGen.status == 200);
 
-            if (await responseGen.status == 200) {
-                submitButton.addEventListener("click", function() {
-                   
-                    window.location.href = "../Log-in/login.html";
-                });
-            }else if(responseGen.status == 409){
+            if (responseGen.status == 200) {
+
+                window.location.href = "../Log-in/login.html";
+
+            } else if (responseGen.status == 409) {
                 alert("Error 409: Unsuccessfully registration");
-            }else if (responseGen.status == 422){
+            } else if (responseGen.status == 422) {
                 alert("Error 422: Please fill in the fields correctly.")
-            }else{
+            } else {
                 alert(responseGen.status + ": Unexpected problem.");
             }
-            
+
 
         }
     } else {
