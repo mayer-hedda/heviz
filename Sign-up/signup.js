@@ -103,7 +103,7 @@ let birthError = document.getElementById("birthError");
 let companyError = document.getElementById("companyError");
 let firstPwdError = document.getElementById("firstPwdError");
 let lastPwdError = document.getElementById("lastPwdError");
-let checkbox = document.getElementById("check-Aszf");
+let checkbox = document.getElementById("checkAszf");
 let AszfError = document.getElementById("AszfError");
 
 //* Button
@@ -112,22 +112,27 @@ const submitButton = document.getElementById("submitButton");
 //*Boolean variables 
 let FirstnameValid = false;  // call this in the eventListener --> activating the button
 let LastnameValid = false;  // call this in the eventListener  --> activating the button
+
+let user_upto3 = false;
+let user_chars = false;
 let UsernameValid = false;  // call this in the eventListener  --> activating the button
 
 let fp_email = false;       // this is for the validation of the first part of email. (before @)
 let lp_email = false;      // this is for the validation of the last part of email    (after @)
 let at_symbol = false;      // this is for the validation of the @ symbol.
+let chars_email = false;
 let EmailValid = false;    // this for activating the button.
+
 
 let DateValid = false;     // this for activating the button.
 let CompanyValid = false;
 let PwdValid = false;
 let PwdAgainValid = false;
-let AszfValid = false;
+
 
 //* INVALID CHARACTERS IN USERNAME
 const u_invalidC = new RegExp("(?=.*[-?!%#*,(`^ˇ˘°˛˙´˝¨;/:><@{}\"\\\\\\[\\]()])");   //This characters are not allowed in the username
-
+let u_abcCahrs = /^[a-z1-9]+$/;
 
 
 //######## VERIFICATION OF VALUES ######## 
@@ -170,6 +175,7 @@ function upTo3(value, inputName, inputId, errorDiv) {
 }
 
 
+
 /**
  * Documentation
  * -------------
@@ -177,6 +183,7 @@ function upTo3(value, inputName, inputId, errorDiv) {
  * and runs tests on that value. 
  * Three predefined Boolean variables are used in the tests. Returning true is 
  * only possible if all three variables are true when the function ends.
+ * We only alowed the english ABC characters (lower or uppercase)
  * 
  * Booleans:
  * ---------
@@ -190,6 +197,9 @@ function upTo3(value, inputName, inputId, errorDiv) {
  *   - Yes, it does: at_symbol = true.
  *   - No, it doesn't: at_symbol = false, and changes the background 
  *     and border of the input field to red.
+ * 
+ * How many @ characters are included?
+ *  - We only alow one @ character in the email address
  * 
  * How many characters are before the @ character?
  *   - Only runs if the value contains the @ character.
@@ -213,7 +223,7 @@ function upTo3(value, inputName, inputId, errorDiv) {
  */
 
 function validateEmail(emailValue) {
-
+    let allowedChars =  /^[a-z1-9@.]+$/;
     //* to check @ character
     const specReg = new RegExp("(?=.*[@])");
     if (specReg.test(emailValue) == false) {
@@ -225,66 +235,86 @@ function validateEmail(emailValue) {
 
     } else if (specReg.test(emailValue) == true) {
 
-        at_symbol = true;
-        //It checks what is in front of the @.
-        const firsPartOfEmail = emailValue.slice(0, emailValue.indexOf('@'));
-        console.log("Include @. The value before @: " + firsPartOfEmail);
+        const atCount = (emailValue.match(/@/g) || []).length; // Count @ symbols in emailValue
 
-        if (firsPartOfEmail == "") {
-            emailError.innerHTML = `<p>Email address cannot empty before "@" symbol.</p>`;
+
+        at_symbol = true;
+        if (atCount !== 1) {
+            emailError.innerHTML = `<p>Email address must contain exactly one "@" symbol.</p>`;
+            console.log("Email address must contain exactly one @ symbol. Input:" + emailValue);
             inputEmail.style.background = "rgb(255, 214, 220)";
             inputEmail.style.borderColor = "rgb(243, 82, 93)";
-            console.log("The first part of the email is empty. Input: " + emailValue);
-            fp_email = false;
+            return false;
         } else {
+            //It checks what is in front of the @.
+            const firsPartOfEmail = emailValue.slice(0, emailValue.indexOf('@'));
+            console.log("Include @. The value before @: " + firsPartOfEmail);
 
-            if (firsPartOfEmail.length < 4) {
-                emailError.innerHTML = `<p>Please ensure you have at least 4 characters before the "@" symbol.</p>`;
-
+            if (firsPartOfEmail == "") {
+                emailError.innerHTML = `<p>Email address cannot empty before "@" symbol.</p>`;
                 inputEmail.style.background = "rgb(255, 214, 220)";
                 inputEmail.style.borderColor = "rgb(243, 82, 93)";
-                console.log("First part of email length is not enough. Value: " + firsPartOfEmail);
+                console.log("The first part of the email is empty. Input: " + emailValue);
                 fp_email = false;
             } else {
+                if (allowedChars.test(emailValue) == true) {
+                    chars_email = true;
+                    if (firsPartOfEmail.length < 4) {
+                        emailError.innerHTML = `<p>Please ensure you have at least 4 characters before the "@" symbol.</p>`;
 
-                fp_email = true;
-
-                // Checks that the part after @ matches.
-                const lastPartOfEmail = emailValue.slice(emailValue.indexOf('@') + 1);
-                console.log("Value after @: " + lastPartOfEmail);
-
-                // Checks that the part after the @ contains a period.
-                const dotReg = new RegExp("(?=.*[.])");
-
-                if (dotReg.test(lastPartOfEmail) == true) {
-                    console.log("last part of email include period");
-                    console.log("Last part of email pass. Value: " + lastPartOfEmail);
-
-                    // Make sure that the part in front of the period is at least 2 characters in length.
-                    const beforeDot = lastPartOfEmail.slice(0, lastPartOfEmail.indexOf('.'));
-                    console.log("Value before dot: " + beforeDot);
-
-                    if (beforeDot == "" || beforeDot.length < 2) {
-                        console.log("Last part of email before dot is not enough. Last part: " + lastPartOfEmail);
-                        emailError.innerHTML = `<p>Please ensure you have at least 2 characters before the " . " (dot) symbol.</p>`;
-                        lp_email = false;
                         inputEmail.style.background = "rgb(255, 214, 220)";
                         inputEmail.style.borderColor = "rgb(243, 82, 93)";
+                        console.log("First part of email length is not enough. Value: " + firsPartOfEmail);
+                        fp_email = false;
                     } else {
-                        lp_email = true;
-                        inputEmail.style.background = "rgb(241, 255, 231)";
-                        inputEmail.style.borderColor = "rgb(98, 173, 107)";
-                        console.log("Last part of email is complied. Input: " + emailValue);
+
+                        fp_email = true;
+
+                        // Checks that the part after @ matches.
+                        const lastPartOfEmail = emailValue.slice(emailValue.indexOf('@') + 1);
+                        console.log("Value after @: " + lastPartOfEmail);
+
+                        // Checks that the part after the @ contains a period.
+                        const dotReg = new RegExp("(?=.*[.])");
+
+                        if (dotReg.test(lastPartOfEmail) == true) {
+                            console.log("last part of email include period");
+                            console.log("Last part of email pass. Value: " + lastPartOfEmail);
+
+                            // Make sure that the part in front of the period is at least 2 characters in length.
+                            const beforeDot = lastPartOfEmail.slice(0, lastPartOfEmail.indexOf('.'));
+                            console.log("Value before dot: " + beforeDot);
+
+                            if (beforeDot == "" || beforeDot.length < 2) {
+                                console.log("Last part of email before dot is not enough. Last part: " + lastPartOfEmail);
+                                emailError.innerHTML = `<p>Please ensure you have at least 2 characters before the " . " (dot) symbol.</p>`;
+                                lp_email = false;
+                                inputEmail.style.background = "rgb(255, 214, 220)";
+                                inputEmail.style.borderColor = "rgb(243, 82, 93)";
+                            } else {
+                                lp_email = true;
+                                inputEmail.style.background = "rgb(241, 255, 231)";
+                                inputEmail.style.borderColor = "rgb(98, 173, 107)";
+                                console.log("Last part of email is complied. Input: " + emailValue);
+                            }
+
+
+                        } else {
+                            console.log("Last part of email doesn't include dot. Input: " + emailValue);
+                            emailError.innerHTML = `<p>Please include the '.' (dot) symbol in your email address.</p>`;
+                            inputEmail.style.background = "rgb(255, 214, 220)";
+                            inputEmail.style.borderColor = "rgb(243, 82, 93)";
+                            lp_email = false;
+                        }
                     }
-
-
                 } else {
-                    console.log("Last part of email doesn't include dot. Input: " + emailValue);
-                    emailError.innerHTML = `<p>Please include the '.' (dot) symbol in your email address.</p>`;
+                    emailError.innerHTML = `<p>The email address must contain only the English alphabet, a dot (.) and the at (@) symbol.</p>`;
                     inputEmail.style.background = "rgb(255, 214, 220)";
                     inputEmail.style.borderColor = "rgb(243, 82, 93)";
-                    lp_email = false;
+                    console.error("Email address contains something that not allowed");
+                    chars_email = false;
                 }
+
             }
         }
 
@@ -296,7 +326,7 @@ function validateEmail(emailValue) {
         console.log("Email error: doesn't include @. Value:" + emailValue);
     }
 
-    if (fp_email == true && lp_email == true && at_symbol == true) {
+    if (fp_email == true && lp_email == true && at_symbol == true && chars_email == true) {
         return true;
     } else {
         return false;
@@ -454,7 +484,7 @@ function validateDate(date) {
 /**
  * Documentation
  * -------------
- * This function takes and checks the first password field's value, 
+ * This function takes and checks the password field's value, 
  * then returns true or false.
  * 
  * If the input value is empty:
@@ -474,44 +504,46 @@ function validateDate(date) {
  *           - Changes the background and border of the input field to red.
  *           - Returns false.
  * 
- * @param {Variable} pwdValue - the variable containing the value of the first password field
+ * @param {Variable} pwdValue - the variable containing the value of the password field
+ * @param {Variable} pwdInput - the variable containing the input field. Its for setting the red or green border and background
+ * @param {Variable} errorField - Its for pasting error messages to the user
  * @returns {Boolean}
  */
 
-function validateFirstPwd(pwdValue) {
+function validatePwd(pwdValue, pwdInput, errorField) {
     const upperCaseReg = new RegExp("(?=.*[A-Z])");
     const lowerCaseReg = new RegExp("(?=.*[a-z])");
     const numReg = new RegExp("(?=.*[0-9])");
     const specReg = new RegExp("(?=.*[!@#$%^&=?.,><*])");
 
     if (pwdValue == "") {
-        firstPwdError.innerHTML = `<p>Password field cannot be empty</p>`;
-        e.target.style.background = "rgb(255, 214, 220)";
-        e.target.style.borderColor = "rgb(243, 82, 93)";
-        console.log("The first pwd field is empty.");
+        errorField.innerHTML = `<p>Password field cannot be empty</p>`;
+        pwdInput.target.style.background = "rgb(255, 214, 220)";
+        pwdInput.target.style.borderColor = "rgb(243, 82, 93)";
+        console.log("The" + pwdInput + " pwd field is empty.");
         return false;
 
     } else if (pwdValue.length < 8) {
 
-        firstPwdError.innerHTML = `<p>Password must be at least 8 characters long.</p>`;
-        inputPwd.style.background = "rgb(255, 214, 220)";
-        inputPwd.style.borderColor = "rgb(243, 82, 93)";
-        console.log("The first pwd is less than 8 characters. Input: " + pwdValue);
+        errorField.innerHTML = `<p>Password must be at least 8 characters long.</p>`;
+        pwdInput.style.background = "rgb(255, 214, 220)";
+        pwdInput.style.borderColor = "rgb(243, 82, 93)";
+        console.log("The" + pwdInput + " pwd is less than 8 characters. Input: " + pwdValue);
         return false;
 
     } else {
         // It checks for uppercase, lowercase, numbers and special characters.
         if (upperCaseReg.test(pwdValue) == true && lowerCaseReg.test(pwdValue) == true && numReg.test(pwdValue) == true && specReg.test(pwdValue) == true) {
-            inputPwd.style.background = "rgb(241, 255, 231)";
-            inputPwd.style.borderColor = "rgb(98, 173, 107)";
-            console.log("First pwd is complied. Input: " + pwdValue);
+            pwdInput.style.background = "rgb(241, 255, 231)";
+            pwdInput.style.borderColor = "rgb(98, 173, 107)";
+            console.log("The" + pwdInput + " is complied. Input: " + pwdValue);
             return true;
 
         } else {
-            firstPwdError.innerHTML = `<p>Password must contain at least 1 uppercase, 1 lowercase, 1 number and 1 special character.</p>`;
-            inputPwd.style.background = "rgb(255, 214, 220)";
-            inputPwd.style.borderColor = "rgb(243, 82, 93)";
-            console.log("Something is missing from the first pwd. Input: " + pwdValue);
+            errorField.innerHTML = `<p>Password must contain at least 1 uppercase, 1 lowercase, 1 number and 1 special character.</p>`;
+            pwdInput.style.background = "rgb(255, 214, 220)";
+            pwdInput.style.borderColor = "rgb(243, 82, 93)";
+            console.log("Something is missing from the " + pwdInput + ". Input: " + pwdValue);
             return false;
         }
     }
@@ -541,28 +573,32 @@ function validateFirstPwd(pwdValue) {
  */
 function matchPwd(pwdValue, pwdAgainValue) {
 
-    if (pwdAgainValue == "") {
-        lastPwdError.innerHTML = `<p>Password field cannot be empty</p>`;
-        e.target.style.background = "rgb(255, 214, 220)";
-        e.target.style.borderColor = "rgb(243, 82, 93)";
-        console.log("Second pwd field is empty.");
-        return false;
-
-    } else if (pwdValue != pwdAgainValue) {
+    if (pwdValue != pwdAgainValue) {
         console.log("Passwords doesn't match");
         lastPwdError.innerHTML = `<p>The passwords doesn't match.</p>`;
         inputPwdAgain.style.background = "rgb(255, 214, 220)";
         inputPwdAgain.style.borderColor = "rgb(243, 82, 93)";
+        const proba = document.getElementById('proba');
         return false;
 
     } else {
         inputPwdAgain.style.background = "rgb(241, 255, 231)";
         inputPwdAgain.style.borderColor = "rgb(98, 173, 107)";
+        lastPwdError.innerHTML = "";
         console.log("Passwords are match. Inputs: " + pwdValue + ", " + pwdAgainValue);
         return true;
     }
 }
 
+function validateCheckbox(checkbox) {
+
+    if (checkbox.checked) {
+        return true;
+    } else {
+        return false;
+    }
+
+}
 
 
 //? ADD EVENT LISTENERS
@@ -646,7 +682,24 @@ function GeneralEvents() {
             console.log("Username field is empty.");
 
         } else {
-            UsernameValid = upTo3(g_userName, "Username", inputUser, userError);
+            user_upto3 = upTo3(g_userName, "Username", inputUser, userError);
+            if (u_abcCahrs.test(g_userName) == false) {
+                userError.innerHTML = `<p>Please use the lowecase English alphabetical characters.</p>`;
+                e.target.style.background = "rgb(255, 214, 220)";
+                e.target.style.borderColor = "rgb(243, 82, 93)";
+                user_chars = false;
+            }else{
+                user_chars = true;
+                e.target.style.background = "rgb(241, 255, 231)";
+                e.target.style.borderColor = "rgb(98, 173, 107)";
+            }
+
+            if (user_chars == true && user_upto3 == true) {
+                UsernameValid = true;
+            } else {
+                UsernameValid = false;
+            }
+
             General_Submit_Activate(submitButton);
         }
     })
@@ -712,7 +765,7 @@ function GeneralEvents() {
     inputPwd.addEventListener("focusout", (e) => {
         e.preventDefault();
         g_pwd1 = inputPwd.value;
-        PwdValid = validateFirstPwd(g_pwd1);
+        PwdValid = validatePwd(g_pwd1, inputPwd, firstPwdError);
         General_Submit_Activate(submitButton);
     })
 
@@ -722,6 +775,19 @@ function GeneralEvents() {
         e.target.style.background = "";
         e.target.style.border = "";
         lastPwdError.innerHTML = "";
+    })
+
+    inputPwdAgain.addEventListener('focusout', (e) => {
+        e.preventDefault();
+        if (inputPwdAgain.value == "") {
+            lastPwdError.innerHTML = `<p>Password field cannot be empty</p>`;
+            e.target.style.background = "rgb(255, 214, 220)";
+            e.target.style.borderColor = "rgb(243, 82, 93)";
+            console.log("Second pwd field is empty.");
+            PwdAgainValid = false;
+        } else {
+            PwdValid2 = validatePwd(inputPwdAgain.value, inputPwdAgain, lastPwdError);
+        }
     })
 
     inputPwdAgain.addEventListener('input', (e) => {
@@ -735,6 +801,13 @@ function GeneralEvents() {
 
     checkbox.addEventListener("change", (e) => {
         e.preventDefault();
+        console.log("Aszf checkbox: " + checkbox.value);
+        if (checkbox.value == true) {
+            AszfValid = true;
+
+        } else {
+            AszfValid = false;
+        }
         General_Submit_Activate(submitButton);
         console.log("General events are completed.");
     })
@@ -820,7 +893,24 @@ function PublisherEvents() {
             console.log("Username field is empty.");
 
         } else {
-            UsernameValid = upTo3(p_userName, "Username", inputUser, userError);
+            user_upto3 = upTo3(p_userName, "Username", inputUser, userError);
+            if (u_abcCahrs.test(p_userName) == false) {
+                userError.innerHTML = `<p>Please use the lowecase English alphabetical characters.</p>`;
+                e.target.style.background = "rgb(255, 214, 220)";
+                e.target.style.borderColor = "rgb(243, 82, 93)";
+                user_chars = false;
+            }else{
+                user_chars = true;
+                e.target.style.background = "rgb(241, 255, 231)";
+                e.target.style.borderColor = "rgb(98, 173, 107)";
+            }
+
+            if (user_chars == true && user_upto3 == true) {
+                UsernameValid = true;
+            } else {
+                UsernameValid = false;
+            }
+
             Publisher_Submit_Activate(submitButton);
         }
     })
@@ -907,11 +997,14 @@ submitButton.addEventListener("click", async (e) => {
     e.preventDefault();
     var postData;
 
+    var checkValidation = validateCheckbox(checkbox);
+
+    if (checkValidation == true) {
+
+        // submitButton.setAttribute("onclick", "window.location.href='../Log-in/login.html'");
+        if (isPublisher == true) {
 
 
-    if (isPublisher == true) {
-
-        if (AszfValid == true) {
             inputUser.value = '';
             inputFirst.value = '';
             inputLast.value = '';
@@ -949,17 +1042,25 @@ submitButton.addEventListener("click", async (e) => {
                 "aszf": true
             };
 
-            const response = publisherRegistration(postData);   //itt hívjuk meg az endpointot
-            console.log('Válasz a backendtől: ' + response); //kiírja azt az adatot amit elküldött a backendnek
+            console.log("Megnyomtad a gombot és elküldted az adatot");
+            const responseGen = await publisherRegistration(postData);   //itt hívjuk meg az endpointot
+            console.log(responseGen.status); //kiírja azt az adatot amit elküldött a backendnek
 
-        }
+            switch (responseGen.status) {
+                case 200:
+                    submitButton.setAttribute("onclick", "window.location.href='../Log-in/login.html'");
+                    break;
 
+                case 409:
+                    alert("Error 409: Unsuccessfully registration");
+                    break;
 
-    } else {
+                case 422:
+                    alert("Error 422: Please fill in the fields correctly.")
+            }
 
+        } else {
 
-
-        if (AszfValid == true) {
             inputUser.value = '';
             inputFirst.value = '';
             inputLast.value = '';
@@ -997,18 +1098,34 @@ submitButton.addEventListener("click", async (e) => {
                 "aszf": true
             };
 
-            const response = generalRegistration(postData);
-            console.log('Válasz a backendtől:', response);
+            console.log("Megnyomtad a gombot és elküldted az adatot");
+            const responseGen = await generalRegistration(postData);
+            console.log(responseGen.status == 200);
+
+            if (await responseGen.status == 200) {
+                submitButton.addEventListener("click", function() {
+                   
+                    window.location.href = "../Log-in/login.html";
+                });
+            }else if(responseGen.status == 409){
+                alert("Error 409: Unsuccessfully registration");
+            }else if (responseGen.status == 422){
+                alert("Error 422: Please fill in the fields correctly.")
+            }else{
+                alert(responseGen.status + ": Unexpected problem.");
+            }
+            
+
         }
+    } else {
+        AszfError.innerHTML = `<p>You must agree to the terms and conditions.</p>`;
 
     }
-})
 
-submitButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    //? mezők ürítése
 
 })
+
+
 
 /**
  * Documentation
@@ -1021,22 +1138,12 @@ submitButton.addEventListener('click', (e) => {
  * @param {Variable} submitButton - The variable that's contains the submit button's id.
  */
 function General_Submit_Activate(submitButton) {
-    if (checkAszf.checked) {
-        AszfError.innerHTML = "";
-        console.log("Checkbox checked");
-        AszfValid = true;
-    } else {
-        AszfError.innerHTML = `<p>You must agree to the terms and conditions.</p>`;
-        AszfValid = false;
-    }
-
-    if (UsernameValid == true &&
+    if (FirstnameValid == true &&
+        LastnameValid == true &&
+        UsernameValid == true &&
         EmailValid == true &&
         PwdValid == true &&
-        PwdAgainValid == true &&
-        AszfValid == true) {
-
-
+        PwdAgainValid == true) {
 
         console.log("Legyen aktív a btn");
         submitButton.disabled = false;
@@ -1054,14 +1161,6 @@ function General_Submit_Activate(submitButton) {
  */
 function Publisher_Submit_Activate(submitButton) {
 
-    if (checkAszf.checked) {
-        AszfError.innerHTML = "";
-        console.log("Checkbox checked");
-        AszfValid = true;
-    } else {
-        AszfError.innerHTML = `<p>You must agree to the terms and conditions.</p>`;
-        AszfValid = false;
-    }
 
     if (FirstnameValid == true &&
         LastnameValid == true &&
@@ -1069,8 +1168,7 @@ function Publisher_Submit_Activate(submitButton) {
         EmailValid == true &&
         CompanyValid == true &&
         PwdValid == true &&
-        PwdAgainValid == true &&
-        AszfValid == true) {
+        PwdAgainValid == true) {
 
 
         console.log("Legyen aktív a btn");

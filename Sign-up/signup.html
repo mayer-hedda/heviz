@@ -43,30 +43,31 @@
                 <div class="form-group col-md-6">
                     <!-- FIRST NAME -->
                     <label for="inputFirst">First name:</label>
-                    <input type="text" id="inputFirst" class="form-control inputs" placeholder="First name">
+                    <input type="text" id="inputFirst" class="form-control inputs" placeholder="First name" required>
                     <div class="error" id="firstError"></div> <!-- error message -->
                 </div>
 
                 <div class="form-group col-md-6">
                     <!-- LAST NAME -->
                     <label for="inputLast">Last name:</label>
-                    <input type="text" id="inputLast" class="form-control inputs" placeholder="Last name">
+                    <input type="text" id="inputLast" class="form-control inputs" placeholder="Last name" required>
                     <div class="error" id="lastError"></div> <!-- error message -->
                 </div>
             </div>
 
             <div class="form-group">
                 <!--? USERNAME -->
-                <div class="form-group" id="username">
+                <div class="form-group inputDiv" id="username">
                     <label for="inputUser">User name:</label>
-                    <input type="text" id="inputUser" class="form-control inputs" placeholder="somebody123">
+                    <input type="text" id="inputUser" class="form-control inputs" placeholder="somebody123" required>
                     <div class="error row" id="userError"></div> <!-- error message -->
                 </div>
 
                 <!--? EMAIL -->
                 <div class="form-group" id="email">
                     <label for="inputEmail">Email address:</label>
-                    <input type="email" id="inputEmail" class="form-control inputs" placeholder="example@gmail.com">
+                    <input type="email" id="inputEmail" class="form-control inputs" placeholder="example@gmail.com"
+                        required>
                     <div class="error" id="emailError"></div> <!-- error message -->
                 </div>
 
@@ -83,7 +84,7 @@
                 <div class="form-group" id="company" hidden>
                     <label for="inputCompany">Company name:</label>
                     <input type="text" id="inputCompany" class="form-control inputs"
-                        placeholder="Please enter a company name">
+                        placeholder="Please enter a company name" required>
                     <div class="error" id="companyError"></div> <!-- error message -->
                 </div>
 
@@ -92,7 +93,8 @@
             <div id="pwds" class="container">
                 <div class="form-group col-md-6">
                     <label for="inputPwd">Password:</label>
-                    <input type="password" id="inputPwd" class="form-control inputs" placeholder="Set password">
+                    <input type="password" id="inputPwd" class="form-control inputs" placeholder="Set password"
+                        required>
                     <div class="error" id="firstPwdError"></div> <!-- error message -->
                 </div>
 
@@ -100,16 +102,19 @@
                 <div class="form-group col-md-6">
                     <label for="inputPwdAgain">Password again:</label>
                     <input type="password" id="inputPwdAgain" class="form-control inputs"
-                        placeholder="Confirm your password">
-                    <div class="error" id="lastPwdError"></div> <!-- error message -->
+                        placeholder="Confirm your password" required>
+                    <div class="error" id="lastPwdError">
+                        
+                    </div> <!-- error message -->
 
                 </div>
             </div>
 
+            
             <!-- ÁSZF AND MORE-->
             <div class="text-center" id="ASZF">
                 <div class="form-group" id="aszf-checkbox">
-                    <input type="checkbox" id="checkAszf" checked style="margin-bottom: 5px!important;" required>
+                    <input type="checkbox" id="checkAszf" style="margin-bottom: 5px!important;" required>
                     <label id="checkLabel">I agree with terms and conditions.</label>
                 </div>
                 <div class="error" id="AszfError"></div> <!-- error message -->
@@ -125,8 +130,7 @@
 
             <!-- BUTTON -->
             <div class="form-group text-center" style="margin-bottom: 10%;">
-                <button disabled id="submitButton" type="submit" class="btn"
-                    onclick="window.location.href='../Log-in/login.html'">Sign Up</button>
+                <button disabled id="submitButton" type="submit" class="btn">Sign Up</button>
             </div>
         </form>
     </div>

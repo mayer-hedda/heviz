@@ -41,12 +41,12 @@ async function publisherRegistration(raw) {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/publisherRegistration", requestOptions);
-        const data = await response.json();
-
+        
         if (response.status == 200 || response.status == 409) {
             return { status: response.status }
         }
-
+        
+        const data = await response.json();
         return {
             status: response.status,
             data: data
@@ -98,12 +98,12 @@ async function generalRegistration(raw) {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/generalRegistration", requestOptions);
-        const data = await response.json();
-
+        
         if (response.status == 200 || response.status == 409) {
             return { status: response.status }
         }
-
+        
+        const data = await response.json();
         return {
             status: response.status,
             data: data
