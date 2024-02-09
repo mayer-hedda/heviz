@@ -6,6 +6,13 @@
     --page-color: rgb(247, 245, 236);
     --footer-bg-color: rgb(246, 227, 205);
     --card-bg: rgb(234, 215, 190);
+    --border-color: rgb(129, 105, 117);
+    --label: rgb(34, 34, 36);
+    /* --dash-color: rgb(129, 105, 117); */
+}
+
+:read-only:after {
+    border: none;
 }
 
 /* ------- Fonts ----------- */
@@ -89,7 +96,6 @@
     background: #ACA09A;
 }
 
-
 html,
 body {
     background-color: var(--page-color);
@@ -124,8 +130,6 @@ body {
     padding-right: 30px;
 }
 
-
-
 /* -------- Second section --------- */
 #s2 {
     display: flex;
@@ -143,7 +147,8 @@ body {
     margin-left: -70px;
 }
 
-#edit-picture, #edit-coverColor {
+#edit-picture,
+#edit-coverColor {
     background-color: #e4d9cacd;
     padding: 15px;
     border: none;
@@ -194,38 +199,48 @@ body {
     font-family: 'Poppins-Regular', sans-serif;
 }
 
-#follow-btn-div{
+#follow-btn-div {
     margin-left: auto;
     margin-right: 200px;
     margin-top: 20px;
 }
 
-#follow-btn{
+#follow-btn {
     font-size: 22px;
     font-family: 'Montserrat-Medium', sans-serif;
-    background-color: #915677;
-    color: white;
+    background-color: rgb(145, 86, 119);
+    color: rgb(255, 255, 255);
     letter-spacing: 1px;
     padding: 10px 25px;
-    border: none;
+    border: solid rgb(145, 86, 119);
     cursor: pointer;
     transition: color 0.5s ease;
     transition: background-color 0.8s ease;
 }
 
-#follow-btn:hover{
-    transition: color 0.5s ease;
-    transition: background-color 0.8s ease;
-    background-color: var(--primary);
-    color: var(--primary-text);
+/* azért van ennyi important mert a class esetében valamiért nem érzékeli a módosításokat
+Ha találok rá jobb megoldást javítom :)  */
+#follow-btn:hover,
+.followed:hover {
+    transition: color 0.5s ease !important;
+    transition: background-color 0.8s ease !important;
+    transition: border-color 0.8s ease !important;
+    background-color: var(--primary) !important;
+    color: var(--primary-text) !important;
+    border-color: var(--primary) !important;
 }
 
-#edit-coverCol-div{
+.followed {
+    background: transparent !important;
+    color: rgb(44, 24, 16) !important;
+    border: solid var(--border-color) !important;
+}
+
+#edit-coverCol-div {
     margin-left: auto;
     margin-right: 100px;
     margin-top: -20px;
 }
-
 
 /* -------- Third section --------- */
 #s3 {
@@ -238,7 +253,6 @@ body {
 }
 
 /* ----- personal infos ---------- */
-
 #personal-infos {
     padding-left: 35px;
 }
@@ -249,8 +263,6 @@ body {
     border-radius: 30px;
     margin-bottom: 50px;
     width: 600px;
-    box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25) inset, -4px -4px 4px 0px rgba(247, 245, 236, 0.401) inset;
-    
 }
 
 .intro-h2,
@@ -299,6 +311,13 @@ body {
     margin-bottom: 0px;
 }
 
+.info-edit-active {
+    background-color: var(--page-color);
+    padding: 10px;
+    border: 1px solid rgb(184, 162, 173) !important;
+    border-radius: 10px;
+}
+
 .info-edit-div {
     display: flex;
     margin-left: auto;
@@ -345,6 +364,51 @@ body {
 #pb-header {
     display: flex;
     justify-content: space-evenly;
+}
+
+/* recom. profs */
+#recom-profs {
+    width: 400px;
+}
+
+.carousel-item.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+    background-color: black;
+    border-radius: 50px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 20px;
+}
+
+.profiles {
+    height: 200px;
+    width: 200px;
+    background-color: #d4beb2;
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.prof-pic {
+    height: 150px;
+    object-fit: cover;
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: 0px -2px 0px black;
+}
+
+.our-users-name {
+    font-size: 18px;
+    font-family: 'Montserrat-Medium', sans-serif;
+    margin-top: 8px;
+    color: var(--primary-text);
 }
 
 /* ----- Buttons for posts and books ---------- */
@@ -475,6 +539,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 50px;
 }
 
 .post-card {
@@ -616,7 +681,6 @@ body {
     display: block;
 }
 
-
 .share {
     margin-left: 0.625rem !important;
 }
@@ -628,31 +692,31 @@ body {
 }
 
 /* Profil picture popup */
-#profilePicture-popup .modal-header{
+#profilePicture-popup .modal-header {
     border: none;
 }
 
-#imgView{
+#imgView {
     border: dashed 1.5px #3a3a3a2c;
     border-radius: 10px;
     padding: 40px;
 }
 
-#add-photo-icon{
+#add-photo-icon {
     color: rgb(149, 150, 161);
     margin-bottom: 20px;
 }
 
-.uploadP{
+.uploadP {
     margin-bottom: 5px;
     color: rgb(69, 69, 82);
 }
 
-.uploadSpan{
+.uploadSpan {
     color: rgb(69, 69, 82);
 }
 
-#imgView{
+#imgView {
     width: 300px;
     height: 300px;
     object-fit: cover;
@@ -660,30 +724,224 @@ body {
     background-size: cover;
 }
 
-#profilePicture-popup .modal-footer{
+#profilePicture-popup .modal-footer {
     border: none;
 }
 
-.saveChanges-btn{
+.saveChanges-btn {
     background-color: var(--primary);
     color: var(--primary-text);
-    transition:  background-color 0.8s ease;
+    transition: background-color 0.8s ease;
 }
 
-.saveChanges-btn:hover{
+.saveChanges-btn:hover {
     background-color: var(--primary-hover);
     color: white;
     transition: background-color 0.8s ease;
 }
 
-.cancel-btn{
+.cancel-btn,
+.intro-cancel-btn {
     background-color: rgb(211, 211, 220);
     color: var(--primary-text);
-    transition:  background-color 0.8s ease;
+    transition: background-color 0.8s ease;
 }
 
-.cancel-btn:hover{
+.cancel-btn:hover,
+.intro-cancel-btn:hover {
     background-color: rgb(137, 137, 145);
     color: whitesmoke;
-    transition:  background-color 0.8s ease;
+    transition: background-color 0.8s ease;
+}
+
+/* settings */
+#settings-modal-content {
+    background-color: #D6C3AA;
+    height: 750px;
+}
+
+#settings-header {
+    border-bottom: none;
+}
+
+#settings-labels {
+    font-size: 25px !important;
+}
+
+#settings-body {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
+
+#options-panel {
+    border-right: solid 1px #846856b6;
+}
+
+.active-set {
+    background-color: #a38968;
+    font-size: 20px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin: 0px;
+    cursor: pointer;
+}
+
+.disabled-set {
+    font-size: 20px;
+    padding: 5px 10px;
+    margin: 0px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.disabled-set:hover {
+    background-color: #c4ac8e;
+    border-radius: 10px;
+}
+
+.actual-settings {
+    margin-left: 20px;
+}
+
+.save-and-cancel{
+    margin-top: 5px;
+}
+
+
+/* profile settings */
+.set-row {
+    margin-bottom: 20px;
+    border-bottom: solid 1px #846856b6;
+    padding-bottom: 20px;
+    height:  fit-content;
+}
+
+#set-username {
+    margin-top: 20px;
+}
+
+.inputGroup-divs {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.set-label {
+    margin-bottom: 5px;
+    font-size: 18px;
+    font-family: 'Poppins-Regular', sans-serif;
+    color: var(--label);
+}
+
+.set-inputs {
+    height: 30px;
+    width: 300px;
+    margin-top: 0px;
+    border-color: #33262154;
+    background-color: rgb(232, 221, 213);
+}
+
+.settings-editButton {
+    border: none;
+    background-color: #e4d9cacd;
+    padding: 2px 10px 7px;
+}
+
+#name-inputs {
+    display: flex;
+    flex-direction: row;
+}
+
+
+
+/* privacy settings */
+#privacy-settings-div{
+    padding-top: 10px;
+}
+
+.myswitch {
+    width: 200px;
+}
+
+.my-switch:not(:checked) {
+    width: 40px;
+    height: 20px;
+}
+
+.my-switch:not(:checked):focus {
+    width: 40px;
+    height: 20px;
+    border-color: rgb(196, 196, 196);
+}
+
+.my-switch:checked {
+    width: 40px;
+    height: 20px;
+    background-color: #B9848C;
+    border-color: #895372;
+}
+
+.form-switch{
+    margin-top: 20px;
+}
+
+.my-switch:focus{
+    border-right: none;
+    box-shadow: none;
+}
+
+.swiitch-label{
+    margin-left: 10px;
+    font-family: 'Poppins-Regular', sans-serif;
+    color: var(--label);
+    font-size: 20px;
+}
+
+/** --------------- FOOTER ---------------*/
+
+#footer-logo {
+    /* padding-left: 6%; */
+    display: flex;
+}
+
+footer {
+    border-top: solid 0.094rem rgb(129, 105, 117);
+    background-color: var(--footer-bg-color);
+    padding-top: 5%;
+    padding-right: 5%;
+    padding-left: 5%;
+    height: 300px;
+}
+
+footer h3 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+}
+
+footer ul {
+    list-style-type: none;
+}
+
+footer ul li {
+    font-size: 1.25rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+footer a {
+    color: var(--mostUsed-text-color);
+}
+
+footer a:hover {
+    color: #B43C82;
+}
+
+#copy-right-div {
+    float: right !important;
+}
+
+#copy-right {
+    font-size: small;
+    font-family: 'Poppins-Regular', sans-serif;
+
 }

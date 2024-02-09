@@ -38,7 +38,8 @@
 
                 </div>
 
-                <div class="nav-element" id="settings">
+                <div class="nav-element" id="settings" data-bs-toggle="modal" data-bs-target="#settings-modal">
+                    <!-- csak akkor jelenik meg ha a saját profilja, default értéke hidden -->
                     <button class="border-0 bg-transparent">
                         <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" fill="currentColor"
                             class="bi bi-gear" viewBox="0 0 16 16">
@@ -66,7 +67,8 @@
         </div>
 
         <div id="edit-pic-div" hidden> <!--Csak akkor látható ha a saját profilja-->
-            <button id="edit-picture" class="rounded-circle" data-bs-toggle="modal" data-bs-target="#profilePicture-popup">
+            <button id="edit-picture" class="rounded-circle" data-bs-toggle="modal"
+                data-bs-target="#profilePicture-popup">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pen"
                     viewBox="0 0 16 16">
                     <path
@@ -105,7 +107,8 @@
         </div>
 
         <div id="edit-coverCol-div" hidden> <!--Csak akkor látható ha a saját profilja-->
-            <button id="edit-coverColor" class="btn rounded-circle">
+            <button id="edit-coverColor" class="btn rounded-circle" data-bs-toggle="modal"
+                data-bs-target="#colorPicker">
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pen"
                     viewBox="0 0 16 16">
                     <path
@@ -119,19 +122,21 @@
 
     <section class="container-fluid" id="s3">
         <div class="content">
+            <!-- intros and recomm. prof.s -->
             <div class="col-6" id="personal-infos">
                 <div class="personal-card" id="introdution">
                     <h2 class="intro-h2">Introdution:</h2>
                     <div class="intro-text-div">
-                        <textarea class="h-auto intro-text border-0" readonly>Lorem ipsum dolor sit amet consectetur adipiscing, elit sollicitudin massa vestibulum dui facilisi habitant, tempor habitasse est ultricies urna. Ullamcorper tincidunt ante aptent vitae cum mauris curabitur nascetur hac sed torquent a netus, sollicitudin leo placerat scelerisque est nunc taciti convallis conubia interdum habitant. In mattis inceptos lectus fringilla facilisi nullam massa gravida, taciti neque venenatis sodales suscipit lacinia sem turpis ante, parturient ad mollis a ut leo at. 
+                        <textarea class="h-auto intro-text border-0" id="intro-text" readonly>Lorem ipsum dolor sit amet consectetur adipiscing, elit sollicitudin massa vestibulum dui facilisi habitant, tempor habitasse est ultricies urna. Ullamcorper tincidunt ante aptent vitae cum mauris curabitur nascetur hac sed torquent a netus, sollicitudin leo placerat scelerisque est nunc taciti convallis conubia interdum habitant. In mattis inceptos lectus fringilla facilisi nullam massa gravida, taciti neque venenatis sodales suscipit lacinia sem turpis ante, parturient ad mollis a ut leo at. 
                         </textarea>
                         <button class="btn" id="save-btn" hidden>Save</button>
+                        <button class="btn intro-cancel-btn" id="cancel-btn" hidden>Cancel</button>
                     </div>
 
                     <div id="membership">
                         <p class="member-p">Member since:</p>
                         <p class="member-year">2016</p>
-                        <button class="info-edit-div border-0 bg-transparent">
+                        <button class="info-edit-div border-0 bg-transparent" id="edit-intro">
                             <p> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                                     class="bi bi-pen" viewBox="0 0 16 16">
                                     <path
@@ -160,7 +165,56 @@
                         <p class="personal-datas-light"><a href="#" class="website-link">www.example.com</a></p>
                     </div>
                 </div>
+
+                <div id="recom-profs" class="container carousel slide mb-5">
+                    <h2 class="intro-h2 text-center">Some of our writers:</h2>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+
+                            <div class="profiles">
+                                <img src="../pictures/default-profile-pic-astronaut.png" alt="username"
+                                    class="prof-pic shadow-sm">
+
+                                <p class="text-center our-users-name">John Doe</p>
+                            </div>
+
+                        </div>
+
+                        <div class="carousel-item">
+
+                            <div class="profiles">
+                                <img src="../pictures/default-profile-pic-astronaut.png" alt="username"
+                                    class="prof-pic">
+
+                                <p class="text-center our-users-name">John Doe haverja</p>
+                            </div>
+                        </div>
+
+                        <div class="carousel-item">
+
+                            <div class="profiles">
+                                <img src="../pictures/default-profile-pic-astronaut.png" alt="username"
+                                    class="prof-pic">
+
+                                <p class="text-center our-users-name">John Doe testvére</p>
+
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#recom-profs"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#recom-profs"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
             </div>
+
+            <!-- books and posts -->
             <div class="col-6" id="posts-and-books">
                 <div class="container-fluid pb-header-btns" id="pb-header">
                     <button class="active-btn btn-h2 border-0" id="our-books">Our Books</button> <!-- DEFAULT -->
@@ -312,7 +366,8 @@
     </section>
 
     <!-- Popup a profilkép megváltoztatásához-->
-    <div class="modal fade" id="profilePicture-popup" tabindex="-1" aria-labelledby="profilePicture-popupLabel" aria-hidden="true">
+    <div class="modal fade" id="profilePicture-popup" tabindex="-1" aria-labelledby="profilePicture-popupLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -326,10 +381,12 @@
                             <input type="file" accept="image/*" id="inputPicture" hidden>
                             <div id="imgView" class="allign-middle">
                                 <div id="add-photo-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-images" viewBox="0 0 16 16">
-                                        <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
-                                        <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2M14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1M2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1z"/>
-                                      </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                                        class="bi bi-images" viewBox="0 0 16 16">
+                                        <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3" />
+                                        <path
+                                            d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2M14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1M2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1z" />
+                                    </svg>
                                 </div>
                                 <p class="uploadP">Drag and drop or click here to upload image</p>
                                 <span class="uploadSpan">Upload any images from desktop</span>
@@ -339,14 +396,257 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn saveChanges-btn" >Save changes</button>
+                    <button type="button" class="btn saveChanges-btn">Save changes</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Popup a borító színhez -->
+    <div class="modal fade" id="colorPicker" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="colorPickerLabel">Set your new cover color</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="color" class="form-control form-control-color" id="colorInput" value="#563d7c"
+                        title="Choose your color">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn saveChanges-btn">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    
+    <!-- popup a beállításokhoz -->
+
+    <div class="modal fade" id="settings-modal" tabindex="-1" aria-labelledby="settings-labels" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content" id="settings-modal-content">
+
+                <div class="modal-header" id="settings-header">
+                    <h1 class="modal-title fs-5" id="settings-labels">Settings</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body" id="settings-body">
+                    <!-- two side -->
+                    <div class="col-3 container" id="options-panel">
+                        <!-- options panel -->
+                        <p class="active-set" id="profile-settings">Profile Settings</p>
+                        <p class="disabled-set" id="privacy-settings">Privacy Settings</p>
+                        <p class="disabled-set" id="buisness-settings">Buisness Information</p>
+
+                    </div>
+
+                    <!-- default visible -> profile settings -->
+                    <div class="col-9 container actual-settings" id="profile-settings-div">
+                        <!-- actual settings -->
+                        <div id="set-username" class="set-row">
+                            <p class="set-label">Username</p>
+                            <div class="inputGroup-divs">
+                                <input class="form-control set-inputs" type="text" id="set-un" readonly>
+                                <button id="edit-username" class="settings-editButton rounded-circle">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
+                                        class="bi bi-pen" viewBox="0 0 16 16">
+                                        <path
+                                            d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="save-and-cancel" id="username-saveCancel" hidden>
+                                <button type="button" class="btn saveChanges-btn">Save</button>
+                                <button type="button" class="btn cancel-btn">Cancel</button>
+                            </div>
+                        </div>
+
+                        <div id="set-email" class="set-row">
+                            <p class="set-label">Email</p>
+                            <div class="inputGroup-divs">
+                                <input class="form-control set-inputs" type="text" id="set-email" readonly>
+                                <button id="edit-email" class="settings-editButton rounded-circle">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
+                                        class="bi bi-pen" viewBox="0 0 16 16">
+                                        <path
+                                            d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div class="save-and-cancel" id="email-saveCancel" hidden>
+                                <button type="button" class="btn saveChanges-btn">Save</button>
+                                <button type="button" class="btn cancel-btn">Cancel</button>
+                            </div>
+
+                        </div>
+
+                        <div id="set-pwd" class="set-row">
+                            <p class="set-label">Password</p>
+                            <div class="inputGroup-divs">
+                                <input class="form-control set-inputs" type="text" id="set-pwd" readonly>
+                                <button id="edit-pwd" class="settings-editButton rounded-circle">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
+                                        class="bi bi-pen" viewBox="0 0 16 16">
+                                        <path
+                                            d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="save-and-cancel" id="pwd-saveCancel" hidden>
+                                <button type="button" class="btn saveChanges-btn">Save</button>
+                                <button type="button" class="btn cancel-btn">Cancel</button>
+                            </div>
+
+                        </div>
+
+                        <div id="set-phone" class="set-row">
+                            <p class="set-label">Phone number</p>
+                            <div class="inputGroup-divs">
+                                <input class="form-control set-inputs" type="text" id="set-phoneNumber" readonly>
+                                <button id="edit-phone" class="settings-editButton rounded-circle">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
+                                        class="bi bi-pen" viewBox="0 0 16 16">
+                                        <path
+                                            d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div class="save-and-cancel" id="phone-saveCancel" hidden>
+                                <button type="button" class="btn saveChanges-btn">Save</button>
+                                <button type="button" class="btn cancel-btn">Cancel</button>
+                            </div>
+                        </div>
+
+                        <div id="set-names">
+                            <p class="set-label">Names</p>
+                            <div id="name-inputs">
+                                <div class="col-6">
+
+                                    <label for="#set-fName">First name</label>
+                                    <div class="inputGroup-divs">
+                                        <input class="form-control set-inputs" type="text" id="set-fName" readonly>
+                                        <button id="edit-fName" class="settings-editButton rounded-circle">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
+                                                fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                                <path
+                                                    d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div class="save-and-cancel" id="fName-saveCancel" hidden>
+                                        <button type="button" class="btn saveChanges-btn">Save</button>
+                                        <button type="button" class="btn cancel-btn">Cancel</button>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <label for="#set-fName">Last name</label>
+                                    <div class="inputGroup-divs">
+                                        <input class="form-control set-inputs" type="text" id="set-lName" readonly>
+                                        <button id="edit-lName" class="settings-editButton rounded-circle">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
+                                                fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                                <path
+                                                    d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div class="save-and-cancel" id="lName-saveCancel" hidden>
+                                        <button type="button" class="btn saveChanges-btn">Save</button>
+                                        <button type="button" class="btn cancel-btn">Cancel</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <button type="button" class="btn btn-danger mt-3" id="delete-profile-btn">Delete
+                                profile</button>
+
+                        </div>
+
+
+
+                    </div>
+
+                    <!-- default hidden -> privacy settings -->
+                    <div class="col-9 container actual-settings" id="privacy-settings-div" hidden>
+                        <!-- actual settings -->
+                        <div class="form-check form-switch" id="pub-email-div">
+                            <input class="form-check-input my-switch" type="checkbox" role="switch" id="email-isPublic">
+                            <label class="form-check-label swiitch-label" for="email-isPublic">Make the email
+                                public</label>
+                        </div>
+
+                        <div class="form-check form-switch" id="pub-phone-div">
+                            <input class="form-check-input my-switch" type="checkbox" role="switch" id="phone-isPublic">
+                            <label class="form-check-label swiitch-label" for="phone-isPublic">Make the phone number
+                                public</label>
+                        </div>
+                    </div>
+
+                    <!-- default hidden -> buisness information -->
+                    <div class="col-9 container actual-settings" id="buisness-settings-div" hidden>
+                        <div id="set-username" class="set-row">
+                            <p class="set-label">Company name</p>
+                            <div class="inputGroup-divs">
+                                <input class="form-control set-inputs" type="text" id="set-un" readonly>
+                                <button id="edit-company" class="settings-editButton rounded-circle">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
+                                        class="bi bi-pen" viewBox="0 0 16 16">
+                                        <path
+                                            d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TODO: FOOTER -->
+    <footer class="footer">
+        <div class="container-fluid align-content-center">
+
+            <div class="row">
+                <div class=" col-12 col-sm-6 d-flex align-items-center mx-auto">
+                    <!-- capterX logo -->
+                    <img src="../pictures/LOGO.svg" id="footer-logo">
+                </div>
+                <div class=" col-12 col-sm-6 text-lg-start text-xl-start" id="useful-links">
+                    <!-- hasznos linkek -->
+                    <h3 id="footer-h3" class="textCentered">Useful Links</h3>
+                    <ul id="footer-ul">
+
+                        <li id="email"><i class="bi bi-google"
+                                style="margin-right: 0.625rem;"></i>cyberread2023@gmail.com
+                        </li>
+                        <li id="facebook"><i class="bi bi-facebook" style="margin-right: 0.625rem;"></i><a
+                                href="https://www.facebook.com/profile.php?id=61551909364683    ">Facebook</a></li>
+                        <li id="instagram"><i class="bi bi-instagram" style="margin-right: 0.625rem;"></i><a
+                                href="https://instagram.com/cyberread2023?igshid=MzRlODBiNWFlZA==">Instagram</a>
+                        </li>
+                        <li id="help-center"><i class="bi bi-info-circle-fill" style="margin-right: 0.625rem;"></i><a
+                                href="#">Help Center</a></li>
+                    </ul>
+                </div>
+                <div id="copy-right-div" class="text-end">
+                    <!--? copyright logo -->
+                    <!--? Minden jog fentartva -->
+                    <p id="copy-right" class=""><img src="../icons/copyright.svg" style="margin-right: 0.313rem;">2023
+                        All rights reserved.</p>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+
 
     <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"

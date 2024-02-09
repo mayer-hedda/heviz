@@ -359,29 +359,16 @@ p {
     cursor: pointer;
 }
 
-.like {
+.like-button {
     margin-right: 0.625rem !important;
     fill: rgb(45, 24, 16);
+    width: 40px !important;
+    height: 40px !important;
 }
 
-.liked {
-    fill: rgb(185, 24, 10) !important;
-    color: rgb(185, 24, 10) !important;
+.like-button:hover {
+   
     cursor: pointer;
-}
-
-.like:hover {
-    fill: rgb(185, 24, 10) !important;
-    color: rgb(185, 24, 10) !important;
-    cursor: pointer;
-}
-
-.hidden {
-    display: none;
-}
-
-.visible {
-    display: block;
 }
 
 
