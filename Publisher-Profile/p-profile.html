@@ -425,7 +425,7 @@
     <!-- popup a beállításokhoz -->
 
     <div class="modal fade" id="settings-modal" tabindex="-1" aria-labelledby="settings-labels" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content" id="settings-modal-content">
 
                 <div class="modal-header" id="settings-header">
@@ -440,6 +440,10 @@
                         <p class="active-set" id="profile-settings">Profile Settings</p>
                         <p class="disabled-set" id="privacy-settings">Privacy Settings</p>
                         <p class="disabled-set" id="buisness-settings">Buisness Information</p>
+                        <p class="disabled-set logOut"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"/>
+                            <path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
+                          </svg> Log Out</p>
 
                     </div>
 
@@ -449,7 +453,7 @@
                         <div id="set-username" class="set-row">
                             <p class="set-label">Username</p>
                             <div class="inputGroup-divs">
-                                <input class="form-control set-inputs" type="text" id="set-un" readonly>
+                                <input class="form-control set-inputs" type="text" id="input-un" readonly>
                                 <button id="edit-username" class="settings-editButton rounded-circle">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
                                         class="bi bi-pen" viewBox="0 0 16 16">
@@ -458,16 +462,17 @@
                                     </svg>
                                 </button>
                             </div>
+                            <div class="error" id="un-error"></div> <!-- error message -->
                             <div class="save-and-cancel" id="username-saveCancel" hidden>
-                                <button type="button" class="btn saveChanges-btn">Save</button>
-                                <button type="button" class="btn cancel-btn">Cancel</button>
+                                <button type="button" class="btn saveChanges-btn" id="un-save">Save</button>
+                                <button type="button" class="btn cancel-btn" id="un-cancel">Cancel</button>
                             </div>
                         </div>
 
                         <div id="set-email" class="set-row">
                             <p class="set-label">Email</p>
                             <div class="inputGroup-divs">
-                                <input class="form-control set-inputs" type="text" id="set-email" readonly>
+                                <input class="form-control set-inputs" type="text" id="input-email" readonly>
                                 <button id="edit-email" class="settings-editButton rounded-circle">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
                                         class="bi bi-pen" viewBox="0 0 16 16">
@@ -476,10 +481,11 @@
                                     </svg>
                                 </button>
                             </div>
+                            <div class="error" id="e-error"></div> <!-- error message -->
 
                             <div class="save-and-cancel" id="email-saveCancel" hidden>
-                                <button type="button" class="btn saveChanges-btn">Save</button>
-                                <button type="button" class="btn cancel-btn">Cancel</button>
+                                <button type="button" class="btn saveChanges-btn" id="e-save">Save</button>
+                                <button type="button" class="btn cancel-btn" id="e-cancel">Cancel</button>
                             </div>
 
                         </div>
@@ -487,7 +493,7 @@
                         <div id="set-pwd" class="set-row">
                             <p class="set-label">Password</p>
                             <div class="inputGroup-divs">
-                                <input class="form-control set-inputs" type="text" id="set-pwd" readonly>
+                                <input class="form-control set-inputs" type="text" id="input-pwd" readonly>
                                 <button id="edit-pwd" class="settings-editButton rounded-circle">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
                                         class="bi bi-pen" viewBox="0 0 16 16">
@@ -496,9 +502,10 @@
                                     </svg>
                                 </button>
                             </div>
+                            <div class="error" id="pwd-error"></div> <!-- error message -->
                             <div class="save-and-cancel" id="pwd-saveCancel" hidden>
-                                <button type="button" class="btn saveChanges-btn">Save</button>
-                                <button type="button" class="btn cancel-btn">Cancel</button>
+                                <button type="button" class="btn saveChanges-btn" id="pwd-save">Save</button>
+                                <button type="button" class="btn cancel-btn" id="pwd-cancel">Cancel</button>
                             </div>
 
                         </div>
@@ -506,7 +513,7 @@
                         <div id="set-phone" class="set-row">
                             <p class="set-label">Phone number</p>
                             <div class="inputGroup-divs">
-                                <input class="form-control set-inputs" type="text" id="set-phoneNumber" readonly>
+                                <input class="form-control set-inputs" type="text" id="input-phoneNumber" readonly>
                                 <button id="edit-phone" class="settings-editButton rounded-circle">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
                                         class="bi bi-pen" viewBox="0 0 16 16">
@@ -516,9 +523,11 @@
                                 </button>
                             </div>
 
+                            <div class="error" id="phone-error"></div> <!-- error message -->
+
                             <div class="save-and-cancel" id="phone-saveCancel" hidden>
-                                <button type="button" class="btn saveChanges-btn">Save</button>
-                                <button type="button" class="btn cancel-btn">Cancel</button>
+                                <button type="button" class="btn saveChanges-btn" id="p-save">Save</button>
+                                <button type="button" class="btn cancel-btn" id="p-cancel">Cancel</button>
                             </div>
                         </div>
 
@@ -529,7 +538,7 @@
 
                                     <label for="#set-fName">First name</label>
                                     <div class="inputGroup-divs">
-                                        <input class="form-control set-inputs" type="text" id="set-fName" readonly>
+                                        <input class="form-control set-inputs" type="text" id="input-fName" readonly>
                                         <button id="edit-fName" class="settings-editButton rounded-circle">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
                                                 fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
@@ -538,16 +547,19 @@
                                             </svg>
                                         </button>
                                     </div>
+
+                                    <div class="error" id="fn-error"></div> <!-- error message -->
+
                                     <div class="save-and-cancel" id="fName-saveCancel" hidden>
-                                        <button type="button" class="btn saveChanges-btn">Save</button>
-                                        <button type="button" class="btn cancel-btn">Cancel</button>
+                                        <button type="button" class="btn saveChanges-btn" id="fn-save">Save</button>
+                                        <button type="button" class="btn cancel-btn" id="fn-cancel">Cancel</button>
                                     </div>
                                 </div>
 
                                 <div class="col-6">
                                     <label for="#set-fName">Last name</label>
                                     <div class="inputGroup-divs">
-                                        <input class="form-control set-inputs" type="text" id="set-lName" readonly>
+                                        <input class="form-control set-inputs" type="text" id="input-lName" readonly>
                                         <button id="edit-lName" class="settings-editButton rounded-circle">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
                                                 fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
@@ -556,20 +568,17 @@
                                             </svg>
                                         </button>
                                     </div>
+
+                                    <div class="error" id="ln-error"></div> <!-- error message -->
+
                                     <div class="save-and-cancel" id="lName-saveCancel" hidden>
-                                        <button type="button" class="btn saveChanges-btn">Save</button>
-                                        <button type="button" class="btn cancel-btn">Cancel</button>
+                                        <button type="button" class="btn saveChanges-btn" id="ln-save">Save</button>
+                                        <button type="button" class="btn cancel-btn" id="ln-cancel">Cancel</button>
                                     </div>
                                 </div>
 
                             </div>
-                            <button type="button" class="btn btn-danger mt-3" id="delete-profile-btn">Delete
-                                profile</button>
-
                         </div>
-
-
-
                     </div>
 
                     <!-- default hidden -> privacy settings -->
@@ -604,6 +613,11 @@
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger">Delete profile</button>
                 </div>
             </div>
         </div>

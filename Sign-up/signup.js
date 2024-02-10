@@ -479,8 +479,6 @@ function validateDate(date) {
     }
 }
 
-
-
 /**
  * Documentation
  * -------------
