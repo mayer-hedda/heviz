@@ -146,16 +146,16 @@ async function login(raw) {
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/login", requestOptions);
 
-        localStorage.setItem("Token", data.jwt);
-
         if (response.status == 200 || response.status == 422) {
+            const data = await response.json(); 
+            localStorage.setItem("Token", data.jwt); 
             return {
-                status: await response.status,
-                data: await response.json()
+                status: response.status,
+                data: data // Return parsed data
             }
         }
 
-        return { status: await response.status }
+        return { status: response.status }
     } catch (error) {
         return { error: error };
     }

@@ -87,7 +87,8 @@ submitButton.addEventListener("click", async (e) => {
                             break;
                     
                         case 'publisher':
-                            console.log("Ő egy publisher lesz");
+                            window.location.assign('../Publisher-Profile/p-profile.html');
+                            // console.log("Ő egy publisher lesz");
                             break;
                     }
                     break;
@@ -114,49 +115,4 @@ async function login() {
         email: inputEmail.value,
         password: inputPwd.value
     };
-    
-    const response = await fetch('http://localhost:9990/webresources/User/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(postData)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Hálózati hiba: ' + response.statusText);
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Válasz a backendtől:', data);
-    })
-    .catch(error => {
-        console.error('Hálózati hiba:', error);
-    });
-}
-
-async function token(){
-    const tokenResponese = await fetch('http://localhost:8080/webresources/user/token', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-
-    .then(tokenResponese =>{
-        if (!tokenResponese.ok) {
-            throw new Error('Hálózati hiba: ' + response.statusText);
-        }
-
-        return tokenResponese.json();
-    })
-
-    .then(data => {
-        console.log("Válasz a backendtől: ", data);
-    })
-
-    .catch(error => {
-        console.error('Hálózati hiba:', error);
-    })
 }
