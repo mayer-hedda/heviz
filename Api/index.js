@@ -130,43 +130,43 @@ async function generalRegistration(raw) {
             * false: if the user is not logging in for the first time
     * 422: loginError
  */
-async function login(raw) {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    var postData = JSON.stringify(raw);
-
-    var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: postData,
-        redirect: 'follow'
-    };
-
-    try {
-        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/login", requestOptions);
-
-        if(response.status == 200) {
-            localStorage.setItem("Token", await response.json().jwt);
-
-            return {
-                status: response.status,
-                data: await response.json()
+        async function login(raw) {
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+        
+            var postData = JSON.stringify(raw);
+        
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: postData,
+                redirect: 'follow'
+            };
+        
+            try {
+                const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/login", requestOptions);
+                var data = await response.json();
+        
+                if(response.status == 200) {
+                    localStorage.setItem("Token", data.jwt);
+        
+                    return {
+                        status: response.status,
+                        data: data
+                    }
+                }
+                if(response.status == 422) {
+                    return {
+                        status: response.status,
+                        data: data
+                    }
+                }
+        
+                return { status: response.status }
+            } catch (error) {
+                return { error: error };
             }
         }
-
-        if(response.status == 422) {
-            return {
-                status: response.status,
-                data: await response.json()
-            }
-        }
-
-        return { status: response.status }
-    } catch (error) {
-        return { error: error };
-    }
-}
 
 
 
