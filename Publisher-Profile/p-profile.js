@@ -1,3 +1,160 @@
+window.onload = async function(){
+    const tokenResponese = await token();
+    switch (tokenResponese.status){
+        case 302:
+            switch (tokenResponese.data.rank){
+                case 'general':
+                    // itt át kell dobni a general profilra
+                    console.error("You don't have access to this page!");
+                    break;
+
+                case 'publisher':
+                    const responseUser = await getUserDetails();
+                    console.log("User details: " + responseUser);
+            }
+            break;
+
+        case 422:
+            console.error(responseLogin.data);
+            break;
+    }
+}
+
+// API
+// token
+async function token() {
+    const tokenResponese = await fetch('http://localhost:8080/webresources/user/token', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+        .then(tokenResponese => {
+            if (!tokenResponese.ok) {
+                throw new Error('Hálózati hiba: ' + response.statusText);
+            }
+
+            return tokenResponese.json();
+        })
+
+        .then(data => {
+            console.log("Válasz a backendtől: ", data);
+        })
+
+        .catch(error => {
+            console.error('Hálózati hiba:', error);
+        })
+}
+
+// user datas
+async function getUserDetails() {
+    const getUserResponse = await fetch('http://localhost:8080/webresources/user/getUserDetails', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+        .then(getUserResponse => {
+            if (!getUserResponse.ok) {
+                throw new Error('Hálózati hiba: ' + response.statusText);
+            }
+
+            return getUserResponse.json();
+        })
+
+        .then(data => {
+            console.log("Válasz a backendtől: ", data);
+        })
+
+        .catch(error => {
+            console.error('Hálózati hiba:', error);
+        })
+}
+
+// user books
+async function getUserBooks() {
+    const getBooksResponse = await fetch('http://localhost:8080/webresources/book/getUserBooks', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+        .then(getBooksResponse => {
+            if (!getBooksResponse.ok) {
+                throw new Error('Hálózati hiba: ' + response.statusText);
+            }
+
+            return getBooksResponse.json();
+        })
+
+        .then(data => {
+            console.log("Válasz a backendtől: ", data);
+        })
+
+        .catch(error => {
+            console.error('Hálózati hiba:', error);
+        })
+}
+
+// user posts
+async function getUserPosts() {
+    const getPostsResponse = await fetch('http://localhost:8080/webresources/post/getUserPosts', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+        .then(getPostsResponse => {
+            if (!getPostsResponse.ok) {
+                throw new Error('Hálózati hiba: ' + response.statusText);
+            }
+
+            return getPostsResponse.json();
+        })
+
+        .then(data => {
+            console.log("Válasz a backendtől: ", data);
+        })
+
+        .catch(error => {
+            console.error('Hálózati hiba:', error);
+        })
+}
+
+// functions for loading datas
+function loadProfilePicture(response) {
+    const profile_picture = document.getElementById('profile-picture');
+  
+    if (response.data.image) {
+        profile_picture.src = `../${response.data.image}.jpg`;
+    }
+}
+
+function loadCoverColor(response) {
+    const coverSection = document.getElementById('s1');
+    if (response.data.coverColorId) {
+        coverSection.style.backgroundColor = response.data.coverColorCode;
+    }
+}
+
+function loadUserTextDatas(response) {
+    const name = document.getElementById('name');
+    const u_name = document.getElementById('username');
+    // const partners = document.getElementById('partner-number');
+    const saved_books = document.getElementById('saved-books-number');
+    const followers = document.getElementById('followers-number');
+
+    name.innerHTML = `${response.data.companyName}`;
+    u_name.innerHTML = `${response.data.username}`;
+    saved_books.innerHTML = `${response.data.savedBookCount}`;
+    followers.innerHTML = `${response.data.followersCount}`;
+}
+
+
 const our_books = document.getElementById('our-books');
 const our_posts = document.getElementById('our-posts');
 
@@ -184,6 +341,7 @@ const edit_pwd = document.getElementById('edit-pwd');
 const edit_phone = document.getElementById('edit-phone');
 const edit_fName = document.getElementById('edit-fName');
 const edit_lName = document.getElementById('edit-lName');
+const edit_company = document.getElementById('edit-company');
 
 // inputs on settings --> profile settings
 const input_un = document.getElementById('input-un');
@@ -192,6 +350,7 @@ const input_pwd = document.getElementById('input-pwd');
 const input_phoneNumber = document.getElementById('input-phoneNumber');
 const input_fName = document.getElementById('input-fName');
 const input_lName = document.getElementById('input-lName');
+const input_company = document.getElementById('input-company');
 
 // save and cancel button rows on settings --> profile settings
 const username_saveCancel = document.getElementById('username-saveCancel');
@@ -200,6 +359,7 @@ const pwd_saveCancel = document.getElementById('pwd-saveCancel');
 const phone_saveCancel = document.getElementById('phone-saveCancel');
 const fName_saveCancel = document.getElementById('fName-saveCancel');
 const lName_saveCancel = document.getElementById('lName-saveCancel');
+const company_saveCancel = document.getElementById('company-saveCancel');
 
 // Cancel buttons
 const un_cancel = document.getElementById('un-cancel');
@@ -208,6 +368,7 @@ const pwd_cancel = document.getElementById('pwd-cancel');
 const p_cancel = document.getElementById('p-cancel');
 const fn_cancel = document.getElementById('fn-cancel');
 const ln_cancel = document.getElementById('ln-cancel');
+const c_cancel = document.getElementById('c-cancel');
 
 // save buttons
 const un_save = document.getElementById('un-save');
@@ -216,6 +377,7 @@ const pwd_save = document.getElementById('pwd-save');
 const p_save = document.getElementById('p-save');
 const fn_save = document.getElementById('fn-save');
 const ln_save = document.getElementById('ln-save');
+const c_save = document.getElementById('c-save');
 
 // errors
 const un_error = document.getElementById('un-error');
@@ -224,8 +386,9 @@ const pwd_error = document.getElementById('pwd-error');
 const phone_error = document.getElementById('phone-error');
 const fn_error = document.getElementById('fn-error');
 const ln_error = document.getElementById('ln-error');
+const c_error = document.getElementById('c-error');
 
-// Functions
+// Functions for settings
 /**
  * Documementation
  * ---------------
@@ -729,6 +892,29 @@ ln_save.addEventListener('click', (e) => {
 
 input_lName.addEventListener('focusin', (e) => {
     ln_error.innerHTML = "";
+    e.target.style.background = "";
+    e.target.style.border = "";
+})
+
+// company
+edit_company.addEventListener('click', (e)=>{
+    EditIcon(input_company, company_saveCancel);
+})
+
+c_cancel.addEventListener('click', (e)=>{
+    Cancel(input_company, company_saveCancel);
+})
+
+c_save.addEventListener('click', (e)=>{
+    console.log("megnyomtad a save gombot");
+    let c_boolean = validateCompany(input_company.value, c_error, input_company);
+    console.log("company boolean: " + c_boolean);
+
+    // !ide kell egy vizsgálat arra, hogy ha true csak akkor küldjön adatot a BE-nek
+})
+
+input_company.addEventListener('focusin', (e)=>{
+    c_error.innerHTML = "";
     e.target.style.background = "";
     e.target.style.border = "";
 })

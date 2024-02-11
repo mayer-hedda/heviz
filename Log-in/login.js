@@ -8,6 +8,8 @@ let emailValid = false;
 let pwdValid = false;
 const generalHomeURL = '../General-HomePage/GenHome.html';
 
+
+
 // FUNCTIONS
 // active button
 function BtnActivate() {

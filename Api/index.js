@@ -150,12 +150,12 @@ async function login(raw) {
 
         if (response.status == 200 || response.status == 422) {
             return {
-                status: response.status,
+                status: await response.status,
                 data: await response.json()
             }
         }
 
-        return { status: response.status }
+        return { status: await response.status }
     } catch (error) {
         return { error: error };
     }
