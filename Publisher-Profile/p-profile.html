@@ -66,8 +66,7 @@
     <section class="container-fluid" id="s2">
         <div id="profile-pic-div">
             <!-- ! innen ki kell szedni az src-t -->
-            <img class="rounded-circle shadow-sm" src="../pictures/default-profile-pic-man.png" height="240" width="240"
-                id="profile-picture">
+            <img class="rounded-circle shadow-sm" height="240" width="240" id="profile-picture">
 
         </div>
 
@@ -85,8 +84,8 @@
 
         <div id="my-datas">
             <div id="company-name">
-                <h2 id="name">Company Name</h2>
-                <p id="username">@goodbokscompany_</p>
+                <h2 id="name"></h2>
+                <p id="username"></p>
             </div>
 
             <div id="number-container">
@@ -132,8 +131,8 @@
                 <div class="personal-card" id="introdution">
                     <h2 class="intro-h2">Introdution:</h2>
                     <div class="intro-text-div">
-                        <textarea class="h-auto intro-text border-0" id="intro-text" maxlength="1000" readonly>Lorem ipsum dolor sit amet consectetur adipiscing, elit sollicitudin massa vestibulum dui facilisi habitant, tempor habitasse est ultricies urna. Ullamcorper tincidunt ante aptent vitae cum mauris curabitur nascetur hac sed torquent a netus, sollicitudin leo placerat scelerisque est nunc taciti convallis conubia interdum habitant. In mattis inceptos lectus fringilla facilisi nullam massa gravida, taciti neque venenatis sodales suscipit lacinia sem turpis ante, parturient ad mollis a ut leo at. 
-                        </textarea>
+                        <textarea class="h-auto intro-text border-0" id="intro-text" maxlength="1000"
+                            readonly></textarea>
 
                         <div id="error-and-counter" hidden>
                             <div class="col-6">
@@ -239,7 +238,7 @@
 
 
                 <!-- BOOK CARDS -->
-                <div class="container" id="books"> <!-- DEFAULT -->
+                <div class="container" id="books" hidden> <!-- DEFAULT -->
                     <!-- books -->
                     <div class="container medium-card" style="background-color: #EAD7BE;">
                         <div class="row">
@@ -316,64 +315,8 @@
 
 
                 <!-- POST CARDS -->
-                <div class="container" id="posts" hidden>
-                    <div class="post-card ">
-                        <div class="first-row">
-                            <!--? profil kép helye  -->
-                            <div class="post-profile-icon rounded-circle shadow-sm"
-                                style="background-image: url('../pictures/default-profile-pic-astronaut.png');"></div>
-                            <!--? User nevének helye -->
-                            <div class="userName">
-                                <p class="card-user-name">Kiadó neve</p>
-                            </div>
-                            <div class="cardDate align-content-end">
-                                <p class="card-date-text">2024-01-22</p>
-                            </div>
-                        </div>
-
-                        <div class="postText">
-                            <p class="post-text">Lorem ipsum dolor sit amet consectetur adipiscing elit torquent, auctor
-                                luctus lectus odio congue penatibus venenatis, felis vivamus placerat diam porttitor
-                                tristique aenean. Iaculis praesent phasellus neque commodo eget tincidunt nec fusce
-                                quam, urna auctor per lacinia montes nostra mus sociosqu, volutpat est bibendum faucibus
-                                natoque proin aptent hac.</p>
-                        </div>
-
-                        <div class="last-row">
-
-                            <div class="like-and-share">
-                                <div class="d-flex flex-column align-items-center emptyLike">
-
-
-                                    <div class="like visible">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23"
-                                            fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                            <path
-                                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                                        </svg>
-                                    </div>
-
-                                    <div class="liked hidden" style="margin-right: 10px;">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23"
-                                            fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd"
-                                                d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" />
-                                        </svg>
-                                    </div>
-
-
-                                </div>
-                                <div class="d-flex flex-column align-items-center">
-                                    <div class="share"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="23"
-                                            fill="currentColor" class="bi bi-share-fill" viewBox="0 0 16 16">
-                                            <path
-                                                d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5" />
-                                        </svg></div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="container" id="posts">
+                    
                 </div>
 
 
@@ -456,13 +399,7 @@
                         <p class="active-set" id="profile-settings">Profile Settings</p>
                         <p class="disabled-set" id="privacy-settings">Privacy Settings</p>
                         <p class="disabled-set" id="buisness-settings">Buisness Information</p>
-                        <p class="disabled-set logOut"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd"
-                                    d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z" />
-                                <path fill-rule="evenodd"
-                                    d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z" />
-                            </svg> Log Out</p>
+
 
                     </div>
 
@@ -530,9 +467,16 @@
                         </div>
 
                         <div id="set-phone" class="set-row">
-                            <p class="set-label">Phone number</p>
+                            <div class="label-div">
+                                <p class="set-label">Phone number</p>
+                                <i class="bi bi-info-circle info" tabindex="0" data-bs-toggle="popover"
+                                    data-bs-trigger="hover focus"
+                                    data-bs-content="If you want this data to be public, you need to set it in the 'privacy settings' tab."></i>
+                            </div>
+
                             <div class="inputGroup-divs">
-                                <input class="form-control set-inputs" type="text" id="input-phoneNumber" readonly>
+                                <input class="form-control set-inputs" type="text" id="input-phoneNumber" min="7"
+                                    max="15" readonly>
                                 <button id="edit-phone" class="settings-editButton rounded-circle">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
                                         class="bi bi-pen" viewBox="0 0 16 16">
@@ -598,6 +542,10 @@
 
                             </div>
                         </div>
+
+                        <div id="deleteProfile-div">
+                            <button type="button" class="btn btn-danger" id="delete-profile">Delete profile</button>
+                        </div>
                     </div>
 
                     <!-- default hidden -> privacy settings -->
@@ -619,7 +567,12 @@
                     <!-- default hidden -> buisness information -->
                     <div class="col-9 container actual-settings" id="buisness-settings-div" hidden>
                         <div id="set-username" class="set-row">
-                            <p class="set-label">Company name</p>
+                            <div class="label-div">
+                                <p class="set-label">Company name</p>
+                                <i class="bi bi-info-circle info" tabindex="0" data-bs-toggle="popover"
+                                    data-bs-trigger="hover focus"
+                                    data-bs-content="If you want this data to be public, you need to set it in the 'privacy settings' tab."></i>
+                            </div>
                             <div class="inputGroup-divs">
                                 <input class="form-control set-inputs" type="text" id="input-company" readonly>
                                 <button id="edit-company" class="settings-editButton rounded-circle">
@@ -642,8 +595,17 @@
                 </div>
 
                 <div class="modal-footer border-0">
+
+
+                    <p class="disabled-set" id="logOut"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                            fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z" />
+                            <path fill-rule="evenodd"
+                                d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z" />
+                        </svg> Log Out</p>
+
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger">Delete profile</button>
                 </div>
             </div>
         </div>
@@ -696,6 +658,14 @@
     <!-- Javascript -->
     <script src="p-profile.js"></script>
     <script src="../Api/index.js"></script>
+
+    <script>
+        // Initialize Bootstrap popovers
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl)
+        });
+    </script>
 </body>
 
 </html>

@@ -1,3 +1,12 @@
+// inputs on settings --> profile settings
+const input_un = document.getElementById('input-un');
+const input_email = document.getElementById('input-email');
+const input_pwd = document.getElementById('input-pwd');
+const input_phoneNumber = document.getElementById('input-phoneNumber');
+const input_fName = document.getElementById('input-fName');
+const input_lName = document.getElementById('input-lName');
+const input_company = document.getElementById('input-company');
+
 window.onload = async function () {
     const tokenResponese = await token();
     switch (tokenResponese.status) {
@@ -11,6 +20,33 @@ window.onload = async function () {
                     loadCoverColor(responseUser);
                     loadUserTextDatas(responseUser);
                     contactInfos(responseUser);
+
+                    addPlaceholder(responseUser, "username", input_un);
+                    addPlaceholder(responseUser, "companyName", input_company);
+
+                    // load posts
+                    // const responsePosts = await getUserPosts({ "profileUsername": tokenResponese.data.username });
+                    // console.log("Post details: ", JSON.stringify(responsePosts));
+
+                    // switch (responsePosts.status) {
+                    //     case 200:
+                    //         getPosts(responsePosts);
+                    //         break;
+
+                    //     case 401:
+                    //         //? itt nincs tokenje, vagy lejárt a tokenje --> eljut egyáltalán idáig?
+                    //         break;
+
+                    //     case 422:
+                    //         //? profile username error
+                    //         break;
+                    // }
+
+                    // load books
+                    const responseBooks = await getUserBooks({"profileUsername": tokenResponese.data.username});
+                    console.log("Books details: ", responseBooks);
+
+
                     break;
                 case 401:
                     // ! ide kell majd a 404es page hivatkozása
@@ -54,7 +90,7 @@ editIntro.addEventListener('click', (e) => {
     error_and_counter.hidden = false;
 })
 
-cancelBtn.addEventListener('click', (e)=>{
+cancelBtn.addEventListener('click', (e) => {
     introText.readOnly = true;
     introText.classList.remove("info-edit-active");
     saveBtn.hidden = true;
@@ -62,7 +98,7 @@ cancelBtn.addEventListener('click', (e)=>{
     error_and_counter.hidden = true;
 })
 
-introText.addEventListener('input', (e)=>{
+introText.addEventListener('input', (e) => {
     e.preventDefault();
     const currentValue = introText.value;
     let count = currentValue.length;
@@ -93,6 +129,8 @@ function loadProfilePicture(response) {
 
     if (response.data.image) {
         profile_picture.src = `../${response.data.image}.jpg`;
+    } else {
+        profile_picture.src = `../pictures/default-profile-pic.png`;
     }
 }
 
@@ -111,19 +149,20 @@ function loadUserTextDatas(response) {
     const followers = document.getElementById('followers-number');
 
     name.innerHTML = `${response.data.companyName}`;
-    u_name.innerHTML = `${response.data.username}`;
+    u_name.innerHTML = `@${response.data.username}`;
     introText.innerHTML = `${response.data.introDescription}`;
     saved_books.innerHTML = `${response.data.savedBookCount}`;
     followers.innerHTML = `${response.data.followersCount}`;
 }
 
+
 function checkOwnProfile(response) {
     const editPicture = document.getElementById('edit-pic-div');
     const editCover = document.getElementById('edit-coverCol-div');
-    const settings = document.getElementById('settings');
     const edit_intro = document.getElementById('edit-intro');
-
+    const settings = document.getElementById('settings');
     const follow_btn_div = document.getElementById('follow-btn-div');
+
 
     if (response.data.ownProfile == true) {
         editPicture.hidden = false;
@@ -138,6 +177,10 @@ function checkOwnProfile(response) {
         settings.hidden = true;
         edit_intro.hidden = true;
 
+        post_editDelete_div.forEach(div => {
+            div.hidden = true;
+        });
+
         follow_btn_div.hidden = false;
     }
 }
@@ -145,9 +188,100 @@ function checkOwnProfile(response) {
 function contactInfos(response) {
     const website = document.getElementById('website-link');
 
-    if(response.data.website){
+    if (response.data.website) {
         website.innerHTML = `<a href="${response.data.website}" class="website-link">${response.data.website}</a>`
     }
+}
+
+function getPosts(response) {
+    const post_div = document.getElementById('posts');
+
+    //! ebben a változóban fogom eltárolni a response.myPosts.image-t
+    let p_pic_URL;
+
+    for (let i = 0; i <= response.myPosts.length; i++) {
+        post_div.innerHTML += `
+            <div class="post-card ">
+                <div class="first-row">
+                    <!--? profil kép helye  -->
+                    <div class="post-profile-icon rounded-circle shadow-sm"
+                        style="background-image: url('../pictures/default-profile-pic-astronaut.png');"></div>
+
+                    <!--? User nevének helye -->
+                    <div class="userName">
+                        <p class="card-user-name">${response.myPosts[i].username}</p>
+                    </div>
+                    <div class="cardDate align-content-end">
+                        <p class="card-date-text">${response.myPosts[i].postTime}</p>
+                    </div>
+                </div>
+
+                <div class="postText">
+                    <p class="post-text">${response.myPosts[i].description}</p>
+                </div>
+
+                <div class="last-row">
+
+                    <div class="edit-delete-div" hidden>
+                        <button type="button" class="bg-transparent border-0 edit-post">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor"
+                                class="bi bi-pen" viewBox="0 0 16 16">
+                                <path
+                                    d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
+                            </svg>
+                        </button>
+
+                        <button type="button" class="bg-transparent border-0 delete-post">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                            </svg>
+                        </button>
+                    </div>
+                    
+
+                    <div class="like-and-share">
+                        <div class="d-flex flex-column align-items-center emptyLike">
+
+
+                            <div class="like visible">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23"
+                                    fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                    <path
+                                        d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                </svg>
+                            </div>
+
+                            <div class="liked hidden" style="margin-right: 10px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23"
+                                    fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" />
+                                </svg>
+                            </div>
+
+
+                        </div>
+
+                        <div class="d-flex flex-column align-items-center">
+                            <div class="share"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="23"
+                                    fill="currentColor" class="bi bi-share-fill" viewBox="0 0 16 16">
+                                    <path
+                                        d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5" />
+                                </svg></div>
+
+                        </div>
+                    </div>
+                </div>  
+            </div>  
+        `;
+    }
+
+
+
+    const post_editDelete_div = document.querySelectorAll('.edit-delete-div');
+    post_editDelete_div.forEach(div => {
+        div.hidden = false;
+    });
 }
 
 const our_books = document.getElementById('our-books');
@@ -232,8 +366,6 @@ ourBooks_btn.addEventListener('click', (e) => {
     ourPosts_btn.classList.remove("active-btn");
     ourPosts_btn.classList.add("disabled-btn");
 })
-
-
 
 // switch between settiings
 // settings buttons
@@ -326,15 +458,6 @@ const edit_fName = document.getElementById('edit-fName');
 const edit_lName = document.getElementById('edit-lName');
 const edit_company = document.getElementById('edit-company');
 
-// inputs on settings --> profile settings
-const input_un = document.getElementById('input-un');
-const input_email = document.getElementById('input-email');
-const input_pwd = document.getElementById('input-pwd');
-const input_phoneNumber = document.getElementById('input-phoneNumber');
-const input_fName = document.getElementById('input-fName');
-const input_lName = document.getElementById('input-lName');
-const input_company = document.getElementById('input-company');
-
 // save and cancel button rows on settings --> profile settings
 const username_saveCancel = document.getElementById('username-saveCancel');
 const email_saveCancel = document.getElementById('email-saveCancel');
@@ -399,11 +522,12 @@ function Cancel(element, buttonsRow) {
 /**
  * Documementation
  * ---------------
- * @param {HTMLInputElement} element - The input element for which we set a placeholder
- * @param {String} string - The actual value for the placeholder
+ * @param {Response} response - The response object
+ * @param {element} responseElement - the specific element from the response object
+ * @param {HTMLInputElement} input - The input element for which we set a placeholder
  */
-function addPlaceholder(element, string) {
-    element.setAttribute('placeholder', string);
+function addPlaceholder(response, responseElement, input) {
+    input.placeholder = `${response.data[responseElement]}`;
 }
 
 /**
@@ -727,17 +851,38 @@ function validatePwd(pwdValue, pwdInput, errorField) {
 function validatePhone(phoneValue, inputPhone, errorPhone) {
 
     var pattern = /^[0-9]+$/;
-    if (pattern.test(phoneValue) == true) {
-        inputPhone.style.background = "rgb(241, 255, 231)";
-        inputPhone.style.borderColor = "rgb(98, 173, 107)";
-        return true;
+
+
+    if (phoneValue.length != 0) {
+        if (pattern.test(phoneValue) == true) {
+            inputPhone.style.background = "";
+            inputPhone.style.borderColor = "";
+            errorPhone.innerHTML = "";
+            return true;
+        } else {
+            inputPhone.style.background = "rgb(255, 214, 220)";
+            inputPhone.style.borderColor = "rgb(243, 82, 93)";
+            errorPhone.innerHTML = `<p>This field should contains only numbers.</p>`;
+            return false;
+        }
     } else {
-        inputPhone.style.background = "rgb(255, 214, 220)";
-        inputPhone.style.borderColor = "rgb(243, 82, 93)";
-        errorPhone.innerHTML = `<p>This field should contains only numbers.</p>`
-        return false;
+        errorPhone.innerHTML = `<p>This field cannot be empty.</p>`;
     }
 
+
+}
+
+function checkPhoneLenght(value, input, errorDiv) {
+    if (value.length >= 7 && value.length <= 15) {
+        input.style.background = "rgb(241, 255, 231)";
+        input.style.borderColor = "rgb(98, 173, 107)";
+        return true;
+    } else {
+        input.style.background = "rgb(255, 214, 220)";
+        input.style.borderColor = "rgb(243, 82, 93)";
+        errorDiv.innerHTML = `<p>The value should be between 7 and 15 characters.</p>`
+        return false;
+    }
 }
 
 // Events
@@ -747,7 +892,10 @@ edit_username.addEventListener('click', (e) => {
 })
 
 un_cancel.addEventListener('click', (e) => {
-    Cancel(input_un, username_saveCancel)
+    Cancel(input_un, username_saveCancel);
+    input_un.style.background = "";
+    input_un.style.borderColor = "";
+    un_error.innerHTML = "";
 })
 
 un_save.addEventListener('click', (e) => {
@@ -772,6 +920,9 @@ edit_email.addEventListener('click', (e) => {
 
 e_cancel.addEventListener('click', (e) => {
     Cancel(input_email, email_saveCancel);
+    input_email.style.background = "";
+    input_email.style.borderColor = "";
+    e_error.innerHTML = "";
 })
 
 e_save.addEventListener('click', (e) => {
@@ -794,6 +945,9 @@ edit_pwd.addEventListener('click', (e) => {
 
 pwd_cancel.addEventListener('click', (e) => {
     Cancel(input_pwd, pwd_saveCancel);
+    input_pwd.style.background = "";
+    input_pwd.style.borderColor = "";
+    pwd_error.innerHTML = "";
 })
 
 pwd_save.addEventListener('click', (e) => {
@@ -817,11 +971,20 @@ edit_phone.addEventListener('click', (e) => {
 
 p_cancel.addEventListener('click', (e) => {
     Cancel(input_phoneNumber, phone_saveCancel);
+    input_phoneNumber.style.background = "";
+    input_phoneNumber.style.borderColor = "";
+    phone_error.innerHTML = "";
+})
+
+let phone_boolean;
+
+input_phoneNumber.addEventListener('input', (e) => {
+    phone_boolean = validatePhone(input_phoneNumber.value, input_phoneNumber, phone_error);
 })
 
 p_save.addEventListener('click', (e) => {
     console.log("Megnyomtad a phone save gombot");
-    let phone_boolean = validatePhone(input_phoneNumber.value, input_phoneNumber, phone_error);
+    let phone_lenght = checkPhoneLenght(input_phoneNumber.value, input_phoneNumber, phone_error);
     console.log("phone boolean: " + phone_boolean);
 
     // !ide kell egy vizsgálat arra, hogy ha true csak akkor küldjön adatot a BE-nek
@@ -840,6 +1003,9 @@ edit_fName.addEventListener('click', (e) => {
 
 fn_cancel.addEventListener('click', (e) => {
     Cancel(input_fName, fName_saveCancel);
+    input_fName.style.background = "";
+    input_fName.style.borderColor = "";
+    fn_error.innerHTML = "";
 })
 
 fn_save.addEventListener('click', (e) => {
@@ -863,6 +1029,9 @@ edit_lName.addEventListener('click', (e) => {
 
 ln_cancel.addEventListener('click', (e) => {
     Cancel(input_lName, lName_saveCancel);
+    input_lName.style.background = "";
+    input_lName.style.borderColor = "";
+    ln_error.innerHTML = "";
 })
 
 ln_save.addEventListener('click', (e) => {
@@ -886,6 +1055,9 @@ edit_company.addEventListener('click', (e) => {
 
 c_cancel.addEventListener('click', (e) => {
     Cancel(input_company, company_saveCancel);
+    input_company.style.background = "";
+    input_company.style.borderColor = "";
+    c_error.innerHTML = "";
 })
 
 c_save.addEventListener('click', (e) => {
@@ -901,3 +1073,4 @@ input_company.addEventListener('focusin', (e) => {
     e.target.style.background = "";
     e.target.style.border = "";
 })
+

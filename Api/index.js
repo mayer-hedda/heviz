@@ -147,8 +147,8 @@ async function login(raw) {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/login", requestOptions);
 
         if (response.status == 200 || response.status == 422) {
-            const data = await response.json(); 
-            localStorage.setItem("Token", data.jwt); 
+            const data = await response.json();
+            localStorage.setItem("Token", data.jwt);
             return {
                 status: response.status,
                 data: data // Return parsed data
