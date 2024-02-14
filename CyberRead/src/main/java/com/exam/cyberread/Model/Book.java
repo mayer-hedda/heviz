@@ -136,6 +136,10 @@ public class Book implements Serializable {
     private int categoryId;
     
     private int statusId;
+    
+    private int filter;
+    
+    private String searchText;
 
     public Book() {
     }
@@ -317,6 +321,14 @@ public class Book implements Serializable {
     
     public int getStatusId() {
         return statusId;
+    }
+    
+    public int getFilter() {
+        return filter;
+    }
+    
+    public String getSearchText() {
+        return searchText;
     }
     
     /**
@@ -1336,6 +1348,284 @@ public class Book implements Serializable {
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
             throw new BookException("Error in deleteBook() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param categoryId
+     * 
+     * @return
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+            * saved
+     * 
+     * @throws BookException: Something wrong
+     */
+    public static JSONArray getAllBooksByCategory(Integer userId, Integer categoryId) throws BookException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getAllBooksByCategory");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("categoryIdIN", Integer.class, ParameterMode.IN);
+            
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("categoryIdIN", categoryId);
+
+            spq.execute();
+            
+            List<Object[]> resultList = spq.getResultList();
+            JSONArray books = new JSONArray();
+            
+            for(Object[] result : resultList) { 
+                JSONObject book = new JSONObject();
+                book.put("id", (Integer) result[0]);
+                book.put("coverImage", (String) result[1]);
+                book.put("title", (String) result[2]);
+                book.put("firstName", (String) result[3]);
+                book.put("lastName", (String) result[4]);
+                book.put("publisher", (String) result[5]);
+                book.put("description", (String) result[6]);
+                book.put("pagesNumber", (Integer) result[7]);
+                book.put("rating", (BigDecimal) result[8]);
+                book.put("language", (String) result[9]);
+                if((Integer) result[10] == 0) {
+                    book.put("saved", false);
+                } else {
+                    book.put("saved", true);
+                }
+                
+                books.put(book);
+            }
+            
+            return books;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getAllBooksByCategory() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param filter
+     * 
+     * @return
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+            * saved
+     * 
+     * @throws BookException: Something wrong
+     */
+    public static JSONArray getFilteredBooks(Integer userId, Integer filter) throws BookException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getFilteredBooks");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("filter", Integer.class, ParameterMode.IN);
+            
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("filter", filter);
+
+            spq.execute();
+            
+            List<Object[]> resultList = spq.getResultList();
+            JSONArray books = new JSONArray();
+            
+            for(Object[] result : resultList) { 
+                JSONObject book = new JSONObject();
+                book.put("id", (Integer) result[0]);
+                book.put("coverImage", (String) result[1]);
+                book.put("title", (String) result[2]);
+                book.put("firstName", (String) result[3]);
+                book.put("lastName", (String) result[4]);
+                book.put("publisher", (String) result[5]);
+                book.put("description", (String) result[6]);
+                book.put("pagesNumber", (Integer) result[7]);
+                book.put("rating", (BigDecimal) result[8]);
+                book.put("language", (String) result[9]);
+                if((Integer) result[10] == 0) {
+                    book.put("saved", false);
+                } else {
+                    book.put("saved", true);
+                }
+                
+                books.put(book);
+            }
+            
+            return books;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getFilteredBooks() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param searchText
+     * 
+     * @return
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+            * saved
+     * 
+     * @throws BookException: Something wrong
+     */
+    public static JSONObject getSearchBooks(Integer userId, String searchText) throws BookException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getSearchBooks");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("searchTextIN", String.class, ParameterMode.IN);
+            
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("searchTextIN", searchText);
+
+            spq.execute();
+            
+            List<Object[]> resultList = spq.getResultList();
+            JSONArray books = new JSONArray();
+            
+            for(Object[] result : resultList) { 
+                JSONObject book = new JSONObject();
+                book.put("id", (Integer) result[0]);
+                book.put("coverImage", (String) result[1]);
+                book.put("title", (String) result[2]);
+                book.put("firstName", (String) result[3]);
+                book.put("lastName", (String) result[4]);
+                book.put("publisher", (String) result[5]);
+                book.put("description", (String) result[6]);
+                book.put("pagesNumber", (Integer) result[7]);
+                book.put("rating", (BigDecimal) result[8]);
+                book.put("language", (String) result[9]);
+                if((Integer) result[10] == 0) {
+                    book.put("saved", false);
+                } else {
+                    book.put("saved", true);
+                }
+                
+                books.put(book);
+            }
+            
+            JSONObject returnBooks = new JSONObject();
+            
+            returnBooks.put("books", books);
+            
+            return returnBooks;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getSearchBooks() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * 
+     * @return
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+     * 
+     * @throws BookException: Something wrong!
+     */
+    public static JSONArray getSavedBooksByUserId(Integer userId) throws BookException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getSavedBooksByUserId");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            
+            spq.setParameter("userIdIN", userId);
+
+            spq.execute();
+            
+            List<Object[]> resultList = spq.getResultList();
+            JSONArray books = new JSONArray();
+            
+            for(Object[] result : resultList) { 
+                JSONObject book = new JSONObject();
+                book.put("id", (Integer) result[0]);
+                book.put("coverImage", (String) result[1]);
+                book.put("title", (String) result[2]);
+                book.put("firstName", (String) result[3]);
+                book.put("lastName", (String) result[4]);
+                book.put("publisher", (String) result[5]);
+                book.put("description", (String) result[6]);
+                book.put("pagesNumber", (Integer) result[7]);
+                book.put("rating", (BigDecimal) result[8]);
+                book.put("language", (String) result[9]);
+                
+                books.put(book);
+            }
+            
+            return books;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getSavedBooksByUserId() method!");
         } finally {
             em.clear();
             em.close();
