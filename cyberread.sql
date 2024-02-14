@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Jan 12. 03:01
+-- Létrehozás ideje: 2024. Feb 14. 14:07
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -160,6 +160,31 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getActiveHelpCenter` ()   SELECT `h
 FROM `helpcenter`
 WHERE `helpcenter`.`active` = 1$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllBooksByCategory` (IN `userIdIN` INT, IN `categoryIdIN` INT)   SELECT
+	`book`.`id`,
+    `book`.`coverImage`,
+    `book`.`title`,
+    `writer`.`firstName`,
+    `writer`.`lastName`,
+    `publisher`.`companyName`,
+    `book`.`description`,
+    `book`.`pagesNumber`,
+    `bookrat`.`rat`,
+    `language`.`code`,
+    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+FROM `book`
+INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+LEFT JOIN (
+    SELECT `bookrating`.`bookId`,
+	AVG(`bookrating`.`rating`) AS `rat`
+	FROM `bookrating`
+	GROUP BY `bookrating`.`bookId`
+) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+WHERE `book`.`categoryId` = categoryIdIN$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllCategory` ()   SELECT *
 FROM `category`$$
 
@@ -204,6 +229,238 @@ WHERE
     `follow`.`followerId` = userIdIN
 ORDER BY
 	RAND()$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` INT, IN `filter` INT)   BEGIN
+
+	DECLARE rank VARCHAR(20);
+    
+    SELECT `user`.`rank` INTO rank 
+    FROM `user`
+    WHERE `user`.`id` = userIdIN;
+    
+    IF filter = 1 THEN
+       	SELECT
+            `book`.`id`,
+            `book`.`coverImage`,
+            `book`.`title`,
+            `writer`.`firstName`,
+            `writer`.`lastName`,
+            `publisher`.`companyName`,
+            `book`.`description`,
+            `book`.`pagesNumber`,
+            `bookrat`.`rat`,
+            `language`.`code`,
+            IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+        FROM `book`
+        INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+        LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+        LEFT JOIN (
+            SELECT `bookrating`.`bookId`,
+            AVG(`bookrating`.`rating`) AS `rat`
+            FROM `bookrating`
+            GROUP BY `bookrating`.`bookId`
+        ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+        INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+        LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+        WHERE `book`.`categoryId` = categoryIdIN
+        ORDER BY `book`.`title` ASC;
+    ELSEIF filter = 2 THEN
+      	SELECT
+            `book`.`id`,
+            `book`.`coverImage`,
+            `book`.`title`,
+            `writer`.`firstName`,
+            `writer`.`lastName`,
+            `publisher`.`companyName`,
+            `book`.`description`,
+            `book`.`pagesNumber`,
+            `bookrat`.`rat`,
+            `language`.`code`,
+            IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+        FROM `book`
+        INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+        LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+        LEFT JOIN (
+            SELECT `bookrating`.`bookId`,
+            AVG(`bookrating`.`rating`) AS `rat`
+            FROM `bookrating`
+            GROUP BY `bookrating`.`bookId`
+        ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+        INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+        LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+        WHERE `book`.`categoryId` = categoryIdIN
+        ORDER BY `book`.`title` DESC;
+    ELSEIF filter = 3 THEN
+    	SELECT
+            `book`.`id`,
+            `book`.`coverImage`,
+            `book`.`title`,
+            `writer`.`firstName`,
+            `writer`.`lastName`,
+            `publisher`.`companyName`,
+            `book`.`description`,
+            `book`.`pagesNumber`,
+            `bookrat`.`rat`,
+            `language`.`code`,
+            IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+        FROM `book`
+        INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+        LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+        LEFT JOIN (
+            SELECT `bookrating`.`bookId`,
+            AVG(`bookrating`.`rating`) AS `rat`
+            FROM `bookrating`
+            GROUP BY `bookrating`.`bookId`
+        ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+        INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+        LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+        WHERE `book`.`categoryId` = categoryIdIN
+        ORDER BY `book`.`publishedTime` ASC;
+    ELSEIF filter = 4 THEN
+    	SELECT
+            `book`.`id`,
+            `book`.`coverImage`,
+            `book`.`title`,
+            `writer`.`firstName`,
+            `writer`.`lastName`,
+            `publisher`.`companyName`,
+            `book`.`description`,
+            `book`.`pagesNumber`,
+            `bookrat`.`rat`,
+            `language`.`code`,
+            IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+        FROM `book`
+        INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+        LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+        LEFT JOIN (
+            SELECT `bookrating`.`bookId`,
+            AVG(`bookrating`.`rating`) AS `rat`
+            FROM `bookrating`
+            GROUP BY `bookrating`.`bookId`
+        ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+        INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+        LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+        WHERE `book`.`categoryId` = categoryIdIN
+        ORDER BY `book`.`publishedTime` DESC;
+    ELSE
+    	IF rank = "general" THEN
+        	IF filter = 5 THEN
+            	SELECT
+                    `book`.`id`,
+                    `book`.`coverImage`,
+                    `book`.`title`,
+                    `writer`.`firstName`,
+                    `writer`.`lastName`,
+                    `publisher`.`companyName`,
+                    `book`.`description`,
+                    `book`.`pagesNumber`,
+                    `bookrat`.`rat`,
+                    `language`.`code`,
+                    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+                FROM `book`
+                INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN (
+                    SELECT `bookrating`.`bookId`,
+                    AVG(`bookrating`.`rating`) AS `rat`
+                    FROM `bookrating`
+                    GROUP BY `bookrating`.`bookId`
+                ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                WHERE `book`.`categoryId` = categoryIdIN
+                ORDER BY `book`.`price` ASC;
+            ELSEIF filter = 6 THEN
+            	SELECT
+                    `book`.`id`,
+                    `book`.`coverImage`,
+                    `book`.`title`,
+                    `writer`.`firstName`,
+                    `writer`.`lastName`,
+                    `publisher`.`companyName`,
+                    `book`.`description`,
+                    `book`.`pagesNumber`,
+                    `bookrat`.`rat`,
+                    `language`.`code`,
+                    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+                FROM `book`
+                INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN (
+                    SELECT `bookrating`.`bookId`,
+                    AVG(`bookrating`.`rating`) AS `rat`
+                    FROM `bookrating`
+                    GROUP BY `bookrating`.`bookId`
+                ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                WHERE `book`.`categoryId` = categoryIdIN
+                ORDER BY `book`.`price` DESC;
+            ELSEIF filter = 7 THEN
+            	SELECT
+                    `book`.`id`,
+                    `book`.`coverImage`,
+                    `book`.`title`,
+                    `writer`.`firstName`,
+                    `writer`.`lastName`,
+                    `publisher`.`companyName`,
+                    `book`.`description`,
+                    `book`.`pagesNumber`,
+                    `bookrat`.`rat`,
+                    `language`.`code`,
+                    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+                FROM `book`
+                INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN (
+                    SELECT `bookrating`.`bookId`,
+                    AVG(`bookrating`.`rating`) AS `rat`
+                    FROM `bookrating`
+                    GROUP BY `bookrating`.`bookId`
+                ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                WHERE `book`.`categoryId` = categoryIdIN
+                ORDER BY (
+                    SELECT COUNT(*)
+                    FROM `saved`
+                    WHERE `saved`.`bookId` = `book`.`id`
+                ) DESC;
+            ELSEIF filter = 8 THEN
+            	SELECT
+                    `book`.`id`,
+                    `book`.`coverImage`,
+                    `book`.`title`,
+                    `writer`.`firstName`,
+                    `writer`.`lastName`,
+                    `publisher`.`companyName`,
+                    `book`.`description`,
+                    `book`.`pagesNumber`,
+                    `bookrat`.`rat`,
+                    `language`.`code`,
+                    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+                FROM `book`
+                INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN (
+                    SELECT `bookrating`.`bookId`,
+                    AVG(`bookrating`.`rating`) AS `rat`
+                    FROM `bookrating`
+                    GROUP BY `bookrating`.`bookId`
+                ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                WHERE `book`.`categoryId` = categoryIdIN
+                ORDER BY (
+                	SELECT COUNT(`bookshopping`.`id`)
+                    FROM `bookshopping`
+                    ORDER BY COUNT(`bookshopping`.`id`)
+                ) ASC;
+            END IF;
+        END IF;
+    END IF;
+
+END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getMostSavedBooksOfTheMonth` (IN `userIdIN` INT)   SELECT DISTINCT 
 	`book`.`id`,
@@ -512,6 +769,92 @@ AND `user`.`id` NOT IN (
     WHERE `follow`.`followerId` = userIdIN
 )$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getSavedBooksByUserId` (IN `userIdIN` INT)   SELECT
+    `book`.`id`,
+    `book`.`coverImage`,
+    `book`.`title`,
+    `writer`.`firstName`,
+    `writer`.`lastName`,
+    `publisher`.`companyName`,
+    `book`.`description`,
+    `book`.`pagesNumber`,
+    `bookrat`.`rat`,
+    `language`.`code`
+FROM `book`
+INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+LEFT JOIN (
+    SELECT `bookrating`.`bookId`,
+    AVG(`bookrating`.`rating`) AS `rat`
+	FROM `bookrating`
+    GROUP BY `bookrating`.`bookId`
+) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id`
+WHERE `saved`.`userId` = userIdIN$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getSearchBooks` (IN `userIdIN` INT, IN `searchTextIN` VARCHAR(50))   BEGIN
+
+	DECLARE userRank VARCHAR(50);
+    
+    SELECT `user`.`rank` INTO userRank
+    FROM `user`
+    WHERE `user`.`id` = userIdIN;
+    
+    IF userRank = "publisher" THEN
+    	SELECT
+            `book`.`id`,
+            `book`.`coverImage`,
+            `book`.`title`,
+            `writer`.`firstName`,
+            `writer`.`lastName`,
+            `publisher`.`companyName`,
+            `book`.`description`,
+            `book`.`pagesNumber`,
+            `bookrat`.`rat`,
+            `language`.`code`,
+            IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+        FROM `book`
+        INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+        LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+        LEFT JOIN (
+            SELECT `bookrating`.`bookId`,
+            AVG(`bookrating`.`rating`) AS `rat`
+            FROM `bookrating`
+            GROUP BY `bookrating`.`bookId`
+        ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+        INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+        LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+        WHERE (`book`.`title` LIKE CONCAT(searchTextIN, "%") OR `writer`.`firstName` LIKE CONCAT(searchTextIN, "%") OR `writer`.`lastName` LIKE CONCAT(searchTextIN, "%") OR `publisher`.`companyName` LIKE CONCAT(searchTextIN, "%")) AND `book`.`status` = "looking for a publisher";
+    ELSEIF userRank = "general" THEN
+    	SELECT
+            `book`.`id`,
+            `book`.`coverImage`,
+            `book`.`title`,
+            `writer`.`firstName`,
+            `writer`.`lastName`,
+            `publisher`.`companyName`,
+            `book`.`description`,
+            `book`.`pagesNumber`,
+            `bookrat`.`rat`,
+            `language`.`code`,
+            IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+        FROM `book`
+        INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+        LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+        LEFT JOIN (
+            SELECT `bookrating`.`bookId`,
+            AVG(`bookrating`.`rating`) AS `rat`
+            FROM `bookrating`
+            GROUP BY `bookrating`.`bookId`
+        ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+        INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+        LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+        WHERE (`book`.`title` LIKE CONCAT(searchTextIN, "%") OR `writer`.`firstName` LIKE CONCAT(searchTextIN, "%") OR `writer`.`lastName` LIKE CONCAT(searchTextIN, "%") OR `publisher`.`companyName` LIKE CONCAT(searchTextIN, "%")) AND (`book`.`status` = "self-published" OR `book`.`status`= "published by");
+    END IF;
+
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getSelfPublishedBooks` (IN `userIdIN` INT)   SELECT DISTINCT
     `book`.`id`, 
     `book`.`coverImage`, 
@@ -782,30 +1125,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `saveBook` (IN `userIdIN` INT, IN `b
     
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `select` ()   SELECT
-                `user`.`rank`,
-                `user`.`username`,
-                `user`.`image`,
-                -- IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
-                `user`.`firstName`,
-                `user`.`lastName`,
-                -- (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`writerId` = 1) AS bookCount,
-                -- (SELECT COUNT(`saved`.`id`) FROM `saved` WHERE `saved`.`userId` = 1) AS savedCount,
-                -- (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = 1) AS followCount,
-                `user`.`introDescription`,
-                `user`.`website`,
-                `color`.`code`
-            FROM `user`
-            -- LEFT JOIN `follow` ON `follow`.`followedId` = 1 AND `follow`.`followerId` = 1
-            LEFT JOIN `color` ON `color`.`id` = `user`.`coverColorId`
-            WHERE `follow`.`followerId` = 1$$
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `setBook` (IN `bookIdIN` INT, IN `titleIN` VARCHAR(50), IN `descriptionIN` VARCHAR(1000), IN `targetAudienceIdIN` INT, IN `languageIdIN` INT, IN `adultFictionIN` BOOLEAN, IN `categoryIdIN` INT, IN `statusIdIN` INT, IN `priceIN` INT, IN `coverImageIN` VARCHAR(100), IN `fileIN` VARCHAR(100), IN `bankAccountNumberIN` VARCHAR(30), IN `chapterNumberIN` INT, IN `freeChapterNumberIN` INT, OUT `result` INT)   BEGIN
     
     IF NOT EXISTS (SELECT * FROM `targetaudience` WHERE `targetaudience`.`id` = targetAudienceIdIN) AND NOT EXISTS (SELECT * FROM `language` WHERE `language`.`id` = languageIdIN) AND NOT EXISTS (SELECT * FROM `category` WHERE `category`.`id` = categoryIdIN) THEN
     	SET result = 8;
     ELSEIF NOT EXISTS (SELECT * FROM `language` WHERE `language`.`id` = languageIdIN) AND NOT EXISTS (SELECT * FROM `category` WHERE `category`.`id` = categoryIdIN) THEN
     	SET result = 7;
+
     ELSEIF NOT EXISTS (SELECT * FROM `targetaudience` WHERE `targetaudience`.`id` = targetAudienceIdIN) AND NOT EXISTS (SELECT * FROM `category` WHERE `category`.`id` = categoryIdIN) THEN
     	SET result = 6;
     ELSEIF NOT EXISTS (SELECT * FROM `targetaudience` WHERE `targetaudience`.`id` = targetAudienceIdIN) AND NOT EXISTS (SELECT * FROM `language` WHERE `language`.`id` = languageIdIN) THEN
@@ -1675,25 +2001,25 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `password`, `rank`, `firstName`, `lastName`, `phoneNumber`, `publicEmail`, `publicPhoneNumber`, `introDescription`, `website`, `image`, `registrationTime`, `active`, `coverColorId`, `userId`) VALUES
-(1, 'lilapapucs', 'nagybeni@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Nagy', 'Benedek', '+361884426325', 1, 0, 'Üdvözlöm! Ez itt egy új bemutatkozó leírás.', 'www.9bbdebe6ff.com', NULL, '2023-12-16 01:53:24', 0, 9, 1),
-(2, 'PenInkWriter', 'peninkwriter@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Kenderes', 'Amanda', '+36017249461', 0, 0, NULL, NULL, NULL, '2023-12-16 01:54:39', 0, 20, 2),
-(3, 'StoryCraftPro', 'angyalka@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Angyal', 'Kristóf', '+361802680023', 0, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', 'www.3a982c449f.com', NULL, '2023-12-16 01:55:13', 1, 1, 3),
-(4, 'NovelWordsmith', 'petike@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Kis', 'Péter', '+361581621029', 0, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', 'www.3061560356.com', NULL, '2023-12-16 01:55:45', 1, 11, 4),
-(6, 'ChapterVerseAuthor', 'peterffynora@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Péterffy', 'Nóra', '06202784951', 0, 1, NULL, NULL, NULL, '2023-12-16 01:58:43', 0, 2, 6),
-(7, 'PlotTwistWizard', 'sari@freemail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Németh', 'Sára', NULL, 1, 0, NULL, NULL, NULL, '2023-12-16 01:59:44', 1, 1, 7),
-(8, 'ProseJourneyer', 'kovemi@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Kovács', 'Emese', '+361964919275', 1, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', 'www.883faa1b88.com', NULL, '2023-12-16 02:00:44', 1, 1, 8),
-(9, 'VarazsloAdam', 'kovacsadam@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Kovács', 'Ádám', '+361608969096', 1, 1, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', 'www.004d97d4f8.com', NULL, '2023-12-16 02:05:40', 1, 18, 1),
-(10, 'KonyvMesekAnna', 'tothanna@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Anna', 'Tóth', '+36701873692', 1, 0, NULL, NULL, NULL, '2023-12-16 02:07:24', 1, 1, 2),
-(11, 'KreativBence', 'szabobeni@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Bence', 'Szabó', '+3672982563', 0, 0, NULL, 'www.hezfnwsko.com', NULL, '2023-12-16 02:08:07', 1, 6, 3),
-(12, 'OldalforgatoCsilla', 'molncsill@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Molnár', 'Csilla', '+361025808899', 0, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', 'www.2e66bd14c8.com', NULL, '2023-12-16 02:09:07', 1, 7, 4),
-(25, 'KalandDaniel', 'nagydaniel@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Nagy', 'Dániel', '+36201374892', 0, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', NULL, NULL, '2023-12-17 15:50:25', 1, 13, 6),
-(26, 'WriterEmese', 'varga@citromail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Emese', 'Varga', '+36019832674', 0, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', NULL, NULL, '2023-12-17 15:51:21', 1, 8, 7),
-(27, 'MeseloGergo', 'gergo@freemail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Kiss', 'Gergő', NULL, 0, 0, NULL, NULL, NULL, '2023-12-17 15:52:13', 1, 4, 8),
-(28, 'TortenetHanna', 'tortenethanna@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Hanna', 'Horváth', NULL, 1, 0, NULL, NULL, NULL, '2023-12-17 15:54:36', 1, 1, 9),
-(29, 'OlvasoJani', 'piroskaesafarkas@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'János', 'Farkas', '06303729165', 0, 1, NULL, NULL, NULL, '2023-12-17 15:55:38', 1, 1, 10),
-(30, 'olvasnijo', 'olvasnijo@freemail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Nagy', 'Ferenc', '+36019835627', 0, 1, NULL, NULL, NULL, '2023-12-17 15:56:19', 1, 1, 20),
-(31, 'szeretemazoszt', 'nagyhatielemer@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Elemér', 'Nagyháti', '0672359862', 0, 0, NULL, 'www.hetpsh.com', NULL, '2023-12-17 15:57:34', 1, 4, 21),
-(32, 'ifj_regenyek', 'ifjregenyek@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Laufer', 'Péter', '06703696146', 1, 0, NULL, NULL, NULL, '2023-12-17 15:58:58', 0, 15, 11),
+(1, 'lilapapucs', 'nagybeni@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Nagy', 'Benedek', '+361884426325', 1, 0, 'Üdvözlöm! Ez itt egy új bemutatkozó leírás.', 'www.9bbdebe6ff.com', 'pictures/default-profile-pic-man.png', '2023-12-16 01:53:24', 0, 9, 1),
+(2, 'PenInkWriter', 'peninkwriter@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Kenderes', 'Amanda', '+36017249461', 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-16 01:54:39', 0, 20, 2),
+(3, 'StoryCraftPro', 'angyalka@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Angyal', 'Kristóf', '+361802680023', 0, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', 'www.3a982c449f.com', 'pictures/default-profile-pic-man.png', '2023-12-16 01:55:13', 1, 1, 3),
+(4, 'NovelWordsmith', 'petike@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Kis', 'Péter', '+361581621029', 0, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', 'www.3061560356.com', 'pictures/default-profile-pic-man.png', '2023-12-16 01:55:45', 1, 11, 4),
+(6, 'ChapterVerseAuthor', 'peterffynora@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Péterffy', 'Nóra', '06202784951', 0, 1, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-16 01:58:43', 0, 2, 6),
+(7, 'PlotTwistWizard', 'sari@freemail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Németh', 'Sára', NULL, 1, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-16 01:59:44', 1, 1, 7),
+(8, 'ProseJourneyer', 'kovemi@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Kovács', 'Emese', '+361964919275', 1, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', 'www.883faa1b88.com', 'pictures/default-profile-pic-man.png', '2023-12-16 02:00:44', 1, 1, 8),
+(9, 'VarazsloAdam', 'kovacsadam@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Kovács', 'Ádám', '+361608969096', 1, 1, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', 'www.004d97d4f8.com', 'pictures/default-profile-pic-man.png', '2023-12-16 02:05:40', 0, 18, 1),
+(10, 'KonyvMesekAnna', 'tothanna@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Anna', 'Tóth', '+36701873692', 1, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-16 02:07:24', 1, 1, 2),
+(11, 'KreativBence', 'szabobeni@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Bence', 'Szabó', '+3672982563', 0, 0, NULL, 'www.hezfnwsko.com', 'pictures/default-profile-pic-man.png', '2023-12-16 02:08:07', 1, 6, 3),
+(12, 'OldalforgatoCsilla', 'molncsill@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Molnár', 'Csilla', '+361025808899', 0, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', 'www.2e66bd14c8.com', 'pictures/default-profile-pic-man.png', '2023-12-16 02:09:07', 1, 7, 4),
+(25, 'KalandDaniel', 'nagydaniel@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Nagy', 'Dániel', '+36201374892', 0, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', NULL, 'pictures/default-profile-pic-man.png', '2023-12-17 15:50:25', 1, 13, 6),
+(26, 'WriterEmese', 'varga@citromail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Emese', 'Varga', '+36019832674', 0, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', NULL, 'pictures/default-profile-pic-man.png', '2023-12-17 15:51:21', 1, 8, 7),
+(27, 'MeseloGergo', 'gergo@freemail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Kiss', 'Gergő', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-17 15:52:13', 1, 4, 8),
+(28, 'TortenetHanna', 'tortenethanna@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Hanna', 'Horváth', NULL, 1, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-17 15:54:36', 1, 1, 9),
+(29, 'OlvasoJani', 'piroskaesafarkas@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'János', 'Farkas', '06303729165', 0, 1, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-17 15:55:38', 1, 1, 10),
+(30, 'olvasnijo', 'olvasnijo@freemail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Nagy', 'Ferenc', '+36019835627', 0, 1, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-17 15:56:19', 1, 1, 20),
+(31, 'szeretemazoszt', 'nagyhatielemer@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Elemér', 'Nagyháti', '0672359862', 0, 0, NULL, 'www.hetpsh.com', 'pictures/default-profile-pic-man.png', '2023-12-17 15:57:34', 1, 4, 21),
+(32, 'ifj_regenyek', 'ifjregenyek@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Laufer', 'Péter', '06703696146', 1, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-17 15:58:58', 0, 15, 11),
 (34, 'macAndCheese23', 'macandcheese@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'mac', 'cheese', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-19 22:37:56', 1, 1, 23),
 (35, 'ehesVagyok15', 'ehesvagyok@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'ehes', 'vagyok', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-astronaut.png', '2023-12-19 22:40:47', 1, 1, 24),
 (36, 'theMandalorian89', 'mandalorian@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'the', 'mandalorian', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-mandalorian.png', '2023-12-19 22:42:21', 1, 1, 25),
