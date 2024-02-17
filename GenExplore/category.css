@@ -82,7 +82,11 @@ body {
     background: #ACA09A;
 }
 
-/* --------------- NAVBAR ---------------*/
+/** --------------- NAVBAR ---------------*/
+
+/* *{
+    position: relative;
+} */
 
 nav {
     background-color: var(--page-bg-color);
@@ -92,6 +96,7 @@ nav {
 #navbar {
     padding-right: 5%;
     padding-left: 5%;
+    /* padding: var(--default-padding); */
 }
 
 #navbar a,
@@ -99,7 +104,8 @@ nav {
     font-size: larger;
     display: inline;
     padding: 0.938rem;
-    font-family: 'Inter-Medium', sans-serif;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
 }
 
 #navbar a {
@@ -110,12 +116,15 @@ nav {
     color: var(--navbar-p-color) !important;
 }
 
+
+
 #navbar a:hover {
     color: var(--navbar-a-hover-color);
-    font-style: italic;
+    /* font-weight: 700; */
+    /* font-style: italic; */
 }
 
-.active-page {
+#HomePage {
     /*? Az aktuális page */
     color: var(--current-page-color) !important;
     text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
@@ -123,27 +132,19 @@ nav {
     text-underline-offset: 0.281rem;
 }
 
-.active-page:hover {
+#HomePage:hover {
     /*? aktuális page hover */
     color: var(--current-page-hover-color) !important;
-    font-style: italic;
+    /* font-style: italic; */
 }
 
-.active:hover{
-    cursor: default
-}
-
-.backPage:hover {
-    font-style: italic;
-}
-
-#profile-icon {
+#profile-icon img{
     width: 50px;
     /* Állítsd be a kívánt szélességet és magasságot */
     height: 50px;
     border-radius: 50%;
     /* Kör alak kialakítása */
-    background-image: url('../pictures/default-profile-pic.png');
+    /* background-image: url('../pictures/default-profile-pic.png'); */
     /* Alapértelmezett kép beállítása */
     background-size: cover;
     /* A kép méretezése a konténerhez */
@@ -153,16 +154,16 @@ nav {
     /* Mutató kurzor megjelenítése, hogy látható legyen, kattintható */
 }
 
-#navbarNav {
+#navbarNav{
     margin-left: 90px;
 }
 
-#writingBtn {
+#writingBtn, #writingBtn-zeroData{
     font-size: medium;
-    font-family: 'Inter-Medium', sans-serif;
+    font-family: 'Inter', sans-serif;
     color: var(--btn-text-color);
     border: solid var(--primary-BTN-Bg-color);
-
+    /* border-width: 0rem; */
     border-radius: 1.5rem;
 
     background-color: var(--primary-BTN-Bg-color);
@@ -177,10 +178,10 @@ nav {
 
     box-sizing: border-box;
     margin-right: 50px;
-
+    /* align-items: self-end; */
 }
 
-#writingBtn:hover {
+#writingBtn:hover, #writingBtn-zeroData:hover{
     transition: color 0.8s ease;
     /*átmenet a hover és a rendes állapot között*/
     transition: background-color 0.3s ease;
@@ -189,6 +190,16 @@ nav {
     color: var(--mostUsed-text-color);
     border: dashed 0.094rem var(--dash-color);
 }
+
+.dropdown-menu a{
+    margin-bottom: 10px;
+}
+
+.dropdown-menu a:hover{
+    background-color: transparent;
+}
+
+
 
 /* ---------- SECTION ONE ----------------------  */
 #s1 {

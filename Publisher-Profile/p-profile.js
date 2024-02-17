@@ -7,6 +7,9 @@ const input_fName = document.getElementById('input-fName');
 const input_lName = document.getElementById('input-lName');
 const input_company = document.getElementById('input-company');
 
+let isIntroExist = false;
+const missing_intro_text = document.getElementById('missing-intro-text');
+
 window.onload = async function () {
     const tokenResponese = await token();
     switch (tokenResponese.status) {
@@ -15,37 +18,63 @@ window.onload = async function () {
             console.log("User details: " + JSON.stringify(responseUser));
             switch (responseUser.status) {
                 case 200:
-                    checkOwnProfile(responseUser);
+                    const isOwnProf = checkOwnProfile(responseUser);
+                    if (isOwnProf === true) {
+                        if (responseUser.data.introDescription === undefined) {
+                            introText.hidden = true;
+                            missing_intro_text.hidden = false;
+                            isIntroExist = false;
+                        } else {
+                            introText.innerHTML = `${responseUser.data.introDescription}`;
+                            isIntroExist = true;
+                        }
+                    } else {
+                        const intro_div = document.getElementById('introdution');
+                        intro_div.hidden = true;
+                    }
+
+
                     loadProfilePicture(responseUser);
                     loadCoverColor(responseUser);
                     loadUserTextDatas(responseUser);
                     contactInfos(responseUser);
-
+                    // console.log("token: --- "+localStorage.getItem("Token"));
                     addPlaceholder(responseUser, "username", input_un);
                     addPlaceholder(responseUser, "companyName", input_company);
 
                     // load posts
-                    // const responsePosts = await getUserPosts({ "profileUsername": tokenResponese.data.username });
-                    // console.log("Post details: ", JSON.stringify(responsePosts));
+                    const responsePosts = await getUserPosts({ "profileUsername": tokenResponese.data.username });
+                    console.log("Post details: ", JSON.stringify(responsePosts));
 
-                    // switch (responsePosts.status) {
-                    //     case 200:
-                    //         getPosts(responsePosts);
-                    //         break;
+                    switch (responsePosts.status) {
+                        case 200:
+                            getPosts(responsePosts);
+                            break;
 
-                    //     case 401:
-                    //         //? itt nincs tokenje, vagy lejárt a tokenje --> eljut egyáltalán idáig?
-                    //         break;
+                        case 401:
+                            //? itt nincs tokenje, vagy lejárt a tokenje --> eljut egyáltalán idáig?
+                            break;
 
-                    //     case 422:
-                    //         //? profile username error
-                    //         break;
-                    // }
+                        case 422:
+                            //? profile username error
+                            break;
+                    }
 
                     // load books
-                    const responseBooks = await getUserBooks({"profileUsername": tokenResponese.data.username});
+                    const responseBooks = await getUserBooks({ "profileUsername": tokenResponese.data.username });
                     console.log("Books details: ", responseBooks);
+                    switch (responseBooks.status) {
+                        case 200:
+                            getBooks(responseBooks);
+                            break;
+                        case 401:
+                            //? itt nincs tokenje, vagy lejárt a tokenje --> eljut egyáltalán idáig?
+                            break;
 
+                        case 422:
+                            //? profile username error
+                            break;
+                    }
 
                     break;
                 case 401:
@@ -83,19 +112,49 @@ const characterCounter = document.getElementById('characterCounter');
 
 editIntro.addEventListener('click', (e) => {
     e.preventDefault();
-    introText.readOnly = false;
-    introText.classList.add("info-edit-active");
-    saveBtn.hidden = false;
-    cancelBtn.hidden = false;
-    error_and_counter.hidden = false;
+
+    if (isIntroExist == false) {
+        introText.hidden = false;
+        missing_intro_text.hidden = true;
+
+        introText.readOnly = false;
+        introText.classList.add("info-edit-active");
+        saveBtn.hidden = false;
+        cancelBtn.hidden = false;
+        error_and_counter.hidden = false;
+    } else {
+
+        introText.readOnly = false;
+        introText.classList.add("info-edit-active");
+        saveBtn.hidden = false;
+        cancelBtn.hidden = false;
+        error_and_counter.hidden = false;
+    }
+
+
 })
 
 cancelBtn.addEventListener('click', (e) => {
-    introText.readOnly = true;
-    introText.classList.remove("info-edit-active");
-    saveBtn.hidden = true;
-    cancelBtn.hidden = true;
-    error_and_counter.hidden = true;
+
+    if (isIntroExist == false) {
+        introText.hidden = true;
+        missing_intro_text.hidden = false;
+
+
+        saveBtn.hidden = true;
+        cancelBtn.hidden = true;
+        error_and_counter.hidden = true;
+
+    } else {
+
+        introText.readOnly = true;
+        introText.classList.remove("info-edit-active");
+        saveBtn.hidden = true;
+        cancelBtn.hidden = true;
+        error_and_counter.hidden = true;
+    }
+
+
 })
 
 introText.addEventListener('input', (e) => {
@@ -145,13 +204,14 @@ function loadUserTextDatas(response) {
     const name = document.getElementById('name');
     const u_name = document.getElementById('username');
     // const partners = document.getElementById('partner-number');
-    const saved_books = document.getElementById('saved-books-number');
+    const own_books = document.getElementById('own-books-number');
     const followers = document.getElementById('followers-number');
+
 
     name.innerHTML = `${response.data.companyName}`;
     u_name.innerHTML = `@${response.data.username}`;
-    introText.innerHTML = `${response.data.introDescription}`;
-    saved_books.innerHTML = `${response.data.savedBookCount}`;
+
+    own_books.innerHTML = `${response.data.bookCount}`;
     followers.innerHTML = `${response.data.followersCount}`;
 }
 
@@ -171,17 +231,16 @@ function checkOwnProfile(response) {
         edit_intro.hidden = false;
 
         follow_btn_div.hidden = true;
+
+        return true;
     } else {
         editPicture.hidden = true;
         editCover.hidden = true;
         settings.hidden = true;
         edit_intro.hidden = true;
 
-        post_editDelete_div.forEach(div => {
-            div.hidden = true;
-        });
-
         follow_btn_div.hidden = false;
+        return false;
     }
 }
 
@@ -193,96 +252,35 @@ function contactInfos(response) {
     }
 }
 
-function getPosts(response) {
-    const post_div = document.getElementById('posts');
+const book_modal_body = document.getElementById('book-popup-modal-body');
+const book_modal_img = document.getElementById('book-modal-img');
+const book_modal_title = document.getElementById('modal-title');
+const book_modal_author = document.getElementById('modal-author');
+const book_modal_pages = document.getElementById('modal-pages');
+const book_modal_ranking = document.getElementById('modal-ranking');
+const book_modal_language = document.getElementById('modal-language');
+const book_modal_desc = document.getElementById('modal-desc');
 
-    //! ebben a változóban fogom eltárolni a response.myPosts.image-t
-    let p_pic_URL;
+function loadModalData(url, title, firstName, lastName, description, language, rating, pages) {
 
-    for (let i = 0; i <= response.myPosts.length; i++) {
-        post_div.innerHTML += `
-            <div class="post-card ">
-                <div class="first-row">
-                    <!--? profil kép helye  -->
-                    <div class="post-profile-icon rounded-circle shadow-sm"
-                        style="background-image: url('../pictures/default-profile-pic-astronaut.png');"></div>
-
-                    <!--? User nevének helye -->
-                    <div class="userName">
-                        <p class="card-user-name">${response.myPosts[i].username}</p>
-                    </div>
-                    <div class="cardDate align-content-end">
-                        <p class="card-date-text">${response.myPosts[i].postTime}</p>
-                    </div>
-                </div>
-
-                <div class="postText">
-                    <p class="post-text">${response.myPosts[i].description}</p>
-                </div>
-
-                <div class="last-row">
-
-                    <div class="edit-delete-div" hidden>
-                        <button type="button" class="bg-transparent border-0 edit-post">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor"
-                                class="bi bi-pen" viewBox="0 0 16 16">
-                                <path
-                                    d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
-                            </svg>
-                        </button>
-
-                        <button type="button" class="bg-transparent border-0 delete-post">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                                <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
-                            </svg>
-                        </button>
-                    </div>
-                    
-
-                    <div class="like-and-share">
-                        <div class="d-flex flex-column align-items-center emptyLike">
-
-
-                            <div class="like visible">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23"
-                                    fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                    <path
-                                        d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                                </svg>
-                            </div>
-
-                            <div class="liked hidden" style="margin-right: 10px;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23"
-                                    fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd"
-                                        d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" />
-                                </svg>
-                            </div>
-
-
-                        </div>
-
-                        <div class="d-flex flex-column align-items-center">
-                            <div class="share"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="23"
-                                    fill="currentColor" class="bi bi-share-fill" viewBox="0 0 16 16">
-                                    <path
-                                        d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5" />
-                                </svg></div>
-
-                        </div>
-                    </div>
-                </div>  
-            </div>  
-        `;
+    if (url != "Ez a kép elérési útja") {
+        book_modal_img.src = `../${url}.jpg`;
     }
 
+    book_modal_title.innerText = `${title}`;
+    book_modal_author.innerText = `${firstName} ${lastName}`;
+    book_modal_pages.innerText = `${pages}`;
+    if (rating != 'undefined') {
+        book_modal_ranking.innerText = `${rating}`;
+    } else {
+        book_modal_ranking.innerText = "-";
+    }
 
+    book_modal_language.innerText = `${language}`;
+    book_modal_desc.innerText = `${description}`;
 
-    const post_editDelete_div = document.querySelectorAll('.edit-delete-div');
-    post_editDelete_div.forEach(div => {
-        div.hidden = false;
-    });
 }
+
 
 const our_books = document.getElementById('our-books');
 const our_posts = document.getElementById('our-posts');
@@ -326,12 +324,14 @@ followBTN.addEventListener('click', (e) => {
         followBTN.innerText = 'Followed';
         clicked = true;
 
-        console.log("megnyomtad");
-
+        console.log("Followed");
+        // followUser("followedId": tokenResponese.data.);
     } else {
         followBTN.classList.remove('followed');
         followBTN.innerText = 'Follow';
         clicked = false;
+
+        console.log("Unfollowed");
     }
 })
 
@@ -355,6 +355,74 @@ ourPosts_btn.addEventListener('click', (e) => {
     ourBooks_btn.classList.add("disabled-btn");
 })
 
+function getPosts(responsePost) {
+
+    for (let i = 0; i <= responsePost.data.myPosts.length - 1; i++) {
+        // elmentem az adott poszt id-t
+        const postId = responsePost.data.myPosts[i].id;
+
+        posts_div.innerHTML += `
+            <div class="post-card ">
+                <div class="first-row">
+                    <!--? profil kép helye  -->
+                    <div class="post-profile-icon rounded-circle shadow-sm"
+                        style="background-image: url('../pictures/default-profile-pic-astronaut.png');"></div>
+
+                    <!--? User nevének helye -->
+                    <div class="userName">
+                        <p class="card-user-name">${responsePost.data.myPosts[i].username}</p>
+                    </div>
+                    <div class="cardDate align-content-end">
+                        <p class="card-date-text">${responsePost.data.myPosts[i].postTime}</p>
+                    </div>
+                </div>
+
+                <div class="postText">
+                    <p class="post-text">${responsePost.data.myPosts[i].description}</p>
+                </div>
+
+                <div class="last-row">
+
+                    <div class="edit-delete-div" hidden>
+                        <button type="button" class="bg-transparent border-0 edit-post">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor"
+                                class="bi bi-pen" viewBox="0 0 16 16">
+                                <path
+                                    d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
+                            </svg>
+                        </button>
+
+                        <button type="button" class="bg-transparent border-0 delete-post" onclick="DeletePostBTN(this, ${responsePost.data.myPosts[i].id})">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>  
+            </div>  
+        `;
+    }
+
+    // console.log(postId);
+    if (responsePost.data.ownPosts === true) {
+        const post_editDelete_div = document.querySelectorAll('.edit-delete-div');
+        post_editDelete_div.forEach(div => {
+            div.hidden = false;
+        });
+    }
+}
+
+async function DeletePostBTN(button, postID){
+    console.log(postID);
+    console.log("megnyomtad a törlés gombot");
+    const deleteResult = await deletePost({ "id": postID });
+    if (deleteResult.status == 200){
+        const postCard = button.closest('.post-card');
+        postCard.remove();
+    }
+    
+}
+
 // show books
 ourBooks_btn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -367,11 +435,113 @@ ourBooks_btn.addEventListener('click', (e) => {
     ourPosts_btn.classList.add("disabled-btn");
 })
 
+
+function getBooks(responseBook) {
+    for (let i = 0; i <= responseBook.data.myBooks.length - 1; i++) {
+        if (responseBook.data.myBooks[i].coverImage != "Ez a kép elérési útja") {
+            books_div.innerHTML += `
+                <div class="container medium-card" style="background-color: #EAD7BE;">
+                    <div class="row">
+                        <div class="col-3 my-col3" id="s5-mediumCardPic-div">
+                            <!--? Picture => Alt-nak mehet majd a könyv címe -->
+                           
+                            <img class="medium-pic" src="../${responseBook.data.myBooks[i].coverImage}.jpg" alt="${responseBook.data.myBooks[i].title}">
+                            
+                        </div>
+
+                        <div class="col-9 medium-right-side">
+                            <!--? Author + Book Title  -->
+                            <h2 class="container medium-h2" id="s5-mediumC-h2">${responseBook.data.myBooks[i].title}</h2>
+                            <p class="username" id="s5-mediumC-user">${responseBook.data.myBooks[i].firstName} ${responseBook.data.myBooks[i].lastName}</p>
+                            <p class="medium-desc" id="s5-mediumC-desc">${responseBook.data.myBooks[i].description}</p>
+
+                            <div class="card-footer">
+                            <button class="moreBtn-medium" data-bs-toggle="modal" data-bs-target="#bookPopup
+                            
+                            "
+                            onclick="loadModalData('${responseBook.data.myBooks[i].coverImage}', '${responseBook.data.myBooks[i].title}', '${responseBook.data.myBooks[i].firstName}', '${responseBook.data.myBooks[i].lastName}', '${responseBook.data.myBooks[i].description}', '${responseBook.data.myBooks[i].language}', '${responseBook.data.myBooks[i].rating}', '${responseBook.data.myBooks[i].pagesNumber}')">Show
+                            Details</button>
+
+                                <div class="edit-delete-div-books">
+                                    <button type="button" class="bg-transparent border-0 edit-book">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor"
+                                            class="bi bi-pen" viewBox="0 0 16 16">
+                                            <path
+                                                d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
+                                        </svg>
+                                    </button>
+
+                                    <button type="button" class="bg-transparent border-0 delete-book">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                            <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else {
+            books_div.innerHTML += `
+                <div class="container medium-card" style="background-color: #EAD7BE;">
+                    <div class="row">
+                        <div class="col-3 my-col3" id="s5-mediumCardPic-div">
+                            <!--? Picture => Alt-nak mehet majd a könyv címe -->
+                           
+                            <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${responseBook.data.myBooks[i].title}">
+                            
+                        </div>
+
+                        <div class="col-9 medium-right-side">
+                            <!--? Author + Book Title  -->
+                            <h2 class="container medium-h2" id="s5-mediumC-h2">${responseBook.data.myBooks[i].title}</h2>
+                            <p class="username" id="s5-mediumC-user">${responseBook.data.myBooks[i].firstName} ${responseBook.data.myBooks[i].lastName}</p>
+                            <p class="medium-desc" id="s5-mediumC-desc">${responseBook.data.myBooks[i].description}</p>
+
+                            <div class="card-footer">
+                            <button class="moreBtn-medium" data-bs-toggle="modal" data-bs-target="#bookPopup"
+                            onclick="loadModalData('${responseBook.data.myBooks[i].coverImage}', '${responseBook.data.myBooks[i].title}', '${responseBook.data.myBooks[i].firstName}', '${responseBook.data.myBooks[i].lastName}', '${responseBook.data.myBooks[i].description}', '${responseBook.data.myBooks[i].language}', '${responseBook.data.myBooks[i].rating}', '${responseBook.data.myBooks[i].pagesNumber}')">Show
+                            Details</button>
+
+                                <div class="edit-delete-div-books">
+                                    <button type="button" class="bg-transparent border-0 edit-book">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor"
+                                            class="bi bi-pen" viewBox="0 0 16 16">
+                                            <path
+                                                d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
+                                        </svg>
+                                    </button>
+
+                                    <button type="button" class="bg-transparent border-0 delete-book">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                            <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+    if (responseBook.data.ownBooks === true) {
+        const post_editDelete_div_books = document.querySelectorAll('.edit-delete-div-books');
+        post_editDelete_div_books.forEach(div => {
+            div.hidden = false;
+        });
+    }
+}
+
 // switch between settiings
 // settings buttons
 const profile_settings = document.getElementById('profile-settings');
 const privacy_settings = document.getElementById('privacy-settings');
 const buisness_settings = document.getElementById('buisness-settings');
+
+const logOut = document.getElementById('logOut');
 
 // settings divs
 const profile_settings_div = document.getElementById('profile-settings-div');
@@ -447,6 +617,13 @@ buisness_settings.addEventListener('click', (e) => {
         privacy_settings.classList.remove('active-set');
         privacy_settings.classList.add('disabled-set');
     }
+})
+
+logOut.addEventListener('click', (e) => {
+    // console.log("token a törlés előtt: --- "+localStorage.getItem("Token"));
+    localStorage.removeItem("Token");
+    // console.log("token a törlés után: --- "+localStorage.getItem("Token"));
+    window.location.assign('../Landing-Page/landing.html');
 })
 
 // edit buttons on settings --> profile settings

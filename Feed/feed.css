@@ -123,10 +123,14 @@
 
 /** --------------- NAVBAR ---------------*/
 
-/* nav {
+/* *{
+    position: relative;
+} */
+
+nav {
     background-color: var(--page-bg-color);
 
-} */
+}
 
 #navbar {
     padding-right: 5%;
@@ -135,7 +139,7 @@
 }
 
 #navbar a,
-p {
+#navbar p {
     font-size: larger;
     display: inline;
     padding: 0.938rem;
@@ -156,10 +160,10 @@ p {
 #navbar a:hover {
     color: var(--navbar-a-hover-color);
     /* font-weight: 700; */
-    font-style: italic;
+    /* font-style: italic; */
 }
 
-#Feed {
+#HomePage {
     /*? Az aktuális page */
     color: var(--current-page-color) !important;
     text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
@@ -167,19 +171,19 @@ p {
     text-underline-offset: 0.281rem;
 }
 
-#Feed:hover {
+#HomePage:hover {
     /*? aktuális page hover */
     color: var(--current-page-hover-color) !important;
-    font-style: italic;
+    /* font-style: italic; */
 }
 
-#profile-icon {
+#profile-icon img{
     width: 50px;
     /* Állítsd be a kívánt szélességet és magasságot */
     height: 50px;
     border-radius: 50%;
     /* Kör alak kialakítása */
-    /* background-image: url(); */
+    /* background-image: url('../pictures/default-profile-pic.png'); */
     /* Alapértelmezett kép beállítása */
     background-size: cover;
     /* A kép méretezése a konténerhez */
@@ -189,16 +193,16 @@ p {
     /* Mutató kurzor megjelenítése, hogy látható legyen, kattintható */
 }
 
-#navbarNav {
-    margin-left: 60px;
+#navbarNav{
+    margin-left: 90px;
 }
 
-#writingBtn {
+#writingBtn, #writingBtn-zeroData{
     font-size: medium;
     font-family: 'Inter', sans-serif;
     color: var(--btn-text-color);
-
-    border-width: 0rem;
+    border: solid var(--primary-BTN-Bg-color);
+    /* border-width: 0rem; */
     border-radius: 1.5rem;
 
     background-color: var(--primary-BTN-Bg-color);
@@ -207,7 +211,7 @@ p {
 
     transition: color 0.8s ease;
     /*átmenet a hover és a rendes állapot között*/
-    transition: background-color 0.8s ease;
+    transition: background-color 0.3s ease;
     /*átmenet a hover és a rendes állapot között*/
     line-height: 1.125rem;
 
@@ -216,15 +220,24 @@ p {
     /* align-items: self-end; */
 }
 
-#writingBtn:hover {
+#writingBtn:hover, #writingBtn-zeroData:hover{
     transition: color 0.8s ease;
     /*átmenet a hover és a rendes állapot között*/
-    transition: background-color 0.8s ease;
+    transition: background-color 0.3s ease;
     /*átmenet a hover és a rendes állapot között*/
     background-color: rgb(247, 245, 236);
     color: var(--mostUsed-text-color);
     border: dashed 0.094rem var(--dash-color);
 }
+
+.dropdown-menu a{
+    margin-bottom: 10px;
+}
+
+.dropdown-menu a:hover{
+    background-color: transparent;
+}
+
 
 /** --------------- FIRST-SECTION ---------------*/
 

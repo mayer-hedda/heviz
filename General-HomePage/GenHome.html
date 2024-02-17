@@ -60,34 +60,45 @@
             </div>
             <!--? User nevének helye -->
             <div id="user-name">
-                <p id="userName-p"></p>
+                <div class="dropdown">
+                    <button class="bg-transparent border-0 dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <p id="userName-p"></p>
+                    </button>
+
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" id="Logout">Log Out</a></li>
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
 
 
     <h1 id="welcome" class="container">Welcome User!</h1>
-    <!--? FIRST SECTION => RANDOM NAGY KÁRTYA  -->
+
+    <!-- FIRST SECTION => RANDOM NAGY KÁRTYA  -->
     <section id="first-section" class="container">
         <!-- Default value: hidden = false -->
         <div id="first-s-card" class="container full-card">
             <div class="row card-bg" style="border: 3px">
                 <div class="col-4 picSide" id="bigCard-Pic">
-                    <!--* KÉP HELYE  -->
+                    <!-- Cover pic  -->
                 </div>
 
                 <div class="col-8 textSide">
                     <h2 class="textH2" id="s1-bigCard-h2">
-                        <!--* CÍM HELYE  -->
+                        <!-- Title  -->
                     </h2>
                     <p class="bigUsername" id="s1-bigCard-author">
-                        <!--* USERNAME HELYE -->
+                        <!-- Author's name -->
                     </p>
                     <p class="description" id="s1-bigCard-p">
-                        <!--* LEÍRÁS HELYE  -->
+                        <!-- Description  -->
                     </p>
 
-                    <!--TODO: POPUP ABLAK  -->
+                    <!-- Modal / popup  -->
                     <button type="button" id="randomBook-btn" class="moreBtn" data-bs-toggle="modal"
                         data-bs-target="#modalID">Start
                         Reading</button>
@@ -101,7 +112,7 @@
 
 
 
-    <!-- TODO: SECOND SECTION => Most popular books of the month -->
+    <!-- SECOND SECTION => Most popular books of the month -->
     <section id="second-section" class="container sub-sections">
         <!-- Default value: hidden = false -->
         <h2 class=" subtitle">Books of the month:</h2>
@@ -109,20 +120,19 @@
         <div class="container medium-card" style="background-color: #EAD7BE;" id="s2-mediumC">
             <div class="row">
                 <div class="col-3" id="s2-mediumC-pic">
-                    <!--? Picture => Alt-nak mehet majd a könyv címe -->
-
+                    <!-- Picture => Alt-nak mehet majd a könyv címe -->
                 </div>
 
                 <div class="col-9 medium-right-side">
-                    <!--? Author + Book Title  -->
+                    <!-- Author + Book Title  -->
                     <h2 class="container medium-h2" id="s2-mediumC-h2">
-                        <!--* TITLE PLACE  -->
+                        <!-- Title  -->
                     </h2>
                     <p class="username" id="s2-mediumC-author">
-                        <!--* USERNAME PLACE  -->
+                        <!-- Author's name -->
                     </p>
                     <p class="medium-desc" id="s2-mediumC-p">
-                        <!--* DESCRIPTION PLACE  -->
+                        <!-- Description  -->
                     </p>
                     <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
                         data-bs-target="#modalID" id="s2-mediumC-btn">Start Reading</button>
@@ -133,7 +143,7 @@
 
         <div class="book-row">
             <div class="row text-center" id="s2-first-row">
-                <!--* BOOK COVERS -->
+                <!-- book covers in one row -->
 
             </div>
         </div>
@@ -143,7 +153,7 @@
     </section>
 
 
-    <!-- TODO: THIRD SECTION => Based on your favorite books: -->
+    <!-- THIRD SECTION => Based on your favorite books: -->
 
     <section id="third-section" class="container sub-sections">
         <!-- Default value: hidden = false -->

@@ -159,7 +159,7 @@ nav {
 #navbar a:hover {
     color: var(--navbar-a-hover-color);
     /* font-weight: 700; */
-    font-style: italic;
+    /* font-style: italic; */
 }
 
 #HomePage {
@@ -173,7 +173,7 @@ nav {
 #HomePage:hover {
     /*? aktuális page hover */
     color: var(--current-page-hover-color) !important;
-    font-style: italic;
+    /* font-style: italic; */
 }
 
 #profile-icon img{
@@ -227,6 +227,14 @@ nav {
     background-color: rgb(247, 245, 236);
     color: var(--mostUsed-text-color);
     border: dashed 0.094rem var(--dash-color);
+}
+
+.dropdown-menu a{
+    margin-bottom: 10px;
+}
+
+.dropdown-menu a:hover{
+    background-color: transparent;
 }
 
 /** --------------- TITLES AND ROWS NAD GENERAL STUFF ---------------*/

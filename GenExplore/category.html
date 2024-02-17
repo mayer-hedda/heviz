@@ -60,7 +60,17 @@
             </div>
             <!--? User nevének helye -->
             <div id="user-name">
-                <p id="userName-p">User123</p>
+                <div class="dropdown">
+                    <button class="bg-transparent border-0 dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <p id="userName-p">Username</p>
+                    </button>
+
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Log Out</a></li>
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
