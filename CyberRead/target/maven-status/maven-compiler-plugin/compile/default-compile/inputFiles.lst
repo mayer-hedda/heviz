@@ -1,5 +1,6 @@
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Model\Targetaudience.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Service\FollowService.java
+C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Model\Publisher.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Service\HelpcenterService.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Model\Categoryinterest.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Model\Helpcenter.java
@@ -30,12 +31,16 @@ C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exa
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Exception\TargetAudienceException.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Controller\CategoryController.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Controller\BookController.java
+C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Controller\PublisherController.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Model\Postlike.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Dto\AddCategoryInterest.java
+C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Model\Color.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Dto\PublisherRegistrationDto.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Exception\PostlikeException.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Config\Token.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Service\PostlikeService.java
+C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Service\PublisherService.java
+C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Exception\PublisherException.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Exception\UserException.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Model\Category.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Service\CategoryinterestService.java

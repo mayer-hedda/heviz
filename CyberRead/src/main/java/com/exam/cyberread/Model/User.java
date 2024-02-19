@@ -633,4 +633,545 @@ public class User implements Serializable {
         }
     }
     
+    
+    /**
+     * @param userId
+     * @param username
+     * 
+     * @return
+        * true: Successfully set username
+        * false: Unsuccessfully set username
+     * 
+     * @throws UserException: Something wrong!
+     */
+    public static Boolean setUsername(Integer userId, String username) throws UserException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("setUsername");
+
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("usernameIN", String.class, ParameterMode.IN);
+
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("usernameIN", username);
+
+            spq.execute();
+            
+            return true;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            
+            return false;
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param email
+     * 
+     * @return
+        * true: Successfully set email
+        * false: Unsuccessfully set email
+     * 
+     * @throws UserException: Something wrong!
+     */
+    public static Boolean setEmail(Integer userId, String email) throws UserException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("setEmail");
+
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("emailIN", String.class, ParameterMode.IN);
+
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("emailIN", email);
+
+            spq.execute();
+            
+            return true;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            
+            return false;
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param password
+     * 
+     * @return
+        * true: Successfully set password
+        * false: Unsuccessfully set password
+     * 
+     * @throws UserException: Something wrong!
+     */
+    public static Integer setPassword(Integer userId, String password) throws UserException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("setPassword");
+
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("passwordIN", String.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
+
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("passwordIN", password);
+
+            spq.execute();
+            
+            Integer resultOUT = (Integer) spq.getOutputParameterValue("result");
+            
+            return resultOUT;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            
+            return 3;
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param phoneNumber
+     * 
+     * @return
+        * true: Successfully set phone number
+        * false: Unsuccessfully set phone number
+     * 
+     * @throws UserException: Something wrong!
+     */
+    public static Boolean setPhoneNumber(Integer userId, String phoneNumber) throws UserException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("setPhoneNumber");
+
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("phoneNumberIN", String.class, ParameterMode.IN);
+
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("phoneNumberIN", phoneNumber);
+
+            spq.execute();
+            
+            return true;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            
+            return false;
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param firstName
+     * 
+     * @return
+        * true: Successfully set first name
+        * false: Unsuccessfully set first name
+     * 
+     * @throws UserException: Something wrong!
+     */
+    public static Boolean setFirstName(Integer userId, String firstName) throws UserException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("setFirstName");
+
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("firstNameIN", String.class, ParameterMode.IN);
+
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("firstNameIN", firstName);
+
+            spq.execute();
+            
+            return true;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            
+            return false;
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param lastName
+     * 
+     * @return
+        * true: Successfully set last name
+        * false: Unsuccessfully set last name
+     * 
+     * @throws UserException: Something wrong!
+     */
+    public static Boolean setLastName(Integer userId, String lastName) throws UserException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("setLastName");
+
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("lastNameIN", String.class, ParameterMode.IN);
+
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("lastNameIN", lastName);
+
+            spq.execute();
+            
+            return true;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            
+            return false;
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * 
+     * @return
+        * true: Successfully set public email
+        * false: Unsuccessfully set public email
+     * 
+     * @throws UserException: Something wrong!
+     */
+    public static Boolean setPublicEmail(Integer userId) throws UserException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("setPublicEmail");
+
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+
+            spq.setParameter("userIdIN", userId);
+
+            spq.execute();
+            
+            return true;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            
+            return false;
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * 
+     * @return
+        * true: Successfully set public phone number
+        * false: Unsuccessfully set public phone number
+     * 
+     * @throws UserException: Something wrong!
+     */
+    public static Boolean setPublicPhoneNumber(Integer userId) throws UserException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("setPublicPhoneNumber");
+
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+
+            spq.setParameter("userIdIN", userId);
+
+            spq.execute();
+            
+            return true;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            
+            return false;
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param website
+     * 
+     * @return
+        * true: Successfully set website
+        * false: Unsuccessfully set website
+     * 
+     * @throws UserException: Something wrong!
+     */
+    public static Boolean setWebsite(Integer userId, String website) throws UserException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("setWebsite");
+
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("websiteIN", String.class, ParameterMode.IN);
+
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("websiteIN", website);
+
+            spq.execute();
+            
+            return true;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            
+            return false;
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param introDescription
+     * 
+     * @return
+        * true: Successfully set intro description
+        * false: Unsuccessfully set intro description
+     * 
+     * @throws UserException: Something wrong!
+     */
+    public static Boolean setIntroDescription(Integer userId, String introDescription) throws UserException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("setIntroDescription");
+
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("introDescriptionIN", String.class, ParameterMode.IN);
+
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("introDescriptionIN", introDescription);
+
+            spq.execute();
+            
+            return true;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            
+            return false;
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param image
+     * 
+     * @return
+        * true: Successfully set profile image
+        * false: Unsuccessfully set profile image
+     * 
+     * @throws UserException: Something wrong!
+     */
+    public static Boolean setProfileImage(Integer userId, String image) throws UserException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("setProfileImage");
+
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("imageIN", String.class, ParameterMode.IN);
+
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("imageIN", image);
+
+            spq.execute();
+            
+            return true;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            
+            return false;
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param color
+     * 
+     * @return
+        * true: Successfully set cover color
+        * false: Unsuccessfully set cover color
+     * 
+     * @throws UserException: Something wrong!
+     */
+    public static Boolean setCoverColor(Integer userId, String color) throws UserException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("setCoverColor");
+
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("coverColorIN", String.class, ParameterMode.IN);
+
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("coverColorIN", color);
+
+            spq.execute();
+            
+            return true;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            
+            return false;
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * 
+     * @return
+        * General details:
+            * username
+            * email
+            * phone number
+            * first name
+            * last name
+            * public email
+            * public phone number
+            * color
+            * image
+            * intro description
+            * website
+        * Publisher details:
+            * username
+            * email
+            * phone number
+            * first name
+            * last name
+            * public email
+            * public phone number
+            * color
+            * image
+            * intro description
+            * website
+            * company name
+     * 
+     * @throws UserException: Something wrong!
+     */
+    public static JSONObject getDetails(Integer userId) throws UserException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getDetails");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.setParameter("userIdIN", userId);
+
+            spq.execute();
+            
+            List<Object[]> resultList = spq.getResultList();
+            JSONObject details = new JSONObject();
+            
+            Object[] result = resultList.get(0);
+            
+            if(result[0].equals("general")) {
+                details.put("username", (String) result[1]);
+                details.put("email", (String) result[2]);
+                details.put("phoneNumber", (String) result[3]);
+                details.put("firstName", (String) result[4]);
+                details.put("lastName", (String) result[5]);
+                details.put("publicEmail", (Boolean) result[6]);
+                details.put("publicPhoneNumber", (Boolean) result[7]);
+                details.put("color", (String) result[8]);
+                details.put("image", (String) result[9]);
+                details.put("introDescription", (String) result[10]);
+                details.put("website", (String) result[11]);
+            } else if(result[0].equals("publisher")) {
+                details.put("username", (String) result[1]);
+                details.put("email", (String) result[2]);
+                details.put("phoneNumber", (String) result[3]);
+                details.put("firstName", (String) result[4]);
+                details.put("lastName", (String) result[5]);
+                details.put("publicEmail", (Boolean) result[6]);
+                details.put("publicPhoneNumber", (Boolean) result[7]);
+                details.put("color", (String) result[8]);
+                details.put("image", (String) result[9]);
+                details.put("introDescription", (String) result[10]);
+                details.put("website", (String) result[11]);
+                details.put("companyName", (String) result[12]);
+            }
+            
+            return details;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new UserException("Error in getDetails() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
 }
