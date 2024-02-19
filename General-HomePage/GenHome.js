@@ -90,6 +90,7 @@ window.onload = async function () {
         case 302:
             switch (tokenResponse.data.rank) {
                 case 'general':
+                    document.getElementById('welcome').innerText = `Welcome @${tokenResponse.data.username}!`;
                     const responseRandomBook = await getOneRandomBook();
                     console.log("Random book response: ", responseRandomBook);
                     console.log("Random book response length: ", responseRandomBook.data.length);

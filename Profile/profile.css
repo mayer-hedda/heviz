@@ -765,7 +765,7 @@ Ha találok rá jobb megoldást javítom :)  */
 }
 
 /* Profil picture popup */
-#profilePicture-popup .modal-header {
+.modal-header {
     border: none;
 }
 
@@ -992,8 +992,8 @@ Ha találok rá jobb megoldást javítom :)  */
     margin-right: auto;
 }
 
-/* ---------------- MODAL ---------------------------*/
-.modal-content {
+/* ---------------- MODAL BOOK ---------------------------*/
+#book-modal-content {
     background: linear-gradient(180deg, #ffeed8, #F0D0BC 100%) !important;
     border-radius: 15px;
     border-width: 0;
@@ -1002,28 +1002,24 @@ Ha találok rá jobb megoldást javítom :)  */
     /* align-items: center; */
 }
 
-.modal-body::-webkit-scrollbar {
+#book-popup-modal-body::-webkit-scrollbar {
     width: 6px;
 }
 
-.modal-body::-webkit-scrollbar-track {
+#book-popup-modal-body::-webkit-scrollbar-track {
     background: transparent;
     border-radius: 10px;
 }
 
-.modal-body::-webkit-scrollbar-thumb {
+#book-popup-modal-body::-webkit-scrollbar-thumb {
     background-color: #92827a;
     border-radius: 10px;
     transition: background-color 1s ease-in;
 }
 
-.modal-body::-webkit-scrollbar-thumb:hover {
+#book-popup-modal-body::-webkit-scrollbar-thumb:hover {
     background-color: #ACA09A;
     transition: background-color 1s ease-in;
-}
-
-.modal-header {
-    border-bottom: none;
 }
 
 .save-btn,
@@ -1056,7 +1052,7 @@ Ha találok rá jobb megoldást javítom :)  */
     border-radius: 20px;
 }
 
-.modal-img {
+#book-modal-img {
     width: 243px;
     height: 400px;
     /* margin-left: 110px;
@@ -1111,7 +1107,7 @@ Ha találok rá jobb megoldást javítom :)  */
 
 }
 
-.modal-footer {
+#book-modal-footer {
     border-top: none;
     padding-bottom: 25px;
     justify-content: space-evenly;
@@ -1140,6 +1136,33 @@ Ha találok rá jobb megoldást javítom :)  */
     transition: background-color 0.8s ease;
 }
 
+/* Modal poszt szerkesztéshez */
+
+#postModalLabel {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    /* letter-spacing: -1px; */
+    color: var(--popup-h1);
+}
+
+#message-text {
+    min-height: 100px !important;
+}
+
+#modalLabel-input {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    color: var(--popup-label);
+    letter-spacing: -0.5px;
+}
+
+#post-modal-content {
+    z-index: 2000;
+}
+
+#modalLabel-tag {
+    margin-top: 0.625rem;
+}
 
 /** --------------- FOOTER ---------------*/
 

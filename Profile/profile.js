@@ -9,11 +9,33 @@ const input_company = document.getElementById('input-company');
 
 let isIntroExist = false;
 const missing_intro_text = document.getElementById('missing-intro-text');
+const our_books = document.getElementById('our-books');
+const our_posts = document.getElementById('our-posts');
+
+// settings buttons
+const profile_settings = document.getElementById('profile-settings');
+const privacy_settings = document.getElementById('privacy-settings');
+const buisness_settings = document.getElementById('buisness-settings');
 
 window.onload = async function () {
     const tokenResponese = await token();
     switch (tokenResponese.status) {
         case 302:
+            /**
+             * Ha general akkor elrejtem a következő adatokat
+             *  - író ajánlások
+             *  - settings-ben a company-ra vonatkozó beállítások
+             * Átírja a következőket:
+             *  - Our Books menü helyett --> My Books
+             *  - Our Posts menü helyett --> My Posts
+             */
+            if(tokenResponese.data.rank == "general"){
+                document.getElementById('our-writers-div').hidden = true;
+                our_books.textContent = "My Books";
+                our_posts.textContent = "My Posts";
+                buisness_settings.hidden = true;
+            }
+
             const responseUser = await getUserDetails({ "profileUsername": tokenResponese.data.username });
             console.log("User details: " + JSON.stringify(responseUser));
             switch (responseUser.status) {
@@ -44,7 +66,7 @@ window.onload = async function () {
 
                     // load posts
                     const responsePosts = await getUserPosts({ "profileUsername": tokenResponese.data.username });
-                    console.log("Post details: ", JSON.stringify(responsePosts));
+                    // console.log("Post details: ", JSON.stringify(responsePosts));
 
                     switch (responsePosts.status) {
                         case 200:
@@ -52,11 +74,11 @@ window.onload = async function () {
                             break;
 
                         case 401:
-                            //? itt nincs tokenje, vagy lejárt a tokenje --> eljut egyáltalán idáig?
+
                             break;
 
                         case 422:
-                            //? profile username error
+
                             break;
                     }
 
@@ -68,11 +90,11 @@ window.onload = async function () {
                             getBooks(responseBooks);
                             break;
                         case 401:
-                            //? itt nincs tokenje, vagy lejárt a tokenje --> eljut egyáltalán idáig?
+
                             break;
 
                         case 422:
-                            //? profile username error
+
                             break;
                     }
 
@@ -96,7 +118,7 @@ window.onload = async function () {
             break;
 
         case 422:
-            console.error(responseLogin.data);
+            console.error(tokenResponese.data);
             break;
     }
 }
@@ -153,8 +175,6 @@ cancelBtn.addEventListener('click', (e) => {
         cancelBtn.hidden = true;
         error_and_counter.hidden = true;
     }
-
-
 })
 
 introText.addEventListener('input', (e) => {
@@ -182,6 +202,33 @@ introText.addEventListener('input', (e) => {
 
 })
 
+// edit post modal caracter count
+const post_textarea = document.getElementById('message-text');
+const characterCounterPost = document.getElementById('characterCounterPost');
+
+post_textarea.addEventListener('input', (e) => {
+    const currentValuePost = post_textarea.value;
+    let count = currentValuePost.length;
+    characterCounterPost.textContent = `${count}/1000`;
+
+    if (count >= 950) {
+        // console.log("bemegy az ifbe");
+        characterCounterPost.classList.remove('counter');
+        characterCounterPost.classList.add('counterErrorLight');
+
+        if (count == 1000) {
+            characterCounterPost.classList.remove('counterErrorLight');
+            characterCounterPost.classList.add('counterErrorBold');
+        } else {
+            characterCounterPost.classList.remove('counterErrorBold');
+            characterCounterPost.classList.add('counterErrorLight');
+        }
+    } else {
+        characterCounterPost.classList.value = '';
+        characterCounterPost.classList.add('small', 'counter');
+    }
+})
+
 // functions for loading datas
 function loadProfilePicture(response) {
     const profile_picture = document.getElementById('profile-picture');
@@ -200,6 +247,17 @@ function loadCoverColor(response) {
     }
 }
 
+/**
+ * Documentation
+ * --------------
+ * @param {JSON object} response
+ * 
+ * Ha a company name nem undefined akkor azt illeszti be a user neve helyére ha undefined
+ * akkor a first és a lastname kerül  beillesztésre.
+ * 
+ * Ez azért van hogy elég legyen egyszer létrehozni az oldalt, ne kelljen külön
+ * publisher és general profilt létrehozni.
+ */
 function loadUserTextDatas(response) {
     const name = document.getElementById('name');
     const u_name = document.getElementById('username');
@@ -208,7 +266,12 @@ function loadUserTextDatas(response) {
     const followers = document.getElementById('followers-number');
 
 
-    name.innerHTML = `${response.data.companyName}`;
+    if (response.data.companyName != undefined) {
+        name.innerHTML = `${response.data.companyName}`;
+    }else{
+        name.innerHTML = `${response.data.firstName} ${response.data.lastName}`;
+    }
+   
     u_name.innerHTML = `@${response.data.username}`;
 
     own_books.innerHTML = `${response.data.bookCount}`;
@@ -245,12 +308,49 @@ function checkOwnProfile(response) {
 }
 
 function contactInfos(response) {
-    const website = document.getElementById('website-link');
+    // segéd változók
+    var BooleanW = false;
+    var BooleanP = false;
+    var BooleanE = false;
 
-    if (response.data.website) {
+    const website = document.getElementById('website-link');
+    const website_div = document.getElementById('website-div');
+
+    const phoneNumber = document.getElementById('phoneNumber');
+    const phone_div = document.getElementById('phone-div');
+
+    const email_div = document.getElementById('email-div');
+    const email = document.getElementById('public-email');
+
+    const contact_div = document.getElementById('contact');
+
+    if (response.data.website != undefined) {
         website.innerHTML = `<a href="${response.data.website}" class="website-link">${response.data.website}</a>`
+        BooleanW = true;
+        // console.log("website: "+BooleanW);
+    } else {
+        website_div.hidden = true;
+    }
+
+    if (response.data.phoneNumber != undefined) {
+        phoneNumber.innerText = response.data.phoneNumber;
+        BooleanP = true;
+    } else {
+        phone_div.hidden = true;
+    }
+
+    if (response.data.email != undefined) {
+        email.innerText = response.data.email;
+        BooleanE = true;
+    } else {
+        email_div.hidden = true;
+    }
+
+    if (BooleanE == false && BooleanP == false && BooleanW == false) {
+        contact_div.hidden = true;
     }
 }
+
 
 const book_modal_body = document.getElementById('book-popup-modal-body');
 const book_modal_img = document.getElementById('book-modal-img');
@@ -282,8 +382,7 @@ function loadModalData(url, title, firstName, lastName, description, language, r
 }
 
 
-const our_books = document.getElementById('our-books');
-const our_posts = document.getElementById('our-posts');
+
 
 
 // Upload profile picture
@@ -384,7 +483,7 @@ function getPosts(responsePost) {
                 <div class="last-row">
 
                     <div class="edit-delete-div" hidden>
-                        <button type="button" class="bg-transparent border-0 edit-post">
+                        <button type="button" class="bg-transparent border-0 edit-post" data-bs-toggle="modal" data-bs-target="#postModal" onclick="editPost(${responsePost.data.myPosts[i].id}, '${responsePost.data.myPosts[i].description}')">
                             <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor"
                                 class="bi bi-pen" viewBox="0 0 16 16">
                                 <path
@@ -412,15 +511,46 @@ function getPosts(responsePost) {
     }
 }
 
-async function DeletePostBTN(button, postID){
+function editPost(postID, currentText) {
+    var editedText;
+    editedText = currentText; // Az aktuális szöveg beállítása
+    console.log(postID);
+
+    post_textarea.value = editedText;
+    let editPostResult;
+
+    document.getElementById('LetsPost-btn').addEventListener('click', async function () {
+        editedText = post_textarea.value; // Frissítsd a editedText változót a post_textarea-nél
+        editPostResult = await updatePost({ "id": `${postID}`, "description": "ez lesz a módosítás" });
+        if (editPostResult.status == 200) {
+            console.log("sikeresen szerkesztetted az oldalt");
+            console.log(editedText);
+        } else {
+            console.error("somethins went wrong: " + editPostResult.status);
+        }
+    });
+}
+
+
+async function DeletePostBTN(button, postID) {
     console.log(postID);
     console.log("megnyomtad a törlés gombot");
     const deleteResult = await deletePost({ "id": postID });
-    if (deleteResult.status == 200){
+    if (deleteResult.status == 200) {
         const postCard = button.closest('.post-card');
         postCard.remove();
     }
-    
+
+}
+
+async function DeleteBookBTN(button, bookID) {
+    // !ide vissza kell térni mert nem enged a BE publisher-el törölni
+    console.log("Ennél a könyvnél nyomtad meg a törlést: " + bookID);
+    const deleteResult = await deleteBook({ "id": bookID });
+    if (deleteResult.status == 200) {
+        const bookCard = button.closest('.book-card');
+        bookCard.remove();
+    }
 }
 
 // show books
@@ -440,7 +570,7 @@ function getBooks(responseBook) {
     for (let i = 0; i <= responseBook.data.myBooks.length - 1; i++) {
         if (responseBook.data.myBooks[i].coverImage != "Ez a kép elérési útja") {
             books_div.innerHTML += `
-                <div class="container medium-card" style="background-color: #EAD7BE;">
+                <div class="container medium-card book-card" style="background-color: #EAD7BE;">
                     <div class="row">
                         <div class="col-3 my-col3" id="s5-mediumCardPic-div">
                             <!--? Picture => Alt-nak mehet majd a könyv címe -->
@@ -456,14 +586,11 @@ function getBooks(responseBook) {
                             <p class="medium-desc" id="s5-mediumC-desc">${responseBook.data.myBooks[i].description}</p>
 
                             <div class="card-footer">
-                            <button class="moreBtn-medium" data-bs-toggle="modal" data-bs-target="#bookPopup
-                            
-                            "
-                            onclick="loadModalData('${responseBook.data.myBooks[i].coverImage}', '${responseBook.data.myBooks[i].title}', '${responseBook.data.myBooks[i].firstName}', '${responseBook.data.myBooks[i].lastName}', '${responseBook.data.myBooks[i].description}', '${responseBook.data.myBooks[i].language}', '${responseBook.data.myBooks[i].rating}', '${responseBook.data.myBooks[i].pagesNumber}')">Show
+                            <button class="moreBtn-medium" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${responseBook.data.myBooks[i].coverImage}', '${responseBook.data.myBooks[i].title}', '${responseBook.data.myBooks[i].firstName}', '${responseBook.data.myBooks[i].lastName}', '${responseBook.data.myBooks[i].description}', '${responseBook.data.myBooks[i].language}', '${responseBook.data.myBooks[i].rating}', '${responseBook.data.myBooks[i].pagesNumber}')">Show
                             Details</button>
 
                                 <div class="edit-delete-div-books">
-                                    <button type="button" class="bg-transparent border-0 edit-book">
+                                    <button type="button" class="bg-transparent border-0 edit-book" onclick="window.location.href='../Create Book/createBook.html'">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor"
                                             class="bi bi-pen" viewBox="0 0 16 16">
                                             <path
@@ -471,7 +598,7 @@ function getBooks(responseBook) {
                                         </svg>
                                     </button>
 
-                                    <button type="button" class="bg-transparent border-0 delete-book">
+                                    <button type="button" class="bg-transparent border-0 delete-book" onclick="DeleteBookBTN(this, ${responseBook.data.myBooks[i].id})">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
                                             <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
                                         </svg>
@@ -484,7 +611,7 @@ function getBooks(responseBook) {
             `;
         } else {
             books_div.innerHTML += `
-                <div class="container medium-card" style="background-color: #EAD7BE;">
+                <div class="container medium-card book-card" style="background-color: #EAD7BE;">
                     <div class="row">
                         <div class="col-3 my-col3" id="s5-mediumCardPic-div">
                             <!--? Picture => Alt-nak mehet majd a könyv címe -->
@@ -505,7 +632,7 @@ function getBooks(responseBook) {
                             Details</button>
 
                                 <div class="edit-delete-div-books">
-                                    <button type="button" class="bg-transparent border-0 edit-book">
+                                    <button type="button" class="bg-transparent border-0 edit-book" onclick="window.location.href='../Create Book/createBook.html'">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor"
                                             class="bi bi-pen" viewBox="0 0 16 16">
                                             <path
@@ -513,7 +640,7 @@ function getBooks(responseBook) {
                                         </svg>
                                     </button>
 
-                                    <button type="button" class="bg-transparent border-0 delete-book">
+                                    <button type="button" class="bg-transparent border-0 delete-book" onclick="DeleteBookBTN(this, ${responseBook.data.myBooks[i].id})">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
                                             <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
                                         </svg>
@@ -536,10 +663,7 @@ function getBooks(responseBook) {
 }
 
 // switch between settiings
-// settings buttons
-const profile_settings = document.getElementById('profile-settings');
-const privacy_settings = document.getElementById('privacy-settings');
-const buisness_settings = document.getElementById('buisness-settings');
+
 
 const logOut = document.getElementById('logOut');
 
@@ -1250,4 +1374,3 @@ input_company.addEventListener('focusin', (e) => {
     e.target.style.background = "";
     e.target.style.border = "";
 })
-

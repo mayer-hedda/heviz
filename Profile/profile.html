@@ -128,7 +128,8 @@
                         <textarea class="h-auto intro-text border-0" id="intro-text" maxlength="1000"
                             readonly></textarea>
 
-                        <p id="missing-intro-text" class="intro-text" hidden>You don't have any introdution text. If you want to introduce yourself, please click the edit button, in the bottom right corner.</p>
+                        <p id="missing-intro-text" class="intro-text" hidden>You don't have any introdution text. If you
+                            want to introduce yourself, please click the edit button, in the bottom right corner.</p>
 
                         <div id="error-and-counter" hidden>
                             <div class="col-6">
@@ -162,67 +163,70 @@
                     <h2 class="intro-h2">Contact:</h2>
                     <div class="personal-datas border-bottom border-black border-opacity-25" id="phone-div">
                         <p class="personal-datas-bold">Phone number:</p>
-                        <p class="personal-datas-light">----</p>
+                        <p class="personal-datas-light" id="phoneNumber">----</p>
                     </div>
 
                     <div class="personal-datas border-bottom border-black border-opacity-25 mt-3" id="email-div">
                         <p class="personal-datas-bold">Email address:</p>
-                        <p class="personal-datas-light">----</p>
+                        <p class="personal-datas-light" id="public-email">----</p>
                     </div>
 
-                    <div class="personal-datas mt-3" id="email-div">
+                    <div class="personal-datas mt-3" id="website-div">
                         <p class="personal-datas-bold">My website:</p>
                         <p class="personal-datas-light" id="website-link">----</p>
                     </div>
                 </div>
 
-                <h2 class="intro-h2">Some of our writers:</h2>
-                <div id="recom-profs" class="carousel slide mb-5">
+                <div id="our-writers-div">
+                    <h2 class="intro-h2">Some of our writers:</h2>
+                    <div id="recom-profs" class="carousel slide mb-5">
 
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
 
-                            <div class="profiles">
-                                <img src="../pictures/default-profile-pic-astronaut.png" alt="username"
-                                    class="prof-pic shadow-sm">
+                                <div class="profiles">
+                                    <img src="../pictures/default-profile-pic-astronaut.png" alt="username"
+                                        class="prof-pic shadow-sm">
 
-                                <p class="text-center our-users-name">John Doe</p>
-                            </div>
-
-                        </div>
-
-                        <div class="carousel-item">
-
-                            <div class="profiles">
-                                <img src="../pictures/default-profile-pic-astronaut.png" alt="username"
-                                    class="prof-pic">
-
-                                <p class="text-center our-users-name">John Doe haverja</p>
-                            </div>
-                        </div>
-
-                        <div class="carousel-item">
-
-                            <div class="profiles">
-                                <img src="../pictures/default-profile-pic-astronaut.png" alt="username"
-                                    class="prof-pic">
-
-                                <p class="text-center our-users-name">John Doe testvére</p>
+                                    <p class="text-center our-users-name">John Doe</p>
+                                </div>
 
                             </div>
+
+                            <div class="carousel-item">
+
+                                <div class="profiles">
+                                    <img src="../pictures/default-profile-pic-astronaut.png" alt="username"
+                                        class="prof-pic">
+
+                                    <p class="text-center our-users-name">John Doe haverja</p>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item">
+
+                                <div class="profiles">
+                                    <img src="../pictures/default-profile-pic-astronaut.png" alt="username"
+                                        class="prof-pic">
+
+                                    <p class="text-center our-users-name">John Doe testvére</p>
+
+                                </div>
+                            </div>
                         </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#recom-profs"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#recom-profs"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#recom-profs"
-                        data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#recom-profs"
-                        data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
                 </div>
+
             </div>
 
             <!-- books and posts -->
@@ -235,7 +239,7 @@
                 <div class="container" id="books"> <!-- DEFAULT -->
                     <!-- books -->
                 </div>
-              
+
                 <div class="container" id="posts" hidden>
                     <!-- posts -->
                 </div>
@@ -530,12 +534,12 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal a könyvekhez -->
     <div id="bookPopup" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-scrollable">
 
             <!-- Modal content-->
-            <div class="modal-content">
+            <div class="modal-content" id="book-modal-content">
                 <div class="modal-header">
                     <button class="save-btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                             fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
@@ -546,7 +550,7 @@
 
                 </div>
                 <div class="modal-body" id="book-popup-modal-body">
-                    
+
                     <!-- ide kell beszúrni a képet js-en keresztül -->
                     <img src="../pictures/standard-book-cover.jpg" class="modal-img" id="book-modal-img">
 
@@ -582,7 +586,7 @@
 
 
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer" id="book-modal-footer">
                     <div class="row">
                         <div class="col-6">
                             <button class="shopping-btn">
@@ -606,6 +610,42 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+
+    <!-- Modal a poszt szerkesztéséhez -->
+    <div class="modal fade" tabindex="-1" id="postModal" tabindex="-1" aria-labelledby="postModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content" id="post-modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="postModalLabel">Write a Post!</h1>
+                </div>
+
+                <div class="modal-body">
+                    <form>
+                        <label for="message-text" id="modalLabel-input" class="col-form-label modalLabel">Tell us
+                            what's going
+                            on:</label>
+                        <textarea class="form-control" id="message-text" maxlength="1000"></textarea>
+                        <div class="row ">
+                            <div class="col-10">
+                                <p class="error align-top errorMessage" id="textError"></p>
+                            </div>
+                            <div class="col-2">
+                                <p class="small counter align-top" id="characterCounterPost">0/1000</p>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" id="close-btn">Close</button>
+                    <button type="button" class="btn saveChanges-btn " id="LetsPost-btn">Let's
+                        Post!</button>
+                </div>
+            </div>
         </div>
     </div>
 
