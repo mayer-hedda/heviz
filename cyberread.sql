@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Feb 14. 14:07
+-- Létrehozás ideje: 2024. Feb 19. 13:27
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -209,6 +209,52 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getBookDetails` (IN `bookIdIN` INT)
     `book`.`bankAccountNumber`
 FROM `book`
 WHERE `book`.`id` = bookIdIN$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getDetails` (IN `userIdIN` INT)   BEGIN
+
+	DECLARE rank VARCHAR(20);
+    
+    SELECT `user`.`rank` INTO rank FROM `user` WHERE `user`.`id` = userIdIN;
+    
+    IF rank = "general" THEN
+    	SELECT
+        	`user`.`rank`,
+        	`user`.`username`,
+            `user`.`email`,
+            `user`.`phoneNumber`,
+            `user`.`firstName`,
+            `user`.`lastName`,
+            `user`.`publicEmail`,
+            `user`.`publicPhoneNumber`,
+            `color`.`code`,
+            `user`.`image`,
+            `user`.`introDescription`,
+            `user`.`website`
+        FROM `user`
+        INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
+        WHERE `user`.`id` = userIdIN;
+    ELSEIF rank = "publisher" THEN
+    	SELECT
+        	`user`.`rank`,
+        	`user`.`username`,
+            `user`.`email`,
+            `user`.`phoneNumber`,
+            `user`.`firstName`,
+            `user`.`lastName`,
+            `user`.`publicEmail`,
+            `user`.`publicPhoneNumber`,
+            `color`.`code`,
+            `user`.`image`,
+            `user`.`introDescription`,
+            `user`.`website`,
+            `publisher`.`companyName`
+        FROM `user`
+        INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
+        INNER JOIN `publisher` ON `user`.`userId` = `publisher`.`id`
+        WHERE `user`.`id` = userIdIN;
+    END IF;
+
+END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getFeedPosts` (IN `userIdIN` INT)   SELECT 
 	`post`.`id`,
@@ -1237,6 +1283,129 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `setBook` (IN `bookIdIN` INT, IN `ti
 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `setCompanyName` (IN `userIdIN` INT, IN `companyNameIN` VARCHAR(50), OUT `result` INT)   BEGIN
+
+	DECLARE rank VARCHAR(20);
+    
+    SELECT `user`.`rank` INTO rank WHERE `user`.`id` = userIdIN;
+    
+    IF rank = "publisher" THEN
+    	UPDATE `publisher`
+        SET `publisher`.`companyName` = companyNameIN
+        WHERE `publisher`.`id` = (SELECT `user`.`userId` FROM `user` WHERE `user`.`id` = userIdIN);
+    
+    	SET result = 1;
+    ELSE
+    	SET result = 2;
+    END IF;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `setCoverColor` (IN `userIdIN` INT, IN `coverColorIN` VARCHAR(8))   BEGIN
+
+	DECLARE colorId INT;
+
+	IF CHAR_LENGTH(coverColorIN) = 0 THEN
+    	SET colorId = 1;
+	ELSEIF EXISTS(SELECT * FROM `color` WHERE `color`.`code` = coverColorIN) THEN
+    	SELECT `color`.`id` INTO colorId FROM `color` WHERE `color`.`code` = coverColorIN;
+    ELSE
+    	INSERT INTO `color` (`color`.`code`)
+        VALUES (coverColorIN);
+        
+        SELECT LAST_INSERT_ID() INTO colorId;
+    END IF;
+    
+    UPDATE `user`
+    SET `user`.`coverColorId` = colorId
+    WHERE `user`.`id` = userIdIN;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `setEmail` (IN `userIdIN` INT, IN `emailIN` VARCHAR(50))   UPDATE `user`
+SET `user`.`email` = emailIN
+WHERE `user`.`id` = userIdIN$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `setFirstName` (IN `userIdIN` INT, IN `firstNameIN` VARCHAR(50))   UPDATE `user`
+SET `user`.`firstName` = firstNameIN
+WHERE `user`.`id` = userIdIN$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `setIntroDescription` (IN `userIdIN` INT, IN `introDescriptionIN` VARCHAR(1000))   UPDATE `user`
+SET `user`.`introDescription` = introDescriptionIN
+WHERE `user`.`id` = userIdIN$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `setLastName` (IN `userIdIN` INT, IN `lastNameIN` VARCHAR(50))   UPDATE `user`
+SET `user`.`lastName` = lastNameIN
+WHERE `user`.`id` = userIdIN$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `setPassword` (IN `userIdIN` INT, IN `passwordIN` VARCHAR(100), OUT `result` INT)   BEGIN
+
+	IF SHA1(passwordIN) = (SELECT `user`.`password` FROM `user` WHERE `user`.`id` = userIdIN) THEN
+    	SET result = 2;
+    ELSE
+        UPDATE `user`
+        SET `user`.`password` = SHA1(passwordIN)
+        WHERE `user`.`id` = userIdIN;
+        
+        SET result = 1;
+    END IF;
+    
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `setPhoneNumber` (IN `userIdIN` INT, IN `phoneNumberIN` VARCHAR(15))   UPDATE `user`
+SET `user`.`phoneNumber` = phoneNumberIN
+WHERE `user`.`id` = userIdIN$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `setProfileImage` (IN `userIdIN` INT, IN `imageIN` VARCHAR(100))   BEGIN
+
+	IF CHAR_LENGTH(imageIN) = 0 THEN
+        UPDATE `user`
+        SET `user`.`image` = "pictures/default-profile-pic-man.png"
+        WHERE `user`.`id` = userIdIN;
+    ELSE
+        UPDATE `user`
+        SET `user`.`image` = imageIN
+        WHERE `user`.`id` = userIdIN;
+    END IF;
+    
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `setPublicEmail` (IN `userIdIN` INT)   BEGIN
+
+	IF (SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = userIdIN) = true THEN
+    	UPDATE `user`
+        SET `user`.`publicEmail` = false
+        WHERE `user`.`id` = userIdIN;
+    ELSE
+    	UPDATE `user`
+        SET `user`.`publicEmail` = true
+        WHERE `user`.`id` = userIdIN;
+    END IF;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `setPublicPhoneNumber` (IN `userIdIN` INT)   BEGIN
+
+	IF (SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = userIdIN) = false THEN
+    	UPDATE `user`
+        SET `user`.`publicPhoneNumber` = true
+        WHERE `user`.`id` = userIdIN;
+    ELSE
+    	UPDATE `user`
+        SET `user`.`publicPhoneNumber` = false
+        WHERE `user`.`id` = userIdIN;
+    END IF;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `setUsername` (IN `userIdIN` INT, IN `usernameIN` VARCHAR(50))   UPDATE `user`
+SET `user`.`username` = usernameIN
+WHERE `user`.`id` = userIdIN$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `setWebsite` (IN `userIdIN` INT, IN `websiteIN` VARCHAR(100))   UPDATE `user`
+SET `user`.`website` = websiteIN
+WHERE `user`.`id` = userIdIN$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `unfollowedUser` (IN `userIdIN` INT, IN `followUserIdIN` INT, OUT `result` INT)   BEGIN
 
 	IF EXISTS (SELECT * FROM `follow` WHERE `follow`.`followerId` = userIdIN AND `follow`.`followedId` = followUserIdIN) THEN
@@ -1604,7 +1773,8 @@ INSERT INTO `color` (`id`, `code`) VALUES
 (17, '#800080'),
 (18, '#800000'),
 (19, '#2F4F4F'),
-(20, '#4B0082');
+(20, '#4B0082'),
+(21, 'FFFFFF');
 
 -- --------------------------------------------------------
 
@@ -1709,7 +1879,11 @@ INSERT INTO `general` (`id`, `authorName`, `birthdate`, `publishedBookCount`, `s
 (29, NULL, '1990-05-29', 0, 0),
 (30, NULL, '1990-05-29', 0, 0),
 (31, NULL, '2000-11-10', 0, 0),
-(32, NULL, '2002-02-10', 0, 0);
+(32, NULL, '2002-02-10', 0, 0),
+(33, NULL, '2002-11-14', 0, 0),
+(34, NULL, '2002-11-14', 0, 0),
+(35, NULL, '2002-11-14', 0, 0),
+(36, NULL, '2002-12-12', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -2001,7 +2175,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `password`, `rank`, `firstName`, `lastName`, `phoneNumber`, `publicEmail`, `publicPhoneNumber`, `introDescription`, `website`, `image`, `registrationTime`, `active`, `coverColorId`, `userId`) VALUES
-(1, 'lilapapucs', 'nagybeni@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Nagy', 'Benedek', '+361884426325', 1, 0, 'Üdvözlöm! Ez itt egy új bemutatkozó leírás.', 'www.9bbdebe6ff.com', 'pictures/default-profile-pic-man.png', '2023-12-16 01:53:24', 0, 9, 1),
+(1, 'lilapapucs', 'nagybeni@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Nagy', 'Benedek', '06201234567', 1, 0, '', 'a.hu', 'pictures/default-profile-pic-man.png', '2023-12-16 01:53:24', 0, 21, 1),
 (2, 'PenInkWriter', 'peninkwriter@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Kenderes', 'Amanda', '+36017249461', 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-16 01:54:39', 0, 20, 2),
 (3, 'StoryCraftPro', 'angyalka@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Angyal', 'Kristóf', '+361802680023', 0, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', 'www.3a982c449f.com', 'pictures/default-profile-pic-man.png', '2023-12-16 01:55:13', 1, 1, 3),
 (4, 'NovelWordsmith', 'petike@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Kis', 'Péter', '+361581621029', 0, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', 'www.3061560356.com', 'pictures/default-profile-pic-man.png', '2023-12-16 01:55:45', 1, 11, 4),
@@ -2012,7 +2186,7 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `rank`, `firstName`, 
 (10, 'KonyvMesekAnna', 'tothanna@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Anna', 'Tóth', '+36701873692', 1, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-16 02:07:24', 1, 1, 2),
 (11, 'KreativBence', 'szabobeni@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Bence', 'Szabó', '+3672982563', 0, 0, NULL, 'www.hezfnwsko.com', 'pictures/default-profile-pic-man.png', '2023-12-16 02:08:07', 1, 6, 3),
 (12, 'OldalforgatoCsilla', 'molncsill@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Molnár', 'Csilla', '+361025808899', 0, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', 'www.2e66bd14c8.com', 'pictures/default-profile-pic-man.png', '2023-12-16 02:09:07', 1, 7, 4),
-(25, 'KalandDaniel', 'nagydaniel@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Nagy', 'Dániel', '+36201374892', 0, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', NULL, 'pictures/default-profile-pic-man.png', '2023-12-17 15:50:25', 1, 13, 6),
+(25, 'KalandDaniel', 'nagydaniel@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Nagy', 'Dániel', '+36201374892', 0, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', NULL, 'pictures/default-profile-pic-man.png', '2023-12-17 15:50:25', 0, 13, 6),
 (26, 'WriterEmese', 'varga@citromail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Emese', 'Varga', '+36019832674', 0, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', NULL, 'pictures/default-profile-pic-man.png', '2023-12-17 15:51:21', 1, 8, 7),
 (27, 'MeseloGergo', 'gergo@freemail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Kiss', 'Gergő', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-17 15:52:13', 1, 4, 8),
 (28, 'TortenetHanna', 'tortenethanna@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Hanna', 'Horváth', NULL, 1, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-17 15:54:36', 1, 1, 9),
@@ -2026,7 +2200,10 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `rank`, `firstName`, 
 (38, 'egy_almafa', 'egy.almafa@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'egy', 'almafa', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-20 14:01:13', 0, 1, 27),
 (40, 'egy.almafa', 'egy.alma.fa@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'egy', 'almafa', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-20 14:18:34', 1, 1, 29),
 (42, 'username', 'user@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'first', 'last', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-20 19:08:40', 1, 1, 31),
-(43, 'john.smith', 'john.smith@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'John', 'Smith', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-22 02:26:45', 1, 1, 32);
+(43, 'john.smith', 'john.smith@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'John', 'Smith', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-22 02:26:45', 1, 1, 32),
+(44, 'mayerhedda', 'mayer.hedda@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Hedda', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-02-16 11:52:06', 0, 1, 33),
+(46, 'heddo', 'mayer.hedda2002@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Hedda', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-02-16 12:01:42', 1, 1, 35),
+(47, 'hedda', 'mayer@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Hedda', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-02-16 12:08:37', 1, 1, 36);
 
 -- --------------------------------------------------------
 
@@ -2250,7 +2427,7 @@ ALTER TABLE `categoryinterest`
 -- AUTO_INCREMENT a táblához `color`
 --
 ALTER TABLE `color`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT a táblához `follow`
@@ -2268,7 +2445,7 @@ ALTER TABLE `forgotpassword`
 -- AUTO_INCREMENT a táblához `general`
 --
 ALTER TABLE `general`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT a táblához `helpcenter`
@@ -2322,7 +2499,7 @@ ALTER TABLE `targetaudience`
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT a táblához `userrating`
