@@ -667,7 +667,7 @@ function GeneralEvents() {
             userError.innerHTML = `<p>Please avoid using special characters exept: _ (underscore) and . (dot)</p>`;
             inputUser.style.background = "rgb(255, 214, 220)";
             inputUser.style.borderColor = "rgb(243, 82, 93)";
-        }else{
+        } else {
             userError.innerHTML = "";
             inputUser.style.background = "";
             inputUser.style.borderColor = "";
@@ -685,21 +685,10 @@ function GeneralEvents() {
 
         } else {
             user_upto3 = upTo3(g_userName, "Username", inputUser, userError);
-            // if (u_abcCahrs.test(g_userName) == false) {
-            //     userError.innerHTML = `<p>Please use the lowecase English alphabetical characters.</p>`;
-            //     e.target.style.background = "rgb(255, 214, 220)";
-            //     e.target.style.borderColor = "rgb(243, 82, 93)";
-            //     user_chars = false;
-            // } else {
-            //     user_chars = true;
-            //     e.target.style.background = "rgb(241, 255, 231)";
-            //     e.target.style.borderColor = "rgb(98, 173, 107)";
-            // }
-
-            if (user_chars == true && user_upto3 == true) {
-                UsernameValid = true;
-            } else {
-                UsernameValid = false;
+            if (user_upto3==true) {
+                UsernameValid=true;
+            }else{
+                UsernameValid= false;
             }
 
             General_Submit_Activate(submitButton);
