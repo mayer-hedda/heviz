@@ -1,0 +1,11 @@
+body{
+   background-color: #F7F5EC;
+}
+
+.big-container{
+   display: grid; 
+}
+
+#back-to-home{
+   background-color: #685C9C;
+}
