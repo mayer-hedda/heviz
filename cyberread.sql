@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Feb 20. 13:47
+-- Létrehozás ideje: 2024. Feb 20. 13:55
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -1425,11 +1425,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `updatePost` (IN `userIdIN` INT, IN 
     	SET result = 3;
     ELSEIF EXISTS (SELECT * FROM `post` WHERE `post`.`id` = postIdIN AND `post`.`userId` = userIdIN) THEN
     	UPDATE `post`
-        SET `post`.`description` = postDescriptionIN
-        WHERE `post`.`id` = postIdIN;
-        
-        UPDATE `post`
-        SET `post`.`postTime` = CURRENT_TIMESTAMP()
+        SET `post`.`description` = postDescriptionIN, `post`.`postTime` = CURRENT_TIMESTAMP()
         WHERE `post`.`id` = postIdIN;
         
         SET result = 1;
@@ -2015,7 +2011,7 @@ INSERT INTO `post` (`id`, `userId`, `description`, `postTime`) VALUES
 (3, 36, 'I recently finished a captivating novel that I couldn\'t put down! It\'s a gripping mystery by a talented new author. The character development and intricate plot had me hooked from the first page. Can\'t wait to dive into more of their work. What\'s everyone else reading right now? I\'m also on the lookout for recommendations for my next read, so if you\'ve come across something that you couldn\'t get enough of, please share!', '2023-12-19 22:44:20'),
 (5, 2, 'Az xy könyvnek a folytatása valamikor várható, valójába nmég én sem tudom mikor, de majd lesz valami.', '2023-12-19 22:46:45'),
 (6, 7, 'xd', '2023-12-19 22:46:45'),
-(7, 1, 'Ez egy módosított leírás!', '2024-02-20 12:46:39'),
+(7, 1, 'Ez egy  leírás!', '2024-02-20 12:54:59'),
 (8, 2, 'Das ist ein deutscher Beitrag. Lorem ipsum dolor sit amet, consectetur adipiscing elit.', '2023-01-02 09:30:00'),
 (9, 3, 'Questa è una pubblicazione in italiano. Lorem ipsum dolor sit amet, consectetur adipiscing elit.', '2023-01-03 10:45:00'),
 (10, 4, 'Ez egy magyar poszt. Lorem ipsum dolor sit amet, consectetur adipiscing elit.', '2023-01-04 13:20:00'),
