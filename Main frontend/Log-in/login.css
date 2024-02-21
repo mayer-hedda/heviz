@@ -1,0 +1,184 @@
+/* colors */
+:root {
+    --bg-color: #F6E3CD;
+    --h1-text: rgba(65, 61, 63, 1);
+    --welcome: #1e808d;
+    --label-text: rgb(55, 56, 78);
+    --form-color: #F8F8F4;
+    --hover-color: rgba(166, 3, 207, 0.9);
+    --error-color: #EE1D52;
+    --placeholder-color: rgb(120, 121, 143);
+    --border-color: rgba(144, 152, 180, 0.75);
+    --btn-bg-color: rgba(232, 181, 160, 1);
+    --btn-color: #332F31;
+    --btn-hover-bg-color: #649984;
+    --btn-hover-color: white;
+}
+
+/* fonts */
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins/Poppins-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins/Poppins-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/static/Inter-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* ------- Scrollbar ------- */
+/* scrollbar width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* scrollbar Track */
+::-webkit-scrollbar-track {
+    background: rgb(235, 233, 224);
+
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #92827a;
+    border-radius: 20px;
+
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #ACA09A;
+}
+
+body {
+    background-color: var(--bg-color);
+}
+
+h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: bold;
+    color: var(--h1-text);
+}
+
+.up-p {
+    color: var(--welcome);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+}
+
+/* form */
+form {
+    margin: auto;
+    width: 50%;
+}
+
+.form {
+    background-color: var(--form-color);
+    min-width: 350px;
+    max-width: 50%;
+    border-radius: 2rem;
+    box-shadow: 0.625rem 0.625rem 0.625rem 0rem rgba(77, 66, 64, 0.40);
+    padding: 5%;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+form label {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+
+    color: var(--label-text);
+    padding-left: 5px;
+}
+form p {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+}
+form a:hover {
+    color: var(--hover-color);
+}
+
+.error {
+    color: var(--error-color);
+    font-family: 'Poppins', sans-serif;
+    font-size: 80%;
+    padding-left: 5px;
+}
+
+#inputEmail, #inputPwd {
+    border-color: var(--border-color);
+    border-width: 0.1125rem;
+    background-color: transparent;
+    border-radius: 0.8rem;
+}
+
+#inputEmail::placeholder, #inputPwd::placeholder {
+    font-size: smaller;
+    color: var(--placeholder-color);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 0.75rem;
+}
+
+#submitButton {
+    background-color: var(--btn-bg-color);
+
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+
+    border-radius: 5rem;
+    
+    font-size: 120%;
+    text-align: center;
+    font-family: Poppins;
+    font-weight: 500;
+    color: var(--btn-color);
+    border: 0rem;
+}
+
+#submitButton:hover {
+    background-color: var(--btn-hover-bg-color);
+    color: var(--btn-hover-color);
+}
+.modal-content {
+    border-radius: 15px;
+}
+
+.modal-header {
+    border-bottom: none;
+}
+
+#modalLabel {
+    font-family: 'Poppins-Regular', sans-serif;
+    color: rgb(55, 56, 78);
+
+}
+
+#modalSubmit {
+    background-color: rgba(232, 181, 160, 1);
+    border: none;
+    border-radius: 3rem;
+    padding: 7px 20px;
+    font-family: 'Poppins-Regular', sans-serif;
+    color: rgb(69, 58, 64);
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 15px;
+}
+
+.modal-footer {
+    border-top: none;
+}

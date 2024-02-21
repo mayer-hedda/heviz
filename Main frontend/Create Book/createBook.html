@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--? CSS  -->
+    <link rel="stylesheet" href="createBook.css">
+
+    <!--? BOOTSTRAP  -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!--? bootstrap icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+    <!-- <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-thin-rounded/css/uicons-thin-rounded.css'> -->
+    <!-- <script src="https://kit.fontawesome.com/59b3debb91.js" crossorigin="anonymous"></script> -->
+
+    <title>Create Book</title>
+    
+    <!--? Icon a tabba -->
+    <!-- fehér -->
+    <link rel="icon" href="../icons/C-logo-white.svg" type="image/svg+xml">
+    <!-- fekete -->
+    <!-- <link rel="icon" href="../icons/C-logo.svg" type="image/svg+xml"> -->
+
+</head>
+
+<body style="background-color: #F7F5EC">
+
+    <!--? FELSŐ SÁV -->
+    <nav class="nav fixed-top" id="editControls">
+        <div class="container-fluid">
+
+            <button class="btn btn-text" id="backArrow"
+                onclick="history.back()">
+                <span class="h4"><i class="bi bi-chevron-left"></i></span>
+            </button>
+            <div class="controlText">
+                <p class="small group-title controlP" id="controlP">Create a new World</p>
+                <span class="h4" id="StoryName">Untitled Story</span>
+            </div>
+
+            <div class="buttons btn-field" id="middle">
+                <a class="btn navBack" role="button" id="Cancel" onclick="history.back()">Cancel</a>
+                <a class="btn" role="button" id="Next" href="">Next</a>
+
+            </div>
+        </div>
+    </nav>
+
+    <section id="UploadInfos">
+        <div class="container-fluid mx-auto" id="outsideDiv">
+            <div class="row">
+                <div class="col-4" id="upload">
+                    <!-- TODO: KELLENEK AZ INFO IKONOK -->
+                    <!--? KÉP FELTÖLTÉSE | DRAG & DROP  -->
+                    <!-- <div class="sorba"> -->
+                    <div id="drop-image" class="text-center align-content-center">
+                        <label for="inputPicture" id="dropAreaPicture">
+                            <input type="file" accept="image/*" id="inputPicture" hidden>
+                            <div id="imgView" class="align-middle">
+                                <img class="addPhoto" src="../icons/createBook/upload-image.png" id="addPhoto">
+                                <p class="uploadP">Drag and drop or click here <br>to upload image</p>
+                                <span class="uploadSpan">Upload any images <br> from desktop</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- </div> -->
+
+                    <!--? FÁJL FELTÖLTÉSE | DRAG AND DROP -->
+                    <div id="drop-file" class="text-center">
+                        <label for="inputFile" id="dropAreaFile">
+                            <input type="file" accept=".pdf" id="inputFile" hidden>
+                            <div id="fileView" class="align-middle">
+                                <img class="addPhoto" src="../icons/createBook/upload-file.png" id="addFile">
+                                <p class="uploadP">Drag and drop or click here <br>to upload file</p>
+                                <span class="uploadSpan">Upload any files from desktop</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-8" id="inputs">
+                    <!--? INPUT MEZŐK  -->
+                    <form id="form">
+                        <div class="form-group container">
+                            <!--? STORY TITLE  -->
+                            <div id="storyTitle-div" class="container">
+                                <label id="storyTitle" class="formLabel" for="inputStoryTitle">Story Title:
+                                </label>
+                                <i class="bi bi-info-circle info" tabindex="0" data-bs-toggle="popover"
+                                    data-bs-trigger="hover focus" data-bs-content="Enter the title of your story!"></i>
+                                <input type="text" class="form-control" id="inputStoryTitle"
+                                    placeholder="Untitled Story" maxlength="50" required>
+                                <div class="row ">
+                                    <div class="col-6">
+                                        <p class="errorMessage" id="titleErr"></p>
+                                    </div>
+                                    <div class="col-6">
+                                        <p class="small counter align-top" id="characterCounterTitle">0/50</p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!--? STORY DESCRIPTION  -->
+                            <div id="description-div" class="container ">
+                                <label id="description" class="formLabel" for="inputDescription">Description:</label>
+                                <i class="bi bi-info-circle info" tabindex="0" data-bs-toggle="popover"
+                                    data-bs-trigger="hover focus"
+                                    data-bs-content="Provide a brief description of your book."></i><br>
+                                <textarea id="inputDescription" class="form-control" maxlength="1000"
+                                    placeholder="Write here your book's description" required></textarea>
+                                <div class="row ">
+                                    <div class="col-6">
+                                        <p class="error align-top errorMessage" id="descriptErr"></p>
+                                    </div>
+                                    <div class="col-6">
+                                        <p class="small counter align-top" id="characterCounterDes">0/1000</p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!--? TARGET AUDIENCE - dropdown -->
+                            <!--TODO: INFO-T HOZZÁADNI  -->
+                            <div id="targetAudience-div" class="container input-div">
+
+                                <label id="targetAudience" for="selectTargetAudience">Target Audience:</label>
+                                <i class="bi bi-info-circle infoalter" tabindex="0" data-bs-toggle="popover"
+                                    data-bs-trigger="hover focus"
+                                    data-bs-content="Select the target age group for your book here."
+                                    id="target-info"></i>
+                                <select class="form-select select" id="selectTargetAudience">
+                                    <option value="0" selected>Who is your audience</option>
+                                    <option value="1">Young Adult (15-18 years of age)</option>
+                                    <option value="2">New Adult (18-25 years of age)</option>
+                                    <option value="3">Adult (25+ years of age)</option>
+                                </select>
+                            </div>
+                            <div class="container errorMessage" id="audienceErr"></div>
+
+
+                            <!--? LANGUAGE - dropdown -->
+                            <div id="language-div" class="container input-div">
+                                <label id="language" for="selectLanguage">Language: <i
+                                        class="bi bi-info-circle infoalter" tabindex="0" data-bs-toggle="popover"
+                                        data-bs-trigger="hover focus"
+                                        data-bs-content="Select the language you wrote your book in."></i></label>
+
+                                <select class="form-select select text-center" id="selectLanguage">
+                                    <option value="0" selected>Choose an option</option>
+                                    <option value="1">Hungarian</option>
+                                    <option value="2">English</option>
+                                    <option value="3">German</option>
+                                </select>
+                            </div>
+                            <div class="container errorMessage" id="languageErr"></div>
+
+                            <!--? CATEGORY - dropdown  -->
+                            <!--TODO: INFO-T HOZZÁADNI  -->
+                            <div id="category-div" class="container input-div">
+                                <label id="category" for="selectCategory">Category: <i
+                                        class="bi bi-info-circle infoalter" tabindex="0" data-bs-toggle="popover"
+                                        data-bs-trigger="hover focus"
+                                        data-bs-content="Choose the category that best represents your book. If you're unsure, explore the 'Discovery' 
+                                        tab to see what books other authors have published in each category."></i></label>
+                                <select class="form-select select text-center" id="selectCategory">
+                                    <option value="0" selected>Choose your book's category</option>
+                                    <option value="1">Gastronomy</option>
+                                    <option value="2">Travel</option>
+                                    <option value="3">Sport</option>
+                                    <option value="4">Family</option>
+                                    <option value="5">Romantic</option>
+                                    <option value="6">Sci-fi</option>
+                                    <option value="7">Adventure</option>
+                                    <option value="8">Literature</option>
+                                    <option value="9">Youth novels</option>
+                                    <option value="10">Lexicons</option>
+                                    <option value="11">Poems</option>
+                                    <option value="12">TV series</option>
+                                    <option value="13">Religion</option>
+                                    <option value="14">Horror, Thriller</option>
+                                    <option value="15">Crime</option>
+                                    <option value="16">Comic book</option>
+                                    <option value="17">Biography</option>
+                                    <option value="18">Novels</option>
+                                    <option value="19">Informative</option>
+                                    <option value="20">Lifestyle and Health</option>
+                                    <option value="21">Associate Science</option>
+                                    <option value="22">Hoobi and Freetime</option>
+                                    <option value="23">Comedy</option>
+                                    <option value="24">Art and Architecture</option>
+                                    <option value="25">Reference books</option>
+                                    <option value="26">Dictionary</option>
+                                    <option value="27">Action</option>
+                                    <option value="28">18+</option>
+                                </select>
+                            </div>
+                            <div class="container errorMessage" id="categoryErr"></div>
+
+                            <!--? COPY RIGHT  -->
+                            <div id="CopyRight-div" class="container input-div">
+                                <label id="copyright" for="copyrightP">CopyRight:</label>
+                                <p id="copyrightP">Please read the relevant article of the <a class="link"
+                                        href="#">Terms and
+                                        Conditions</a>.</p>
+                            </div>
+
+                            <!--? ADULT LITERATURE  -->
+                            <div id="adult-div" class="container input-div">
+                                <label id="adult" for="adultCheck">Adult Literature:</label>
+                                <input type="checkbox" class="form-check-input align-middle" id="adultCheck">
+                                <p id="adultP">This book contains adult content (e.g., adult themes, language, and
+                                    situations).</p>
+
+                            </div>
+
+                            <!--TODO: NINCS MEGHÍVVA A VALIDÁLÓ FÜGGVÉNY  -->
+                            <!--* adatkinyerés: Check  -->
+                            <!--? CHECKBOX - PUBLISHER - NOT PUBLISHER  -->
+                            <div id="publishing-div" class="container input-div">
+                                <label id="publishing" for="selecter">Select one: <i class="bi bi-info-circle infoalter"
+                                        tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                                        data-bs-content="We need to know how you want to publish your book. Select if you're looking for a publisher or if you're a self-publisher. If you change your mind, you can change this later."></i></label>
+                                <div id="radios">
+                                    <div class="form-check">
+                                        <input class="form-check-input checkinput" type="radio" name="slectOne"
+                                            id="SelfPublish">
+                                        <label class="form-check-label" for="SelfPublish">
+                                            I prefer self-publishing.
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input checkinput" type="radio" name="slectOne"
+                                            id="PublisherPublish">
+                                        <label class="form-check-label" for="PublisherPublish">I am seeking a publisher
+                                            for my book.</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container errorMessage" id="checkboxError"></div>
+
+
+                            <!--TODO: NINCS MEGÍRVA A JS  -->
+                            <div id="activate-self" hidden>
+                                <!--? CHAPTER NUMBER  -->
+                                <div id="chapter-div" class="container input-div">
+                                    <label for="" class="formLabel" id="chapterLabel">Chapter number:</label>
+                                    <i class="bi bi-info-circle info" tabindex="0" data-bs-toggle="popover"
+                                        data-bs-trigger="hover focus"
+                                        data-bs-content="How many chapters are in your book?"></i>
+                                    <input type="number" class="form-control" id="chapter-number" min="0"
+                                        oninput="this.value = Math.abs(this.value)">
+                                    <div class="container errorMessage" id="chapterError"></div>
+                                </div>
+
+                                <!--? BANK ACC NUMBER  -->
+                                <div id="bankAcc-div" class="container ">
+                                    <label id="bankAcc" class="formLabel" for="inputBankNum">Bank Account Number:
+                                    </label>
+                                    <i class="bi bi-info-circle info" tabindex="0" data-bs-toggle="popover"
+                                        data-bs-trigger="hover focus"
+                                        data-bs-content="We need to know where your revenue is going. Please give us your IBAN number"></i>
+                                    <input type="text" class="form-control align-middle" id="inputBankNum"
+                                        placeholder="GB 12 ABCD 102030 12345678">
+
+                                    <div class="errorMessage align-middle" id="BankNumError"></div>
+                                </div>
+
+                                <!--? BOOK PRICE -->
+                                <!--TODO: FORINT FELTÜNTETÉSE + JS NINCS MEGÍRVA  -->
+                                <div id="bookPrice-outsideDiv">
+                                    <div id="BookPrice-div" class="container input-div">
+                                        <label id="Price" for="inputBookPrice">Your book's Price: <i
+                                                class="bi bi-info-circle infoalter" tabindex="0"
+                                                data-bs-toggle="popover" data-bs-trigger="hover focus"
+                                                data-bs-content="Please note that the final price is structured as follows: the price given by you + 20%."></i></label>
+
+                                        <div class="input-group mb-3" id="price">
+                                            <input type="number" class="form-control" id="inputBookPrice"
+                                                aria-describedby="basic-addon1" min="0">
+                                            <span class="input-group-text" id="Currency">FT</span>
+                                        </div>
+                                        <!-- <input class="form-control" type="number" id="inputBookPrice"> -->
+
+                                    </div>
+                                    <div class="container errorMessage" id="PriceError"></div>
+                                    <div class="container" id="priceP">
+                                        <p>If you need more information on this matter, please refer to the relevant
+                                            section
+                                            in
+                                            the <a class="link" href="#"> Terms and Conditions</a>.</p>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                </div>
+
+                </form>
+            </div>
+        </div>
+        </div>
+
+    </section>
+
+
+    <!--? BOOTSTRAP  -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <!--? JAVASCRIPT  -->
+    <script src="createBook.js"></script>
+
+    <script>
+        // Initialize Bootstrap popovers
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl)
+        });
+    </script>
+</body>
+
+</html>
