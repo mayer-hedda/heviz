@@ -72,7 +72,14 @@ let s3 = false;
 let s4 = false;
 let s5 = false;
 
+// Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
+window.addEventListener('beforeunload', async function() {
+    const tokenResponse = await token();
 
+    if (tokenResponse.status === 401) {
+        window.location.href = "../Log-in/login.html";
+    }
+});
 
 // LOADING PAGE
 window.onload = async function () {
@@ -87,6 +94,9 @@ window.onload = async function () {
     }
 
     switch (tokenResponse.status) {
+        case 401:
+            window.location.href = "../Log-in/login.html";
+            break;
         case 302:
             switch (tokenResponse.data.rank) {
                 case 'general':
