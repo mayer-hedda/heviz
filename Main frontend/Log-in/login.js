@@ -49,7 +49,7 @@ inputPwd.addEventListener('input', (e) => {
     if (pwdValue == "") {
         pwdError.innerHTML = `<p>Password field cannot be empty.</p>`;
         e.target.style.background = "#FEEFEC";
-        pwdValid = false;
+        pwdValid = false; 
     } else {
         pwdValid = true;
         BtnActivate();
@@ -112,10 +112,3 @@ submitButton.addEventListener("click", async (e) => {
     inputEmail.value = '';
     inputPwd.value = '';
 })
-
-async function login() {
-    const postData = {
-        email: inputEmail.value,
-        password: inputPwd.value
-    };
-}
