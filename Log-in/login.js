@@ -4,6 +4,7 @@ const inputEmail = document.getElementById("inputEmail");
 const inputPwd = document.getElementById("inputPwd");
 const emailError = document.getElementById("emailError");
 const pwdError = document.getElementById("pwdError");
+const loginError = document.getElementById("loginError");
 let emailValid = false;
 let pwdValid = false;
 const generalHomeURL = '../General-HomePage/GenHome.html';
@@ -38,6 +39,7 @@ inputEmail.addEventListener("focusin", (e) => {
     e.preventDefault();
     e.target.style.background = "";
     emailError.innerHTML = "";
+    loginError.innerHTML = "";
 })
 
 // password
@@ -57,6 +59,7 @@ inputPwd.addEventListener("focusin", (e) => {
     e.preventDefault();
     e.target.style.background = "";
     pwdError.innerHTML = "";
+    loginError.innerHTML = "";
 })
 
 /*
@@ -100,6 +103,7 @@ submitButton.addEventListener("click", async (e) => {
 
             break;
         case 422:
+            loginError.innerHTML = "<p>" + responseLogin.data.loginError + "</p>";
             console.error(responseLogin.data);
             break;
     
@@ -109,10 +113,3 @@ submitButton.addEventListener("click", async (e) => {
     inputEmail.value = '';
     inputPwd.value = '';
 })
-
-async function login() {
-    const postData = {
-        email: inputEmail.value,
-        password: inputPwd.value
-    };
-}

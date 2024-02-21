@@ -163,7 +163,7 @@ nav {
     /* font-style: italic; */
 }
 
-#HomePage {
+.active {
     /*? Az aktuális page */
     color: var(--current-page-color) !important;
     text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
@@ -171,7 +171,21 @@ nav {
     text-underline-offset: 0.281rem;
 }
 
-#HomePage:hover {
+.active:hover {
+    /*? aktuális page hover */
+    color: var(--current-page-hover-color) !important;
+    /* font-style: italic; */
+}
+
+#Feed {
+    /*? Az aktuális page */
+    color: var(--current-page-color) !important;
+    text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
+    /* ? távolság növelése az alláhúzás vonal és a szöveg alja között */
+    text-underline-offset: 0.281rem;
+}
+
+#Feed:hover {
     /*? aktuális page hover */
     color: var(--current-page-hover-color) !important;
     /* font-style: italic; */
@@ -201,7 +215,7 @@ nav {
     font-size: medium;
     font-family: 'Inter', sans-serif;
     color: var(--btn-text-color);
-    border: solid var(--primary-BTN-Bg-color);
+    border: 1px solid var(--primary-BTN-Bg-color);
     /* border-width: 0rem; */
     border-radius: 1.5rem;
 

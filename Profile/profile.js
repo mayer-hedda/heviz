@@ -17,6 +17,15 @@ const profile_settings = document.getElementById('profile-settings');
 const privacy_settings = document.getElementById('privacy-settings');
 const buisness_settings = document.getElementById('buisness-settings');
 
+// Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
+window.addEventListener('beforeunload', async function () {
+    const tokenResponse = await token();
+
+    if (tokenResponse.status === 401) {
+        window.location.href = "../Log-in/login.html";
+    }
+});
+
 window.onload = async function () {
     const tokenResponese = await token();
     switch (tokenResponese.status) {
@@ -29,7 +38,7 @@ window.onload = async function () {
              *  - Our Books menü helyett --> My Books
              *  - Our Posts menü helyett --> My Posts
              */
-            if(tokenResponese.data.rank == "general"){
+            if (tokenResponese.data.rank == "general") {
                 document.getElementById('our-writers-div').hidden = true;
                 our_books.textContent = "My Books";
                 our_posts.textContent = "My Posts";
@@ -55,14 +64,25 @@ window.onload = async function () {
                         intro_div.hidden = true;
                     }
 
+                    // settings endpont meghívása
+                    const settingsDetails = await getDetails();
+                    console.log("Settings details: " + JSON.stringify(settingsDetails));
 
                     loadProfilePicture(responseUser);
                     loadCoverColor(responseUser);
                     loadUserTextDatas(responseUser);
-                    contactInfos(responseUser);
-                    // console.log("token: --- "+localStorage.getItem("Token"));
-                    addPlaceholder(responseUser, "username", input_un);
-                    addPlaceholder(responseUser, "companyName", input_company);
+                    contactInfos(settingsDetails);
+
+                    addPlaceholder(settingsDetails, "username", input_un);
+                    addPlaceholder(settingsDetails, "email", input_email);
+                    addPlaceholder(settingsDetails, "phoneNumber", input_phoneNumber);
+                    addPlaceholder(settingsDetails, "firstName", input_fName);
+                    addPlaceholder(settingsDetails, "lastName", input_lName);
+
+                    if (settingsDetails.data.companyName != undefined) {
+                        addPlaceholder(settingsDetails, "companyName", input_company);
+                    }
+
 
                     // load posts
                     const responsePosts = await getUserPosts({ "profileUsername": tokenResponese.data.username });
@@ -87,7 +107,7 @@ window.onload = async function () {
                     console.log("Books details: ", responseBooks);
                     switch (responseBooks.status) {
                         case 200:
-                            getBooks(responseBooks);
+                            getBooks(responseBooks, tokenResponese);
                             break;
                         case 401:
 
@@ -100,18 +120,18 @@ window.onload = async function () {
 
                     break;
                 case 401:
-                    // ! ide kell majd a 404es page hivatkozása
-                    console.error("Error: " + responseUser);
+                    // link to the login --> doesn't have token
+                    window.location.href = "../Log-in/login.html";
                     break;
 
                 case 422:
-                    // ! ide kell majd a 404es page hivatkozása
+                    alert("422 - Something went wrong");
                     console.error("Error: " + responseUser);
                     break;
 
                 default:
-                    // ! ide kell majd a 404es page hivatkozása
-                    console.error("Error: " + responseUser);
+                    localStorage.setItem('Error Code:', `${responseUser.error}`);
+                    window.location.href = "../404/404.html";
                     break;
             }
 
@@ -126,8 +146,8 @@ window.onload = async function () {
 // edit introdution
 const editIntro = document.getElementById('edit-intro');
 const introText = document.getElementById('intro-text');
-const saveBtn = document.getElementById('intro-save-btn');
-const cancelBtn = document.getElementById('intro-cancel-btn');
+const intro_saveBtn = document.getElementById('intro-save-btn');
+const intro_cancelBtn = document.getElementById('intro-cancel-btn');
 const error_and_counter = document.getElementById('error-and-counter');
 const introErr = document.getElementById('introErr');
 const characterCounter = document.getElementById('characterCounter');
@@ -141,38 +161,38 @@ editIntro.addEventListener('click', (e) => {
 
         introText.readOnly = false;
         introText.classList.add("info-edit-active");
-        saveBtn.hidden = false;
-        cancelBtn.hidden = false;
+        intro_saveBtn.hidden = false;
+        intro_cancelBtn.hidden = false;
         error_and_counter.hidden = false;
     } else {
 
         introText.readOnly = false;
         introText.classList.add("info-edit-active");
-        saveBtn.hidden = false;
-        cancelBtn.hidden = false;
+        intro_saveBtn.hidden = false;
+        intro_cancelBtn.hidden = false;
         error_and_counter.hidden = false;
     }
 
 
 })
 
-cancelBtn.addEventListener('click', (e) => {
+intro_cancelBtn.addEventListener('click', (e) => {
 
     if (isIntroExist == false) {
         introText.hidden = true;
         missing_intro_text.hidden = false;
 
 
-        saveBtn.hidden = true;
-        cancelBtn.hidden = true;
+        intro_saveBtn.hidden = true;
+        intro_cancelBtn.hidden = true;
         error_and_counter.hidden = true;
 
     } else {
 
         introText.readOnly = true;
         introText.classList.remove("info-edit-active");
-        saveBtn.hidden = true;
-        cancelBtn.hidden = true;
+        intro_saveBtn.hidden = true;
+        intro_cancelBtn.hidden = true;
         error_and_counter.hidden = true;
     }
 })
@@ -201,6 +221,27 @@ introText.addEventListener('input', (e) => {
     }
 
 })
+
+//! net::ERR_ABORTED 405 (Method Not Allowed)
+intro_saveBtn.addEventListener('click', async function () {
+    const introValue = introText.value;
+    // itt helyesen kiszedi az adatot
+    console.log(introValue);
+
+    const introResult = await setIntroDescription({ "introDescription": `${introValue}` });
+    if (introResult.status == 200) {
+        console.log("Successful intro description");
+
+    } else if (introResult.status == 401) {
+        alert("Statuscode: " + introResult.status + ". Error message: " + introResult.data)
+        console.error("Error message in edit intro: " + introResult.data);
+    } else if (introResult.status == 422) {
+        alert("Statuscode: " + introResult.status + " - " + introResult.data);
+    } else {
+        console.log("Unknown error ");
+    }
+});
+
 
 // edit post modal caracter count
 const post_textarea = document.getElementById('message-text');
@@ -258,7 +299,7 @@ function loadCoverColor(response) {
  * Ez azért van hogy elég legyen egyszer létrehozni az oldalt, ne kelljen külön
  * publisher és general profilt létrehozni.
  */
-function loadUserTextDatas(response) {
+function loadUserTextDatas(responseUser, responseDetails) {
     const name = document.getElementById('name');
     const u_name = document.getElementById('username');
     // const partners = document.getElementById('partner-number');
@@ -266,16 +307,16 @@ function loadUserTextDatas(response) {
     const followers = document.getElementById('followers-number');
 
 
-    if (response.data.companyName != undefined) {
-        name.innerHTML = `${response.data.companyName}`;
-    }else{
-        name.innerHTML = `${response.data.firstName} ${response.data.lastName}`;
+    if (responseUser.data.companyName != undefined) {
+        name.innerHTML = `${responseUser.data.companyName}`;
+    } else {
+        name.innerHTML = `${responseUser.data.firstName} ${responseUser.data.lastName}`;
     }
-   
-    u_name.innerHTML = `@${response.data.username}`;
 
-    own_books.innerHTML = `${response.data.bookCount}`;
-    followers.innerHTML = `${response.data.followersCount}`;
+    u_name.innerHTML = `@${responseUser.data.username}`;
+
+    own_books.innerHTML = `${responseUser.data.bookCount}`;
+    followers.innerHTML = `${responseUser.data.followersCount}`;
 }
 
 
@@ -332,14 +373,14 @@ function contactInfos(response) {
         website_div.hidden = true;
     }
 
-    if (response.data.phoneNumber != undefined) {
+    if (response.data.publicPhoneNumber == true) {
         phoneNumber.innerText = response.data.phoneNumber;
         BooleanP = true;
     } else {
         phone_div.hidden = true;
     }
 
-    if (response.data.email != undefined) {
+    if (response.data.publicEmail == true) {
         email.innerText = response.data.email;
         BooleanE = true;
     } else {
@@ -516,15 +557,14 @@ function editPost(postID, currentText) {
     editedText = currentText; // Az aktuális szöveg beállítása
     console.log(postID);
 
-    editedText = currentText.value;
+    post_textarea.value = editedText;  //paste current text
     let editPostResult;
 
     document.getElementById('LetsPost-btn').addEventListener('click', async function () {
-        editedText = post_textarea.value; // Frissítsd a editedText változót a post_textarea-nél
+        editedText = post_textarea.value; // Frissítem a editedText változót a post_textarea-nél
         editPostResult = await updatePost({ "id": `${postID}`, "description": `${editedText}` });
         if (editPostResult.status == 200) {
-            console.log("sikeresen szerkesztetted az oldalt");
-            console.log(editedText);
+            location.reload();  //reload the page
         } else {
             console.error("somethins went wrong: " + editPostResult.status);
         }
@@ -544,12 +584,13 @@ async function DeletePostBTN(button, postID) {
 }
 
 async function DeleteBookBTN(button, bookID) {
-    // !ide vissza kell térni mert nem enged a BE publisher-el törölni
     console.log("Ennél a könyvnél nyomtad meg a törlést: " + bookID);
     const deleteResult = await deleteBook({ "id": bookID });
     if (deleteResult.status == 200) {
         const bookCard = button.closest('.book-card');
         bookCard.remove();
+    } else {
+        console.error("A kapott eredmény: " + JSON.stringify(deleteResult));
     }
 }
 
@@ -566,7 +607,7 @@ ourBooks_btn.addEventListener('click', (e) => {
 })
 
 
-function getBooks(responseBook) {
+function getBooks(responseBook, tokenResponse) {
     for (let i = 0; i <= responseBook.data.myBooks.length - 1; i++) {
         if (responseBook.data.myBooks[i].coverImage != "Ez a kép elérési útja") {
             books_div.innerHTML += `
@@ -575,14 +616,14 @@ function getBooks(responseBook) {
                         <div class="col-3 my-col3" id="s5-mediumCardPic-div">
                             <!--? Picture => Alt-nak mehet majd a könyv címe -->
                            
-                            <img class="medium-pic" src="../${responseBook.data.myBooks[i].coverImage}" alt="${responseBook.data.myBooks[i].title}">
+                            <img class="medium-pic" src="../${responseBook.data.myBooks[i].coverImage}.jpg" alt="${responseBook.data.myBooks[i].title}">
                             
                         </div>
 
                         <div class="col-9 medium-right-side">
                             <!--? Author + Book Title  -->
                             <h2 class="container medium-h2" id="s5-mediumC-h2">${responseBook.data.myBooks[i].title}</h2>
-                            <p class="username" id="s5-mediumC-user">${responseBook.data.myBooks[i].firstName} ${responseBook.data.myBooks[i].lastName}</p>
+                            <p class="username" id="s5-mediumC-user"><a class="book-profile-link" href="../Profile/profile.html">${responseBook.data.myBooks[i].firstName} ${responseBook.data.myBooks[i].lastName}</a></p>
                             <p class="medium-desc" id="s5-mediumC-desc">${responseBook.data.myBooks[i].description}</p>
 
                             <div class="card-footer">
@@ -623,7 +664,7 @@ function getBooks(responseBook) {
                         <div class="col-9 medium-right-side">
                             <!--? Author + Book Title  -->
                             <h2 class="container medium-h2" id="s5-mediumC-h2">${responseBook.data.myBooks[i].title}</h2>
-                            <p class="username" id="s5-mediumC-user">${responseBook.data.myBooks[i].firstName} ${responseBook.data.myBooks[i].lastName}</p>
+                            <p class="username" id="s5-mediumC-user"><a class="book-profile-link" href="../Profile/profile.html">${responseBook.data.myBooks[i].firstName} ${responseBook.data.myBooks[i].lastName}</a></p>
                             <p class="medium-desc" id="s5-mediumC-desc">${responseBook.data.myBooks[i].description}</p>
 
                             <div class="card-footer">
@@ -654,12 +695,20 @@ function getBooks(responseBook) {
         }
     }
 
-    if (responseBook.data.ownBooks === true) {
+    if (tokenResponse.data.rank == "general") {
+        if (responseBook.data.ownBooks === true) {
+            const post_editDelete_div_books = document.querySelectorAll('.edit-delete-div-books');
+            post_editDelete_div_books.forEach(div => {
+                div.hidden = false;
+            });
+        }
+    } else {
         const post_editDelete_div_books = document.querySelectorAll('.edit-delete-div-books');
         post_editDelete_div_books.forEach(div => {
-            div.hidden = false;
+            div.hidden = true;
         });
     }
+
 }
 
 // switch between settiings
@@ -674,7 +723,6 @@ const buisness_settings_div = document.getElementById('buisness-settings-div');
 
 // settings buttons events
 profile_settings.addEventListener('click', (e) => {
-
 
     if (privacy_ettings_div.hidden == false) {
         privacy_ettings_div.hidden = true;
@@ -699,7 +747,6 @@ profile_settings.addEventListener('click', (e) => {
 
 privacy_settings.addEventListener('click', (e) => {
 
-
     if (profile_settings_div.hidden == false) {
         profile_settings_div.hidden = true;
         privacy_ettings_div.hidden = false;
@@ -718,7 +765,6 @@ privacy_settings.addEventListener('click', (e) => {
         buisness_settings.classList.remove('active-set');
         buisness_settings.classList.add('disabled-set');
     }
-
 })
 
 buisness_settings.addEventListener('click', (e) => {
@@ -1199,12 +1245,26 @@ un_cancel.addEventListener('click', (e) => {
     un_error.innerHTML = "";
 })
 
-un_save.addEventListener('click', (e) => {
+// net::ERR_ABORTED 405 (Method Not Allowed) --> itt nincs a network-ben egyáltalán benne sem
+un_save.addEventListener('click', async function () {
     // console.log("megnyomtad a save gombot");
     let un_boolean = upTo3(input_un.value, "username", input_un, un_error);
     console.log("username save btn: " + un_boolean);
 
-    // !ide kell egy vizsgálat arra, hogy ha true csak akkor küldjön adatot a BE-nek
+    if (un_boolean == true) {
+        let inputUn_value = input_un.value;
+        console.log("Amire változtatni szeretnék: " + inputUn_value);
+        const setUnResponse = await setUsername({ "username": inputUn_value });
+        if (setUnResponse.status == 200) {
+            console.log("Sikeresen szerkesztetted a usernevet a következőre: " + inputUn_value);
+        } else if (setUnResponse.status == 401) {
+            window.location.href = "../Log-in/login.html";
+        } else if (setUnResponse.status == 422) {
+            alert("422-es státsukód");
+        } else {
+            alert("Something went wrong.");
+        }
+    }
 })
 
 input_un.addEventListener('focusin', (e) => {
@@ -1226,11 +1286,24 @@ e_cancel.addEventListener('click', (e) => {
     e_error.innerHTML = "";
 })
 
-e_save.addEventListener('click', (e) => {
+e_save.addEventListener('click', async function () {
     // console.log("Megnyomtad az email save gombot");
     let e_boolean = validateEmail(input_email.value);
     console.log("username save btn: " + e_boolean);
-    // !ide kell egy vizsgálat arra, hogy ha true csak akkor küldjön adatot a BE-nek
+
+    if (e_boolean == true) {
+        let inputEmail_value = input_email.value;
+        const setEmailResponse = await setEmail({"email": `"${inputEmail_value}"`});
+        if (setEmailResponse.status == 200) {
+            console.log("Sikeresen szerkesztetted a usernevet a következőre: " + inputEmail_value);
+        } else if (setEmailResponse.status == 401) {
+            window.location.href = "../Log-in/login.html";
+        } else if (setEmailResponse.status == 422) {
+            alert("422-es státsukód");
+        } else {
+            alert("Something went wrong.");
+        }
+    }
 })
 
 input_email.addEventListener('focusin', (e) => {

@@ -72,24 +72,32 @@ let s3 = false;
 let s4 = false;
 let s5 = false;
 
+// Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
+window.addEventListener('beforeunload', async function() {
+    const tokenResponse = await token();
 
+    if (tokenResponse.status === 401) {
+        window.location.href = "../Log-in/login.html";
+    }
+});
 
 // LOADING PAGE
 window.onload = async function () {
     const tokenResponse = await token();
-
+    // username to the navbar
+    username.innerText = `@${tokenResponse.data.username}`;
+    if (tokenResponse.data.image) {
+        defaultP_pic.hidden = true;
+        profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;
+    } else {
+        defaultP_pic.hidden = false;
+    }
 
     switch (tokenResponse.status) {
+        case 401:
+            window.location.href = "../Log-in/login.html";
+            break;
         case 302:
-            // username to the navbar
-            username.innerText = `@${tokenResponse.data.username}`;
-            if (tokenResponse.data.image) {
-                defaultP_pic.hidden = true;
-                profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;
-            } else {
-                defaultP_pic.hidden = false;
-            }
-
             switch (tokenResponse.data.rank) {
                 case 'general':
                     document.getElementById('welcome').innerText = `Welcome @${tokenResponse.data.username}!`;
@@ -121,8 +129,8 @@ window.onload = async function () {
                     const responseRecommanded = await getRecommandedBooks();
                     console.log("Recommanded books for you: ", responseRecommanded);
                     console.log("Recommanded books for you length: ", responseRecommanded.data.length);
-
-                    if (responseRecommanded.data.length != 0) {
+                    
+                    if (responseRecommanded.data.length != 0) { 
                         TwoRowAndMediumCard("Recommanded books for you", responseRecommanded, s3_mediumCardPic_div, s3_mediumC_h2, s3_mediumC_author, s3_mediumC_desc, s3_mediumC_btn, s3_first_row, s3_second_row);
                         s3 = true;
                     } else {
@@ -145,7 +153,7 @@ window.onload = async function () {
                     console.log("Self-published books length: ", responseSelfPublished.data.length);
 
                     if (responseSelfPublished.data.length != 0) {
-
+                       
                         TwoRowAndMediumCard("Self-published books", responseSelfPublished, s5_mediumCardPic_div, s5_mediumC_h2, s5_mediumC_author, s5_mediumC_desc, s5_mediumC_btn, s5_first_row, s5_second_row)
                         s5 = true;
                     } else {
@@ -483,7 +491,7 @@ function loadModalData(url, title, firstName, lastName, description, language, r
 }
 
 const logout_btn = document.getElementById('Logout');
-logout_btn.addEventListener('click', (e) => {
+logout_btn.addEventListener('click', (e)=>{
     localStorage.removeItem("Token");
     window.location.assign('../Landing-Page/landing.html');
 })

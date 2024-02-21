@@ -527,6 +527,11 @@ Ha találok rá jobb megoldást javítom :)  */
     color: rgb(99, 76, 62) !important;
 }
 
+.book-profile-link{
+    text-decoration: none;
+    color: rgb(65, 61, 63)!important;
+}
+
 .medium-desc {
     display: -webkit-box;
     -webkit-line-clamp: 4;
