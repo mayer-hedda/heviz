@@ -385,6 +385,8 @@ public class BookService {
                 errors.put("storyTitleError", "Title must be 3 caracter long!");
             } else if(title.length() > 50) {
                 errors.put("storyTitleError", "The title cannot be longer than 50 characters!");
+            } else if(title.matches("[^a-zA-Z0-9]+")) {
+                errors.put("storyTitleError", "The title of the book should not consist exclusively of special characters!");
             }
 
             if(description == null || description.isEmpty()) {
@@ -393,6 +395,8 @@ public class BookService {
                 errors.put("descriptionError", "The description must be 20 caracter long.");
             } else if(description.length() > 1000) {
                 errors.put("descriptionError", "The description cannot be longer than 1000 characters!");
+            } else if(description.matches("[^a-zA-Z0-9]+")) {
+                errors.put("descriptionError", "The description of the book should not consist exclusively of special characters!");
             }
 
             if(targetAudienceId == null) {
