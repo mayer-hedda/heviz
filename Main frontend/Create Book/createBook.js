@@ -11,6 +11,16 @@ const fileView = document.getElementById('fileView');
 
 var filePass = false;
 var picPass = false;
+
+// Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
+window.addEventListener('beforeunload', async function() {
+    const tokenResponse = await token();
+
+    if (tokenResponse.status === 401) {
+        window.location.href = "../Log-in/login.html";
+    }
+});
+
 //? IMAGE
 inputPicture.addEventListener("change", uploadImage);
 

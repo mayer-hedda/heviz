@@ -10,6 +10,15 @@ const modal_textarea = document.getElementById('message-text');
 const characterCounterText = document.getElementById('characterCounter');
 const charCounterDes = document.getElementById('characterCounter');
 
+// Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
+window.addEventListener('beforeunload', async function() {
+    const tokenResponse = await token();
+
+    if (tokenResponse.status === 401) {
+        window.location.href = "../Log-in/login.html";
+    }
+});
+
 modal_textarea.addEventListener('input', (e) => {
     e.preventDefault();
     const currentText = modal_textarea.value;

@@ -27,3 +27,11 @@ const Dictionary = document.getElementById('Dictionary');
 const Action = document.getElementById('Action');
 const eighteenPlus = document.getElementById('eighteenPlus');
 
+// Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
+window.addEventListener('beforeunload', async function() {
+    const tokenResponse = await token();
+
+    if (tokenResponse.status === 401) {
+        window.location.href = "../Log-in/login.html";
+    }
+});

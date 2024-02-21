@@ -17,6 +17,15 @@ const profile_settings = document.getElementById('profile-settings');
 const privacy_settings = document.getElementById('privacy-settings');
 const buisness_settings = document.getElementById('buisness-settings');
 
+// Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
+window.addEventListener('beforeunload', async function() {
+    const tokenResponse = await token();
+
+    if (tokenResponse.status === 401) {
+        window.location.href = "../Log-in/login.html";
+    }
+});
+
 window.onload = async function () {
     const tokenResponese = await token();
     switch (tokenResponese.status) {
@@ -101,7 +110,6 @@ window.onload = async function () {
                     break;
                 case 401:
                     // ! ide kell majd a 404es page hivatkozása
-                    console.error("Error: " + responseUser);
                     break;
 
                 case 422:
