@@ -87,7 +87,7 @@ submitButton.addEventListener("click", async (e) => {
                             break;
                     
                         case 'publisher':
-                            window.location.assign('../Publisher-Profile/p-profile.html');
+                            window.location.assign('../Profile/profile.html');
                             // console.log("Ő egy publisher lesz");
                             break;
                     }

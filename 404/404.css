@@ -1,11 +1,156 @@
-body{
+@media (max-width: 400px) {
+   img {
+      width: 350px;
+   }
+
+   #btn-text {
+      display: flex;
+      flex-direction: column;
+      width: fit-content;
+   }
+
+   #back-to-home {
+      font-size: 20px !important;
+   }
+
+   #error-message {
+      font-size: 18px !important;
+      text-align: justify;
+      padding: 0px 22px;
+   }
+}
+
+@media (min-width: 400px) and (max-width: 576px) {
+   img {
+      width: 400px;
+   }
+
+   #btn-text {
+      display: flex;
+      flex-direction: column;
+      width: fit-content;
+   }
+
+   #error-message {
+      font-size: 18px !important;
+      padding-top: 0px!important;
+      padding-left: 22px;
+      padding-right: 22px;
+   }
+
+}
+
+@media (min-width: 577px) and (max-width: 767px){
+   img{
+      width: 500px;
+   }
+
+   #btn-text {
+      display: flex;
+      flex-direction: column;
+      width: fit-content;
+   }
+
+   #error-message {
+      font-size: 18px !important;
+      padding-top: 0px!important;
+      padding-left: 22px;
+      padding-right: 22px;
+   }
+}
+
+@media(min-width: 767px) and (max-width: 968px){
+   img{
+      width: 600px;
+   }
+   
+   #btn-text {
+      display: flex;
+      flex-direction: column;
+      width: fit-content;
+   }
+
+   #error-message {
+      /* font-size: 20px !important; */
+      padding-top: 0px!important;
+      padding-left: 22px;
+      padding-right: 22px;
+   }
+
+}
+
+@media(min-width: 969px) and (max-width: 991px){
+   img{
+      width: 600px;
+   }
+   
+   #back-to-home {
+      font-size: 20px !important;
+   }
+
+   #error-message {
+      text-align: left;
+      width: 400px;
+   }
+
+   #btn-text{
+      gap: 20px !important;
+   }
+}
+
+@media(min-width: 992px) and (max-width: 1200px){
+   img{
+      width: 600px;
+   }
+   
+   #back-to-home {
+      font-size: 20px !important;
+   }
+
+   #error-message {
+      text-align: left;
+      max-width: 600px;
+   }
+
+   #btn-text{
+      gap: 50px !important;
+   }
+
+}
+
+@media (min-width: 1201px) and (max-width: 1399px){
+   #error-message {
+      text-align: left;
+      max-width: 800px;
+   }
+}
+
+body {
    background-color: #F7F5EC;
 }
 
-.big-container{
-   display: grid; 
+#big-container {
+   /* display: flex;  */
+   margin-top: 150px;
 }
 
-#back-to-home{
+
+#back-to-home {
    background-color: #685C9C;
+   color: white;
+   font-size: 20px;
+   padding: 10px 20px;
+}
+
+#btn-text {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 20px;
+}
+
+#error-message {
+   padding-top: 50px;
+   font-size: 20px;
+   /*  */
 }

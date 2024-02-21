@@ -234,7 +234,7 @@ function loadProfilePicture(response) {
     const profile_picture = document.getElementById('profile-picture');
 
     if (response.data.image) {
-        profile_picture.src = `../${response.data.image}.jpg`;
+        profile_picture.src = `../${response.data.image}`;
     } else {
         profile_picture.src = `../pictures/default-profile-pic.png`;
     }
@@ -364,7 +364,7 @@ const book_modal_desc = document.getElementById('modal-desc');
 function loadModalData(url, title, firstName, lastName, description, language, rating, pages) {
 
     if (url != "Ez a kép elérési útja") {
-        book_modal_img.src = `../${url}.jpg`;
+        book_modal_img.src = `../${url}`;
     }
 
     book_modal_title.innerText = `${title}`;
@@ -516,12 +516,12 @@ function editPost(postID, currentText) {
     editedText = currentText; // Az aktuális szöveg beállítása
     console.log(postID);
 
-    post_textarea.value = editedText;
+    editedText = currentText.value;
     let editPostResult;
 
     document.getElementById('LetsPost-btn').addEventListener('click', async function () {
         editedText = post_textarea.value; // Frissítsd a editedText változót a post_textarea-nél
-        editPostResult = await updatePost({ "id": `${postID}`, "description": "ez lesz a módosítás" });
+        editPostResult = await updatePost({ "id": `${postID}`, "description": `${editedText}` });
         if (editPostResult.status == 200) {
             console.log("sikeresen szerkesztetted az oldalt");
             console.log(editedText);
@@ -575,7 +575,7 @@ function getBooks(responseBook) {
                         <div class="col-3 my-col3" id="s5-mediumCardPic-div">
                             <!--? Picture => Alt-nak mehet majd a könyv címe -->
                            
-                            <img class="medium-pic" src="../${responseBook.data.myBooks[i].coverImage}.jpg" alt="${responseBook.data.myBooks[i].title}">
+                            <img class="medium-pic" src="../${responseBook.data.myBooks[i].coverImage}" alt="${responseBook.data.myBooks[i].title}">
                             
                         </div>
 
