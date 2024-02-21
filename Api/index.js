@@ -2275,3 +2275,856 @@ async function getSavedBooksByUserId() {
         return { error: error }
     }
 }
+
+
+
+// ----- SETTINGS -----
+
+/**
+ * @param {JSON} raw = {
+ *      "username": "új_felhasználónév"
+ * }
+ * 
+ * @return
+    * 200: Successfully set username
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 422: 
+        * usernameError: incorrect new username
+        * setUsernameError: Unsuccessfully set username
+ */
+async function setUsername(raw) {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/setUsername", requestOptions);
+
+        if(response.status == 200) {
+            return {
+                status: response.status,
+            }
+        }
+        if (response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        }
+        if(response.status == 422) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
+        }
+
+        return { status: response.status }
+    } catch (error) {
+        return { error: error }
+    }
+}
+
+
+/**
+ * @param {JSON} raw = {
+ *      "email": "uj.email@gmail.com" 
+ * }
+ * 
+ * @return
+    * 200: Successfully set email
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 422: 
+        * emailError: incorrect new email
+        * setEmailError: Unsuccessfully set email
+ */
+async function setEmail(raw) {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/setEmail", requestOptions);
+
+        if(response.status == 200) {
+            return {
+                status: response.status,
+            }
+        }
+        if (response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        }
+        if(response.status == 422) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
+        }
+
+        return { status: response.status }
+    } catch (error) {
+        return { error: error }
+    }
+}
+
+
+/**
+ * @param {JSON} raw = {
+ *      "password": "uj jelszo"
+ * }
+ * @return
+    * 200: Successfully set password
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 422: 
+        * passwordError: incorrect new password
+        * setPasswordError: Unsuccessfully set password 
+ */
+async function setPassword(raw) {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/setPassword", requestOptions);
+
+        if(response.status == 200) {
+            return {
+                status: response.status,
+            }
+        }
+        if (response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        }
+        if(response.status == 422) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
+        }
+
+        return { status: response.status }
+    } catch (error) {
+        return { error: error }
+    }
+}
+
+
+/**
+ * 
+ * @param {JSON} raw = {
+ *      "phoneNumber": "06202151232"
+ * }
+ * 
+ * @return
+    * 200: Successfully set phone number
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 422: 
+        * phoneNumberError: incorrect new phone number
+        * setPhoneNumberError: Unsuccessfully set phone number 
+ */
+async function setPhoneNumber(raw) {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/setPhoneNumber", requestOptions);
+
+        if(response.status == 200) {
+            return {
+                status: response.status,
+            }
+        }
+        if (response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        }
+        if(response.status == 422) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
+        }
+
+        return { status: response.status }
+    } catch (error) {
+        return { error: error }
+    }
+}
+
+
+/**
+ * @param {JSON} raw = {
+ *      "firstName": "Nagy"
+ * }
+ * 
+ * @return
+    * 200: Successfully set first name
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 422: 
+        * firstNameError: incorrect new first name
+        * setFirstNameError: Unsuccessfully set first name  
+ */
+async function setFirstName(raw) {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/setFirstName", requestOptions);
+
+        if(response.status == 200) {
+            return {
+                status: response.status,
+            }
+        }
+        if (response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        }
+        if(response.status == 422) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
+        }
+
+        return { status: response.status }
+    } catch (error) {
+        return { error: error }
+    }
+}
+
+
+/**
+ * @param {JSON} raw = {
+ *      "lastName": "Ferenc"
+ * }
+ * 
+ * @return
+    * 200: Successfully set last name
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 422: 
+        * lastNameError: incorrect new last name
+        * setLastNameError: Unsuccessfully set last name 
+ */
+async function setLastName(raw) {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/setLastName", requestOptions);
+
+        if(response.status == 200) {
+            return {
+                status: response.status,
+            }
+        }
+        if (response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        }
+        if(response.status == 422) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
+        }
+
+        return { status: response.status }
+    } catch (error) {
+        return { error: error }
+    }
+}
+
+
+/**
+ * @return
+    * 200: Successfully set public email
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 422: 
+        * setPublicEmailError: Unsuccessfully set public email 
+ */
+async function setPublicEmail() {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/setPublicEmail", requestOptions);
+
+        if(response.status == 200) {
+            return {
+                status: response.status,
+            }
+        }
+        if (response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        }
+        if(response.status == 422) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
+        }
+
+        return { status: response.status }
+    } catch (error) {
+        return { error: error }
+    }
+}
+
+
+/**
+ * @return
+    * 200: Successfully set public phone number
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 422: 
+        * setPublicPhoneNumberError: Unsuccessfully set public phone number
+ */
+async function setPublicPhoneNumber() {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/setPublicPhoneNumber", requestOptions);
+
+        if(response.status == 200) {
+            return {
+                status: response.status,
+            }
+        }
+        if (response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        }
+        if(response.status == 422) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
+        }
+
+        return { status: response.status }
+    } catch (error) {
+        return { error: error }
+    }
+}
+
+
+/**
+ * @param {JSON} raw = {
+ *      "website": "www.uj.website.hu"
+ * } 
+ * 
+ * @return
+    * 200: Successfully set website
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 422: 
+        * websiteError: incorrect new website
+        * setWebsiteError: Unsuccessfully set website 
+ */
+async function setWebsite(raw) {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/setWebsite", requestOptions);
+
+        if(response.status == 200) {
+            return {
+                status: response.status,
+            }
+        }
+        if (response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        }
+        if(response.status == 422) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
+        }
+
+        return { status: response.status }
+    } catch (error) {
+        return { error: error }
+    }
+}
+
+
+/**
+ * @param {JSON} raw = {
+ *      "introDescription": "Új bemutatkozó szöveg."
+ * }
+ * 
+ * @return
+    * 200: Successfully set intro description
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 422: 
+        * introDescriptionError: incorrect new intro description
+        * setIntroDescriptionError: Unsuccessfully set intro description 
+ */
+async function setIntroDescription(raw) {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/setIntroDescription", requestOptions);
+
+        if(response.status == 200) {
+            return {
+                status: response.status,
+            }
+        }
+        if (response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        }
+        if(response.status == 422) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
+        }
+
+        return { status: response.status }
+    } catch (error) {
+        return { error: error }
+    }
+}
+
+
+/**
+ * @param {JSON} raw = {
+ *      "image": "../pictures/user/asd.png"
+ * }
+ * 
+ * @return
+    * 200: Successfully set profile image
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 422: 
+        * profileImageError: incorrect new profile image
+        * setProfileImageError: Unsuccessfully set profile image 
+ */
+async function setProfileImage(raw) {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/setProfileImage", requestOptions);
+
+        if(response.status == 200) {
+            return {
+                status: response.status,
+            }
+        }
+        if (response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        }
+        if(response.status == 422) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
+        }
+
+        return { status: response.status }
+    } catch (error) {
+        return { error: error }
+    }
+}
+
+
+/**
+ * @param {JSON} raw = {
+ *      "code": "#FFFFFF"
+ * }
+ * 
+ * @return
+    * 200: Successfully set cover color
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 422: 
+        * coverColorError: incorrect new cover color
+        * setCoverColorError: Unsuccessfully set cover color   
+ */
+async function setCoverColor(raw) {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/setCoverColor", requestOptions);
+
+        if(response.status == 200) {
+            return {
+                status: response.status,
+            }
+        }
+        if (response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        }
+        if(response.status == 422) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
+        }
+
+        return { status: response.status }
+    } catch (error) {
+        return { error: error }
+    }
+}
+
+
+/**
+ * @param {JSON} raw = {
+ *      "companyName": "uj company name"
+ * }
+ * 
+ * @return
+    * 200: Successfully set company name
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 403:
+        * User is not a publisher user!
+    * 422: 
+        * companyNameError: incorrect new company name
+        * setCompanyNameError: Unsuccessfully set company name 
+ */
+async function setCompanyName(raw) {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/publisher/setCompanyName", requestOptions);
+
+        if(response.status == 200 || response.status == 403) {
+            return {
+                status: response.status,
+            }
+        }
+        if (response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        }
+        if(response.status == 422) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
+        }
+
+        return { status: response.status }
+    } catch (error) {
+        return { error: error }
+    }
+}
+
+
+/**
+ * @return
+    * 200:
+        * General details:
+            * username
+            * email
+            * phone number
+            * first name
+            * last name
+            * public email
+            * public phone number
+            * color
+            * image
+            * intro description
+            * website
+        * Publisher details:
+            * username
+            * email
+            * phone number
+            * first name
+            * last name
+            * public email
+            * public phone number
+            * color
+            * image
+            * intro description
+            * website
+            * company name
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired 
+ */
+async function getDetails() {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/getDetails", requestOptions);
+
+        if(response.status == 200) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
+        }
+        if (response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        }
+
+        return { status: response.status }
+    } catch (error) {
+        return { error: error }
+    }
+}
