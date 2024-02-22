@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Feb 22. 13:22
+-- Létrehozás ideje: 2024. Feb 22. 22:49
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -1303,7 +1303,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `setCompanyName` (IN `userIdIN` INT,
 
 	DECLARE rank VARCHAR(20);
     
-    SELECT `user`.`rank` INTO rank WHERE `user`.`id` = userIdIN;
+    SELECT `user`.`rank` INTO rank FROM `user` WHERE `user`.`id` = userIdIN;
     
     IF rank = "publisher" THEN
     	UPDATE `publisher`
@@ -2105,7 +2105,7 @@ INSERT INTO `publisher` (`id`, `companyName`, `publishedBookCount`, `publishedBo
 (8, 'Történetek Tárháza Kiadó', 2, 0),
 (9, 'Mesevilág Kiadóház', 3, 0),
 (10, 'Mesekönyv Birodalom', 1, 0),
-(11, 'Ifjúsági regények kft.', 34, 0);
+(11, 'IFJ regények', 34, 0);
 
 -- --------------------------------------------------------
 
@@ -2229,20 +2229,6 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `rank`, `firstName`, 
 (48, 'hedda1234', 'mayer.hedda1234@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Adrienn', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-02-20 09:58:52', 0, 1, 37),
 (49, 'dkjsahfkjdsf', 'mayer.hedda2222@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Adrienn', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-02-20 10:04:51', 0, 1, 38),
 (50, 'asdf', 'asdf@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'asd', 'asd', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-02-20 10:12:11', 1, 1, 39);
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `userrating`
---
-
-CREATE TABLE `userrating` (
-  `id` int(11) NOT NULL,
-  `ratingerId` int(11) NOT NULL,
-  `userId` int(11) NOT NULL,
-  `rating` int(10) UNSIGNED NOT NULL,
-  `ratingTime` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexek a kiírt táblákhoz
@@ -2395,14 +2381,6 @@ ALTER TABLE `user`
   ADD KEY `userId` (`userId`);
 
 --
--- A tábla indexei `userrating`
---
-ALTER TABLE `userrating`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `ratingerId` (`ratingerId`),
-  ADD KEY `userId` (`userId`);
-
---
 -- A kiírt táblák AUTO_INCREMENT értéke
 --
 
@@ -2525,12 +2503,6 @@ ALTER TABLE `targetaudience`
 --
 ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
-
---
--- AUTO_INCREMENT a táblához `userrating`
---
-ALTER TABLE `userrating`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
