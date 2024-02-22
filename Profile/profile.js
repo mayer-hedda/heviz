@@ -7,7 +7,7 @@ const input_fName = document.getElementById('input-fName');
 const input_lName = document.getElementById('input-lName');
 const input_company = document.getElementById('input-company');
 
-let isIntroExist = false;
+let isIntroExist = false; // Ez arra szolgáló segédváltozó, hogy a rendszer üzenetet szabályozzam
 const missing_intro_text = document.getElementById('missing-intro-text');
 const our_books = document.getElementById('our-books');
 const our_posts = document.getElementById('our-posts');
@@ -16,6 +16,9 @@ const our_posts = document.getElementById('our-posts');
 const profile_settings = document.getElementById('profile-settings');
 const privacy_settings = document.getElementById('privacy-settings');
 const buisness_settings = document.getElementById('buisness-settings');
+
+const isEmail_public = document.getElementById('email-isPublic');
+const isPhone_public = document.getElementById('phone-isPublic');
 
 // Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
 window.addEventListener('beforeunload', async function () {
@@ -51,7 +54,7 @@ window.onload = async function () {
                 case 200:
                     const isOwnProf = checkOwnProfile(responseUser);
                     if (isOwnProf === true) {
-                        if (responseUser.data.introDescription === undefined) {
+                        if (responseUser.data.introDescription === undefined || responseUser.data.introDescription == "") {
                             introText.hidden = true;
                             missing_intro_text.hidden = false;
                             isIntroExist = false;
@@ -65,7 +68,7 @@ window.onload = async function () {
                     }
 
                     // settings endpont meghívása
-                    const settingsDetails = await getDetails();
+                    var settingsDetails = await getDetails();
                     console.log("Settings details: " + JSON.stringify(settingsDetails));
 
                     loadProfilePicture(responseUser);
@@ -78,6 +81,8 @@ window.onload = async function () {
                     addPlaceholder(settingsDetails, "phoneNumber", input_phoneNumber);
                     addPlaceholder(settingsDetails, "firstName", input_fName);
                     addPlaceholder(settingsDetails, "lastName", input_lName);
+
+                    setSwitches(settingsDetails, isEmail_public, isPhone_public);
 
                     if (settingsDetails.data.companyName != undefined) {
                         addPlaceholder(settingsDetails, "companyName", input_company);
@@ -222,7 +227,7 @@ introText.addEventListener('input', (e) => {
 
 })
 
-//! net::ERR_ABORTED 405 (Method Not Allowed)
+
 intro_saveBtn.addEventListener('click', async function () {
     const introValue = introText.value;
     // itt helyesen kiszedi az adatot
@@ -231,10 +236,13 @@ intro_saveBtn.addEventListener('click', async function () {
     const introResult = await setIntroDescription({ "introDescription": `${introValue}` });
     if (introResult.status == 200) {
         console.log("Successful intro description");
+        location.reload();
 
     } else if (introResult.status == 401) {
         alert("Statuscode: " + introResult.status + ". Error message: " + introResult.data)
         console.error("Error message in edit intro: " + introResult.data);
+
+
     } else if (introResult.status == 422) {
         alert("Statuscode: " + introResult.status + " - " + introResult.data);
     } else {
@@ -392,6 +400,30 @@ function contactInfos(response) {
     }
 }
 
+/**
+ * Documementation
+ * ---------------
+ * @param {Response} response - The response object
+ * @param {element} responseElement - the specific element from the response object
+ * @param {HTMLInputElement} input - The input element for which we set a placeholder
+ */
+function addPlaceholder(response, responseElement, input) {
+    input.placeholder = `${response.data[responseElement]}`;
+}
+
+function setSwitches(response, inputEmail, inputPhone) {
+    if (response.data.publicEmail == true) {
+        inputEmail.checked == true;
+    } else {
+        inputEmail.checked = false;
+    }
+
+    if (response.data.publicPhoneNumber == true) {
+        inputPhone.checked = true;
+    } else {
+        inputPhone.checked = false;
+    }
+}
 
 const book_modal_body = document.getElementById('book-popup-modal-body');
 const book_modal_img = document.getElementById('book-modal-img');
@@ -421,10 +453,6 @@ function loadModalData(url, title, firstName, lastName, description, language, r
     book_modal_desc.innerText = `${description}`;
 
 }
-
-
-
-
 
 // Upload profile picture
 const drop_area_picture = document.getElementById('drop-area-picture');
@@ -790,10 +818,11 @@ buisness_settings.addEventListener('click', (e) => {
 })
 
 logOut.addEventListener('click', (e) => {
+    window.location.href = "../Landing-Page/landing.html";
     // console.log("token a törlés előtt: --- "+localStorage.getItem("Token"));
     localStorage.removeItem("Token");
     // console.log("token a törlés után: --- "+localStorage.getItem("Token"));
-    window.location.assign('../Landing-Page/landing.html');
+
 })
 
 // edit buttons on settings --> profile settings
@@ -867,17 +896,6 @@ function Cancel(element, buttonsRow) {
 }
 
 /**
- * Documementation
- * ---------------
- * @param {Response} response - The response object
- * @param {element} responseElement - the specific element from the response object
- * @param {HTMLInputElement} input - The input element for which we set a placeholder
- */
-function addPlaceholder(response, responseElement, input) {
-    input.placeholder = `${response.data[responseElement]}`;
-}
-
-/**
  * Documentation
  * -------------
  * This is a generic function that checks the value of the input field against the 
@@ -906,8 +924,6 @@ function upTo3(value, inputName, inputId, errorDiv) {
         errorDiv.innerHTML = `<p>It should be at least 3 characters.</p>`;
         return false;
     } else {
-        inputId.style.background = "rgb(241, 255, 231)";
-        inputId.style.borderColor = "rgb(98, 173, 107)";
         return true;
     }
 }
@@ -1028,8 +1044,6 @@ function validateEmail(emailValue) {
                                 input_email.style.borderColor = "rgb(243, 82, 93)";
                             } else {
                                 lp_email = true;
-                                input_email.style.background = "rgb(241, 255, 231)";
-                                input_email.style.borderColor = "rgb(98, 173, 107)";
                                 console.log("Last part of email is complied. Input: " + emailValue);
                             }
 
@@ -1108,8 +1122,6 @@ function validateCompany(companyValue, companyError, inputCompany) {
         console.log("Company length is not enough: Input: " + companyValue);
         return false;
     } else {
-        inputCompany.style.background = "rgb(241, 255, 231)";
-        inputCompany.style.borderColor = "rgb(98, 173, 107)";
         console.log("Company name is complied. Input: " + companyValue);
         return true;
     }
@@ -1168,8 +1180,6 @@ function validatePwd(pwdValue, pwdInput, errorField) {
     } else {
         // It checks for uppercase, lowercase, numbers and special characters.
         if (upperCaseReg.test(pwdValue) == true && lowerCaseReg.test(pwdValue) == true && numReg.test(pwdValue) == true && specReg.test(pwdValue) == true) {
-            pwdInput.style.background = "rgb(241, 255, 231)";
-            pwdInput.style.borderColor = "rgb(98, 173, 107)";
             console.log("The" + pwdInput + " is complied. Input: " + pwdValue);
             return true;
 
@@ -1232,6 +1242,26 @@ function checkPhoneLenght(value, input, errorDiv) {
     }
 }
 
+function checkUserCharacters(value, input, errorDiv) {
+
+    const disallowedCharacters = /[^a-z0-9._]/;
+    let abc_boolean = false;
+
+    if (disallowedCharacters.test(value) == true) {
+        errorDiv.innerHTML = `<p>Please avoid using special characters exept: _ (underscore) and . (dot)</p>`;
+        input.style.background = "rgb(255, 214, 220)";
+        input.style.borderColor = "rgb(243, 82, 93)";
+        chars_boolean = false;
+        return false;
+    } else {
+        errorDiv.innerHTML = "";
+        input.style.background = "";
+        input.style.borderColor = "";
+        chars_boolean = true;
+        return true;
+    }
+}
+
 // Events
 // username
 edit_username.addEventListener('click', (e) => {
@@ -1245,9 +1275,8 @@ un_cancel.addEventListener('click', (e) => {
     un_error.innerHTML = "";
 })
 
-// net::ERR_ABORTED 405 (Method Not Allowed) --> itt nincs a network-ben egyáltalán benne sem
 un_save.addEventListener('click', async function () {
-    // console.log("megnyomtad a save gombot");
+
     let un_boolean = upTo3(input_un.value, "username", input_un, un_error);
     console.log("username save btn: " + un_boolean);
 
@@ -1256,7 +1285,11 @@ un_save.addEventListener('click', async function () {
         console.log("Amire változtatni szeretnék: " + inputUn_value);
         const setUnResponse = await setUsername({ "username": inputUn_value });
         if (setUnResponse.status == 200) {
-            console.log("Sikeresen szerkesztetted a usernevet a következőre: " + inputUn_value);
+            // console.log("Sikeresen szerkesztetted a usernevet a következőre: " + inputUn_value);
+
+            window.location.href = "../Log-in/login.html";
+            localStorage.removeItem("Token");
+
         } else if (setUnResponse.status == 401) {
             window.location.href = "../Log-in/login.html";
         } else if (setUnResponse.status == 422) {
@@ -1264,6 +1297,16 @@ un_save.addEventListener('click', async function () {
         } else {
             alert("Something went wrong.");
         }
+    }
+})
+
+input_un.addEventListener('input', (e) => {
+    const checkResult = checkUserCharacters(input_un.value, input_un, un_error);
+    console.log(checkResult);
+    if (checkResult == false) {
+        un_save.disabled = true;
+    } else {
+        un_save.disabled = false;
     }
 })
 
@@ -1289,13 +1332,17 @@ e_cancel.addEventListener('click', (e) => {
 e_save.addEventListener('click', async function () {
     // console.log("Megnyomtad az email save gombot");
     let e_boolean = validateEmail(input_email.value);
-    console.log("username save btn: " + e_boolean);
+    console.log("email save btn: " + e_boolean);
 
     if (e_boolean == true) {
         let inputEmail_value = input_email.value;
-        const setEmailResponse = await setEmail({"email": `"${inputEmail_value}"`});
+        const setEmailResponse = await setEmail({ "email": `${inputEmail_value}` });
         if (setEmailResponse.status == 200) {
-            console.log("Sikeresen szerkesztetted a usernevet a következőre: " + inputEmail_value);
+            console.log("Sikeresen szerkesztetted az emailt a következőre: " + inputEmail_value);
+            const settingCall = await getDetails();
+            addPlaceholder(settingCall, "email", input_email);
+            Cancel(input_email, email_saveCancel);
+
         } else if (setEmailResponse.status == 401) {
             window.location.href = "../Log-in/login.html";
         } else if (setEmailResponse.status == 422) {
@@ -1324,12 +1371,27 @@ pwd_cancel.addEventListener('click', (e) => {
     pwd_error.innerHTML = "";
 })
 
-pwd_save.addEventListener('click', (e) => {
+pwd_save.addEventListener('click', async function () {
     // console.log("Megnyomtad a pwd save gombot");
     let pwd_boolean = validatePwd(input_pwd.value, input_pwd, pwd_error);
     console.log("pwd valid boolean: " + pwd_boolean);
 
-    // !ide kell egy vizsgálat arra, hogy ha true csak akkor küldjön adatot a BE-nek
+    if (pwd_boolean == true) {
+        let pwd_value = input_pwd.value;
+        const setPwdResponse = await setPassword({ "password": `${pwd_value}` });
+        if (setPwdResponse.status == 200) {
+            console.log("Sikeresen szerkesztetted a jelszavadat");
+
+            Cancel(input_pwd, pwd_saveCancel);
+
+        } else if (setEmailResponse.status == 401) {
+            window.location.href = "../Log-in/login.html";
+        } else if (setEmailResponse.status == 422) {
+            alert("422-es státsukód");
+        } else {
+            alert("Something went wrong.");
+        }
+    }
 })
 
 input_pwd.addEventListener('focusin', (e) => {
@@ -1356,12 +1418,28 @@ input_phoneNumber.addEventListener('input', (e) => {
     phone_boolean = validatePhone(input_phoneNumber.value, input_phoneNumber, phone_error);
 })
 
-p_save.addEventListener('click', (e) => {
+p_save.addEventListener('click', async function () {
     console.log("Megnyomtad a phone save gombot");
     let phone_lenght = checkPhoneLenght(input_phoneNumber.value, input_phoneNumber, phone_error);
     console.log("phone boolean: " + phone_boolean);
 
-    // !ide kell egy vizsgálat arra, hogy ha true csak akkor küldjön adatot a BE-nek
+    if (phone_boolean == true && phone_lenght == true) {
+
+        let phone_value = input_phoneNumber.value;
+        const setPhoneResponse = await setPhoneNumber({ "phoneNumber": `${phone_value}` });
+        if (setPhoneResponse.status == 200) {
+            console.log("Sikeresen szerkesztetted a jelszavadat");
+            location.reload();
+
+        } else if (setEmailResponse.status == 401) {
+            window.location.href = "../Log-in/login.html";
+        } else if (setEmailResponse.status == 422) {
+            alert("422-es státsukód");
+        } else {
+            alert("Something went wrong.");
+        }
+
+    }
 })
 
 input_phoneNumber.addEventListener('focusin', (e) => {
@@ -1382,12 +1460,28 @@ fn_cancel.addEventListener('click', (e) => {
     fn_error.innerHTML = "";
 })
 
-fn_save.addEventListener('click', (e) => {
+fn_save.addEventListener('click', async function () {
     // console.log("megnyomtad a save gombot");
     let fn_boolean = upTo3(input_fName.value, "first name", input_fName, fn_error);
     console.log("username save btn: " + fn_boolean);
 
-    // !ide kell egy vizsgálat arra, hogy ha true csak akkor küldjön adatot a BE-nek
+    if (fn_boolean == true) {
+        let firstname_value = input_fName.value;
+        const setFirstResponse = await setFirstName({ "firstName": `${firstname_value}` });
+        if (setFirstResponse.status == 200) {
+            console.log("Sikeresen szerkesztetted a first name-t a következőre: " + firstname_value);
+            const settingCall = await getDetails();
+            addPlaceholder(settingCall, "firstName", input_fName);
+            Cancel(input_fName, fName_saveCancel);
+
+        } else if (setFirstResponse.status == 401) {
+            window.location.href = "../Log-in/login.html";
+        } else if (setFirstResponse.status == 422) {
+            alert("422-es státsukód");
+        } else {
+            alert("Something went wrong.");
+        }
+    }
 })
 
 input_fName.addEventListener('focusin', (e) => {
@@ -1408,12 +1502,28 @@ ln_cancel.addEventListener('click', (e) => {
     ln_error.innerHTML = "";
 })
 
-ln_save.addEventListener('click', (e) => {
+ln_save.addEventListener('click', async function () {
     // console.log("megnyomtad a save gombot");
     let ln_boolean = upTo3(input_lName.value, "last name", input_lName, ln_error);
     console.log("username save btn: " + ln_boolean);
 
-    // !ide kell egy vizsgálat arra, hogy ha true csak akkor küldjön adatot a BE-nek
+    if (ln_boolean == true) {
+        let lastname_value = input_lName.value;
+        const setLastResponse = await setLastName({ "lastName": `${lastname_value}` });
+        if (setLastResponse.status == 200) {
+            console.log("Sikeresen szerkesztetted a last name-t a következőre: " + lastname_value);
+            const settingCall = await getDetails();
+            addPlaceholder(settingCall, "lastName", input_lName);
+            Cancel(input_lName, lName_saveCancel);
+
+        } else if (setLastResponse.status == 401) {
+            window.location.href = "../Log-in/login.html";
+        } else if (setLastResponse.status == 422) {
+            alert("422-es státsukód");
+        } else {
+            alert("Something went wrong.");
+        }
+    }
 })
 
 input_lName.addEventListener('focusin', (e) => {
@@ -1434,12 +1544,31 @@ c_cancel.addEventListener('click', (e) => {
     c_error.innerHTML = "";
 })
 
-c_save.addEventListener('click', (e) => {
+// ! 422-es hibakód
+c_save.addEventListener('click', async function () {
     console.log("megnyomtad a save gombot");
     let c_boolean = validateCompany(input_company.value, c_error, input_company);
     console.log("company boolean: " + c_boolean);
 
-    // !ide kell egy vizsgálat arra, hogy ha true csak akkor küldjön adatot a BE-nek
+    if (c_boolean == true) {
+        let company_value = input_company.value;
+        const setCompanyResponse = await setCompanyName({ "companyName": `${company_value}` });
+        if (setCompanyResponse.status == 200) {
+            console.log("Sikeresen szerkesztetted a company name-t a következőre: " + company_value);
+            const settingCall = await getDetails();
+            addPlaceholder(settingCall, "companyName", input_company);
+            Cancel(input_company, company_saveCancel);
+
+        } else if (setCompanyResponse.status == 401) {
+            window.location.href = "../Log-in/login.html";
+        } else if (setCompanyResponse.status == 422) {
+            alert("422: " + setCompanyResponse.data.setCompanyNameError);
+        } else if (setCompanyResponse.status == 403) {
+            alert("You are not a publisher. Please get out from the inspect panel! :)")
+        } else {
+            alert("Something went wrong.");
+        }
+    }
 })
 
 input_company.addEventListener('focusin', (e) => {
@@ -1447,3 +1576,15 @@ input_company.addEventListener('focusin', (e) => {
     e.target.style.background = "";
     e.target.style.border = "";
 })
+
+// set public datas
+function isChecked(elementID){
+    if(elementID.checked == true){
+        return true;
+    }else if(elementID.checked == false){
+        return false;
+    }else{
+        console.log("Lehetetlen küldetés");
+    }
+}
+

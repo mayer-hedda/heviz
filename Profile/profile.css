@@ -141,7 +141,7 @@ body {
     margin-top: -120px;
 }
 
-#profile-picture{
+#profile-picture {
     object-fit: cover;
 }
 
@@ -287,7 +287,7 @@ Ha találok rá jobb megoldást javítom :)  */
     border-radius: 10px;
 }
 
-#missing-intro-text{
+#missing-intro-text {
     color: #993b18;
     font-style: italic;
 }
@@ -324,7 +324,7 @@ Ha találok rá jobb megoldást javítom :)  */
     font-weight: bold;
 }
 
-#error-and-counter{
+#error-and-counter {
     display: flex;
     flex-direction: inline;
 }
@@ -527,9 +527,9 @@ Ha találok rá jobb megoldást javítom :)  */
     color: rgb(99, 76, 62) !important;
 }
 
-.book-profile-link{
+.book-profile-link {
     text-decoration: none;
-    color: rgb(65, 61, 63)!important;
+    color: rgb(65, 61, 63) !important;
 }
 
 .medium-desc {
@@ -573,11 +573,11 @@ Ha találok rá jobb megoldást javítom :)  */
     letter-spacing: 0.7px;
 }
 
-.card-footer{
+.card-footer {
     display: flex;
 }
 
-.edit-delete-div-books{
+.edit-delete-div-books {
     margin-top: 25px;
     margin-left: auto;
     margin-right: 10px;
@@ -742,22 +742,25 @@ Ha találok rá jobb megoldást javítom :)  */
     cursor: pointer;
 }
 
-.edit-delete-div{
+.edit-delete-div {
     margin-left: 10px;
 }
 
-.edit-post, .edit-book{
+.edit-post,
+.edit-book {
     cursor: pointer;
     height: fit-content;
     width: fit-content;
 }
 
-.edit-post:hover, .edit-book:hover {
+.edit-post:hover,
+.edit-book:hover {
     color: #7E401F;
     cursor: pointer;
 }
 
-.delete-post, .delete-book{
+.delete-post,
+.delete-book {
     cursor: pointer;
     height: fit-content;
     width: fit-content;
@@ -765,7 +768,8 @@ Ha találok rá jobb megoldást javítom :)  */
     margin-left: 10px;
 }
 
-.delete-post:hover, .delete-book:hover{
+.delete-post:hover,
+.delete-book:hover {
     color: rgb(210, 0, 0);
 }
 
@@ -807,7 +811,7 @@ Ha találok rá jobb megoldást javítom :)  */
 }
 
 .saveChanges-btn {
-    background-color: var(--primary);
+    background-color: rgb(220 147 117);
     color: var(--primary-text);
     transition: background-color 0.8s ease;
 }
@@ -891,7 +895,7 @@ Ha találok rá jobb megoldást javítom :)  */
     margin-top: 5px;
 }
 
-.label-div{
+.label-div {
     display: flex;
 }
 
@@ -987,13 +991,13 @@ Ha találok rá jobb megoldást javítom :)  */
     font-size: 20px;
 }
 
-#deleteProfile-div{
+#deleteProfile-div {
     margin-top: 20px;
     border-top: solid 1px #846856b6;
     padding-top: 20px;
 }
 
-#logOut{
+#logOut {
     margin-right: auto;
 }
 
@@ -1216,3 +1220,6 @@ footer a:hover {
     font-family: 'Poppins-Regular', sans-serif;
 
 }
+
+
+/* ---------- */

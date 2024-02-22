@@ -330,7 +330,13 @@
                     <div class="col-9 container actual-settings" id="profile-settings-div">
                         <!-- actual settings -->
                         <div id="set-username" class="set-row">
-                            <p class="set-label">Username</p>
+                            <div class="label-div">
+                                <p class="set-label">Username</p>
+                            <i class="bi bi-info-circle info" tabindex="0" data-bs-toggle="popover"
+                                data-bs-trigger="hover focus"
+                                data-bs-content="If you edit this information, you'll need login again."></i>
+                            </div>
+                            
                             <div class="inputGroup-divs">
                                 <input class="form-control set-inputs" type="text" id="input-un" readonly>
                                 <button id="edit-username" class="settings-editButton rounded-circle">
@@ -343,7 +349,7 @@
                             </div>
                             <div class="error" id="un-error"></div> <!-- error message -->
                             <div class="save-and-cancel" id="username-saveCancel" hidden>
-                                <button type="button" class="btn saveChanges-btn" id="un-save">Save</button>
+                                <button type="button" class="btn saveChanges-btn" id="un-save" disabled>Save</button>
                                 <button type="button" class="btn cancel-btn" id="un-cancel">Cancel</button>
                             </div>
                         </div>
@@ -372,7 +378,7 @@
                         <div id="set-pwd" class="set-row">
                             <p class="set-label">Password</p>
                             <div class="inputGroup-divs">
-                                <input class="form-control set-inputs" type="text" id="input-pwd" readonly>
+                                <input class="form-control set-inputs" type="password" id="input-pwd" readonly>
                                 <button id="edit-pwd" class="settings-editButton rounded-circle">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
                                         class="bi bi-pen" viewBox="0 0 16 16">
@@ -422,7 +428,7 @@
                             <div id="name-inputs">
                                 <div class="col-6">
 
-                                    <label for="#set-fName">First name</label>
+                                    <label for="set-fName">First name</label>
                                     <div class="inputGroup-divs">
                                         <input class="form-control set-inputs" type="text" id="input-fName" readonly>
                                         <button id="edit-fName" class="settings-editButton rounded-circle">
@@ -443,7 +449,7 @@
                                 </div>
 
                                 <div class="col-6">
-                                    <label for="#set-fName">Last name</label>
+                                    <label for="set-fName">Last name</label>
                                     <div class="inputGroup-divs">
                                         <input class="form-control set-inputs" type="text" id="input-lName" readonly>
                                         <button id="edit-lName" class="settings-editButton rounded-circle">
@@ -475,7 +481,8 @@
                     <div class="col-9 container actual-settings" id="privacy-settings-div" hidden>
                         <!-- actual settings -->
                         <div class="form-check form-switch" id="pub-email-div">
-                            <input class="form-check-input my-switch" type="checkbox" role="switch" id="email-isPublic">
+                            
+                            <input class="form-check-input my-switch" type="checkbox" data-bs-toggle="toggle" id="email-isPublic">
                             <label class="form-check-label swiitch-label" for="email-isPublic">Make the email
                                 public</label>
                         </div>
@@ -489,7 +496,7 @@
 
                     <!-- default hidden -> buisness information -->
                     <div class="col-9 container actual-settings" id="buisness-settings-div" hidden>
-                        <div id="set-username" class="set-row">
+                        <div id="set-company" class="set-row">
                             <div class="label-div">
                                 <p class="set-label">Company name</p>
                                 <i class="bi bi-info-circle info" tabindex="0" data-bs-toggle="popover"

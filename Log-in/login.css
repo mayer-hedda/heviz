@@ -107,11 +107,9 @@ form p {
     margin-bottom: 0;
     margin-top: 4px;
 }
-
 .with-alert {
     height: 100px;
 }
-
 form a:hover {
     color: var(--hover-color);
 }

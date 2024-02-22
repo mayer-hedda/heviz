@@ -49,12 +49,26 @@ inputPwd.addEventListener('input', (e) => {
     if (pwdValue == "") {
         pwdError.innerHTML = `<p>Password field cannot be empty.</p>`;
         e.target.style.background = "#FEEFEC";
-        pwdValid = false;
+        pwdValid = false; 
     } else {
         pwdValid = true;
         BtnActivate();
     }
 })
+
+// inputPwd.addEventListener('focusout', (e) => {
+//     e.preventDefault();
+//     const pwdValue = inputPwd.value;
+//     if (pwdValue == "") {
+//         pwdError.innerHTML = `<p>Password field cannot be empty.</p>`;
+//         e.target.style.background = "#FEEFEC";
+//         pwdValid = false; 
+//     } else {
+//         pwdValid = true;
+//         BtnActivate();
+//     }
+// })
+
 inputPwd.addEventListener("focusin", (e) => {
     e.preventDefault();
     e.target.style.background = "";
@@ -104,7 +118,6 @@ submitButton.addEventListener("click", async (e) => {
             break;
         case 422:
             loginError.innerHTML = "<p>" + responseLogin.data.loginError + "</p>";
-            console.error(responseLogin.data);
             break;
     
     }

@@ -2307,7 +2307,7 @@ async function setUsername(raw) {
     var postData = JSON.stringify(raw);
 
     var requestOptions = {
-        method: 'POST',
+        method: 'PUT',
         headers: myHeaders,
         body: postData,
         redirect: 'follow'
@@ -2368,7 +2368,7 @@ async function setEmail(raw) {
     var postData = JSON.stringify(raw);
 
     var requestOptions = {
-        method: 'POST',
+        method: 'PUT',
         headers: myHeaders,
         body: postData,
         redirect: 'follow'
@@ -2428,7 +2428,7 @@ async function setPassword(raw) {
     var postData = JSON.stringify(raw);
 
     var requestOptions = {
-        method: 'POST',
+        method: 'PUT',
         headers: myHeaders,
         body: postData,
         redirect: 'follow'
@@ -2490,7 +2490,7 @@ async function setPhoneNumber(raw) {
     var postData = JSON.stringify(raw);
 
     var requestOptions = {
-        method: 'POST',
+        method: 'PUT',
         headers: myHeaders,
         body: postData,
         redirect: 'follow'
@@ -2551,7 +2551,7 @@ async function setFirstName(raw) {
     var postData = JSON.stringify(raw);
 
     var requestOptions = {
-        method: 'POST',
+        method: 'PUT',
         headers: myHeaders,
         body: postData,
         redirect: 'follow'
@@ -2612,7 +2612,7 @@ async function setLastName(raw) {
     var postData = JSON.stringify(raw);
 
     var requestOptions = {
-        method: 'POST',
+        method: 'PUT',
         headers: myHeaders,
         body: postData,
         redirect: 'follow'
@@ -2779,7 +2779,7 @@ async function setWebsite(raw) {
     var postData = JSON.stringify(raw);
 
     var requestOptions = {
-        method: 'POST',
+        method: 'PUT',
         headers: myHeaders,
         body: postData,
         redirect: 'follow'
@@ -2840,7 +2840,7 @@ async function setIntroDescription(raw) {
     var postData = JSON.stringify(raw);
 
     var requestOptions = {
-        method: 'POST',
+        method: 'PUT',
         headers: myHeaders,
         body: postData,
         redirect: 'follow'
@@ -2901,7 +2901,7 @@ async function setProfileImage(raw) {
     var postData = JSON.stringify(raw);
 
     var requestOptions = {
-        method: 'POST',
+        method: 'PUT',
         headers: myHeaders,
         body: postData,
         redirect: 'follow'
@@ -2962,7 +2962,7 @@ async function setCoverColor(raw) {
     var postData = JSON.stringify(raw);
 
     var requestOptions = {
-        method: 'POST',
+        method: 'PUT',
         headers: myHeaders,
         body: postData,
         redirect: 'follow'
@@ -3025,7 +3025,7 @@ async function setCompanyName(raw) {
     var postData = JSON.stringify(raw);
 
     var requestOptions = {
-        method: 'POST',
+        method: 'PUT',
         headers: myHeaders,
         body: postData,
         redirect: 'follow'
