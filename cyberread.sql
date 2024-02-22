@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Feb 20. 13:55
+-- Létrehozás ideje: 2024. Feb 22. 13:22
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -171,7 +171,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllBooksByCategory` (IN `userIdI
     `book`.`pagesNumber`,
     `bookrat`.`rat`,
     `language`.`code`,
-    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+    `book`.`price`,
+    `writer`.`username`
 FROM `book`
 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -296,7 +298,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
             `book`.`pagesNumber`,
             `bookrat`.`rat`,
             `language`.`code`,
-            IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+            IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+            `book`.`price`,
+            `writer`.`username`
         FROM `book`
         INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
         LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -308,7 +312,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
         ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
         INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
         LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-        WHERE `book`.`categoryId` = categoryIdIN
         ORDER BY `book`.`title` ASC;
     ELSEIF filter = 2 THEN
       	SELECT
@@ -322,7 +325,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
             `book`.`pagesNumber`,
             `bookrat`.`rat`,
             `language`.`code`,
-            IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+            IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+            `book`.`price`,
+            `writer`.`username`
         FROM `book`
         INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
         LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -334,7 +339,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
         ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
         INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
         LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-        WHERE `book`.`categoryId` = categoryIdIN
         ORDER BY `book`.`title` DESC;
     ELSEIF filter = 3 THEN
     	SELECT
@@ -348,7 +352,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
             `book`.`pagesNumber`,
             `bookrat`.`rat`,
             `language`.`code`,
-            IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+            IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+            `book`.`price`,
+            `writer`.`username`
         FROM `book`
         INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
         LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -360,7 +366,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
         ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
         INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
         LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-        WHERE `book`.`categoryId` = categoryIdIN
         ORDER BY `book`.`publishedTime` ASC;
     ELSEIF filter = 4 THEN
     	SELECT
@@ -374,7 +379,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
             `book`.`pagesNumber`,
             `bookrat`.`rat`,
             `language`.`code`,
-            IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+            IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+            `book`.`price`,
+            `writer`.`username`
         FROM `book`
         INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
         LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -386,7 +393,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
         ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
         INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
         LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-        WHERE `book`.`categoryId` = categoryIdIN
         ORDER BY `book`.`publishedTime` DESC;
     ELSE
     	IF rank = "general" THEN
@@ -402,7 +408,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     `book`.`pagesNumber`,
                     `bookrat`.`rat`,
                     `language`.`code`,
-                    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+                    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+                    `book`.`price`,
+                    `writer`.`username`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -414,7 +422,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                 ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-                WHERE `book`.`categoryId` = categoryIdIN
                 ORDER BY `book`.`price` ASC;
             ELSEIF filter = 6 THEN
             	SELECT
@@ -428,7 +435,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     `book`.`pagesNumber`,
                     `bookrat`.`rat`,
                     `language`.`code`,
-                    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+                    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+                    `book`.`price`,
+                    `writer`.`username`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -440,7 +449,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                 ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-                WHERE `book`.`categoryId` = categoryIdIN
                 ORDER BY `book`.`price` DESC;
             ELSEIF filter = 7 THEN
             	SELECT
@@ -454,7 +462,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     `book`.`pagesNumber`,
                     `bookrat`.`rat`,
                     `language`.`code`,
-                    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+                    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+                    `book`.`price`,
+                    `writer`.`username`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -466,7 +476,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                 ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-                WHERE `book`.`categoryId` = categoryIdIN
                 ORDER BY (
                     SELECT COUNT(*)
                     FROM `saved`
@@ -484,7 +493,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     `book`.`pagesNumber`,
                     `bookrat`.`rat`,
                     `language`.`code`,
-                    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+                    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+                    `book`.`price`,
+                    `writer`.`username`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -496,7 +507,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                 ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-                WHERE `book`.`categoryId` = categoryIdIN
                 ORDER BY (
                 	SELECT COUNT(`bookshopping`.`id`)
                     FROM `bookshopping`
@@ -512,7 +522,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getMostSavedBooksOfTheMonth` (IN `u
 	`book`.`id`,
     `book`.`coverImage`,
 	`book`.`title`, 
-    `general`.`authorName`, 
+    `writer`.`username`, 
     `writer`.`firstName`, 
     `writer`.`lastName`,
     `publisher`.`companyName`,
@@ -520,10 +530,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getMostSavedBooksOfTheMonth` (IN `u
     `book`.`pagesNumber`,
     `bookrat`.`rat`,
     `language`.`code`,
-    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+    `book`.`price`
 FROM `book`
 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-INNER JOIN `general` ON `general`.`id` = `writer`.`userId`
 LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
 LEFT JOIN `publisher` ON `publisher`.`id` = `publish`.`userId`
 LEFT JOIN (
@@ -544,8 +554,7 @@ INNER JOIN (
     GROUP BY `saved`.`bookId`
 ) AS `save` ON `book`.`id` = `save`.`bookId`
 WHERE 
-	YEAR(`save`.`savedTime`) = YEAR(CURRENT_DATE()) AND 
-    MONTH(`save`.`savedTime`) = MONTH(CURRENT_DATE())
+	`saved`.`savedTime` >= NOW() - INTERVAL 30 DAY
 ORDER BY `save`.`count` DESC
 LIMIT 5$$
 
@@ -553,7 +562,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getOneRandomBook` (IN `userIdIN` IN
     `book`.`id`, 
     `book`.`coverImage`, 
     `book`.`title`, 
-    `general`.`authorName`,
+    `writer`.`username`,
     `writer`.`firstName`,
     `writer`.`lastName`,
     `publisher`.`companyName`,
@@ -561,10 +570,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getOneRandomBook` (IN `userIdIN` IN
     `book`.`pagesNumber`,
     `bookrat`.`rat`,
     `language`.`code`, 
-    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+    `book`.`price`
 FROM `book`
 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-INNER JOIN `general` ON `general`.`id` = `writer`.`userId`
 LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
 LEFT JOIN `publisher` ON `publisher`.`id` = `publish`.`userId`
 LEFT JOIN (
@@ -582,17 +591,17 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getOneRandomLookingForPublisherBook
     `book`.`id`, 
     `book`.`coverImage`, 
     `book`.`title`, 
-    `general`.`authorName`,
+    `writer`.`username`,
     `writer`.`firstName`,
     `writer`.`lastName`,
     `book`.`description`,
     `book`.`pagesNumber`,
     `bookrat`.`rat`,
     `language`.`code`, 
-    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+    `book`.`price`
 FROM `book`
 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-INNER JOIN `general` ON `general`.`id` = `writer`.`userId`
 LEFT JOIN (
     SELECT `bookrating`.`bookId`,
 	AVG(`bookrating`.`rating`) AS `rat`
@@ -609,7 +618,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getPublishedBooks` (IN `userIdIN` I
     `book`.`id`, 
     `book`.`coverImage`, 
     `book`.`title`, 
-    `general`.`authorName`,
+    `writer`.`username`,
     `writer`.`firstName`,
     `writer`.`lastName`,
     `publisher`.`companyName`,
@@ -617,10 +626,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getPublishedBooks` (IN `userIdIN` I
     `book`.`pagesNumber`,
     `bookrat`.`rat`, 
     `language`.`code`, 
-    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+    `book`.`price`
 FROM `book`
 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-INNER JOIN `general` ON `general`.`id` = `writer`.`userId`
 LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
 LEFT JOIN `publisher` ON `publisher`.`id` = `publish`.`userId`
 LEFT JOIN (
@@ -645,14 +654,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getRandomBookByCategory` (IN `userI
         categoryName VARCHAR(50), 
         coverImage VARCHAR(100),
         title VARCHAR(50),
-        authorName VARCHAR(50),
+        username VARCHAR(50),
         firstName VARCHAR(50),
         lastName VARCHAR(50),
         description VARCHAR(1000),
         pagesNumber INT,
         rating DECIMAL(10, 2),
         languageCode CHAR(2),
-        saved BOOLEAN
+        saved BOOLEAN,
+        price INT
     );
 
 	REPEAT
@@ -679,17 +689,17 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getRandomBookByCategory` (IN `userI
             `category`.`name`,
             `book`.`coverImage`, 
             `book`.`title`, 
-            `general`.`authorName`,
+            `writer`.`username`,
             `writer`.`firstName`,
             `writer`.`lastName`,
             `book`.`description`,
             `book`.`pagesNumber`,
             `bookrat`.`rat`, 
             `language`.`code`, 
-            IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+            IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+            `book`.`price`
         FROM `book`
         LEFT JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-        LEFT JOIN `general` ON `general`.`id` = `writer`.`userId`
         LEFT JOIN (
             SELECT `bookrating`.`bookId`,
             AVG(`bookrating`.`rating`) AS `rat`
@@ -718,7 +728,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getRecommandedBooks` (IN `userIdIN`
     `book`.`id`, 
     `book`.`coverImage`, 
     `book`.`title`,
-    `general`.`authorName`,
+    `writer`.`username`,
     `writer`.`firstName`,
     `writer`.`lastName`,
     `publisher`.`companyName`,
@@ -726,10 +736,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getRecommandedBooks` (IN `userIdIN`
     `book`.`pagesNumber`,
     `bookrat`.`rat`,
     `language`.`code`,
-    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+    `book`.`price`
 FROM `book`
 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-INNER JOIN `general` ON `general`.`id` = `writer`.`userId`
 LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
 LEFT JOIN `publisher` ON `publisher`.`id` = `publish`.`userId`
 LEFT JOIN (
@@ -761,17 +771,17 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getRecommandedBooksForPublisher` (I
     `book`.`id`, 
     `book`.`coverImage`, 
     `book`.`title`,
-    `general`.`authorName`,
+    `writer`.`username`,
     `writer`.`firstName`,
     `writer`.`lastName`,
     `book`.`description`, 
     `book`.`pagesNumber`,
     `bookrat`.`rat`,
     `language`.`code`,
-    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+    `book`.`price`
 FROM `book`
 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-INNER JOIN `general` ON `general`.`id` = `writer`.`userId`
 LEFT JOIN (
     SELECT `bookrating`.`bookId`,
 	AVG(`bookrating`.`rating`) AS `rat`
@@ -825,7 +835,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getSavedBooksByUserId` (IN `userIdI
     `book`.`description`,
     `book`.`pagesNumber`,
     `bookrat`.`rat`,
-    `language`.`code`
+    `language`.`code`,
+    `book`.`price`,
+    `writer`.`username`
 FROM `book`
 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -859,7 +871,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getSearchBooks` (IN `userIdIN` INT,
             `book`.`pagesNumber`,
             `bookrat`.`rat`,
             `language`.`code`,
-            IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+            IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+            `book`.`price`,
+            `writer`.`username`
         FROM `book`
         INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
         LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -884,7 +898,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getSearchBooks` (IN `userIdIN` INT,
             `book`.`pagesNumber`,
             `bookrat`.`rat`,
             `language`.`code`,
-            IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+            IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+            `book`.`price`,
+            `writer`.`username`
         FROM `book`
         INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
         LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -905,17 +921,17 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getSelfPublishedBooks` (IN `userIdI
     `book`.`id`, 
     `book`.`coverImage`, 
     `book`.`title`, 
-    `general`.`authorName`,
+    `writer`.`username`,
     `writer`.`firstName`,
     `writer`.`lastName`,
     `book`.`description`,
     `book`.`pagesNumber`,
    	`bookrat`.`rat`, 
     `language`.`code`,
-    IF (`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+    IF (`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+    `book`.`price`
 FROM `book`
 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-INNER JOIN `general` ON `general`.`id` = `writer`.`userId`
 LEFT JOIN (
     SELECT `bookrating`.`bookId`,
 	AVG(`bookrating`.`rating`) AS `rat`
@@ -949,7 +965,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserBooks` (IN `userIdIN` INT, I
                 `book`.`id`,
                 `book`.`coverImage`,
                 `book`.`title`,
-                `general`.`authorName`,
+                `user`.`username`,
                 `user`.`firstName`,
                 `user`.`lastName`,
                 `publisher`.`companyName`,
@@ -957,10 +973,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserBooks` (IN `userIdIN` INT, I
                 `book`.`pagesNumber`,
                 `bookrat`.`rat`,
                 `language`.`code`,
-                IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+                IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+                `book`.`price`
             FROM `book`
             INNER JOIN `user` ON `user`.`id` = `book`.`writerId`
-            INNER JOIN `general` ON `general`.`id` = `user`.`userId`
             LEFT JOIN `publisher` ON `publisher`.`id` = `book`.`publisherId`
             INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
             LEFT JOIN (
@@ -977,7 +993,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserBooks` (IN `userIdIN` INT, I
                 `book`.`id`,
                 `book`.`coverImage`,
                 `book`.`title`,
-                `general`.`authorName`,
+                `user`.`username`,
                 `user`.`firstName`,
                 `user`.`lastName`,
                 `publisher`.`companyName`,
@@ -985,10 +1001,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserBooks` (IN `userIdIN` INT, I
                 `book`.`pagesNumber`,
                 `bookrat`.`rat`,
                 `language`.`code`,
-                IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`
+                IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+                `book`.`price`
             FROM `book`
             INNER JOIN `user` ON `user`.`id` = `book`.`writerId`
-            INNER JOIN `general` ON `general`.`id` = `user`.`userId`
             LEFT JOIN `publisher` ON `publisher`.`id` = `book`.`publisherId`
             INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
             LEFT JOIN (
@@ -1483,7 +1499,7 @@ CREATE TABLE `book` (
 --
 
 INSERT INTO `book` (`id`, `title`, `status`, `writerId`, `publisherId`, `publishedTime`, `rating`, `description`, `price`, `coverImage`, `file`, `chapterNumber`, `freeChapterNumber`, `pagesNumber`, `adultFiction`, `bankAccountNumber`, `languageId`, `targetAudienceId`, `categoryId`) VALUES
-(1, 'The Mystery of the Lost Key', 'published by', 3, 9, '2023-12-17 17:58:06', NULL, 'A thrilling mystery novel that keeps you on the edge of your seat.', 1500, 'pictures/book/The-Mystery-of-the-Lost-Key', '', 30, 6, 200, 0, '1234567890', 1, 4, 12),
+(1, 'A!!!!!!!!!!!!!!!!', 'looking for a publisher', 3, 9, '2023-12-17 17:58:06', NULL, '$$$$$$$$$$^^^^^^^^^^^^^\'\'\'\'\'a\'\'\'\'\'\'\'\'\'!!!!!!!', 1600, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 20, 4, 200, 1, '1234567890', 1, 1, 1),
 (2, 'Echoes of Eternity', 'published by', 5, 7, '2023-12-17 17:58:06', NULL, 'An epic fantasy saga spanning across realms and generations.', 2500, 'pictures/book/Echoes-of-Eternity', '', 40, 8, 350, 0, '0987654321', 2, 5, 18),
 (3, 'Beyond the Horizon', 'self-published', 8, NULL, '2023-12-17 17:58:06', NULL, 'A journey of self-discovery and adventure in the heart of the unknown.', 1800, 'pictures/book/Beyond-the-Horizon', '', 25, 5, 180, 0, '1357902468', 3, 3, 9),
 (4, 'The Enigma Code', 'self-published', 10, NULL, '2023-12-17 17:58:38', NULL, 'A gripping thriller revealing the secrets of an encrypted message.', 2200, 'pictures/book/The-Enigma-Code', '', 35, 7, 280, 1, '2468135790', 4, 2, 7),
@@ -1526,7 +1542,9 @@ INSERT INTO `book` (`id`, `title`, `status`, `writerId`, `publisherId`, `publish
 (41, 'Negyedik könyv', 'looking for a publisher', 1, NULL, '2023-12-20 00:14:50', NULL, 'Ez a negyedik könyv leírása.', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 100, 20, 0, 1, NULL, 1, 1, 1),
 (42, 'Negyedik könyv', 'looking for a publisher', 1, NULL, '2023-12-20 08:08:20', NULL, 'Ez a negyedik könyv leírása.', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, NULL, 1, 1, 1),
 (43, 'Negyedik könyv', 'looking for a publisher', 1, NULL, '2023-12-20 08:09:22', NULL, 'Ez a negyedik könyv leírása.', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, NULL, 1, 1, 1),
-(45, 'Negyedik könyv', 'published by', 3, 9, '2023-12-20 08:18:09', NULL, 'Ez a negyedik könyv leírása.', 1250, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, '12345678', 1, 1, 1);
+(45, 'Negyedik könyv', 'published by', 3, 9, '2023-12-20 08:18:09', NULL, 'Ez a negyedik könyv leírása.', 1250, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, '12345678', 1, 1, 1),
+(46, 'A!!!!!!!', 'self-published', 1, NULL, '2024-02-21 09:26:45', NULL, 'Ez a negyedik könyv leírása.', 1000, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, '12345678', 1, 1, 1),
+(47, 'A!!!!!!!', 'self-published', 1, NULL, '2024-02-21 09:29:48', NULL, '$$$$$$$$$$$!!a!!!!!!!!!!!!$', 1000, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, '12345678', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1837,7 +1855,6 @@ CREATE TABLE `forgotpassword` (
 
 CREATE TABLE `general` (
   `id` int(11) NOT NULL,
-  `authorName` varchar(50) DEFAULT NULL,
   `birthdate` date NOT NULL,
   `publishedBookCount` int(10) UNSIGNED NOT NULL DEFAULT 0,
   `selfPublishedBookCount` int(10) UNSIGNED NOT NULL DEFAULT 0
@@ -1847,46 +1864,46 @@ CREATE TABLE `general` (
 -- A tábla adatainak kiíratása `general`
 --
 
-INSERT INTO `general` (`id`, `authorName`, `birthdate`, `publishedBookCount`, `selfPublishedBookCount`) VALUES
-(1, 'John Doe', '2000-11-12', 0, 0),
-(2, 'Emily Smith', '2004-01-02', 0, 0),
-(3, NULL, '2002-10-22', 0, 0),
-(4, NULL, '2002-04-21', 0, 0),
-(5, 'Sophia Brown', '2002-07-13', 0, 0),
-(6, NULL, '2002-07-13', 0, 0),
-(7, 'Lucas Johnson', '2002-12-24', 0, 0),
-(8, NULL, '2005-03-04', 0, 0),
-(9, 'Olivia Clark', '2005-03-04', 0, 0),
-(10, NULL, '2005-03-04', 0, 0),
-(11, NULL, '2005-03-04', 0, 0),
-(12, 'Daniel Williams', '2005-03-04', 0, 0),
-(13, 'Ethan Martinez', '2005-03-04', 0, 0),
-(14, NULL, '2005-03-04', 0, 0),
-(15, 'Ava Taylor', '2005-03-04', 0, 0),
-(16, NULL, '2005-03-04', 0, 0),
-(17, NULL, '2005-03-04', 0, 0),
-(18, NULL, '2005-03-04', 0, 0),
-(19, NULL, '2005-03-04', 0, 0),
-(20, NULL, '2006-09-24', 0, 0),
-(21, 'Isabella Wilson', '2007-12-17', 0, 0),
-(22, NULL, '2007-12-17', 0, 0),
-(23, NULL, '2002-10-07', 0, 0),
-(24, NULL, '2003-10-07', 0, 0),
-(25, NULL, '1992-04-19', 0, 0),
-(26, NULL, '1992-04-19', 0, 0),
-(27, NULL, '1992-04-19', 0, 0),
-(28, NULL, '1992-04-19', 0, 0),
-(29, NULL, '1990-05-29', 0, 0),
-(30, NULL, '1990-05-29', 0, 0),
-(31, NULL, '2000-11-10', 0, 0),
-(32, NULL, '2002-02-10', 0, 0),
-(33, NULL, '2002-11-14', 0, 0),
-(34, NULL, '2002-11-14', 0, 0),
-(35, NULL, '2002-11-14', 0, 0),
-(36, NULL, '2002-12-12', 0, 0),
-(37, NULL, '1121-12-12', 0, 0),
-(38, NULL, '1999-12-12', 0, 0),
-(39, NULL, '1212-12-12', 0, 0);
+INSERT INTO `general` (`id`, `birthdate`, `publishedBookCount`, `selfPublishedBookCount`) VALUES
+(1, '2000-11-12', 0, 0),
+(2, '2004-01-02', 0, 0),
+(3, '2002-10-22', 0, 0),
+(4, '2002-04-21', 0, 0),
+(5, '2002-07-13', 0, 0),
+(6, '2002-07-13', 0, 0),
+(7, '2002-12-24', 0, 0),
+(8, '2005-03-04', 0, 0),
+(9, '2005-03-04', 0, 0),
+(10, '2005-03-04', 0, 0),
+(11, '2005-03-04', 0, 0),
+(12, '2005-03-04', 0, 0),
+(13, '2005-03-04', 0, 0),
+(14, '2005-03-04', 0, 0),
+(15, '2005-03-04', 0, 0),
+(16, '2005-03-04', 0, 0),
+(17, '2005-03-04', 0, 0),
+(18, '2005-03-04', 0, 0),
+(19, '2005-03-04', 0, 0),
+(20, '2006-09-24', 0, 0),
+(21, '2007-12-17', 0, 0),
+(22, '2007-12-17', 0, 0),
+(23, '2002-10-07', 0, 0),
+(24, '2003-10-07', 0, 0),
+(25, '1992-04-19', 0, 0),
+(26, '1992-04-19', 0, 0),
+(27, '1992-04-19', 0, 0),
+(28, '1992-04-19', 0, 0),
+(29, '1990-05-29', 0, 0),
+(30, '1990-05-29', 0, 0),
+(31, '2000-11-10', 0, 0),
+(32, '2002-02-10', 0, 0),
+(33, '2002-11-14', 0, 0),
+(34, '2002-11-14', 0, 0),
+(35, '2002-11-14', 0, 0),
+(36, '2002-12-12', 0, 0),
+(37, '1121-12-12', 0, 0),
+(38, '1999-12-12', 0, 0),
+(39, '1212-12-12', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -2120,7 +2137,9 @@ INSERT INTO `saved` (`id`, `userId`, `bookId`, `savedTime`) VALUES
 (10, 3, 10, '2023-12-19 21:39:24'),
 (11, 17, 10, '2023-12-19 21:39:24'),
 (12, 1, 19, '2023-12-19 21:39:24'),
-(13, 1, 38, '2023-12-21 01:38:36');
+(13, 1, 38, '2023-12-21 01:38:36'),
+(15, 11, 1, '2024-02-21 10:50:26'),
+(16, 1, 1, '2024-02-22 11:22:46');
 
 -- --------------------------------------------------------
 
@@ -2397,7 +2416,7 @@ ALTER TABLE `aszf`
 -- AUTO_INCREMENT a táblához `book`
 --
 ALTER TABLE `book`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT a táblához `bookrating`
@@ -2493,7 +2512,7 @@ ALTER TABLE `publisher`
 -- AUTO_INCREMENT a táblához `saved`
 --
 ALTER TABLE `saved`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT a táblához `targetaudience`
