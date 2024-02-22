@@ -66,8 +66,8 @@ public class PublisherController {
         * 403:
             * User is not a publisher user!
         * 422: 
-            * coverColorError: incorrect new company name
-            * setCoverColorError: Unsuccessfully set company name
+            * companyNameError: incorrect new company name
+            * setCompanyNameError: Unsuccessfully set company name
      * 
      * @throws PublisherException: Something wrong!
      */

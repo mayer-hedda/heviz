@@ -343,8 +343,8 @@ public class UserController {
             * Invalid token
             * The token has expired
         * 422: 
-            * usernameError: incorrect new email
-            * setUsernameError: Unsuccessfully set email
+            * emailError: incorrect new email
+            * setEmailError: Unsuccessfully set email
      * 
      * @throws UserException: Something wrong!
      */

@@ -18,14 +18,16 @@ public class BookService {
         * book id
         * cover image
         * title
-        * author name
+        * username
         * first name
         * last name
         * publisher company name
         * book description
         * pages number
         * book rating
+        * language
         * saved
+        * price
      * 
      * @throws BookException: Something wrong
      */
@@ -46,14 +48,16 @@ public class BookService {
         * book id
         * cover image
         * title
-        * author name
+        * username
         * first name
         * last name
         * publisher company name
         * book description
         * pages number
         * book rating
+        * language
         * saved
+        * price
      * 
      * @throws BookException: Something wrong
      */
@@ -74,13 +78,15 @@ public class BookService {
         * book id
         * cover image
         * title
-        * author name
+        * username
         * first name
         * last name
         * book description
         * pages number
         * book rating
+        * language
         * saved
+        * price
      * 
      * @throws BookException: Something wrong
      */
@@ -101,7 +107,7 @@ public class BookService {
         * book id
         * cover image
         * title
-        * author name
+        * username
         * first name
         * last name
         * publisher company name
@@ -110,6 +116,7 @@ public class BookService {
         * book rating
         * language
         * saved
+        * price
      * 
      * @throws BookException: Something wrong
      */
@@ -130,14 +137,16 @@ public class BookService {
         * book id
         * cover image
         * title
-        * author name
+        * username
         * first name
         * last name
         * publisher company name
         * book description
         * pages number
         * book rating
+        * language
         * saved
+        * price
      * 
      * @throws BookException: Something wrong
      */
@@ -464,7 +473,7 @@ public class BookService {
         * book id
         * cover image
         * title
-        * author name
+        * username
         * first name
         * last name
         * book description
@@ -472,6 +481,7 @@ public class BookService {
         * book rating
         * language
         * saved
+        * price
      * 
      * @throws BookException: Something wrong
      */
@@ -492,7 +502,7 @@ public class BookService {
         * book id
         * cover image
         * title
-        * author name
+        * username
         * first name
         * last name
         * book description
@@ -500,6 +510,7 @@ public class BookService {
         * book rating
         * language
         * saved
+        * price
      * 
      * @throws BookException 
      */
@@ -520,7 +531,7 @@ public class BookService {
         * book id
         * cover image
         * title
-        * author name
+        * username
         * first name
         * last name
         * book description
@@ -528,6 +539,7 @@ public class BookService {
         * book rating
         * language
         * saved
+        * price
      * 
      * @throws BookException: Something wrong
      */
@@ -570,7 +582,7 @@ public class BookService {
             * category name
             * cover image
             * title
-            * author name
+            * username
             * first name
             * last name
             * company name
@@ -579,6 +591,7 @@ public class BookService {
             * book rating
             * language
             * saved
+            * price
         * own books
      * 
      * @throws BookException: Something wrong
@@ -666,6 +679,8 @@ public class BookService {
             * book rating
             * language
             * saved
+            * price
+            * username
      * 
      * @throws BookException: Something wrong
      */
@@ -696,6 +711,8 @@ public class BookService {
             * book rating
             * language
             * saved
+            * price
+            * username
      *
      * @throws BookException: Something wrong!
      */
@@ -726,6 +743,8 @@ public class BookService {
             * book rating
             * language
             * saved
+            * price
+            * username
      * 
      * @throws BookException: Something wrong!
      */
@@ -768,6 +787,8 @@ public class BookService {
             * pages number
             * book rating
             * language
+            * price
+            * username
      * 
      * @throws BookException: Something wrong!
      */

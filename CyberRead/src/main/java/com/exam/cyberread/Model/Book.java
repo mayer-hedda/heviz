@@ -388,7 +388,7 @@ public class Book implements Serializable {
         * book id
         * cover image
         * title
-        * author name
+        * username
         * first name
         * last name
         * publisher company name
@@ -397,6 +397,7 @@ public class Book implements Serializable {
         * book rating
         * language
         * saved
+        * price
      * 
      * @throws BookException: Something wrong
      */
@@ -420,7 +421,7 @@ public class Book implements Serializable {
                 book.put("id", (Integer) result[0]);
                 book.put("coverImage", (String) result[1]);
                 book.put("title", (String) result[2]);
-                book.put("authorName", (String) result[3]);
+                book.put("username", (String) result[3]);
                 book.put("firstName", (String) result[4]);
                 book.put("lastName", (String) result[5]);
                 book.put("publisher", (String) result[6]);
@@ -433,6 +434,7 @@ public class Book implements Serializable {
                 } else {
                     book.put("saved", true);
                 }
+                book.put("price", (Integer) result[12]);
                 
                 books.put(book);
             }
@@ -456,7 +458,7 @@ public class Book implements Serializable {
         * book id
         * cover image
         * title
-        * author name
+        * username
         * first name
         * last name
         * publisher company name
@@ -465,6 +467,7 @@ public class Book implements Serializable {
         * book rating
         * language
         * saved
+        * price
      * 
      * @throws BookException: Something wrong
      */
@@ -488,7 +491,7 @@ public class Book implements Serializable {
                 book.put("id", (Integer) result[0]);
                 book.put("coverImage", (String) result[1]);
                 book.put("title", (String) result[2]);
-                book.put("authorName", (String) result[3]);
+                book.put("username", (String) result[3]);
                 book.put("firstName", (String) result[4]);
                 book.put("lastName", (String) result[5]);
                 book.put("publisher", (String) result[6]);
@@ -501,6 +504,7 @@ public class Book implements Serializable {
                 } else {
                     book.put("saved", true);
                 }
+                book.put("price", (Integer) result[12]);
                 
                 books.put(book);
             }
@@ -524,7 +528,7 @@ public class Book implements Serializable {
         * book id
         * cover image
         * title
-        * author name
+        * username
         * first name
         * last name
         * book description
@@ -532,6 +536,7 @@ public class Book implements Serializable {
         * book rating
         * language
         * saved
+        * price
      * 
      * @throws BookException: Something wrong
      */
@@ -555,7 +560,7 @@ public class Book implements Serializable {
                 book.put("id", (Integer) result[0]);
                 book.put("coverImage", (String) result[1]);
                 book.put("title", (String) result[2]);
-                book.put("authorName", (String) result[3]);
+                book.put("username", (String) result[3]);
                 book.put("firstName", (String) result[4]);
                 book.put("lastName", (String) result[5]);
                 book.put("description", (String) result[6]);
@@ -567,6 +572,7 @@ public class Book implements Serializable {
                 } else {
                     book.put("saved", true);
                 }
+                book.put("price", (Integer) result[11]);
                 
                 books.put(book);
             }
@@ -590,7 +596,7 @@ public class Book implements Serializable {
         * book id
         * cover image
         * title
-        * author name
+        * username
         * first name
         * last name
         * publisher company name
@@ -599,6 +605,7 @@ public class Book implements Serializable {
         * book rating
         * language
         * saved
+        * price
      * 
      * @throws BookException: Something wrong
      */
@@ -622,7 +629,7 @@ public class Book implements Serializable {
                 book.put("id", (Integer) result[0]);
                 book.put("coverImage", (String) result[1]);
                 book.put("title", (String) result[2]);
-                book.put("authorName", (String) result[3]);
+                book.put("username", (String) result[3]);
                 book.put("firstName", (String) result[4]);
                 book.put("lastName", (String) result[5]);
                 book.put("publisher", (String) result[6]);
@@ -635,6 +642,7 @@ public class Book implements Serializable {
                 } else {
                     book.put("saved", true);
                 }
+                book.put("price", (Integer) result[12]);
                 
                 books.put(book);
             }
@@ -658,7 +666,7 @@ public class Book implements Serializable {
         * book id
         * cover image
         * title
-        * author name
+        * username
         * first name
         * last name
         * publisher company name
@@ -667,6 +675,7 @@ public class Book implements Serializable {
         * book rating
         * language
         * saved
+        * price
      * 
      * @throws BookException: Something wrong
      */
@@ -690,7 +699,7 @@ public class Book implements Serializable {
                 book.put("id", (Integer) result[0]);
                 book.put("coverImage", (String) result[1]);
                 book.put("title", (String) result[2]);
-                book.put("authorName", (String) result[3]);
+                book.put("username", (String) result[3]);
                 book.put("firstName", (String) result[4]);
                 book.put("lastName", (String) result[5]);
                 book.put("publisher", (String) result[6]);
@@ -703,6 +712,7 @@ public class Book implements Serializable {
                 } else {
                     book.put("saved", true);
                 }
+                book.put("price", (Integer) result[12]);
                 
                 books.put(book);
             }
@@ -955,7 +965,7 @@ public class Book implements Serializable {
         * book id
         * cover image
         * title
-        * author name
+        * username
         * first name
         * last name
         * book description
@@ -963,6 +973,7 @@ public class Book implements Serializable {
         * book rating
         * language
         * saved
+        * price
      * 
      * @throws BookException: Something wrong
      */
@@ -986,7 +997,7 @@ public class Book implements Serializable {
                 book.put("id", (Integer) result[0]);
                 book.put("coverImage", (String) result[1]);
                 book.put("title", (String) result[2]);
-                book.put("authorName", (String) result[3]);
+                book.put("username", (String) result[3]);
                 book.put("firstName", (String) result[4]);
                 book.put("lastName", (String) result[5]);
                 book.put("description", (String) result[6]);
@@ -998,6 +1009,7 @@ public class Book implements Serializable {
                 } else {
                     book.put("saved", true);
                 }
+                book.put("price", (Integer) result[11]);
                 
                 books.put(book);
             }
@@ -1021,7 +1033,7 @@ public class Book implements Serializable {
         * book id
         * cover image
         * title
-        * author name
+        * username
         * first name
         * last name
         * book description
@@ -1029,6 +1041,7 @@ public class Book implements Serializable {
         * book rating
         * language
         * saved
+        * price
      * 
      * @throws BookException: Something wrong
      */
@@ -1052,7 +1065,7 @@ public class Book implements Serializable {
                 book.put("id", (Integer) result[0]);
                 book.put("coverImage", (String) result[1]);
                 book.put("title", (String) result[2]);
-                book.put("authorName", (String) result[3]);
+                book.put("username", (String) result[3]);
                 book.put("firstName", (String) result[4]);
                 book.put("lastName", (String) result[5]);
                 book.put("description", (String) result[6]);
@@ -1064,6 +1077,7 @@ public class Book implements Serializable {
                 } else {
                     book.put("saved", true);
                 }
+                book.put("price", (Integer) result[11]);
                 
                 books.put(book);
             }
@@ -1088,7 +1102,7 @@ public class Book implements Serializable {
         * category name
         * cover image
         * title
-        * author name
+        * username
         * first name
         * last name
         * book description
@@ -1096,6 +1110,7 @@ public class Book implements Serializable {
         * book rating
         * language
         * saved
+        * price
      * 
      * @throws BookException: Something wrong
      */
@@ -1120,7 +1135,7 @@ public class Book implements Serializable {
                 book.put("categoryName", (String) result[1]);
                 book.put("coverImage", (String) result[2]);
                 book.put("title", (String) result[3]);
-                book.put("authorName", (String) result[4]);
+                book.put("username", (String) result[4]);
                 book.put("firstName", (String) result[5]);
                 book.put("lastName", (String) result[6]);
                 book.put("description", (String) result[7]);
@@ -1128,6 +1143,7 @@ public class Book implements Serializable {
                 book.put("rating", (BigDecimal) result[9]);
                 book.put("language", (String) result[10]);
                 book.put("saved", (Boolean) result[11]);
+                book.put("price", (Integer) result[12]);
                 
                 books.put(book);
             }
@@ -1154,7 +1170,7 @@ public class Book implements Serializable {
             * category name
             * cover image
             * title
-            * author name
+            * username
             * first name
             * last name
             * company name
@@ -1163,6 +1179,7 @@ public class Book implements Serializable {
             * book rating
             * language
             * saved
+            * price
         * ownBooks
      * 
      * @throws BookException: Something wrong
@@ -1193,7 +1210,7 @@ public class Book implements Serializable {
                     book.put("id", (Integer) result[0]);
                     book.put("coverImage", (String) result[1]);
                     book.put("title", (String) result[2]);
-                    book.put("authorName", (String) result[3]);
+                    book.put("username", (String) result[3]);
                     book.put("firstName", (String) result[4]);
                     book.put("lastName", (String) result[5]);
                     book.put("companyName", (String) result[6]);
@@ -1206,6 +1223,7 @@ public class Book implements Serializable {
                     } else {
                         book.put("saved", true);
                     }
+                    book.put("price", (Integer) result[12]);
 
                     books.put(book);
                 }
@@ -1372,6 +1390,8 @@ public class Book implements Serializable {
             * book rating
             * language
             * saved
+            * price
+            * username
      * 
      * @throws BookException: Something wrong
      */
@@ -1410,6 +1430,8 @@ public class Book implements Serializable {
                 } else {
                     book.put("saved", true);
                 }
+                book.put("price", (Integer) result[11]);
+                book.put("username", (String) result[12]);
                 
                 books.put(book);
             }
@@ -1443,6 +1465,8 @@ public class Book implements Serializable {
             * book rating
             * language
             * saved
+            * price
+            * username
      * 
      * @throws BookException: Something wrong
      */
@@ -1481,6 +1505,8 @@ public class Book implements Serializable {
                 } else {
                     book.put("saved", true);
                 }
+                book.put("price", (Integer) result[11]);
+                book.put("username", (String) result[12]);
                 
                 books.put(book);
             }
@@ -1514,6 +1540,8 @@ public class Book implements Serializable {
             * book rating
             * language
             * saved
+            * price
+            * username
      * 
      * @throws BookException: Something wrong
      */
@@ -1552,6 +1580,8 @@ public class Book implements Serializable {
                 } else {
                     book.put("saved", true);
                 }
+                book.put("price", (Integer) result[11]);
+                book.put("username", (String) result[12]);
                 
                 books.put(book);
             }
@@ -1587,6 +1617,8 @@ public class Book implements Serializable {
             * pages number
             * book rating
             * language
+            * price
+            * username
      * 
      * @throws BookException: Something wrong!
      */
@@ -1618,6 +1650,8 @@ public class Book implements Serializable {
                 book.put("pagesNumber", (Integer) result[7]);
                 book.put("rating", (BigDecimal) result[8]);
                 book.put("language", (String) result[9]);
+                book.put("price", (Integer) result[10]);
+                book.put("username", (String) result[11]);
                 
                 books.put(book);
             }

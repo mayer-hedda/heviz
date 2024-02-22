@@ -62,6 +62,19 @@ public class BookController {
      * 
      * @return 
         * 200: 5 most saved books of the month
+            * book id
+            * cover image
+            * title
+            * username
+            * first name
+            * last name
+            * publisher company name
+            * book description
+            * pages number
+            * book rating
+            * language
+            * saved
+            * price
         * 401: 
             * User hasn't token
             * Invalid token
@@ -104,6 +117,19 @@ public class BookController {
      * 
      * @return 
         * 200: 9 random published books
+            * book id
+            * cover image
+            * title
+            * username
+            * first name
+            * last name
+            * publisher company name
+            * book description
+            * pages number
+            * book rating
+            * language
+            * saved
+            * price 
         * 401: 
             * User hasn't token
             * Invalid token
@@ -146,6 +172,18 @@ public class BookController {
      * 
      * @return 
         * 200: 9 random self-published books
+            * book id
+            * cover image
+            * title
+            * username
+            * first name
+            * last name
+            * book description
+            * pages number
+            * book rating
+            * language
+            * saved
+            * price 
         * 401: 
             * User hasn't token
             * Invalid token
@@ -188,6 +226,19 @@ public class BookController {
      * 
      * @return 
         * 200: 1 random book
+            * book id
+            * cover image
+            * title
+            * username
+            * first name
+            * last name
+            * publisher company name
+            * book description
+            * pages number
+            * book rating
+            * language
+            * saved
+            * price 
         * 401: 
             * User hasn't token
             * Invalid token
@@ -230,6 +281,19 @@ public class BookController {
      * 
      * @return 
         * 200: 1 random book
+            * book id
+            * cover image
+            * title
+            * username
+            * first name
+            * last name
+            * publisher company name
+            * book description
+            * pages number
+            * book rating
+            * language
+            * saved
+            * price 
         * 401: 
             * User hasn't token
             * Invalid token
@@ -499,7 +563,7 @@ public class BookController {
             * book id
             * cover image
             * title
-            * author name
+            * username
             * first name
             * last name
             * book description
@@ -507,6 +571,7 @@ public class BookController {
             * book rating
             * language
             * saved
+            * price
         * 401:
             * User hasn't token
             * Invalid token
@@ -552,7 +617,7 @@ public class BookController {
             * book id
             * cover image
             * title
-            * author name
+            * username
             * first name
             * last name
             * book description
@@ -560,6 +625,7 @@ public class BookController {
             * book rating
             * language
             * saved
+            * price
         * 401:
             * User hasn't token
             * Invalid token
@@ -605,7 +671,7 @@ public class BookController {
             * book id
             * cover image
             * title
-            * author name
+            * username
             * first name
             * last name
             * book description
@@ -613,6 +679,7 @@ public class BookController {
             * book rating
             * language
             * saved
+            * price
         * 401:
             * User hasn't token
             * Invalid token
@@ -661,7 +728,7 @@ public class BookController {
                 * category name
                 * cover image
                 * title
-                * author name
+                * username
                 * first name
                 * last name
                 * company name
@@ -670,6 +737,7 @@ public class BookController {
                 * book rating
                 * language
                 * saved
+                * price
             * own books
         * 401:
             * User hasn't token
@@ -851,6 +919,8 @@ public class BookController {
                 * book rating
                 * language
                 * saved
+                * price
+                * username
         * 401:
             * User hasn't token
             * Invalid token
@@ -899,6 +969,8 @@ public class BookController {
                 * book rating
                 * language
                 * saved
+                * price
+                * username
         * 401:
             * User hasn't token
             * Invalid token
@@ -918,7 +990,7 @@ public class BookController {
             switch(tokenCheckResult) {
                 case 1: 
                     Integer userId = Token.getUserIdByToken(jwt);
-                    JSONArray result = BookService.getAllBooksByCategory(userId, book.getFilter());
+                    JSONArray result = BookService.getFilteredBooks(userId, book.getFilter());
                     return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
                 case 2:
                     return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
@@ -947,6 +1019,8 @@ public class BookController {
                 * book rating
                 * language
                 * saved
+                * price
+                * username
         * 401:
             * User hasn't token
             * Invalid token
@@ -998,6 +1072,8 @@ public class BookController {
                 * pages number
                 * book rating
                 * language
+                * price
+                * username
         * 401:
             * User hasn't token
             * Invalid token
