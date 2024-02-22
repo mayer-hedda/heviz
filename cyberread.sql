@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Feb 22. 22:49
+-- Létrehozás ideje: 2024. Feb 23. 00:52
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -1055,7 +1055,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserDetails` (IN `userIdIN` INT,
                 `user`.`introDescription`,
                 `user`.`website`,
                 `color`.`code`,
-                userIdMatch AS userIdMatchFlag
+                userIdMatch AS userIdMatchFlag,
+                IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
+                IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
+            	YEAR(`user`.`registrationTime`)
             FROM `user`
             LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
             INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
@@ -1073,7 +1076,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserDetails` (IN `userIdIN` INT,
                 `user`.`introDescription`,
                 `user`.`website`,
                 `color`.`code`,
-                userIdMatch AS userIdMatchFlag
+                userIdMatch AS userIdMatchFlag,
+                IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
+                IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
+                YEAR(`user`.`registrationTime`)
             FROM `user`
             LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
             INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
