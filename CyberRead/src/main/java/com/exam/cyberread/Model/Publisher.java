@@ -1,5 +1,6 @@
 package com.exam.cyberread.Model;
 
+import com.exam.cyberread.Exception.PublisherException;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -130,7 +131,7 @@ public class Publisher implements Serializable {
         * true: Successfully set company name
         * false: Unsuccessfully set company name
      */
-    public static Boolean setCompanyName(Integer userId, String companyName) {
+    public static Boolean setCompanyName(Integer userId, String companyName) throws PublisherException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
         EntityManager em = emf.createEntityManager();
 
@@ -139,17 +140,23 @@ public class Publisher implements Serializable {
 
             spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("companyNameIN", String.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
 
             spq.setParameter("userIdIN", userId);
             spq.setParameter("companyNameIN", companyName);
 
             spq.execute();
+
+            Integer result = (Integer) spq.getOutputParameterValue("result");
             
-            return true;
-        } catch(Exception ex) {
-            System.err.println(ex.getMessage());
+            if(result == 1) {
+                return true;            
+            }
             
             return false;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new PublisherException("Error in setCompanyName() method!");
         } finally {
             em.clear();
             em.close();
