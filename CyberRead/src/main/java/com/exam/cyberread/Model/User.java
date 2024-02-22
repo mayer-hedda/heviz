@@ -535,6 +535,9 @@ public class User implements Serializable {
             * website
             * cover color code
             * ownProfile
+            * email
+            * phone number
+            * registration year
         * publisher user profile:
             * rank
             * username
@@ -548,6 +551,9 @@ public class User implements Serializable {
             * website
             * cover color code
             * ownProfile
+            * email
+            * phone number
+            * registration year
         * error: profileUsernameError
      * 
      * @throws UserException: Something wrong
@@ -596,6 +602,9 @@ public class User implements Serializable {
                         userDetails.put("website", (String) result[10]);
                         userDetails.put("coverColorCode", (String) result[11]);
                         userDetails.put("ownProfile", (Boolean) result[12]);
+                        userDetails.put("email", (String) result[13]);
+                        userDetails.put("phoneNumber", (String) result[14]);
+                        userDetails.put("registrationYear", (Integer) result[15]);
                     } else if(rank.equals("publisher")) {
                         userDetails.put("username", (String) result[1]);
                         userDetails.put("image", (String) result[2]);
@@ -612,6 +621,9 @@ public class User implements Serializable {
                         userDetails.put("website", (String) result[9]);
                         userDetails.put("coverColorCode", (String) result[10]);
                         userDetails.put("ownProfile", (Boolean) result[11]);
+                        userDetails.put("email", (String) result[12]);
+                        userDetails.put("phoneNumber", (String) result[13]);
+                        userDetails.put("registrationYear", (Integer) result[14]);
                     }               
                 }
             

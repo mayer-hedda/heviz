@@ -242,6 +242,9 @@ public class UserController {
                 * website
                 * cover color code
                 * ownProfile
+                * email
+                * phone number
+                * registration year
             * publisher user profile:
                 * rank
                 * username
@@ -255,6 +258,9 @@ public class UserController {
                 * website
                 * cover color code
                 * ownProfile
+                * email
+                * phone number
+                * registration year
         * 401:
             * User hasn't token
             * Invalid token

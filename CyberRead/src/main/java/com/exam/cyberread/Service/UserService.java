@@ -313,6 +313,9 @@ public class UserService {
             * website
             * cover color code
             * ownProfile
+            * email
+            * phone number
+            * registration year
         * publisher user profile:
             * rank
             * username
@@ -326,6 +329,9 @@ public class UserService {
             * website
             * cover color code
             * ownProfile
+            * email
+            * phone number
+            * registration year
         * error: profileUsernameError
      * 
      * @throws UserException: Something wrong
