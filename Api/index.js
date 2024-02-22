@@ -1420,6 +1420,7 @@ async function getRandomBookByCategory() {
             * ownProfile
             * email (if email is public)
             * phone number (if phone number is public)
+            * registration year
         * publisher user profile:
             * rank
             * username
@@ -1435,6 +1436,7 @@ async function getRandomBookByCategory() {
             * ownProfile
             * email (if email is public)
             * phone number (if phone number is public)
+            * registration year
     * 401:
         * User hasn't token
         * Invalid token
