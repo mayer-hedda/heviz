@@ -63,6 +63,7 @@ const modal_pages = document.getElementById('modal-pages');
 const modal_ranking = document.getElementById('modal-ranking');
 const modal_language = document.getElementById('modal-language');
 const modal_desc = document.getElementById('modal-desc');
+const modal_price = document.getElementById('book-price');
 
 // Segéd változók
 let resp_imgURL, resp_title, resp_firstName, resp_lastName, resp_description, resp_language, resp_rating, resp_pageNumber;
@@ -101,6 +102,8 @@ window.onload = async function () {
             switch (tokenResponse.data.rank) {
                 case 'general':
                     document.getElementById('welcome').innerText = `Welcome @${tokenResponse.data.username}!`;
+
+                    // Egy nagy random kártya
                     const responseRandomBook = await getOneRandomBook();
                     console.log("Random book response: ", responseRandomBook);
                     console.log("Random book response length: ", responseRandomBook.data.length);
@@ -113,6 +116,7 @@ window.onload = async function () {
                         first_section.hidden = true;
                     }
 
+                    // A hónap könyve(i)
                     const responseBooksOfMonth = await getMostSavedBooksOfTheMonth();
                     console.log("Most saved books of month response: ", responseBooksOfMonth);
                     console.log("Most saved books of month response length: ", responseBooksOfMonth.data.length);
@@ -126,6 +130,8 @@ window.onload = async function () {
                         second_section.hidden = true;
                     }
 
+
+                    // ajánlások neked
                     const responseRecommanded = await getRecommandedBooks();
                     console.log("Recommanded books for you: ", responseRecommanded);
                     console.log("Recommanded books for you length: ", responseRecommanded.data.length);
@@ -137,6 +143,7 @@ window.onload = async function () {
                         third_section.hidden = true;
                     }
 
+                    // csak kiadósok
                     const responsePublisher = await getPublishedBooks();
                     console.log("Publisher books: ", responsePublisher);
                     console.log("Publisher books length: ", responsePublisher.data.length);
@@ -148,6 +155,7 @@ window.onload = async function () {
                         fourth_section.hidden = true;
                     }
 
+                    // csak öncélú
                     const responseSelfPublished = await getSelfPublishedBooks();
                     console.log("Self-published books: ", responseSelfPublished);
                     console.log("Self-published books length: ", responseSelfPublished.data.length);
@@ -236,7 +244,7 @@ function LoadRandomBook(response) {
 
         modal_language.innerText = `${response.data[0].language}`;
         modal_desc.innerText = `${response.data[0].description}`;
-
+        modal_price.innerText = `${response.data[0].price} Ft`;
     })
 }
 
@@ -290,8 +298,6 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
         }
 
         modal_title.innerText = `${response.data[0].title}`;
-        // modal_title.innerText = "`${response.data[0].title}`";
-        // console.error("Cím: ", response.data[0].title);
         modal_author.innerText = `${response.data[0].firstName} ${response.data[0].lastName}`;
         modal_pages.innerText = `${response.data[0].pagesNumber}`;
 
@@ -303,11 +309,12 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
 
         modal_language.innerText = `${response.data[0].language}`;
         modal_desc.innerText = `${response.data[0].description}`;
+        modal_price.innerText = `${response.data[0].price} Ft`;
 
     })
 
 
-    for (let i = 1; i <= response.data.length; i++) {
+    for (let i = 1; i <= response.data.length -1; i++) {
 
         if (response.data[i].coverImage != "Ez a kép elérési útja") {
             firstRow.innerHTML += `
@@ -318,7 +325,7 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                         <div class="overlay">
                             <p class="book-title">${response.data[i].title}</p>
                             <p class="author-p">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}')">Show Details</button>
+                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}')">Show Details</button>
                         </div>
                     </div>
                 </div>
@@ -333,7 +340,7 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                         <div class="overlay">
                             <p class="book-title">${response.data[i].title}</p>
                             <p class="author-p">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}')">Show Details</button>
+                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}')">Show Details</button>
                         </div>
                     </div>
                 </div>
@@ -402,6 +409,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
 
         modal_language.innerText = `${response.data[0].language}`;
         modal_desc.innerText = `${response.data[0].description}`;
+        modal_price.innerText = `${response.data[0].price} Ft`;
     })
 
 
@@ -414,7 +422,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                             <div class="overlay">
                                 <p class="book-title">${response.data[i].title}</p>
                                 <p class="author-p">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                                <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}')">Show Details</button>
+                                <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}')">Show Details</button>
                             </div>
                         </div>
                     </div>
@@ -427,7 +435,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                             <div class="overlay">
                                 <p class="book-title">${response.data[i].title}</p>
                                 <p class="author-p">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                                <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}')">Show Details</button>
+                                <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}')">Show Details</button>
                             </div>
                         </div>
                     </div>
@@ -444,7 +452,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                             <div class="overlay">
                                 <p class="book-title">${response.data[i].title}</p>
                                 <p class="author-p">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                                <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}')">Show Details</button>
+                                <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}')">Show Details</button>
                             </div>
                         </div>
                     </div>
@@ -457,7 +465,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                             <div class="overlay">
                                 <p class="book-title">${response.data[i].title}</p>
                                 <p class="author-p">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                                <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}')">Show Details</button>
+                                <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}')">Show Details</button>
                             </div>
                         </div>
                     </div>
@@ -467,7 +475,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
 
 }
 
-function loadModalData(url, title, firstName, lastName, description, language, rating, pages) {
+function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price) {
 
     if (url != "Ez a kép elérési útja") {
         modal_img.src = `../${url}.jpg`;
@@ -487,6 +495,7 @@ function loadModalData(url, title, firstName, lastName, description, language, r
 
     modal_language.innerText = `${language}`;
     modal_desc.innerText = `${description}`;
+    modal_price.innerText = `${price} Ft`;
 
 }
 

@@ -231,7 +231,7 @@ async function token() {
             * book id
             * cover image
             * title
-            * author name
+            * username
             * first name
             * last name
             * publisher company name
@@ -240,6 +240,7 @@ async function token() {
             * book rating
             * language
             * saved
+            * price
     * 
     * 401: 
         * User hasn't token
@@ -291,7 +292,7 @@ async function getMostSavedBooksOfTheMonth() {
             * book id
             * cover image
             * title
-            * author name
+            * username
             * first name
             * last name
             * publisher company name
@@ -300,6 +301,7 @@ async function getMostSavedBooksOfTheMonth() {
             * book rating
             * language
             * saved
+            * price
     * 
     * 401: 
         * User hasn't token
@@ -351,7 +353,7 @@ async function getPublishedBooks() {
             * book id
             * cover image
             * title
-            * author name
+            * username
             * first name
             * last name
             * publisher company name
@@ -360,6 +362,7 @@ async function getPublishedBooks() {
             * book rating
             * language
             * saved
+            * price
     * 
     * 401: 
         * User hasn't token
@@ -411,7 +414,7 @@ async function getSelfPublishedBooks() {
             * book id
             * cover image
             * title
-            * author name
+            * username
             * first name
             * last name
             * publisher company name
@@ -420,6 +423,7 @@ async function getSelfPublishedBooks() {
             * book rating
             * language
             * saved
+            * price
     * 
     * 401:
         * User hasn't token
@@ -471,7 +475,7 @@ async function getOneRandomBook() {
             * book id
             * cover image
             * title
-            * author name
+            * username
             * first name
             * last name
             * publisher company name
@@ -480,6 +484,7 @@ async function getOneRandomBook() {
             * book rating
             * language
             * saved
+            * price
     * 
     * 401:
         * User hasn't token
@@ -1217,7 +1222,7 @@ async function getAllCategory() {
         * book id
         * cover image
         * title
-        * author name
+        * username
         * first name
         * last name
         * book description
@@ -1225,6 +1230,7 @@ async function getAllCategory() {
         * book rating
         * language
         * saved
+        * price
     * 
     * 401:
         * User hasn't token
@@ -1275,7 +1281,7 @@ async function getOneRandomLookingForPublisherBook() {
         * book id
         * cover image
         * title
-        * author name
+        * username
         * first name
         * last name
         * book description
@@ -1283,6 +1289,7 @@ async function getOneRandomLookingForPublisherBook() {
         * book rating
         * language
         * saved
+        * price
     * 
     * 401:
         * User hasn't token
@@ -1334,7 +1341,7 @@ async function getRecommandedBooksForPublisher() {
             * book id
             * cover image
             * title
-            * author name
+            * username
             * first name
             * last name
             * book description
@@ -1342,6 +1349,7 @@ async function getRecommandedBooksForPublisher() {
             * book rating
             * language
             * saved
+            * price
     * 
     * 401:
         * User hasn't token
@@ -1410,6 +1418,9 @@ async function getRandomBookByCategory() {
             * website
             * cover color code
             * ownProfile
+            * email (if email is public)
+            * phone number (if phone number is public)
+            * registration year
         * publisher user profile:
             * rank
             * username
@@ -1423,6 +1434,9 @@ async function getRandomBookByCategory() {
             * website
             * cover color code
             * ownProfile
+            * email (if email is public)
+            * phone number (if phone number is public)
+            * registration year
     * 401:
         * User hasn't token
         * Invalid token
@@ -1481,7 +1495,7 @@ async function getUserDetails(raw) {
             * category name
             * cover image
             * title
-            * author name
+            * username
             * first name
             * last name
             * company name
@@ -1490,6 +1504,7 @@ async function getUserDetails(raw) {
             * book rating
             * language
             * saved
+            * price
         * own books
     * 
     * 401:
@@ -2030,6 +2045,8 @@ async function getActiveHelpCenter() {
             * book rating
             * language
             * saved
+            * price
+            * username
     * 401:
         * User hasn't token
         * Invalid token
@@ -2102,6 +2119,8 @@ async function getAllBooksByCategory(raw) {
             * book rating
             * language
             * saved
+            * price
+            * username
     * 401:
         * User hasn't token
         * Invalid token
@@ -2170,6 +2189,8 @@ async function getFilteredBooks(raw) {
             * book rating
             * language
             * saved
+            * price
+            * username
     * 401:
         * User hasn't token
         * Invalid token
@@ -2234,6 +2255,8 @@ async function getSearchBooks(raw) {
             * pages number
             * book rating
             * language
+            * price
+            * username
     * 401:
         * User hasn't token
         * Invalid token

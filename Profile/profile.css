@@ -287,7 +287,8 @@ Ha találok rá jobb megoldást javítom :)  */
     border-radius: 10px;
 }
 
-#missing-intro-text {
+#missing-intro-text,
+.missing-data-text {
     color: #993b18;
     font-style: italic;
 }
@@ -778,10 +779,16 @@ Ha találok rá jobb megoldást javítom :)  */
     border: none;
 }
 
+/* drop image */
 #imgView {
     border: dashed 1.5px #3a3a3a2c;
     border-radius: 10px;
     padding: 40px;
+    background-position: center;
+    background-size: cover;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
 }
 
 #add-photo-icon {
@@ -1006,9 +1013,7 @@ Ha találok rá jobb megoldást javítom :)  */
     background: linear-gradient(180deg, #ffeed8, #F0D0BC 100%) !important;
     border-radius: 15px;
     border-width: 0;
-    /* position: relative; */
     text-align: center;
-    /* align-items: center; */
 }
 
 #book-popup-modal-body::-webkit-scrollbar {
@@ -1031,18 +1036,16 @@ Ha találok rá jobb megoldást javítom :)  */
     transition: background-color 1s ease-in;
 }
 
-.save-btn,
-.shopping-btn {
+.save-btn {
     background-color: #fffcf6ee;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-top: 9px;
-    padding-bottom: 12px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 10px;
     border-radius: 80px;
     border-width: 0;
     margin-left: 5px;
     color: rgb(63, 63, 63);
-
 }
 
 .save-btn:hover,
@@ -1064,9 +1067,6 @@ Ha találok rá jobb megoldást javítom :)  */
 #book-modal-img {
     width: 243px;
     height: 400px;
-    /* margin-left: 110px;
-    margin-right: 110px; */
-    /* position: absolute; */
     align-self: center;
     border-radius: 10px;
 }
@@ -1096,7 +1096,6 @@ Ha találok rá jobb megoldást javítom :)  */
     margin-top: 5%;
 }
 
-
 .colDiv {
     padding-top: 15px;
     width: 80px;
@@ -1113,13 +1112,31 @@ Ha találok rá jobb megoldást javítom :)  */
     margin-right: 50px;
     text-align: justify;
     font-family: 'Poppins-light', sans-serif;
-
 }
 
 #book-modal-footer {
     border-top: none;
-    padding-bottom: 25px;
-    justify-content: space-evenly;
+    padding: 15px 25px 25px;
+    height: fit-content;
+}
+
+.m-footer-div {
+    display: flex;
+}
+
+.shopping-btn {
+    margin-right: 20px;
+    padding: 8px 18px 12px;
+    background-color: #fffcf6a7;
+}
+
+.price {
+    font-size: 18px;
+    margin-right: 160px;
+    margin-top: 13px;
+    margin-bottom: 13px;
+    font-family: 'Poppins-Regular', sans-serif;
+    color: var(--mostUsed-text-color);
 }
 
 .modal-cover-btn {
@@ -1134,6 +1151,7 @@ Ha találok rá jobb megoldást javítom :)  */
     cursor: pointer;
     float: right;
     transition: background-color 0.8s ease;
+    height: fit-content;
 }
 
 .modal-cover-btn:hover {
@@ -1141,7 +1159,6 @@ Ha találok rá jobb megoldást javítom :)  */
     color: #2C1810;
     border: dashed 0.094rem #2C1810;
     cursor: pointer;
-
     transition: background-color 0.8s ease;
 }
 

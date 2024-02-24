@@ -193,18 +193,10 @@ nav {
 
 #profile-icon img{
     width: 50px;
-    /* Állítsd be a kívánt szélességet és magasságot */
     height: 50px;
-    border-radius: 50%;
-    /* Kör alak kialakítása */
-    /* background-image: url('../pictures/default-profile-pic.png'); */
-    /* Alapértelmezett kép beállítása */
     background-size: cover;
-    /* A kép méretezése a konténerhez */
     background-position: center;
-    /* A kép középre igazítása */
     cursor: pointer;
-    /* Mutató kurzor megjelenítése, hogy látható legyen, kattintható */
 }
 
 #navbarNav{
@@ -284,8 +276,6 @@ nav {
 .post-profile-icon {
     width: 3.125rem;
     height: 3.125rem;
-    border-radius: 50%;
-    /* Kör alak kialakítása */
     background-image: url('../pictures/default-profile-pic.png');
     /* Alapértelmezett kép beállítása */
     background-size: cover;

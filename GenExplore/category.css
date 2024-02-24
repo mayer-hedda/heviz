@@ -138,7 +138,7 @@ nav {
     /* font-style: italic; */
 }
 
-#profile-icon img{
+#profile-icon img {
     width: 50px;
     /* Állítsd be a kívánt szélességet és magasságot */
     height: 50px;
@@ -154,11 +154,12 @@ nav {
     /* Mutató kurzor megjelenítése, hogy látható legyen, kattintható */
 }
 
-#navbarNav{
+#navbarNav {
     margin-left: 90px;
 }
 
-#writingBtn, #writingBtn-zeroData{
+#writingBtn,
+#writingBtn-zeroData {
     font-size: medium;
     font-family: 'Inter', sans-serif;
     color: var(--btn-text-color);
@@ -181,7 +182,8 @@ nav {
     /* align-items: self-end; */
 }
 
-#writingBtn:hover, #writingBtn-zeroData:hover{
+#writingBtn:hover,
+#writingBtn-zeroData:hover {
     transition: color 0.8s ease;
     /*átmenet a hover és a rendes állapot között*/
     transition: background-color 0.3s ease;
@@ -191,11 +193,11 @@ nav {
     border: dashed 0.094rem var(--dash-color);
 }
 
-.dropdown-menu a{
+.dropdown-menu a {
     margin-bottom: 10px;
 }
 
-.dropdown-menu a:hover{
+.dropdown-menu a:hover {
     background-color: transparent;
 }
 
@@ -230,7 +232,8 @@ nav {
     font-size: 40px;
     text-transform: uppercase;
     letter-spacing: 5.25px;
-    cursor: default;;
+    cursor: default;
+    ;
     margin-bottom: 0px;
 }
 
@@ -497,27 +500,21 @@ form {
     border-bottom: none;
 }
 
-.save-btn,
-.shopping-btn {
+.save-btn {
     background-color: #fffcf6ee;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-top: 9px;
-    padding-bottom: 12px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 10px;
     border-radius: 80px;
     border-width: 0;
     margin-left: 5px;
     color: rgb(63, 63, 63);
-
 }
 
 .save-btn:hover,
 .shopping-btn:hover {
     background-color: #fffcf6d7;
-}
-
-.shopping-btn {
-    margin-right: 200px;
 }
 
 .btn-close {
@@ -530,9 +527,6 @@ form {
 .modal-img {
     width: 243px;
     height: 400px;
-    /* margin-left: 110px;
-    margin-right: 110px; */
-    /* position: absolute; */
     align-self: center;
     border-radius: 10px;
 }
@@ -562,7 +556,6 @@ form {
     margin-top: 5%;
 }
 
-
 .colDiv {
     padding-top: 15px;
     width: 80px;
@@ -579,13 +572,31 @@ form {
     margin-right: 50px;
     text-align: justify;
     font-family: 'Poppins-light', sans-serif;
-
 }
 
 .modal-footer {
     border-top: none;
-    padding-bottom: 25px;
-    justify-content: space-evenly;
+    padding: 15px 25px 25px;
+    height: fit-content;
+}
+
+.m-footer-div {
+    display: flex;
+}
+
+.shopping-btn {
+    margin-right: 20px;
+    padding: 8px 18px 12px;
+    background-color: #fffcf6a7;
+}
+
+.price {
+    font-size: 20px;
+    margin-right: 160px;
+    margin-top: 13px;
+    margin-bottom: 13px;
+    font-family: 'Poppins-Regular', sans-serif;
+    color: var(--mostUsed-text-color);
 }
 
 .modal-cover-btn {
@@ -600,6 +611,7 @@ form {
     cursor: pointer;
     float: right;
     transition: background-color 0.8s ease;
+    height: fit-content;
 }
 
 .modal-cover-btn:hover {
@@ -607,7 +619,6 @@ form {
     color: #2C1810;
     border: dashed 0.094rem #2C1810;
     cursor: pointer;
-
     transition: background-color 0.8s ease;
 }
 
@@ -620,7 +631,7 @@ form {
 }
 
 footer {
-    
+
     border-top: 0.094rem solid var(--dash-color);
     background-color: var(--footer-bg-color);
     padding-top: 5%;
