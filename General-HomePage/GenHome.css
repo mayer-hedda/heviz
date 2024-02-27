@@ -229,12 +229,14 @@ nav {
     border: dashed 0.094rem var(--dash-color);
 }
 
-.dropdown-menu a{
-    margin-bottom: 10px;
+.dropdown-menu li{
+    padding: 5px;
+    margin-bottom: 5px;
 }
 
 .dropdown-menu a:hover{
     background-color: transparent;
+    cursor: pointer;
 }
 
 /** --------------- TITLES AND ROWS NAD GENERAL STUFF ---------------*/

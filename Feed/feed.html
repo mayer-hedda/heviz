@@ -26,8 +26,6 @@
 <body style="background-color: rgb(247, 245, 236)">
     <!-- TODO: NAVBAR -->
 
-    
-
     <nav class="navbar fixed-top navbar-expand-lg" id="navbar" style="background-color: rgb(247, 245, 236);">
         <div class="container-fluid">
             <img src="../pictures/LOGO.svg" alt="Logo" width="125" height="40" class="d-inline-block align-text-top"
@@ -40,8 +38,8 @@
 
             <div class="collapse navbar-collapse  justify-content-center" id="navbarNav">
                 <div class="navbar-nav text-center">
-                    <a class="nav-link" aria-current="page" id="HomePage"
-                        href="../General-HomePage/GenHome.html">Home Page</a>
+                    <a class="nav-link" aria-current="page" id="HomePage" href="../General-HomePage/GenHome.html">Home
+                        Page</a>
                     <a class="nav-link active" id="Feed" href="#">Feed</a>
                     <a class="nav-link" id="Explore" href="../GenExplore/genExplore.html">Explore</a>
                     <a class="nav-link" id="SavedBooks" href="#">Saved Books</a>
@@ -61,12 +59,13 @@
                 <div class="dropdown">
                     <button class="bg-transparent border-0 dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <p id="userName-p">Username</p>
+                        <p id="userName-p"></p>
                     </button>
 
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" id="Logout">Log Out</a></li>
-                        <li><a class="dropdown-item" onclick="window.location.href='../Profile/profile.html'">Profile</a></li>
+                        <li><a class="dropdown-item"
+                                onclick="window.location.href='../Profile/profile.html'">Profile</a></li>
                     </ul>
                 </div>
             </div>
@@ -78,68 +77,17 @@
 
         <div class="container-fluid">
             <div class="row">
-                <div class="col-9 left-side">
+                <div class="col-8 left-side">
                     <!-- TODO: POST SECTION -->
                     <div id="kulsoPostCard"></div>
                 </div>
 
-                <div class="col-3 right-side">
+                <div class="col-4 right-side">
                     <!-- TODO: SIDE SECTION -->
                     <div class="suggestions">
                         <h3 id="suggestion-h2">Suggestions for You:</h3>
-
-                        <div class="profile-suggestion">
-                            <!--? profil kép helye  -->
-                            <div class="smaller-user-profile-pic"></div>
-                            <!--? User nevének helye -->
-                            <div class="userName">
-                                <p class="card-user-name">User123</p>
-                            </div>
-                            <button type="submit" class="btn-more" href="#">More</button>
-
-                        </div>
-
-                        <div class="profile-suggestion">
-                            <!--? profil kép helye  -->
-                            <div class="smaller-user-profile-pic"></div>
-                            <!--? User nevének helye -->
-                            <div class="userName">
-                                <p class="card-user-name">User123</p>
-                            </div>
-                            <button type="submit" class="btn-more" href="#">More</button>
-
-                        </div>
-
-                        <div class="profile-suggestion">
-                            <!--? profil kép helye  -->
-                            <div class="smaller-user-profile-pic"></div>
-                            <!--? User nevének helye -->
-                            <div class="userName">
-                                <p class="card-user-name">User123</p>
-                            </div>
-                            <button type="submit" class="btn-more" href="#">More</button>
-
-                        </div>
-
-                        <div class="profile-suggestion">
-                            <!--? profil kép helye  -->
-                            <div class="smaller-user-profile-pic"></div>
-                            <!--? User nevének helye -->
-                            <div class="userName">
-                                <p class="card-user-name">User123</p>
-                            </div>
-                            <button type="submit" class="btn-more" href="#">More</button>
-
-                        </div>
-
-                        <div class="profile-suggestion">
-                            <!--? profil kép helye  -->
-                            <div class="smaller-user-profile-pic"></div>
-                            <!--? User nevének helye -->
-                            <div class="userName">
-                                <p class="card-user-name">User123</p>
-                            </div>
-                            <button type="submit" class="btn-more" href="#">More</button>
+                        <div id="suggestion-div">
+                            <!-- suggested profiles -->
                         </div>
 
                         <button type="button" class="btn" id="post-BTN" data-bs-toggle="modal"
@@ -237,6 +185,7 @@
         crossorigin="anonymous"></script>
 
     <script src="feed.js"></script>
+    <script src="../Api/index.js"></script>
 </body>
 
 </html>

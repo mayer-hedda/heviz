@@ -191,7 +191,7 @@ nav {
     /* font-style: italic; */
 }
 
-#profile-icon img{
+#profile-icon img, .smaller-user-profile-pic{
     width: 50px;
     height: 50px;
     background-size: cover;
@@ -236,12 +236,14 @@ nav {
     border: dashed 0.094rem var(--dash-color);
 }
 
-.dropdown-menu a{
-    margin-bottom: 10px;
+.dropdown-menu li{
+    padding: 5px;
+    margin-bottom: 5px;
 }
 
 .dropdown-menu a:hover{
     background-color: transparent;
+    cursor: pointer;
 }
 
 
@@ -331,16 +333,6 @@ nav {
     display: flex;
     margin-top: 1.875rem;
     width: fit-content;
-
-}
-
-.last-row a {
-    text-decoration: none;
-    font-size: 0.938rem;
-    /* 15px-es betüméret */
-    color: rgb(51, 47, 49);
-    font-family: 'Inter';
-    font-weight: 500;
 }
 
 .tag-design {
@@ -359,38 +351,27 @@ nav {
     bottom: 30px;
 }
 
-.like-and-share img {
-    width: 1.563rem;
-    height: 1.563rem;
-    cursor: pointer;
 
-}
 
-#like {
-    width: 40px !important;
-    height: 40px !important;
-}
 
-.like-and-share span {
+/* .like-and-share span {
     margin-bottom: 5px !important;
     cursor: pointer;
-}
+} */
 
 .like-button {
-    margin-right: 0.625rem !important;
-    fill: rgb(45, 24, 16);
-    width: 40px !important;
-    height: 40px !important;
+    fill: #2d1810;
 }
 
 .like-button:hover {
-   
+    fill: #c43700;
     cursor: pointer;
 }
 
 
 .share {
     margin-left: 0.625rem !important;
+    fill: rgb(45, 24, 16);
 }
 
 .share:hover {
@@ -415,6 +396,10 @@ nav {
 
 .suggestions {
     margin-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #suggestion-h2 {
@@ -422,29 +407,22 @@ nav {
     margin-bottom: 1.875rem;
 }
 
+#suggestion-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 20px;
+}
+
 .profile-suggestion {
     display: flex;
     align-self: center;
     margin-bottom: 0.5rem;
-}
-
-.smaller-user-profile-pic {
-    border-radius: 50%;
-    /* Kör alak kialakítása */
-    background-image: url('../pictures/default-profile-pic.png');
-    /* Alapértelmezett kép beállítása */
-    background-size: cover;
-    /* A kép méretezése a konténerhez */
-    cursor: pointer;
-    /* Mutató kurzor megjelenítése, hogy látható legyen, kattintható */
-    background-position: center;
-
-    width: 2.5rem;
-    height: 2.5rem;
+    /* margin-top: 20px; */
 }
 
 .btn-more {
-    margin-left: auto;
+    margin-left: 80px;
     margin-bottom: 4%;
     align-self: center;
     height: fit-content;

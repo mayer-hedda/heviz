@@ -1,6 +1,6 @@
 const username = document.getElementById('userName-p');
 const profilePic = document.getElementById('profile-icon');
-const defaultP_pic = document.getElementById('default-profile-pic');
+// const defaultP_pic = document.getElementById('default-profile-pic');
 
 //* LOADING DATAS
 const dataURL = './db.json';
@@ -74,7 +74,7 @@ let s4 = false;
 let s5 = false;
 
 // Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
-window.addEventListener('beforeunload', async function() {
+window.addEventListener('beforeunload', async function () {
     const tokenResponse = await token();
 
     if (tokenResponse.status === 401) {
@@ -85,20 +85,23 @@ window.addEventListener('beforeunload', async function() {
 // LOADING PAGE
 window.onload = async function () {
     const tokenResponse = await token();
+    console.log(tokenResponse);
     // username to the navbar
-    username.innerText = `@${tokenResponse.data.username}`;
-    if (tokenResponse.data.image) {
-        defaultP_pic.hidden = true;
-        profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;
-    } else {
-        defaultP_pic.hidden = false;
-    }
+
 
     switch (tokenResponse.status) {
         case 401:
             window.location.href = "../Log-in/login.html";
             break;
         case 302:
+            username.innerText = `@${tokenResponse.data.username}`;
+            if (tokenResponse.data.image != undefined) {
+                // defaultP_pic.hidden = true;
+                profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;
+            } else {
+                profilePic.innerHTML = `<img src="../pictures/default-profile-pic-man.png" alt="${tokenResponse.data.username} profile picture"></img>`;
+            }
+            
             switch (tokenResponse.data.rank) {
                 case 'general':
                     document.getElementById('welcome').innerText = `Welcome @${tokenResponse.data.username}!`;
@@ -135,8 +138,8 @@ window.onload = async function () {
                     const responseRecommanded = await getRecommandedBooks();
                     console.log("Recommanded books for you: ", responseRecommanded);
                     console.log("Recommanded books for you length: ", responseRecommanded.data.length);
-                    
-                    if (responseRecommanded.data.length != 0) { 
+
+                    if (responseRecommanded.data.length != 0) {
                         TwoRowAndMediumCard("Recommanded books for you", responseRecommanded, s3_mediumCardPic_div, s3_mediumC_h2, s3_mediumC_author, s3_mediumC_desc, s3_mediumC_btn, s3_first_row, s3_second_row);
                         s3 = true;
                     } else {
@@ -161,7 +164,7 @@ window.onload = async function () {
                     console.log("Self-published books length: ", responseSelfPublished.data.length);
 
                     if (responseSelfPublished.data.length != 0) {
-                       
+
                         TwoRowAndMediumCard("Self-published books", responseSelfPublished, s5_mediumCardPic_div, s5_mediumC_h2, s5_mediumC_author, s5_mediumC_desc, s5_mediumC_btn, s5_first_row, s5_second_row)
                         s5 = true;
                     } else {
@@ -187,7 +190,13 @@ window.onload = async function () {
             break;
 
         case 422:
-            console.error(responseLogin.data);
+            alert("422 - Something went wrong");
+            console.error("Error: " + responseUser);
+            break;
+
+        default:
+            localStorage.setItem('Error Code:', `${responseUser.error}`);
+            window.location.href = "../404/404.html";
             break;
     }
 };
@@ -314,7 +323,7 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
     })
 
 
-    for (let i = 1; i <= response.data.length -1; i++) {
+    for (let i = 1; i <= response.data.length - 1; i++) {
 
         if (response.data[i].coverImage != "Ez a kép elérési útja") {
             firstRow.innerHTML += `
@@ -500,7 +509,7 @@ function loadModalData(url, title, firstName, lastName, description, language, r
 }
 
 const logout_btn = document.getElementById('Logout');
-logout_btn.addEventListener('click', (e)=>{
-    localStorage.removeItem("Token");
+logout_btn.addEventListener('click', (e) => {
     window.location.assign('../Landing-Page/landing.html');
+    localStorage.removeItem("Token");
 })

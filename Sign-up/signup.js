@@ -174,6 +174,78 @@ function upTo3(value, inputName, inputId, errorDiv) {
     }
 }
 
+function checkNameChars(value, input, errorDiv) {
+    // betűk amiket elfoganunk - abc + ékezetesek
+    const abc = /^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ]/;
+
+    // megengedett speciális karakterek
+    const allowedCharacters = /[^a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ.\- ']/;
+
+    // teszt hogy tartalmaz-e betűt
+    if (abc.test(value) == true) {
+        errorDiv.innerHTML = "";
+        input.style.background = "";
+        input.style.borderColor = "";
+
+        // teszt hogy tartalmaz-e számot --> nem megengedett
+        if (/\d/.test(value) == true) {
+            errorDiv.innerHTML = `<p>Please avoid using numbers</p>`;
+            input.style.background = "rgb(255, 214, 220)";
+            input.style.borderColor = "rgb(243, 82, 93)";
+            return false;
+        } else {
+            errorDiv.innerHTML = "";
+            input.style.background = "";
+            input.style.borderColor = "";
+
+            if (allowedCharacters.test(value) == true) {
+                errorDiv.innerHTML = `<p>Please avoid using special characters except: . (dot), - (hyphen), ' (apostrophe), space</p>`;
+                input.style.background = "rgb(255, 214, 220)";
+                input.style.borderColor = "rgb(243, 82, 93)";
+                return false;
+            } else {
+                errorDiv.innerHTML = "";
+                input.style.background = "";
+                input.style.borderColor = "";
+                return true;
+            }
+
+        }
+    } else {
+        errorDiv.innerHTML = `<p>This field should contains letters and the first character cannot be a special character.</p>`;
+        input.style.background = "rgb(255, 214, 220)";
+        input.style.borderColor = "rgb(243, 82, 93)";
+        return false;
+    }
+}
+
+/**
+ * Documentation
+ * --------------
+ * @param {String} value - the value of the input field
+ * @param {HTMLInputElement} input - the input element
+ * @param {HTMLDivElement} errorDiv - the div for the error message
+ * @returns {Boolean}
+ */
+function checkUserCharacters(value, input, errorDiv) {
+
+    const disallowedCharacters = /[^a-z0-9._]/;
+    let abc_boolean = false;
+
+    if (disallowedCharacters.test(value) == true) {
+        errorDiv.innerHTML = `<p>Please avoid using special characters exept: _ (underscore) and . (dot)</p>`;
+        input.style.background = "rgb(255, 214, 220)";
+        input.style.borderColor = "rgb(243, 82, 93)";
+        chars_boolean = false;
+        return false;
+    } else {
+        errorDiv.innerHTML = "";
+        input.style.background = "";
+        input.style.borderColor = "";
+        chars_boolean = true;
+        return true;
+    }
+}
 
 
 /**
@@ -516,8 +588,8 @@ function validatePwd(pwdValue, pwdInput, errorField) {
 
     if (pwdValue == "") {
         errorField.innerHTML = `<p>Password field cannot be empty</p>`;
-        pwdInput.target.style.background = "rgb(255, 214, 220)";
-        pwdInput.target.style.borderColor = "rgb(243, 82, 93)";
+        pwdInput.style.background = "rgb(255, 214, 220)";
+        pwdInput.style.borderColor = "rgb(243, 82, 93)";
         console.log("The" + pwdInput + " pwd field is empty.");
         return false;
 
@@ -626,8 +698,16 @@ function GeneralEvents() {
 
         } else {
             FirstnameValid = upTo3(g_firstName, "First name", inputFirst, firstError);
-            General_Submit_Activate(submitButton);
+            if (FirstnameValid == true && allowed_charsFirst == true) {
+                General_Submit_Activate(submitButton);
+            }
+            
         }
+    })
+
+    let allowed_charsFirst = false;
+    inputFirst.addEventListener("input", (e) => {
+        allowed_charsFirst = checkNameChars(inputFirst.value, inputFirst, firstError);
     })
 
 
@@ -650,8 +730,15 @@ function GeneralEvents() {
 
         } else {
             LastnameValid = upTo3(g_lastName, "Last name", inputLast, lastError);
-            General_Submit_Activate(submitButton);
+            if (LastnameValid == true && allowed_charsLast == true) {
+                General_Submit_Activate(submitButton);
+            }
         }
+    })
+
+    let allowed_charsLast = false;
+    inputLast.addEventListener("input", (e) => {
+        allowed_charsLast = checkNameChars(inputLast.value, inputLast, lastError);
     })
 
     // Username field events
@@ -662,15 +749,13 @@ function GeneralEvents() {
         userError.innerHTML = "";
     })
 
+    let un_char_check = false;
     inputUser.addEventListener('input', function () {
-        if (u_invalidC.test(this.value) == true) {
-            userError.innerHTML = `<p>Please avoid using special characters exept: _ (underscore) and . (dot)</p>`;
-            inputUser.style.background = "rgb(255, 214, 220)";
-            inputUser.style.borderColor = "rgb(243, 82, 93)";
+        const checkResult = checkUserCharacters(inputUser.value, inputUser, userError);
+        if (checkResult == false) {
+            un_char_check = false;
         } else {
-            userError.innerHTML = "";
-            inputUser.style.background = "";
-            inputUser.style.borderColor = "";
+            un_char_check = true;
         }
     })
 
@@ -685,10 +770,10 @@ function GeneralEvents() {
 
         } else {
             user_upto3 = upTo3(g_userName, "Username", inputUser, userError);
-            if (user_upto3==true) {
-                UsernameValid=true;
-            }else{
-                UsernameValid= false;
+            if (user_upto3 == true && un_char_check == true) {
+                UsernameValid = true;
+            } else {
+                UsernameValid = false;
             }
 
             General_Submit_Activate(submitButton);
@@ -822,17 +907,25 @@ function PublisherEvents() {
 
     inputFirst.addEventListener("focusout", (e) => {
         e.preventDefault();
-        p_firstName = inputFirst.value;
-        if (p_firstName == "") {
+        g_firstName = inputFirst.value;
+        if (g_firstName == "") {
             console.log("Firstname error: empty");
             firstError.innerHTML = `<p>First name cannot be empty.</p>`;
             e.target.style.background = "rgb(255, 214, 220)";
             e.target.style.borderColor = "rgb(243, 82, 93)";
 
         } else {
-            FirstnameValid = upTo3(p_firstName, "First name", inputFirst, firstError);
-            Publisher_Submit_Activate(submitButton);
+            FirstnameValid = upTo3(g_firstName, "First name", inputFirst, firstError);
+            if (FirstnameValid == true && allowed_charsFirst == true) {
+                General_Submit_Activate(submitButton);
+            }
+            
         }
+    })
+
+    let allowed_charsFirst = false;
+    inputFirst.addEventListener("input", (e) => {
+        allowed_charsFirst = checkNameChars(inputFirst.value, inputFirst, firstError);
     })
 
     // Last name field events  
@@ -845,17 +938,24 @@ function PublisherEvents() {
 
     inputLast.addEventListener("focusout", (e) => {
         e.preventDefault();
-        p_lastName = inputLast.value;
-        if (p_lastName == "") {
+        g_lastName = inputLast.value;
+        if (g_lastName == "") {
             console.log("Lastname error: empty");
             lastError.innerHTML = `<p>First name cannot be empty.</p>`;
             e.target.style.background = "rgb(255, 214, 220)";
             e.target.style.borderColor = "rgb(243, 82, 93)";
 
         } else {
-            LastnameValid = upTo3(p_lastName, "Last name", inputLast, lastError);
-            Publisher_Submit_Activate(submitButton);
+            LastnameValid = upTo3(g_lastName, "Last name", inputLast, lastError);
+            if (LastnameValid == true && allowed_charsLast == true) {
+                General_Submit_Activate(submitButton);
+            }
         }
+    })
+
+    let allowed_charsLast = false;
+    inputLast.addEventListener("input", (e) => {
+        allowed_charsLast = checkNameChars(inputLast.value, inputLast, lastError);
     })
 
     // User name field events
@@ -866,43 +966,34 @@ function PublisherEvents() {
         userError.innerHTML = "";
     })
 
+    let un_char_check = false;
     inputUser.addEventListener('input', function () {
-        if (u_invalidC.test(this.value) == true) {
-            userError.innerHTML = `<p>Please avoid using special characters exept: _ (underscore) and . (dot)</p>`;
-            inputUser.style.background = "rgb(255, 214, 220)";
-            inputUser.style.borderColor = "rgb(243, 82, 93)";
+        const checkResult = checkUserCharacters(inputUser.value, inputUser, userError);
+        if (checkResult == false) {
+            un_char_check = false;
+        } else {
+            un_char_check = true;
         }
     })
 
     inputUser.addEventListener("focusout", (e) => {
         e.preventDefault();
-        p_userName = inputUser.value;      // kiszedi a user mező értékét
-        if (p_userName == "") {
+        g_userName = inputUser.value;
+        if (g_userName == "") {
             userError.innerHTML = `<p>User name cannot be empty</p>`;
             e.target.style.background = "rgb(255, 214, 220)";
             e.target.style.borderColor = "rgb(243, 82, 93)";
             console.log("Username field is empty.");
 
         } else {
-            user_upto3 = upTo3(p_userName, "Username", inputUser, userError);
-            if (u_abcCahrs.test(p_userName) == false) {
-                userError.innerHTML = `<p>Please use the lowecase English alphabetical characters.</p>`;
-                e.target.style.background = "rgb(255, 214, 220)";
-                e.target.style.borderColor = "rgb(243, 82, 93)";
-                user_chars = false;
-            } else {
-                user_chars = true;
-                e.target.style.background = "rgb(241, 255, 231)";
-                e.target.style.borderColor = "rgb(98, 173, 107)";
-            }
-
-            if (user_chars == true && user_upto3 == true) {
+            user_upto3 = upTo3(g_userName, "Username", inputUser, userError);
+            if (user_upto3 == true && un_char_check == true) {
                 UsernameValid = true;
             } else {
                 UsernameValid = false;
             }
 
-            Publisher_Submit_Activate(submitButton);
+            General_Submit_Activate(submitButton);
         }
     })
 

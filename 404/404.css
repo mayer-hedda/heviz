@@ -1,4 +1,48 @@
-@media (max-width: 400px) {
+@media (min-width: 180px) and (max-width: 270px){
+   img{
+      width: 180px;
+   }
+
+   #btn-text {
+      display: flex;
+      flex-direction: column;
+      width: fit-content;
+   }
+
+   #back-to-home {
+      font-size: 11px !important;
+   }
+
+   #error-message {
+      font-size: 13px !important;
+      /* text-align: justify; */
+      padding: 10px 22px 0px!important;
+   }
+}
+
+@media(min-width: 271px) and (max-width: 350px) {
+   img{
+      width: 250px!important;
+   }
+   
+   #btn-text {
+      display: flex;
+      flex-direction: column;
+      width: fit-content;
+   }
+
+   #back-to-home {
+      font-size: 16px !important;
+   }
+
+   #error-message {
+      font-size: 12px !important;
+      text-align: justify;
+      padding: 10px 22px 0px!important;
+   }
+}
+
+@media (min-width: 351px) and (max-width: 400px) {
    img {
       width: 350px;
    }
@@ -33,15 +77,15 @@
 
    #error-message {
       font-size: 18px !important;
-      padding-top: 0px!important;
+      padding-top: 0px !important;
       padding-left: 22px;
       padding-right: 22px;
    }
 
 }
 
-@media (min-width: 577px) and (max-width: 767px){
-   img{
+@media (min-width: 577px) and (max-width: 767px) {
+   img {
       width: 500px;
    }
 
@@ -53,17 +97,17 @@
 
    #error-message {
       font-size: 18px !important;
-      padding-top: 0px!important;
+      padding-top: 0px !important;
       padding-left: 22px;
       padding-right: 22px;
    }
 }
 
-@media(min-width: 767px) and (max-width: 968px){
-   img{
+@media(min-width: 767px) and (max-width: 968px) {
+   img {
       width: 600px;
    }
-   
+
    #btn-text {
       display: flex;
       flex-direction: column;
@@ -72,18 +116,18 @@
 
    #error-message {
       /* font-size: 20px !important; */
-      padding-top: 0px!important;
+      padding-top: 0px !important;
       padding-left: 22px;
       padding-right: 22px;
    }
 
 }
 
-@media(min-width: 969px) and (max-width: 991px){
-   img{
+@media(min-width: 969px) and (max-width: 991px) {
+   img {
       width: 600px;
    }
-   
+
    #back-to-home {
       font-size: 20px !important;
    }
@@ -93,16 +137,16 @@
       width: 400px;
    }
 
-   #btn-text{
+   #btn-text {
       gap: 20px !important;
    }
 }
 
-@media(min-width: 992px) and (max-width: 1200px){
-   img{
+@media(min-width: 992px) and (max-width: 1200px) {
+   img {
       width: 600px;
    }
-   
+
    #back-to-home {
       font-size: 20px !important;
    }
@@ -112,13 +156,13 @@
       max-width: 600px;
    }
 
-   #btn-text{
+   #btn-text {
       gap: 50px !important;
    }
 
 }
 
-@media (min-width: 1201px) and (max-width: 1399px){
+@media (min-width: 1201px) and (max-width: 1399px) {
    #error-message {
       text-align: left;
       max-width: 800px;

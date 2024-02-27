@@ -689,6 +689,18 @@ async function DeletePostBTN(button, postID) {
 
 }
 
+function Liked(button, postID) {
+    console.log(postID);
+    if(liked == false){
+        button.style.fill = "#c43700";
+        liked = true;
+    }else{
+        liked = false;
+        button.style.fill = "#2d1810";
+    }
+    
+}
+
 async function DeleteBookBTN(button, bookID) {
     console.log("Ennél a könyvnél nyomtad meg a törlést: " + bookID);
     const deleteResult = await deleteBook({ "id": bookID });

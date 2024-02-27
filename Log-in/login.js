@@ -49,25 +49,29 @@ inputPwd.addEventListener('input', (e) => {
     if (pwdValue == "") {
         pwdError.innerHTML = `<p>Password field cannot be empty.</p>`;
         e.target.style.background = "#FEEFEC";
-        pwdValid = false; 
+        pwdValid = false;
     } else {
+        e.target.style.background = "";
+        pwdError.innerHTML = "";
+        loginError.innerHTML = "";
         pwdValid = true;
         BtnActivate();
     }
 })
 
-// inputPwd.addEventListener('focusout', (e) => {
-//     e.preventDefault();
-//     const pwdValue = inputPwd.value;
-//     if (pwdValue == "") {
-//         pwdError.innerHTML = `<p>Password field cannot be empty.</p>`;
-//         e.target.style.background = "#FEEFEC";
-//         pwdValid = false; 
-//     } else {
-//         pwdValid = true;
-//         BtnActivate();
-//     }
-// })
+inputPwd.addEventListener('focusout', (e) => {
+    e.preventDefault();
+    const pwdValue = inputPwd.value;
+    if (pwdValue == "") {
+        pwdError.innerHTML = `<p>Password field cannot be empty.</p>`;
+        e.target.style.background = "#FEEFEC";
+        pwdValid = false;
+        BtnActivate();
+    } else {
+        pwdValid = true;
+        BtnActivate();
+    }
+})
 
 inputPwd.addEventListener("focusin", (e) => {
     e.preventDefault();
@@ -93,23 +97,23 @@ submitButton.addEventListener("click", async (e) => {
     switch (responseLogin.status) {
         case 200:
             const responseToken = await token();
-            
+
             switch (responseToken.status) {
                 case 302:
-                    
+
                     switch (responseToken.data.rank) {
                         case 'general':
-                            
+
                             window.location.assign(generalHomeURL);
                             break;
-                    
+
                         case 'publisher':
                             window.location.assign('../Profile/profile.html');
                             // console.log("Ő egy publisher lesz");
                             break;
                     }
                     break;
-            
+
                 case 401:
                     console.error(responseToken.data);
                     break;
@@ -119,10 +123,10 @@ submitButton.addEventListener("click", async (e) => {
         case 422:
             loginError.innerHTML = "<p>" + responseLogin.data.loginError + "</p>";
             break;
-    
+
     }
 
-    
+
     inputEmail.value = '';
     inputPwd.value = '';
 })

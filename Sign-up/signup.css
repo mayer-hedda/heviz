@@ -1,4 +1,5 @@
 :root {
+    --bg-color: #F6E3CD;
     --input-border: rgb(144, 152, 180, 0.75);
     --label: rgb(55, 56, 78);
     --h1: rgba(65, 61, 63, 1);
@@ -112,6 +113,10 @@
     background: #ACA09A;
 }
 
+body{
+    background-color: var(--bg-color);
+}
+
 /* form */
 #outside-div {
     display: flex;
@@ -174,14 +179,15 @@ h1 {
 
 /* inputs */
 .inputDiv{
-    margin-top: 1.5rem;
+    padding-top: 15px;
 }
 #names, #pwds {
     display: flex;
     justify-content: space-evenly;
     gap: 30px;
-    margin-top: 1rem;
+    /* margin-top: 1rem; */
     /* margin-bottom: 1rem; */
+    width: 460px;
 }
 
 .inputs {
@@ -208,7 +214,14 @@ label {
 
 #checkLabel {
     font-family: 'Poppins-Regular';
+}
 
+#checkAszf{
+    margin-bottom: 5px!important;
+}
+
+#aszf-checkbox{
+    margin-top: 30px!important;
 }
 
 #ASZF {
@@ -256,11 +269,27 @@ label {
 
 }
 
-.error {
+.error, .error-small {
     color: var(--error-color);
     font-family: 'Poppins', sans-serif;
     font-size: 80%;
     padding-left: 5px;
     margin-top: 5px!important;
+    margin-bottom: 0px!important;
+}
+
+.error-small{
+    width: 200px;
+}
+
+.error p{
     margin-bottom: 0px;
+}
+
+.label-div {
+    display: flex;
+}
+
+.info{
+    margin-left: 5px;
 }
