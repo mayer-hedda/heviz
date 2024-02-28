@@ -20,16 +20,24 @@ window.addEventListener('beforeunload', async function() {
 });
 
 //? IMAGE
+const img_trash = document.getElementById('del-pic');
+const addPhoto_icon = document.getElementById('addPhoto');
+const img_p = document.getElementById('img-p');
+const img_span = document.getElementById('img-span');
 inputPicture.addEventListener("change", uploadImage);
 
 var height, width;
-
+let imgLink;
 
 function uploadImage() {
-    let imgLink = URL.createObjectURL(inputPicture.files[0]);
+    imgLink = URL.createObjectURL(inputPicture.files[0]);
+    console.log(imgLink);
     imgView.style.backgroundImage = `url(${imgLink})`;
-    imgView.textContent = "";
-    imgView.style.border = 0;
+    addPhoto_icon.hidden = true;
+    img_p.hidden = true;
+    img_span.hidden = true;
+    // imgView.textContent = "";
+    // imgView.style.border = 0;
 
     var img = new Image();
     img.src = imgLink;
@@ -52,6 +60,7 @@ function uploadImage() {
         console.log("pic pass value:" + picPass);
 
     }
+
 }
 
 dropAreaPicture.addEventListener('dragover', (e) => {
@@ -79,7 +88,26 @@ dropAreaPicture.addEventListener('drop', (e) => {
     console.log("lefut a drop a képnél");
 });
 
+img_trash.addEventListener('click', (e)=>{
+    imgView.value = '';
+    imgLink = '';
+    console.log(imgLink);
+    imgView.style.backgroundImage = '';
+    addPhoto_icon.hidden = false;
+    img_p.hidden = false;
+    img_span.hidden = false;
+    picPass = false;
+})
+
+
 //? FILE
+const del_trash = document.getElementById('del-file');
+const file_p = document.getElementById('file-p');
+const file_span = document.getElementById('file-span');
+const file_result_p = document.getElementById('f-result-p-1');
+const file_result_uploaded = document.getElementById('f-result-p-2');
+
+
 inputFile.addEventListener("change", (e) => {
     e.preventDefault();
     console.log("lefut a change");
@@ -89,15 +117,19 @@ inputFile.addEventListener("change", (e) => {
 function uploadFile() {
     // let fileLink = URL.createObjectURL(inputFile.files[0]);
     console.log(inputFile.value);
-    imgView.textContent = "";
+    // imgView.textContent = "";
+    file_p.hidden = true;
+    file_span.hidden = true;
 
     var fileName = inputFile.value.split('\\').pop();
     console.log("perjel után: " + fileName);
     //todo: MEGCSINÁLNI, HOGY CSAK A filename.pdf-ET ÍRJA KI 
-    fileView.innerHTML = `
-        <img class="addPhoto" src="../icons/createBook/upload-file.png" id="addFile">
-        <p class="uploadP">You uploaded this:<br> ${inputFile.value}</p>
-    `;
+    file_result_p.hidden = false;
+    file_result_uploaded.hidden = false;
+    file_result_uploaded.innerText = `${fileName}`;
+
+
+
     // console.log("Lefutott az uploadfile");
     if (inputFile.value == "") {
         filePass = false;
@@ -151,7 +183,15 @@ dropAreaFile.addEventListener('drop', (e) => {
     console.log("lefut a drop a fájlnál");
 });
 
-
+del_trash.addEventListener('click', (e)=>{
+    inputFile.value = '';
+    file_p.hidden = false;
+    file_span.hidden = false;
+    file_result_p.hidden = true;
+    file_result_uploaded.hidden = true;
+    file_result_uploaded.innerText = '';
+    filePass = false;
+})
 
 
 //* PROCESSING OTHER INPUTS

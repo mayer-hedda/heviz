@@ -267,6 +267,12 @@
 } */
 
 /** IMAGE */
+.upload-and-delete{
+    display: flex;
+    margin-left: 120px;
+    height: fit-content;
+}
+
 #drop-image {
     display: flex;
     align-items: center;
@@ -323,6 +329,28 @@
     width: 70px;
 }
 
+.delete-pic{
+    position: relative;
+    margin-top: 470px;
+}
+
+.delete-file{
+    margin-top: 280px;
+}
+
+.delete-pic, .delete-file{
+    cursor: pointer;
+    color: rgb(114, 3, 3);
+}
+
+.trash{
+    margin-left: 20px;
+}
+
+.delete-pic:hover, .delete-file:hover{
+    color: rgb(210, 0, 0);
+}
+
 /** FILE */
 #drop-file {
     display: flex;
@@ -336,7 +364,7 @@
     background-color: var(--footer-bg-color);
     text-align: center;
     width: 270px;
-    height: max-content;
+    height: 270px;
     padding: 10px;
     border-radius: 0.938rem;
 }
@@ -361,7 +389,7 @@
     border-radius: 0.938rem;
     box-shadow: 0.313rem 0.313rem 1.25rem 0rem rgba(0, 0, 0, 0.10);
     height: max-content;
-    width: 850px;
+    width: 800px;
     margin-bottom: 50px;
 
 }
