@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Feb 28. 12:21
+-- Létrehozás ideje: 2024. Feb 28. 18:55
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -646,21 +646,27 @@ LIMIT 9$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getPublishersWriters` (IN `pagesNumberIN` INT, IN `profileUsernameIN` VARCHAR(50))   BEGIN
 
+	DECLARE rank VARCHAR(20);
+    
+    SELECT `user`.`rank` INTO rank FROM `user` WHERE `user`.`username` = profileUsernameIN;
+
 	SET pagesNumberIN = pagesNumberIN - 1;
 
-    SELECT `user`.`image`, `user`.`username`
-    FROM `user`
-    WHERE `user`.`id` IN (
-        SELECT `user`.`id`
+	IF rank = "publisher" THEN
+        SELECT `user`.`image`, `user`.`username`
         FROM `user`
-        INNER JOIN `book` ON `book`.`writerId` = `user`.`id`
-        WHERE `book`.`publisherId` = (
+        WHERE `user`.`id` IN (
             SELECT `user`.`id`
             FROM `user`
-            WHERE `user`.`username` = profileUsernameIN
+            INNER JOIN `book` ON `book`.`writerId` = `user`.`id`
+            WHERE `book`.`publisherId` = (
+                SELECT `user`.`id`
+                FROM `user`
+                WHERE `user`.`username` = profileUsernameIN
+            )
         )
-    )
-    LIMIT 3 OFFSET pagesNumberIN;
+        LIMIT 3 OFFSET pagesNumberIN;
+    END IF;
     
 END$$
 
@@ -1819,7 +1825,8 @@ INSERT INTO `color` (`id`, `code`) VALUES
 (19, '#2F4F4F'),
 (20, '#4B0082'),
 (21, 'FFFFFF'),
-(22, '#dad2e4');
+(22, '#dad2e4'),
+(23, '#c5aaee');
 
 -- --------------------------------------------------------
 
@@ -2250,7 +2257,7 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `rank`, `firstName`, 
 (40, 'egy.almafa', 'egy.alma.fa@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'egy', 'almafa', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-20 14:18:34', 1, 1, 29),
 (42, 'username', 'user@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'first', 'last', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-20 19:08:40', 1, 1, 31),
 (43, 'john.smith', 'john.smith@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'John', 'Smith', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-22 02:26:45', 1, 1, 32),
-(44, 'mayerhedda', 'mayer.hedda@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Hedda', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-02-16 11:52:06', 0, 1, 33),
+(44, 'mayerhedda', 'mayer.hedda@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Hedda', NULL, 1, 1, 'Kaki', NULL, 'pictures/default-profile-pic-man.png', '2024-02-16 11:52:06', 0, 23, 33),
 (46, 'heddo', 'mayer.hedda2002@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Hedda', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-02-16 12:01:42', 1, 1, 35),
 (47, 'hedda', 'mayer@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Hedda', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-02-16 12:08:37', 1, 1, 36),
 (48, 'hedda1234', 'mayer.hedda1234@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Adrienn', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-02-20 09:58:52', 0, 1, 37),
@@ -2457,7 +2464,7 @@ ALTER TABLE `categoryinterest`
 -- AUTO_INCREMENT a táblához `color`
 --
 ALTER TABLE `color`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT a táblához `follow`
