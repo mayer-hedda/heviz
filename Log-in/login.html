@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+    <!-- CSS file -->
+    <link rel="stylesheet" href="login.css">
+    <title>Log in</title>
+
+    <!--? Icon a tabba -->
+    <!-- fehér -->
+    <link rel="icon" href="../icons/C-logo-white.svg" type="image/svg+xml">
+    <!-- fekete -->
+    <!-- <link rel="icon" href="../icons/C-logo.svg" type="image/svg+xml"> -->
+
+</head>
+
+<body>
+    <div class="container form">
+        <form>
+            <h1 class="text-center">Login</h1>
+            <p class="text-center up-p">Welcome!</p>
+            <div class="form-group">
+
+                <!-- email -->
+                <div class="form-group with-alert">
+                    <label for="inputEmail">Email address:</label>
+                    <input type="email" class="form-control" id="inputEmail" placeholder="Enter your email address" required>
+                    <div class="error" id="emailError"></div>
+                    <br>
+                </div>
+
+                <!-- password -->
+                <div class="form-group with-alert">
+                    <label for="inputPwd">Password:</label>
+                    <input type="password" class="form-control" id="inputPwd" placeholder="Enter your password" required>
+                    <div class="error" id="pwdError"></div>
+                    <br>
+                </div>
+
+                <!-- login button -->
+                <div class="form-group text-center with-alert">
+                    <button disabled="true" type="submit" class="btn text-center" id="submitButton">Login</button>
+                    <div class="error" id="loginError"></div>
+                    <br>
+                </div>
+
+                <div class="text-center">
+                    <p>Don't have an account? <a class="sign-up-text" href="../Sign-up/signup.html">Sign Up!</a>
+                    <br> <a href="#">Forgot your password?</a>
+                    </p>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="pwdModal" tabindex="-1" aria-labelledby="pwdModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="pwdModalLabel">Get a new password</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label for="modalEmail" class="form-label" id="modalLabel">Email address</label>
+                        <input type="email" class="form-control" id="modalEmail" placeholder="name@example.com">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="modalSubmit">Send me an Email</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- JavaScript -->
+    <script src="login.js"></script>
+    <!-- ? futtatáshoz kell az api mappa -> ez mindig változik-->
+    <script src="../Api/index.js"></script>
+
+
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

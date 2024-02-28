@@ -1,0 +1,905 @@
+/** ----------- MEDIA QUERY */
+@media (max-width:400px) {
+    h1 {
+        max-width: 80%;
+        font-size: 50px !important;
+    }
+
+    #firstP {
+        max-width: 80%;
+    }
+
+    .my-image {
+        width: 300px !important;
+        height: 200px !important;
+    }
+
+    #second-section-pic,
+    #third-section-pic,
+    #s4 {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+    }
+
+    #s2-pic1,
+    #s2-pic2 {
+        margin-bottom: 25px;
+    }
+
+    h2 {
+        text-align: center;
+        font-size: 30px !important;
+    }
+
+    #second-p,
+    #third-p {
+        font-size: 20px !important;
+    }
+
+    #third-p {
+        width: 260px !important;
+    }
+
+    #left-column {
+        display: block;
+        place-items: center;
+    }
+
+    #fourth-section h2 {
+        font-size: 25px !important;
+        line-height: 30px;
+        width: 250px;
+    }
+
+    #s4-btn1 {
+        margin-bottom: 20px;
+    }
+
+    #s4-p {
+        font-size: 18px !important;
+        line-height: 20px !important;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email {
+        font-size: 15px !important;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    #footer-ul {
+        margin-top: 0.938rem;
+    }
+
+    #footer-logo-div {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+    }
+
+    #footer-logo {
+        width: 150px;
+    }
+}
+
+@media (min-width: 400px) and (max-width: 576px) {
+    nav .navbar-toggler {
+        order: 3 !important;
+        margin-left: auto !important;
+    }
+
+    section {
+        width: auto !important;
+    }
+
+    #signUpBtn {
+        align-items: center;
+    }
+
+    #title h1 #title p {
+        text-align: center;
+        max-width: 80%;
+        margin: 0 auto 1.5rem;
+    }
+
+    h1 {
+        max-width: 80% !important;
+        font-size: 3.125rem !important;
+    }
+
+    h2 {
+        max-width: 80% !important;
+        font-size: 1.75rem !important;
+        margin-top: 0.938rem !important;
+        margin-bottom: 0.938rem !important;
+    }
+
+    p {
+        max-width: 80% !important;
+        font-size: 1.375rem !important;
+    }
+
+    img {
+        max-block-size: 80% !important;
+    }
+
+    #FirstSectionBtn {
+        display: block;
+        /* Törölje a gomb alapértelmezett inline tulajdonságát */
+        margin: 0 auto;
+    }
+
+    .textCentered {
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .pTagsMargin {
+        margin-bottom: 1.25rem !important;
+    }
+
+    .my-image {
+        display: block;
+        /* Blokk elemként kezeljük, hogy a margin: 0 auto; működjön */
+        margin: 0 auto;
+    }
+
+    #third-section-pic {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+    }
+
+    #third-section-pic img {
+        width: 391px;
+    }
+
+    #third-p {
+        width: 312px !important;
+    }
+
+    #fourth-section {
+        padding-bottom: 40px !important;
+        padding-top: 30px !important;
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+
+    #s4-btn1 {
+        margin-bottom: 0.938rem;
+
+    }
+
+    .gomb {
+        display: block;
+        /* Blokk elemként kezeljük, hogy a margin: 0 auto; működjön */
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    #btns {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #btns button {
+        width: fit-content;
+    }
+
+    img.mx-auto {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email {
+        font-size: 0.938rem;
+    }
+
+    #footer-ul {
+        margin-top: 0.938rem;
+    }
+
+    #footer-logo-div {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+    }
+}
+
+@media (min-width: 577px) and (max-width: 767px) {
+    nav .navbar-toggler {
+        order: 3 !important;
+        margin-left: auto !important;
+    }
+
+    section {
+        width: auto !important;
+    }
+
+    #btns {
+        display: flex;
+        place-items: center;
+        flex-direction: column;
+    }
+
+    #btns button {
+        width: fit-content;
+    }
+
+    h1 {
+        max-width: 80%;
+        font-size: 45px !important;
+        line-height: 60px !important;
+    }
+
+    #opening-text p {
+        max-width: 80%;
+        font-size: 20px;
+    }
+
+    #opening-text button {
+        font-size: 23px;
+    }
+
+    #s2-row-div,
+    #s3-row-div {
+        display: grid;
+    }
+
+    #second-section-pic {
+        margin-right: 20px !important;
+        padding-left: 0px;
+        margin-left: 120px;
+    }
+
+    #s2-pic1,
+    #s2-pic2 {
+        width: 350px !important;
+        height: 250px !important;
+    }
+
+    #second-section-text {
+        display: block;
+        place-items: center;
+        margin-top: 30px;
+        margin-left: 100px;
+        width: fit-content;
+    }
+
+    #second-section-text h2 {
+        max-width: 80%;
+        margin-left: 10px;
+        font-size: 35px;
+    }
+
+    #second-p {
+        width: 300px;
+        margin-left: 20px;
+        font-size: 20px !important;
+    }
+
+    #second-section button,
+    #s3-btn {
+        font-size: 20px;
+        margin-left: 50px;
+    }
+
+    #third-section-pic {
+        margin-left: 70px;
+    }
+
+    #left-column {
+        margin-left: 100px;
+    }
+
+    #third-h2 {
+        font-size: 35px !important;
+        width: 300px !important;
+    }
+
+    #third-p {
+        width: 300px !important;
+        font-size: 20px;
+    }
+
+    #s3-btn {
+        width: 220px !important;
+    }
+
+    #s4-h2 {
+        font-size: 40px !important;
+    }
+
+    #s4 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #s4-p {
+        font-size: 20px !important;
+    }
+
+    #s4-btn1 {
+        margin-bottom: 15px !important;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email {
+        font-size: 0.938rem;
+    }
+
+    #footer-ul {
+        margin-top: 0.938rem;
+    }
+
+    #footer-logo-div {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+    }
+}
+
+@media(min-width: 767px) and (max-width: 968px) {
+    #btns {
+        display: flex;
+        place-items: center;
+        flex-direction: column;
+    }
+
+
+    h1 {
+        max-width: 80%;
+        font-size: 45px !important;
+        line-height: 60px !important;
+    }
+
+    #opening-text p {
+        max-width: 80%;
+        font-size: 20px;
+    }
+
+    #opening-text button {
+        font-size: 23px;
+    }
+
+    #s2-pic1,
+    #s2-pic2 {
+        /* 117.56 */
+        width: 350px !important;
+        height: 232.44px !important;
+    }
+
+    h2 {
+        font-size: 30px !important;
+    }
+
+    #second-p,
+    #third-p {
+        font-size: 20px !important;
+    }
+
+    #s2-btn,
+    #s3-btn {
+        font-size: 20px;
+    }
+
+    #third-section-pic {
+        order: 6 !important;
+    }
+
+    #third-section {
+        padding-left: 0px !important;
+        margin-right: 50px !important;
+        padding-right: 0px !important;
+    }
+
+    #third-h2 {
+        text-align: left !important;
+        width: 350px !important;
+    }
+
+    #left-column {
+        padding-left: 0px !important;
+    }
+
+}
+
+@media(min-width: 969px) and (max-width: 1000px) {
+    #btns {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #btns button {
+        width: fit-content;
+    }
+
+    h1 {
+        max-width: 80%;
+        font-size: 50px !important;
+        line-height: 70px !important;
+    }
+
+    #firstP {
+        max-width: 80%;
+        font-size: 20px;
+    }
+
+    #opening-text button {
+        font-size: 23px;
+    }
+
+    #s2-pic1,
+    #s2-pic2 {
+        /* 117.56 */
+        width: 350px !important;
+        height: 232.44px !important;
+    }
+
+    h2 {
+        font-size: 30px !important;
+    }
+
+    #second-p,
+    #third-p {
+        font-size: 20px !important;
+    }
+
+    #s2-btn,
+    #s3-btn {
+        font-size: 20px;
+    }
+
+    #third-section-pic {
+        order: 6 !important;
+    }
+
+    #third-section {
+        padding-left: 0px !important;
+        margin-right: 50px !important;
+        padding-right: 0px !important;
+    }
+
+    #third-h2 {
+        text-align: left !important;
+        width: 350px !important;
+    }
+
+    #left-column {
+        padding-left: 0px !important;
+    }
+}
+
+/** ----------- VÁLTOZÓK DEFINIÁLÁSA */
+:root {
+    --primary-BTN-Bg-color: rgb(232, 181, 160);
+    --btn-text-color: rgb(51, 47, 49);
+    /*text color for:
+        -loginBTN text
+        - signupBTN text
+        - first section btn text
+        - fourth section btn text */
+    --mostUsed-text-color: rgb(65, 61, 63);
+    /* its for text colors*/
+    --dash-color: rgb(129, 105, 117);
+    /* its for btn dashes*/
+    --page-bg-color: rgb(247, 245, 236);
+    --footer-bg-color: rgb(246, 227, 205);
+    --navbar-a-color: rgb(151, 121, 110);
+    --navbar-a-hover-color: rgb(113, 145, 128);
+    --current-page-color: rgb(60, 32, 22);
+    --current-page-hover-color: rgb(68, 92, 79);
+    --white-col-btnBG-Text: rgb(248, 248, 244);
+    --brown-p-color: rgb(108, 78, 66);
+}
+
+/**--------------- FONTS ---------------*/
+@font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/static/Inter-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url("../fonts/Montserrat/static/Montserrat-Bold.ttf") format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url("../fonts/Montserrat/static/Montserrat-Medium.ttf") format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Pt sans';
+    src: url("../fonts/PT_Sans/PTSans-Regular.ttf") format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* ------- Scrollbar ------- */
+/* scrollbar width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* scrollbar Track */
+::-webkit-scrollbar-track {
+    background: rgb(235, 233, 224);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #92827a;
+    border-radius: 20px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #ACA09A;
+}
+
+/** --------------- TAG ALAPJÁN ---------------*/
+
+nav {
+    background-color: var(--page-bg-color);
+}
+
+footer {
+    border-top: 0.094rem solid var(--dash-color);
+    background-color: var(--footer-bg-color);
+    padding-top: 5%;
+    padding-right: 5%;
+    padding-left: 5%;
+    height: fit-content;
+}
+
+footer h3 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+}
+
+footer ul {
+    list-style-type: none;
+}
+
+footer ul li {
+    font-size: 1.25rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+footer a {
+    color: var(--mostUsed-text-color);
+}
+
+footer a:hover {
+    color: #B43C82;
+}
+
+/** --------------- ID ALAPJÁN ---------------*/
+
+#navbar {
+    padding-right: 5%;
+    padding-left: 5%;
+}
+
+#btns {
+    margin-left: auto;
+}
+
+#loginBtn {
+    /* navbar login btn-ja */
+    border-width: 0rem;
+    background-color: transparent;
+    font-size: larger;
+    color: var(--btn-text-color);
+    font-family: 'Inter', sans-serif;
+    margin-right: 0.9rem;
+    padding: 0.625rem 1.25rem;
+    transition: color 0.5s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    line-height: 1.125rem;
+    box-sizing: border-box;
+}
+
+#loginBtn:hover {
+    /* navbar login btn hover */
+    color: rgb(146, 104, 74);
+}
+
+#signUpBtn {
+    /* navbar signup btn-ja */
+    font-size: larger;
+    font-family: 'Inter', sans-serif;
+    color: var(--btn-text-color);
+    border-width: 0rem;
+    border-radius: 1.5rem;
+    background-color: var(--primary-BTN-Bg-color);
+    border: 1px solid var(--primary-BTN-Bg-color);
+    padding: 0.625rem 1.25rem;
+    transition: color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    transition: background-color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    line-height: 1.125rem;
+    box-sizing: border-box;
+}
+
+#signUpBtn:hover {
+    /* navbar login btn hover */
+    transition: color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    transition: background-color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    background-color: rgb(247, 245, 236);
+    color: var(--mostUsed-text-color);
+    border: dashed 0.094rem var(--dash-color);
+}
+
+#opening-text {
+    /* first section id-ja */
+    padding-top: 11rem;
+    padding-bottom: 4.375rem;
+}
+
+#FirstSectionBtn {
+    /* az első section-ben található button id-ja */
+    background-color: var(--primary-BTN-Bg-color);
+    color: var(--btn-text-color);
+    border-width: 0rem;
+    padding-right: 3.75rem;
+    padding-left: 3.75rem;
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+    border-radius: 3rem;
+    font-size: x-large;
+    font-family: 'Pt sans', sans-serif;
+    transition: color 0.8s ease;
+    transition: background-color 0.8s ease;
+    margin-top: 1.875rem;
+    line-height: 1.625rem;
+    box-sizing: border-box;
+    border: 1px solid var(--primary-BTN-Bg-color);
+}
+
+#FirstSectionBtn:hover {
+    /* az első section-ben található button hover*/
+    transition: color 0.8s ease;
+    transition: background-color 0.8s ease;
+    color: var(--mostUsed-text-color);
+    background-color: rgb(247, 245, 236);
+    border: dashed 0.094rem var(--dash-color);
+    border-width: 0.094rem;
+    border-color: rgb(129, 105, 117);
+    line-height: 1.625rem;
+}
+
+#second-section {
+    /* 2. section külső tag-je */
+    margin-right: 6%;
+    margin-left: 6%;
+    margin-top: 3%;
+    margin-bottom: 6%;
+}
+
+#second-section p,
+#third-section p {
+    text-align: justify;
+}
+
+#second-section-pic {
+    /* A képet tartalmazó bal div id-ja */
+    display: flex;
+}
+
+#s2-pic1 {
+    /* az img tag id-ja */
+    width: 24.375rem;
+    height: 17.844rem;
+    border-radius: 0.625rem;
+}
+
+#second-h2 {
+    /* h2 tag */
+    font-size: 2.375rem;
+    font-family: 'Montserrat';
+    font-weight: 700;
+    color: var(--mostUsed-text-color);
+}
+
+#second-p {
+    /*? p tag */
+    margin-top: 2.063rem;
+    font-size: 1.375rem;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--brown-p-color);
+    text-align: justify !important;
+}
+
+#third-section {
+    display: flex;
+    margin-right: 8%;
+    margin-left: 6%;
+    margin-top: 3%;
+    margin-bottom: 6%;
+    padding: 1.875rem;
+}
+
+#third-h2 {
+    /*? h2 tag */
+    font-size: 2.375rem;
+    font-family: 'Montserrat';
+    font-weight: 700;
+    color: var(--mostUsed-text-color);
+}
+
+#third-p {
+    margin-top: 2.063rem;
+    font-size: 1.375rem;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--brown-p-color);
+}
+
+#s2-pic2 {
+    /*? az img tag id-ja */
+    width: 24.375rem;
+    height: 17.844rem;
+    border-radius: 0.625rem;
+}
+
+#fourth-section {
+    margin-right: 8%;
+    margin-left: 6%;
+    margin-top: 3%;
+    margin-bottom: 6%;
+    background-color: rgb(153, 88, 65);
+    border-radius: 1.25rem;
+    padding: 5rem;
+}
+
+#s4-h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 2.5rem;
+    line-height: 3.125rem;
+    color: var(--white-col-btnBG-Text);
+}
+
+#s4-p {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    color: rgb(230, 214, 195);
+    font-size: 1.375rem;
+    line-height: 2.25rem;
+}
+
+#s4-btn1 {
+    background-color: rgb(246, 205, 188);
+    border-radius: 1.5rem;
+    padding: 0.75rem 1.25rem;
+    font-size: larger;
+    font-family: 'Pt sans', sans-serif;
+    color: var(--btn-text-color);
+    line-height: 1.125rem;
+    transition: color 0.8s ease;
+    transition: background-color 0.8s ease;
+    position: relative;
+    margin-right: 2%;
+    border: 1px solid rgb(246, 205, 188);
+    box-sizing: border-box;
+}
+
+#s4-btn1:hover {
+    transition: color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    transition: background-color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    background-color: transparent;
+    color: var(--white-col-btnBG-Text);
+    border: dashed 0.094rem var(--white-col-btnBG-Text);
+}
+
+#s4-btn2 {
+    border-style: solid;
+    border-width: 0.081rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 1.5rem;
+    background-color: transparent;
+    line-height: 1.125rem;
+    border-color: var(--white-col-btnBG-Text);
+    font-size: medium !important;
+    color: var(--white-col-btnBG-Text);
+    transition: color 0.8s ease;
+    transition: background-color 0.8s ease;
+    box-sizing: border-box;
+}
+
+#s4-btn2:hover {
+    background-color: var(--white-col-btnBG-Text);
+    color: #4B2F1B;
+    transition: color 0.8s ease;
+    transition: background-color 0.8s ease;
+}
+
+#footer-logo {
+    /* padding-left: 6%; */
+    display: flex;
+}
+
+/** --------------- CLASS ALAPJÁN ---------------*/
+
+.bigtext {
+    /*? nyitó szöveg h1 class */
+    letter-spacing: -0.063rem;
+    font-size: 4.063rem;
+    line-height: 5rem;
+    font-family: 'Montserrat';
+    font-weight: 700;
+    width: 50.313rem;
+    color: var(--mostUsed-text-color);
+}
+
+.above-big-text {
+    /*? nyitó szöveg p class */
+    font-size: 1.563rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    width: 39.25rem;
+    color: rgb(103, 91, 97);
+    margin-top: 0.938rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-secondary {
+    /*? a 2. és 3. section-ben található gombokhoz class */
+    background-color: rgb(64, 90, 26);
+    border: 1px solid rgb(64, 90, 26);
+    color: var(--white-col-btnBG-Text);
+    font-size: 1.375rem;
+    font-family: 'Pt sans', sans-serif;
+    font-weight: 400;
+    padding: 0.938rem 1.875rem 0.938rem 1.875rem;
+    border-radius: 6.25rem;
+    margin-top: 0.938rem;
+    line-height: 1.125rem;
+    transition: color 0.8s ease;
+    transition: background-color 0.8s ease;
+    box-sizing: border-box;
+}
+
+.btn-secondary:hover {
+    background-color: rgb(187, 205, 149);
+    color: rgb(29, 38, 19);
+    transition: color 0.8s ease;
+    transition: background-color 0.8s ease;
+    border: dashed 0.094rem rgb(64, 90, 26);
+    line-height: 1.125rem;
+}
+
+.order-sm-4 {
+    order: 4 !important;
+}
