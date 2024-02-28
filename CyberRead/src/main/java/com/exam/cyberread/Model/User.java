@@ -1197,7 +1197,9 @@ public class User implements Serializable {
      * @param profileUsername
      * 
      * @return
-        * publisher's writers username (3)
+        * publisher's writer's:
+            * image
+            * username
      * 
      * @throws UserException: Something wrong!
      */

@@ -829,7 +829,9 @@ public class UserService {
         * error:
             * profileUsernameError
             * pagesNumberError
-        * publisher's writers username
+        * publisher's writer's:
+            * image
+            * username
      * 
      * @throws UserException: Something wrong!
      */

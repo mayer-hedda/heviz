@@ -861,7 +861,9 @@ public class UserController {
      * @param user
      * 
      * @return
-        * 200: publisher's writer's username
+        * 200: publisher's writer's:
+            * image
+            * username
         * 401:
             * User hasn't token
             * Invalid token
