@@ -18,14 +18,16 @@ public class BookService {
         * book id
         * cover image
         * title
-        * author name
+        * username
         * first name
         * last name
         * publisher company name
         * book description
         * pages number
         * book rating
+        * language
         * saved
+        * price
      * 
      * @throws BookException: Something wrong
      */
@@ -46,14 +48,16 @@ public class BookService {
         * book id
         * cover image
         * title
-        * author name
+        * username
         * first name
         * last name
         * publisher company name
         * book description
         * pages number
         * book rating
+        * language
         * saved
+        * price
      * 
      * @throws BookException: Something wrong
      */
@@ -74,13 +78,15 @@ public class BookService {
         * book id
         * cover image
         * title
-        * author name
+        * username
         * first name
         * last name
         * book description
         * pages number
         * book rating
+        * language
         * saved
+        * price
      * 
      * @throws BookException: Something wrong
      */
@@ -101,7 +107,7 @@ public class BookService {
         * book id
         * cover image
         * title
-        * author name
+        * username
         * first name
         * last name
         * publisher company name
@@ -110,6 +116,7 @@ public class BookService {
         * book rating
         * language
         * saved
+        * price
      * 
      * @throws BookException: Something wrong
      */
@@ -130,14 +137,16 @@ public class BookService {
         * book id
         * cover image
         * title
-        * author name
+        * username
         * first name
         * last name
         * publisher company name
         * book description
         * pages number
         * book rating
+        * language
         * saved
+        * price
      * 
      * @throws BookException: Something wrong
      */
@@ -385,6 +394,8 @@ public class BookService {
                 errors.put("storyTitleError", "Title must be 3 caracter long!");
             } else if(title.length() > 50) {
                 errors.put("storyTitleError", "The title cannot be longer than 50 characters!");
+            } else if(title.matches("[^a-zA-Z0-9]+")) {
+                errors.put("storyTitleError", "The title of the book should not consist exclusively of special characters!");
             }
 
             if(description == null || description.isEmpty()) {
@@ -393,6 +404,8 @@ public class BookService {
                 errors.put("descriptionError", "The description must be 20 caracter long.");
             } else if(description.length() > 1000) {
                 errors.put("descriptionError", "The description cannot be longer than 1000 characters!");
+            } else if(description.matches("[^a-zA-Z0-9]+")) {
+                errors.put("descriptionError", "The description of the book should not consist exclusively of special characters!");
             }
 
             if(targetAudienceId == null) {
@@ -460,7 +473,7 @@ public class BookService {
         * book id
         * cover image
         * title
-        * author name
+        * username
         * first name
         * last name
         * book description
@@ -468,6 +481,7 @@ public class BookService {
         * book rating
         * language
         * saved
+        * price
      * 
      * @throws BookException: Something wrong
      */
@@ -488,7 +502,7 @@ public class BookService {
         * book id
         * cover image
         * title
-        * author name
+        * username
         * first name
         * last name
         * book description
@@ -496,6 +510,7 @@ public class BookService {
         * book rating
         * language
         * saved
+        * price
      * 
      * @throws BookException 
      */
@@ -516,7 +531,7 @@ public class BookService {
         * book id
         * cover image
         * title
-        * author name
+        * username
         * first name
         * last name
         * book description
@@ -524,6 +539,7 @@ public class BookService {
         * book rating
         * language
         * saved
+        * price
      * 
      * @throws BookException: Something wrong
      */
@@ -566,7 +582,7 @@ public class BookService {
             * category name
             * cover image
             * title
-            * author name
+            * username
             * first name
             * last name
             * company name
@@ -575,6 +591,7 @@ public class BookService {
             * book rating
             * language
             * saved
+            * price
         * own books
      * 
      * @throws BookException: Something wrong
@@ -642,6 +659,145 @@ public class BookService {
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
             throw new BookException("Error in deleteBook() method!");
+        }
+    }
+    
+    
+    /**
+     * @param catagoryId
+     * 
+     * @return
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+            * saved
+            * price
+            * username
+     * 
+     * @throws BookException: Something wrong
+     */
+    public static JSONArray getAllBooksByCategory(Integer userId, Integer catagoryId) throws BookException {
+        try {
+            return Book.getAllBooksByCategory(userId, catagoryId);
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getAllBooksByCategory() method!");
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param filter
+     * 
+     * @return
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+            * saved
+            * price
+            * username
+     *
+     * @throws BookException: Something wrong!
+     */
+    public static JSONArray getFilteredBooks(Integer userId, Integer filter) throws BookException {
+        try {
+            return Book.getFilteredBooks(userId, filter);
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getFilteredBooks() method!");
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param searchText
+     * 
+     * @return
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+            * saved
+            * price
+            * username
+     * 
+     * @throws BookException: Something wrong!
+     */
+    public static JSONObject getSearchBooks(Integer userId, String searchText) throws BookException {
+        try {
+            if(searchText.length() > 50) {
+                JSONObject error = new JSONObject();
+                error.put("searchTextError", "The length of the text to be searched must not exceed 50 characters!");
+                
+                return error;
+            } else if(searchText.length() <= 0) {
+                JSONObject error = new JSONObject();
+                error.put("searchTextError", "The length of the text to be searched must not be less than 1 character!");
+                
+                return error;
+            } else {
+                JSONObject books = Book.getSearchBooks(userId, searchText);
+                
+                return books;
+            }
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getSearchBooks() method!");
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * 
+     * @return
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+            * price
+            * username
+     * 
+     * @throws BookException: Something wrong!
+     */
+    public static JSONArray getSavedBooksByUserId(Integer userId) throws BookException {
+        try {
+            return Book.getSavedBooksByUserId(userId);
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getSavedBooksByUserId() methid!");
         }
     }
     

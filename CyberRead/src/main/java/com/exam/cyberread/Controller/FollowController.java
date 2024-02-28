@@ -9,6 +9,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
@@ -108,7 +109,7 @@ public class FollowController {
      * 
      * @throws FollowException: Something wrong
      */
-    @POST
+    @DELETE
     @Path("unfollowedUser")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response unfollowedUser(@HeaderParam("Token") String jwt, Follow follow) throws FollowException {

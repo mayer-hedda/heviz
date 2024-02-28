@@ -7,6 +7,7 @@ import com.exam.cyberread.Service.PostlikeService;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -112,7 +113,7 @@ public class PostlikeController {
      * 
      * @throws PostlikeException: Something wrong
      */
-    @POST
+    @DELETE
     @Path("postDislike")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response postDislike(@HeaderParam("Token") String jwt, Postlike postlike) throws PostlikeException {

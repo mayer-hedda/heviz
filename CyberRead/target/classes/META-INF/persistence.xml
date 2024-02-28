@@ -12,6 +12,9 @@
     <class>com.exam.cyberread.Model.Postlike</class>
     <class>com.exam.cyberread.Model.Categoryinterest</class>
     <class>com.exam.cyberread.Model.Follow</class>
+    <class>com.exam.cyberread.Model.Helpcenter</class>
+    <class>com.exam.cyberread.Model.Color</class>
+    <class>com.exam.cyberread.Model.Publisher</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/cyberread?zeroDateTimeBehavior=CONVERT_TO_NULL"/>

@@ -205,7 +205,7 @@ public class Post implements Serializable {
                 post.put("id", (Integer) result[0]);
                 post.put("username", (String) result[1]);
                 post.put("image", (String) result[2]);
-                post.put("postTime", (String) result[3]);
+                post.put("postTime", (Timestamp) result[3]);
                 post.put("description", (String) result[4]);
                 if((Integer) result[5] == 0) {
                     post.put("liked", false);
