@@ -128,6 +128,7 @@ public class User implements Serializable {
     private int userId;
     
     private String profileUsername;
+    private Integer pagesNumber;
 
     public User() {
     }
@@ -298,6 +299,10 @@ public class User implements Serializable {
     
     public String getProfileUsername() {
         return profileUsername;
+    }
+    
+    public Integer getPagesNumber() {
+        return pagesNumber;
     }
 
     @Override
@@ -1179,6 +1184,50 @@ public class User implements Serializable {
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
             throw new UserException("Error in getDetails() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param pagesNumber
+     * @param profileUsername
+     * 
+     * @return
+        * publisher's writers username (3)
+     * 
+     * @throws UserException: Something wrong!
+     */
+    public static JSONObject getPublishersWriters(Integer pagesNumber, String profileUsername) throws UserException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getPublishersWriters");
+
+            spq.registerStoredProcedureParameter("pagesNumberIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("profileUsernameIN", String.class, ParameterMode.IN);
+
+            spq.setParameter("pagesNumberIN", pagesNumber);
+            spq.setParameter("profileUsernameIN", profileUsername);
+
+            spq.execute();
+            
+            List<Object[]> resultList = spq.getResultList();
+            JSONObject writers = new JSONObject();
+            
+            for(Object[] result : resultList) {
+                writers.put("username", result[0]);
+            }
+            
+            return writers;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            
+            throw new UserException("Error in getPublishersWriters() method!");
         } finally {
             em.clear();
             em.close();

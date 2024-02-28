@@ -855,4 +855,47 @@ public class UserController {
         }
     }
     
+    
+    /**
+     * @param jwt
+     * @param user
+     * 
+     * @return
+        * 200: publisher's writer's username
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 422:
+            * pagesNumberError
+            * profileUsernameError
+     * 
+     * @throws UserException: Something wrong!
+     */
+    @POST
+    @Path("getPublishersWriters")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getPublishersWriters(@HeaderParam("Token") String jwt, User user) throws UserException {
+        if(jwt == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
+        } else {
+            int tokenCheckResult = Token.decodeJwt(jwt);
+
+            switch (tokenCheckResult) {
+                case 1:
+                    JSONObject result = UserService.getPublishersWriters(user.getPagesNumber(), user.getProfileUsername());
+                    
+                    if(result.has("username")) {
+                        return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                    }
+                    
+                    return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                case 2:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
+                default:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
+            }
+        }
+    }
+    
 }

@@ -820,4 +820,50 @@ public class UserService {
         }
     }
     
+    
+    /**
+     * @param pagesNumber
+     * @param profileUsername
+     * 
+     * @return
+        * error:
+            * profileUsernameError
+            * pagesNumberError
+        * publisher's writers username
+     * 
+     * @throws UserException: Something wrong!
+     */
+    public static JSONObject getPublishersWriters(Integer pagesNumber, String profileUsername) throws UserException {
+        try {
+            JSONObject error = new JSONObject();
+            
+            // profile username check
+            if(profileUsername == null || profileUsername.isEmpty()) {
+                error.put("profileUsernameError", "The username field cannot be empty!");
+            } else if(profileUsername.length() < 3) {
+                error.put("profileUsernameError", "Username must be at least 3 characters long!");
+            } else if(profileUsername.length() > 50) {
+                error.put("profileUsernameError", "The username cannot be longer than 50 characters!");
+            } else if(!profileUsername.matches("^[a-zA-Z0-9._]*$")) {
+                error.put("profileUsernameError", "Invalid username! Please avoid using special characters exept: _ (underscore) and . (dot)");
+            }
+            
+            // pages number check
+            if(pagesNumber == null) {
+                error.put("pagesNumberError", "The pages number field cannot be empty!");
+            } else if(pagesNumber <= 0) {
+                error.put("pagesNumberError", "The number of pages must not be less than zero!");
+            }
+            
+            if(error.isEmpty()) {
+                return User.getPublishersWriters(pagesNumber, profileUsername);
+            }
+            
+            return error;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new UserException("Error getPublishersWriters() method!");
+        }
+    }
+    
 }
