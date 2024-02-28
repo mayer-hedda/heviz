@@ -11,6 +11,8 @@ const characterCounterText = document.getElementById('characterCounter');
 const charCounterDes = document.getElementById('characterCounter');
 const LetsPost_btn = document.getElementById('LetsPost-btn');
 
+
+
 // Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
 window.addEventListener('beforeunload', async function () {
     const tokenResponse = await token();
@@ -34,6 +36,12 @@ window.onload = async function () {
             const RecommandedUsers_response = await getRecommandedUsers();
             console.log(RecommandedUsers_response);
             LoadRecommandedUsers(RecommandedUsers_response);
+
+            const feedpost_response = await getFeedPosts();
+            console.log(feedpost_response);
+            LoadPosts(feedpost_response);
+
+
             break;
     }
 }
@@ -75,88 +83,159 @@ LetsPost_btn.addEventListener('click', async function () {
             window.location.href = "../Log-in/login.html";
         } else if (addPost_result.status == 409) {
             alert("Something went wrong. Please try again later.")
-        }else if(addPost_result.status == 422){
+        } else if (addPost_result.status == 422) {
             alert("You can't post the big nothing. Please give us some text.")
-        }else{
+        } else {
             alert("Something went wrong. Status code: " + addPost_result.status);
         }
     }
 
 })
 
-fetch(dataUrl)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Hiba a fájl betöltése közben');
-        }
-        return response.json();
-    })
+let likeButtons = document.querySelectorAll(".like-button");
+// var liked = false;
 
-    .then(data => {
-        const posts = data.posts;       //* ezzel hivatkozik a json azon tömbjében amiben az adatok vannak
-        for (const posts of data.posts) {
-            // console.log(`Felhasználónév: ${posts.username}`);
-            // console.log('felhaszn');
-            console.log(`${posts.id}`);
-            console.log(`${posts.username}`);
+let postLikes = {};
+async function LoadPosts(response) {
+    for (let i = 0; i <= response.data.length - 1; i++) {
 
+        let postID = response.data[i].id;
+        let postLiked = response.data[i].liked;
+        postLikes[postID] = postLiked;
+
+        if (response.data[i].liked == false) {
             pcGroup.innerHTML += `
-                <div class="post-card ">
-                    <div class="first-row">
-                        <!--? profil kép helye  -->
-                        <div class="post-profile-icon rounded-circle shadow-sm" style="background-image: url('${posts.profilPicURL}');"></div>
-                        <!--? User nevének helye -->
-                        <div class="userName">
-                            <p class="card-user-name">${posts.username}</p>
-                        </div>
-                        <div class="cardDate align-content-end">
-                            <p class="card-date-text">${posts.postTime}</p>
-                        </div>
+            <div class="post-card ">
+                <div class="first-row">
+                    
+                    <img class="post-profile-icon rounded-circle shadow-sm" src="../${response.data[i].image}">
+                    
+                    <div class="userName">
+                        <p class="card-user-name">${response.data[i].username}</p>
                     </div>
-
-                    <div class="postText">
-                        <p class="post-text">${posts.text}</p>
+                    <div class="cardDate align-content-end">
+                        <p class="card-date-text">${response.data[i].postTime}</p>
                     </div>
+                </div>
 
-                    <div class="last-row">
+                <div class="postText">
+                    <p class="post-text">${response.data[i].description}</p>
+                </div>
+
+                <div class="last-row">
+                    
+                    <div class="like-and-share">
+                        <div class="d-flex flex-column align-items-center emptyLike">
                         
-                        <div class="like-and-share">
-                            <div class="d-flex flex-column align-items-center emptyLike">
-                              
-                                <button class="like-button border-0 bg-transparent" id="like" onclick="Liked(this, ${posts.id})"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
-                                <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1"/>
-                              </svg></button>
-                             
-                            </div>
-                            <div class="d-flex flex-column align-items-center">
-                                <button class="border-0 bg-transparent share"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" class="bi bi-share-fill" viewBox="0 0 16 16">
-                                    <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5"/>
-                                    </svg>
-                                </button>
-                                
-                            </div>
+                            <button class="like-button border-0 bg-transparent" id="like" onclick="Liked(this, ${response.data[i].id})"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
+                            <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1"/>
+                        </svg></button>
+                        
+                        </div>
+                        <div class="d-flex flex-column align-items-center">
+                            <button class="border-0 bg-transparent share"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" class="bi bi-share-fill" viewBox="0 0 16 16">
+                                <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5"/>
+                                </svg>
+                            </button>
+                            
                         </div>
                     </div>
                 </div>
-            `;
+            </div>
+        `;
+
+        // console.log("Id és boolean: " + response.data[i].id + " " + liked);
+        } else {
+            // let liked = response.data[i].liked;
+            liked = true;
+            pcGroup.innerHTML += `
+            <div class="post-card ">
+                <div class="first-row">
+                    
+                    <img class="post-profile-icon rounded-circle shadow-sm" src="../${response.data[i].image}">
+                    
+                    <div class="userName">
+                        <p class="card-user-name">${response.data[i].username}</p>
+                    </div>
+                    <div class="cardDate align-content-end">
+                        <p class="card-date-text">${response.data[i].postTime}</p>
+                    </div>
+                </div>
+
+                <div class="postText">
+                    <p class="post-text">${response.data[i].description}</p>
+                </div>
+
+                <div class="last-row">
+                    
+                    <div class="like-and-share">
+                        <div class="d-flex flex-column align-items-center emptyLike">
+                        
+                            <button class="like-button border-0 bg-transparent" id="like" ><svg onclick="Liked(this, ${response.data[i].id})" class="liked" xmlns="http://www.w3.org/2000/svg" width="25" height="25" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
+                            <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1"/>
+                        </svg></button>
+                        
+                        </div>
+                        <div class="d-flex flex-column align-items-center">
+                            <button class="border-0 bg-transparent share"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" class="bi bi-share-fill" viewBox="0 0 16 16">
+                                <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5"/>
+                                </svg>
+                            </button>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        // console.log("Id és boolean: " + response.data[i].id + " " + liked);
+            
         }
-    })
 
 
-let likeButtons = document.querySelectorAll(".like-button");
-var liked = false;
 
-function Liked(button, postID) {
-    console.log(postID);
-    if (liked == false) {
-        button.style.fill = "#c43700";
-        liked = true;
-    } else {
-        liked = false;
-        button.style.fill = "#2d1810";
     }
 
+
 }
+
+
+
+
+
+async function Liked(button, postID) {
+    let postLiked = postLikes[postID];
+
+    if (!postLiked) {
+        // Ha a poszt nincs like-olva, akkor like-oljuk
+        const liked_result = await postLike({ "postId": postID });
+        if (liked_result.status == 200) {
+            button.style.fill = "#c43700";
+            postLikes[postID] = true; // Frissítjük a like állapotot
+            console.log("Sikeres kedvelés. Post id: " + postID);
+        } else if (liked_result.status == 401) {
+            window.location.href = "../Log-in/login.html";
+        } else if (liked_result.status == 422){
+            alert("Something went wrong. Please try again later.")
+        }
+    } else {
+        // Ha a poszt like-olva van, akkor dislike-oljuk
+        const disliked_result = await postDislike({ "postId": postID });
+        if (disliked_result.status == 200) {
+            button.style.fill = "#2d1810";
+            postLikes[postID] = false; // Frissítjük a like állapotot
+            console.log("Sikeres dislike. Post id: " + postID);
+        } else if (disliked_result.status == 401) {
+            window.location.href = "../Log-in/login.html";
+        } else if (disliked_result.status == 422){
+            alert("Something went wrong. Please try again later.")
+        }
+    }
+
+    // Frissítjük az aktuális poszt like állapotát a változóban
+    // button.setAttribute('data-liked', postLiked);
+}
+
+
 
 
 const logout_btn = document.getElementById('Logout');
