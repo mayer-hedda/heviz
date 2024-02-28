@@ -1220,7 +1220,8 @@ public class User implements Serializable {
             JSONObject writers = new JSONObject();
             
             for(Object[] result : resultList) {
-                writers.put("username", result[0]);
+                writers.put("image", result[0]);
+                writers.put("username", result[1]);
             }
             
             return writers;
