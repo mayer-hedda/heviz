@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Feb 23. 00:52
+-- Létrehozás ideje: 2024. Feb 28. 12:21
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -643,6 +643,26 @@ LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userI
 WHERE `book`.`status` = "published by"
 ORDER BY RAND()
 LIMIT 9$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getPublishersWriters` (IN `pagesNumberIN` INT, IN `profileUsernameIN` VARCHAR(50))   BEGIN
+
+	SET pagesNumberIN = pagesNumberIN - 1;
+
+    SELECT `user`.`image`, `user`.`username`
+    FROM `user`
+    WHERE `user`.`id` IN (
+        SELECT `user`.`id`
+        FROM `user`
+        INNER JOIN `book` ON `book`.`writerId` = `user`.`id`
+        WHERE `book`.`publisherId` = (
+            SELECT `user`.`id`
+            FROM `user`
+            WHERE `user`.`username` = profileUsernameIN
+        )
+    )
+    LIMIT 3 OFFSET pagesNumberIN;
+    
+END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getRandomBookByCategory` (IN `userIdIN` INT)   BEGIN
 
@@ -1798,7 +1818,8 @@ INSERT INTO `color` (`id`, `code`) VALUES
 (18, '#800000'),
 (19, '#2F4F4F'),
 (20, '#4B0082'),
-(21, 'FFFFFF');
+(21, 'FFFFFF'),
+(22, '#dad2e4');
 
 -- --------------------------------------------------------
 
@@ -2221,7 +2242,7 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `rank`, `firstName`, 
 (29, 'OlvasoJani', 'piroskaesafarkas@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'János', 'Farkas', '06303729165', 0, 1, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-17 15:55:38', 1, 1, 10),
 (30, 'olvasnijo', 'olvasnijo@freemail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Nagy', 'Ferenc', '+36019835627', 0, 1, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-17 15:56:19', 1, 1, 20),
 (31, 'szeretemazoszt', 'nagyhatielemer@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Elemér', 'Nagyháti', '0672359862', 0, 0, NULL, 'www.hetpsh.com', 'pictures/default-profile-pic-man.png', '2023-12-17 15:57:34', 1, 4, 21),
-(32, 'ifj_regenyek', 'ifjregenyek@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Laufer', 'Péter', '06703696146', 1, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-17 15:58:58', 0, 15, 11),
+(32, 'ifj_regenyek', 'ifjregenyek@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Laufer', 'Péter', '06703696146', 1, 1, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-17 15:58:58', 0, 22, 11),
 (34, 'macAndCheese23', 'macandcheese@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'mac', 'cheese', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-19 22:37:56', 1, 1, 23),
 (35, 'ehesVagyok15', 'ehesvagyok@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'ehes', 'vagyok', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-astronaut.png', '2023-12-19 22:40:47', 1, 1, 24),
 (36, 'theMandalorian89', 'mandalorian@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'the', 'mandalorian', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-mandalorian.png', '2023-12-19 22:42:21', 1, 1, 25),
@@ -2436,7 +2457,7 @@ ALTER TABLE `categoryinterest`
 -- AUTO_INCREMENT a táblához `color`
 --
 ALTER TABLE `color`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT a táblához `follow`
