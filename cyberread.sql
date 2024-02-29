@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Feb 28. 18:55
+-- Létrehozás ideje: 2024. Feb 29. 18:31
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -275,8 +275,7 @@ LEFT JOIN
     `postlike` ON `postlike`.`postId` = `post`.`id` AND `postlike`.`userId` = userIdIN
 WHERE
     `follow`.`followerId` = userIdIN
-ORDER BY
-	RAND()$$
+ORDER BY `post`.`postTime` DESC$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` INT, IN `filter` INT)   BEGIN
 
@@ -1652,33 +1651,39 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`id`, `name`, `image`) VALUES
-(1, 'Fine Literature', 'pictures/category/fine-literature.jpg'),
+(1, 'Literature', 'pictures/category/fine-literature.jpg'),
 (2, 'Gastronomy', 'pictures/category/gastronomy.jpg'),
 (3, 'Social Sciences', 'pictures/category/social-siences.jpg'),
-(4, 'Lifestyle, Health', 'pictures/category/lifestyle_health.jpg'),
-(5, 'Language Books, Dictionaries', 'pictures/category/language_dictionaries.jpg'),
-(6, 'Children and Young Adult', 'pictures/category/children_young-adult.jpg'),
-(7, 'Lexicon, Encyclopedia', 'pictures/category/lexicon_encyclopedia.jpg'),
-(8, 'Sports', 'pictures/category/sports.jpg'),
-(9, 'Comics', 'pictures/category/comics.jpg'),
-(10, 'Biographies', 'pictures/category/biographies.jpg'),
+(4, 'Lifestyle and Health', 'pictures/category/lifestyle_health.jpg'),
+(5, 'Dictionary', 'pictures/category/language_dictionaries.jpg'),
+(6, 'Youth novels', 'pictures/category/children_young-adult.jpg'),
+(7, 'Lexicons', 'pictures/category/lexicon_encyclopedia.jpg'),
+(8, 'Sport', 'pictures/category/sports.jpg'),
+(9, 'Comic Book', 'pictures/category/comics.jpg'),
+(10, 'Biography', 'pictures/category/biographies.jpg'),
 (11, 'Textbooks, Study Guides', 'pictures/category/textbook_study-guides.jpg'),
-(12, 'Arts, Architecture', 'pictures/category/arts_architectures.jpg'),
+(12, 'Art & architecture', 'pictures/category/arts_architectures.jpg'),
 (13, 'Novel', 'pictures/category/novel.jpg'),
 (14, 'Maps', 'pictures/category/maps.jpg'),
 (15, 'Travel', 'pictures/category/travel.jpg'),
 (16, 'Religion', 'pictures/category/religion.jpg'),
 (17, 'Educational', 'pictures/category/educational.jpg'),
-(18, 'Hobbies, Leisure', 'pictures/category/hobbies_leisure.jpg'),
+(18, 'Hobby & freetime', 'pictures/category/hobbies_leisure.jpg'),
 (19, 'Journals, Magazines', 'pictures/category/journals_magazines.jpg'),
 (20, '18+', 'pictures/category/18+.jpg'),
-(21, 'Action, Sci-Fi, Crime, Adventure', 'pictures/category/actions_sci-fi_crime_adventure.jpg'),
+(21, 'Sci-fi', 'pictures/category/sci-fi.jfif'),
 (22, 'Family', 'pictures/category/family.jpg'),
 (23, 'Romantic', 'pictures/category/romantic.jpg'),
-(24, 'TV Series', 'pictures/category/tv-series.jpg'),
+(24, 'TV-Series', 'pictures/category/tv-series.jpg'),
 (25, 'Horror, Thriller', 'pictures/category/horror_thriller.jpg'),
-(26, 'Comedy', ''),
-(27, 'Poetry Collection', '');
+(26, 'Comedy', 'pictures/category/comedy.jfif'),
+(27, 'Poems', 'pictures/category/poems.jfif'),
+(28, 'Adventure', 'pictures/category/adventure.jfif'),
+(29, 'Action', 'pictures/category/action.jfif'),
+(30, 'Crime', 'pictures/category/crime.jfif\r\n'),
+(31, 'Informative', 'pictures/category/informative.jfif'),
+(32, 'Associate Science', 'pictures/category/associate-science.jfif'),
+(33, 'Reference books', 'pictures/category/reference-books.jfif');
 
 -- --------------------------------------------------------
 
@@ -2452,7 +2457,7 @@ ALTER TABLE `bookshopping`
 -- AUTO_INCREMENT a táblához `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT a táblához `categoryinterest`
