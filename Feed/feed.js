@@ -31,7 +31,8 @@ window.onload = async function () {
             window.location.href = "../Log-in/login.html";
             break;
         case 302:
-            LoadUserDatas(tokenResponse);
+            const userDatas = await getUserDetails({ "profileUsername": tokenResponse.data.username });
+            LoadUserDatas(userDatas);
 
             const RecommandedUsers_response = await getRecommandedUsers();
             console.log(RecommandedUsers_response);
@@ -78,7 +79,8 @@ LetsPost_btn.addEventListener('click', async function () {
         const addPost_result = await addPost({ "description": currentData });
 
         if (addPost_result.status == 200) {
-            alert("You posted successfully. Please reload the page so that we can display your post.")
+            // alert("You posted successfully. Please reload the page so that we can display your post.")
+            location.reload();
         } else if (addPost_result.status == 401) {
             window.location.href = "../Log-in/login.html";
         } else if (addPost_result.status == 409) {
@@ -93,10 +95,14 @@ LetsPost_btn.addEventListener('click', async function () {
 })
 
 let likeButtons = document.querySelectorAll(".like-button");
-// var liked = false;
 
 let postLikes = {};
 async function LoadPosts(response) {
+    
+    // dátum szerin rendezzük a response-t így később a rendezett sorrendben tölti majd be az adatokat a kártyába
+    response.data.sort((a, b) => new Date(b.postTime) - new Date(a.postTime));
+   
+
     for (let i = 0; i <= response.data.length - 1; i++) {
 
         let postID = response.data[i].id;
@@ -105,105 +111,98 @@ async function LoadPosts(response) {
 
         if (response.data[i].liked == false) {
             pcGroup.innerHTML += `
-            <div class="post-card ">
-                <div class="first-row">
-                    
-                    <img class="post-profile-icon rounded-circle shadow-sm" src="../${response.data[i].image}">
-                    
-                    <div class="userName">
-                        <p class="card-user-name">${response.data[i].username}</p>
-                    </div>
-                    <div class="cardDate align-content-end">
-                        <p class="card-date-text">${response.data[i].postTime}</p>
-                    </div>
-                </div>
-
-                <div class="postText">
-                    <p class="post-text">${response.data[i].description}</p>
-                </div>
-
-                <div class="last-row">
-                    
-                    <div class="like-and-share">
-                        <div class="d-flex flex-column align-items-center emptyLike">
+                <div class="post-card ">
+                    <div class="first-row">
                         
-                            <button class="like-button border-0 bg-transparent" id="like" onclick="Liked(this, ${response.data[i].id})"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
-                            <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1"/>
-                        </svg></button>
+                        <img class="post-profile-icon rounded-circle shadow-sm" src="../${response.data[i].image}">
                         
+                        <div class="userName">
+                            <p class="card-user-name">@${response.data[i].username}</p>
                         </div>
-                        <div class="d-flex flex-column align-items-center">
-                            <button class="border-0 bg-transparent share"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" class="bi bi-share-fill" viewBox="0 0 16 16">
-                                <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5"/>
-                                </svg>
-                            </button>
+                        <div class="cardDate align-content-end">
+                            <p class="card-date-text">${response.data[i].postTime}</p>
+                        </div>
+                    </div>
+
+                    <div class="postText">
+                        <p class="post-text">${response.data[i].description}</p>
+                    </div>
+
+                    <div class="last-row">
+                        
+                        <div class="like-and-share">
+                            <div class="d-flex flex-column align-items-center emptyLike">
                             
+                                <button class="like-button border-0 bg-transparent" id="like" onclick="Liked(this, ${response.data[i].id})"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
+                                <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1"/>
+                            </svg></button>
+                            
+                            </div>
+                            <div class="d-flex flex-column align-items-center">
+                                <button class="border-0 bg-transparent share"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" class="bi bi-share-fill" viewBox="0 0 16 16">
+                                    <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5"/>
+                                    </svg>
+                                </button>
+                                
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        `;
+            `;
 
-        // console.log("Id és boolean: " + response.data[i].id + " " + liked);
+
         } else {
-            // let liked = response.data[i].liked;
-            liked = true;
+
             pcGroup.innerHTML += `
-            <div class="post-card ">
-                <div class="first-row">
-                    
-                    <img class="post-profile-icon rounded-circle shadow-sm" src="../${response.data[i].image}">
-                    
-                    <div class="userName">
-                        <p class="card-user-name">${response.data[i].username}</p>
-                    </div>
-                    <div class="cardDate align-content-end">
-                        <p class="card-date-text">${response.data[i].postTime}</p>
-                    </div>
-                </div>
-
-                <div class="postText">
-                    <p class="post-text">${response.data[i].description}</p>
-                </div>
-
-                <div class="last-row">
-                    
-                    <div class="like-and-share">
-                        <div class="d-flex flex-column align-items-center emptyLike">
-                        
-                            <button class="like-button border-0 bg-transparent" id="like" ><svg onclick="Liked(this, ${response.data[i].id})" class="liked" xmlns="http://www.w3.org/2000/svg" width="25" height="25" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
-                            <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1"/>
-                        </svg></button>
-                        
-                        </div>
-                        <div class="d-flex flex-column align-items-center">
-                            <button class="border-0 bg-transparent share"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" class="bi bi-share-fill" viewBox="0 0 16 16">
-                                <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5"/>
-                                </svg>
-                            </button>
+                    <div class="post-card ">
+                        <div class="first-row">
                             
+                            <img class="post-profile-icon rounded-circle shadow-sm" src="../${response.data[i].image}">
+                            
+                            <div class="userName">
+                                <p class="card-user-name">@${response.data[i].username}</p>
+                            </div>
+                            <div class="cardDate align-content-end">
+                                <p class="card-date-text">${response.data[i].postTime}</p>
+                            </div>
+                        </div>
+
+                        <div class="postText">
+                            <p class="post-text">${response.data[i].description}</p>
+                        </div>
+
+                        <div class="last-row">
+                            
+                            <div class="like-and-share">
+                                <div class="d-flex flex-column align-items-center emptyLike">
+                                
+                                    <button class="like-button border-0 bg-transparent" id="like" ><svg onclick="Liked(this, ${response.data[i].id})" class="liked" xmlns="http://www.w3.org/2000/svg" width="25" height="25" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
+                                    <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1"/>
+                                </svg></button>
+                                
+                                </div>
+                                <div class="d-flex flex-column align-items-center">
+                                    <button class="border-0 bg-transparent share"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" class="bi bi-share-fill" viewBox="0 0 16 16">
+                                        <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5"/>
+                                        </svg>
+                                    </button>
+                                    
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        `;
-        // console.log("Id és boolean: " + response.data[i].id + " " + liked);
-            
+                 `;
+
         }
 
-
-
     }
-
 
 }
 
 
-
-
-
 async function Liked(button, postID) {
     let postLiked = postLikes[postID];
+
 
     if (!postLiked) {
         // Ha a poszt nincs like-olva, akkor like-oljuk
@@ -214,7 +213,7 @@ async function Liked(button, postID) {
             console.log("Sikeres kedvelés. Post id: " + postID);
         } else if (liked_result.status == 401) {
             window.location.href = "../Log-in/login.html";
-        } else if (liked_result.status == 422){
+        } else if (liked_result.status == 422) {
             alert("Something went wrong. Please try again later.")
         }
     } else {
@@ -226,17 +225,12 @@ async function Liked(button, postID) {
             console.log("Sikeres dislike. Post id: " + postID);
         } else if (disliked_result.status == 401) {
             window.location.href = "../Log-in/login.html";
-        } else if (disliked_result.status == 422){
+        } else if (disliked_result.status == 422) {
             alert("Something went wrong. Please try again later.")
         }
     }
 
-    // Frissítjük az aktuális poszt like állapotát a változóban
-    // button.setAttribute('data-liked', postLiked);
 }
-
-
-
 
 const logout_btn = document.getElementById('Logout');
 logout_btn.addEventListener('click', (e) => {
@@ -244,22 +238,22 @@ logout_btn.addEventListener('click', (e) => {
     window.location.assign('../Landing-Page/landing.html');
 })
 
-async function LoadUserDatas(tokenResponse) {
+async function LoadUserDatas(userResponse) {
     const writingBTN = document.getElementById('writingBtn');
     const profile_icon = document.getElementById('profile-icon');
     const userName = document.getElementById('userName-p');
 
-    if (tokenResponse.data.rank == "publisher") {
+    if (userResponse.data.rank == "publisher") {
         writingBTN.hidden = true;
     }
 
-    if (tokenResponse.data.image != undefined) {
-        profile_icon.innerHTML = `<img class="rounded-circle" src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;
+    if (userResponse.data.image != undefined) {
+        profile_icon.innerHTML = `<img class="rounded-circle" src="../${userResponse.data.image}" alt="${userResponse.data.username} profile picture"></img>`;
     } else {
-        profile_icon.innerHTML = `<img class="rounded-circle" src="../pictures/default-profile-pic-man.png" alt="${tokenResponse.data.username} profile picture"></img>`;
+        profile_icon.innerHTML = `<img class="rounded-circle" src="../pictures/default-profile-pic-man.png" alt="${userResponse.data.username} profile picture"></img>`;
     }
 
-    userName.innerText = `@${tokenResponse.data.username}`;
+    userName.innerText = `@${userResponse.data.username}`;
 
 }
 

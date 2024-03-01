@@ -23,7 +23,7 @@ const isPhone_public = document.getElementById('phone-isPublic');
 // Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
 window.addEventListener('beforeunload', async function () {
     const tokenResponse = await token();
-
+    console.log(tokenResponse);
     if (tokenResponse.status === 401) {
         window.location.href = "../Log-in/login.html";
     }
@@ -31,6 +31,7 @@ window.addEventListener('beforeunload', async function () {
 
 window.onload = async function () {
     const tokenResponese = await token();
+    console.log(tokenResponese);
     switch (tokenResponese.status) {
         case 302:
             /**
@@ -156,6 +157,10 @@ window.onload = async function () {
         case 422:
             console.error(tokenResponese.data);
             break;
+
+        case 401:
+            window.location.href = "../Log-in/login.html";
+            break;
     }
 }
 
@@ -247,7 +252,7 @@ intro_saveBtn.addEventListener('click', async function () {
     const introResult = await setIntroDescription({ "introDescription": `${introValue}` });
     if (introResult.status == 200) {
         console.log("Successful intro description");
-        location.reload();
+
 
     } else if (introResult.status == 401) {
         alert("Statuscode: " + introResult.status + ". Error message: " + introResult.data)
@@ -457,6 +462,10 @@ const dropAreaPicture = document.getElementById('drop-area-picture');
 const inputPicture = document.getElementById('inputPicture');
 const imgView = document.getElementById('imgView');
 
+const add_photo_icon = document.getElementById('add-photo-icon');
+const upload_p = document.getElementById('upload-p');
+const upload_span = document.getElementById('upload-span');
+
 // Dragover eseménykezelő
 dropAreaPicture.addEventListener('dragover', (e) => {
     e.preventDefault();
@@ -477,7 +486,7 @@ dropAreaPicture.addEventListener('drop', (e) => {
         }
 
         inputPicture.files = files;
-        uploadImage(); 
+        uploadImage();
     }
 });
 
@@ -488,8 +497,10 @@ function uploadImage() {
     let imgFile = inputPicture.files[0];
     let imgLink = URL.createObjectURL(imgFile);
     imgView.style.backgroundImage = `url(${imgLink})`;
-    imgView.textContent = "";
-    imgView.style.border = 0;
+    add_photo_icon.hidden = true;
+    upload_p.hidden = true;
+    upload_span.hidden = true;
+    // imgView.style.border = 0;
 
     var img = new Image();
     img.src = imgLink;
@@ -513,9 +524,9 @@ function uploadImage() {
 
             if (imgResponse.status == 200) {
                 location.reload();
-            }else if (setPublicPhone_result.status == 401) {
+            } else if (setPublicPhone_result.status == 401) {
                 window.location.href = "../Log-in/login.html";
-            }else if (setPublicPhone_result.status == 422) {
+            } else if (setPublicPhone_result.status == 422) {
                 alert("422: " + setPublicPhone_result.data.setPublicPhoneError);
             } else {
                 alert(setPublicPhone_result.status);
@@ -526,20 +537,28 @@ function uploadImage() {
     }
 }
 
+document.getElementById('close').addEventListener('click', (e) => {
+    inputPicture.value = "";
+    imgView.style.backgroundImage = "";
+    add_photo_icon.hidden = false;
+    upload_p.hidden = false;
+    upload_span.hidden = false;
+})
+
 // set new cover color
 const colorInput = document.getElementById('colorInput');
 const saveButton = document.getElementById('color-save');
 
-saveButton.addEventListener('click', async function(){
+saveButton.addEventListener('click', async function () {
     let colorValue = colorInput.value;
     // console.log(colorValue);
-    const colorResponse = await setCoverColor({"code": colorValue})
+    const colorResponse = await setCoverColor({ "code": colorValue })
     // console.log(colorResponse);
     if (colorResponse.status == 200) {
         location.reload();
-    }else if (setPublicPhone_result.status == 401) {
+    } else if (setPublicPhone_result.status == 401) {
         window.location.href = "../Log-in/login.html";
-    }else if (setPublicPhone_result.status == 422) {
+    } else if (setPublicPhone_result.status == 422) {
         alert("422: " + setPublicPhone_result.data.setPublicPhoneError);
     } else {
         alert(setPublicPhone_result.status);
@@ -550,7 +569,7 @@ saveButton.addEventListener('click', async function(){
 const followBTN = document.getElementById('follow-btn');
 let clicked = false;
 
-followBTN.addEventListener('click', async function() {
+followBTN.addEventListener('click', async function () {
     e.preventDefault();
     if (clicked == false) {
         followBTN.classList.add('followed');
@@ -596,14 +615,14 @@ function getPosts(responsePost, responseUser) {
     if (responsePost.data.myPosts.length == 0 && responseUser.data.ownProfile == true) {
         missingPosts_own.hidden = false;
 
-    }else if(responsePost.data.myPosts.length == 0 && responseUser.data.ownProfile == false){
+    } else if (responsePost.data.myPosts.length == 0 && responseUser.data.ownProfile == false) {
         missing_book_text.hidden = false;
 
-    }else{
+    } else {
         for (let i = 0; i <= responsePost.data.myPosts.length - 1; i++) {
             // elmentem az adott poszt id-t
             const postId = responsePost.data.myPosts[i].id;
-    
+
             posts_div.innerHTML += `
                 <div class="post-card ">
                     <div class="first-row">
@@ -613,7 +632,7 @@ function getPosts(responsePost, responseUser) {
     
                         <!--? User nevének helye -->
                         <div class="userName">
-                            <p class="card-user-name">${responsePost.data.myPosts[i].username}</p>
+                            <p class="card-user-name">@${responsePost.data.myPosts[i].username}</p>
                         </div>
                         <div class="cardDate align-content-end">
                             <p class="card-date-text">${responsePost.data.myPosts[i].postTime}</p>
@@ -647,7 +666,7 @@ function getPosts(responsePost, responseUser) {
         }
     }
 
-    
+
 
     // console.log(postId);
     if (responsePost.data.ownPosts === true) {
@@ -660,7 +679,7 @@ function getPosts(responsePost, responseUser) {
 
 function editPost(postID, currentText) {
     var editedText;
-    editedText = currentText; // Az aktuális szöveg beállítása
+    editedText = currentText;
     console.log(postID);
 
     post_textarea.value = editedText;  //paste current text
@@ -691,14 +710,14 @@ async function DeletePostBTN(button, postID) {
 
 function Liked(button, postID) {
     console.log(postID);
-    if(liked == false){
+    if (liked == false) {
         button.style.fill = "#c43700";
         liked = true;
-    }else{
+    } else {
         liked = false;
         button.style.fill = "#2d1810";
     }
-    
+
 }
 
 async function DeleteBookBTN(button, bookID) {

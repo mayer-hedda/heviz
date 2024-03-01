@@ -275,6 +275,7 @@
 
 #drop-image {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     /* width: 100%; */
@@ -354,6 +355,7 @@
 /** FILE */
 #drop-file {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     margin-top: 10%;

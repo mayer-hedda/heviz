@@ -1,0 +1,163 @@
+const username = document.getElementById('userName-p');
+const profilePic = document.getElementById('profile-icon');
+
+// Sections
+const first_section = document.getElementById('first-section');
+const s1_bigCard_div = document.getElementById('bigCard-Pic');
+const s1_bigCard_h2 = document.getElementById('s1-bigCard-h2');
+const s1_bigCard_author = document.getElementById('s1-bigCard-author');
+const s1_bigCard_p = document.getElementById('s1-bigCard-p');
+const random_book_btn = document.getElementById('randomBook-btn');
+
+//* MODAL
+const modal_body = document.getElementById('modal-body');
+const modal_img = document.getElementById('modal-img');
+const modal_title = document.getElementById('modal-title');
+const modal_author = document.getElementById('modal-author');
+const modal_pages = document.getElementById('modal-pages');
+const modal_ranking = document.getElementById('modal-ranking');
+const modal_language = document.getElementById('modal-language');
+const modal_desc = document.getElementById('modal-desc');
+const modal_price = document.getElementById('book-price');
+
+// segéd változók
+let s1 = false;
+let s2 = false;
+let s3 = false;
+let s4 = false;
+let s5 = false;
+
+// Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
+window.addEventListener('beforeunload', async function () {
+    const tokenResponse = await token();
+    console.log(tokenResponse);
+
+    if (tokenResponse.status === 401) {
+        window.location.href = "../Log-in/login.html";
+    }
+});
+
+window.onload = async function () {
+    const tokenResponse = await token();
+    console.log(tokenResponse);
+
+    switch (tokenResponse.status) {
+        case 401:
+            window.location.href = "../Log-in/login.html";
+            break;
+
+        case 422:
+            alert("422 - Something went wrong");
+            console.error("Error: " + responseUser);
+            break;
+
+        default:
+            localStorage.setItem('Error Code:', `${responseUser.error}`);
+            window.location.href = "../404/404.html";
+            break;
+
+        case 302:
+            switch (tokenResponse.data.rank) {
+                case 'general':
+                    window.location.href = "../General-HomePage/GenHome.html";
+
+                case 'publisher':
+                    username.innerText = `@${tokenResponse.data.username}`;
+                    const userDatas = await getUserDetails({ "profileUsername": tokenResponse.data.username });
+                    profilePic.innerHTML = `<img src="../${userDatas.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;
+                   
+                    // Egy nagy random kártya
+                    const oneRandom_response = await getOneRandomLookingForPublisherBook();
+                    LoadRandomBook(oneRandom_response);
+            }
+    }
+}
+
+
+// Loading datas
+function LoadRandomBook(response) {
+    const coverImage = response.data[0].coverImage;
+
+    if (coverImage == "Ez a kép elérési útja") {
+        s1_bigCard_div.innerHTML = `
+            
+             <img src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
+            
+        `;
+    } else {
+        // Ide majd az elési utat kell megadni az scr-be, de mivel a db-ben nincs fent a tényleges kép 
+        // ezért a szemléltetés miatt mindenhol a standard-et töltöm be 
+        console.log("Cover book path: ", coverImage);
+        s1_bigCard_div.innerHTML = `
+            
+            <img src="../${response.data[0].coverImage}.jpg" alt="${response.data[0].title} cover">
+            
+        `;
+    }
+
+    s1_bigCard_h2.innerText = `${response.data[0].title}`;
+    s1_bigCard_p.innerText = `${response.data[0].description}`;
+    s1_bigCard_author.innerText = `${response.data[0].firstName} ${response.data[0].lastName}`;
+
+    random_book_btn.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        if (response.data[0].coverImage != "Ez a kép elérési útja") {
+
+            console.log("Kép elérési útja: " + response.data[0].coverImage);
+            modal_img.src = `../${response.data[0].coverImage}.jpg`;
+        } else {
+            modal_img.src = "../pictures/standard-book-cover.jpg";
+
+        }
+
+        modal_title.innerText = `${response.data[0].title}`;
+        modal_author.innerText = `${response.data[0].firstName} ${response.data[0].lastName}`;
+        modal_pages.innerText = `${response.data[0].pagesNumber}`;
+
+        console.log(response.data[0].title + " rating: " + response.data[0].rating);
+        if (response.data[0].rating != undefined) {
+            modal_ranking.innerText = `${response.data[0].rating}`;
+        } else {
+            modal_ranking.innerText = "-";
+        }
+
+        modal_language.innerText = `${response.data[0].language}`;
+        modal_desc.innerText = `${response.data[0].description}`;
+        modal_price.innerText = `${response.data[0].price} Ft`;
+    })
+}
+
+function LoadSections(response, id_name, ) {
+    
+}
+
+function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price) {
+
+    if (url != "Ez a kép elérési útja") {
+        modal_img.src = `../${url}.jpg`;
+    } else {
+        modal_img.src = "../pictures/standard-book-cover.jpg";
+    }
+
+    modal_title.innerText = `${title}`;
+    modal_author.innerText = `${firstName} ${lastName}`;
+    modal_pages.innerText = `${pages}`;
+    console.log(title + " Rating: " + rating);
+    if (rating != 'undefined') {
+        modal_ranking.innerText = `${rating}`;
+    } else {
+        modal_ranking.innerText = "-";
+    }
+
+    modal_language.innerText = `${language}`;
+    modal_desc.innerText = `${description}`;
+    modal_price.innerText = `${price} Ft`;
+
+}
+
+const logout_btn = document.getElementById('Logout');
+logout_btn.addEventListener('click', (e) => {
+    window.location.assign('../Landing-Page/landing.html');
+    localStorage.removeItem("Token");
+})

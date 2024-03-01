@@ -4,27 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <!-- bootstrap icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
-    <!-- CSS file -->
-    <link rel="stylesheet" href="GenHome.css" />
+
+    <link rel="stylesheet" href="PubHome.css">
+
     <title>Home</title>
-
-    <!--? Icon a tabba -->
-    <!-- fehér -->
-    <link rel="icon" href="../icons/C-logo-white.svg" type="image/svg+xml">
-    <!-- fekete -->
-    <!-- <link rel="icon" href="../icons/C-logo.svg" type="image/svg+xml"> -->
-
 </head>
 
 <body style="background-color: rgb(247, 245, 236)">
-
     <!-- TODO: NAVBAR -->
 
     <nav class="navbar fixed-top navbar-expand-lg" id="navbar">
@@ -56,7 +47,7 @@
             <!--? Profilkép helye -->
             <div id="profile-icon">
                 <!--* be kell szúrnom egy img taget  -->
-                <!-- <img src="" id="default-profile-pic"> -->
+                <img src="../pictures/default-profile-pic-man.png" alt="profile picture"></img>
             </div>
             <!--? User nevének helye -->
             <div id="user-name">
@@ -76,7 +67,6 @@
         </div>
     </nav>
 
-
     <h1 id="welcome" class="container"></h1>
 
     <!-- FIRST SECTION => RANDOM NAGY KÁRTYA  -->
@@ -86,6 +76,7 @@
             <div class="row card-bg" style="border: 3px">
                 <div class="col-4 picSide" id="bigCard-Pic">
                     <!-- Cover pic  -->
+
                 </div>
 
                 <div class="col-8 textSide">
@@ -111,179 +102,7 @@
     </section>
 
 
-
-
-    <!-- SECOND SECTION => Most popular books of the month -->
-    <section id="second-section" class="container sub-sections">
-        <!-- Default value: hidden = false -->
-        <h2 class=" subtitle">Books of the month:</h2>
-        <!-- Medium card -->
-        <div class="container medium-card" style="background-color: #EAD7BE;" id="s2-mediumC">
-            <div class="row">
-                <div class="col-3" id="s2-mediumC-pic">
-                    <!-- Picture => Alt-nak mehet majd a könyv címe -->
-                </div>
-
-                <div class="col-9 medium-right-side">
-                    <!-- Author + Book Title  -->
-                    <h2 class="container medium-h2" id="s2-mediumC-h2">
-                        <!-- Title  -->
-                    </h2>
-                    <p class="username" id="s2-mediumC-author">
-                        <!-- Author's name -->
-                    </p>
-                    <p class="medium-desc" id="s2-mediumC-p">
-                        <!-- Description  -->
-                    </p>
-                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
-                        data-bs-target="#modalID" id="s2-mediumC-btn">Start Reading</button>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="book-row">
-            <div class="row text-center" id="s2-first-row">
-                <!-- book covers in one row -->
-
-            </div>
-        </div>
-
-
-
-    </section>
-
-
-    <!-- THIRD SECTION => Based on your favorite books: -->
-
-    <section id="third-section" class="container sub-sections">
-        <!-- Default value: hidden = false -->
-        <h2 class="container subtitle">Based on your favorite books:</h2>
-        <div class="container medium-card" style="background-color: #EAD7BE;">
-            <div class="row">
-                <div class="col-3" id="s3-mediumCardPic-div">
-                    <!--? Picture => Alt-nak mehet majd a könyv címe -->
-
-                </div>
-
-                <div class="col-9 medium-right-side">
-                    <!--? Author + Book Title  -->
-                    <h2 class="container medium-h2" id="s3-mediumC-h2"></h2>
-                    <p class="username" id="s3-mediumC-author"></p>
-                    <p class="medium-desc" id="s3-mediumC-desc"></p>
-                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
-                        data-bs-target="#modalID" id="s3-mediumC-btn">Start Reading</button>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="book-row">
-            <div class="row text-center" id="s3-first-row">
-                <!--* BOOK COVERS  -->
-            </div>
-        </div>
-
-        <div class="book-row">
-            <div class="row text-center" id="s3-second-row">
-                <!-- * BOOK COVERS -->
-            </div>
-        </div>
-        <div class="container text-center">
-            <a href="#" role="button" id="thirdBtnMore" class="sMoreBtn">Search More</a>
-
-        </div>
-    </section>
-
-
-    <!-- TODO: FOURT SECTION  -->
-
-    <section id="fourth-section" class="container sub-sections">
-        <!-- Default value: hidden = false -->
-        <h2 class="container subtitle">Books published by a Publisher:</h2>
-        <div class="container medium-card" style="background-color: #EAD7BE;">
-            <div class="row">
-                <div class="col-3" id="s4-mediumCardPic-div">
-                    <!--? Picture => Alt-nak mehet majd a könyv címe -->
-                    <!-- <div style="background-color: brown;"> -->
-                    <!-- <img class="medium-pic" src="../pictures/first-section-book-example.jpg"> -->
-                    <!-- </div> -->
-                </div>
-
-                <div class="col-9 medium-right-side">
-                    <!--? Author + Book Title  -->
-                    <h2 class="container medium-h2" id="s4-mediumC-h2"></h2>
-                    <p class="username" id="s4-mediumC-author"></p>
-                    <p class="medium-desc" id="s4-mediumC-desc"></p>
-                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
-                        data-bs-target="#modalID" id="s4-mediumC-btn">Start Reading</button>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="book-row">
-            <div class="row text-center" id="s4-first-row">
-                <!-- * BOOK COVERS -->
-            </div>
-        </div>
-
-        <div class="book-row">
-            <div class="row text-center" id="s4-second-row">
-                <!-- * BOOK COVERS -->
-            </div>
-        </div>
-        <div class="container text-center">
-            <a href="#" role="button" id="fourthBtnMore" class="sMoreBtn">Search More</a>
-
-        </div>
-    </section>
-
-    <!-- TODO: FIFTH SECTION  -->
-
-
-    <section id="fifth-section" class="container sub-sections">
-        <!-- Default value: hidden = false -->
-        <h2 class=" subtitle">Books self-published by authors.</h2>
-        <div class="container medium-card" style="background-color: #EAD7BE;">
-            <div class="row">
-                <div class="col-3" id="s5-mediumCardPic-div">
-                    <!--? Picture => Alt-nak mehet majd a könyv címe -->
-                    <!-- <div style="background-color: brown;"> -->
-                    <!-- <img class="medium-pic" src="../pictures/first-section-book-example.jpg"> -->
-                    <!-- </div> -->
-                </div>
-
-                <div class="col-9 medium-right-side">
-                    <!--? Author + Book Title  -->
-                    <h2 class="container medium-h2" id="s5-mediumC-h2"></h2>
-                    <p class="username" id="s5-mediumC-author"></p>
-                    <p class="medium-desc" id="s5-mediumC-desc"></p>
-                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
-                        data-bs-target="#modalID" id="s5-mediumC-btn">Start Reading</button>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="book-row">
-            <div class="row text-center" id="s5-first-row">
-                <!--* BOOK COVERS  -->
-            </div>
-        </div>
-
-        <div class="book-row">
-            <div class="row text-center" id="s5-second-row">
-                <!--* BOOK COVERS  -->
-            </div>
-        </div>
-
-        <div class="container text-center">
-            <a href="#" role="button" id="fourthBtnMore" class="sMoreBtn">Search More</a>
-
-        </div>
-
-    </section>
+    
 
 
     <!-- Modal -->
@@ -368,13 +187,6 @@
             load content for you. However, we encourage you to be the first one to publish on our platform. Your
             contribution could kick-start a vibrant community of readers and writers. Thank you for your understanding
             and potential contribution.</p>
-        <div id="writing-zeroData">
-            <button role="button" type="submit" class="btn align-content-center" id="writingBtn-zeroData"
-                onclick="window.location.href='../Create Book/createBook.html'">
-                Start Writing
-            </button>
-        </div>
-
     </div>
 
     <!-- TODO: FOOTER -->
@@ -414,13 +226,12 @@
         </div>
     </footer>
 
-
     <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 
-    <script src="./GenHome.js"></script>
+    <script src="./PubHome.js"></script>
     <!-- ? futtatáshoz kell az api mappa -> ez mindig változik-->
     <script src="../Api/index.js"></script>
 

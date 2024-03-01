@@ -11,7 +11,7 @@ var filePass = false;
 var picPass = false;
 
 // Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
-window.addEventListener('beforeunload', async function() {
+window.addEventListener('beforeunload', async function () {
     const tokenResponse = await token();
 
     if (tokenResponse.status === 401) {
@@ -19,11 +19,33 @@ window.addEventListener('beforeunload', async function() {
     }
 });
 
+window.onload = async function () {
+    const tokenResponese = await token();
+    // console.log(tokenResponese);
+
+    switch (tokenResponese.status) {
+        case 302:
+            const dropdown_response = await getDropDownValues();
+            console.log(dropdown_response);
+            getLanguages(dropdown_response);
+            getCategories(dropdown_response);
+            break;
+        case 422:
+            console.error(tokenResponese.data);
+            break;
+        case 401:
+            window.location.href = "../Log-in/login.html";
+            break;
+    }
+}
+
 //? IMAGE
 const img_trash = document.getElementById('del-pic');
 const addPhoto_icon = document.getElementById('addPhoto');
 const img_p = document.getElementById('img-p');
 const img_span = document.getElementById('img-span');
+const PicError = document.getElementById('PicError');
+
 inputPicture.addEventListener("change", uploadImage);
 
 var height, width;
@@ -88,8 +110,8 @@ dropAreaPicture.addEventListener('drop', (e) => {
     console.log("lefut a drop a képnél");
 });
 
-img_trash.addEventListener('click', (e)=>{
-    imgView.value = '';
+img_trash.addEventListener('click', (e) => {
+    inputPicture.value = '';
     imgLink = '';
     console.log(imgLink);
     imgView.style.backgroundImage = '';
@@ -97,16 +119,22 @@ img_trash.addEventListener('click', (e)=>{
     img_p.hidden = false;
     img_span.hidden = false;
     picPass = false;
+
+    PicError.innerHTML = `<p>Please be sure to enter a picture in this field.</p>`;
+})
+
+inputPicture.addEventListener('input', (e) => {
+    PicError.innerHTML = "";
 })
 
 
 //? FILE
-const del_trash = document.getElementById('del-file');
+const file_trash = document.getElementById('del-file');
 const file_p = document.getElementById('file-p');
 const file_span = document.getElementById('file-span');
 const file_result_p = document.getElementById('f-result-p-1');
 const file_result_uploaded = document.getElementById('f-result-p-2');
-
+const FileError = document.getElementById('FileError');
 
 inputFile.addEventListener("change", (e) => {
     e.preventDefault();
@@ -183,7 +211,7 @@ dropAreaFile.addEventListener('drop', (e) => {
     console.log("lefut a drop a fájlnál");
 });
 
-del_trash.addEventListener('click', (e)=>{
+file_trash.addEventListener('click', (e) => {
     inputFile.value = '';
     file_p.hidden = false;
     file_span.hidden = false;
@@ -191,6 +219,12 @@ del_trash.addEventListener('click', (e)=>{
     file_result_uploaded.hidden = true;
     file_result_uploaded.innerText = '';
     filePass = false;
+
+    FileError.innerHTML = `<p>Please be sure to enter a file in this field.</p>`;
+})
+
+inputFile.addEventListener('input', (e) => {
+    FileError.innerHTML = "";
 })
 
 
@@ -198,8 +232,8 @@ del_trash.addEventListener('click', (e)=>{
 const title = document.getElementById('inputStoryTitle');
 const description = document.getElementById('inputDescription');
 const selectAudience = document.getElementById("selectTargetAudience");
-const selectLanguage = document.getElementById('selectLanguage');
-const selectCategory = document.getElementById('selectCategory');
+const language_dropdown = document.getElementById('selectLanguage');
+const category_dropdown = document.getElementById('selectCategory');
 const chapter_number = document.getElementById('chapter-number');
 const bankAccNumber = document.getElementById('inputBankNum');
 const bookPrice = document.getElementById('inputBookPrice');
@@ -230,6 +264,8 @@ var publishingPass = false;   //! nincs használva
 var chapterPass = false;
 var bankPass = false; //! csak akkor kell ha selpublish
 var pricePass = false; //! csak akkor kell ha selpublish
+var is_selfPublish = false;
+
 
 // function Events() {
 const storyname = document.getElementById('StoryName');
@@ -264,6 +300,14 @@ title.addEventListener('input', (e) => {
     } else {
         charCounterTitle.classList.value = '';
         charCounterTitle.classList.add('small', 'counter');
+    }
+
+    if (count == 0) {
+        title.classList.add('inputError');
+        titleError.innerText = "The title field cannot be empty";
+    } else {
+        title.classList.remove('inputError');
+        titleError.innerText = "";
     }
 })
 
@@ -332,6 +376,14 @@ description.addEventListener('input', (e) => {
     } else {
         charCounterDes.classList.value = '';
         charCounterDes.classList.add('small', 'counter');
+    }
+
+    if (count == 0) {
+        description.classList.add('inputError');
+        descriptionError.innerText = "The description field cannot be empty";
+    } else {
+        description.classList.remove('inputError');
+        descriptionError.innerText = "";
     }
 })
 
@@ -418,30 +470,42 @@ selectAudience.addEventListener('focusin', (e) => {
 })
 // #############################################
 //? LANGUAGE DROPDOWN
-var languageData;
-selectLanguage.addEventListener('focusin', (e) => {
+var selectedLanguage;
+
+function getLanguages(response){
+    for(i=0; i <= response.data.languages.length-1; i++){
+        language_dropdown.innerHTML += `
+            <option value="${response.data.languages[i].id}">${response.data.languages[i].language}</option>  
+        `;
+    }
+
+    language_dropdown.addEventListener('change', function(event) {
+        selectedLanguage = event.target.value;
+        console.log('Selected language ID:', selectedLanguage);
+    });
+}
+
+language_dropdown.addEventListener('focusin', (e) => {
     e.preventDefault();
-    selectLanguage.classList.remove('inputError');
-    selectLanguage.classList.remove('inputPass');
+    language_dropdown.classList.remove('inputError');
+    language_dropdown.classList.remove('inputPass');
     languageError.innerHTML = "";
 })
 
-selectLanguage.addEventListener('focusout', (e) => {
+language_dropdown.addEventListener('focusout', (e) => {
     e.preventDefault();
-    const languageValue = e.target.value;
-    console.log("You selected: " + languageValue);
+ 
+    console.log("You selected: " + selectedLanguage);
 
-    const functionValue = VerifyDropdown(selectLanguage, languageError, "Langugage");
+    const functionValue = VerifyDropdown(language_dropdown, languageError, "Langugage");
     if (functionValue == true) {
-        selectLanguage.classList.add('inputPass');
+        language_dropdown.classList.add('inputPass');
         languagePass = true;
-        console.log("audiencePass value: " + languagePass);
-        languageData = languageValue;
-        console.log(languageData);
+        console.log("language value: " + languagePass);
     }
 })
 
-selectLanguage.addEventListener('change', function () {
+language_dropdown.addEventListener('change', function () {
     // Az alapértelmezett érték letiltása, ha már választottak
     if (this.value !== "0") {
         disableDefaultOption(this);
@@ -450,30 +514,41 @@ selectLanguage.addEventListener('change', function () {
 
 // #############################################
 //? CATEGORY DROPDOWN
-var categoryData;
-selectCategory.addEventListener('focusin', (e) => {
+var selectedCategory;
+
+function getCategories(response){
+    for(i=0; i <= response.data.categories.length-1; i++){
+        category_dropdown.innerHTML += `
+            <option value="${response.data.categories[i].id}">${response.data.categories[i].name}</option>  
+        `;
+    }
+
+    category_dropdown.addEventListener('change', function(event) {
+        selectedCategory = event.target.value;
+        console.log('Selected category ID:', selectedCategory);
+    });
+}
+
+category_dropdown.addEventListener('focusin', (e) => {
     e.preventDefault();
-    selectCategory.classList.remove('inputError');
-    selectCategory.classList.remove('inputPass');
+    category_dropdown.classList.remove('inputError');
+    category_dropdown.classList.remove('inputPass');
     categoryError.innerHTML = "";
 })
 
-selectCategory.addEventListener('focusout', (e) => {
+category_dropdown.addEventListener('focusout', (e) => {
     e.preventDefault();
-    const categoryValue = e.target.value;
-    console.log("You selected: " + categoryValue);
+    console.log("You selected: " + selectedCategory);
 
-    const functionValue = VerifyDropdown(selectCategory, categoryError, "Category");
+    const functionValue = VerifyDropdown(category_dropdown, categoryError, "Category");
     if (functionValue == true) {
-        selectCategory.classList.add('inputPass');
+        category_dropdown.classList.add('inputPass');
         categoryPass = true;
         console.log("audiencePass value: " + categoryPass);
-        categoryData = categoryValue;
-        console.log(categoryData);
     }
 })
 
-selectCategory.addEventListener('change', function () {
+category_dropdown.addEventListener('change', function () {
     // Az alapértelmezett érték letiltása, ha már választottak
     if (this.value !== "0") {
         disableDefaultOption(this);
@@ -532,12 +607,12 @@ function validateChecks(pubCheck, selfCheck) {
 }
 
 //?CHAPTER NUMBER INPUT PASS TRUE
-chapter_number.addEventListener('focusout', (e)=>{
+chapter_number.addEventListener('focusout', (e) => {
     e.preventDefault();
     if (chapter_number.value != "") {
         chapterPass = true;
         chapter_number.classList.add('inputPass');
-    }else{
+    } else {
         chapter_number.classList.remove('inputPass');
         chapter_number.classList.add('inputError');
         chapterError.innerHTML = `<p>This field cannot be empty.</p>`;
