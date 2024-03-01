@@ -76,6 +76,7 @@ let s5 = false;
 // Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
 window.addEventListener('beforeunload', async function () {
     const tokenResponse = await token();
+    console.log(tokenResponse);
 
     if (tokenResponse.status === 401) {
         window.location.href = "../Log-in/login.html";
@@ -87,7 +88,7 @@ window.onload = async function () {
     const tokenResponse = await token();
     console.log(tokenResponse);
     // username to the navbar
-
+    // console.log(tokenResponse);
 
     switch (tokenResponse.status) {
         case 401:
@@ -95,13 +96,9 @@ window.onload = async function () {
             break;
         case 302:
             username.innerText = `@${tokenResponse.data.username}`;
-            if (tokenResponse.data.image != undefined) {
-                // defaultP_pic.hidden = true;
-                profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;
-            } else {
-                profilePic.innerHTML = `<img src="../pictures/default-profile-pic-man.png" alt="${tokenResponse.data.username} profile picture"></img>`;
-            }
-            
+            const userDatas = await getUserDetails({ "profileUsername": tokenResponse.data.username });
+            profilePic.innerHTML = `<img src="../${userDatas.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;
+
             switch (tokenResponse.data.rank) {
                 case 'general':
                     document.getElementById('welcome').innerText = `Welcome @${tokenResponse.data.username}!`;
@@ -183,8 +180,7 @@ window.onload = async function () {
                     break;
 
                 case 'publisher':
-                    console.error("You don't have access to this page!");
-                    // Ide kell majd a publisher home linkje
+                    window.location.href = "../Publisher-Home/PubHome.html";
                     break;
             }
             break;

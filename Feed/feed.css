@@ -1,0 +1,580 @@
+/** ----------- MEDIA QUERY ------------------------*/
+@media (max-width: 576px) {
+    nav .navbar-toggler {
+        order: 3 !important;
+        margin-left: 0rem !important;
+    }
+
+    section {
+        width: auto !important;
+    }
+
+
+
+
+}
+
+
+/** ----------- VÁLTOZÓK DEFINIÁLÁSA */
+:root {
+    /* -----------COLORS -----------*/
+    --Background-color: rgb(247, 245, 236);
+
+    --primary-BTN-Bg-color: rgb(232, 181, 160);
+    /* --btn-text-color: rgb(51, 47, 49); */
+    /*text color for:
+        -loginBTN text
+        - signupBTN text
+        - first section btn text
+        - fourth section btn text */
+    /* --mostUsed-text-color: rgb(65, 61, 63); */
+    /* its for text colors*/
+    --dash-color: rgb(129, 105, 117);
+    /* its for btn dashes*/
+    /* --page-bg-color: rgb(247, 245, 236); */
+    --footer-bg-color: rgb(246, 227, 205);
+    --navbar-a-color: rgb(151, 121, 110);
+    --navbar-a-hover-color: rgb(113, 145, 128);
+    --navbar-p-color: rgb(117, 55, 31);
+    --current-page-color: rgb(60, 32, 22);
+    --current-page-hover-color: rgb(68, 92, 79);
+
+
+    --btn-bg-color: rgb(246, 205, 188);
+    --tag-color: rgb(134, 203, 60);
+
+    --light-text-color: rgb(248, 248, 244);
+    --green-btn-dark-text: rgb(29, 38, 19);
+    --grey-btn-bg: rgb(222, 222, 219);
+    --popup-h1: rgb(77, 71, 74);
+    --popup-label: rgb(97, 92, 94);
+    --input-border: rgb(148, 149, 169);
+}
+
+/**--------------- FONTS ---------------*/
+@font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/static/Inter-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+/*? ---- Montserrat ---- */
+@font-face {
+    font-family: 'Montserrat';
+    src: url("../fonts/Montserrat/static/Montserrat-Regular.ttf") format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url("../fonts/Montserrat/static/Montserrat-Medium.ttf") format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url("../fonts/Montserrat/static/Montserrat-SemiBold.ttf") format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url("../fonts/Montserrat/static/Montserrat-Bold.ttf") format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/*? --------------------- */
+
+@font-face {
+    font-family: 'Pt sans';
+    src: url("../fonts/PT_Sans/PTSans-Regular.ttf") format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* ------- Scrollbar ------- */
+/* scrollbar width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* scrollbar Track */
+::-webkit-scrollbar-track {
+    background: rgb(235, 233, 224);
+
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #92827a;
+    border-radius: 20px;
+
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #ACA09A;
+}
+
+/** --------------- NAVBAR ---------------*/
+
+/* *{
+    position: relative;
+} */
+
+nav {
+    background-color: var(--page-bg-color);
+
+}
+
+#navbar {
+    padding-right: 5%;
+    padding-left: 5%;
+    /* padding: var(--default-padding); */
+}
+
+#navbar a,
+#navbar p {
+    font-size: larger;
+    display: inline;
+    padding: 0.938rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+}
+
+#navbar a {
+    color: var(--navbar-a-color);
+}
+
+#navbar p {
+    color: var(--navbar-p-color) !important;
+}
+
+
+
+#navbar a:hover {
+    color: var(--navbar-a-hover-color);
+    /* font-weight: 700; */
+    /* font-style: italic; */
+}
+
+.active {
+    /*? Az aktuális page */
+    color: var(--current-page-color) !important;
+    text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
+    /* ? távolság növelése az alláhúzás vonal és a szöveg alja között */
+    text-underline-offset: 0.281rem;
+}
+
+.active:hover {
+    /*? aktuális page hover */
+    color: var(--current-page-hover-color) !important;
+    /* font-style: italic; */
+}
+
+#Feed {
+    /*? Az aktuális page */
+    color: var(--current-page-color) !important;
+    text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
+    /* ? távolság növelése az alláhúzás vonal és a szöveg alja között */
+    text-underline-offset: 0.281rem;
+}
+
+#Feed:hover {
+    /*? aktuális page hover */
+    color: var(--current-page-hover-color) !important;
+    /* font-style: italic; */
+}
+
+#profile-icon img, .smaller-user-profile-pic{
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+}
+
+#navbarNav{
+    margin-left: 90px;
+}
+
+#writingBtn, #writingBtn-zeroData{
+    font-size: medium;
+    font-family: 'Inter', sans-serif;
+    color: var(--btn-text-color);
+    border: 1px solid var(--primary-BTN-Bg-color);
+    /* border-width: 0rem; */
+    border-radius: 1.5rem;
+
+    background-color: var(--primary-BTN-Bg-color);
+
+    padding: 0.625rem 1.25rem;
+
+    transition: color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    transition: background-color 0.3s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    line-height: 1.125rem;
+
+    box-sizing: border-box;
+    margin-right: 50px;
+    /* align-items: self-end; */
+}
+
+#writingBtn:hover, #writingBtn-zeroData:hover{
+    transition: color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    transition: background-color 0.3s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    background-color: rgb(247, 245, 236);
+    color: var(--mostUsed-text-color);
+    border: dashed 0.094rem var(--dash-color);
+}
+
+.dropdown-menu li{
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.dropdown-menu a:hover{
+    background-color: transparent;
+    cursor: pointer;
+}
+
+
+/** --------------- FIRST-SECTION ---------------*/
+
+#first-section {
+    margin-top: 9.375rem;
+    padding-right: 5%;
+    padding-left: 5%;
+    margin-bottom: 6.25rem;
+}
+
+
+.post-card {
+    /* display: flex; */
+    background-color: rgb(234, 215, 190);
+    box-shadow: 0.5rem 0.5rem 0.375rem #e3e1d9;
+    padding: 2.8rem;
+    border-radius: 0.938rem;
+    width: 43.75rem;
+    height: fit-content;
+    margin-bottom: 3.125rem;
+    position: relative;
+}
+
+.first-row {
+    display: flex;
+    align-self: center;
+    width: fit-content;
+}
+
+.post-profile-icon {
+    width: 3.125rem;
+    height: 3.125rem;
+    background-image: url('../pictures/default-profile-pic.png');
+    /* Alapértelmezett kép beállítása */
+    background-size: cover;
+    /* A kép méretezése a konténerhez */
+    cursor: pointer;
+    /* Mutató kurzor megjelenítése, hogy látható legyen, kattintható */
+    background-position: center;
+}
+
+.userName {
+    margin-top: 0.625rem;
+    margin-left: 1.25rem;
+}
+
+.card-user-name {
+    font-size: larger;
+    color: rgb(65, 61, 63) !important;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+}
+
+.cardDate {
+    margin-left: auto !important;
+    margin-top: 0.625rem;
+}
+
+.card-date-text {
+    font-size: medium;
+    color: var(--dash-color);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    position: absolute;
+    right: 40px;
+}
+
+.postText {
+    margin-top: 1.25rem;
+    padding-left: 1.875rem;
+    padding-right: 3.125rem;
+    width: fit-content;
+    text-align: justify;
+}
+
+.post-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 1.125rem;
+    text-align: justify;
+    padding: 0!important;
+}
+
+.last-row {
+    display: flex;
+    margin-top: 1.875rem;
+    width: fit-content;
+}
+
+.tag-design {
+    background-color: var(--tag-color);
+    padding: 0.313rem 0.625rem;
+    border-radius: 21.25rem;
+}
+
+.like-and-share {
+    margin-left: auto !important;
+
+    padding-right: 1.25rem;
+    display: flex;
+    position: absolute;
+    right: 1.563rem;
+    bottom: 30px;
+}
+
+.liked{
+    fill: #c43700;
+}
+
+
+/* .like-and-share span {
+    margin-bottom: 5px !important;
+    cursor: pointer;
+} */
+
+.like-button {
+    fill: #2d1810;
+}
+
+.like-button:hover {
+    fill: #c43700;
+    cursor: pointer;
+}
+
+
+.share {
+    margin-left: 0.625rem !important;
+    fill: rgb(45, 24, 16);
+}
+
+.share:hover {
+    /* fill: rgb(152, 88, 201) !important; */
+    color: var(--dash-color) !important;
+    cursor: pointer;
+}
+
+/** SIDE BAR */
+
+.right-side {
+    border-left: 0.125rem solid rgb(235, 210, 186);
+    /* margin-top: 50px; */
+    position: sticky;
+    top: 90px;
+    left: 70%;
+    height: 65vh;
+    /* vh - A böngésző ablak magasságát veszi figyelembe */
+    margin-bottom: 20px;
+
+}
+
+.suggestions {
+    margin-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#suggestion-h2 {
+    text-decoration: underline;
+    margin-bottom: 1.875rem;
+}
+
+#suggestion-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 20px;
+}
+
+.profile-suggestion {
+    display: flex;
+    align-self: center;
+    margin-bottom: 0.5rem;
+    /* margin-top: 20px; */
+}
+
+.btn-more {
+    margin-left: 80px;
+    margin-bottom: 4%;
+    align-self: center;
+    height: fit-content;
+    width: fit-content;
+    padding: 0.313rem 0.938rem;
+    border-radius: 1.875rem;
+    background-color: var(--btn-bg-color);
+    border-style: none;
+
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+}
+
+.btn-more:hover {
+    background-color: #B9848C;
+    color: var(--page-bg-color);
+    transition: color 0.9s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    transition: background-color 0.5s ease;
+    /*átmenet a hover és a rendes állapot között*/
+}
+
+#post-BTN {
+    background-color: rgb(187, 205, 149);
+    color: var(--green-btn-dark-text);
+    margin-top: 2rem;
+    align-self: center;
+    height: fit-content;
+    width: fit-content;
+    padding: 0.625rem 0.938rem !important;
+    border-radius: 1.875rem;
+
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+}
+
+#post-BTN:hover {
+    background-color: rgb(45, 95, 14);
+    color: var(--light-text-color);
+
+}
+
+#post-BTN::after {
+    background-blend-mode: darken;
+}
+
+#LetsPost-btn {
+    background-color: var(--btn-bg-color);
+    color: rgb(51, 47, 49);
+    border: none;
+}
+
+#close-btn {
+    background-color: var(--grey-btn-bg);
+    color: rgb(51, 47, 49);
+    border: none;
+}
+
+#postModalLabel {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    /* letter-spacing: -1px; */
+    color: var(--popup-h1);
+}
+
+#message-text {
+    min-height: 100px !important;
+}
+
+.modalLabel {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    color: var(--popup-label);
+    letter-spacing: -0.5px;
+}
+
+.modal-content {
+    z-index: 2000;
+}
+
+#modalLabel-tag {
+    margin-top: 0.625rem;
+}
+
+.counter {
+    margin-left: 30px;
+    color: var(--input-border);
+    font-weight: lighter;
+    margin-bottom: 0%;
+}
+
+.counterErrorLight {
+    text-align: end;
+    color: #dc3545;
+    font-weight: lighter;
+}
+
+.counterErrorBold {
+    text-align: end;
+    color: #dc3545;
+    font-weight: bold;
+}
+
+
+/** --------------- FOOTER ---------------*/
+
+#footer-logo {
+    /* padding-left: 6%; */
+    display: flex;
+}
+
+footer {
+    border-top: 0.094rem solid var(--dash-color);
+    background-color: var(--footer-bg-color);
+    padding-top: 5%;
+    padding-right: 5%;
+    padding-left: 5%;
+    height: fit-content;
+}
+
+footer h3 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+}
+
+footer ul {
+    list-style-type: none;
+}
+
+footer ul li {
+    font-size: 1.25rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+footer a {
+    color: var(--mostUsed-text-color);
+}
+
+footer a:hover{
+    color: #B43C82;
+}
+
+#copy-right-div{
+    float: right!important;
+}
+
+#copy-right{
+    font-size: small;
+    font-family: 'Poppins-Regular', sans-serif;
+    
+}
