@@ -178,12 +178,6 @@ nav {
 
 #profile-icon img{
     width: 50px;
-    /* Állítsd be a kívánt szélességet és magasságot */
-    height: 50px;
-    border-radius: 50%;
-    /* Kör alak kialakítása */
-    /* background-image: url('../pictures/default-profile-pic.png'); */
-    /* Alapértelmezett kép beállítása */
     background-size: cover;
     /* A kép méretezése a konténerhez */
     background-position: center;
@@ -622,6 +616,8 @@ nav {
     height: 400px;
     align-self: center;
     border-radius: 10px;
+    background-size: cover;
+    background-position: center;
 }
 
 .modal-h3 {
