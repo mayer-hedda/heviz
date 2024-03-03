@@ -1,0 +1,132 @@
+/* Colors */
+:root{
+    --btn-text-color: rgb(51, 47, 49);
+    --system-msg: rgb(44, 24, 16);
+    --primary: #E8B5A0;
+}
+
+/*--------------- FONTS ---------------*/
+@font-face {
+    font-family: 'Inter-Medium';
+    src: url('../fonts/Inter/static/Inter-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat-Regular';
+    src: url("../fonts/Montserrat/static/Montserrat-Regular.ttf") format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat-Medium';
+    src: url("../fonts/Montserrat/static/Montserrat-Medium.ttf") format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+/* ------- Scrollbar ------- */
+/* scrollbar width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* scrollbar Track */
+::-webkit-scrollbar-track {
+    background: rgb(235, 233, 224);
+
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #92827a;
+    border-radius: 20px;
+
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #ACA09A;
+}
+
+/* System message for the user */
+.system-msg{
+    margin-top: 30px;
+    font-size: 22px;
+    font-family: 'Inter-Medium', sans-serif;
+    color: var(--system-msg);
+    width: 1000px;
+}
+
+/* ---- Category cards --------*/
+#s1 {
+    margin-top: 80px;
+    display: grid;
+    place-items: center;
+}
+
+.rows {
+    display: inline-flex;
+    column-gap: 40px;
+}
+
+.default {
+    border-radius: 30px;
+    border: 3.5px solid var(--primary);
+    object-fit: cover;
+    backdrop-filter: blur(1px);
+}
+
+.image-container {
+    position: relative;
+    margin-bottom: 50px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.choosed{
+    border: 3.5px solid #007e17;
+    object-fit: cover;
+    backdrop-filter: blur(1px);
+    border-radius: 30px;
+}
+
+.rowPics {
+    width: 217px;
+    height: 242px;
+}
+
+#nineth-row-pics{
+    margin-right: 775px;
+}
+
+.category-name {
+    display: block;
+    font-weight: bold;
+    position: absolute;
+    bottom: 20px;
+    left: 5%;
+    right: 5%;
+    font-size: 22px;
+    color: white;
+    font-family: 'Montserrat-Regular', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-shadow: rgba(0, 0, 0, 0.685) 2px 1px 4px;
+}
+
+.next-btn-div{
+   text-align: end;
+   margin-bottom: 30px;
+}
+
+.next-btn{
+    background-color: #B9848C;
+    font-size: 22px;
+    color: whitesmoke;
+    font-family: 'Montserrat-Medium', sans-serif;
+    border-radius: 15px;
+    padding: 5px 30px;
+}

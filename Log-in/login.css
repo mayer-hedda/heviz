@@ -73,6 +73,7 @@ h1 {
     color: var(--welcome);
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
+    padding-bottom: 15px;
 }
 
 /* form */
@@ -108,7 +109,7 @@ form p {
     margin-top: 4px;
 }
 .with-alert {
-    height: 100px;
+    height: 110px;
 }
 form a:hover {
     color: var(--hover-color);

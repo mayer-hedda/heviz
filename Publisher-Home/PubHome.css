@@ -326,6 +326,10 @@ nav {
     margin-top: 5%;
 }
 
+section{
+    margin-bottom: 50px;
+}
+
 /** --------------- FIRST-SECTION ---------------*/
 
 
@@ -535,7 +539,6 @@ nav {
     align-self: center;
     transition: color 0.8s ease;
     transition: background-color 0.8s ease;
-
 }
 
 .sMoreBtn:hover{
@@ -671,6 +674,7 @@ nav {
 
 .m-footer-div {
     display: flex;
+    margin-right: auto!important;
 }
 
 .shopping-btn {
@@ -681,7 +685,6 @@ nav {
 
 .price {
     font-size: 18px;
-    margin-right: 160px;
     margin-top: 13px;
     margin-bottom: 13px;
     font-family: 'Poppins-Regular', sans-serif;
