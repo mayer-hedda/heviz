@@ -681,6 +681,7 @@ nav {
 
 .m-footer-div {
     display: flex;
+    margin-right: auto!important;
 }
 
 .shopping-btn {
@@ -691,11 +692,11 @@ nav {
 
 .price {
     font-size: 18px;
-    margin-right: 160px;
     margin-top: 13px;
     margin-bottom: 13px;
     font-family: 'Poppins-Regular', sans-serif;
     color: var(--mostUsed-text-color);
+    
 }
 
 .modal-cover-btn {

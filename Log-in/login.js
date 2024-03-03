@@ -8,7 +8,7 @@ const loginError = document.getElementById("loginError");
 let emailValid = false;
 let pwdValid = false;
 const generalHomeURL = '../General-HomePage/GenHome.html';
-const publisherHomeURL = '../Publisher-HomePgae/PubHome.html';
+const publisherHomeURL = '../Publisher-Home/PubHome.html';
 
 
 

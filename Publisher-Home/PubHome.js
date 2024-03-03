@@ -22,6 +22,7 @@ const s2_first_row = document.getElementById('s2-first-row');
 const s2_second_row = document.getElementById('s2-second-row');
 
 // #3
+const third_section = document.getElementById('third-section');
 const s3_subtitle = document.getElementById('s3-subtitle');
 const s3_mediumCardPic_div = document.getElementById('s3-mediumC-pic');
 const s3_mediumC_h2 = document.getElementById('s3-mediumC-h2');
@@ -33,6 +34,7 @@ const s3_first_row = document.getElementById('s3-first-row');
 const s3_second_row = document.getElementById('s3-second-row');
 
 // #4
+const fourth_section = document.getElementById('fourth-section');
 const s4_subtitle = document.getElementById('s4-subtitle');
 const s4_mediumCardPic_div = document.getElementById('s4-mediumC-pic');
 const s4_mediumC_h2 = document.getElementById('s4-mediumC-h2');
@@ -44,6 +46,7 @@ const s4_first_row = document.getElementById('s4-first-row');
 const s4_second_row = document.getElementById('s4-second-row');
 
 // #5
+const fifth_section = document.getElementById('fifth-section');
 const s5_subtitle = document.getElementById('s5-subtitle');
 const s5_mediumCardPic_div = document.getElementById('s5-mediumC-pic');
 const s5_mediumC_h2 = document.getElementById('s5-mediumC-h2');
@@ -55,6 +58,7 @@ const s5_first_row = document.getElementById('s5-first-row');
 const s5_second_row = document.getElementById('s5-second-row');
 
 // #6
+const sixth_section = document.getElementById('sixth-section');
 const s6_subtitle = document.getElementById('s6-subtitle');
 const s6_mediumCardPic_div = document.getElementById('s6-mediumC-pic');
 const s6_mediumC_h2 = document.getElementById('s6-mediumC-h2');
@@ -64,6 +68,8 @@ const s6_mediumC_btn = document.getElementById('s6-mediumC-btn');
 
 const s6_first_row = document.getElementById('s6-first-row');
 const s6_second_row = document.getElementById('s6-second-row');
+
+const zero_dataContainer = document.getElementById('zero-dataContainer');
 
 //* MODAL
 const modal_body = document.getElementById('modal-body');
@@ -82,6 +88,7 @@ let s2 = false;
 let s3 = false;
 let s4 = false;
 let s5 = false;
+let s6 = false;
 
 // Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
 window.addEventListener('beforeunload', async function () {
@@ -121,37 +128,83 @@ window.onload = async function () {
                     username.innerText = `@${tokenResponse.data.username}`;
                     const userDatas = await getUserDetails({ "profileUsername": tokenResponse.data.username });
                     profilePic.innerHTML = `<img class="rounded-circle" src="../${userDatas.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;
-                   
+
                     // Egy nagy random kártya
                     const oneRandom_response = await getOneRandomLookingForPublisherBook();
-                    if(oneRandom_response.data.length != 0){
+                    if (oneRandom_response.data.length != 0) {
                         LoadRandomBook(oneRandom_response);
                         s1 = true;
-                    }else{
+                    } else {
                         first_section.hidden = true;
                     }
 
                     const recommandedBooks_response = await getRecommandedBooksForPublisher();
                     if (recommandedBooks_response.data.length != 0) {
-                        TwoRowAndMediumCard("Recommanded books for you",recommandedBooks_response, s2_mediumC_picDiv, s2_mediumC_h2, s2_mediumC_author, s2_mediumC_p, s2_mediumC_btn, s2_first_row, s2_second_row );
+                        TwoRowAndMediumCard("Recommanded books for you", recommandedBooks_response, s2_mediumC_picDiv, s2_mediumC_h2, s2_mediumC_author, s2_mediumC_p, s2_mediumC_btn, s2_first_row, s2_second_row);
                         s2 = true;
-                    }else{
+                    } else {
                         second_section.hidden = true;
                     }
 
                     const booksByCategory_response = await getRandomBookByCategory();
                     console.log(booksByCategory_response.data);
-                    const separetedCategories_obj = separateCategories(booksByCategory_response);
-                    console.log(separetedCategories_obj[0]);
-                    // console.log(separetedCategories_obj[2].data[0].title);
-                    loadRandoms(separetedCategories_obj, 0, s3_subtitle, s3_mediumCardPic_div, s3_mediumC_h2, s3_mediumC_author, s3_mediumC_desc, s3_mediumC_btn, s3_first_row, s3_second_row);
-                    console.log("----------------------------------------------------------------");
-                    loadRandoms(separetedCategories_obj, 1, s4_subtitle, s4_mediumCardPic_div, s4_mediumC_h2, s4_mediumC_author, s4_mediumC_desc, s4_mediumC_btn, s4_first_row, s4_second_row);
-                    console.log("----------------------------------------------------------------");
-                    loadRandoms(separetedCategories_obj, 2, s5_subtitle, s5_mediumCardPic_div, s5_mediumC_h2, s5_mediumC_author, s5_mediumC_desc, s5_mediumC_btn, s5_first_row, s5_second_row);
-                    console.log("----------------------------------------------------------------");
-                    loadRandoms(separetedCategories_obj, 3, s6_subtitle, s6_mediumCardPic_div, s6_mediumC_h2, s6_mediumC_author, s6_mediumC_desc, s6_mediumC_btn, s6_first_row, s6_second_row);
-                    
+
+                    if (booksByCategory_response.data.length != 0) {
+                        console.log("itt kezdődik");
+                        const separetedCategories_obj = separateCategories(booksByCategory_response);
+                        console.log(separetedCategories_obj[0]);
+
+                        // vizsgálatok hogy az egyes kapott kategóriákban vannak-e adatok és ha nincsenek akkor azok a szekciók rejtve lesznek
+                        if (separetedCategories_obj[0].data.length != 0) {
+                            // console.log("van benne adat");
+                            loadRandoms(separetedCategories_obj, 0, s3_subtitle, s3_mediumCardPic_div, s3_mediumC_h2, s3_mediumC_author, s3_mediumC_desc, s3_mediumC_btn, s3_first_row, s3_second_row);
+                            s3 = true;
+                        } else {
+                            third_section.hidden = true;
+                        }
+
+                        console.log("----------------------------------------------------------------");
+
+                        if (separetedCategories_obj[1].data.length != 0) {
+                            loadRandoms(separetedCategories_obj, 1, s4_subtitle, s4_mediumCardPic_div, s4_mediumC_h2, s4_mediumC_author, s4_mediumC_desc, s4_mediumC_btn, s4_first_row, s4_second_row);
+                            s4 = true;
+                        } else {
+                            fourth_section.hidden = true;
+                        }
+
+                        console.log("----------------------------------------------------------------");
+
+                        if (separetedCategories_obj[2].data.length != 0) {
+                            loadRandoms(separetedCategories_obj, 2, s5_subtitle, s5_mediumCardPic_div, s5_mediumC_h2, s5_mediumC_author, s5_mediumC_desc, s5_mediumC_btn, s5_first_row, s5_second_row);
+                            s5 = true;
+                        } else {
+                            fifth_section.hidden = true;
+                        }
+
+                        console.log("----------------------------------------------------------------");
+
+                        if (separetedCategories_obj[3].data.length != 0) {
+                            loadRandoms(separetedCategories_obj, 3, s6_subtitle, s6_mediumCardPic_div, s6_mediumC_h2, s6_mediumC_author, s6_mediumC_desc, s6_mediumC_btn, s6_first_row, s6_second_row);
+                            s6 = true;
+                        } else {
+                            sixth_section.hidden = true;
+                        }
+
+                    } else {
+                        third_section.hidden = true;
+                        fourth_section.hidden = true;
+                        fifth_section.hidden = true;
+                        sixth_section.hidden = true;
+                    }
+
+                    if (s1 == false && s2 == false && s3 == false && s4 == false && s5 == false && s6 == false) {
+                        zero_dataContainer.hidden = false;
+                    }
+
+                    break;
+
+
+
             }
     }
 }
@@ -408,7 +461,7 @@ function loadRandoms(separetedObj, separeted_number, subtitle, mediumC_PicDiv, m
 
     for (let i = 0; i < separetedObj[separeted_number].data.length; i++) {
         console.log(separetedObj[separeted_number].data[i].title);
-        
+
     }
 
     if (separetedObj[separeted_number].data.length >= 4) {
@@ -441,7 +494,7 @@ function loadRandoms(separetedObj, separeted_number, subtitle, mediumC_PicDiv, m
                     `
             }
         }
-    
+
         for (let i = 5; i < separetedObj[separeted_number].data.length; i++) {
             if (separetedObj[separeted_number].data[i].coverImage != "Ez a kép elérési útja") {
                 secondRow.innerHTML += `
@@ -471,7 +524,7 @@ function loadRandoms(separetedObj, separeted_number, subtitle, mediumC_PicDiv, m
                     `
             }
         }
-    }else{
+    } else {
         for (let i = 1; i < separetedObj[separeted_number].data.length; i++) {
             if (separetedObj[separeted_number].data[i].coverImage != "Ez a kép elérési útja") {
                 firstRow.innerHTML += `
@@ -502,7 +555,7 @@ function loadRandoms(separetedObj, separeted_number, subtitle, mediumC_PicDiv, m
             }
         }
     }
-    
+
 }
 
 function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price) {
