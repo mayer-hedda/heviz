@@ -64,6 +64,7 @@ function validateEmail(email) {
 // email
 inputEmail.addEventListener('input', (e) => {
     e.preventDefault();
+
     e.target.style.background = "";
     e.target.style.border = "";
     emailError.innerHTML = "";
@@ -87,8 +88,6 @@ inputEmail.addEventListener("focusout", (e) => {
             e.target.style.background = "#FEEFEC";
         } else {
             emailValid = true;
-            e.target.style.background = "rgb(241, 255, 231)";
-            e.target.style.border = "0.1125rem solid rgb(98, 173, 107)";
 
             BtnActivate();
         }
@@ -107,10 +106,18 @@ inputEmail.addEventListener("focusin", (e) => {
 // password
 inputPwd.addEventListener('input', (e) => {
     e.preventDefault();
+
     e.target.style.background = "";
     e.target.style.border = "";
     pwdError.innerHTML = "";
     loginError.innerHTML = "";
+
+    var pwdValue = inputPwd.value;
+    if(pwdValue != "") {
+        pwdValid = true;
+
+        BtnActivate();
+    }
 })
 
 inputPwd.addEventListener('focusout', (e) => {
@@ -124,8 +131,7 @@ inputPwd.addEventListener('focusout', (e) => {
         BtnActivate();
     } else {
         pwdValid = true;
-        e.target.style.background = "rgb(241, 255, 231)";
-        e.target.style.border = "0.1125rem solid rgb(98, 173, 107)";s
+
         BtnActivate();
     }
 })
