@@ -64,19 +64,10 @@ function validateEmail(email) {
 // email
 inputEmail.addEventListener('input', (e) => {
     e.preventDefault();
-    const emailValue = inputEmail.value;
-    if (emailValue == "") {
-        emailError.innerHTML = `<p>Email field cannot be empty.</p>`;
-        e.target.style.background = "#FEEFEC";
-        emailValid = false;
-    } else {
-        e.target.style.background = "";
-        e.target.style.border = "";
-        emailError.innerHTML = "";
-        loginError.innerHTML = "";
-        emailValid = true;
-        BtnActivate();
-    }
+    e.target.style.background = "";
+    e.target.style.border = "";
+    emailError.innerHTML = "";
+    loginError.innerHTML = "";
 })
 
 inputEmail.addEventListener("focusout", (e) => {
@@ -116,19 +107,10 @@ inputEmail.addEventListener("focusin", (e) => {
 // password
 inputPwd.addEventListener('input', (e) => {
     e.preventDefault();
-    const pwdValue = inputPwd.value;
-    if (pwdValue == "") {
-        pwdError.innerHTML = `<p>Password field cannot be empty.</p>`;
-        e.target.style.background = "#FEEFEC";
-        pwdValid = false;
-    } else {
-        e.target.style.background = "";
-        e.target.style.border = "";
-        pwdError.innerHTML = "";
-        loginError.innerHTML = "";
-        pwdValid = true;
-        BtnActivate();
-    }
+    e.target.style.background = "";
+    e.target.style.border = "";
+    pwdError.innerHTML = "";
+    loginError.innerHTML = "";
 })
 
 inputPwd.addEventListener('focusout', (e) => {
