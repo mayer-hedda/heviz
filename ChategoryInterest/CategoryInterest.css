@@ -74,7 +74,7 @@
 
 .default {
     border-radius: 30px;
-    border: 3.5px solid var(--primary);
+    outline: 3.5px solid var(--primary);
     object-fit: cover;
     backdrop-filter: blur(1px);
 }
@@ -87,7 +87,7 @@
 }
 
 .choosed{
-    border: 3.5px solid #007e17;
+    outline: 3.5px solid #007e17;
     object-fit: cover;
     backdrop-filter: blur(1px);
     border-radius: 30px;
@@ -129,4 +129,9 @@
     font-family: 'Montserrat-Medium', sans-serif;
     border-radius: 15px;
     padding: 5px 30px;
+}
+
+.next-btn:hover{
+    background-color: var(--primary);
+    color: var(--btn-text-color);
 }

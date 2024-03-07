@@ -42,7 +42,7 @@
 
             <div class="buttons btn-field" id="middle">
                 <a class="btn navBack" role="button" id="Cancel" onclick="history.back()">Cancel</a>
-                <a class="btn" role="button" id="Next" href="">Next</a>
+                <button class="btn" role="button" id="Next">Next</button>
 
             </div>
         </div>
@@ -67,18 +67,19 @@
                             <div class="errorMessage mt-3" id="PicError"></div>
                         </div>
 
-                        <div class="delete-pic" >
+                        <div class="delete-pic">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                class="bi bi-trash3 trash" viewBox="0 0 16 16" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
-                                data-bs-content="Click to delete the selected image" id="del-pic">
+                                class="bi bi-trash3 trash" viewBox="0 0 16 16" tabindex="0" data-bs-toggle="popover"
+                                data-bs-trigger="hover focus" data-bs-content="Click to delete the selected image"
+                                id="del-pic">
                                 <path
                                     d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
                             </svg>
                         </div>
-                        
-                        
+
+
                     </div>
-                    
+
 
                     <!--? FÁJL FELTÖLTÉSE | DRAG AND DROP -->
                     <div class="upload-and-delete mt-5">
@@ -99,8 +100,9 @@
 
                         <div class="delete-file">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                class="bi bi-trash3 trash" viewBox="0 0 16 16" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
-                                data-bs-content="Click to delete the selected file" id="del-file">
+                                class="bi bi-trash3 trash" viewBox="0 0 16 16" tabindex="0" data-bs-toggle="popover"
+                                data-bs-trigger="hover focus" data-bs-content="Click to delete the selected file"
+                                id="del-file">
                                 <path
                                     d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
                             </svg>
@@ -153,7 +155,7 @@
                             </div>
 
                             <!--? TARGET AUDIENCE - dropdown -->
-                          
+
                             <div id="targetAudience-div" class="container input-div">
 
                                 <label id="targetAudience" for="selectTargetAudience">Target Audience:</label>
@@ -180,9 +182,6 @@
 
                                 <select class="form-select select text-center" id="selectLanguage">
                                     <option value="0" selected>Choose an option</option>
-                                    <!-- <option value="1">Hungarian</option>
-                                    <option value="2">English</option>
-                                    <option value="3">German</option> -->
                                 </select>
                             </div>
                             <div class="container errorMessage" id="languageErr"></div>
@@ -205,8 +204,8 @@
                             <!--? COPY RIGHT  -->
                             <div id="CopyRight-div" class="container input-div">
                                 <label id="copyright" for="copyrightP">CopyRight:</label>
-                                <p id="copyrightP">Please read the relevant article of the <a class="link"
-                                        href="#">Terms and
+                                <p id="copyrightP">Please read the relevant article of the <a class="link" href="#"
+                                        target="_blank">Terms and
                                         Conditions</a>.</p>
                             </div>
 
@@ -219,8 +218,17 @@
 
                             </div>
 
-                            <!--TODO: NINCS MEGHÍVVA A VALIDÁLÓ FÜGGVÉNY  -->
-                            <!--* adatkinyerés: Check  -->
+                            <!--? CHAPTER NUMBER  -->
+                            <div id="chapter-div" class="container input-div">
+                                <label for="" class="formLabel" id="chapterLabel">Chapter number:</label>
+                                <i class="bi bi-info-circle info" tabindex="0" data-bs-toggle="popover"
+                                    data-bs-trigger="hover focus"
+                                    data-bs-content="How many chapters are in your book?"></i>
+                                <input type="number" class="form-control" id="chapter-number" min="0"
+                                    oninput="this.value = Math.abs(this.value)">
+                                <div class="container errorMessage" id="chapterError"></div>
+                            </div>
+
                             <!--? CHECKBOX - PUBLISHER - NOT PUBLISHER  -->
                             <div id="publishing-div" class="container input-div">
                                 <label id="publishing" for="selecter">Select one: <i class="bi bi-info-circle infoalter"
@@ -245,19 +253,9 @@
                             <div class="container errorMessage" id="checkboxError"></div>
 
 
-                            <!--TODO: NINCS MEGÍRVA A JS  -->
-                            <div id="activate-self" hidden>
-                                <!--? CHAPTER NUMBER  -->
-                                <div id="chapter-div" class="container input-div">
-                                    <label for="" class="formLabel" id="chapterLabel">Chapter number:</label>
-                                    <i class="bi bi-info-circle info" tabindex="0" data-bs-toggle="popover"
-                                        data-bs-trigger="hover focus"
-                                        data-bs-content="How many chapters are in your book?"></i>
-                                    <input type="number" class="form-control" id="chapter-number" min="0"
-                                        oninput="this.value = Math.abs(this.value)">
-                                    <div class="container errorMessage" id="chapterError"></div>
-                                </div>
 
+
+                            <div id="activate-self" hidden>
                                 <!--? BANK ACC NUMBER  -->
                                 <div id="bankAcc-div" class="container ">
                                     <label id="bankAcc" class="formLabel" for="inputBankNum">Bank Account Number:
@@ -272,7 +270,7 @@
                                 </div>
 
                                 <!--? BOOK PRICE -->
-                                <!--TODO: FORINT FELTÜNTETÉSE + JS NINCS MEGÍRVA  -->
+
                                 <div id="bookPrice-outsideDiv">
                                     <div id="BookPrice-div" class="container input-div">
                                         <label id="Price" for="inputBookPrice">Your book's Price: <i

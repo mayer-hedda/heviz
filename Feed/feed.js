@@ -42,8 +42,8 @@ window.onload = async function () {
             console.log(feedpost_response);
             LoadPosts(feedpost_response);
 
-
             break;
+            
     }
 }
 

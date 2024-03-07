@@ -143,7 +143,7 @@ inputPwd.addEventListener('focusout', (e) => {
     } else {
         pwdValid = true;
         e.target.style.background = "rgb(241, 255, 231)";
-        e.target.style.border = "0.1125rem solid rgb(98, 173, 107)";s
+        e.target.style.border = "0.1125rem solid rgb(98, 173, 107)";
         BtnActivate();
     }
 })

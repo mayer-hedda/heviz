@@ -49,20 +49,25 @@ const PicError = document.getElementById('PicError');
 inputPicture.addEventListener("change", uploadImage);
 
 var height, width;
-let imgLink;
+let imgLink; //ez lesz a blob
+let imgSrc; //ebből fogom kiszedni a kép elérési útját
+var pictureName; // ez lesz a végleges fájlnév amit a backend megkap
 
 function uploadImage() {
     imgLink = URL.createObjectURL(inputPicture.files[0]);
     console.log(imgLink);
+    /**
+     * ez egy blob lesz, ami nem tartalmazza a fájl nevét viszont
+     * ha a sima value-t használom nem fog a kép betöltődni mert nincs a böngészőnek
+     * hozzáférése a helyi fájlokhoz, így a blob linket kell használni a kép betöltésére.
+     * Amikor adatot küldök a backendnek akkor a value értéket kell küldeni
+    */
     imgView.style.backgroundImage = `url(${imgLink})`;
     addPhoto_icon.hidden = true;
     img_p.hidden = true;
     img_span.hidden = true;
-    // imgView.textContent = "";
-    // imgView.style.border = 0;
 
     var img = new Image();
-    img.src = imgLink;
 
     img.onload = function () {
         height = img.naturalHeight;
@@ -71,16 +76,21 @@ function uploadImage() {
         console.log("A kép magassága: " + height);
     }
 
-
-
     if (imgLink == "") {
         picPass = false;
         console.log("pic pass value:" + picPass);
 
     } else {
         picPass = true;
+        imgSrc = inputPicture.value;
         console.log("pic pass value:" + picPass);
+        console.log("img src: " + imgSrc);
 
+        // Szétvágom a szöveget a "\" karakter alapján
+        var parts = imgSrc.split('\\');
+        pictureName = parts[parts.length - 1];
+
+        console.log(pictureName);
     }
 
 }
@@ -136,6 +146,8 @@ const file_result_p = document.getElementById('f-result-p-1');
 const file_result_uploaded = document.getElementById('f-result-p-2');
 const FileError = document.getElementById('FileError');
 
+var fileName; // ez lesz az az érték amelyet megkap a backend
+
 inputFile.addEventListener("change", (e) => {
     e.preventDefault();
     console.log("lefut a change");
@@ -143,20 +155,7 @@ inputFile.addEventListener("change", (e) => {
 });
 
 function uploadFile() {
-    // let fileLink = URL.createObjectURL(inputFile.files[0]);
     console.log(inputFile.value);
-    // imgView.textContent = "";
-    file_p.hidden = true;
-    file_span.hidden = true;
-
-    var fileName = inputFile.value.split('\\').pop();
-    console.log("perjel után: " + fileName);
-    //todo: MEGCSINÁLNI, HOGY CSAK A filename.pdf-ET ÍRJA KI 
-    file_result_p.hidden = false;
-    file_result_uploaded.hidden = false;
-    file_result_uploaded.innerText = `${fileName}`;
-
-
 
     // console.log("Lefutott az uploadfile");
     if (inputFile.value == "") {
@@ -164,24 +163,16 @@ function uploadFile() {
         console.log("pic pass value:" + filePass);
     } else {
         filePass = true;
-        console.log("pic pass value:" + filePass);
-    }
-}
+        fileName = inputFile.value.split('\\').pop();
 
-function contact() {
-    var file = document.getElementById("file");
-    file.onchange = function () {
-        if (!file.value == "") {
-            var filesize = (file.files[0].size / 1024) + 1;
-            var extra = " KiB";
-            if (filesize >= 1024) {
-                filesize = filesize / 1024;
-                extra = " MiB";
-            }
-            var span = document.getElementById("filename");
-            filesize = Math.round(filesize);
-            span.innerHTML = file.value.split("\").pop() + "(" + filesize + extra +"));
-        }
+        file_p.hidden = true;
+        file_span.hidden = true;
+
+        file_result_p.hidden = false;
+        file_result_uploaded.hidden = false;
+        file_result_uploaded.innerText = `${fileName}`;
+        console.log("perjel után: " + fileName);
+        console.log("pic pass value:" + filePass);
     }
 }
 
@@ -260,14 +251,12 @@ var descriptionPass = false;
 var audiencePass = false;
 var languagePass = false;
 var categoryPass = false;
-var publishingPass = false;   //! nincs használva
 var chapterPass = false;
-var bankPass = false; //! csak akkor kell ha selpublish
-var pricePass = false; //! csak akkor kell ha selpublish
-var is_selfPublish = false;
+var bankPass = false; //! csak akkor kell ha selfpublish
+var pricePass = false; //! csak akkor kell ha selfpublish
+var publishingStatus = 0;
 
 
-// function Events() {
 const storyname = document.getElementById('StoryName');
 //? TITLE 
 function MinTitle(titleValue) {
@@ -311,9 +300,10 @@ title.addEventListener('input', (e) => {
     }
 })
 
+let titleValue;
 title.addEventListener('focusout', (e) => {
     e.preventDefault();
-    const titleValue = title.value;
+    titleValue = title.value;
     if (titleValue == "") {
         title.classList.add('inputError');
         titleError.innerText = "Title cannot be empty";
@@ -346,6 +336,7 @@ title.addEventListener('focusin', (e) => {
 })
 // #############################################
 //? DESCRIPTION
+let descValue;
 function MinDesc(descriptionValue) {
     if (descriptionValue.length < 20) {
         description.classList.add('inputError');
@@ -389,7 +380,7 @@ description.addEventListener('input', (e) => {
 
 description.addEventListener('focusout', (e) => {
     e.preventDefault();
-    const descValue = description.value;
+    descValue = description.value;
     if (descValue == "") {
         description.classList.add('inputError');
         descriptionError.innerText = "The description field cannot be empty";
@@ -442,15 +433,14 @@ function VerifyDropdown(select, errorField, selection) {
 var audienceData;
 selectAudience.addEventListener('focusout', (e) => {
     e.preventDefault();
-    const audienceValue = e.target.value;
-    console.log("You selected: " + audienceValue);
+    audienceData = e.target.value;
+    console.log("You selected: " + audienceData);
 
     const functionValue = VerifyDropdown(selectAudience, audienceError, "Audience");
     if (functionValue == true) {
         selectAudience.classList.add('inputPass');
         audiencePass = true;
         console.log("audiencePass value: " + audiencePass);
-        audienceData = audienceValue;
         console.log(audienceData);
     }
 })
@@ -472,14 +462,14 @@ selectAudience.addEventListener('focusin', (e) => {
 //? LANGUAGE DROPDOWN
 var selectedLanguage;
 
-function getLanguages(response){
-    for(i=0; i <= response.data.languages.length-1; i++){
+function getLanguages(response) {
+    for (i = 0; i <= response.data.languages.length - 1; i++) {
         language_dropdown.innerHTML += `
             <option value="${response.data.languages[i].id}">${response.data.languages[i].language}</option>  
         `;
     }
 
-    language_dropdown.addEventListener('change', function(event) {
+    language_dropdown.addEventListener('change', function (event) {
         selectedLanguage = event.target.value;
         console.log('Selected language ID:', selectedLanguage);
     });
@@ -494,7 +484,7 @@ language_dropdown.addEventListener('focusin', (e) => {
 
 language_dropdown.addEventListener('focusout', (e) => {
     e.preventDefault();
- 
+
     console.log("You selected: " + selectedLanguage);
 
     const functionValue = VerifyDropdown(language_dropdown, languageError, "Langugage");
@@ -516,14 +506,14 @@ language_dropdown.addEventListener('change', function () {
 //? CATEGORY DROPDOWN
 var selectedCategory;
 
-function getCategories(response){
-    for(i=0; i <= response.data.categories.length-1; i++){
+function getCategories(response) {
+    for (i = 0; i <= response.data.categories.length - 1; i++) {
         category_dropdown.innerHTML += `
             <option value="${response.data.categories[i].id}">${response.data.categories[i].name}</option>  
         `;
     }
 
-    category_dropdown.addEventListener('change', function(event) {
+    category_dropdown.addEventListener('change', function (event) {
         selectedCategory = event.target.value;
         console.log('Selected category ID:', selectedCategory);
     });
@@ -555,16 +545,14 @@ category_dropdown.addEventListener('change', function () {
     }
 });
 
-
 //? Radio Buttons
 const checkboxes = document.querySelectorAll('.checkinput');
 const self_inputs = document.getElementById('activate-self');
 
 var publishingForm;
-var pubCheck = false;
-var selfCheck = false;
 checkboxes.forEach(function (radioButton) {
     radioButton.addEventListener('change', function () {
+        checkError.innerHTML = "";
         // Ellenőrizze, hogy melyik rádiógomb van bejelölve
         if (this.checked) {
             publishingForm = this.id;
@@ -572,58 +560,37 @@ checkboxes.forEach(function (radioButton) {
             if (publishingForm == "SelfPublish") {
                 console.log("Aktívak a mezők");
                 self_inputs.hidden = false;
-
-                selfCheck = true;
-                pubCheck = false;
-                console.warn('Selfcheck value: ', selfCheck);
-                console.warn('Pubcheck value: ', pubCheck);
+                publishingStatus = 2;
+                console.warn('Selfpublish boolean: ', publishingStatus);
             }
 
             if (publishingForm == "PublisherPublish") {
                 console.log("Mezők deaktiválása");
                 self_inputs.hidden = true;
-
-                pubCheck = true;
-                selfCheck = false;
-                console.warn('Selfcheck value: ', selfCheck);
-                console.warn('Pubcheck value: ', pubCheck);
+                publishingStatus = 1;
+                console.warn('Selfpublish boolean: ', publishingStatus);
 
             }
         }
     });
 });
 
-function validateChecks(pubCheck, selfCheck) {
-
-    if ((pubCheck == false && selfCheck == false) || (pubCheck == true && selfCheck == true)) {
-        // errorField.innerHTML = `<p>You have to choose one option.</p>`;
-        return false;
-    }
-
-    if (pubCheck != false || selfCheck != false) {
-        errorField.innerHTML = '';
-        return true;
-    }
-}
-
 //?CHAPTER NUMBER INPUT PASS TRUE
+let chapternumber;
 chapter_number.addEventListener('focusout', (e) => {
     e.preventDefault();
     if (chapter_number.value != "") {
+        chapternumber = chapter_number.value;
         chapterPass = true;
         chapter_number.classList.add('inputPass');
     } else {
         chapter_number.classList.remove('inputPass');
         chapter_number.classList.add('inputError');
         chapterError.innerHTML = `<p>This field cannot be empty.</p>`;
-
     }
 })
 
-
-
 //? BANK ACC NUMBER
-
 function bankValidation(bankValue) {
     console.log("Input IBAN: " + bankValue);
     const removeSpaces = bankValue.replace(/ /g, "");
@@ -655,10 +622,17 @@ function bankValidation(bankValue) {
 
 }
 
+let bankValue;
 bankAccNumber.addEventListener('focusout', (e) => {
     e.preventDefault();
-    const bankValue = bankAccNumber.value;
-    bankPass = bankValidation(bankValue);
+    validateBank = bankValidation(bankAccNumber.value);
+    if (validateBank == true) {
+        bankPass = true;
+        bankValue = bankAccNumber.value;
+    } else {
+        bankPass = false;
+        bankValue = "";
+    }
 })
 
 bankAccNumber.addEventListener('focusin', (e) => {
@@ -678,25 +652,29 @@ function minPrice(priceValue) {
     return true;
 }
 
+let priceValue;
 bookPrice.addEventListener('focusout', (e) => {
     e.preventDefault();
-    const priceValue = bookPrice.value;
-    if (priceValue == "") {
+
+    if (bookPrice.value == "") {
         bookPrice.classList.add('inputError');
         priceError.innerHTML = `<p class="priceErrorP">The price field cannot be empty</p>`;
         pricePass = false;
         console.log("pricePass value: " + pricePass);
+        priceValue = "";
     } else {
         const minFunctionValue = minPrice(priceValue);
         if (minFunctionValue == false) {
+            priceValue = "";
             pricePass = false;
-            priceError.innerText = "The price must be a minimum of 1000 Hungarian Forints!";
+            priceError.innerHTMLű = `<p class="priceErrorP">The price must be a minimum of 1000 Hungarian Forints!</p>`;
             bookPrice.classList.add('inputError');
             console.log("A minPrice függvény értéke: " + minFunctionValue);
             console.log("pricePass value: " + pricePass);
         } else {
             bookPrice.classList.add('inputPass');
             pricePass = true;
+            priceValue = bookPrice.value;
             console.log("pricePass value: " + descriptionPass);
         }
     }
@@ -710,16 +688,88 @@ bookPrice.addEventListener('focusin', (e) => {
 })
 // #############################################
 //? NEXT BUTTON
+// self or search publisher error
 const checkError = document.getElementById('checkboxError');
-nextBtn.addEventListener('click', (e) => {
+let isAdultLiterature = false;
+
+nextBtn.addEventListener('click', async (e) => {
     e.preventDefault();
-    let valid = validateChecks(pubCheck, selfCheck);
-    if (valid == true) {
-        window.location.href = '#';
+    const adultCheckbox = document.getElementById('adultCheck');
+    if (adultCheckbox.checked == true) {
+        isAdultLiterature = true;
     } else {
-        checkError.innerHTML = '<p class="optionErr">You have to choose one option.</p>';
-        // TODO: MEG KELL OLDANI, HOGY MIUTÁN VÁLASZTOTT EGY OPTION-T AKKOR TŰNJÖN EL A HIBA
+        isAdultLiterature = false;
+    }
+
+    console.log(inputPicture.value);
+    // console.log(isAdultLiterature);
+    if (publishingStatus == 0) {
+        checkError.innerHTML = `<p>You have to choose how to publish!</p>`;
+    } else {
+        checkError.innerHTML = "";
+        if (publishingStatus == 1) {
+            // looking for publisher case
+            if (picPass == true &&
+                filePass == true &&
+                titlePass == true &&
+                descriptionPass == true &&
+                audiencePass == true &&
+                languagePass == true &&
+                categoryPass == true &&
+                chapterPass == true) {
+
+                // itt a price-nak mi legyen a sorsa?
+
+                const addBook_response_publisher = await addBook({
+                    "title": titleValue,
+                    "description": descValue,
+                    "targetAudienceId": audienceData,
+                    "languageId": selectedLanguage,
+                    "adultFiction": isAdultLiterature,
+                    "categoryId": selectedCategory,
+                    "statusId": 1,
+                    "price": "null",
+                    "coverImage": pictureName,
+                    "file": fileName,
+                    "bankAccountNumber": "null",
+                    "chapterNumber": chapternumber
+                });
+
+                console.log(addBook_response_publisher.status);
+            }
+
+        } else if (publishingStatus == 2) {
+            // self publish case
+            if (picPass == true &&
+                filePass == true &&
+                titlePass == true &&
+                descriptionPass == true &&
+                audiencePass == true &&
+                languagePass == true &&
+                categoryPass == true &&
+                chapterPass == true &&
+                bankPass == true &&
+                pricePass == true) {
+
+                const addBook_response_self = await addBook({
+                    "title": titleValue,
+                    "description": descValue,
+                    "targetAudienceId": audienceData,
+                    "languageId": selectedLanguage,
+                    "adultFiction": isAdultLiterature,
+                    "categoryId": selectedCategory,
+                    "statusId": 1,
+                    "price": priceValue,
+                    "coverImage": pictureName,
+                    "file": fileName,
+                    "bankAccountNumber": bankValue,
+                    "chapterNumber": chapternumber
+                });
+
+                console.log(addBook_response_self.status);
+            }
+        } else {
+            alert("You've done the impossible. Publishing status: " + publishingStatus);
+        }
     }
 })
-
-
