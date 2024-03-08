@@ -2367,7 +2367,8 @@ async function getSavedBooksByUserId() {
  * }
  * 
  * @return
-    * 200: Successfully set username
+    * 200: 
+        * jwt
     * 401:
         * User hasn't token
         * Invalid token
@@ -2396,8 +2397,11 @@ async function setUsername(raw) {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/setUsername", requestOptions);
+        var data = await response.json();
 
         if(response.status == 200) {
+            localStorage.setItem("Token", data.jwt);
+
             return {
                 status: response.status,
             }
@@ -2411,7 +2415,7 @@ async function setUsername(raw) {
         if(response.status == 422) {
             return {
                 status: response.status,
-                data: await response.json()
+                data: data
             }
         }
 
@@ -2961,7 +2965,8 @@ async function setIntroDescription(raw) {
  * }
  * 
  * @return
-    * 200: Successfully set profile image
+    * 200: 
+        * jwt
     * 401:
         * User hasn't token
         * Invalid token
@@ -2990,8 +2995,11 @@ async function setProfileImage(raw) {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/setProfileImage", requestOptions);
+        var data = await response.json();
 
         if(response.status == 200) {
+            localStorage.setItem("Token", data.jwt);
+
             return {
                 status: response.status,
             }
@@ -3005,7 +3013,7 @@ async function setProfileImage(raw) {
         if(response.status == 422) {
             return {
                 status: response.status,
-                data: await response.json()
+                data: data
             }
         }
 
