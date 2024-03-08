@@ -424,7 +424,7 @@ public class BookService {
                 errors.put("categoryError", "The category field cannot be empty!");
             }
 
-            if(price != null) {
+            if(statusId == 2 && price != null) {
                 if(price < 1000) {
                     errors.put("priceError", "The price must be a minimum of 1000 Hungarian Forints!");
                 } else {
