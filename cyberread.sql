@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Feb 29. 18:31
+-- Létrehozás ideje: 2024. Már 08. 10:09
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -50,8 +50,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `addBook` (IN `userIdIN` INT, IN `ti
         IF statusIN IS NOT NULL THEN
             IF statusIN = 1 THEN
                 SET statusText = "looking for a publisher";
-                INSERT INTO `book` (`book`.`writerId`,`book`.`title`, `book`.`description`, `book`.`targetAudienceId`, `book`.`languageId`, `book`.`adultFiction`, `book`.`categoryId`, `book`.`status`, `book`.`coverImage`, `book`.`file`, `book`.`chapterNumber`, `book`.`freeChapterNumber`)
-                VALUES (userIdIN, titleIN, descriptionIN, targetAudienceIdIN, languageIdIN, adultFictionIN, categoryIdIN, statusText, coverImageIN, fileIN, chapterNumberIN, freeChapterNumberIN);
+                INSERT INTO `book` (`book`.`writerId`,`book`.`title`, `book`.`description`, `book`.`targetAudienceId`, `book`.`languageId`, `book`.`adultFiction`, `book`.`categoryId`, `book`.`status`, `book`.`coverImage`, `book`.`file`, `book`.`chapterNumber`, `book`.`freeChapterNumber`, `book`.`price`)
+                VALUES (userIdIN, titleIN, descriptionIN, targetAudienceIdIN, languageIdIN, adultFictionIN, categoryIdIN, statusText, coverImageIN, fileIN, chapterNumberIN, freeChapterNumberIN, NULL);
                 SET result = 1;
             ELSEIF statusIN = 2 THEN
                 SET statusText = "self-published";
@@ -1512,7 +1512,7 @@ CREATE TABLE `book` (
   `publishedTime` timestamp NOT NULL DEFAULT current_timestamp(),
   `rating` double UNSIGNED DEFAULT NULL,
   `description` varchar(1000) NOT NULL,
-  `price` int(10) UNSIGNED NOT NULL,
+  `price` int(10) UNSIGNED DEFAULT NULL,
   `coverImage` varchar(100) NOT NULL,
   `file` varchar(100) NOT NULL,
   `chapterNumber` int(10) UNSIGNED NOT NULL,
@@ -1575,7 +1575,11 @@ INSERT INTO `book` (`id`, `title`, `status`, `writerId`, `publisherId`, `publish
 (43, 'Negyedik könyv', 'looking for a publisher', 1, NULL, '2023-12-20 08:09:22', NULL, 'Ez a negyedik könyv leírása.', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, NULL, 1, 1, 1),
 (45, 'Negyedik könyv', 'published by', 3, 9, '2023-12-20 08:18:09', NULL, 'Ez a negyedik könyv leírása.', 1250, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, '12345678', 1, 1, 1),
 (46, 'A!!!!!!!', 'self-published', 1, NULL, '2024-02-21 09:26:45', NULL, 'Ez a negyedik könyv leírása.', 1000, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, '12345678', 1, 1, 1),
-(47, 'A!!!!!!!', 'self-published', 1, NULL, '2024-02-21 09:29:48', NULL, '$$$$$$$$$$$!!a!!!!!!!!!!!!$', 1000, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, '12345678', 1, 1, 1);
+(47, 'A!!!!!!!', 'self-published', 1, NULL, '2024-02-21 09:29:48', NULL, '$$$$$$$$$$$!!a!!!!!!!!!!!!$', 1000, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, '12345678', 1, 1, 1),
+(48, 'A!!!ASDFsdfs!!!!', 'self-published', 1, NULL, '2024-03-08 08:48:55', NULL, 'ASFDSFSDGJKFEGJFDKGjfdslkghfdsgfdsglkhfdkgdfk', 2000, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 30, 6, 0, 1, '12345678', 1, 1, 1),
+(49, 'A!!!ASDFsdfs!!!!', 'looking for a publisher', 1, NULL, '2024-03-08 08:58:37', NULL, 'ASFDSFSDGJKFEGJFDKGjfdslkghfdsgfdsglkhfdkgdfk', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 30, 6, 0, 1, NULL, 1, 1, 1),
+(50, 'A!!!ASDFsdfs!!!!', 'looking for a publisher', 1, NULL, '2024-03-08 08:58:56', NULL, 'ASFDSFSDGJKFEGJFDKGjfdslkghfdsgfdsglkhfdkgdfk', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 30, 6, 0, 1, NULL, 1, 1, 1),
+(51, 'A!!!ASDFsdfs!!!!', 'looking for a publisher', 1, NULL, '2024-03-08 09:07:38', NULL, 'ASFDSFSDGJKFEGJFDKGjfdslkghfdsgfdsglkhfdkgdfk', NULL, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 30, 6, 0, 1, NULL, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -2086,7 +2090,8 @@ INSERT INTO `post` (`id`, `userId`, `description`, `postTime`) VALUES
 (23, 17, 'Ein weiterer deutscher Beitrag. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.', '2023-01-17 15:55:00'),
 (24, 18, 'Un altro post italiano. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.', '2023-01-18 18:00:00'),
 (25, 19, 'Még egy magyar poszt. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.', '2023-01-19 20:15:00'),
-(26, 20, 'Encore une publication en français. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.', '2023-01-20 08:20:00');
+(26, 20, 'Encore une publication en français. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.', '2023-01-20 08:20:00'),
+(27, 44, 'asd', '2024-03-02 21:40:49');
 
 -- --------------------------------------------------------
 
@@ -2267,7 +2272,7 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `rank`, `firstName`, 
 (47, 'hedda', 'mayer@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Hedda', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-02-16 12:08:37', 1, 1, 36),
 (48, 'hedda1234', 'mayer.hedda1234@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Adrienn', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-02-20 09:58:52', 0, 1, 37),
 (49, 'dkjsahfkjdsf', 'mayer.hedda2222@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Adrienn', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-02-20 10:04:51', 0, 1, 38),
-(50, 'asdf', 'asdf@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'asd', 'asd', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-02-20 10:12:11', 1, 1, 39);
+(50, 'asdf', 'asdf@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'asd', 'asd', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-02-20 10:12:11', 0, 1, 39);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -2433,7 +2438,7 @@ ALTER TABLE `aszf`
 -- AUTO_INCREMENT a táblához `book`
 --
 ALTER TABLE `book`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT a táblához `bookrating`
@@ -2511,7 +2516,7 @@ ALTER TABLE `payment`
 -- AUTO_INCREMENT a táblához `post`
 --
 ALTER TABLE `post`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT a táblához `postlike`
