@@ -404,12 +404,18 @@ Ha találok rá jobb megoldást javítom :)  */
 
 /* recom. profs */
 #recom-profs {
-    width: 400px;
+    width: 550px;
 }
 
 .carousel-item.active {
+    display: grid;
+    place-items: center;
+}
+
+.item-row{
     display: flex;
     justify-content: center;
+    gap: 30px;
     align-items: center;
 }
 

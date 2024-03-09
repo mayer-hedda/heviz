@@ -759,7 +759,7 @@ nextBtn.addEventListener('click', async (e) => {
                     "adultFiction": isAdultLiterature,
                     "categoryId": selectedCategory,
                     "statusId": 1,
-                    "price": priceValue,
+                    "price": 0,
                     "coverImage": pictureName,
                     "file": fileName,
                     "bankAccountNumber": bankValue,
