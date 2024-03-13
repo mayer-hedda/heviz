@@ -190,7 +190,7 @@ public class UserService {
             // first name check
             if(firstName == null || firstName.isEmpty()) {
                 error.put("firstNameError", "The first name field cannot be empty!");
-            } else if(!firstName.matches("^[a-zA-Z].*$")) {
+            } else if(!firstName.matches("^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ].*$")) {
                 error.put("firstNameError", "The first name can only start with a letter!");
             } else if(firstName.length() < 3) {
                 error.put("firstNameError", "First name must be at least 3 character long!");
@@ -201,7 +201,7 @@ public class UserService {
             // last name check
             if(lastName == null || lastName.isEmpty()) {
                 error.put("lastNameError", "The last name field cannot be empty!");
-            } else if(!lastName.matches("^[a-zA-Z].*$")) {
+            } else if(!lastName.matches("^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ].*$")) {
                 error.put("lastNameError", "The last name can only start with a letter!");
             } else if(lastName.length() < 3) {
                 error.put("lastNameError", "Last name must be at least 3 character long!");
