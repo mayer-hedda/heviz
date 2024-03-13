@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Már 08. 10:09
+-- Létrehozás ideje: 2024. Már 13. 09:07
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -664,7 +664,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getPublishersWriters` (IN `pagesNum
                 WHERE `user`.`username` = profileUsernameIN
             )
         )
-        LIMIT 3 OFFSET pagesNumberIN;
+        LIMIT 2 OFFSET pagesNumberIN;
     END IF;
     
 END$$
@@ -1795,7 +1795,13 @@ INSERT INTO `categoryinterest` (`id`, `userId`, `categoryId`) VALUES
 (87, 32, 9),
 (88, 32, 10),
 (89, 32, 11),
-(90, 32, 12);
+(90, 32, 12),
+(91, 1, 6),
+(92, 1, 7),
+(93, 1, 8),
+(94, 1, 9),
+(95, 1, 11),
+(96, 1, 12);
 
 -- --------------------------------------------------------
 
@@ -2468,7 +2474,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT a táblához `categoryinterest`
 --
 ALTER TABLE `categoryinterest`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT a táblához `color`
