@@ -324,9 +324,9 @@ public class UserController {
             switch (tokenCheckResult) {
                 case 1:
                     Integer userId = Token.getUserIdByToken(jwt);
-                    JSONObject result = UserService.setUsername(userId, user.getUsername());
-                    if(result.length() == 0) {
-                        return Response.status(Response.Status.OK).build();
+                    JSONObject result = UserService.setUsername(userId, user.getUsername(), jwt);
+                    if(result.has("jwt")) {
+                        return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
                     }
                     return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
                 case 2:
@@ -740,9 +740,9 @@ public class UserController {
             switch (tokenCheckResult) {
                 case 1:
                     Integer userId = Token.getUserIdByToken(jwt);
-                    JSONObject result = UserService.setProfileImage(userId, user.getImage());
-                    if(result.length() == 0) {
-                        return Response.status(Response.Status.OK).build();
+                    JSONObject result = UserService.setProfileImage(userId, user.getImage(), jwt);
+                    if(result.has("jwt")) {
+                        return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
                     }
                     return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
                 case 2:

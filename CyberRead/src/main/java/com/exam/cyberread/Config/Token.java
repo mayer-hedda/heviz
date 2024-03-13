@@ -44,6 +44,76 @@ public class Token {
 
         return token;
     }
+    
+    
+    /**
+     * @param oldJwt
+     * @param newUsername
+     * 
+     * @return new token
+     */
+    public static String createJwtWithNewUsername(String oldJwt, String newUsername) {
+        byte[] secret = Base64.getDecoder().decode("Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=");
+        Jws<Claims> result;
+        result = Jwts.parser().setSigningKey(Keys.hmacShaKeyFor(secret)).parseClaimsJws(oldJwt);
+        
+        Integer id = result.getBody().get("id", Integer.class);
+        String image = result.getBody().get("image", String.class);
+        String rank = result.getBody().get("rank", String.class);
+        
+        Instant now = Instant.now();
+        String token = Jwts.builder()
+                .setIssuer("CyberRead")
+                .setSubject("exam")
+                .claim("id", id)
+                .claim("username", newUsername)
+                .claim("image", image)
+                .claim("rank", rank)
+                .setIssuedAt(Date.from(now))
+                .setExpiration(Date.from(now.plus(7, ChronoUnit.DAYS)))
+                .signWith(
+                        SignatureAlgorithm.HS256,
+                        TextCodec.BASE64.decode("Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=")
+                )
+                .compact();
+
+        return token;
+    }
+    
+    
+    /**
+     * @param oldJwt
+     * @param newImage
+     * 
+     * @return new jwt
+     */
+    public static String createJwtWithNewImage(String oldJwt, String newImage) {
+        byte[] secret = Base64.getDecoder().decode("Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=");
+        Jws<Claims> result;
+        result = Jwts.parser().setSigningKey(Keys.hmacShaKeyFor(secret)).parseClaimsJws(oldJwt);
+        
+        Integer id = result.getBody().get("id", Integer.class);
+        String username = result.getBody().get("username", String.class);
+        String rank = result.getBody().get("rank", String.class);
+        
+        Instant now = Instant.now();
+        String token = Jwts.builder()
+                .setIssuer("CyberRead")
+                .setSubject("exam")
+                .claim("id", id)
+                .claim("username", username)
+                .claim("image", newImage)
+                .claim("rank", rank)
+                .setIssuedAt(Date.from(now))
+                .setExpiration(Date.from(now.plus(7, ChronoUnit.DAYS)))
+                .signWith(
+                        SignatureAlgorithm.HS256,
+                        TextCodec.BASE64.decode("Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=")
+                )
+                .compact();
+
+        return token;
+    }
 
     
     /**

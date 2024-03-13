@@ -177,17 +177,21 @@ public class UserService {
             // username check
             if(username == null || username.isEmpty()) {
                 error.put("usernameError", "The username field cannot be empty!");
+            } else if(!username.matches("^[a-z].*$")) { 
+                error.put("usernameError", "Username must start with a lowercase letter!");
             } else if(username.length() < 3) {
                 error.put("usernameError", "Username must be at least 3 characters long!");
             } else if(username.length() > 50) {
                 error.put("usernameError", "The username cannot be longer than 50 characters!");
-            } else if(!username.matches("^[a-zA-Z0-9._]*$")) {
-                error.put("usernameError", "Invalid username! Please avoid using special characters exept: _ (underscore) and . (dot)");
+            } else if(!username.matches("^[a-z0-9._]*$")) {
+                error.put("usernameError", "Invalid username! Please avoid using special characters exept: _ (underscore) and . (dot)!");
             }
 
             // first name check
             if(firstName == null || firstName.isEmpty()) {
                 error.put("firstNameError", "The first name field cannot be empty!");
+            } else if(!firstName.matches("^[a-zA-Z].*$")) {
+                error.put("firstNameError", "The first name can only start with a letter!");
             } else if(firstName.length() < 3) {
                 error.put("firstNameError", "First name must be at least 3 character long!");
             } else if(firstName.length() > 50) {
@@ -197,6 +201,8 @@ public class UserService {
             // last name check
             if(lastName == null || lastName.isEmpty()) {
                 error.put("lastNameError", "The last name field cannot be empty!");
+            } else if(!lastName.matches("^[a-zA-Z].*$")) {
+                error.put("lastNameError", "The last name can only start with a letter!");
             } else if(lastName.length() < 3) {
                 error.put("lastNameError", "Last name must be at least 3 character long!");
             } else if(lastName.length() > 50) {
@@ -349,6 +355,7 @@ public class UserService {
     /**
      * @param userId
      * @param username
+     * @param jwt
      * 
      * @return
         * error: 
@@ -358,7 +365,7 @@ public class UserService {
      * 
      * @throws UserException: Something wrong!
      */
-    public static JSONObject setUsername(Integer userId, String username) throws UserException {
+    public static JSONObject setUsername(Integer userId, String username, String jwt) throws UserException {
         try {
             JSONObject error = new JSONObject();
             
@@ -373,6 +380,13 @@ public class UserService {
             } else {
                 if(!User.setUsername(userId, username)) {
                     error.put("setUsernameError", "Could not change your username!");
+                } else {
+                    JSONObject result = new JSONObject();
+                    
+                    String newJwt = Token.createJwtWithNewUsername(jwt, username);
+                    result.put("jwt", newJwt);
+                    
+                    return result;
                 }
             }
             
@@ -729,7 +743,7 @@ public class UserService {
      * 
      * @throws UserException: Something wrong!
      */
-    public static JSONObject setProfileImage(Integer userId, String image) throws UserException {
+    public static JSONObject setProfileImage(Integer userId, String image, String jwt) throws UserException {
         try {
             JSONObject error = new JSONObject();
             
@@ -737,6 +751,13 @@ public class UserService {
                 error.put("profileImageError", "The profile image cannot be longer than 100 characters!");
             } else if(!User.setProfileImage(userId, image)) {
                 error.put("setProfileImage", "Could not change your profile image!");
+            } else {
+                JSONObject result = new JSONObject();
+                
+                String newJwt = Token.createJwtWithNewImage(jwt, image);
+                result.put("jwt", newJwt);
+                
+                return result;
             }
             
             return error;
