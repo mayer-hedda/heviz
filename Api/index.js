@@ -1135,6 +1135,7 @@ async function addCategoryInterest(raw) {
     }
 
     var postData = JSON.stringify(raw);
+    console.log(postData);
 
     var requestOptions = {
         method: 'POST',
@@ -1145,6 +1146,7 @@ async function addCategoryInterest(raw) {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/categoryinterest/addCategoryInterest", requestOptions);
+        console.log(response);
 
         if (response.status == 401) {
             return {

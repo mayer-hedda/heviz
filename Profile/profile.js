@@ -74,7 +74,7 @@ window.onload = async function () {
 
                     loadProfilePicture(responseUser);
                     loadCoverColor(responseUser);
-                    loadUserTextDatas(responseUser);
+                    loadUserTextDatas(responseUser, tokenResponese);
                     contactInfos(settingsDetails);
 
                     addPlaceholder(settingsDetails, "username", input_un);
@@ -252,7 +252,7 @@ intro_saveBtn.addEventListener('click', async function () {
     const introResult = await setIntroDescription({ "introDescription": `${introValue}` });
     if (introResult.status == 200) {
         console.log("Successful intro description");
-
+        location.reload();
 
     } else if (introResult.status == 401) {
         alert("Statuscode: " + introResult.status + ". Error message: " + introResult.data)
@@ -323,12 +323,15 @@ function loadCoverColor(response) {
  * Ez azért van hogy elég legyen egyszer létrehozni az oldalt, ne kelljen külön
  * publisher és general profilt létrehozni.
  */
-function loadUserTextDatas(responseUser, responseDetails) {
+function loadUserTextDatas(responseUser, responseToken) {
     const name = document.getElementById('name');
     const u_name = document.getElementById('username');
-    // const partners = document.getElementById('partner-number');
+    const partners_books = document.getElementById('partner-number');
     const own_books = document.getElementById('own-books-number');
     const followers = document.getElementById('followers-number');
+
+    const partners_p = document.getElementById('partners-p');
+    const bookCount_p = document.getElementById('bookCount-p');
 
 
     if (responseUser.data.companyName != undefined) {
@@ -336,6 +339,22 @@ function loadUserTextDatas(responseUser, responseDetails) {
     } else {
         name.innerHTML = `${responseUser.data.firstName} ${responseUser.data.lastName}`;
     }
+
+
+    if (responseToken.data.rank == "publisher") {
+        if(responseUser.data.writerCount !== undefined){
+            partners_books.textContent = `${responseUser.data.writerCount}`;
+        }
+
+    } else {
+        partners_p.hidden = true;
+        bookCount_p.hidden = false;
+
+        if(responseUser.data.bookCount !== undefined){
+            partners_books.textContent = `${responseUser.data.bookCount}`;
+        }
+    }
+
 
     u_name.innerHTML = `@${responseUser.data.username}`;
 
@@ -1747,3 +1766,8 @@ settings_modal.addEventListener('hidden.bs.modal', function () {
     // Újratöltjük az oldalt
     location.reload();
 });
+
+// var click = 1;
+// function getWriters(click){
+//     if()
+// }

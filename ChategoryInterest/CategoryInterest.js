@@ -150,11 +150,13 @@ function addCategory(event, category_id) {
 }
 
 next_btn.addEventListener('click', async function () {
-    let array = {"categoryIds": choosedCategories};
+    let array  = {"categoryIds": choosedCategories};
+
     if (categoryPass && choosedCategories.length > 0) {
         console.log(array);
         console.log(typeof array);
-        const category_result = await addCategoryInterest(array.json(   ));
+        let category_result = await addCategoryInterest(array);
+        
         console.log(category_result.status);
         console.log(category_result.error);
     }
