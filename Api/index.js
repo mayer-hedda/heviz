@@ -1110,10 +1110,7 @@ async function getRecommandedUsers() {
  *  }
  * 
  * @return
-    * 200:
-        * recommanded users
-            * username
-            * image
+    * 200: successfully added category interest
     * 
     * 401:
         * User hasn't token
@@ -1151,7 +1148,7 @@ async function addCategoryInterest(raw) {
                 status: response.status,
                 data: await response.text()
             }
-        } else if(response.status == 200 || response.status == 422) {
+        } else if(response.status == 422) {
             return {
                 status: response.status,
                 data: await response.json()
