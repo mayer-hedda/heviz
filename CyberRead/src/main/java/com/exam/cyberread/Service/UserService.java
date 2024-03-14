@@ -856,8 +856,9 @@ public class UserService {
      * 
      * @throws UserException: Something wrong!
      */
-    public static JSONObject getPublishersWriters(Integer pagesNumber, String profileUsername) throws UserException {
+    public static JSONArray getPublishersWriters(Integer pagesNumber, String profileUsername) throws UserException {
         try {
+            JSONArray errors = new JSONArray();
             JSONObject error = new JSONObject();
             
             // profile username check
@@ -882,7 +883,8 @@ public class UserService {
                 return User.getPublishersWriters(pagesNumber, profileUsername);
             }
             
-            return error;
+            errors.put(error);
+            return errors;
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
             throw new UserException("Error getPublishersWriters() method!");

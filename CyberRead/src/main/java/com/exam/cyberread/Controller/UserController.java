@@ -885,9 +885,17 @@ public class UserController {
 
             switch (tokenCheckResult) {
                 case 1:
-                    JSONObject result = UserService.getPublishersWriters(user.getPagesNumber(), user.getProfileUsername());
+                    JSONArray result = UserService.getPublishersWriters(user.getPagesNumber(), user.getProfileUsername());
                     
-                    if(result.has("username")) {
+                    boolean containsUsername = false;
+                    for (int i = 0; i < result.length(); i++) {
+                        JSONObject jsonObject = result.getJSONObject(i);
+                        if (jsonObject.has("username")) {
+                            containsUsername = true;
+                            break;
+                        }
+                    }
+                    if(!result.isEmpty() && containsUsername) {
                         return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
                     }
                     

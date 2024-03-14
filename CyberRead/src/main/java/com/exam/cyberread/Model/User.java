@@ -1203,7 +1203,7 @@ public class User implements Serializable {
      * 
      * @throws UserException: Something wrong!
      */
-    public static JSONObject getPublishersWriters(Integer pagesNumber, String profileUsername) throws UserException {
+    public static JSONArray getPublishersWriters(Integer pagesNumber, String profileUsername) throws UserException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
         EntityManager em = emf.createEntityManager();
 
@@ -1219,11 +1219,14 @@ public class User implements Serializable {
             spq.execute();
             
             List<Object[]> resultList = spq.getResultList();
-            JSONObject writers = new JSONObject();
+            JSONArray writers = new JSONArray();
             
             for(Object[] result : resultList) {
-                writers.put("image", result[0]);
-                writers.put("username", result[1]);
+                JSONObject writer = new JSONObject();
+                writer.put("image", result[0]);
+                writer.put("username", result[1]);
+                
+                writers.put(writer);
             }
             
             return writers;
