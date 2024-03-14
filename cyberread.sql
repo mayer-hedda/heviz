@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Már 13. 09:07
+-- Létrehozás ideje: 2024. Már 14. 18:02
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -1675,19 +1675,19 @@ INSERT INTO `category` (`id`, `name`, `image`) VALUES
 (18, 'Hobby & freetime', 'pictures/category/hobbies_leisure.jpg'),
 (19, 'Journals, Magazines', 'pictures/category/journals_magazines.jpg'),
 (20, '18+', 'pictures/category/18+.jpg'),
-(21, 'Sci-fi', 'pictures/category/sci-fi.jfif'),
+(21, 'Sci-fi', 'pictures/category/sci-fi.jpg'),
 (22, 'Family', 'pictures/category/family.jpg'),
 (23, 'Romantic', 'pictures/category/romantic.jpg'),
 (24, 'TV-Series', 'pictures/category/tv-series.jpg'),
 (25, 'Horror, Thriller', 'pictures/category/horror_thriller.jpg'),
-(26, 'Comedy', 'pictures/category/comedy.jfif'),
-(27, 'Poems', 'pictures/category/poems.jfif'),
-(28, 'Adventure', 'pictures/category/adventure.jfif'),
-(29, 'Action', 'pictures/category/action.jfif'),
-(30, 'Crime', 'pictures/category/crime.jfif\r\n'),
-(31, 'Informative', 'pictures/category/informative.jfif'),
-(32, 'Associate Science', 'pictures/category/associate-science.jfif'),
-(33, 'Reference books', 'pictures/category/reference-books.jfif');
+(26, 'Comedy', 'pictures/category/comedy.jpg'),
+(27, 'Poems', 'pictures/category/poems.jpg'),
+(28, 'Adventure', 'pictures/category/adventure.jpg'),
+(29, 'Action', 'pictures/category/action.jpg'),
+(30, 'Crime', 'pictures/category/crime.jpg'),
+(31, 'Informative', 'pictures/category/informative.jpg'),
+(32, 'Associate Science', 'pictures/category/associate-science.jpg'),
+(33, 'Reference books', 'pictures/category/reference-books.jpg');
 
 -- --------------------------------------------------------
 
@@ -1801,7 +1801,13 @@ INSERT INTO `categoryinterest` (`id`, `userId`, `categoryId`) VALUES
 (93, 1, 8),
 (94, 1, 9),
 (95, 1, 11),
-(96, 1, 12);
+(96, 1, 12),
+(97, 52, 1),
+(98, 52, 2),
+(99, 52, 5),
+(100, 52, 13),
+(101, 52, 18),
+(102, 52, 17);
 
 -- --------------------------------------------------------
 
@@ -1952,7 +1958,8 @@ INSERT INTO `general` (`id`, `birthdate`, `publishedBookCount`, `selfPublishedBo
 (36, '2002-12-12', 0, 0),
 (37, '1121-12-12', 0, 0),
 (38, '1999-12-12', 0, 0),
-(39, '1212-12-12', 0, 0);
+(39, '1212-12-12', 0, 0),
+(40, '2002-11-11', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -2155,7 +2162,8 @@ INSERT INTO `publisher` (`id`, `companyName`, `publishedBookCount`, `publishedBo
 (8, 'Történetek Tárháza Kiadó', 2, 0),
 (9, 'Mesevilág Kiadóház', 3, 0),
 (10, 'Mesekönyv Birodalom', 1, 0),
-(11, 'IFJ regények', 34, 0);
+(11, 'IFJ regények', 34, 0),
+(12, 'AlbertDezso', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -2278,7 +2286,9 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `rank`, `firstName`, 
 (47, 'hedda', 'mayer@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Hedda', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-02-16 12:08:37', 1, 1, 36),
 (48, 'hedda1234', 'mayer.hedda1234@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Adrienn', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-02-20 09:58:52', 0, 1, 37),
 (49, 'dkjsahfkjdsf', 'mayer.hedda2222@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Adrienn', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-02-20 10:04:51', 0, 1, 38),
-(50, 'asdf', 'asdf@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'asd', 'asd', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-02-20 10:12:11', 0, 1, 39);
+(50, 'asdf', 'asdf@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'asd', 'asd', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-02-20 10:12:11', 0, 1, 39),
+(51, 'uj_publisher', 'ujpublisher@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Dezső', 'Albert', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-03-13 10:21:57', 1, 1, 12),
+(52, 'alma123123123', 'alma12312311231231@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'alma', 'alma', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-03-14 15:46:15', 0, 1, 40);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -2474,7 +2484,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT a táblához `categoryinterest`
 --
 ALTER TABLE `categoryinterest`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT a táblához `color`
@@ -2498,7 +2508,7 @@ ALTER TABLE `forgotpassword`
 -- AUTO_INCREMENT a táblához `general`
 --
 ALTER TABLE `general`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT a táblához `helpcenter`
@@ -2534,7 +2544,7 @@ ALTER TABLE `postlike`
 -- AUTO_INCREMENT a táblához `publisher`
 --
 ALTER TABLE `publisher`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT a táblához `saved`
@@ -2552,7 +2562,7 @@ ALTER TABLE `targetaudience`
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
