@@ -2031,7 +2031,7 @@ async function getPublishersWriters(raw) {
                 status: response.status,
                 data: await response.text()
             }
-        } else if (response.status == 422 && response.status == 200) {
+        } else if (response.status == 422 || response.status == 200) {
             return {
                 status: response.status,
                 data: await response.json()
