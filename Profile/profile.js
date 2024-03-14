@@ -31,7 +31,7 @@ window.addEventListener('beforeunload', async function () {
 
 window.onload = async function () {
     const tokenResponese = await token();
-    console.log(tokenResponese);
+    // console.log(tokenResponese);
     switch (tokenResponese.status) {
         case 302:
             /**
@@ -47,6 +47,10 @@ window.onload = async function () {
                 our_books.textContent = "My Books";
                 our_posts.textContent = "My Posts";
                 buisness_settings.hidden = true;
+            } else {
+                // const writersResponse = await getPublishersWriters({ "pagesNumber": 1, "profileUsername": tokenResponese.data.username });
+                // console.log(writersResponse);
+                // loadWriters(writersResponse);
             }
 
             const responseUser = await getUserDetails({ "profileUsername": tokenResponese.data.username });
@@ -67,6 +71,8 @@ window.onload = async function () {
                         const intro_div = document.getElementById('introdution');
                         intro_div.hidden = true;
                     }
+
+
 
                     // settings endpont meghívása
                     var settingsDetails = await getDetails();
@@ -342,7 +348,7 @@ function loadUserTextDatas(responseUser, responseToken) {
 
 
     if (responseToken.data.rank == "publisher") {
-        if(responseUser.data.writerCount !== undefined){
+        if (responseUser.data.writerCount !== undefined) {
             partners_books.textContent = `${responseUser.data.writerCount}`;
         }
 
@@ -350,7 +356,7 @@ function loadUserTextDatas(responseUser, responseToken) {
         partners_p.hidden = true;
         bookCount_p.hidden = false;
 
-        if(responseUser.data.bookCount !== undefined){
+        if (responseUser.data.bookCount !== undefined) {
             partners_books.textContent = `${responseUser.data.bookCount}`;
         }
     }
@@ -1767,7 +1773,28 @@ settings_modal.addEventListener('hidden.bs.modal', function () {
     location.reload();
 });
 
-// var click = 1;
-// function getWriters(click){
-//     if()
-// }
+var click = 1;
+const active_writer_items = document.getElementById('active-writer-items');
+function loadWriters(response) {
+    // itt a default writer-eket töltöm be amelyek megjelennek alapértelmezetten
+    for (let i = 0; i < 2; i++) {
+        active_writer_items.innerHTML += `
+            <div class="profiles">
+                <img src="../${response.data.image}" alt="${response.data.username}" class="prof-pic shadow-sm">
+                <p class="text-center our-users-name">${response.data.username}</p>
+            </div>           
+        `;
+
+    }
+}
+
+function getMoreWriters(responseUserDetails) {
+
+    const ourWriters_div = document.getElementById('our-writers-div');
+
+    if (responseUserDetails.data.writerCount == 0) {
+        ourWriters_div.hidden = true;
+    } else if (responseUserDetails.data.writerCount == 2) {
+
+    }
+}

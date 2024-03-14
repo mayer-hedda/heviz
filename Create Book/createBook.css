@@ -226,7 +226,7 @@
     margin-left: 0.625rem;
 }
 
-#Next:hover {
+#Next:hover{
     display: inline-flex;
     height: fit-content;
     width: fit-content;
@@ -618,4 +618,18 @@ option:checked {
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+/* Error modal */
+.modalBtn{
+    /* background-color: var(--controlNext-btn)!important; */
+    font-family: 'Poppins-Regular', sans-serif!important;
+}
+
+.modal-p{
+    font-family: 'Poppins-Regular', sans-serif!important;
+}
+
+.modal-content{
+    background-color: #ffe9eb!important;
 }

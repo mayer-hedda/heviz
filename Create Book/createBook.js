@@ -582,12 +582,19 @@ chapter_number.addEventListener('focusout', (e) => {
     if (chapter_number.value != "") {
         chapternumber = chapter_number.value;
         chapterPass = true;
+        chapterError.innerHTML = "";
         chapter_number.classList.add('inputPass');
     } else {
         chapter_number.classList.remove('inputPass');
         chapter_number.classList.add('inputError');
         chapterError.innerHTML = `<p>This field cannot be empty.</p>`;
     }
+})
+
+chapter_number.addEventListener("focusin", (e)=>{
+    chapterError.innerHTML = "";
+    chapter_number.classList.remove('inputPass');
+    chapter_number.classList.remove('inputError');
 })
 
 //? BANK ACC NUMBER
@@ -642,7 +649,7 @@ bankAccNumber.addEventListener('focusin', (e) => {
     bankError.innerHTML = "";
 })
 
-//? MIN PRICE
+// MIN PRICE
 function minPrice(priceValue) {
     if (priceValue < 1000) {
         bookPrice.classList.add('inputError');
@@ -663,11 +670,12 @@ bookPrice.addEventListener('focusout', (e) => {
         console.log("pricePass value: " + pricePass);
         priceValue = "";
     } else {
-        const minFunctionValue = minPrice(priceValue);
+        // Átadjuk a bookPrice.value-t a minPrice függvénynek
+        const minFunctionValue = minPrice(bookPrice.value);
         if (minFunctionValue == false) {
             priceValue = "";
             pricePass = false;
-            priceError.innerHTMLű = `<p class="priceErrorP">The price must be a minimum of 1000 Hungarian Forints!</p>`;
+            priceError.innerHTML = `<p class="priceErrorP">The price must be a minimum of 1000 Hungarian Forints!</p>`; // Hibás sor
             bookPrice.classList.add('inputError');
             console.log("A minPrice függvény értéke: " + minFunctionValue);
             console.log("pricePass value: " + pricePass);
@@ -675,7 +683,7 @@ bookPrice.addEventListener('focusout', (e) => {
             bookPrice.classList.add('inputPass');
             pricePass = true;
             priceValue = bookPrice.value;
-            console.log("pricePass value: " + descriptionPass);
+            console.log("pricePass value: " + pricePass);
         }
     }
 })
@@ -693,6 +701,8 @@ const checkError = document.getElementById('checkboxError');
 let isAdultLiterature = false;
 
 nextBtn.addEventListener('click', async (e) => {
+    nextBtn.removeAttribute('data-bs-toggle', 'modal');
+    nextBtn.removeAttribute('data-bs-target', '#errorModal');
     e.preventDefault();
     const adultCheckbox = document.getElementById('adultCheck');
     if (adultCheckbox.checked == true) {
@@ -701,7 +711,7 @@ nextBtn.addEventListener('click', async (e) => {
         isAdultLiterature = false;
     }
 
-    console.log(inputPicture.value);
+    // console.log(inputPicture.value);
     // console.log(isAdultLiterature);
     if (publishingStatus == 0) {
         checkError.innerHTML = `<p>You have to choose how to publish!</p>`;
@@ -717,8 +727,6 @@ nextBtn.addEventListener('click', async (e) => {
                 languagePass == true &&
                 categoryPass == true &&
                 chapterPass == true) {
-
-                // itt a price-nak mi legyen a sorsa?
 
                 const addBook_response_publisher = await addBook({
                     "title": titleValue,
@@ -736,6 +744,26 @@ nextBtn.addEventListener('click', async (e) => {
                 });
 
                 console.log(addBook_response_publisher.status);
+                switch (addBook_response_publisher.status) {
+                    case 200:
+                        window.location.href = "../General-HomePage/GenHome.html";
+                        break;
+                    case 403:
+                        window.location.href = "../404/404.html";
+                        break;
+                    case 401:
+                        window.location.href = "../Log-in/login.html";
+                        break;
+                    case 422:
+                        // ezt az esetet nem tudtam előidézni frontendről
+                        nextBtn.setAttribute('data-bs-toggle', 'modal');
+                        nextBtn.setAttribute('data-bs-target', '#staticBackdrop');
+                        document.getElementById('errorModal-p').textContent = `${addBook_response_publisher.data}`;
+                        break;
+                }
+            } else {
+                nextBtn.setAttribute('data-bs-toggle', 'modal');
+                nextBtn.setAttribute('data-bs-target', '#staticBackdrop');
             }
 
         } else if (publishingStatus == 2) {
@@ -767,7 +795,28 @@ nextBtn.addEventListener('click', async (e) => {
                 });
 
                 console.log(addBook_response_self.status);
+                switch (addBook_response_self.status) {
+                    case 200:
+                        window.location.href = "../General-HomePage/GenHome.html";
+                        break;
+                    case 403:
+                        window.location.href = "../404/404.html";
+                        break;
+                    case 401:
+                        window.location.href = "../Log-in/login.html";
+                        break;
+                    case 422:
+                        // ezt az esetet nem tudtam előidézni frontendről
+                        nextBtn.setAttribute('data-bs-toggle', 'modal');
+                        nextBtn.setAttribute('data-bs-target', '#staticBackdrop');
+                        document.getElementById('errorModal-p').textContent = `${addBook_response_publisher.data}`;
+                        break;
+                }
+            }else {
+                nextBtn.setAttribute('data-bs-toggle', 'modal');
+                nextBtn.setAttribute('data-bs-target', '#staticBackdrop');
             }
+
         } else {
             alert("You've done the impossible. Publishing status: " + publishingStatus);
         }
