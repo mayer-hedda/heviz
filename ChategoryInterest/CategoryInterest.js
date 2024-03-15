@@ -21,7 +21,7 @@ window.addEventListener('beforeunload', async function () {
 });
 
 window.onload = async function () {
-    const tokenResponse = await token();
+    var tokenResponse = await token();
     switch (tokenResponse.status) {
         case 401:
             window.location.href = "../Log-in/login.html";
@@ -141,7 +141,7 @@ function addCategory(event, category_id) {
         next_btn.removeAttribute('data-bs-target', '#errorModal');
         categoryPass = true;
         console.log(categoryPass);
-    }else{
+    } else {
         categoryPass = false;
         console.log(categoryPass);
         next_btn.setAttribute('data-bs-toggle', 'modal');
@@ -150,14 +150,40 @@ function addCategory(event, category_id) {
 }
 
 next_btn.addEventListener('click', async function () {
-    let array  = {"categoryIds": choosedCategories};
+    let array = { "categoryIds": choosedCategories };
 
     if (categoryPass && choosedCategories.length > 0) {
         console.log(array);
         console.log(typeof array);
         let category_result = await addCategoryInterest(array);
-        
+
         console.log(category_result.status);
-        console.log(category_result.error);
+        // console.log(category_result.error);
+        if (category_result.status == undefined) {
+            alert(category_result.error);
+        } else {
+            switch (category_result.status) {
+                case 200:
+                    if (tokenResponse.rank == "publisher") {
+                        window.location.href = "../Publisher-Home/PubHome.html";
+                    } else if (tokenResponse.rank == "general") {
+                        window.location.href = "../General-HomePage/GenHome.html";
+                    }
+                    break;
+
+                case 401:
+                    window.location.href = "../Log-in/login.html";
+                    break;
+
+                case 422:
+                    alert("Status: " + category_result.status + "| Message: " + category_result.data);
+                    break;
+
+                default:
+                    alert("Status: " + category_result.status + "| Message: " + category_result.data);
+                    break;
+
+            }
+        }
     }
 });

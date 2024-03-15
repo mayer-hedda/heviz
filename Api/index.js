@@ -1155,8 +1155,7 @@ async function addCategoryInterest(raw) {
             }
         } else if (response.status == 200 || response.status == 422) {
             return {
-                status: response.status,
-                data: await response.json()
+                status: response.status
             }
         }
 
@@ -1455,6 +1454,7 @@ async function getUserDetails(raw) {
     }
 
     var postData = JSON.stringify(raw);
+   
 
     var requestOptions = {
         method: 'POST',
@@ -1465,7 +1465,7 @@ async function getUserDetails(raw) {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/getUserDetails", requestOptions);
-
+        console.log(response);
         if (response.status == 401) {
             return {
                 status: response.status,
@@ -2029,16 +2029,17 @@ async function getPublishersWriters(raw) {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/getPublishersWriters", requestOptions);
+        var data = await response.json();
 
         if (response.status == 401) {
             return {
                 status: response.status,
                 data: await response.text()
             }
-        } else if (response.status == 422 && response.status == 200) {
+        } else if (response.status == 422 || response.status == 200) {
             return {
                 status: response.status,
-                data: await response.json()
+                data: data
             }
         }
 

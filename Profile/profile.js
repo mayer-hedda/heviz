@@ -20,6 +20,11 @@ const buisness_settings = document.getElementById('buisness-settings');
 const isEmail_public = document.getElementById('email-isPublic');
 const isPhone_public = document.getElementById('phone-isPublic');
 
+const ourWriters_div = document.getElementById('our-writers-div');
+const carousel = document.getElementById('recom-profs');
+const just_two_writer = document.getElementById('just-two-writer');
+
+
 // Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
 window.addEventListener('beforeunload', async function () {
     const tokenResponse = await token();
@@ -43,14 +48,10 @@ window.onload = async function () {
              *  - Our Posts menü helyett --> My Posts
              */
             if (tokenResponese.data.rank == "general") {
-                document.getElementById('our-writers-div').hidden = true;
+                ourWriters_div.hidden = true;
                 our_books.textContent = "My Books";
                 our_posts.textContent = "My Posts";
                 buisness_settings.hidden = true;
-            } else {
-                // const writersResponse = await getPublishersWriters({ "pagesNumber": 1, "profileUsername": tokenResponese.data.username });
-                // console.log(writersResponse);
-                // loadWriters(writersResponse);
             }
 
             const responseUser = await getUserDetails({ "profileUsername": tokenResponese.data.username });
@@ -72,6 +73,26 @@ window.onload = async function () {
                         intro_div.hidden = true;
                     }
 
+                    if (tokenResponese.data.rank == "publisher" && responseUser.data.writerCount == 0) {
+                        ourWriters_div.hidden = true;
+                    }else if(tokenResponese.data.rank == "publisher" && responseUser.data.writerCount > 0 && responseUser.data.writerCount <= 2){
+                        carousel.hidden = true;
+                        just_two_writer.hidden = false;
+                        const writersResponse = await getPublishersWriters({"pagesNumber": 1, "profileUsername": tokenResponese.data.username});
+                        console.log("writersResponse: "+ JSON.stringify(writersResponse));
+                        console.log("WritersResponse data: " + JSON.stringify(writersResponse.data));
+                        console.log(writersResponse.data);
+                        for(let i = 0; i <= writersResponse.data.length-1; i++){
+                            just_two_writer.innerHTML += `
+                                <div class="profiles">
+                                    <img src="../${writersResponse.data[i].image}" alt="${writersResponse.data[i].username}" class="prof-pic shadow-sm">
+                                    <p class="text-center our-users-name">${writersResponse.data[i].username}</p>
+                                </div>
+                            `;
+                        }
+                    }else{
+
+                    }
 
 
                     // settings endpont meghívása
@@ -1788,13 +1809,6 @@ function loadWriters(response) {
     }
 }
 
-function getMoreWriters(responseUserDetails) {
+async function getMoreWriters(responseUserDetails) {
 
-    const ourWriters_div = document.getElementById('our-writers-div');
-
-    if (responseUserDetails.data.writerCount == 0) {
-        ourWriters_div.hidden = true;
-    } else if (responseUserDetails.data.writerCount == 2) {
-
-    }
 }
