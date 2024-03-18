@@ -221,40 +221,39 @@ label {
     background-color: rgb(255, 214, 220);
 }
 
-/* ! Ez még nem működik jól */
-@media (max-width: 555px) {
+
+@media (max-width: 569px) {
+    form {
+        width: 98%;
+    }
+
+    .definition {
+        font-size: 15px;
+    }
+    
     #names, #pwds{
         flex-direction: column;
         gap: 0px;
+        width: 99%;
+        padding: 0;
     }
 
-    /* #btns{
+    #btns{
         flex-direction: column;
         gap: 10px;
         align-items: center;
         margin-top: 15px;
-    } */
+    }
 
     #btns button.disabled-btn {
         font-size: 18px;
     }
 
-   
-
-    #aszf-checkbox{
-        display: flex;
-    }
-
     #checkLabel{
-        padding-left: 5px;
        font-size: 13px;
     }
 
     #login-link, #backToLanding{
-        font-size: 13px;
-    }
-
-    label{
         font-size: 15px;
     }
 }
