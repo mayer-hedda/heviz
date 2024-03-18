@@ -13,7 +13,7 @@ const next_btn = document.getElementById('next-btn');
 
 // Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
 window.addEventListener('beforeunload', async function () {
-    const tokenResponse = await token();
+    var tokenResponse = await token();
 
     if (tokenResponse.status === 401) {
         window.location.href = "../Log-in/login.html";
@@ -30,6 +30,44 @@ window.onload = async function () {
             const getCategory_response = await getAllCategory();
             console.log(getCategory_response);
             loadCategories(getCategory_response);
+            next_btn.addEventListener('click', async function () {
+                let array = { "categoryIds": choosedCategories };
+                // var tokenResponse = await token();
+                if (categoryPass && choosedCategories.length > 0) {
+                    console.log(array);
+                    console.log(typeof array);
+                    let category_result = await addCategoryInterest(array);
+            
+                    console.log(category_result.status);
+                    // console.log(category_result.error);
+                    if (category_result.status == undefined) {
+                        alert(category_result.error);
+                    } else {
+                        switch (category_result.status) {
+                            case 200:
+                                if (tokenResponse.rank == "publisher") {
+                                    window.location.href = "../Publisher-Home/PubHome.html";
+                                } else if (tokenResponse.data.rank == "general") {
+                                    window.location.href = "../General-HomePage/GenHome.html";
+                                }
+                                break;
+            
+                            case 401:
+                                window.location.href = "../Log-in/login.html";
+                                break;
+            
+                            case 422:
+                                alert("Status: " + category_result.status + "| Message: " + category_result.data);
+                                break;
+            
+                            default:
+                                alert("Status: " + category_result.status + "| Message: " + category_result.data);
+                                break;
+            
+                        }
+                    }
+                }
+            });
             break;
     }
 }
@@ -149,41 +187,3 @@ function addCategory(event, category_id) {
     }
 }
 
-next_btn.addEventListener('click', async function () {
-    let array = { "categoryIds": choosedCategories };
-
-    if (categoryPass && choosedCategories.length > 0) {
-        console.log(array);
-        console.log(typeof array);
-        let category_result = await addCategoryInterest(array);
-
-        console.log(category_result.status);
-        // console.log(category_result.error);
-        if (category_result.status == undefined) {
-            alert(category_result.error);
-        } else {
-            switch (category_result.status) {
-                case 200:
-                    if (tokenResponse.rank == "publisher") {
-                        window.location.href = "../Publisher-Home/PubHome.html";
-                    } else if (tokenResponse.rank == "general") {
-                        window.location.href = "../General-HomePage/GenHome.html";
-                    }
-                    break;
-
-                case 401:
-                    window.location.href = "../Log-in/login.html";
-                    break;
-
-                case 422:
-                    alert("Status: " + category_result.status + "| Message: " + category_result.data);
-                    break;
-
-                default:
-                    alert("Status: " + category_result.status + "| Message: " + category_result.data);
-                    break;
-
-            }
-        }
-    }
-});
