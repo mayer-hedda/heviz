@@ -182,6 +182,8 @@ username.addEventListener("focusout", () => {
 function checkEmail(email) {
     if (!email || email.trim() === '') {
         return "<p>The email field cannot be empty!</p>";
+    } else if(/[áéíóöőúüűÁÉÍÓÖŐÚÜŰ]/.test(email)) {
+        return "<p>The email address must not contain accented characters!</p>";
     } else {
         var specReg = /(?=.*[@])/;
         if (!specReg.test(email)) {
@@ -337,6 +339,8 @@ aszf.addEventListener("click", () => {
 function checkCompanyName(companyName) {
     if(!companyName || companyName.trim() === "") {
         return "<p>The company name field cannot be empty!</p>";
+    } else if(!/^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ].*$/.test(companyName)) {
+        return "<p>The company name must not start with a special character!</p>";
     } else if(companyName.length > 50) {
         return "<p>The company name cannot be longer than 50 characters!</p>";
     } else {
@@ -478,7 +482,7 @@ function checkDetails() {
                 e.preventDefault();
 
                 var postData = {
-                    "firstName": "",
+                    "firstName": firstName.value,
                     "lastName": lastName.value,
                     "username": username.value,
                     "email": email.value,
