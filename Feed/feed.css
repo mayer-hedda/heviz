@@ -9,9 +9,6 @@
         width: auto !important;
     }
 
-
-
-
 }
 
 
@@ -256,6 +253,11 @@ nav {
     margin-bottom: 6.25rem;
 }
 
+.missing-data-text {
+    color: #993b18;
+    font-style: italic;
+    font-size: 18px;
+}
 
 .post-card {
     /* display: flex; */
@@ -299,9 +301,17 @@ nav {
     font-weight: 600;
 }
 
+.user{
+    cursor: pointer;
+}
+
+.user:hover{
+    color: #B43C82!important;
+}
+
 .cardDate {
     margin-left: auto !important;
-    margin-top: 0.625rem;
+    margin-top: 5px;
 }
 
 .card-date-text {
@@ -311,6 +321,7 @@ nav {
     font-weight: 400;
     position: absolute;
     right: 40px;
+    top: 59px;
 }
 
 .postText {
@@ -333,12 +344,6 @@ nav {
     display: flex;
     margin-top: 1.875rem;
     width: fit-content;
-}
-
-.tag-design {
-    background-color: var(--tag-color);
-    padding: 0.313rem 0.625rem;
-    border-radius: 21.25rem;
 }
 
 .like-and-share {

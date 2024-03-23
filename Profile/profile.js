@@ -1,6 +1,7 @@
 // inputs on settings --> profile settings
 const input_un = document.getElementById('input-un');
 const input_email = document.getElementById('input-email');
+const input_website = document.getElementById('input-website');
 const input_pwd = document.getElementById('input-pwd');
 const input_phoneNumber = document.getElementById('input-phoneNumber');
 const input_fName = document.getElementById('input-fName');
@@ -24,6 +25,16 @@ const ourWriters_div = document.getElementById('our-writers-div');
 const carousel = document.getElementById('recom-profs');
 const just_two_writer = document.getElementById('just-two-writer');
 
+const followBTN = document.getElementById('follow-btn');
+
+const books_div = document.getElementById('books');
+
+// Modal btn-s
+const save_btn = document.getElementById('save-btn');
+const shopping_btn = document.getElementById('shopping-cart');
+const publish_btn = document.getElementById('publish-btn');
+const modal_footer_div = document.getElementById('general-m-footer-shop');
+const book_price = document.getElementById('book-price');
 
 // Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
 window.addEventListener('beforeunload', async function () {
@@ -35,31 +46,37 @@ window.addEventListener('beforeunload', async function () {
 });
 
 window.onload = async function () {
-    const tokenResponese = await token();
+    // Szerezzük be a username paramétert a URL-ből
+    const urlParams = new URLSearchParams(window.location.search);
+    var usernameFromLink = urlParams.get('username');
+
+    console.log('Felhasználónév: ', usernameFromLink);
+    var tokenResponese = await token();
     // console.log(tokenResponese);
     switch (tokenResponese.status) {
         case 302:
-            /**
-             * Ha general akkor elrejtem a következő adatokat
-             *  - író ajánlások
-             *  - settings-ben a company-ra vonatkozó beállítások
-             * Átírja a következőket:
-             *  - Our Books menü helyett --> My Books
-             *  - Our Posts menü helyett --> My Posts
-             */
-            if (tokenResponese.data.rank == "general") {
-                ourWriters_div.hidden = true;
-                our_books.textContent = "My Books";
-                our_posts.textContent = "My Posts";
-                buisness_settings.hidden = true;
-            }
-
-            const responseUser = await getUserDetails({ "profileUsername": tokenResponese.data.username });
+            var responseUser = await getUserDetails({ "profileUsername": usernameFromLink });
             console.log("User details: " + JSON.stringify(responseUser));
             switch (responseUser.status) {
                 case 200:
+                    /**
+                     * Ha general akkor elrejtem a következő adatokat
+                     *  - író ajánlások
+                     *  - settings-ben a company-ra vonatkozó beállítások
+                     * Átírja a következőket:
+                     *  - Our Books menü helyett --> My Books
+                     *  - Our Posts menü helyett --> My Posts
+                     */
+                    if (responseUser.data.rank == "general") {
+                        ourWriters_div.hidden = true;
+                        our_books.textContent = "My Books";
+                        our_posts.textContent = "My Posts";
+                        buisness_settings.hidden = true;
+                    }
+
                     const isOwnProf = checkOwnProfile(responseUser);
-                    if (isOwnProf === true) {
+
+                    if (isOwnProf == true) {
                         if (responseUser.data.introDescription === undefined || responseUser.data.introDescription == "") {
                             introText.hidden = true;
                             missing_intro_text.hidden = false;
@@ -68,68 +85,135 @@ window.onload = async function () {
                             introText.innerHTML = `${responseUser.data.introDescription}`;
                             isIntroExist = true;
                         }
-                    } else {
-                        const intro_div = document.getElementById('introdution');
-                        intro_div.hidden = true;
-                    }
 
-                    if (tokenResponese.data.rank == "publisher" && responseUser.data.writerCount == 0) {
-                        ourWriters_div.hidden = true;
-                    }else if(tokenResponese.data.rank == "publisher" && responseUser.data.writerCount > 0 && responseUser.data.writerCount <= 2){
-                        carousel.hidden = true;
-                        just_two_writer.hidden = false;
-                        const writersResponse = await getPublishersWriters({"pagesNumber": 1, "profileUsername": tokenResponese.data.username});
-                        console.log("writersResponse: "+ JSON.stringify(writersResponse));
-                        console.log("WritersResponse data: " + JSON.stringify(writersResponse.data));
-                        console.log(writersResponse.data);
-                        for(let i = 0; i <= writersResponse.data.length-1; i++){
-                            just_two_writer.innerHTML += `
-                                <div class="profiles">
-                                    <img src="../${writersResponse.data[i].image}" alt="${writersResponse.data[i].username}" class="prof-pic shadow-sm">
-                                    <p class="text-center our-users-name">${writersResponse.data[i].username}</p>
-                                </div>
-                            `;
+                        modal_footer_div.hidden = true;
+
+                        // load books
+                        const responseBooks = await getUserBooks({ "profileUsername": usernameFromLink });
+                        console.log("Books details: ", responseBooks);
+                        switch (responseBooks.status) {
+                            case 200:
+                                getBooks(responseBooks, responseUser);
+                                break;
+                            case 401:
+
+                                break;
+
+                            case 422:
+
+                                break;
                         }
-                    }else{
 
+                    } else if (isOwnProf == false) {
+                        if (responseUser.data.introDescription != undefined && responseUser.data.introDescription != "") {
+                            introText.innerHTML = `${responseUser.data.introDescription}`;
+                            isIntroExist = true;
+                        } else {
+                            document.getElementById('introdution').hidden = true;
+                        }
+
+                        var followed = false;
+                        if (responseUser.data.following == true) {
+                            followBTN.classList.remove('default-follow');
+                            followBTN.classList.add('followed');
+                            followBTN.textContent = "Followed";
+                            followed = true;
+
+                        } else if (responseUser.data.following == false) {
+                            followBTN.classList.remove('followed');
+                            followBTN.classList.add('default-follow');
+                            followBTN.textContent = "Follow";
+                            followed = false;
+                        }
+
+
+                        Follow(followBTN, responseUser, 9);
+
+                        if (responseUser.data.rank == "publisher" && tokenResponese.data.rank == "publisher") {
+                            document.getElementById('access-denied-notification').hidden = false;
+                            // books_div.hidden = true;
+                        } else if (responseUser.data.rank == "general" && tokenResponese.data.rank == "publisher") {
+                            publish_btn.hidden = false;
+                            book_price.hidden = true;
+                            shopping_btn.hidden = true;
+
+                            // load books
+                            const responseBooks = await getUserBooks({ "profileUsername": usernameFromLink });
+                            console.log("Books details: ", responseBooks);
+                            switch (responseBooks.status) {
+                                case 200:
+                                    getBooks(responseBooks, responseUser);
+                                    break;
+                                case 401:
+
+                                    break;
+
+                                case 422:
+
+                                    break;
+                            }
+                        } else if (responseUser.data.rank == "general" && tokenResponese.data.rank == "general" || responseUser.data.rank == "publisher" && tokenResponese.data.rank == "general") {
+                            publish_btn.hidden = true;
+                            book_price.hidden = false;
+                            shopping_btn.hidden = false;
+
+                            // load books
+                            const responseBooks = await getUserBooks({ "profileUsername": usernameFromLink });
+                            console.log("Books details: ", responseBooks);
+                            switch (responseBooks.status) {
+                                case 200:
+                                    getBooks(responseBooks, responseUser);
+                                    break;
+                                case 401:
+
+                                    break;
+
+                                case 422:
+
+                                    break;
+                            }
+                        }
                     }
 
 
-                    // settings endpont meghívása
-                    var settingsDetails = await getDetails();
-                    console.log("Settings details: " + JSON.stringify(settingsDetails));
 
                     loadProfilePicture(responseUser);
                     loadCoverColor(responseUser);
-                    loadUserTextDatas(responseUser, tokenResponese);
-                    contactInfos(settingsDetails);
+                    loadUserTextDatas(responseUser);
+                    contactInfos(responseUser);
 
-                    addPlaceholder(settingsDetails, "username", input_un);
-                    addPlaceholder(settingsDetails, "email", input_email);
-                    addPlaceholder(settingsDetails, "phoneNumber", input_phoneNumber);
-                    addPlaceholder(settingsDetails, "firstName", input_fName);
-                    addPlaceholder(settingsDetails, "lastName", input_lName);
-                    // setSwitches(settingsDetails, isEmail_public, isPhone_public);
+                    if (responseUser.data.ownProfile == true) {
+                        // settings endpont meghívása
+                        var settingsDetails = await getDetails();
+                        console.log("Settings details: " + JSON.stringify(settingsDetails));
 
-                    if (settingsDetails.data.publicEmail == true) {
-                        isEmail_public.checked = true;
-                    } else {
-                        isEmail_public.checked = false;
+                        addPlaceholder(settingsDetails, "username", input_un);
+                        addPlaceholder(settingsDetails, "website", input_website);
+                        addPlaceholder(settingsDetails, "email", input_email);
+                        addPlaceholder(settingsDetails, "phoneNumber", input_phoneNumber);
+                        addPlaceholder(settingsDetails, "firstName", input_fName);
+                        addPlaceholder(settingsDetails, "lastName", input_lName);
+                        // setSwitches(settingsDetails, isEmail_public, isPhone_public);
+
+                        if (settingsDetails.data.publicEmail == true) {
+                            isEmail_public.checked = true;
+                        } else {
+                            isEmail_public.checked = false;
+                        }
+
+                        if (settingsDetails.data.publicPhoneNumber == true) {
+                            isPhone_public.checked = true;
+                        } else {
+                            isPhone_public.checked = false;
+                        }
+
+                        if (settingsDetails.data.companyName != undefined) {
+                            addPlaceholder(settingsDetails, "companyName", input_company);
+                        }
                     }
-
-                    if (settingsDetails.data.publicPhoneNumber == true) {
-                        isPhone_public.checked = true;
-                    } else {
-                        isPhone_public.checked = false;
-                    }
-
-                    if (settingsDetails.data.companyName != undefined) {
-                        addPlaceholder(settingsDetails, "companyName", input_company);
-                    }
-
 
                     // load posts
-                    const responsePosts = await getUserPosts({ "profileUsername": tokenResponese.data.username });
+                    const responsePosts = await getUserPosts({ "profileUsername": usernameFromLink });
                     // console.log("Post details: ", JSON.stringify(responsePosts));
 
                     switch (responsePosts.status) {
@@ -146,21 +230,7 @@ window.onload = async function () {
                             break;
                     }
 
-                    // load books
-                    const responseBooks = await getUserBooks({ "profileUsername": tokenResponese.data.username });
-                    console.log("Books details: ", responseBooks);
-                    switch (responseBooks.status) {
-                        case 200:
-                            getBooks(responseBooks, tokenResponese);
-                            break;
-                        case 401:
 
-                            break;
-
-                        case 422:
-
-                            break;
-                    }
 
                     break;
                 case 401:
@@ -190,6 +260,8 @@ window.onload = async function () {
             break;
     }
 }
+
+
 
 // edit introdution
 const editIntro = document.getElementById('edit-intro');
@@ -223,6 +295,7 @@ editIntro.addEventListener('click', (e) => {
 
 
 })
+
 
 intro_cancelBtn.addEventListener('click', (e) => {
 
@@ -334,8 +407,10 @@ function loadProfilePicture(response) {
 
 function loadCoverColor(response) {
     const coverSection = document.getElementById('s1');
-    if (response.data.coverColorCode) {
+    if (response.data.coverColorCode != undefined) {
         coverSection.style.backgroundColor = response.data.coverColorCode;
+    } else {
+        coverSection.style.backgroundColor = rgb(232, 181, 160);
     }
 }
 
@@ -350,15 +425,15 @@ function loadCoverColor(response) {
  * Ez azért van hogy elég legyen egyszer létrehozni az oldalt, ne kelljen külön
  * publisher és general profilt létrehozni.
  */
-function loadUserTextDatas(responseUser, responseToken) {
+function loadUserTextDatas(responseUser) {
     const name = document.getElementById('name');
     const u_name = document.getElementById('username');
     const partners_books = document.getElementById('partner-number');
     const own_books = document.getElementById('own-books-number');
     const followers = document.getElementById('followers-number');
-
+    const membership = document.getElementById('membership-p');
     const partners_p = document.getElementById('partners-p');
-    const bookCount_p = document.getElementById('bookCount-p');
+    const savedBookCount_p = document.getElementById('savedBookCount-p');
 
 
     if (responseUser.data.companyName != undefined) {
@@ -368,23 +443,23 @@ function loadUserTextDatas(responseUser, responseToken) {
     }
 
 
-    if (responseToken.data.rank == "publisher") {
+    if (responseUser.data.rank == "publisher") {
         if (responseUser.data.writerCount !== undefined) {
             partners_books.textContent = `${responseUser.data.writerCount}`;
         }
 
     } else {
         partners_p.hidden = true;
-        bookCount_p.hidden = false;
+        savedBookCount_p.hidden = false;
 
         if (responseUser.data.bookCount !== undefined) {
-            partners_books.textContent = `${responseUser.data.bookCount}`;
+            partners_books.textContent = `${responseUser.data.savedBookCount}`;
         }
     }
 
 
     u_name.innerHTML = `@${responseUser.data.username}`;
-
+    membership.textContent = `${responseUser.data.registrationYear}`;
     own_books.innerHTML = `${responseUser.data.bookCount}`;
     followers.innerHTML = `${responseUser.data.followersCount}`;
 }
@@ -435,7 +510,7 @@ function contactInfos(response) {
 
     const contact_div = document.getElementById('contact');
 
-    if (response.data.website != undefined) {
+    if (response.data.website != undefined && response.data.website != "") {
         website.innerHTML = `<a href="${response.data.website}" class="website-link">${response.data.website}</a>`
         BooleanW = true;
         // console.log("website: "+BooleanW);
@@ -443,14 +518,14 @@ function contactInfos(response) {
         website_div.hidden = true;
     }
 
-    if (response.data.publicPhoneNumber == true) {
+    if (response.data.phoneNumber != undefined && response.data.phoneNumber != "") {
         phoneNumber.innerText = response.data.phoneNumber;
         BooleanP = true;
     } else {
         phone_div.hidden = true;
     }
 
-    if (response.data.publicEmail == true) {
+    if (response.data.email != undefined && response.data.email != "") {
         email.innerText = response.data.email;
         BooleanE = true;
     } else {
@@ -481,9 +556,9 @@ const book_modal_pages = document.getElementById('modal-pages');
 const book_modal_ranking = document.getElementById('modal-ranking');
 const book_modal_language = document.getElementById('modal-language');
 const book_modal_desc = document.getElementById('modal-desc');
-const book_price = document.getElementById('book-price');
 
-function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price) {
+
+function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username) {
 
     if (url != "Ez a kép elérési útja") {
         book_modal_img.src = `../${url}.jpg`;
@@ -500,7 +575,16 @@ function loadModalData(url, title, firstName, lastName, description, language, r
 
     book_modal_language.innerText = `${language}`;
     book_modal_desc.innerText = `${description}`;
-    book_price.innerText = `${price} Ft`;
+    if (price != 'undefined') {
+        book_price.innerText = `${price} Ft`;
+    } else {
+        book_price.innerText = `- Ft`;
+    }
+
+    book_modal_author.addEventListener('click', (e) => {
+        navigateToProfile(username);
+    })
+
 }
 
 // Upload profile picture
@@ -612,29 +696,63 @@ saveButton.addEventListener('click', async function () {
 
 });
 
-const followBTN = document.getElementById('follow-btn');
-let clicked = false;
+// Follow btn events and functions
+async function Follow(btn, responseUser, id) {
 
-followBTN.addEventListener('click', async function () {
-    e.preventDefault();
-    if (clicked == false) {
-        followBTN.classList.add('followed');
-        followBTN.innerText = 'Followed';
-        clicked = true;
 
-        console.log("Followed");
-        // followUser("followedId": tokenResponese.data.);
-    } else {
-        followBTN.classList.remove('followed');
-        followBTN.innerText = 'Follow';
-        clicked = false;
+    if (responseUser.data.following == false) {
 
-        console.log("Unfollowed");
+        btn.addEventListener('click', async function () {
+            const followResult = await followUser({ "followedId": id });
+
+            switch (followResult.status) {
+                case 200:
+                    // btn.classList.remove('default-follow');
+                    // btn.classList.add('followed');
+                    // btn.textContent = "Followed";
+                    window.location.reload();
+                    break;
+                case 401:
+                    window.location.href = "../Log-in/login.html";
+                    break;
+                case 422:
+                    alert("Something went wrong. Status: " + followResult.status);
+                    break;
+                default:
+                    alert("Something went wrong. Status: " + followResult.status);
+                    break;
+            }
+        });
+
+    } else if (responseUser.data.following == true) {
+
+        btn.addEventListener('click', async function () {
+            const unfollowResult = await unfollowedUser({ "followedId": id });
+
+            switch (unfollowResult.status) {
+                case 200:
+                    // btn.classList.remove('followed');
+                    // btn.classList.add('default-follow');
+                    // btn.textContent = "Follow";
+                    window.location.reload();
+                    break;
+                case 401:
+                    window.location.href = "../Log-in/login.html";
+                    break;
+                case 422:
+                    alert("Something went wrong. Status: " + unfollowResult.status);
+                    break;
+                default:
+                    alert("Something went wrong. Status: " + unfollowResult.status);
+                    break;
+            }
+        });
+
     }
-})
+}
 
 const ourBooks_btn = document.getElementById('our-books');
-const books_div = document.getElementById('books');
+
 const ourPosts_btn = document.getElementById('our-posts');
 const posts_div = document.getElementById('posts');
 
@@ -653,62 +771,127 @@ ourPosts_btn.addEventListener('click', (e) => {
     ourBooks_btn.classList.add("disabled-btn");
 })
 
+let postLikes = {};
 function getPosts(responsePost, responseUser) {
 
     const missingPosts_own = document.getElementById('missing-posts-text-own');
-    const missing_book_text = document.getElementById('missing-book-text');
+    const missingPosts_text = document.getElementById('missing-posts-text');
 
     if (responsePost.data.myPosts.length == 0 && responseUser.data.ownProfile == true) {
         missingPosts_own.hidden = false;
 
     } else if (responsePost.data.myPosts.length == 0 && responseUser.data.ownProfile == false) {
-        missing_book_text.hidden = false;
+        missingPosts_text.hidden = false;
 
     } else {
         for (let i = 0; i <= responsePost.data.myPosts.length - 1; i++) {
             // elmentem az adott poszt id-t
             const postId = responsePost.data.myPosts[i].id;
+            let postLiked = responsePost.data.myPosts[i].liked;
+            postLikes[postId] = postLiked;
 
-            posts_div.innerHTML += `
-                <div class="post-card ">
-                    <div class="first-row">
-                        <!--? profil kép helye  -->
-                        <div class="post-profile-icon rounded-circle shadow-sm"
-                            style="background-image: url('../pictures/default-profile-pic-astronaut.png');"></div>
-    
-                        <!--? User nevének helye -->
-                        <div class="userName">
-                            <p class="card-user-name">@${responsePost.data.myPosts[i].username}</p>
+            if (responsePost.data.myPosts[i].liked == false) {
+                posts_div.innerHTML += `
+                    <div class="post-card ">
+                        <div class="first-row">
+                            
+                            <img class="post-profile-icon rounded-circle shadow-sm" src="../${responsePost.data.myPosts[i].image}">
+                            
+                            <div class="userName">
+                                <p class="card-user-name user" onclick="navigateToProfile('${responsePost.data.myPosts[i].username}')">@${responsePost.data.myPosts[i].username}</p>
+                            </div>
+                            <div class="cardDate align-content-end">
+                                <p class="card-date-text">${responsePost.data.myPosts[i].postTime}</p>
+                            </div>
                         </div>
-                        <div class="cardDate align-content-end">
-                            <p class="card-date-text">${responsePost.data.myPosts[i].postTime}</p>
+    
+                        <div class="postText">
+                            <p class="post-text">${responsePost.data.myPosts[i].description}</p>
+                        </div>
+    
+                        <div class="last-row">
+
+                            <div class="edit-delete-div" hidden>
+                                <button type="button" class="bg-transparent border-0 edit-post" data-bs-toggle="modal" data-bs-target="#postModal" onclick="editPost(${responsePost.data.myPosts[i].id}, '${responsePost.data.myPosts[i].description}')">
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                        <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
+                                    </svg>
+                                </button>
+            
+                                <button type="button" class="bg-transparent border-0 delete-post" onclick="DeletePostBTN(this, ${responsePost.data.myPosts[i].id})">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            
+                            <div class="like-and-share">
+                                <div class="d-flex flex-column align-items-center emptyLike">
+                                
+                                    <button class="like-button border-0 bg-transparent" id="like" onclick="Liked(this, ${responsePost.data.myPosts[i].id})"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
+                                    <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1"/>
+                                </svg></button>
+                                
+                                </div>
+                                
+                            </div>
                         </div>
                     </div>
-    
-                    <div class="postText">
-                        <p class="post-text">${responsePost.data.myPosts[i].description}</p>
-                    </div>
-    
-                    <div class="last-row">
-    
-                        <div class="edit-delete-div" hidden>
-                            <button type="button" class="bg-transparent border-0 edit-post" data-bs-toggle="modal" data-bs-target="#postModal" onclick="editPost(${responsePost.data.myPosts[i].id}, '${responsePost.data.myPosts[i].description}')">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor"
-                                    class="bi bi-pen" viewBox="0 0 16 16">
-                                    <path
-                                        d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
-                                </svg>
-                            </button>
-    
-                            <button type="button" class="bg-transparent border-0 delete-post" onclick="DeletePostBTN(this, ${responsePost.data.myPosts[i].id})">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                                    <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
-                                </svg>
-                            </button>
+                `;
+
+
+            } else {
+
+                posts_div.innerHTML += `
+                    <div class="post-card ">
+                        <div class="first-row">
+                                
+                            <img class="post-profile-icon rounded-circle shadow-sm" src="../${responsePost.data.myPosts[i].image}">
+                                
+                            <div class="userName">
+                                <p class="card-user-name user" onclick="navigateToProfile('${responsePost.data.myPosts[i].username}')">@${responsePost.data.myPosts[i].username}</p>
+                            </div>
+                            <div class="cardDate align-content-end">
+                                <p class="card-date-text">${responsePost.data.myPosts[i].postTime}</p>
+                            </div>
                         </div>
-                    </div>  
-                </div>  
-            `;
+    
+                        <div class="postText">
+                            <p class="post-text">${responsePost.data.myPosts[i].description}</p>
+                        </div>
+    
+                        <div class="last-row">
+
+                            <div class="edit-delete-div" hidden>
+                                <button type="button" class="bg-transparent border-0 edit-post" data-bs-toggle="modal" data-bs-target="#postModal" onclick="editPost(${responsePost.data.myPosts[i].id}, '${responsePost.data.myPosts[i].description}')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor"
+                                        class="bi bi-pen" viewBox="0 0 16 16">
+                                        <path
+                                            d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
+                                    </svg>
+                                </button>
+        
+                                <button type="button" class="bg-transparent border-0 delete-post" onclick="DeletePostBTN(this, ${responsePost.data.myPosts[i].id})">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                        <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                                    </svg>
+                                </button>
+                            </div>
+                                
+                            <div class="like-and-share">
+                                <div class="d-flex flex-column align-items-center emptyLike">
+                                  
+                                    <button class="like-button border-0 bg-transparent" id="like" ><svg onclick="Liked(this, ${responsePost.data.myPosts[i].id})" class="liked" xmlns="http://www.w3.org/2000/svg" width="25" height="25" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
+                                    <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1"/>
+                                    </svg></button>
+                                    
+                                </div>
+                                    
+                                </div>
+                            </div>
+                    </div>
+                 `;
+            }
         }
     }
 
@@ -717,7 +900,22 @@ function getPosts(responsePost, responseUser) {
     // console.log(postId);
     if (responsePost.data.ownPosts === true) {
         const post_editDelete_div = document.querySelectorAll('.edit-delete-div');
+        const like_and_share_div = document.querySelectorAll('.like-and-share');
         post_editDelete_div.forEach(div => {
+            div.hidden = false;
+        });
+
+        like_and_share_div.forEach(div => {
+            div.hidden = true;
+        });
+    } else {
+        const post_editDelete_div_books = document.querySelectorAll('.edit-delete-div-books');
+        const like_and_share_div = document.querySelectorAll('.like-and-share');
+        post_editDelete_div_books.forEach(div => {
+            div.hidden = true;
+        });
+
+        like_and_share_div.forEach(div => {
             div.hidden = false;
         });
     }
@@ -754,16 +952,40 @@ async function DeletePostBTN(button, postID) {
 
 }
 
-function Liked(button, postID) {
-    console.log(postID);
-    if (liked == false) {
-        button.style.fill = "#c43700";
-        liked = true;
+async function Liked(button, postID) {
+    let postLiked = postLikes[postID];
+
+
+    if (!postLiked) {
+        // Ha a poszt nincs like-olva, akkor like-oljuk
+        const liked_result = await postLike({ "postId": postID });
+        if (liked_result.status == 200) {
+            button.style.fill = "#c43700";
+            postLikes[postID] = true; // Frissítjük a like állapotot
+            console.log("Sikeres kedvelés. Post id: " + postID);
+        } else if (liked_result.status == 401) {
+            window.location.href = "../Log-in/login.html";
+        } else if (liked_result.status == 422) {
+            alert("Something went wrong. Please try again later.")
+        }
     } else {
-        liked = false;
-        button.style.fill = "#2d1810";
+        // Ha a poszt like-olva van, akkor dislike-oljuk
+        const disliked_result = await postDislike({ "postId": postID });
+        if (disliked_result.status == 200) {
+            button.style.fill = "#2d1810";
+            postLikes[postID] = false; // Frissítjük a like állapotot
+            console.log("Sikeres dislike. Post id: " + postID);
+        } else if (disliked_result.status == 401) {
+            window.location.href = "../Log-in/login.html";
+        } else if (disliked_result.status == 422) {
+            alert("Something went wrong. Please try again later.")
+        }
     }
 
+}
+
+function navigateToProfile(username) {
+    window.location.href = `../Profile/profile.html?username=${username}`;
 }
 
 async function DeleteBookBTN(button, bookID) {
@@ -790,101 +1012,108 @@ ourBooks_btn.addEventListener('click', (e) => {
 })
 
 
-function getBooks(responseBook, tokenResponse) {
-    for (let i = 0; i <= responseBook.data.myBooks.length - 1; i++) {
-        if (responseBook.data.myBooks[i].coverImage != "Ez a kép elérési útja") {
-            books_div.innerHTML += `
-                <div class="container medium-card book-card" style="background-color: #EAD7BE;">
-                    <div class="row">
-                        <div class="col-3 my-col3" id="s5-mediumCardPic-div">
-                            <!--? Picture => Alt-nak mehet majd a könyv címe -->
-                           
-                            <img class="medium-pic" src="../${responseBook.data.myBooks[i].coverImage}.jpg" alt="${responseBook.data.myBooks[i].title}">
-                            
-                        </div>
+function getBooks(responseBook, userResponse) {
+    const missing_book_text = document.getElementById('missing-book-text');
+    const missing_book_text_own = document.getElementById('missing-book-text-own');
 
-                        <div class="col-9 medium-right-side">
-                            <!--? Author + Book Title  -->
-                            <h2 class="container medium-h2" id="s5-mediumC-h2">${responseBook.data.myBooks[i].title}</h2>
-                            <p class="username" id="s5-mediumC-user"><a class="book-profile-link" href="../Profile/profile.html">${responseBook.data.myBooks[i].firstName} ${responseBook.data.myBooks[i].lastName}</a></p>
-                            <p class="medium-desc" id="s5-mediumC-desc">${responseBook.data.myBooks[i].description}</p>
-
-                            <div class="card-footer">
-                            <button class="moreBtn-medium" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${responseBook.data.myBooks[i].coverImage}', '${responseBook.data.myBooks[i].title}', '${responseBook.data.myBooks[i].firstName}', '${responseBook.data.myBooks[i].lastName}', '${responseBook.data.myBooks[i].description}', '${responseBook.data.myBooks[i].language}', '${responseBook.data.myBooks[i].rating}', '${responseBook.data.myBooks[i].pagesNumber}', '${responseBook.data.myBooks[i].price}')">Show
-                            Details</button>
-
-                                <div class="edit-delete-div-books">
-                                    <button type="button" class="bg-transparent border-0 edit-book" onclick="window.location.href='../Create Book/createBook.html'">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor"
-                                            class="bi bi-pen" viewBox="0 0 16 16">
-                                            <path
-                                                d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
-                                        </svg>
-                                    </button>
-
-                                    <button type="button" class="bg-transparent border-0 delete-book" onclick="DeleteBookBTN(this, ${responseBook.data.myBooks[i].id})">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                                            <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
-                                        </svg>
-                                    </button>
+    if (responseBook.data.myBooks.length == 0 && userResponse.data.ownProfile == true) {
+        missing_book_text_own.hidden = false;
+    } else if (responseBook.data.myBooks.length == 0 && userResponse.data.ownProfile == false) {
+        missing_book_text.hidden = false;
+    } else {
+        for (let i = 0; i <= responseBook.data.myBooks.length - 1; i++) {
+            if (responseBook.data.myBooks[i].coverImage != "Ez a kép elérési útja") {
+                books_div.innerHTML += `
+                    <div class="container medium-card book-card" style="background-color: #EAD7BE;">
+                        <div class="row">
+                            <div class="col-3 my-col3">
+                                <!--? Picture => Alt-nak mehet majd a könyv címe -->
+                               
+                                <img class="medium-pic" src="../${responseBook.data.myBooks[i].coverImage}.jpg" alt="${responseBook.data.myBooks[i].title}">
+                                
+                            </div>
+    
+                            <div class="col-9 medium-right-side">
+                                <!--? Author + Book Title  -->
+                                <h2 class="container medium-h2" >${responseBook.data.myBooks[i].title}</h2>
+                                <p class="username author" onclick="navigateToProfile('${responseBook.data.myBooks[i].username}')">${responseBook.data.myBooks[i].firstName} ${responseBook.data.myBooks[i].lastName}</p>
+                                <p class="medium-desc" >${responseBook.data.myBooks[i].description}</p>
+    
+                                <div class="card-footer">
+                                <button class="moreBtn-medium" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${responseBook.data.myBooks[i].coverImage}', '${responseBook.data.myBooks[i].title}', '${responseBook.data.myBooks[i].firstName}', '${responseBook.data.myBooks[i].lastName}', '${responseBook.data.myBooks[i].description}', '${responseBook.data.myBooks[i].language}', '${responseBook.data.myBooks[i].rating}', '${responseBook.data.myBooks[i].pagesNumber}', '${responseBook.data.myBooks[i].price}', '${responseBook.data.myBooks[i].username}')">Show
+                                Details</button>
+    
+                                    <div class="edit-delete-div-books">
+                                        <button type="button" class="bg-transparent border-0 edit-book" onclick="window.location.href='../Create Book/createBook.html'">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor"
+                                                class="bi bi-pen" viewBox="0 0 16 16">
+                                                <path
+                                                    d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
+                                            </svg>
+                                        </button>
+    
+                                        <button type="button" class="bg-transparent border-0 delete-book" onclick="DeleteBookBTN(this, ${responseBook.data.myBooks[i].id})">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            `;
-        } else {
-            books_div.innerHTML += `
-                <div class="container medium-card book-card" style="background-color: #EAD7BE;">
-                    <div class="row">
-                        <div class="col-3 my-col3" id="s5-mediumCardPic-div">
-                            <!--? Picture => Alt-nak mehet majd a könyv címe -->
-                           
-                            <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${responseBook.data.myBooks[i].title}">
-                            
-                        </div>
-
-                        <div class="col-9 medium-right-side">
-                            <!--? Author + Book Title  -->
-                            <h2 class="container medium-h2" id="s5-mediumC-h2">${responseBook.data.myBooks[i].title}</h2>
-                            <p class="username" id="s5-mediumC-user"><a class="book-profile-link" href="../Profile/profile.html">${responseBook.data.myBooks[i].firstName} ${responseBook.data.myBooks[i].lastName}</a></p>
-                            <p class="medium-desc" id="s5-mediumC-desc">${responseBook.data.myBooks[i].description}</p>
-
-                            <div class="card-footer">
-                            <button class="moreBtn-medium" data-bs-toggle="modal" data-bs-target="#bookPopup"
-                            onclick="loadModalData('${responseBook.data.myBooks[i].coverImage}', '${responseBook.data.myBooks[i].title}', '${responseBook.data.myBooks[i].firstName}', '${responseBook.data.myBooks[i].lastName}', '${responseBook.data.myBooks[i].description}', '${responseBook.data.myBooks[i].language}', '${responseBook.data.myBooks[i].rating}', '${responseBook.data.myBooks[i].pagesNumber}', '${responseBook.data.myBooks[i].price}')">Show
-                            Details</button>
-
-                                <div class="edit-delete-div-books">
-                                    <button type="button" class="bg-transparent border-0 edit-book" onclick="window.location.href='../Create Book/createBook.html'">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor"
-                                            class="bi bi-pen" viewBox="0 0 16 16">
-                                            <path
-                                                d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
-                                        </svg>
-                                    </button>
-
-                                    <button type="button" class="bg-transparent border-0 delete-book" onclick="DeleteBookBTN(this, ${responseBook.data.myBooks[i].id})">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                                            <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
-                                        </svg>
-                                    </button>
+                `;
+            } else {
+                books_div.innerHTML += `
+                    <div class="container medium-card book-card" style="background-color: #EAD7BE;">
+                        <div class="row">
+                            <div class="col-3 my-col3" id="s5-mediumCardPic-div">
+                                <!--? Picture => Alt-nak mehet majd a könyv címe -->
+                               
+                                <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${responseBook.data.myBooks[i].title}">
+                                
+                            </div>
+    
+                            <div class="col-9 medium-right-side">
+                                <!--? Author + Book Title  -->
+                                <h2 class="container medium-h2" >${responseBook.data.myBooks[i].title}</h2>
+                                <p class="username author" onclick="navigateToProfile('${responseBook.data.myBooks[i].username}')">${responseBook.data.myBooks[i].firstName} ${responseBook.data.myBooks[i].lastName}</p>
+                                <p class="medium-desc" >${responseBook.data.myBooks[i].description}</p>
+    
+                                <div class="card-footer">
+                                <button class="moreBtn-medium" data-bs-toggle="modal" data-bs-target="#bookPopup"
+                                onclick="loadModalData('${responseBook.data.myBooks[i].coverImage}', '${responseBook.data.myBooks[i].title}', '${responseBook.data.myBooks[i].firstName}', '${responseBook.data.myBooks[i].lastName}', '${responseBook.data.myBooks[i].description}', '${responseBook.data.myBooks[i].language}', '${responseBook.data.myBooks[i].rating}', '${responseBook.data.myBooks[i].pagesNumber}', '${responseBook.data.myBooks[i].price}', '${responseBook.data.myBooks[i].username}')">Show
+                                Details</button>
+    
+                                    <div class="edit-delete-div-books">
+                                        <button type="button" class="bg-transparent border-0 edit-book" onclick="window.location.href='../Create Book/createBook.html'">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor"
+                                                class="bi bi-pen" viewBox="0 0 16 16">
+                                                <path
+                                                    d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
+                                            </svg>
+                                        </button>
+    
+                                        <button type="button" class="bg-transparent border-0 delete-book" onclick="DeleteBookBTN(this, ${responseBook.data.myBooks[i].id})">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            `;
+                `;
+            }
         }
     }
 
-    if (tokenResponse.data.rank == "general") {
-        if (responseBook.data.ownBooks === true) {
-            const post_editDelete_div_books = document.querySelectorAll('.edit-delete-div-books');
-            post_editDelete_div_books.forEach(div => {
-                div.hidden = false;
-            });
-        }
+    if (responseBook.data.ownBooks === true) {
+        const post_editDelete_div_books = document.querySelectorAll('.edit-delete-div-books');
+        post_editDelete_div_books.forEach(div => {
+            div.hidden = false;
+        });
     } else {
         const post_editDelete_div_books = document.querySelectorAll('.edit-delete-div-books');
         post_editDelete_div_books.forEach(div => {
@@ -892,11 +1121,10 @@ function getBooks(responseBook, tokenResponse) {
         });
     }
 
+
 }
 
 // switch between settiings
-
-
 const logOut = document.getElementById('logOut');
 
 // settings divs
@@ -974,15 +1202,13 @@ buisness_settings.addEventListener('click', (e) => {
 
 logOut.addEventListener('click', (e) => {
     window.location.href = "../Landing-Page/landing.html";
-    // console.log("token a törlés előtt: --- "+localStorage.getItem("Token"));
     localStorage.removeItem("Token");
-    // console.log("token a törlés után: --- "+localStorage.getItem("Token"));
-
 })
 
 // edit buttons on settings --> profile settings
 const edit_username = document.getElementById('edit-username');
 const edit_email = document.getElementById('edit-email');
+const edit_website = document.getElementById('edit-website');
 const edit_pwd = document.getElementById('edit-pwd');
 const edit_phone = document.getElementById('edit-phone');
 const edit_fName = document.getElementById('edit-fName');
@@ -992,6 +1218,7 @@ const edit_company = document.getElementById('edit-company');
 // save and cancel button rows on settings --> profile settings
 const username_saveCancel = document.getElementById('username-saveCancel');
 const email_saveCancel = document.getElementById('email-saveCancel');
+const web_saveCancel = document.getElementById('web-saveCancel');
 const pwd_saveCancel = document.getElementById('pwd-saveCancel');
 const phone_saveCancel = document.getElementById('phone-saveCancel');
 const fName_saveCancel = document.getElementById('fName-saveCancel');
@@ -1001,6 +1228,7 @@ const company_saveCancel = document.getElementById('company-saveCancel');
 // Cancel buttons
 const un_cancel = document.getElementById('un-cancel');
 const e_cancel = document.getElementById('e-cancel');
+const w_cancel = document.getElementById('w-cancel');
 const pwd_cancel = document.getElementById('pwd-cancel');
 const p_cancel = document.getElementById('p-cancel');
 const fn_cancel = document.getElementById('fn-cancel');
@@ -1010,6 +1238,7 @@ const c_cancel = document.getElementById('c-cancel');
 // save buttons
 const un_save = document.getElementById('un-save');
 const e_save = document.getElementById('e-save');
+const w_save = document.getElementById('w-save');
 const pwd_save = document.getElementById('pwd-save');
 const p_save = document.getElementById('p-save');
 const fn_save = document.getElementById('fn-save');
@@ -1019,6 +1248,7 @@ const c_save = document.getElementById('c-save');
 // errors
 const un_error = document.getElementById('un-error');
 const e_error = document.getElementById('e-error');
+const w_error = document.getElementById('w-error');
 const pwd_error = document.getElementById('pwd-error');
 const phone_error = document.getElementById('phone-error');
 const fn_error = document.getElementById('fn-error');
@@ -1265,8 +1495,8 @@ function validateEmail(emailValue) {
 function validateCompany(companyValue, companyError, inputCompany) {
     if (companyValue == "") {
         companyError.innerHTML = `<p>Company field cannot be empty</p>`;
-        e.target.style.background = "rgb(255, 214, 220)";
-        e.target.style.borderColor = "rgb(243, 82, 93)";
+        inputCompany.style.background = "rgb(255, 214, 220)";
+        inputCompany.style.borderColor = "rgb(243, 82, 93)";
         console.log("Company field is empty.");
         return false;
 
@@ -1514,6 +1744,50 @@ input_email.addEventListener('focusin', (e) => {
     e_error.innerHTML = "";
 })
 
+input_website.addEventListener('focusin', (e) => {
+    e.target.style.background = "";
+    e.target.style.border = "";
+    w_error.innerHTML = "";
+})
+
+edit_website.addEventListener('click', (e) => {
+    EditIcon(input_website, web_saveCancel);
+})
+
+w_cancel.addEventListener('click', (e) => {
+    Cancel(input_website, web_saveCancel);
+    input_website.style.background = "";
+    input_website.style.borderColor = "";
+    w_error.innerHTML = "";
+})
+
+w_save.addEventListener('click', async function () {
+    if (input_website.value != "") {
+        if (input_website.value.length >= 4 && input_website.value.length <= 100) {
+            const setWebsiteResponse = await setWebsite({ "website": input_website.value });
+            if (setWebsiteResponse.status == 200) {
+                console.log("Sikeresen szerkesztetted a website-ot a következőre: " + input_website.value);
+                input_website.style.background = "";
+                input_website.style.borderColor = "";
+                w_error.innerHTML = "";
+                const settingCall = await getDetails();
+                addPlaceholder(settingCall, "website", input_website);
+                Cancel(input_website, web_saveCancel);
+            } else if (setEmailResponse.status == 401) {
+                window.location.href = "../Log-in/login.html";
+            } else if (setEmailResponse.status == 422) {
+                alert("422-es státsukód");
+            } else {
+                alert("Something went wrong.");
+            }
+        } else {
+            input_website.style.background = "rgb(255, 214, 220)";
+            input_website.style.borderColor = "rgb(243, 82, 93)";
+            w_error.innerHTML = "This value has to be between 4 and 100 characters.";
+        }
+    }
+})
+
 // password
 edit_pwd.addEventListener('click', (e) => {
     EditIcon(input_pwd, pwd_saveCancel);
@@ -1535,9 +1809,10 @@ pwd_save.addEventListener('click', async function () {
         let pwd_value = input_pwd.value;
         const setPwdResponse = await setPassword({ "password": `${pwd_value}` });
         if (setPwdResponse.status == 200) {
-            console.log("Sikeresen szerkesztetted a jelszavadat");
+            // console.log("Sikeresen szerkesztetted a jelszavadat");
 
-            Cancel(input_pwd, pwd_saveCancel);
+            window.location.href = "../Log-in/login.html";
+            localStorage.removeItem("Token");
 
         } else if (setEmailResponse.status == 401) {
             window.location.href = "../Log-in/login.html";
@@ -1793,22 +2068,3 @@ settings_modal.addEventListener('hidden.bs.modal', function () {
     // Újratöltjük az oldalt
     location.reload();
 });
-
-var click = 1;
-const active_writer_items = document.getElementById('active-writer-items');
-function loadWriters(response) {
-    // itt a default writer-eket töltöm be amelyek megjelennek alapértelmezetten
-    for (let i = 0; i < 2; i++) {
-        active_writer_items.innerHTML += `
-            <div class="profiles">
-                <img src="../${response.data.image}" alt="${response.data.username}" class="prof-pic shadow-sm">
-                <p class="text-center our-users-name">${response.data.username}</p>
-            </div>           
-        `;
-
-    }
-}
-
-async function getMoreWriters(responseUserDetails) {
-
-}

@@ -95,13 +95,19 @@ window.onload = async function () {
             window.location.href = "../Log-in/login.html";
             break;
         case 302:
+            document.getElementById('profile-link').addEventListener('click', (e)=>{
+                window.location.href = `../Profile/profile.html?username=${tokenResponse.data.username}`;
+            });
+
+            const userResponse = await getUserDetails({"profileUsername" : tokenResponse.data.username})
+
             username.innerText = `@${tokenResponse.data.username}`;
-            const userDatas = await getUserDetails({ "profileUsername": tokenResponse.data.username });
-            profilePic.innerHTML = `<img src="../${userDatas.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;
+            // const userDatas = await getUserDetails({ "profileUsername": tokenResponse.data.username });
+            profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;
 
             switch (tokenResponse.data.rank) {
                 case 'general':
-                    document.getElementById('welcome').innerText = `Welcome @${tokenResponse.data.username}!`;
+                    document.getElementById('welcome').innerText = `Welcome ${userResponse.data.firstName} ${userResponse.data.lastName}!`;
 
                     // Egy nagy random kártya
                     const responseRandomBook = await getOneRandomBook();
@@ -197,6 +203,10 @@ window.onload = async function () {
     }
 };
 
+function navigateToProfile(username){
+    window.location.href = `../Profile/profile.html?username=${username}`;
+}
+
 // Loading datas
 function LoadRandomBook(response) {
     const coverImage = response.data[0].coverImage;
@@ -221,6 +231,10 @@ function LoadRandomBook(response) {
     s1_bigCard_h2.innerText = `${response.data[0].title}`;
     s1_bigCard_p.innerText = `${response.data[0].description}`;
     s1_bigCard_author.innerText = `${response.data[0].firstName} ${response.data[0].lastName}`;
+
+    s1_bigCard_author.addEventListener('click', (e)=>{
+        window.location.href = `../Profile/profile.html?username=${response.data[0].username}`;
+    });
 
     random_book_btn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -250,6 +264,10 @@ function LoadRandomBook(response) {
         modal_language.innerText = `${response.data[0].language}`;
         modal_desc.innerText = `${response.data[0].description}`;
         modal_price.innerText = `${response.data[0].price} Ft`;
+
+        modal_author.addEventListener('click', (e)=>{
+            window.location.href = `../Profile/profile.html?username=${response.data[0].username}`;
+        });
     })
 }
 
@@ -291,6 +309,10 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
     mediumC_author.innerText = `${response.data[0].firstName} ${response.data[0].lastName}`;
     mediumC_description.innerText = `${response.data[0].description}`;
 
+    mediumC_author.addEventListener('click', (e)=>{
+        window.location.href = `../Profile/profile.html?username=${response.data[0].username}`;
+    });
+
     mediumC_btn.addEventListener('click', (e) => {
         e.preventDefault();
 
@@ -316,6 +338,10 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
         modal_desc.innerText = `${response.data[0].description}`;
         modal_price.innerText = `${response.data[0].price} Ft`;
 
+        modal_author.addEventListener('click', (e)=>{
+            window.location.href = `../Profile/profile.html?username=${response.data[0].username}`;
+        });
+
     })
 
 
@@ -329,7 +355,7 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
     
                         <div class="overlay">
                             <p class="book-title">${response.data[i].title}</p>
-                            <p class="author-p">${response.data[i].firstName} ${response.data[i].lastName}</p>
+                            <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
                             <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}')">Show Details</button>
                         </div>
                     </div>
@@ -344,7 +370,7 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
     
                         <div class="overlay">
                             <p class="book-title">${response.data[i].title}</p>
-                            <p class="author-p">${response.data[i].firstName} ${response.data[i].lastName}</p>
+                            <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
                             <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}')">Show Details</button>
                         </div>
                     </div>
@@ -392,6 +418,10 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
     mediumC_author.innerText = `${response.data[0].firstName} ${response.data[0].lastName}`;
     mediumC_description.innerText = `${response.data[0].description}`;
 
+    mediumC_author.addEventListener('click', (e)=>{
+        window.location.href = `../Profile/profile.html?username=${response.data[0].username}`;
+    });
+
     mediumC_btn.addEventListener('click', (e) => {
         e.preventDefault();
 
@@ -415,6 +445,10 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
         modal_language.innerText = `${response.data[0].language}`;
         modal_desc.innerText = `${response.data[0].description}`;
         modal_price.innerText = `${response.data[0].price} Ft`;
+
+        modal_author.addEventListener('click', (e)=>{
+            window.location.href = `../Profile/profile.html?username=${response.data[0].username}`;
+        });
     })
 
 
@@ -426,7 +460,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                             <img src="../${response.data[i].coverImage}.jpg" alt="${response.data[i].title}" class="cover">
                             <div class="overlay">
                                 <p class="book-title">${response.data[i].title}</p>
-                                <p class="author-p">${response.data[i].firstName} ${response.data[i].lastName}</p>
+                                <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
                                 <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}')">Show Details</button>
                             </div>
                         </div>
@@ -439,7 +473,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                             <img src="../pictures/standard-book-cover.jpg" alt="${response.data[i].title}" class="cover">
                             <div class="overlay">
                                 <p class="book-title">${response.data[i].title}</p>
-                                <p class="author-p">${response.data[i].firstName} ${response.data[i].lastName}</p>
+                                <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
                                 <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}')">Show Details</button>
                             </div>
                         </div>
@@ -456,7 +490,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                             <img src="../${response.data[i].coverImage}.jpg" alt="${response.data[i].title}" class="cover">
                             <div class="overlay">
                                 <p class="book-title">${response.data[i].title}</p>
-                                <p class="author-p">${response.data[i].firstName} ${response.data[i].lastName}</p>
+                                <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
                                 <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}')">Show Details</button>
                             </div>
                         </div>
@@ -469,7 +503,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                             <img src="../pictures/standard-book-cover.jpg" alt="${response.data[i].title}" class="cover">
                             <div class="overlay">
                                 <p class="book-title">${response.data[i].title}</p>
-                                <p class="author-p">${response.data[i].firstName} ${response.data[i].lastName}</p>
+                                <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
                                 <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}')">Show Details</button>
                             </div>
                         </div>
@@ -501,6 +535,10 @@ function loadModalData(url, title, firstName, lastName, description, language, r
     modal_language.innerText = `${language}`;
     modal_desc.innerText = `${description}`;
     modal_price.innerText = `${price} Ft`;
+
+    modal_author.addEventListener('click', function () {
+        window.location.href = `../Profile/profile.html?username=${username}`;
+    });
 
 }
 

@@ -632,6 +632,14 @@ section{
     color: rgb(80, 80, 80);
 }
 
+.author{
+    cursor: pointer;
+}
+
+.author:hover{
+    color: #B43C82!important;
+}
+
 .babszem {
     width: fit-content;
     display: inline-flex;

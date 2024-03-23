@@ -106,7 +106,7 @@ body {
 
 /* -------- First section --------- */
 #s1 {
-    background-color: var(--primary);
+    /* background-color: var(--primary); */
     margin: 0;
     height: 40vh;
 }
@@ -182,14 +182,14 @@ body {
 #number-container {
     display: flex;
     justify-content: space-evenly;
-    gap: 15%;
+    gap: 30px;
     text-align: center;
     background-color: #EAD7BE;
     padding-left: 25px;
     padding-right: 25px;
     border-radius: 20px;
-    width: 330px;
-    /* margin-left: 20px; */
+    width: 370px;
+    margin-left: 20px;
     color: var(--primary-text);
 }
 
@@ -210,7 +210,7 @@ body {
     margin-top: 20px;
 }
 
-#follow-btn {
+.default-follow, .followed:hover {
     font-size: 22px;
     font-family: 'Montserrat-Medium', sans-serif;
     background-color: rgb(145, 86, 119);
@@ -225,21 +225,25 @@ body {
 
 /* azért van ennyi important mert a class esetében valamiért nem érzékeli a módosításokat
 Ha találok rá jobb megoldást javítom :)  */
-#follow-btn:hover,
-.followed:hover {
-    transition: color 0.5s ease !important;
-    transition: background-color 0.8s ease !important;
-    transition: border-color 0.8s ease !important;
-    background-color: var(--primary) !important;
-    color: var(--primary-text) !important;
-    border-color: var(--primary) !important;
+.default-follow:hover, .followed {
+    font-size: 22px;
+    font-family: 'Montserrat-Medium', sans-serif;
+    padding: 10px 25px;
+    letter-spacing: 1px;
+    border: solid var(--primary);
+    transition: color 0.5s ease;
+    transition: background-color 0.8s ease ;
+    transition: border-color 0.8s ease;
+    background-color: var(--primary);
+    color: var(--primary-text);
+    border-color: var(--primary);
 }
 
-.followed {
+/* .followed {
     background: transparent !important;
     color: rgb(44, 24, 16) !important;
     border: solid var(--border-color) !important;
-}
+} */
 
 #edit-coverCol-div {
     margin-left: auto;
@@ -431,11 +435,15 @@ Ha találok rá jobb megoldást javítom :)  */
 }
 
 .profiles {
-    height: 200px;
-    width: 200px;
+    height: fit-content;
     background-color: #d4beb2;
     border-top-left-radius: 20px;
     border-bottom-right-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 10px;
 }
 
 .prof-pic {
@@ -488,7 +496,7 @@ Ha találok rá jobb megoldást javítom :)  */
     display: flexbox;
     border-radius: 15px;
     filter: drop-shadow(4px 4px 4px rgba(84, 84, 84, 0.051));
-    margin-top: 50px;
+    /* margin-top: 50px; */
 }
 
 .my-col3 {
@@ -532,6 +540,14 @@ Ha találok rá jobb megoldást javítom :)  */
     padding-left: 12px;
     margin-bottom: 0;
     color: rgb(99, 76, 62) !important;
+}
+
+.author{
+    cursor: pointer;
+}
+
+.author:hover{
+    color: #B43C82!important;
 }
 
 .book-profile-link {
@@ -592,7 +608,7 @@ Ha találok rá jobb megoldást javítom :)  */
 }
 
 /* Posts */
-#posts {
+#posts, #books {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -601,11 +617,11 @@ Ha találok rá jobb megoldást javítom :)  */
 }
 
 .post-card {
-    background-color: #ead7be;
-    filter: drop-shadow(4px 4px 4px rgba(84, 84, 84, 0.051));
+    background-color: rgb(234, 215, 190);
+    box-shadow: 0.5rem 0.5rem 0.375rem #e3e1d9;
     padding: 2.8rem;
     border-radius: 0.938rem;
-    width: 600px;
+    width: 43.75rem;
     height: fit-content;
     margin-bottom: 3.125rem;
     position: relative;
@@ -643,7 +659,7 @@ Ha találok rá jobb megoldást javítom :)  */
 
 .cardDate {
     margin-left: auto !important;
-    margin-top: 0.625rem;
+    margin-top: 5px;
 }
 
 .card-date-text {
@@ -653,6 +669,7 @@ Ha találok rá jobb megoldást javítom :)  */
     font-weight: 400;
     position: absolute;
     right: 40px;
+    top: 59px;
 }
 
 .postText {
@@ -678,14 +695,13 @@ Ha találok rá jobb megoldást javítom :)  */
 
 }
 
-.last-row a {
+/* .last-row a {
     text-decoration: none;
     font-size: 0.938rem;
-    /* 15px-es betüméret */
     color: rgb(51, 47, 49);
     font-family: 'Inter';
     font-weight: 500;
-}
+} */
 
 .like-and-share {
     margin-left: auto !important;
@@ -694,40 +710,45 @@ Ha találok rá jobb megoldást javítom :)  */
     display: flex;
     position: absolute;
     right: 1.563rem;
-    bottom: 40px;
+    bottom: 30px;
 }
 
-.like-and-share img {
-    width: 1.563rem;
-    height: 1.563rem;
+.liked{
+    fill: #c43700;
+}
+
+.like-button {
+    fill: #2d1810;
+}
+
+.like-button:hover {
+    fill: #c43700;
     cursor: pointer;
-
 }
+
 
 #like {
     width: 40px !important;
     height: 40px !important;
 }
 
-.like-and-share span {
+/* .like-and-share span {
     margin-bottom: 5px !important;
     cursor: pointer;
-}
-
+} */
+/* 
 .like {
     margin-right: 0.625rem !important;
     fill: rgb(45, 24, 16);
+} */
+.share {
+    margin-left: 0.625rem !important;
+    fill: rgb(45, 24, 16);
 }
 
-.liked {
-    fill: rgb(185, 24, 10) !important;
-    color: rgb(185, 24, 10) !important;
-    cursor: pointer;
-}
-
-.like:hover {
-    fill: rgb(185, 24, 10) !important;
-    color: rgb(185, 24, 10) !important;
+.share:hover {
+    /* fill: rgb(152, 88, 201) !important; */
+    color: var(--dash-color) !important;
     cursor: pointer;
 }
 
@@ -778,6 +799,10 @@ Ha találok rá jobb megoldást javítom :)  */
 .delete-post:hover,
 .delete-book:hover {
     color: rgb(210, 0, 0);
+}
+
+#our-writers-div{
+    margin-bottom: 30px;
 }
 
 /* Profil picture popup */
@@ -1022,24 +1047,8 @@ Ha találok rá jobb megoldást javítom :)  */
     text-align: center;
 }
 
-#book-popup-modal-body::-webkit-scrollbar {
-    width: 6px;
-}
-
-#book-popup-modal-body::-webkit-scrollbar-track {
-    background: transparent;
-    border-radius: 10px;
-}
-
-#book-popup-modal-body::-webkit-scrollbar-thumb {
-    background-color: #92827a;
-    border-radius: 10px;
-    transition: background-color 1s ease-in;
-}
-
-#book-popup-modal-body::-webkit-scrollbar-thumb:hover {
-    background-color: #ACA09A;
-    transition: background-color 1s ease-in;
+#book-modal-header {
+    border-bottom: none;
 }
 
 .save-btn {
@@ -1059,8 +1068,24 @@ Ha találok rá jobb megoldást javítom :)  */
     background-color: #fffcf6d7;
 }
 
-.shopping-btn {
-    margin-right: 200px;
+#book-popup-modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+#book-popup-modal-body::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+}
+
+#book-popup-modal-body::-webkit-scrollbar-thumb {
+    background-color: #92827a;
+    border-radius: 10px;
+    transition: background-color 1s ease-in;
+}
+
+#book-popup-modal-body::-webkit-scrollbar-thumb:hover {
+    background-color: #ACA09A;
+    transition: background-color 1s ease-in;
 }
 
 .btn-close {
@@ -1126,45 +1151,42 @@ Ha találok rá jobb megoldást javítom :)  */
     height: fit-content;
 }
 
-.m-footer-div {
+.m-footer-div-general {
     display: flex;
+    margin-right: auto;
 }
 
 .shopping-btn {
+    margin-left: auto;
     margin-right: 20px;
-    padding: 8px 18px 12px;
+    padding: 10px 18px 15px;
     background-color: #fffcf6a7;
 }
 
 .price {
     font-size: 18px;
-    margin-right: 160px;
     margin-top: 13px;
     margin-bottom: 13px;
     font-family: 'Poppins-Regular', sans-serif;
     color: var(--mostUsed-text-color);
 }
 
-.modal-cover-btn {
+.sMoreBtn{
+    background-color: #f1b9a0;
+    color: var(--btn-text-color);
     text-decoration: none;
-    background: #895372 !important;
-    border: 0.094rem solid #895372;
-    color: white;
-    padding: 10px 20px 10px;
+    padding: 10px 25px 10px;
+    font-size: 20px;
     border-radius: 30px;
-    font-family: 'Poppins-Regular', sans;
-    font-size: 18px;
-    cursor: pointer;
-    float: right;
+    align-self: center;
+    transition: color 0.8s ease;
     transition: background-color 0.8s ease;
-    height: fit-content;
 }
 
-.modal-cover-btn:hover {
-    background-color: transparent !important;
-    color: #2C1810;
-    border: dashed 0.094rem #2C1810;
-    cursor: pointer;
+.sMoreBtn:hover{
+    background-color: #649984;
+    color: white;
+    transition: color 0.8s ease;
     transition: background-color 0.8s ease;
 }
 
