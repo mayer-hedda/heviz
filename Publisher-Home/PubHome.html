@@ -38,7 +38,6 @@
                 </div>
 
             </div>
-
             <!--? Profilkép helye -->
             <div id="profile-icon">
                 <!--* be kell szúrnom egy img taget  -->
@@ -54,8 +53,7 @@
 
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" id="Logout">Log Out</a></li>
-                        <li><a class="dropdown-item"
-                                onclick="window.location.href='../Profile/profile.html'">Profile</a></li>
+                        <li id="profile-link"><a class="dropdown-item">Profile</a></li>
                     </ul>
                 </div>
             </div>
@@ -78,7 +76,7 @@
                     <h2 class="textH2" id="s1-bigCard-h2">
                         <!-- Title  -->
                     </h2>
-                    <p class="bigUsername" id="s1-bigCard-author">
+                    <p class="bigUsername author" id="s1-bigCard-author">
                         <!-- Author's name -->
                     </p>
                     <p class="description" id="s1-bigCard-p">
@@ -87,8 +85,7 @@
 
                     <!-- Modal / popup  -->
                     <button type="button" id="randomBook-btn" class="moreBtn" data-bs-toggle="modal"
-                        data-bs-target="#modalID">Start
-                        Reading</button>
+                        data-bs-target="#modalID">Show Details</button>
                 </div>
             </div>
 
@@ -111,14 +108,14 @@
                     <h2 class="container medium-h2" id="s2-mediumC-h2">
                         <!-- Title  -->
                     </h2>
-                    <p class="username" id="s2-mediumC-author">
+                    <p class="username author" id="s2-mediumC-author">
                         <!-- Author's name -->
                     </p>
                     <p class="medium-desc" id="s2-mediumC-p">
                         <!-- Description  -->
                     </p>
                     <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
-                        data-bs-target="#modalID" id="s2-mediumC-btn">Start Reading</button>
+                        data-bs-target="#modalID" id="s2-mediumC-btn">Show Details</button>
 
                 </div>
             </div>
@@ -158,14 +155,14 @@
                     <h2 class="container medium-h2" id="s3-mediumC-h2">
                         <!-- Title  -->
                     </h2>
-                    <p class="username" id="s3-mediumC-author">
+                    <p class="username author" id="s3-mediumC-author">
                         <!-- Author's name -->
                     </p>
                     <p class="medium-desc" id="s3-mediumC-desc">
                         <!-- Description  -->
                     </p>
                     <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
-                        data-bs-target="#modalID" id="s3-mediumC-btn">Start Reading</button>
+                        data-bs-target="#modalID" id="s3-mediumC-btn">Show Details</button>
 
                 </div>
             </div>
@@ -204,14 +201,14 @@
                     <h2 class="container medium-h2" id="s4-mediumC-h2">
                         <!-- Title  -->
                     </h2>
-                    <p class="username" id="s4-mediumC-author">
+                    <p class="username author" id="s4-mediumC-author">
                         <!-- Author's name -->
                     </p>
                     <p class="medium-desc" id="s4-mediumC-desc">
                         <!-- Description  -->
                     </p>
                     <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
-                        data-bs-target="#modalID" id="s4-mediumC-btn">Start Reading</button>
+                        data-bs-target="#modalID" id="s4-mediumC-btn">Show Details</button>
 
                 </div>
             </div>
@@ -250,14 +247,14 @@
                     <h2 class="container medium-h2" id="s5-mediumC-h2">
                         <!-- Title  -->
                     </h2>
-                    <p class="username" id="s5-mediumC-author">
+                    <p class="username author" id="s5-mediumC-author">
                         <!-- Author's name -->
                     </p>
                     <p class="medium-desc" id="s5-mediumC-desc">
                         <!-- Description  -->
                     </p>
                     <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
-                        data-bs-target="#modalID" id="s5-mediumC-btn">Start Reading</button>
+                        data-bs-target="#modalID" id="s5-mediumC-btn">Show Details</button>
 
                 </div>
             </div>
@@ -297,14 +294,14 @@
                     <h2 class="container medium-h2" id="s6-mediumC-h2">
                         <!-- Title  -->
                     </h2>
-                    <p class="username" id="s6-mediumC-author">
+                    <p class="username author" id="s6-mediumC-author">
                         <!-- Author's name -->
                     </p>
                     <p class="medium-desc" id="s6-mediumC-desc">
                         <!-- Description  -->
                     </p>
                     <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
-                        data-bs-target="#modalID" id="s6-mediumC-btn">Start Reading</button>
+                        data-bs-target="#modalID" id="s6-mediumC-btn">Show Details</button>
 
                 </div>
             </div>
@@ -353,7 +350,7 @@
                     <h3 class="modal-h3" id="modal-title"></h3>
 
                     <!-- author -->
-                    <p class="modal-p" id="modal-author"></p>
+                    <p class="modal-p author" id="modal-author"></p>
 
                     <div class="babszem text-center">
 

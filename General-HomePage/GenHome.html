@@ -68,8 +68,7 @@
 
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" id="Logout">Log Out</a></li>
-                        <li><a class="dropdown-item"
-                                onclick="window.location.href='../Profile/profile.html'">Profile</a></li>
+                        <li id="profile-link"><a class="dropdown-item">Profile</a></li>
                     </ul>
                 </div>
             </div>
@@ -92,7 +91,7 @@
                     <h2 class="textH2" id="s1-bigCard-h2">
                         <!-- Title  -->
                     </h2>
-                    <p class="bigUsername" id="s1-bigCard-author">
+                    <p class="bigUsername author" id="s1-bigCard-author">
                         <!-- Author's name -->
                     </p>
                     <p class="description" id="s1-bigCard-p">
@@ -101,8 +100,7 @@
 
                     <!-- Modal / popup  -->
                     <button type="button" id="randomBook-btn" class="moreBtn" data-bs-toggle="modal"
-                        data-bs-target="#modalID">Start
-                        Reading</button>
+                        data-bs-target="#modalID">Show Details</button>
                 </div>
             </div>
 
@@ -129,14 +127,14 @@
                     <h2 class="container medium-h2" id="s2-mediumC-h2">
                         <!-- Title  -->
                     </h2>
-                    <p class="username" id="s2-mediumC-author">
+                    <p class="username author" id="s2-mediumC-author">
                         <!-- Author's name -->
                     </p>
                     <p class="medium-desc" id="s2-mediumC-p">
                         <!-- Description  -->
                     </p>
                     <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
-                        data-bs-target="#modalID" id="s2-mediumC-btn">Start Reading</button>
+                        data-bs-target="#modalID" id="s2-mediumC-btn">Show Details</button>
 
                 </div>
             </div>
@@ -169,10 +167,10 @@
                 <div class="col-9 medium-right-side">
                     <!--? Author + Book Title  -->
                     <h2 class="container medium-h2" id="s3-mediumC-h2"></h2>
-                    <p class="username" id="s3-mediumC-author"></p>
+                    <p class="username author" id="s3-mediumC-author"></p>
                     <p class="medium-desc" id="s3-mediumC-desc"></p>
                     <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
-                        data-bs-target="#modalID" id="s3-mediumC-btn">Start Reading</button>
+                        data-bs-target="#modalID" id="s3-mediumC-btn">Show Details</button>
 
                 </div>
             </div>
@@ -213,10 +211,10 @@
                 <div class="col-9 medium-right-side">
                     <!--? Author + Book Title  -->
                     <h2 class="container medium-h2" id="s4-mediumC-h2"></h2>
-                    <p class="username" id="s4-mediumC-author"></p>
+                    <p class="username author" id="s4-mediumC-author"></p>
                     <p class="medium-desc" id="s4-mediumC-desc"></p>
                     <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
-                        data-bs-target="#modalID" id="s4-mediumC-btn">Start Reading</button>
+                        data-bs-target="#modalID" id="s4-mediumC-btn">Show Details</button>
 
                 </div>
             </div>
@@ -257,10 +255,10 @@
                 <div class="col-9 medium-right-side">
                     <!--? Author + Book Title  -->
                     <h2 class="container medium-h2" id="s5-mediumC-h2"></h2>
-                    <p class="username" id="s5-mediumC-author"></p>
+                    <p class="username author" id="s5-mediumC-author"></p>
                     <p class="medium-desc" id="s5-mediumC-desc"></p>
                     <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
-                        data-bs-target="#modalID" id="s5-mediumC-btn">Start Reading</button>
+                        data-bs-target="#modalID" id="s5-mediumC-btn">Show Details</button>
 
                 </div>
             </div>
@@ -311,7 +309,7 @@
                     <h3 class="modal-h3" id="modal-title"></h3>
 
                     <!-- author -->
-                    <p class="modal-p" id="modal-author"></p>
+                    <p class="modal-p author" id="modal-author"></p>
 
                     <div class="babszem text-center">
 
@@ -350,6 +348,8 @@
                                     d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
                             </svg>
                         </button>
+                       
+                        
                     </div>
                     <p class="price" id="book-price"></p>
 
@@ -393,12 +393,12 @@
                                 style="margin-right: 0.625rem;"></i>cyberread2023@gmail.com
                         </li>
                         <li id="facebook"><i class="bi bi-facebook" style="margin-right: 0.625rem;"></i><a
-                                href="https://www.facebook.com/profile.php?id=61551909364683    " target="_blank">Facebook</a></li>
+                                href="https://www.facebook.com/profile.php?id=61551909364683    ">Facebook</a></li>
                         <li id="instagram"><i class="bi bi-instagram" style="margin-right: 0.625rem;"></i><a
-                                href="https://instagram.com/cyberread2023?igshid=MzRlODBiNWFlZA==" target="_blank">Instagram</a>
+                                href="https://instagram.com/cyberread2023?igshid=MzRlODBiNWFlZA==">Instagram</a>
                         </li>
                         <li id="help-center"><i class="bi bi-info-circle-fill" style="margin-right: 0.625rem;"></i><a
-                                href="#" target="_blank">Help Center</a></li>
+                                href="#">Help Center</a></li>
                     </ul>
                 </div>
                 <div id="copy-right-div" class="text-end">

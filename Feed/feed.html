@@ -64,8 +64,7 @@
 
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" id="Logout">Log Out</a></li>
-                        <li><a class="dropdown-item"
-                                onclick="window.location.href='../Profile/profile.html'">Profile</a></li>
+                        <li id="profile-link"><a class="dropdown-item">Profile</a></li>
                     </ul>
                 </div>
             </div>
@@ -79,7 +78,11 @@
             <div class="row">
                 <div class="col-8 left-side">
                     <!-- TODO: POST SECTION -->
-                    <div id="kulsoPostCard"></div>
+                    <div id="kulsoPostCard">
+                        <div class="container" id="no-Post" hidden>
+                            <p class="missing-data-text text-center">Unfortunately, we are unable to display any posts. To see posts, you must follow users.</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-4 right-side">

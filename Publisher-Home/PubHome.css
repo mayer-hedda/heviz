@@ -632,6 +632,14 @@ section{
     color: rgb(80, 80, 80);
 }
 
+.author{
+    cursor: pointer;
+}
+
+.author:hover{
+    color: #B43C82!important;
+}
+
 .babszem {
     width: fit-content;
     display: inline-flex;
@@ -686,6 +694,7 @@ section{
 .price {
     font-size: 18px;
     margin-top: 13px;
+    margin-left: auto!important;
     margin-bottom: 13px;
     font-family: 'Poppins-Regular', sans-serif;
     color: var(--mostUsed-text-color);
