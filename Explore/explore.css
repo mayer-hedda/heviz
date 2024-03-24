@@ -1,7 +1,7 @@
 /** ----------- VÁLTOZÓK DEFINIÁLÁSA */
 :root {
     /* -----------COLORS -----------*/
-    --primary-BTN-Bg-color: rgb(232, 181, 160);
+    --primary: rgb(232, 181, 160);
     --btn-text-color: rgb(51, 47, 49);
     /*text color for:
         -loginBTN text
@@ -158,17 +158,17 @@ nav {
     color: var(--navbar-p-color) !important;
 }
 
-#navbar a:hover {
-    color: var(--navbar-a-hover-color);
+.nav-link:hover {
+    color: var(--navbar-a-hover-color)!important;
     /* font-weight: 700; */
-    text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
+    text-decoration: underline 0.125rem var(--primary);
     text-underline-offset: 0.281rem;
 }
 
 .active {
     /*? Az aktuális page */
     color: var(--current-page-color) !important;
-    text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
+    text-decoration: underline 0.125rem var(--primary);
     /* ? távolság növelése az alláhúzás vonal és a szöveg alja között */
     text-underline-offset: 0.281rem;
 }
@@ -179,20 +179,13 @@ nav {
     /* font-style: italic; */
 }
 
-#profile-icon {
+#profile-icon img{
     width: 50px;
-    /* Állítsd be a kívánt szélességet és magasságot */
     height: 50px;
     border-radius: 50%;
-    /* Kör alak kialakítása */
-    background-image: url('../pictures/default-profile-pic.png');
-    /* Alapértelmezett kép beállítása */
     background-size: cover;
-    /* A kép méretezése a konténerhez */
     background-position: center;
-    /* A kép középre igazítása */
     cursor: pointer;
-    /* Mutató kurzor megjelenítése, hogy látható legyen, kattintható */
 }
 
 #navbarNav {
@@ -203,11 +196,11 @@ nav {
     font-size: medium;
     font-family: 'Inter-Medium', sans-serif;
     color: var(--btn-text-color);
-    border: 1px solid var(--primary-BTN-Bg-color);
+    border: 1px solid var(--primary);
     /* border-width: 0rem; */
     border-radius: 1.5rem;
 
-    background-color: var(--primary-BTN-Bg-color);
+    background-color: var(--primary);
 
     padding: 0.625rem 1.25rem;
 
@@ -232,8 +225,20 @@ nav {
     border: dashed 0.094rem var(--dash-color);
 }
 
+.dropdown-menu li{
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.dropdown-menu a:hover{
+    background-color: transparent;
+    cursor: pointer;
+    color: var(--navbar-a-hover-color)!important;
+}
+
 /** ---------- SECTION ONE ----------------------  */
 #s1 {
+    z-index: 1000;
     margin-top: 75px;
     background-color: #EAD7BE;
     height: fit-content;
@@ -299,22 +304,6 @@ nav {
     cursor: pointer;
 }
 
-.category-name {
-    display: block;
-    /* Minden kategória név egy új sorban jelenjen meg */
-    font-weight: bold;
-    /* Vastagabb betűtípus a kiemeléshez, opcionális */
-    position: absolute;
-    bottom: 20px;
-    left: 5%;
-    right: 5%;
-    font-size: 22px;
-    color: white;
-    font-family: 'Montserrat-Regular', sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    text-shadow: rgba(0, 0, 0, 0.685) 2px 1px 4px; 
-}
 
 
 #title-h2 {
@@ -328,17 +317,37 @@ nav {
 .rows {
     display: inline-flex;
     column-gap: 40px;
-    /* vertical-align: middle!important; */
 }
 
-.rows img {
+/* .rows img {
     border-radius: 30px;
     border: 3.5px solid #E8B5A0;
     object-fit: cover;
     backdrop-filter: blur(1px);
+} */
+
+.image-container {
+    position: relative;
+    margin-bottom: 50px;
+    cursor: pointer;
+    text-align: center;
 }
 
+.default {
+    border-radius: 30px;
+    outline: 3.5px solid var(--primary);
+    object-fit: cover;
+    backdrop-filter: blur(1px);
+}
 
+.rowPics {
+    width: 217px;
+    height: 242px;
+}
+
+#nineth-row-pics{
+    margin-right: 775px;
+}
 
 /** --------------- FOOTER ---------------*/
 
@@ -351,7 +360,7 @@ footer {
     
     border-top: 0.094rem solid var(--dash-color);
     background-color: var(--footer-bg-color);
-    padding-top: 5%;
+    padding-top: 50px;
     padding-right: 5%;
     padding-left: 5%;
     height: 300px;
@@ -375,16 +384,16 @@ footer a {
     color: var(--mostUsed-text-color);
 }
 
-footer a:hover {
+footer a:hover{
     color: #B43C82;
 }
 
-#copy-right-div {
-    float: right !important;
+#copy-right-div{
+    float: right!important;
+    margin-top: -20px;
 }
 
-#copy-right {
+#copy-right{
     font-size: small;
-    font-family: 'Poppins-Regular', sans-serif;
-
+    font-family: 'Poppins-Regular', sans-serif;  
 }

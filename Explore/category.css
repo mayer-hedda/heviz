@@ -1,7 +1,7 @@
 /* ----------- VÁLTOZÓK DEFINIÁLÁSA */
 :root {
     /* -----------COLORS -----------*/
-    --primary-BTN-Bg-color: rgb(232, 181, 160);
+    --primary: rgb(232, 181, 160);
     --btn-text-color: rgb(51, 47, 49);
     /*text color for:
         -loginBTN text
@@ -116,42 +116,34 @@ nav {
     color: var(--navbar-p-color) !important;
 }
 
-
-
-#navbar a:hover {
-    color: var(--navbar-a-hover-color);
+.nav-link:hover {
+    color: var(--navbar-a-hover-color)!important;
     /* font-weight: 700; */
-    /* font-style: italic; */
+    text-decoration: underline 0.125rem var(--primary);
+    text-underline-offset: 0.281rem;
 }
 
-#HomePage {
+.active {
     /*? Az aktuális page */
     color: var(--current-page-color) !important;
-    text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
+    text-decoration: underline 0.125rem var(--primary);
     /* ? távolság növelése az alláhúzás vonal és a szöveg alja között */
     text-underline-offset: 0.281rem;
 }
 
-#HomePage:hover {
+.active:hover {
     /*? aktuális page hover */
     color: var(--current-page-hover-color) !important;
     /* font-style: italic; */
 }
 
-#profile-icon img {
+#profile-icon img{
     width: 50px;
-    /* Állítsd be a kívánt szélességet és magasságot */
     height: 50px;
     border-radius: 50%;
-    /* Kör alak kialakítása */
-    /* background-image: url('../pictures/default-profile-pic.png'); */
-    /* Alapértelmezett kép beállítása */
     background-size: cover;
-    /* A kép méretezése a konténerhez */
     background-position: center;
-    /* A kép középre igazítása */
     cursor: pointer;
-    /* Mutató kurzor megjelenítése, hogy látható legyen, kattintható */
 }
 
 #navbarNav {
@@ -161,13 +153,13 @@ nav {
 #writingBtn,
 #writingBtn-zeroData {
     font-size: medium;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter-Medium', sans-serif;
     color: var(--btn-text-color);
-    border: solid var(--primary-BTN-Bg-color);
+    border: solid var(--primary);
     /* border-width: 0rem; */
     border-radius: 1.5rem;
 
-    background-color: var(--primary-BTN-Bg-color);
+    background-color: var(--primary);
 
     padding: 0.625rem 1.25rem;
 
@@ -193,18 +185,21 @@ nav {
     border: dashed 0.094rem var(--dash-color);
 }
 
-.dropdown-menu a {
-    margin-bottom: 10px;
+.dropdown-menu li{
+    padding: 5px;
+    margin-bottom: 5px;
 }
 
-.dropdown-menu a:hover {
+.dropdown-menu a:hover{
     background-color: transparent;
+    cursor: pointer;
+    color: var(--navbar-a-hover-color)!important;
 }
-
 
 
 /* ---------- SECTION ONE ----------------------  */
 #s1 {
+    z-index: 1000;
     margin-top: 75px;
     background: #EAD7BE;
     height: 96px;
@@ -230,10 +225,8 @@ nav {
 .category-name-h1 {
     font-family: 'Montserrat-Medium', sans-serif;
     font-size: 40px;
-    text-transform: uppercase;
-    letter-spacing: 5.25px;
+    font-variant: small-caps;
     cursor: default;
-    ;
     margin-bottom: 0px;
 }
 
@@ -247,13 +240,27 @@ nav {
     margin-top: 171px;
 }
 
+.s2-bigDiv{
+    display: flex;
+    height: fit-content;
+}
+
 /* ----- LEFT SIDE */
 
-#left-side {
+/* #left-side {
     top: 171px;
     height: 80vh;
     background: #F5EADC;
     margin-bottom: 0px;
+} */
+
+#left-side {
+    height: 100vh; 
+    position: sticky; 
+    top: 171px; 
+    z-index: 1; 
+    overflow-y: auto; 
+    background: #F5EADC;
 }
 
 #left-side-h3 {

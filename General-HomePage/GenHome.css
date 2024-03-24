@@ -154,12 +154,10 @@ nav {
     color: var(--navbar-p-color) !important;
 }
 
-
-
-#navbar a:hover {
-    color: var(--navbar-a-hover-color);
-    /* font-weight: 700; */
-    /* font-style: italic; */
+.nav-link:hover {
+    color: var(--navbar-a-hover-color)!important;
+    text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
+    text-underline-offset: 0.281rem;
 }
 
 #HomePage {
@@ -178,18 +176,11 @@ nav {
 
 #profile-icon img{
     width: 50px;
-    /* Állítsd be a kívánt szélességet és magasságot */
     height: 50px;
     border-radius: 50%;
-    /* Kör alak kialakítása */
-    /* background-image: url('../pictures/default-profile-pic.png'); */
-    /* Alapértelmezett kép beállítása */
     background-size: cover;
-    /* A kép méretezése a konténerhez */
     background-position: center;
-    /* A kép középre igazítása */
     cursor: pointer;
-    /* Mutató kurzor megjelenítése, hogy látható legyen, kattintható */
 }
 
 #navbarNav{
@@ -237,6 +228,7 @@ nav {
 .dropdown-menu a:hover{
     background-color: transparent;
     cursor: pointer;
+    color: var(--navbar-a-hover-color)!important;
 }
 
 /** --------------- TITLES AND ROWS NAD GENERAL STUFF ---------------*/
@@ -744,7 +736,7 @@ footer {
     
     border-top: 0.094rem solid var(--dash-color);
     background-color: var(--footer-bg-color);
-    padding-top: 5%;
+    padding-top: 50px;
     padding-right: 5%;
     padding-left: 5%;
     height: 300px;

@@ -102,7 +102,7 @@
     margin-right: 775px;
 }
 
-.category-name {
+/* .category-name {
     display: block;
     font-weight: bold;
     position: absolute;
@@ -115,7 +115,7 @@
     text-transform: uppercase;
     letter-spacing: 1.5px;
     text-shadow: rgba(0, 0, 0, 0.685) 2px 1px 4px;
-}
+} */
 
 .next-btn-div{
    text-align: end;

@@ -154,12 +154,10 @@ nav {
     color: var(--navbar-p-color) !important;
 }
 
-
-
-#navbar a:hover {
-    color: var(--navbar-a-hover-color);
-    /* font-weight: 700; */
-    /* font-style: italic; */
+.nav-link:hover {
+    color: var(--navbar-a-hover-color)!important;
+    text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
+    text-underline-offset: 0.281rem;
 }
 
 #HomePage {
@@ -231,6 +229,7 @@ nav {
 .dropdown-menu a:hover{
     background-color: transparent;
     cursor: pointer;
+    color: var(--navbar-a-hover-color)!important;
 }
 
 /** --------------- TITLES AND ROWS NAD GENERAL STUFF ---------------*/

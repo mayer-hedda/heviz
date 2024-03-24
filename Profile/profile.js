@@ -352,7 +352,20 @@ intro_saveBtn.addEventListener('click', async function () {
     const introResult = await setIntroDescription({ "introDescription": `${introValue}` });
     if (introResult.status == 200) {
         console.log("Successful intro description");
-        location.reload();
+        const urlParams = new URLSearchParams(window.location.search);
+        var usernameFromLink = urlParams.get('username');
+        const userDetailsIntro = await getUserDetails({ "profileUsername": `${usernameFromLink}` });
+        if (userDetailsIntro.status == 200) {
+            console.log("Success");
+            introText.readOnly = true;
+            introText.classList.remove("info-edit-active");
+            intro_saveBtn.hidden = true;
+            intro_cancelBtn.hidden = true;
+            error_and_counter.hidden = true;
+
+        } else {
+            alert(userDetailsIntro.status + ": Something went wrong, please try it later.");
+        }
 
     } else if (introResult.status == 401) {
         alert("Statuscode: " + introResult.status + ". Error message: " + introResult.data)
