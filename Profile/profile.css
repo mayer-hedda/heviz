@@ -543,7 +543,7 @@ Ha találok rá jobb megoldást javítom :)  */
 }
 
 .author{
-    cursor: pointer;
+    cursor: pointer!important;
 }
 
 .author:hover{

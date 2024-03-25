@@ -329,6 +329,10 @@ form {
     border-color: var(--navbar-p-color);
 }
 
+.form-check-label{
+    font-size: 18px;
+}
+
 /* accordion element */
 .accordion-item,
 .accordion-button {
@@ -376,6 +380,27 @@ form {
     border-color: transparent;
     box-shadow: none;
     border-color: #cdb5aa;
+}
+
+.clear-btn{
+    margin-top: 20px;
+}
+
+.clear-filter{
+    font-family: 'Poppins-Regular', sans-serif;
+    font-size: 18px;
+    background-color: var(--primary);
+    border: 2px solid var(--primary)!important;
+    padding: 5px 18px;
+    margin-right: 10px;
+    border: none;
+    transition-duration: 0.3s;
+}
+
+.clear-filter:hover{
+    border: 2px dashed var(--dash-color)!important;
+    transition-duration: 0.3s;
+    background-color: transparent;
 }
 
 /* Books */
@@ -473,37 +498,29 @@ form {
     letter-spacing: 0.7px;
 }
 
+.missing-data-text {
+    margin-top: 20px;
+    color: #993b18;
+    font-style: italic;
+}
+
 /* ---------------- MODAL ---------------------------*/
-.modal-content {
+.author{
+    cursor: pointer!important;
+}
+
+.author:hover{
+    color: #B43C82!important;
+}
+
+#book-modal-content {
     background: linear-gradient(180deg, #ffeed8, #F0D0BC 100%) !important;
     border-radius: 15px;
     border-width: 0;
-    /* position: relative; */
     text-align: center;
-    /* align-items: center; */
 }
 
-.modal-body::-webkit-scrollbar {
-    width: 6px;
-}
-
-.modal-body::-webkit-scrollbar-track {
-    background: transparent;
-    border-radius: 10px;
-}
-
-.modal-body::-webkit-scrollbar-thumb {
-    background-color: #92827a;
-    border-radius: 10px;
-    transition: background-color 1s ease-in;
-}
-
-.modal-body::-webkit-scrollbar-thumb:hover {
-    background-color: #ACA09A;
-    transition: background-color 1s ease-in;
-}
-
-.modal-header {
+#book-modal-header {
     border-bottom: none;
 }
 
@@ -524,6 +541,26 @@ form {
     background-color: #fffcf6d7;
 }
 
+#book-popup-modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+#book-popup-modal-body::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+}
+
+#book-popup-modal-body::-webkit-scrollbar-thumb {
+    background-color: #92827a;
+    border-radius: 10px;
+    transition: background-color 1s ease-in;
+}
+
+#book-popup-modal-body::-webkit-scrollbar-thumb:hover {
+    background-color: #ACA09A;
+    transition: background-color 1s ease-in;
+}
+
 .btn-close {
     background-color: #fffcf6;
     margin-right: 5px !important;
@@ -531,7 +568,7 @@ form {
     border-radius: 20px;
 }
 
-.modal-img {
+#book-modal-img {
     width: 243px;
     height: 400px;
     align-self: center;
@@ -581,51 +618,48 @@ form {
     font-family: 'Poppins-light', sans-serif;
 }
 
-.modal-footer {
+#book-modal-footer {
     border-top: none;
     padding: 15px 25px 25px;
     height: fit-content;
 }
 
-.m-footer-div {
+.m-footer-div-general {
     display: flex;
+    margin-right: auto;
 }
 
 .shopping-btn {
+    margin-left: auto;
     margin-right: 20px;
-    padding: 8px 18px 12px;
+    padding: 10px 18px 15px;
     background-color: #fffcf6a7;
 }
 
 .price {
-    font-size: 20px;
-    margin-right: 160px;
+    font-size: 18px;
     margin-top: 13px;
     margin-bottom: 13px;
     font-family: 'Poppins-Regular', sans-serif;
     color: var(--mostUsed-text-color);
 }
 
-.modal-cover-btn {
+.sMoreBtn{
+    background-color: #f1b9a0;
+    color: var(--btn-text-color);
     text-decoration: none;
-    background: #895372 !important;
-    border: 0.094rem solid #895372;
-    color: white;
-    padding: 10px 20px 10px;
+    padding: 10px 25px 10px;
+    font-size: 20px;
     border-radius: 30px;
-    font-family: 'Poppins-Regular', sans;
-    font-size: 18px;
-    cursor: pointer;
-    float: right;
+    align-self: center;
+    transition: color 0.8s ease;
     transition: background-color 0.8s ease;
-    height: fit-content;
 }
 
-.modal-cover-btn:hover {
-    background-color: transparent !important;
-    color: #2C1810;
-    border: dashed 0.094rem #2C1810;
-    cursor: pointer;
+.sMoreBtn:hover{
+    background-color: #649984;
+    color: white;
+    transition: color 0.8s ease;
     transition: background-color 0.8s ease;
 }
 
@@ -641,7 +675,7 @@ footer {
 
     border-top: 0.094rem solid var(--dash-color);
     background-color: var(--footer-bg-color);
-    padding-top: 5%;
+    padding-top: 50px;
     padding-right: 5%;
     padding-left: 5%;
     height: 300px;

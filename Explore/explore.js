@@ -56,7 +56,7 @@ window.onload = async function () {
 function loadCategories(response) {
     for (let i = 0; i <= 3; i++) {
         first_row_pics.innerHTML += `
-            <div class="image-container" id="${response.data[i].id}" onclick="navigateToCategory('${response.data[i].name}')">
+            <div class="image-container" id="${response.data[i].id}" onclick="navigateToCategory('${response.data[i].name}', '${response.data[i].id}')">
                 <img class="rowPics default" src="../${response.data[i].image}" alt="${response.data[i].name}" >
             </div>
         `;
@@ -64,7 +64,7 @@ function loadCategories(response) {
 
     for (let i = 4; i <= 7; i++) {
         second_row_pics.innerHTML += `
-            <div class="image-container" id="${response.data[i].id}" onclick="navigateToCategory('${response.data[i].name}')">
+            <div class="image-container" id="${response.data[i].id}" onclick="navigateToCategory('${response.data[i].name}', '${response.data[i].id}')">
                 <img class="rowPics default" src="../${response.data[i].image}" alt="${response.data[i].name}" >
             </div>
         `;
@@ -72,7 +72,7 @@ function loadCategories(response) {
 
     for (let i = 8; i <= 11; i++) {
         third_row_pics.innerHTML += `
-            <div class="image-container" id="${response.data[i].id}" onclick="navigateToCategory('${response.data[i].name}')">
+            <div class="image-container" id="${response.data[i].id}" onclick="navigateToCategory('${response.data[i].name}', '${response.data[i].id}')">
                 <img class="rowPics default" src="../${response.data[i].image}" alt="${response.data[i].name}" >
             </div>
         `;
@@ -80,7 +80,7 @@ function loadCategories(response) {
 
     for (let i = 12; i <= 15; i++) {
         fourth_row_pics.innerHTML += `
-            <div class="image-container" id="${response.data[i].id}" onclick="navigateToCategory('${response.data[i].name}')">
+            <div class="image-container" id="${response.data[i].id}" onclick="navigateToCategory('${response.data[i].name}', '${response.data[i].id}')">
                 <img class="rowPics default" src="../${response.data[i].image}" alt="${response.data[i].name}" >
             </div>
         `;
@@ -88,7 +88,7 @@ function loadCategories(response) {
 
     for (let i = 16; i <= 19; i++) {
         fifth_row_pics.innerHTML += `
-            <div class="image-container" id="${response.data[i].id}" onclick="navigateToCategory('${response.data[i].name}')">
+            <div class="image-container" id="${response.data[i].id}" onclick="navigateToCategory('${response.data[i].name}', '${response.data[i].id}')">
                 <img class="rowPics default" src="../${response.data[i].image}" alt="${response.data[i].name}" >
             </div>
         `;
@@ -96,7 +96,7 @@ function loadCategories(response) {
 
     for (let i = 20; i <= 23; i++) {
         sixth_row_pics.innerHTML += `
-            <div class="image-container" id="${response.data[i].id}" onclick="navigateToCategory('${response.data[i].name}')">
+            <div class="image-container" id="${response.data[i].id}" onclick="navigateToCategory('${response.data[i].name}', '${response.data[i].id}')">
                 <img class="rowPics default" src="../${response.data[i].image}" alt="${response.data[i].name}" >
             </div>
         `;
@@ -104,7 +104,7 @@ function loadCategories(response) {
 
     for (let i = 24; i <= 27; i++) {
         seventh_row_pics.innerHTML += `
-            <div class="image-container" id="${response.data[i].id}" onclick="navigateToCategory('${response.data[i].name}')">
+            <div class="image-container" id="${response.data[i].id}" onclick="navigateToCategory('${response.data[i].name}', '${response.data[i].id}')">
                 <img class="rowPics default" src="../${response.data[i].image}" alt="${response.data[i].name}" >
             </div>
         `;
@@ -112,7 +112,7 @@ function loadCategories(response) {
 
     for (let i = 28; i <= 31; i++) {
         eighth_row_pics.innerHTML += `
-            <div class="image-container" id="${response.data[i].id}" onclick="navigateToCategory('${response.data[i].name}')">
+            <div class="image-container" id="${response.data[i].id}" onclick="navigateToCategory('${response.data[i].name}', '${response.data[i].id}')">
                 <img class="rowPics default" src="../${response.data[i].image}" alt="${response.data[i].name}" >
             </div>
         `;
@@ -120,15 +120,15 @@ function loadCategories(response) {
 
     for (let i = 32; i < response.data.length; i++) {
         nineth_row_pics.innerHTML += `
-            <div class="image-container" id="${response.data[i].id}" onclick="navigateToCategory('${response.data[i].name}')">
+            <div class="image-container" id="${response.data[i].id}" onclick="navigateToCategory('${response.data[i].name}', '${response.data[i].id}')">
                 <img class="rowPics default" src="../${response.data[i].image}" alt="${response.data[i].name}" >
             </div>
         `;
     }
 }
 
-function navigateToCategory(categoryName) {
-    window.location.href = `./category.html?category=${categoryName}`;
+function navigateToCategory(categoryName, categoryId) {
+    window.location.href = `./category.html?category=${categoryName}&id=${categoryId}`;
 }
 
 const searchBTN = document.getElementById('searchBTN');

@@ -319,13 +319,6 @@ nav {
     column-gap: 40px;
 }
 
-/* .rows img {
-    border-radius: 30px;
-    border: 3.5px solid #E8B5A0;
-    object-fit: cover;
-    backdrop-filter: blur(1px);
-} */
-
 .image-container {
     position: relative;
     margin-bottom: 50px;
