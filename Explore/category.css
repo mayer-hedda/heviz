@@ -254,13 +254,19 @@ nav {
     margin-bottom: 0px;
 } */
 
+#left-side-content{
+    padding-top: 10px;
+}
+
 #left-side {
-    height: 100vh; 
+    /* height: 100vh;  */
     position: sticky; 
     top: 171px; 
     z-index: 1; 
     overflow-y: auto; 
     background: #F5EADC;
+    overflow-y: auto;
+    max-height: 80vh;
 }
 
 #left-side-h3 {
@@ -334,6 +340,12 @@ form {
 }
 
 /* accordion element */
+
+
+.accordion{
+    margin-top: 10px;
+}
+
 .accordion-item,
 .accordion-button {
     background-color: #F5EADC;
@@ -395,6 +407,7 @@ form {
     margin-right: 10px;
     border: none;
     transition-duration: 0.3s;
+    margin-bottom: 100px;
 }
 
 .clear-filter:hover{

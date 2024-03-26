@@ -143,20 +143,23 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#flush-collapseOne-alphabet" aria-expanded="false"
-                                    aria-controls="flush-collapseOne-alphabet" style="color: #2C1810;">In alphabetical
-                                    order</button>
+                                    data-bs-target="#flush-collapseOne-alphabetical" aria-expanded="false"
+                                    aria-controls="flush-collapseOne-alphabetical" style="color: #2C1810;">Alphabetical order</button>
                             </h2>
-                            <div id="flush-collapseOne-alphabet" class="accordion-collapse collapse"
+                            <div id="flush-collapseOne-alphabetical" class="accordion-collapse collapse"
                                 data-bs-parent="#alphabetical">
                                 <div class="accordion-body">
 
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="alphabetical" id="a-z">
+                                        <!-- Ár szerint nővekvő -->
+                                        <input class="form-check-input ABC-radio" type="radio" name="alphabetical"
+                                            id="a-z">
                                         <label class="form-check-label" for="a-z">A-Z</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="alphabetical" id="z-a">
+                                        <!-- Ár szerint csökkenő -->
+                                        <input class="form-check-input ABC-radio" type="radio" name="alphabetical"
+                                            id="z-a">
                                         <label class="form-check-label" for="z-a">Z-A</label>
                                     </div>
 
@@ -173,20 +176,21 @@
                                     aria-controls="flush-collapseOne-price" style="color: #2C1810;">Sort by
                                     price</button>
                             </h2>
+                            
                             <div id="flush-collapseOne-price" class="accordion-collapse collapse"
                                 data-bs-parent="#byPrice">
                                 <div class="accordion-body">
 
                                     <div class="form-check">
                                         <!-- Ár szerint nővekvő -->
-                                        <input class="form-check-input" type="radio" name="alphabetical"
+                                        <input class="form-check-input byPrice" type="radio" name="alphabetical"
                                             id="increasing-by-price">
                                         <label class="form-check-label" for="increasing-by-price">Increasing by
                                             price</label>
                                     </div>
                                     <div class="form-check">
                                         <!-- Ár szerint csökkenő -->
-                                        <input class="form-check-input" type="radio" name="alphabetical"
+                                        <input class="form-check-input byPrice" type="radio" name="alphabetical"
                                             id="decreasing-by-price">
                                         <label class="form-check-label" for="decreasing-by-price">Decreasing by
                                             price</label>
@@ -211,14 +215,14 @@
 
                                     <div class="form-check">
                                         <!-- Dátum szerint nővekvő -->
-                                        <input class="form-check-input" type="radio" name="alphabetical"
+                                        <input class="form-check-input byDate" type="radio" name="alphabetical"
                                             id="increasing-by-price">
                                         <label class="form-check-label" for="increasing-by-price">Increasing by
                                             date</label>
                                     </div>
                                     <div class="form-check">
                                         <!-- Dátum szerint csökkenő -->
-                                        <input class="form-check-input" type="radio" name="alphabetical"
+                                        <input class="form-check-input byDate" type="radio" name="alphabetical"
                                             id="decreasing-by-price">
                                         <label class="form-check-label" for="decreasing-by-price">Decreasing by
                                             date</label>
