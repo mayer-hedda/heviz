@@ -156,6 +156,7 @@ nav {
     /*? aktuális page hover */
     color: var(--current-page-hover-color) !important;
     font-style: italic;
+    cursor: pointer;
 }
 
 #loginBtn {

@@ -31,6 +31,17 @@ window.onload = async function () {
                 window.location.href = `../Profile/profile.html?username=${tokenResponse.data.username}`;
             });
 
+            const HomePage = document.getElementById('HomePage');
+            if (tokenResponse.data.rank == 'publisher') {
+                HomePage.addEventListener('click',(e)=>{
+                    window.location.href = '../Publisher-Home/PubHome.html';
+                });
+            }else{
+                HomePage.addEventListener('click',(e)=>{
+                    window.location.href = '../General-HomePage/GenHome.html';
+                });
+            }
+
             const userDatas = await getUserDetails({ "profileUsername": tokenResponse.data.username });
             LoadUserDatas(userDatas);
 

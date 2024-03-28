@@ -5,18 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- BOOTSTRAP -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>My Books</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <!-- bootstrap icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
-
-
     <!-- CSS -->
-    <link rel="stylesheet" href="category.css">
-
-    <title>Explore</title>
+    <link rel="stylesheet" href="mybooks.css">
 
     <!--? Icon a tabba -->
     <!-- fehér -->
@@ -27,8 +24,6 @@
 </head>
 
 <body style="background-color: rgb(247, 245, 236)">
-
-    <!-- Navbar -->
     <nav class="navbar fixed-top navbar-expand-lg" id="navbar">
         <div class="container-fluid">
             <img src="../pictures/LOGO.svg" alt="Logo" width="125" height="40" class="d-inline-block align-text-top"
@@ -41,10 +36,11 @@
 
             <div class="collapse navbar-collapse  justify-content-center" id="navbarNav">
                 <div class="navbar-nav text-center">
-                    <a class="nav-link" aria-current="page" id="HomePage">Home Page</a>
+                    <a class="nav-link" aria-current="page" id="HomePage">Home
+                        Page</a>
                     <a class="nav-link" id="Feed" href="../Feed/feed.html">Feed</a>
-                    <a class="nav-link  active" id="Explore" href="./genExplore.html">Explore</a>
-                    <a class="nav-link" id="SavedBooks" href="../MyBooks/mybooks.html">My Books</a>
+                    <a class="nav-link" id="Explore" href="../Explore/explore.html">Explore</a>
+                    <a class="nav-link active" id="SavedBooks" onclick="window.location.reload()">My Books</a>
                 </div>
 
             </div>
@@ -63,65 +59,23 @@
                 <div class="dropdown">
                     <button class="bg-transparent border-0 dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <p id="userName-p">Username</p>
+                        <p id="userName-p"></p>
                     </button>
 
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" id="Logout">Log Out</a></li>
-                        <li><a class="dropdown-item" id="profile-link">Profile</a></li>
+                        <li id="profile-link"><a class="dropdown-item">Profile</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Section 1 -->
-    <section id="s1" class="container-fluid fixed-top">
-
-        <div class="row">
-            <div class="col-1" id="back-arrow-div">
-                <!-- Visszanyíl -->
-                <button id="back-arrow" onclick="history.back()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor"
-                        class="bi bi-arrow-left" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
-                    </svg>
-                </button>
-            </div>
-
-            <!-- Kategória neve -->
-            <div class="col-11" id="category-name-div">
-                <h1 class="category-name-h1" id="category-name"></h1>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item backPage"><a href="./explore.html">Explore</a></li>
-                    <li class="breadcrumb-item active" aria-current="page" id="current-page"></li>
-                </ol>
-            </div>
-        </div>
-
-
-    </section>
-
-    <!-- Section 2 -->
-    <section id="s2" class="container-fluid">
-        <div class="row">
+    <section id="s1" class="container-fluid">
+        <!-- <div class="row"> -->
             <div class="col-3" id="left-side">
-                <!-- fixed side section -->
                 <div class="container" id="left-side-content">
                     <h3 id="left-side-h3">Filters</h3>
-
-                    <!-- kereső mező -->
-                    <form class="d-flex input-group" role="search">
-                        <input class="form-control" type="search" id="search-input" placeholder="Search"
-                            aria-label="Search" maxlength="50">
-                        <button class="btn" id="search-btn" type="submit"><svg xmlns="http://www.w3.org/2000/svg"
-                                style="margin-right: 4px; margin-bottom: 4px; color: #2C1810;" width="20" height="20"
-                                fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                <path
-                                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                            </svg></button>
-                    </form>
 
                     <div id="most-saved-books" class="checkbox-filter">
                         <div class="form-check">
@@ -143,7 +97,8 @@
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#flush-collapseOne-alphabetical" aria-expanded="false"
-                                    aria-controls="flush-collapseOne-alphabetical" style="color: #2C1810;">Alphabetical order</button>
+                                    aria-controls="flush-collapseOne-alphabetical" style="color: #2C1810;">Alphabetical
+                                    order</button>
                             </h2>
                             <div id="flush-collapseOne-alphabetical" class="accordion-collapse collapse"
                                 data-bs-parent="#alphabetical">
@@ -175,7 +130,7 @@
                                     aria-controls="flush-collapseOne-price" style="color: #2C1810;">Sort by
                                     price</button>
                             </h2>
-                            
+
                             <div id="flush-collapseOne-price" class="accordion-collapse collapse"
                                 data-bs-parent="#byPrice">
                                 <div class="accordion-body">
@@ -237,20 +192,119 @@
                     </div>
 
                 </div>
-
             </div>
 
             <div class="col-9" id="right-side">
-                <!-- books -->
-                <div class="noResult">
-                    <p class="text-center missing-data-text" id="noSearchResult" hidden>Sorry, your search has no results.</p>
-                    <p class="text-center missing-data-text" id="noCategoryResult" hidden>Sorry, there are no books in this category.</p>
+                <div class="container-fluid pb-header-btns" id="pb-header">
+                    <button class="active-btn btn-h2 border-0" id="our-books">Saved Books</button> <!-- DEFAULT -->
+                    <button class="disabled-btn btn-h2 border-0" id="our-posts">Purchased Posts</button>
                 </div>
 
-               
+
+
+                <div class="container" id="book-list">
+                    <!-- default when the page loaded => saved books -->
+                    <p id="missing-saved" class="missing-data-text text-center" hidden>You haven't saved any books yet.</p>
+                    <p id="missing-purchased" class="missing-data-text text-center" hidden>You haven't bought any books yet.</p>
+
+                    <div class=" medium-card" style="background-color: #EAD7BE;">
+                        <div class="row">
+                            <div class="col-3 my-col3" id="s5-mediumCardPic-div">
+                                <!--? Picture => Alt-nak mehet majd a könyv címe -->
+                                <!-- <div style="background-color: brown;"> -->
+                                <img class="medium-pic" src="../pictures/first-section-book-example.jpg">
+                                <!-- </div> -->
+                            </div>
+    
+                            <div class="col-9 medium-right-side">
+                                <!--? Author + Book Title  -->
+                                <h2 class="container medium-h2" id="s5-mediumC-h2">Book Title</h2>
+                                <p class="username" id="s5-mediumC-user">@user123</p>
+                                <p class="medium-desc" id="s5-mediumC-desc">Lorem ipsum dolor sit amet consectetur
+                                    adipiscing elit mi, maecenas at fermentum eu aliquet rhoncus nostra, porttitor vulputate
+                                    pretium fringilla inceptos duis tristique. Natoque rhoncus netus lobortis venenatis
+                                    torquent sodales dignissim hac facilisi, lectus curabitur convallis litora risus commodo
+                                    dictumst iaculis diam, velit etiam lacinia potenti tellus duis nec magna. Congue
+                                    sagittis tincidunt proin et praesent sollicitudin lacinia tempor fames, vivamus
+                                    condimentum molestie dui diam facilisi odio dis sapien vel, velit posuere porta conubia
+                                    senectus sociosqu morbi dignissim. Rutrum venenatis habitasse mauris ornare eros
+                                    egestas, rhoncus risus proin malesuada interdum. Lobortis blandit et porta ridiculus
+                                    mauris lectus sollicitudin cursus mollis, natoque convallis luctus arcu lacus curabitur
+                                    vitae a suscipit rutrum,</p>
+                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
+                                    data-bs-target="#modalID">Start Reading</button>
+    
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="medium-card" style="background-color: #EAD7BE;">
+                        <div class="row">
+                            <div class="col-3 my-col3" id="s5-mediumCardPic-div">
+                                <!--? Picture => Alt-nak mehet majd a könyv címe -->
+                                <!-- <div style="background-color: brown;"> -->
+                                <img class="medium-pic" src="../pictures/first-section-book-example.jpg">
+                                <!-- </div> -->
+                            </div>
+    
+                            <div class="col-9 medium-right-side">
+                                <!--? Author + Book Title  -->
+                                <h2 class="container medium-h2" id="s5-mediumC-h2">Book Title</h2>
+                                <p class="username" id="s5-mediumC-user">@user123</p>
+                                <p class="medium-desc" id="s5-mediumC-desc">Lorem ipsum dolor sit amet consectetur
+                                    adipiscing elit mi, maecenas at fermentum eu aliquet rhoncus nostra, porttitor vulputate
+                                    pretium fringilla inceptos duis tristique. Natoque rhoncus netus lobortis venenatis
+                                    torquent sodales dignissim hac facilisi, lectus curabitur convallis litora risus commodo
+                                    dictumst iaculis diam, velit etiam lacinia potenti tellus duis nec magna. Congue
+                                    sagittis tincidunt proin et praesent sollicitudin lacinia tempor fames, vivamus
+                                    condimentum molestie dui diam facilisi odio dis sapien vel, velit posuere porta conubia
+                                    senectus sociosqu morbi dignissim. Rutrum venenatis habitasse mauris ornare eros
+                                    egestas, rhoncus risus proin malesuada interdum. Lobortis blandit et porta ridiculus
+                                    mauris lectus sollicitudin cursus mollis, natoque convallis luctus arcu lacus curabitur
+                                    vitae a suscipit rutrum,</p>
+                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
+                                    data-bs-target="#modalID">Start Reading</button>
+    
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="medium-card" style="background-color: #EAD7BE;">
+                        <div class="row">
+                            <div class="col-3 my-col3" id="s5-mediumCardPic-div">
+                                <!--? Picture => Alt-nak mehet majd a könyv címe -->
+                                <!-- <div style="background-color: brown;"> -->
+                                <img class="medium-pic" src="../pictures/first-section-book-example.jpg">
+                                <!-- </div> -->
+                            </div>
+    
+                            <div class="col-9 medium-right-side">
+                                <!--? Author + Book Title  -->
+                                <h2 class="container medium-h2" id="s5-mediumC-h2">Book Title</h2>
+                                <p class="username" id="s5-mediumC-user">@user123</p>
+                                <p class="medium-desc" id="s5-mediumC-desc">Lorem ipsum dolor sit amet consectetur
+                                    adipiscing elit mi, maecenas at fermentum eu aliquet rhoncus nostra, porttitor vulputate
+                                    pretium fringilla inceptos duis tristique. Natoque rhoncus netus lobortis venenatis
+                                    torquent sodales dignissim hac facilisi, lectus curabitur convallis litora risus commodo
+                                    dictumst iaculis diam, velit etiam lacinia potenti tellus duis nec magna. Congue
+                                    sagittis tincidunt proin et praesent sollicitudin lacinia tempor fames, vivamus
+                                    condimentum molestie dui diam facilisi odio dis sapien vel, velit posuere porta conubia
+                                    senectus sociosqu morbi dignissim. Rutrum venenatis habitasse mauris ornare eros
+                                    egestas, rhoncus risus proin malesuada interdum. Lobortis blandit et porta ridiculus
+                                    mauris lectus sollicitudin cursus mollis, natoque convallis luctus arcu lacus curabitur
+                                    vitae a suscipit rutrum,</p>
+                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
+                                    data-bs-target="#modalID">Start Reading</button>
+    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
             </div>
-        </div>
+        <!-- </div> -->
     </section>
+
 
     <!-- Modal -->
     <div id="bookPopup" class="modal fade" role="dialog">
@@ -328,19 +382,17 @@
         </div>
     </div>
 
-
-
-    <!-- TODO: FOOTER -->
+    <!-- FOOTER -->
     <footer class="footer">
         <div class="container-fluid align-content-center">
 
             <div class="row">
                 <div class=" col-12 col-sm-6 d-flex align-items-center mx-auto">
-                    <!-- capterX logo -->
+           
                     <img src="../pictures/LOGO.svg" id="footer-logo">
                 </div>
                 <div class=" col-12 col-sm-6 text-lg-start text-xl-start" id="useful-links">
-                    <!-- hasznos linkek -->
+                    
                     <h3 id="footer-h3" class="textCentered">Useful Links</h3>
                     <ul id="footer-ul">
                         <li id="phone-num"><i class="bi bi-telephone-fill" style="margin-right: 0.625rem;"></i>+36 70
@@ -358,8 +410,6 @@
                     </ul>
                 </div>
                 <div id="copy-right-div" class="text-end">
-                    <!--? copyright logo -->
-                    <!--? Minden jog fentartva -->
                     <p id="copy-right" class=""><img src="../icons/copyright.svg" style="margin-right: 0.313rem;">2023
                         All rights reserved.</p>
                 </div>
@@ -369,13 +419,14 @@
     </footer>
 
 
-    <!-- BOOTSTRAP -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
     <script src="../Api/index.js"></script>
-    <script src="category.js"></script>
+    <script src="mybooks.js"></script>
+
 </body>
 
 </html>

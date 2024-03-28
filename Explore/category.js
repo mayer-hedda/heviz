@@ -51,16 +51,27 @@ window.onload = async function () {
                 window.location.href = `../Profile/profile.html?username=${tokenResponse.data.username}`;
             });
 
+            const HomePage = document.getElementById('HomePage');
+            
             if (tokenResponse.data.rank == "publisher") {
                 shopping_btn.hidden = true;
                 publish_btn.hidden = false;
                 book_price.hidden = true;
+
+                HomePage.addEventListener('click',(e)=>{
+                    window.location.href = '../Publisher-Home/PubHome.html';
+                });
+
             } else if (tokenResponse.data.rank == "general") {
                 shopping_btn.hidden = false;
                 publish_btn.hidden = true;
                 book_price.hidden = false;
-            }
 
+                HomePage.addEventListener('click',(e)=>{
+                    window.location.href = '../General-HomePage/GenHome.html';
+                });
+            }
+            
             // vizsgáljuk hogy a keresés eredményeként érkeztünk az oldalra vagy pedig kategória által
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('category')) {
@@ -94,11 +105,15 @@ window.onload = async function () {
                 c_name.innerText = searchFromLink;
                 current_page.innerText = searchFromLink;
 
-                
+
                 // console.log(typeof storedSearchResult);
                 LoadSearchResult();
             }
 
+            break;
+        default:
+            window.location.href = '../404/404.html';
+            break;
     }
 
 }
@@ -700,7 +715,7 @@ document.getElementById('clear-filter').addEventListener('click', async function
 
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('category')) {
-        
+
         var categoryId = urlParams.get('id');
         const getCategoryAgain = await getAllBooksByCategory({ "id": categoryId });
 

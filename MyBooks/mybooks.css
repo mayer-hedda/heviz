@@ -1,17 +1,4 @@
-/* ----------- VÁLTOZÓK DEFINIÁLÁSA */
-:root {
-    /* -----------COLORS -----------*/
-    --primary: rgb(232, 181, 160);
-    --btn-text-color: rgb(51, 47, 49);
-    /*text color for:
-        -loginBTN text
-        - signupBTN text
-        - first section btn text
-        - fourth section btn text */
-    --mostUsed-text-color: rgb(65, 61, 63);
-    /* its for text colors*/
-    --dash-color: rgb(129, 105, 117);
-    /* its for btn dashes*/
+:root{
     --page-bg-color: rgb(247, 245, 236);
     --footer-bg-color: rgb(246, 227, 205);
     --navbar-a-color: rgb(151, 121, 110);
@@ -20,15 +7,11 @@
     --current-page-color: rgb(60, 32, 22);
     --current-page-hover-color: rgb(68, 92, 79);
     --card-bg: rgb(234, 215, 190);
-
-
-    --card-height: 400px;
-    --card-width: 270px;
-    --max-lines: 6;
-    --line-height: 1.5;
+    --dash-color: rgb(129, 105, 117);
+    --primary: rgb(232, 181, 160);
+    --btn-text-color: rgb(51, 47, 49);
+    --mostUsed-text-color: rgb(65, 61, 63);
 }
-
-/*--------------- FONTS ---------------*/
 
 @font-face {
     font-family: 'Inter-Medium';
@@ -51,14 +34,8 @@
     font-style: normal;
 }
 
-/* ---------- body + scrollbars ---------------- */
 
-html,
-body {
-    height: 100%;
-    margin: 0;
-}
-
+/* ------- Scrollbar ------- */
 /* scrollbar width */
 ::-webkit-scrollbar {
     width: 8px;
@@ -83,14 +60,8 @@ body {
 }
 
 /** --------------- NAVBAR ---------------*/
-
-/* *{
-    position: relative;
-} */
-
 nav {
     background-color: var(--page-bg-color);
-
 }
 
 #navbar {
@@ -104,8 +75,7 @@ nav {
     font-size: larger;
     display: inline;
     padding: 0.938rem;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
+    font-family: 'Inter-Medium', sans-serif;
 }
 
 #navbar a {
@@ -151,12 +121,11 @@ nav {
     margin-left: 90px;
 }
 
-#writingBtn,
-#writingBtn-zeroData {
+#writingBtn {
     font-size: medium;
     font-family: 'Inter-Medium', sans-serif;
     color: var(--btn-text-color);
-    border: solid var(--primary);
+    border: 1px solid var(--primary);
     /* border-width: 0rem; */
     border-radius: 1.5rem;
 
@@ -175,8 +144,7 @@ nav {
     /* align-items: self-end; */
 }
 
-#writingBtn:hover,
-#writingBtn-zeroData:hover {
+#writingBtn:hover {
     transition: color 0.8s ease;
     /*átmenet a hover és a rendes állapot között*/
     transition: background-color 0.3s ease;
@@ -197,58 +165,13 @@ nav {
     color: var(--navbar-a-hover-color)!important;
 }
 
-
-/* ---------- SECTION ONE ----------------------  */
+/* Section one */
 #s1 {
-    z-index: 1000;
     margin-top: 75px;
-    background: #EAD7BE;
-    height: 96px;
+    display: flex;
 }
 
-#back-arrow-div {
-    padding: 0px;
-}
-
-#back-arrow {
-    margin: 20px;
-    border: none;
-    background-color: transparent;
-    /* padding: 0px; */
-}
-
-#category-name-div {
-    height: 96px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-.category-name-h1 {
-    font-family: 'Montserrat-Medium', sans-serif;
-    font-size: 40px;
-    font-variant: small-caps;
-    cursor: default;
-    margin-bottom: 0px;
-}
-
-.breadcrumb a {
-    color: var(--navbar-p-color);
-    text-underline-offset: 3px;
-}
-
-/* ---------- SECTION TWO ----------------------  */
-#s2 {
-    margin-top: 171px;
-}
-
-/* ----- LEFT SIDE */
-
-/* #left-side {
-    top: 171px;
-    height: 80vh;
-    background: #F5EADC;
-    margin-bottom: 0px;
-} */
+/* LEFT SIDE */
 
 #left-side-content{
     padding-top: 10px;
@@ -262,7 +185,7 @@ nav {
     overflow-y: auto; 
     background: #F5EADC;
     overflow-y: auto;
-    max-height: 80vh;
+    max-height: 100vh;
 }
 
 #left-side-h3 {
@@ -336,8 +259,6 @@ form {
 }
 
 /* accordion element */
-
-
 .accordion{
     margin-top: 10px;
 }
@@ -412,6 +333,45 @@ form {
     background-color: transparent;
 }
 
+/* RIGHT SIDE */
+
+#pb-header {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.pb-header-btns button.disabled-btn {
+    border: 0rem;
+    background-color: transparent;
+    text-align: center;
+    color: var(--primary-text);
+    font-size: 18px;
+}
+
+.pb-header-btns button.active-btn {
+    border-radius: 2rem;
+    border: 0rem;
+    background-color: rgba(232, 181, 160, 1);
+    padding: 5px 25px;
+    font-size: 18px;
+    text-align: center;
+    color: rgb(51, 48, 49);
+
+}
+
+.btn-h2 {
+    margin-bottom: 20px;
+    font-family: 'Montserrat-SemiBold', sans-serif;
+}
+
+#book-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+
 /* Books */
 .medium-card {
     width: 600px;
@@ -420,7 +380,7 @@ form {
     display: flexbox;
     border-radius: 15px;
     box-shadow: 6px 6px 3px #3a3a3a2c;
-    margin-top: 50px;
+    /* margin-top: 50px; */
 }
 
 .my-col3 {
@@ -672,8 +632,7 @@ form {
     transition: background-color 0.8s ease;
 }
 
-
-/* --------------- FOOTER ---------------*/
+/** --------------- FOOTER ---------------*/
 
 #footer-logo {
     /* padding-left: 6%; */
@@ -681,7 +640,7 @@ form {
 }
 
 footer {
-
+    
     border-top: 0.094rem solid var(--dash-color);
     background-color: var(--footer-bg-color);
     padding-top: 50px;
@@ -708,16 +667,16 @@ footer a {
     color: var(--mostUsed-text-color);
 }
 
-footer a:hover {
+footer a:hover{
     color: #B43C82;
 }
 
-#copy-right-div {
-    float: right !important;
+#copy-right-div{
+    float: right!important;
+    margin-top: -20px;
 }
 
-#copy-right {
+#copy-right{
     font-size: small;
-    font-family: 'Poppins-Regular', sans-serif;
-
+    font-family: 'Poppins-Regular', sans-serif;  
 }
