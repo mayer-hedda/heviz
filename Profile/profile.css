@@ -1228,7 +1228,7 @@ Ha találok rá jobb megoldást javítom :)  */
 footer {
     border-top: solid 0.094rem rgb(129, 105, 117);
     background-color: var(--footer-bg-color);
-    padding-top: 5%;
+    padding-top: 50px;
     padding-right: 5%;
     padding-left: 5%;
     height: 300px;
