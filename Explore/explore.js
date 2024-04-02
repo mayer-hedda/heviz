@@ -28,6 +28,9 @@ window.onload = async function () {
             window.location.href = "../Log-in/login.html";
             break;
         case 302:
+            localStorage.removeItem('searchResult');
+            localStorage.removeItem('Error Code:');
+            
             username.innerText = `@${tokenResponse.data.username}`;
             profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;
 

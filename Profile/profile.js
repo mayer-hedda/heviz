@@ -55,8 +55,13 @@ window.onload = async function () {
     // console.log(tokenResponese);
     switch (tokenResponese.status) {
         case 302:
+
+            localStorage.removeItem('searchResult');
+            localStorage.removeItem('Error Code:');
+
             var responseUser = await getUserDetails({ "profileUsername": usernameFromLink });
             console.log("User details: " + JSON.stringify(responseUser));
+
             switch (responseUser.status) {
                 case 200:
                     /**

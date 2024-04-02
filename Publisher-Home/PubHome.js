@@ -120,6 +120,9 @@ window.onload = async function () {
             break;
 
         case 302:
+            localStorage.removeItem('searchResult');
+            localStorage.removeItem('Error Code:');
+            
             document.getElementById('profile-link').addEventListener('click', (e) => {
                 window.location.href = `../Profile/profile.html?username=${tokenResponse.data.username}`;
             });

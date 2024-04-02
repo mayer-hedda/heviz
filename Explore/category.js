@@ -44,6 +44,7 @@ window.onload = async function () {
             console.error("Error: " + responseUser);
             break;
         case 302:
+            
             username.innerText = `@${tokenResponse.data.username}`;
             profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;
 
@@ -52,13 +53,13 @@ window.onload = async function () {
             });
 
             const HomePage = document.getElementById('HomePage');
-            
+
             if (tokenResponse.data.rank == "publisher") {
                 shopping_btn.hidden = true;
                 publish_btn.hidden = false;
                 book_price.hidden = true;
 
-                HomePage.addEventListener('click',(e)=>{
+                HomePage.addEventListener('click', (e) => {
                     window.location.href = '../Publisher-Home/PubHome.html';
                 });
 
@@ -67,11 +68,11 @@ window.onload = async function () {
                 publish_btn.hidden = true;
                 book_price.hidden = false;
 
-                HomePage.addEventListener('click',(e)=>{
+                HomePage.addEventListener('click', (e) => {
                     window.location.href = '../General-HomePage/GenHome.html';
                 });
             }
-            
+
             // vizsgáljuk hogy a keresés eredményeként érkeztünk az oldalra vagy pedig kategória által
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('category')) {
@@ -140,47 +141,96 @@ function LoadSearchResult() {
         for (let i = 0; i <= storedSearchResult.length - 1; i++) {
             //    console.log(storedSearchResult[i].title);
             if (storedSearchResult[i].coverImage == "Ez a kép elérési útja") {
-                books_side.innerHTML += `
-                    <div class="container medium-card" style="background-color: #EAD7BE;">
-                        <div class="row">
-                            <div class="col-3 my-col3" id="s5-mediumCardPic-div">
-                                <img class="medium-pic" src="../pictures/standard-book-cover.jpg">
+                if (storedSearchResult[i].publisher != undefined) {
+                    books_side.innerHTML += `
+                        <div class="container medium-card" style="background-color: #EAD7BE;">
+                            <div class="row">
+                                <div class="col-3 my-col3" id="s5-mediumCardPic-div">
+                                    <img class="medium-pic" src="../pictures/standard-book-cover.jpg">
 
-                            </div>
+                                </div>
 
-                            <div class="col-9 medium-right-side">
+                                <div class="col-9 medium-right-side">
 
-                                <h2 class="container medium-h2">${storedSearchResult[i].title}</h2>
-                                <p class="username author" id="s5-mediumC-user" onclick="navigateToProfile('${storedSearchResult[i].username}')">${storedSearchResult[i].firstName} ${storedSearchResult[i].lastName}</p>
-                                <p class="medium-desc" id="s5-mediumC-desc">${storedSearchResult[i].description}</p>
-                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${storedSearchResult[i].coverImage}', '${storedSearchResult[i].title}', '${storedSearchResult[i].firstName}', '${storedSearchResult[i].lastName}', '${storedSearchResult[i].description}', '${storedSearchResult[i].language}', '${storedSearchResult[i].rating}', '${storedSearchResult[i].pagesNumber}', '${storedSearchResult[i].price}', '${storedSearchResult[i].username}')">Show Details</button>
+                                    <h2 class="container medium-h2">${storedSearchResult[i].title}</h2>
+                                    <p class="username author" id="s5-mediumC-user" onclick="navigateToProfile('${storedSearchResult[i].username}')">${storedSearchResult[i].firstName} ${storedSearchResult[i].lastName}</p>
+                                    <p class="username author" id="s5-mediumC-user">${storedSearchResult[i].publisher}</p>
+                                    <p class="medium-desc" id="s5-mediumC-desc">${storedSearchResult[i].description}</p>
+                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${storedSearchResult[i].coverImage}', '${storedSearchResult[i].title}', '${storedSearchResult[i].firstName}', '${storedSearchResult[i].lastName}', '${storedSearchResult[i].description}', '${storedSearchResult[i].language}', '${storedSearchResult[i].rating}', '${storedSearchResult[i].pagesNumber}', '${storedSearchResult[i].price}', '${storedSearchResult[i].username}', '${storedSearchResult[i].publisher}')">Show Details</button>
 
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                `;
+                    `;
+                }else{
+                    books_side.innerHTML += `
+                        <div class="container medium-card" style="background-color: #EAD7BE;">
+                            <div class="row">
+                                <div class="col-3 my-col3" id="s5-mediumCardPic-div">
+                                    <img class="medium-pic" src="../pictures/standard-book-cover.jpg">
+
+                                </div>
+
+                                <div class="col-9 medium-right-side">
+
+                                    <h2 class="container medium-h2">${storedSearchResult[i].title}</h2>
+                                    <p class="username author" id="s5-mediumC-user" onclick="navigateToProfile('${storedSearchResult[i].username}')">${storedSearchResult[i].firstName} ${storedSearchResult[i].lastName}</p>
+                                    <p class="medium-desc" id="s5-mediumC-desc">${storedSearchResult[i].description}</p>
+                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${storedSearchResult[i].coverImage}', '${storedSearchResult[i].title}', '${storedSearchResult[i].firstName}', '${storedSearchResult[i].lastName}', '${storedSearchResult[i].description}', '${storedSearchResult[i].language}', '${storedSearchResult[i].rating}', '${storedSearchResult[i].pagesNumber}', '${storedSearchResult[i].price}', '${storedSearchResult[i].username}', 'null')">Show Details</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    `;
+                }
+                
             } else {
-                books_side.innerHTML += `
-                    <div class="container medium-card" style="background-color: #EAD7BE;">
-                        <div class="row">
-                            <div class="col-3 my-col3" id="s5-mediumCardPic-div">
-                                <img class="medium-pic" src="../${storedSearchResult[i].coverImage}.jpg">
+                if (storedSearchResult[i].publisher != undefined) {
+                    books_side.innerHTML += `
+                        <div class="container medium-card" style="background-color: #EAD7BE;">
+                            <div class="row">
+                                <div class="col-3 my-col3" id="s5-mediumCardPic-div">
+                                    <img class="medium-pic" src="../${storedSearchResult[i].coverImage}.jpg">
 
-                            </div>
+                                </div>
 
-                            <div class="col-9 medium-right-side">
+                                <div class="col-9 medium-right-side">
 
-                                <h2 class="container medium-h2">${storedSearchResult[i].title}</h2>
-                                <p class="username author" id="s5-mediumC-user" onclick="navigateToProfile('${storedSearchResult[i].username}')">${storedSearchResult[i].firstName} ${storedSearchResult[i].lastName}</p>
-                                <p class="medium-desc" id="s5-mediumC-desc">${storedSearchResult[i].description}</p>
-                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${storedSearchResult[i].coverImage}', '${storedSearchResult[i].title}', '${storedSearchResult[i].firstName}', '${storedSearchResult[i].lastName}', '${storedSearchResult[i].description}', '${storedSearchResult[i].language}', '${storedSearchResult[i].rating}', '${storedSearchResult[i].pagesNumber}', '${storedSearchResult[i].price}', '${storedSearchResult[i].username}')">Show Details</button>
+                                    <h2 class="container medium-h2">${storedSearchResult[i].title}</h2>
+                                    <p class="username author" id="s5-mediumC-user" onclick="navigateToProfile('${storedSearchResult[i].username}')">${storedSearchResult[i].firstName} ${storedSearchResult[i].lastName}</p>
+                                    <p class="username author" id="s5-mediumC-user">${storedSearchResult[i].publisher}</p>
+                                    <p class="medium-desc" id="s5-mediumC-desc">${storedSearchResult[i].description}</p>
+                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${storedSearchResult[i].coverImage}', '${storedSearchResult[i].title}', '${storedSearchResult[i].firstName}', '${storedSearchResult[i].lastName}', '${storedSearchResult[i].description}', '${storedSearchResult[i].language}', '${storedSearchResult[i].rating}', '${storedSearchResult[i].pagesNumber}', '${storedSearchResult[i].price}', '${storedSearchResult[i].username}', '${storedSearchResult[i].publisher}')">Show Details</button>
 
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                `;
+                    `;
+                }else{
+                    books_side.innerHTML += `
+                        <div class="container medium-card" style="background-color: #EAD7BE;">
+                            <div class="row">
+                                <div class="col-3 my-col3" id="s5-mediumCardPic-div">
+                                    <img class="medium-pic" src="../${storedSearchResult[i].coverImage}.jpg">
+
+                                </div>
+
+                                <div class="col-9 medium-right-side">
+
+                                    <h2 class="container medium-h2">${storedSearchResult[i].title}</h2>
+                                    <p class="username author" id="s5-mediumC-user" onclick="navigateToProfile('${storedSearchResult[i].username}')">${storedSearchResult[i].firstName} ${storedSearchResult[i].lastName}</p>
+                                    <p class="medium-desc" id="s5-mediumC-desc">${storedSearchResult[i].description}</p>
+                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${storedSearchResult[i].coverImage}', '${storedSearchResult[i].title}', '${storedSearchResult[i].firstName}', '${storedSearchResult[i].lastName}', '${storedSearchResult[i].description}', '${storedSearchResult[i].language}', '${storedSearchResult[i].rating}', '${storedSearchResult[i].pagesNumber}', '${storedSearchResult[i].price}', '${storedSearchResult[i].username}', 'null')">Show Details</button>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    `;
+                }
             }
 
         }
@@ -191,7 +241,8 @@ function LoadSearchResult() {
 function LoadCategoryResult(response) {
     for (let i = 0; i <= response.data.length - 1; i++) {
         if (response.data[i].coverImage == "Ez a kép elérési útja") {
-            books_side.innerHTML += `
+            if (response.data[i].publisher != undefined) {
+                books_side.innerHTML += `
                     <div class="container medium-card" style="background-color: #EAD7BE;">
                         <div class="row">
                             <div class="col-3 my-col3" id="s5-mediumCardPic-div">
@@ -203,20 +254,45 @@ function LoadCategoryResult(response) {
                             
                                 <h2 class="container medium-h2">${response.data[i].title}</h2>
                                 <p class="username author" id="s5-mediumC-user" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
+                                <p class="username author" id="s5-mediumC-user">${response.data[i].publisher}</p>
                                 <p class="medium-desc" id="s5-mediumC-desc">${response.data[i].description}</p>
-                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}')">Show Details</button>
+                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', '${response.data[i].publisher}')">Show Details</button>
     
                             </div>
                         </div>
                     </div>
             
                 `;
-        } else {
-            books_side.innerHTML += `
+            } else {
+                books_side.innerHTML += `
                     <div class="container medium-card" style="background-color: #EAD7BE;">
                         <div class="row">
                             <div class="col-3 my-col3" id="s5-mediumCardPic-div">
-                                <img class="medium-pic" src="../${response.data[i].coverImage}.jpg">
+                                <img class="medium-pic" src="../pictures/standard-book-cover.jpg">
+                                    
+                            </div>
+        
+                            <div class="col-9 medium-right-side">
+                                
+                                <h2 class="container medium-h2">${response.data[i].title}</h2>
+                                <p class="username author" id="s5-mediumC-user" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
+                                <p class="medium-desc" id="s5-mediumC-desc">${response.data[i].description}</p>
+                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', 'null')">Show Details</button>
+        
+                            </div>
+                        </div>
+                    </div>
+                
+                `;
+            }
+
+        } else {
+            if (response.data[i].publisher != undefined) {
+                books_side.innerHTML += `
+                    <div class="container medium-card" style="background-color: #EAD7BE;">
+                        <div class="row">
+                            <div class="col-3 my-col3" id="s5-mediumCardPic-div">
+                                <img class="medium-pic" src="../pictures/standard-book-cover.jpg">
                                 
                             </div>
     
@@ -224,14 +300,37 @@ function LoadCategoryResult(response) {
                             
                                 <h2 class="container medium-h2">${response.data[i].title}</h2>
                                 <p class="username author" id="s5-mediumC-user" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
+                                <p class="username author" id="s5-mediumC-user">${response.data[i].publisher}</p>
                                 <p class="medium-desc" id="s5-mediumC-desc">${response.data[i].description}</p>
-                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}')">Show Details</button>
+                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', '${response.data[i].publisher}')">Show Details</button>
     
                             </div>
                         </div>
                     </div>
             
                 `;
+            } else {
+                books_side.innerHTML += `
+                    <div class="container medium-card" style="background-color: #EAD7BE;">
+                        <div class="row">
+                            <div class="col-3 my-col3" id="s5-mediumCardPic-div">
+                                <img class="medium-pic" src="../${response.data[i].coverImage}.jpg">
+                                    
+                            </div>
+        
+                            <div class="col-9 medium-right-side">
+                                
+                                <h2 class="container medium-h2">${response.data[i].title}</h2>
+                                <p class="username author" id="s5-mediumC-user" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
+                                <p class="medium-desc" id="s5-mediumC-desc">${response.data[i].description}</p>
+                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', 'null')">Show Details</button>
+        
+                            </div>
+                        </div>
+                    </div>
+                
+                `;
+            }
         }
 
     }
@@ -285,18 +384,22 @@ const book_modal_body = document.getElementById('modal-body');
 const book_modal_img = document.getElementById('book-modal-img');
 const book_modal_title = document.getElementById('modal-title');
 const book_modal_author = document.getElementById('modal-author');
+const book_modal_publisher = document.getElementById('modal-publisher');
 const book_modal_pages = document.getElementById('modal-pages');
 const book_modal_ranking = document.getElementById('modal-ranking');
 const book_modal_language = document.getElementById('modal-language');
 const book_modal_desc = document.getElementById('modal-desc');
 
-
-function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username) {
+function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher) {
 
     if (url != "Ez a kép elérési útja") {
         book_modal_img.src = `../${url}.jpg`;
     } else {
         book_modal_img.src = `../pictures/standard-book-cover.jpg`;
+    }
+
+    if(publisher != "null"){
+        book_modal_publisher.innerText = `${publisher}`;
     }
 
     book_modal_title.innerText = `${title}`;

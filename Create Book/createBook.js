@@ -25,6 +25,9 @@ window.onload = async function () {
 
     switch (tokenResponese.status) {
         case 302:
+            localStorage.removeItem('searchResult');
+            localStorage.removeItem('Error Code:');
+            
             const dropdown_response = await getDropDownValues();
             console.log(dropdown_response);
             getLanguages(dropdown_response);

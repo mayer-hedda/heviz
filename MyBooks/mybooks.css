@@ -167,8 +167,7 @@ nav {
 
 /* Section one */
 #s1 {
-    margin-top: 75px;
-    display: flex;
+    margin-top: 75px!important;
 }
 
 /* LEFT SIDE */
@@ -178,9 +177,9 @@ nav {
 }
 
 #left-side {
-    /* height: 100vh;  */
-    position: sticky; 
-    top: 171px; 
+    height: 100vh; 
+    position: sticky!important; 
+    top: 75px; 
     z-index: 1; 
     overflow-y: auto; 
     background: #F5EADC;
@@ -261,6 +260,7 @@ form {
 /* accordion element */
 .accordion{
     margin-top: 10px;
+    /* padding-bottom: 20px; */
 }
 
 .accordion-item,
@@ -283,6 +283,11 @@ form {
 .accordion-button:focus {
     border-color: transparent;
     box-shadow: none;
+}
+
+.accordion-button.collapsed{
+    border-bottom: solid 1px #cdb5aa;
+    padding-bottom: 25px;
 }
 
 .accordion-button {
@@ -338,6 +343,8 @@ form {
 #pb-header {
     display: flex;
     justify-content: space-evenly;
+    margin-bottom: 30px;
+    margin-top: 30px;
 }
 
 .pb-header-btns button.disabled-btn {
@@ -369,7 +376,6 @@ form {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 50px;
 }
 
 /* Books */
@@ -424,6 +430,14 @@ form {
     padding-left: 12px;
     margin-bottom: 0;
     color: rgb(99, 76, 62) !important;
+}
+
+.author{
+    cursor: pointer!important;
+}
+
+.author:hover{
+    color: #B43C82!important;
 }
 
 .medium-desc {

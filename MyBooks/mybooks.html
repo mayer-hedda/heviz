@@ -72,8 +72,8 @@
     </nav>
 
     <section id="s1" class="container-fluid">
-        <!-- <div class="row"> -->
-            <div class="col-3" id="left-side">
+        <div class="row">
+            <div class="col-3 container-fluid" id="left-side">
                 <div class="container" id="left-side-content">
                     <h3 id="left-side-h3">Filters</h3>
 
@@ -196,8 +196,8 @@
 
             <div class="col-9" id="right-side">
                 <div class="container-fluid pb-header-btns" id="pb-header">
-                    <button class="active-btn btn-h2 border-0" id="our-books">Saved Books</button> <!-- DEFAULT -->
-                    <button class="disabled-btn btn-h2 border-0" id="our-posts">Purchased Posts</button>
+                    <button class="active-btn btn-h2 border-0" id="saved-books">Saved Books</button> 
+                    <button class="disabled-btn btn-h2 border-0" id="purchased-books">Purchased Books</button>
                 </div>
 
 
@@ -207,102 +207,10 @@
                     <p id="missing-saved" class="missing-data-text text-center" hidden>You haven't saved any books yet.</p>
                     <p id="missing-purchased" class="missing-data-text text-center" hidden>You haven't bought any books yet.</p>
 
-                    <div class=" medium-card" style="background-color: #EAD7BE;">
-                        <div class="row">
-                            <div class="col-3 my-col3" id="s5-mediumCardPic-div">
-                                <!--? Picture => Alt-nak mehet majd a könyv címe -->
-                                <!-- <div style="background-color: brown;"> -->
-                                <img class="medium-pic" src="../pictures/first-section-book-example.jpg">
-                                <!-- </div> -->
-                            </div>
-    
-                            <div class="col-9 medium-right-side">
-                                <!--? Author + Book Title  -->
-                                <h2 class="container medium-h2" id="s5-mediumC-h2">Book Title</h2>
-                                <p class="username" id="s5-mediumC-user">@user123</p>
-                                <p class="medium-desc" id="s5-mediumC-desc">Lorem ipsum dolor sit amet consectetur
-                                    adipiscing elit mi, maecenas at fermentum eu aliquet rhoncus nostra, porttitor vulputate
-                                    pretium fringilla inceptos duis tristique. Natoque rhoncus netus lobortis venenatis
-                                    torquent sodales dignissim hac facilisi, lectus curabitur convallis litora risus commodo
-                                    dictumst iaculis diam, velit etiam lacinia potenti tellus duis nec magna. Congue
-                                    sagittis tincidunt proin et praesent sollicitudin lacinia tempor fames, vivamus
-                                    condimentum molestie dui diam facilisi odio dis sapien vel, velit posuere porta conubia
-                                    senectus sociosqu morbi dignissim. Rutrum venenatis habitasse mauris ornare eros
-                                    egestas, rhoncus risus proin malesuada interdum. Lobortis blandit et porta ridiculus
-                                    mauris lectus sollicitudin cursus mollis, natoque convallis luctus arcu lacus curabitur
-                                    vitae a suscipit rutrum,</p>
-                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
-                                    data-bs-target="#modalID">Start Reading</button>
-    
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="medium-card" style="background-color: #EAD7BE;">
-                        <div class="row">
-                            <div class="col-3 my-col3" id="s5-mediumCardPic-div">
-                                <!--? Picture => Alt-nak mehet majd a könyv címe -->
-                                <!-- <div style="background-color: brown;"> -->
-                                <img class="medium-pic" src="../pictures/first-section-book-example.jpg">
-                                <!-- </div> -->
-                            </div>
-    
-                            <div class="col-9 medium-right-side">
-                                <!--? Author + Book Title  -->
-                                <h2 class="container medium-h2" id="s5-mediumC-h2">Book Title</h2>
-                                <p class="username" id="s5-mediumC-user">@user123</p>
-                                <p class="medium-desc" id="s5-mediumC-desc">Lorem ipsum dolor sit amet consectetur
-                                    adipiscing elit mi, maecenas at fermentum eu aliquet rhoncus nostra, porttitor vulputate
-                                    pretium fringilla inceptos duis tristique. Natoque rhoncus netus lobortis venenatis
-                                    torquent sodales dignissim hac facilisi, lectus curabitur convallis litora risus commodo
-                                    dictumst iaculis diam, velit etiam lacinia potenti tellus duis nec magna. Congue
-                                    sagittis tincidunt proin et praesent sollicitudin lacinia tempor fames, vivamus
-                                    condimentum molestie dui diam facilisi odio dis sapien vel, velit posuere porta conubia
-                                    senectus sociosqu morbi dignissim. Rutrum venenatis habitasse mauris ornare eros
-                                    egestas, rhoncus risus proin malesuada interdum. Lobortis blandit et porta ridiculus
-                                    mauris lectus sollicitudin cursus mollis, natoque convallis luctus arcu lacus curabitur
-                                    vitae a suscipit rutrum,</p>
-                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
-                                    data-bs-target="#modalID">Start Reading</button>
-    
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="medium-card" style="background-color: #EAD7BE;">
-                        <div class="row">
-                            <div class="col-3 my-col3" id="s5-mediumCardPic-div">
-                                <!--? Picture => Alt-nak mehet majd a könyv címe -->
-                                <!-- <div style="background-color: brown;"> -->
-                                <img class="medium-pic" src="../pictures/first-section-book-example.jpg">
-                                <!-- </div> -->
-                            </div>
-    
-                            <div class="col-9 medium-right-side">
-                                <!--? Author + Book Title  -->
-                                <h2 class="container medium-h2" id="s5-mediumC-h2">Book Title</h2>
-                                <p class="username" id="s5-mediumC-user">@user123</p>
-                                <p class="medium-desc" id="s5-mediumC-desc">Lorem ipsum dolor sit amet consectetur
-                                    adipiscing elit mi, maecenas at fermentum eu aliquet rhoncus nostra, porttitor vulputate
-                                    pretium fringilla inceptos duis tristique. Natoque rhoncus netus lobortis venenatis
-                                    torquent sodales dignissim hac facilisi, lectus curabitur convallis litora risus commodo
-                                    dictumst iaculis diam, velit etiam lacinia potenti tellus duis nec magna. Congue
-                                    sagittis tincidunt proin et praesent sollicitudin lacinia tempor fames, vivamus
-                                    condimentum molestie dui diam facilisi odio dis sapien vel, velit posuere porta conubia
-                                    senectus sociosqu morbi dignissim. Rutrum venenatis habitasse mauris ornare eros
-                                    egestas, rhoncus risus proin malesuada interdum. Lobortis blandit et porta ridiculus
-                                    mauris lectus sollicitudin cursus mollis, natoque convallis luctus arcu lacus curabitur
-                                    vitae a suscipit rutrum,</p>
-                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
-                                    data-bs-target="#modalID">Start Reading</button>
-    
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 
             </div>
-        <!-- </div> -->
+        </div>
     </section>
 
 
@@ -332,6 +240,7 @@
 
                     <!-- author -->
                     <p class="modal-p author" id="modal-author"></p>
+                    <p class="modal-p author" id="modal-publisher"></p>
 
                     <div class="babszem text-center">
 

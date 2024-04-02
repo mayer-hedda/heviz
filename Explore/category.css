@@ -243,13 +243,6 @@ nav {
 
 /* ----- LEFT SIDE */
 
-/* #left-side {
-    top: 171px;
-    height: 80vh;
-    background: #F5EADC;
-    margin-bottom: 0px;
-} */
-
 #left-side-content{
     padding-top: 10px;
 }
@@ -345,6 +338,11 @@ form {
 .accordion-item,
 .accordion-button {
     background-color: #F5EADC;
+}
+
+.accordion-button.collapsed{
+    border-bottom: solid 1px #cdb5aa;
+    padding-bottom: 25px;
 }
 
 .accordion-button:not(.collapsed) {
