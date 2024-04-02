@@ -27,7 +27,7 @@ window.onload = async function () {
         case 302:
             localStorage.removeItem('searchResult');
             localStorage.removeItem('Error Code:');
-            
+
             const dropdown_response = await getDropDownValues();
             console.log(dropdown_response);
             getLanguages(dropdown_response);
@@ -304,6 +304,9 @@ title.addEventListener('input', (e) => {
 })
 
 let titleValue;
+const kisbetuRegex = /[a-z]/;
+const nagybetuRegex = /[A-Z]/;
+const ekezetesRegex = /[áéíóöőúüűÁÉÍÓÖŐÚÜŰ]/;
 title.addEventListener('focusout', (e) => {
     e.preventDefault();
     titleValue = title.value;
@@ -313,19 +316,27 @@ title.addEventListener('focusout', (e) => {
         titlePass = false;
         console.log("TitlePass value: " + titlePass);
     } else {
-        const functionValue = MinTitle(titleValue);
-        if (functionValue == false) {
-            titlePass = false;
-            titleError.innerText = "Title must be 3 caracter long.";
-            title.classList.add('inputError');
-            console.log("A title függvény értéke: " + functionValue);
-            console.log("TitlePass value: " + titlePass);
+        if (kisbetuRegex.test(titleValue) == true || nagybetuRegex.test(titleValue) == true || ekezetesRegex.test(titleValue) == true) {
+            const functionValue = MinTitle(titleValue);
+            if (functionValue == false) {
+                titlePass = false;
+                titleError.innerText = "Title must be 3 caracter long.";
+                title.classList.add('inputError');
+                console.log("A title függvény értéke: " + functionValue);
+                console.log("TitlePass value: " + titlePass);
+            } else {
+                title.classList.add('inputPass');
+                titlePass = true;
+                console.log("TitlePass value: " + titlePass);
+                storyname.textContent = title.value;
+            }
         } else {
-            title.classList.add('inputPass');
-            titlePass = true;
+            title.classList.add('inputError');
+            titleError.innerText = "The title must contains at least one letter.";
+            titlePass = false;
             console.log("TitlePass value: " + titlePass);
-            storyname.textContent = title.value;
         }
+
     }
 
 })
@@ -390,18 +401,26 @@ description.addEventListener('focusout', (e) => {
         descriptionPass = false;
         console.log("descriptionPass value: " + descriptionPass);
     } else {
-        const functionValue = MinDesc(descValue);
-        if (functionValue == false) {
-            descriptionPass = false;
-            descriptionError.innerText = "The description must be 20 caracter long.";
+        if (kisbetuRegex.test(descValue) == true || nagybetuRegex.test(descValue) == true || ekezetesRegex.test(descValue) == true) {
+            const functionValue = MinDesc(descValue);
+            if (functionValue == false) {
+                descriptionPass = false;
+                descriptionError.innerText = "The description must be 20 caracter long.";
+                description.classList.add('inputError');
+                console.log("A descript. függvény értéke: " + functionValue);
+                console.log("descriptionPass value: " + descriptionPass);
+            } else {
+                description.classList.add('inputPass');
+                descriptionPass = true;
+                console.log("descriptionPass value: " + descriptionPass);
+            }
+        }else{
             description.classList.add('inputError');
-            console.log("A descript. függvény értéke: " + functionValue);
-            console.log("descriptionPass value: " + descriptionPass);
-        } else {
-            description.classList.add('inputPass');
-            descriptionPass = true;
+            descriptionError.innerText = "The description must contains at least one letter.";
+            descriptionPass = false;
             console.log("descriptionPass value: " + descriptionPass);
         }
+
     }
 })
 
@@ -594,7 +613,7 @@ chapter_number.addEventListener('focusout', (e) => {
     }
 })
 
-chapter_number.addEventListener("focusin", (e)=>{
+chapter_number.addEventListener("focusin", (e) => {
     chapterError.innerHTML = "";
     chapter_number.classList.remove('inputPass');
     chapter_number.classList.remove('inputError');
@@ -815,7 +834,7 @@ nextBtn.addEventListener('click', async (e) => {
                         document.getElementById('errorModal-p').textContent = `${addBook_response_publisher.data}`;
                         break;
                 }
-            }else {
+            } else {
                 nextBtn.setAttribute('data-bs-toggle', 'modal');
                 nextBtn.setAttribute('data-bs-target', '#staticBackdrop');
             }

@@ -400,6 +400,8 @@ function loadModalData(url, title, firstName, lastName, description, language, r
 
     if(publisher != "null"){
         book_modal_publisher.innerText = `${publisher}`;
+    }else{
+        book_modal_publisher.innerText = "";
     }
 
     book_modal_title.innerText = `${title}`;
