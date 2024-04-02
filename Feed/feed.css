@@ -1,14 +1,144 @@
 /** ----------- MEDIA QUERY ------------------------*/
-@media (max-width: 576px) {
-    nav .navbar-toggler {
+@media (max-width:400px) {
+    #logo {
+        width: 80px;
+    }
+
+    #navbarNav {
         order: 3 !important;
-        margin-left: 0rem !important;
     }
 
-    section {
-        width: auto !important;
+    #profile-icon img.rounded-circle {
+        display: none;
     }
 
+    #userName-p{
+        font-size: 15px !important;
+    }
+
+    .navbar-toggler {
+        width: 30px;
+        height: 30px;
+    }
+
+    .navbar-toggler-icon {
+        width: 20px;
+        position: relative;
+        right: 7.5px;
+        bottom: 4px;
+    }
+
+    #navbar a {
+        font-size: 15px !important;
+        padding-top: 15px !important;
+        padding-bottom: 0px !important;
+        display: flex!important;
+        justify-content: right;
+    }
+
+    #writingBtn {
+        margin-top: 20px;
+        margin-right: auto !important;
+        margin-bottom: 30px;
+        font-size: 14px!important;
+        padding: 5px 10px;
+        margin-right: 0px !important;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+        /* justify-content: right!important; */
+    }
+
+    .dropdown-toggle{
+        margin-right: 90px;
+    }
+
+    .dropdown-menu li{
+        margin-bottom: 0px!important;
+        padding: 0;
+    }
+
+    .dropdown-item{
+       display: flex!important;
+       justify-content: center!important;
+    }
+
+    #first-section{
+        margin-top: 80px!important;
+        display: grid;
+        justify-content: center;
+        margin-bottom: 30px!important;
+    }
+
+    .post-card {
+        width: 350px !important;
+        padding: 16px !important;
+    }
+
+    .post-profile-icon {
+        width: 30px !important;
+        height: 30px !important;
+    }
+
+    .userName {
+        margin-top: 5px !important;
+        margin-left: 10px !important;
+    }
+
+    .card-user-name {
+        font-size: 14px !important;
+    }
+
+    .card-date-text {
+        font-size: 10px !important;
+        top: 27px !important;
+        right: 20px !important;
+    }
+
+    .post-text {
+        font-size: 12px !important;
+    }
+
+    .like-and-share {
+        padding-right: 0px !important;
+        right: 15px !important;
+        bottom: 15px !important;
+    }
+
+    svg.liked,
+    svg.bi-suit-heart-fill {
+        width: 18px;
+    }
+
+    .right-side {
+        display: none;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email {
+        font-size: 15px !important;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    #footer-ul {
+        margin-top: 0.938rem;
+    }
+
+    #footer-logo-div {
+        width: 150px!important;
+    }
+
+    #footer-logo {
+        width: 120px;
+    }
 }
 
 
@@ -129,6 +259,17 @@ nav {
 
 }
 
+#usernamePicture {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+}
+
+#writingBtn {
+    margin-left: auto;
+}
+
 #navbar {
     padding-right: 5%;
     padding-left: 5%;
@@ -153,7 +294,7 @@ nav {
 }
 
 .nav-link:hover {
-    color: var(--navbar-a-hover-color)!important;
+    color: var(--navbar-a-hover-color) !important;
     text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
     text-underline-offset: 0.281rem;
 }
@@ -187,7 +328,8 @@ nav {
     /* font-style: italic; */
 }
 
-#profile-icon img, .smaller-user-profile-pic{
+#profile-icon img,
+.smaller-user-profile-pic {
     width: 50px;
     height: 50px;
     background-size: cover;
@@ -195,11 +337,12 @@ nav {
     cursor: pointer;
 }
 
-#navbarNav{
+#navbarNav {
     margin-left: 90px;
 }
 
-#writingBtn, #writingBtn-zeroData{
+#writingBtn,
+#writingBtn-zeroData {
     font-size: medium;
     font-family: 'Inter', sans-serif;
     color: var(--btn-text-color);
@@ -222,7 +365,8 @@ nav {
     /* align-items: self-end; */
 }
 
-#writingBtn:hover, #writingBtn-zeroData:hover{
+#writingBtn:hover,
+#writingBtn-zeroData:hover {
     transition: color 0.8s ease;
     /*átmenet a hover és a rendes állapot között*/
     transition: background-color 0.3s ease;
@@ -232,15 +376,15 @@ nav {
     border: dashed 0.094rem var(--dash-color);
 }
 
-.dropdown-menu li{
+.dropdown-menu li {
     padding: 5px;
     margin-bottom: 5px;
 }
 
-.dropdown-menu a:hover{
+.dropdown-menu a:hover {
     background-color: transparent;
     cursor: pointer;
-    color: var(--navbar-a-hover-color)!important;
+    color: var(--navbar-a-hover-color) !important;
 }
 
 
@@ -301,12 +445,12 @@ nav {
     font-weight: 600;
 }
 
-.user{
+.user {
     cursor: pointer;
 }
 
-.user:hover{
-    color: #B43C82!important;
+.user:hover {
+    color: #B43C82 !important;
 }
 
 .cardDate {
@@ -337,7 +481,7 @@ nav {
     font-weight: 400;
     font-size: 1.125rem;
     text-align: justify;
-    padding: 0!important;
+    padding: 0 !important;
 }
 
 .last-row {
@@ -356,7 +500,7 @@ nav {
     bottom: 30px;
 }
 
-.liked{
+.liked {
     fill: #c43700;
 }
 
@@ -375,17 +519,6 @@ nav {
     cursor: pointer;
 }
 
-
-.share {
-    margin-left: 0.625rem !important;
-    fill: rgb(45, 24, 16);
-}
-
-.share:hover {
-    /* fill: rgb(152, 88, 201) !important; */
-    color: var(--dash-color) !important;
-    cursor: pointer;
-}
 
 /** SIDE BAR */
 
@@ -414,7 +547,7 @@ nav {
     margin-bottom: 1.875rem;
 }
 
-#suggestion-div{
+#suggestion-div {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -570,16 +703,16 @@ footer a {
     color: var(--mostUsed-text-color);
 }
 
-footer a:hover{
+footer a:hover {
     color: #B43C82;
 }
 
-#copy-right-div{
-    float: right!important;
+#copy-right-div {
+    float: right !important;
 }
 
-#copy-right{
+#copy-right {
     font-size: small;
     font-family: 'Poppins-Regular', sans-serif;
-    
+
 }
