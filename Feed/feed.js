@@ -135,9 +135,8 @@ async function LoadPosts(response) {
                     <div class="post-card ">
                         <div class="first-row">
                             
-                            <img class="post-profile-icon rounded-circle shadow-sm" src="../${response.data[i].image}">
-                            
                             <div class="userName">
+                                <img class="post-profile-icon rounded-circle shadow-sm" src="../${response.data[i].image}">
                                 <p class="card-user-name user" onclick="navigateToProfile('${response.data[i].username}')">@${response.data[i].username}</p>
                             </div>
                             <div class="cardDate align-content-end">
@@ -171,10 +170,9 @@ async function LoadPosts(response) {
                 pcGroup.innerHTML += `
                     <div class="post-card ">
                         <div class="first-row">
-                                
-                            <img class="post-profile-icon rounded-circle shadow-sm" src="../${response.data[i].image}">
-                                
+                                    
                             <div class="userName">
+                                <img class="post-profile-icon rounded-circle shadow-sm" src="../${response.data[i].image}">
                                 <p class="card-user-name user" onclick="navigateToProfile('${response.data[i].username}')">@${response.data[i].username}</p>
                             </div>
                             <div class="cardDate align-content-end">
