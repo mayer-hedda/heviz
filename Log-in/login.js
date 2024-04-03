@@ -164,7 +164,7 @@ submitButton.addEventListener("click", async (e) => {
             const responseToken = await token();
 
             if(responseLogin.data.first == true && responseToken.status == 302){
-                window.location.assign('../ChategoryInterest/categoryInterest.html');
+                window.location.assign('../CategoryInterest/categoryInterest.html');
             }else{
                 switch (responseToken.status) {
                     case 302:

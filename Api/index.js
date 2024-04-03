@@ -1151,7 +1151,7 @@ async function addCategoryInterest(raw) {
                 status: response.status,
                 data: await response.text()
             }
-        } else if (response.status == 200 || response.status == 422) {
+        } else if (response.status == 422) {
             return {
                 status: response.status,
                 data: await response.json()
