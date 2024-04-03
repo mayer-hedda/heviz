@@ -155,7 +155,7 @@ function checkUsername(username) {
     } else if(username.length > 50) {
         return "<p>The username cannot be longer than 50 characters!</p>";
     } else if(!username.match("^[a-zA-Z0-9._]*$")) {
-        return "<p>Invalid username! Please avoid using special characters exept: _ (underscore) and . (dot)!</p>"
+        return "<p>Please avoid using special characters exept: _ (underscore) and . (dot)!</p>"
     } else {
         return true;
     }

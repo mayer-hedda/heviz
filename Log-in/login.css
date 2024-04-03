@@ -88,7 +88,7 @@ form {
     max-width: 50%;
     border-radius: 2rem;
     box-shadow: 0.625rem 0.625rem 0.625rem 0rem rgba(77, 66, 64, 0.40);
-    padding: 5%;
+    padding: 3% 0%;
 
     position: absolute;
     top: 50%;
@@ -153,6 +153,15 @@ form a:hover {
     font-weight: 500;
     color: var(--btn-color);
     border: 0rem;
+}
+
+.forgotPwd {
+    color: rgb(13, 110, 253);
+    text-decoration: underline;
+    cursor: default;
+}
+.forgotPwd:hover {
+    cursor: pointer;
 }
 
 #submitButton:hover {
