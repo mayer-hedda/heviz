@@ -76,10 +76,12 @@ window.onload = async function () {
             // vizsgáljuk hogy a keresés eredményeként érkeztünk az oldalra vagy pedig kategória által
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('category')) {
+
                 var categoryFromLink = urlParams.get('category');
                 c_name.innerText = categoryFromLink;
                 current_page.innerText = categoryFromLink;
                 var categoryId = urlParams.get('id');
+                
                 console.log(categoryId);
                 const categoryResponse = await getAllBooksByCategory({ "id": categoryId });
                 // localStorage.setItem('categoryResult', categoryResponse);
