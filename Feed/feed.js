@@ -36,11 +36,11 @@ window.onload = async function () {
 
             const HomePage = document.getElementById('HomePage');
             if (tokenResponse.data.rank == 'publisher') {
-                HomePage.addEventListener('click',(e)=>{
+                HomePage.addEventListener('click', (e) => {
                     window.location.href = '../Publisher-Home/PubHome.html';
                 });
-            }else{
-                HomePage.addEventListener('click',(e)=>{
+            } else {
+                HomePage.addEventListener('click', (e) => {
                     window.location.href = '../General-HomePage/GenHome.html';
                 });
             }
@@ -61,11 +61,20 @@ window.onload = async function () {
     }
 }
 
+let count = 0;
+const postModal = document.getElementById('postModal');
 modal_textarea.addEventListener('input', (e) => {
     e.preventDefault();
     const currentText = modal_textarea.value;
-    let count = currentText.length;
+    count = currentText.length;
     characterCounterText.textContent = `${count}/1000`;
+
+    if(count == 0){
+      
+        LetsPost_btn.removeAttribute('data-bs-dismiss', 'modal');
+    }else{
+        LetsPost_btn.setAttribute('data-bs-dismiss', 'modal');
+    }
 
     if (count >= 950) {
         console.log("bemegy az ifbe");
@@ -85,9 +94,10 @@ modal_textarea.addEventListener('input', (e) => {
     }
 });
 
-const postModal = document.getElementById('postModal');
+LetsPost_btn.addEventListener('click', async function (e) {
+    // Megakadályozzuk az alapértelmezett eseményt (modális ablak bezárását)
+    e.preventDefault();
 
-LetsPost_btn.addEventListener('click', async function () {
     const currentData = modal_textarea.value;
     if (currentData == "") {
         alert('You have to write something to post.')
@@ -97,8 +107,8 @@ LetsPost_btn.addEventListener('click', async function () {
         if (addPost_result.status == 200) {
             alert("You posted successfully. You can already seen on your profile.");
             modal_textarea.value = "";
-            postModal.hide();
-            // location.reload();
+            count = 0;
+            characterCounterText.textContent = `${count}/1000`;
         } else if (addPost_result.status == 401) {
             window.location.href = "../Log-in/login.html";
         } else if (addPost_result.status == 409) {
@@ -109,8 +119,8 @@ LetsPost_btn.addEventListener('click', async function () {
             alert("Something went wrong. Status code: " + addPost_result.status);
         }
     }
+});
 
-})
 
 let likeButtons = document.querySelectorAll(".like-button");
 
@@ -180,8 +190,8 @@ async function LoadPosts(response) {
                             </div>
                         </div>
     
-                        <div class="postText">
-                            <p class="post-text">${response.data[i].description}</p>
+                        <div  class="postText">
+                            <p lang="hu" class="post-text">${response.data[i].description}</p>
                         </div>
     
                         <div class="last-row">
@@ -203,6 +213,8 @@ async function LoadPosts(response) {
 
         }
     }
+
+
 }
 
 function navigateToProfile(username) {
@@ -275,8 +287,8 @@ async function LoadRecommandedUsers(response) {
                 
                     <img class="rounded-circle smaller-user-profile-pic" src="../${response.data[i].image}" alt="${response.data[i].username} profile picture"></img>
                
-                    <div class="userName">
-                        <p class="card-user-name">${response.data[i].username}</p>
+                    <div class="userName suggested-user">
+                        <p class="sug-user-name user" onclick="navigateToProfile('${response.data[i].username}')">@${response.data[i].username}</p>
                     </div>
                 <button type="submit" class="btn-more" onclick="navigateToProfile('${response.data[i].username}')">More</button>
             </div> 
