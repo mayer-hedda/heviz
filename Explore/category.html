@@ -125,19 +125,32 @@
 
                     <div id="most-saved-books" class="checkbox-filter">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="most-saved-books-checkbox">
+                            <input class="form-check-input" type="radio" id="most-saved-books-radio" name="radio">
                             <label class="form-check-label" for="most-saved-books-checkbox">Most saved books</label>
                         </div>
                     </div>
 
-                    <div id="most-purchased-books" class="checkbox-filter">
+                    <div id="top-rated-books-div" class="checkbox-filter">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="most-purchased-books-checkbox">
-                            <label class="form-check-label" for="most-purchased-books-checkbox">Most purchased
-                                books</label>
+                            <input class="form-check-input" type="radio" id="top-rated-books-radio" name="radio">
+                            <label class="form-check-label" for="top-rated-books-radio">Top-rated books</label>
                         </div>
                     </div>
 
+                    <div id="self-published-books-div" class="checkbox-filter">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="self-published-books-radio" name="radio">
+                            <label class="form-check-label" for="self-published-books-radio">Self published books</label>
+                        </div>
+                    </div>
+
+                    <div id="published-by-publisher-books-div" class="checkbox-filter">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="published-by-publisher-books-radio" name="radio">
+                            <label class="form-check-label" for="published-by-publisher-books-radio">Published by publisher</label>
+                        </div>
+                    </div>
+                    
                     <div class="accordion accordion-flush" id="alphabetical">
                         <div class="accordion-item">
                             <h2 class="accordion-header">
@@ -151,13 +164,13 @@
 
                                     <div class="form-check">
                                         <!-- Ár szerint nővekvő -->
-                                        <input class="form-check-input ABC-radio" type="radio" name="alphabetical"
+                                        <input class="form-check-input ABC-radio" type="radio" name="radio"
                                             id="a-z">
                                         <label class="form-check-label" for="a-z">A-Z</label>
                                     </div>
                                     <div class="form-check">
                                         <!-- Ár szerint csökkenő -->
-                                        <input class="form-check-input ABC-radio" type="radio" name="alphabetical"
+                                        <input class="form-check-input ABC-radio" type="radio" name="radio"
                                             id="z-a">
                                         <label class="form-check-label" for="z-a">Z-A</label>
                                     </div>
@@ -182,14 +195,14 @@
 
                                     <div class="form-check">
                                         <!-- Ár szerint nővekvő -->
-                                        <input class="form-check-input byPrice" type="radio" name="alphabetical"
+                                        <input class="form-check-input byPrice" type="radio" name="radio"
                                             id="increasing-by-price">
                                         <label class="form-check-label" for="increasing-by-price">Increasing by
                                             price</label>
                                     </div>
                                     <div class="form-check">
                                         <!-- Ár szerint csökkenő -->
-                                        <input class="form-check-input byPrice" type="radio" name="alphabetical"
+                                        <input class="form-check-input byPrice" type="radio" name="radio"
                                             id="decreasing-by-price">
                                         <label class="form-check-label" for="decreasing-by-price">Decreasing by
                                             price</label>
@@ -214,14 +227,14 @@
 
                                     <div class="form-check">
                                         <!-- Dátum szerint nővekvő -->
-                                        <input class="form-check-input byDate" type="radio" name="alphabetical"
+                                        <input class="form-check-input byDate" type="radio" name="radio"
                                             id="increasing-by-price">
                                         <label class="form-check-label" for="increasing-by-price">Increasing by
                                             date</label>
                                     </div>
                                     <div class="form-check">
                                         <!-- Dátum szerint csökkenő -->
-                                        <input class="form-check-input byDate" type="radio" name="alphabetical"
+                                        <input class="form-check-input byDate" type="radio" name="radio"
                                             id="decreasing-by-price">
                                         <label class="form-check-label" for="decreasing-by-price">Decreasing by
                                             date</label>
