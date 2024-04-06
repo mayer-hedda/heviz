@@ -19,8 +19,10 @@ public class Token {
     /**
      * @param user
         * id: user identification
-        * image: profile picture displayed in navbar
         * username: username displayed in navbar
+        * firstName: first name in the greeting
+        * lastName: last name in the greeting
+        * image: profile picture displayed in navbar
         * rank: check authorization
      *
      * @return token
@@ -32,6 +34,8 @@ public class Token {
                 .setSubject("exam")
                 .claim("id", user.getId())
                 .claim("username", user.getUsername())
+                .claim("firstName", user.getFirstName())
+                .claim("lastName", user.getLastName())
                 .claim("image", user.getImage())
                 .claim("rank", user.getRank())
                 .setIssuedAt(Date.from(now))
@@ -58,6 +62,8 @@ public class Token {
         result = Jwts.parser().setSigningKey(Keys.hmacShaKeyFor(secret)).parseClaimsJws(oldJwt);
         
         Integer id = result.getBody().get("id", Integer.class);
+        String firstName = result.getBody().get("firstName", String.class);
+        String lastName = result.getBody().get("lastName", String.class);
         String image = result.getBody().get("image", String.class);
         String rank = result.getBody().get("rank", String.class);
         
@@ -67,6 +73,86 @@ public class Token {
                 .setSubject("exam")
                 .claim("id", id)
                 .claim("username", newUsername)
+                .claim("firstName", firstName)
+                .claim("lastName", lastName)
+                .claim("image", image)
+                .claim("rank", rank)
+                .setIssuedAt(Date.from(now))
+                .setExpiration(Date.from(now.plus(7, ChronoUnit.DAYS)))
+                .signWith(
+                        SignatureAlgorithm.HS256,
+                        TextCodec.BASE64.decode("Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=")
+                )
+                .compact();
+
+        return token;
+    }
+    
+    
+    /**
+     * @param oldJwt
+     * @param newFirstName
+     * 
+     * @return new token
+     */
+    public static String createJwtWithNewFirstName(String oldJwt, String newFirstName) {
+        byte[] secret = Base64.getDecoder().decode("Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=");
+        Jws<Claims> result;
+        result = Jwts.parser().setSigningKey(Keys.hmacShaKeyFor(secret)).parseClaimsJws(oldJwt);
+        
+        Integer id = result.getBody().get("id", Integer.class);
+        String username = result.getBody().get("username", String.class);
+        String lastName = result.getBody().get("lastName", String.class);
+        String image = result.getBody().get("image", String.class);
+        String rank = result.getBody().get("rank", String.class);
+        
+        Instant now = Instant.now();
+        String token = Jwts.builder()
+                .setIssuer("CyberRead")
+                .setSubject("exam")
+                .claim("id", id)
+                .claim("username", username)
+                .claim("firstName", newFirstName)
+                .claim("lastName", lastName)
+                .claim("image", image)
+                .claim("rank", rank)
+                .setIssuedAt(Date.from(now))
+                .setExpiration(Date.from(now.plus(7, ChronoUnit.DAYS)))
+                .signWith(
+                        SignatureAlgorithm.HS256,
+                        TextCodec.BASE64.decode("Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=")
+                )
+                .compact();
+
+        return token;
+    }
+    
+    
+    /**
+     * @param oldJwt
+     * @param newLastName
+     * 
+     * @return new token
+     */
+    public static String createJwtWithNewLastName(String oldJwt, String newLastName) {
+        byte[] secret = Base64.getDecoder().decode("Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=");
+        Jws<Claims> result;
+        result = Jwts.parser().setSigningKey(Keys.hmacShaKeyFor(secret)).parseClaimsJws(oldJwt);
+        
+        Integer id = result.getBody().get("id", Integer.class);
+        String username = result.getBody().get("username", String.class);
+        String firstName = result.getBody().get("firstName", String.class);
+        String image = result.getBody().get("image", String.class);
+        String rank = result.getBody().get("rank", String.class);
+        
+        Instant now = Instant.now();
+        String token = Jwts.builder()
+                .setIssuer("CyberRead")
+                .setSubject("exam")
+                .claim("id", id)
+                .claim("username", username)
+                .claim("firstName", firstName)
+                .claim("lastName", newLastName)
                 .claim("image", image)
                 .claim("rank", rank)
                 .setIssuedAt(Date.from(now))
@@ -94,6 +180,8 @@ public class Token {
         
         Integer id = result.getBody().get("id", Integer.class);
         String username = result.getBody().get("username", String.class);
+        String firstName = result.getBody().get("firstName", String.class);
+        String lastName = result.getBody().get("lastName", String.class);
         String rank = result.getBody().get("rank", String.class);
         
         Instant now = Instant.now();
@@ -102,6 +190,8 @@ public class Token {
                 .setSubject("exam")
                 .claim("id", id)
                 .claim("username", username)
+                .claim("firstName", firstName)
+                .claim("lastName", lastName)
                 .claim("image", newImage)
                 .claim("rank", rank)
                 .setIssuedAt(Date.from(now))
@@ -159,11 +249,15 @@ public class Token {
         
         String rank = result.getBody().get("rank", String.class);
         String username = result.getBody().get("username", String.class);
+        String firstName = result.getBody().get("firstName", String.class);
+        String lastName = result.getBody().get("lastName", String.class);
         String image = result.getBody().get("image", String.class);
         
         JSONObject data = new JSONObject();
         data.put("rank", rank);
         data.put("username", username);
+        data.put("firstName", firstName);
+        data.put("lastName", lastName);
         data.put("image", image);
         
         return data;

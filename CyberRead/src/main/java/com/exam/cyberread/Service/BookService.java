@@ -1,6 +1,8 @@
 package com.exam.cyberread.Service;
 
 import com.exam.cyberread.Exception.BookException;
+import com.exam.cyberread.Exception.MissingCategoryException;
+import com.exam.cyberread.Exception.MissingFilterException;
 import com.exam.cyberread.Model.Book;
 import com.exam.cyberread.Model.Category;
 import com.exam.cyberread.Model.Language;
@@ -697,6 +699,7 @@ public class BookService {
     /**
      * @param userId
      * @param filter
+     * @param categoryId
      * 
      * @return
         * books:
@@ -715,14 +718,18 @@ public class BookService {
             * username
      *
      * @throws BookException: Something wrong!
+     * @throws MissingCategoryException: This category does not exist!
+     * @throws MissingFilterException: This filter number does not exist!
      */
-    public static JSONArray getFilteredBooks(Integer userId, Integer filter) throws BookException {
+    public static JSONArray getFilteredBooks(Integer userId, Integer filter, Integer categoryId) throws BookException, MissingCategoryException, MissingFilterException {
         try {
-            return Book.getFilteredBooks(userId, filter);
-        } catch(Exception ex) {
+            return Book.getFilteredBooks(userId, filter, categoryId);
+        } catch(BookException ex) {
             System.err.println(ex.getMessage());
             throw new BookException("Error in getFilteredBooks() method!");
-        }
+        } catch(MissingCategoryException | MissingFilterException ex) {
+            throw ex;
+        } 
     }
     
     
@@ -797,8 +804,101 @@ public class BookService {
             return Book.getSavedBooksByUserId(userId);
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
-            throw new BookException("Error in getSavedBooksByUserId() methid!");
+            throw new BookException("Error in getSavedBooksByUserId() method!");
         }
+    }
+    
+    
+    /**
+     * @param userId
+     * 
+     * @return
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+            * username
+     * 
+     * @throws BookException: Something wrong!
+     */
+    public static JSONArray getPayedBooksByUserId(Integer userId) throws BookException {
+        try {
+            return Book.getPayedBooksByUserId(userId);
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getPayedBooksByUserId() method!");
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * 
+     * @return
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+            * price
+            * username
+     * 
+     * @throws BookException: Something wrong!
+     */
+    public static JSONArray getPublishedBooksByUserId(Integer userId) throws BookException {
+        try {
+            return Book.getPublishedBooksByUserId(userId);
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getPublishedBooksByUserId() method!");
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param categoryId
+     * 
+     * @return
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+            * price
+            * username
+     * 
+     * @throws BookException: Something wrong!
+     * @throws MissingCategoryException: The categoryId is wrong!
+     */
+    public static JSONArray getSavedBooksByCategoryId(Integer userId, Integer categoryId) throws BookException, MissingCategoryException {
+        try {
+            return Book.getSavedBooksByCategoryId(userId, categoryId);
+        } catch(BookException ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getSavedBooksByCategoryId() method!");
+        } catch( MissingCategoryException ex) {
+            throw ex;
+        } 
     }
     
 }

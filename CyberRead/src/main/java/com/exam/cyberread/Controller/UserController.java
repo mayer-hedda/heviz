@@ -84,7 +84,7 @@ public class UserController {
         }
     }
     
-    
+   
     /**
      * @param userDetails
         * username
@@ -302,6 +302,7 @@ public class UserController {
      * 
      * @return
         * 200: Successfully set username
+            * jwt
         * 401:
             * User hasn't token
             * Invalid token
@@ -470,6 +471,7 @@ public class UserController {
      * 
      * @return
         * 200: Successfully set first name
+            * jwt
         * 401:
             * User hasn't token
             * Invalid token
@@ -492,9 +494,9 @@ public class UserController {
             switch (tokenCheckResult) {
                 case 1:
                     Integer userId = Token.getUserIdByToken(jwt);
-                    JSONObject result = UserService.setFirstName(userId, user.getFirstName());
-                    if(result.length() == 0) {
-                        return Response.status(Response.Status.OK).build();
+                    JSONObject result = UserService.setFirstName(userId, user.getFirstName(), jwt);
+                    if(result.has("jwt")) {
+                        return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
                     }
                     return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
                 case 2:
@@ -512,6 +514,7 @@ public class UserController {
      * 
      * @return
         * 200: Successfully set last name
+            * jwt
         * 401:
             * User hasn't token
             * Invalid token
@@ -534,9 +537,9 @@ public class UserController {
             switch (tokenCheckResult) {
                 case 1:
                     Integer userId = Token.getUserIdByToken(jwt);
-                    JSONObject result = UserService.setLastName(userId, user.getLastName());
-                    if(result.length() == 0) {
-                        return Response.status(Response.Status.OK).build();
+                    JSONObject result = UserService.setLastName(userId, user.getLastName(), jwt);
+                    if(result.has("jwt")) {
+                        return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
                     }
                     return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
                 case 2:
@@ -718,6 +721,7 @@ public class UserController {
      * 
      * @return
         * 200: Successfully set profile image
+            * jwt
         * 401:
             * User hasn't token
             * Invalid token

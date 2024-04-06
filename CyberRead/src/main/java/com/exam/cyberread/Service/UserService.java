@@ -80,12 +80,14 @@ public class UserService {
                     LocalDate date = LocalDate.parse(birthdate);
 
                     if (date.isAfter(now) || date.isEqual(now)) {
-                        error.put("birthdateError", "Invalid birthdate format!");
+                        error.put("birthdateError", "Invalid birthdate!");
                     } else {
                         Period period = Period.between(date, now);
 
                         if (period.getYears() < 15) {
                             error.put("birthdateError", "You are too young!");
+                        } else if(period.getYears() > 100) {
+                            error.put("birthdateError", "Invalid date!");
                         }
                     }
                 } catch (DateTimeException e) {
@@ -134,6 +136,8 @@ public class UserService {
             // company name check
             if(companyName == null || companyName.isEmpty()) {
                 error.put("companyNameError", "The company name field cannot be empty!");
+            } else if(!companyName.matches("^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ].*$")) {
+                error.put("companyNameError", "The company name must not start with a special character!");
             } else if(companyName.length() > 50) {
                 error.put("companyNameError", "The company name cannot be longer than 50 characters!");
             }
@@ -210,8 +214,13 @@ public class UserService {
             }
 
             // email check
+            Pattern pattern = Pattern.compile("[áéíóöőúüűÁÉÍÓÖŐÚÜŰ]");
+            Matcher match = pattern.matcher(email);
+            
             if(email == null || email.isEmpty()) {
                 error.put("emailError", "The email field cannot be empty!");
+            } else if(match.find()) {
+                error.put("emailError", "The email address must not contain accented characters!");
             } else {
                 Pattern specReg = Pattern.compile("(?=.*[@])");
                 Matcher matcher = specReg.matcher(email);
@@ -361,7 +370,7 @@ public class UserService {
         * error: 
             * username error
             * setUsernameError
-        * empty JSONObject: Successfully set username
+        * jwt: Successfully set username
      * 
      * @throws UserException: Something wrong!
      */
@@ -552,16 +561,17 @@ public class UserService {
     /**
      * @param userId
      * @param firstName
+     * @param jwt
      * 
      * @return
         * error:
             * firstNameError
             * setFirstNameError
-        * empty JSONObject: Successfully set first name
+        * jwt: Successfully set first name
      * 
      * @throws UserException: Something wrong!
      */
-    public static JSONObject setFirstName(Integer userId, String firstName) throws UserException {
+    public static JSONObject setFirstName(Integer userId, String firstName, String jwt) throws UserException {
         try {
             JSONObject error = new JSONObject();
             
@@ -571,9 +581,18 @@ public class UserService {
                 error.put("firstNameError", "First name must be at least 3 character long!");
             } else if(firstName.length() > 50) {
                 error.put("firstNameError", "The first name cannot be longer than 50 characters!");
-            } else if(!User.setFirstName(userId, firstName)) {
-                error.put("setFirstNameError", "Could not change your first name!");
-            }
+            } else {
+                if(!User.setFirstName(userId, firstName)) {
+                    error.put("setFirstNameError", "Could not change your first name!");
+                } else {
+                    JSONObject result = new JSONObject();
+                    
+                    String newJwt = Token.createJwtWithNewFirstName(jwt, firstName);
+                    result.put("jwt", newJwt);
+                    
+                    return result;
+                }
+            } 
             
             return error;
         } catch(Exception ex) {
@@ -586,16 +605,17 @@ public class UserService {
     /**
      * @param userId
      * @param lastName
+     * @param jwt
      * 
      * @return
         * error:
             * lastNameError
             * setLastNameError
-        * empty JSONObject: Successfully set last name
+        * jwt: Successfully set last name
      * 
      * @throws UserException: Something wrong!
      */
-    public static JSONObject setLastName(Integer userId, String lastName) throws UserException {
+    public static JSONObject setLastName(Integer userId, String lastName, String jwt) throws UserException {
         try {
             JSONObject error = new JSONObject();
             
@@ -605,8 +625,17 @@ public class UserService {
                 error.put("lastNameError", "Last name must be at least 3 character long!");
             } else if(lastName.length() > 50) {
                 error.put("lastNameError", "The last name cannot be longer than 50 characters!");
-            } else if(!User.setLastName(userId, lastName)) {
-                error.put("setLastNameError", "Could not change your last name!");
+            } else {
+                if(!User.setLastName(userId, lastName)) {
+                    error.put("setLastNameError", "Could not change your last name!");
+                } else {
+                    JSONObject result = new JSONObject();
+                    
+                    String newJwt = Token.createJwtWithNewLastName(jwt, lastName);
+                    result.put("jwt", newJwt);
+                    
+                    return result;
+                }
             }
             
             return error;
@@ -683,9 +712,7 @@ public class UserService {
         try {
             JSONObject error = new JSONObject();
             
-            if(website == null || website.isEmpty()) {
-                error.put("websiteError", "The website field cannot be empty!");
-            } else if(website.length() < 4) {
+            if((website == null || website.isEmpty()) && website.length() < 4) {
                 error.put("websiteError", "Website must be at least 4 character long!");
             } else if(website.length() > 100) {
                 error.put("websiteError", "The website cannot be longer than 100 characters!");
@@ -734,12 +761,13 @@ public class UserService {
     /**
      * @param userId
      * @param image
+     * @param jwt
      * 
      * @return
         * error:
             * profileImageError
             * setProfileImage
-        * empty JSONObject: Successfully set profile image
+        * jwt: Successfully set profile image
      * 
      * @throws UserException: Something wrong!
      */
