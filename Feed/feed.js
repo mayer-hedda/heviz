@@ -7,6 +7,7 @@ const pcGroup = document.getElementById("kulsoPostCard");
 const modal_textarea = document.getElementById('message-text');
 const characterCounterText = document.getElementById('characterCounter');
 const charCounterDes = document.getElementById('characterCounter');
+const textError = document.getElementById('textError');
 const LetsPost_btn = document.getElementById('LetsPost-btn');
 
 // Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
@@ -29,6 +30,7 @@ window.onload = async function () {
         case 302:
             localStorage.removeItem('searchResult');
             localStorage.removeItem('Error Code:');
+            localStorage.removeItem('bookId');
 
             document.getElementById('profile-link').addEventListener('click', (e) => {
                 window.location.href = `../Profile/profile.html?username=${tokenResponse.data.username}`;
@@ -60,6 +62,11 @@ window.onload = async function () {
             break;
     }
 }
+
+modal_textarea.addEventListener('focusin', (e)=>{
+    modal_textarea.classList.remove('inputError');
+    textError.innerHTML = "";   
+});
 
 let count = 0;
 const postModal = document.getElementById('postModal');
@@ -97,10 +104,11 @@ modal_textarea.addEventListener('input', (e) => {
 LetsPost_btn.addEventListener('click', async function (e) {
     // Megakadályozzuk az alapértelmezett eseményt (modális ablak bezárását)
     e.preventDefault();
+    
 
     const currentData = modal_textarea.value;
     if (currentData == "") {
-        alert('You have to write something to post.')
+        alert('You have to write something to post.');
     } else {
         const addPost_result = await addPost({ "description": currentData });
 
@@ -112,9 +120,10 @@ LetsPost_btn.addEventListener('click', async function (e) {
         } else if (addPost_result.status == 401) {
             window.location.href = "../Log-in/login.html";
         } else if (addPost_result.status == 409) {
-            alert("Something went wrong. Please try again later.")
+            alert("Something went wrong. Please try again later.");
         } else if (addPost_result.status == 422) {
-            alert("You can't post the big nothing. Please give us some text.")
+            textError.innerHTML = `<p>${addPost_result.data.postError}</p>`;
+            modal_textarea.classList.add('inputError');
         } else {
             alert("Something went wrong. Status code: " + addPost_result.status);
         }

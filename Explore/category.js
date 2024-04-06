@@ -44,6 +44,8 @@ window.onload = async function () {
             console.error("Error: " + responseUser);
             break;
         case 302:
+            localStorage.removeItem('bookId');
+            
             
             username.innerText = `@${tokenResponse.data.username}`;
             profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;

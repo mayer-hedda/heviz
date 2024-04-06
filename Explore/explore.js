@@ -30,6 +30,7 @@ window.onload = async function () {
         case 302:
             localStorage.removeItem('searchResult');
             localStorage.removeItem('Error Code:');
+            localStorage.removeItem('bookId');
             
             username.innerText = `@${tokenResponse.data.username}`;
             profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;

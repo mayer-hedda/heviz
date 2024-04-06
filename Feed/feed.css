@@ -1884,6 +1884,18 @@ nav {
     margin-top: 0.625rem;
 }
 
+.errorMessage{
+    margin-bottom: 0%;
+    color: #EE1D52;
+    font-size: small;
+}
+
+.inputError {
+    background: rgb(255, 214, 220) !important;
+    border-color: rgb(243, 82, 93) !important;
+    /* margin-left: 4%; */
+}
+
 .counter {
     margin-left: 30px;
     color: var(--input-border);
