@@ -928,12 +928,13 @@ public class BookController {
             * Invalid token
             * The token has expired
      * 
-     * @throws BookException: Something wrong
+     * @throws BookException: Something wrong!
+     * @throws MissingCategoryException: The name of the category id is not the same as the category name!
      */
     @POST
     @Path("getAllBooksByCategory")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response getAllBooksByCategory(@HeaderParam("Token") String jwt, Category category) throws BookException {
+    public Response getAllBooksByCategory(@HeaderParam("Token") String jwt, Category category) throws BookException, MissingCategoryException {
         if(jwt == null) {
             return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
         } else {
@@ -942,8 +943,12 @@ public class BookController {
             switch(tokenCheckResult) {
                 case 1: 
                     Integer userId = Token.getUserIdByToken(jwt);
-                    JSONArray result = BookService.getAllBooksByCategory(userId, category.getId());
-                    return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                    try {
+                        JSONArray result = BookService.getAllBooksByCategory(userId, category.getId(), category.getName());
+                        return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                    } catch(MissingCategoryException ex) {
+                        return Response.status(404).build();
+                    }
                 case 2:
                     return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
                 default:

@@ -142,7 +142,7 @@ public class Book implements Serializable {
     private int filter;
     
     private String searchText;
-
+    
     public Book() {
     }
 
@@ -1377,7 +1377,9 @@ public class Book implements Serializable {
     
     
     /**
+     * @param userId
      * @param categoryId
+     * @param categoryName
      * 
      * @return
         * books:
@@ -1395,9 +1397,10 @@ public class Book implements Serializable {
             * price
             * username
      * 
-     * @throws BookException: Something wrong
+     * @throws BookException: Something wrong!
+     * @throws MissingCategoryException: The name of the category id is not the same as the category name!
      */
-    public static JSONArray getAllBooksByCategory(Integer userId, Integer categoryId) throws BookException {
+    public static JSONArray getAllBooksByCategory(Integer userId, Integer categoryId, String categoryName) throws BookException, MissingCategoryException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
         EntityManager em = emf.createEntityManager();
 
@@ -1406,39 +1409,53 @@ public class Book implements Serializable {
             
             spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("categoryIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("categoryNameIN", String.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
             
             spq.setParameter("userIdIN", userId);
             spq.setParameter("categoryIdIN", categoryId);
+            spq.setParameter("categoryNameIN", categoryName);
 
             spq.execute();
             
-            List<Object[]> resultList = spq.getResultList();
-            JSONArray books = new JSONArray();
+            Integer resultOUT = (Integer) spq.getOutputParameterValue("result");
             
-            for(Object[] result : resultList) { 
-                JSONObject book = new JSONObject();
-                book.put("id", (Integer) result[0]);
-                book.put("coverImage", (String) result[1]);
-                book.put("title", (String) result[2]);
-                book.put("firstName", (String) result[3]);
-                book.put("lastName", (String) result[4]);
-                book.put("publisher", (String) result[5]);
-                book.put("description", (String) result[6]);
-                book.put("pagesNumber", (Integer) result[7]);
-                book.put("rating", (BigDecimal) result[8]);
-                book.put("language", (String) result[9]);
-                if((Integer) result[10] == 0) {
-                    book.put("saved", false);
-                } else {
-                    book.put("saved", true);
-                }
-                book.put("price", (Integer) result[11]);
-                book.put("username", (String) result[12]);
-                
-                books.put(book);
+            switch (resultOUT) {
+                case 1:
+                    List<Object[]> resultList = spq.getResultList();
+                    JSONArray books = new JSONArray();
+                    
+                    for(Object[] result : resultList) {
+                        JSONObject book = new JSONObject();
+                        book.put("id", (Integer) result[0]);
+                        book.put("coverImage", (String) result[1]);
+                        book.put("title", (String) result[2]);
+                        book.put("firstName", (String) result[3]);
+                        book.put("lastName", (String) result[4]);
+                        book.put("publisher", (String) result[5]);
+                        book.put("description", (String) result[6]);
+                        book.put("pagesNumber", (Integer) result[7]);
+                        book.put("rating", (BigDecimal) result[8]);
+                        book.put("language", (String) result[9]);
+                        if((Integer) result[10] == 0) {
+                            book.put("saved", false);
+                        } else {
+                            book.put("saved", true);
+                        }
+                        book.put("price", (Integer) result[11]);
+                        book.put("username", (String) result[12]);
+                        
+                        books.put(book);
+                    }
+                    
+                    return books;
+                case 2:
+                    throw new MissingCategoryException();
+                default:
+                    throw new BookException("Something wrong!");
             }
-            
-            return books;
+        } catch(MissingCategoryException ex) {
+            throw ex;
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
             throw new BookException("Error in getAllBooksByCategory() method!");
@@ -1495,10 +1512,7 @@ public class Book implements Serializable {
             
             Integer resultOUT = (Integer) spq.getOutputParameterValue("result");
             
-            if(null == resultOUT) {
-                throw new BookException("Error in getFilteredBooks() method!");
-            } else switch (resultOUT)
-            {
+            switch (resultOUT) {
                 case 1:
                     List<Object[]> resultList = spq.getResultList();
                     JSONArray books = new JSONArray();
@@ -1529,9 +1543,13 @@ public class Book implements Serializable {
                     return books;
                 case 2:
                     throw new MissingCategoryException("This category does not exist!");
-                default:
+                case 3:
                     throw new MissingFilterException("This filter number does not exist!");
+                default:
+                    throw new BookException("Something wrong!");
             }
+        } catch(MissingCategoryException | MissingFilterException ex) {
+            throw ex;
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
             throw new BookException("Error in getFilteredBooks() method!");
@@ -1882,8 +1900,10 @@ public class Book implements Serializable {
                     }
                     
                     return books;
-                default:
+                case 2:
                     throw new MissingCategoryException("This category does not exist!");
+                default:
+                    throw new BookException("Something wrong!");
             }
         } catch(MissingCategoryException ex) {
             throw ex;

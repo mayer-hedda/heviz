@@ -666,7 +666,9 @@ public class BookService {
     
     
     /**
+     * @param userId
      * @param catagoryId
+     * @param categoryName
      * 
      * @return
         * books:
@@ -684,11 +686,14 @@ public class BookService {
             * price
             * username
      * 
-     * @throws BookException: Something wrong
+     * @throws BookException: Something wrong!
+     * @throws MissingCategoryException: The name of the category id is not the same as the category name!
      */
-    public static JSONArray getAllBooksByCategory(Integer userId, Integer catagoryId) throws BookException {
+    public static JSONArray getAllBooksByCategory(Integer userId, Integer catagoryId, String categoryName) throws BookException, MissingCategoryException {
         try {
-            return Book.getAllBooksByCategory(userId, catagoryId);
+            return Book.getAllBooksByCategory(userId, catagoryId, categoryName);
+        } catch(MissingCategoryException ex) {
+            throw ex;
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
             throw new BookException("Error in getAllBooksByCategory() method!");
