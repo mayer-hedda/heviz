@@ -91,13 +91,28 @@
             </div>
 
             <!-- Kategória neve -->
-            <div class="col-11" id="category-name-div">
+            <div class="col-6" id="category-name-div">
                 <h1 class="category-name-h1" id="category-name"></h1>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item backPage"><a href="./explore.html">Explore</a></li>
                     <li class="breadcrumb-item active" aria-current="page" id="current-page"></li>
                 </ol>
             </div>
+
+            <div class="col-5">
+                <!-- kereső mező -->
+                <form class="d-flex input-group mb-3" role="search" id="search-input">
+                    <input class="form-control" type="search" placeholder="Search"
+                        aria-label="Search" id="searchKeyword" maxlength="50">
+                    <button class="btn" id="searchBTN"><svg xmlns="http://www.w3.org/2000/svg"
+                            style="margin-right: 4px; margin-bottom: 4px; color: #2C1810;" width="20" height="20"
+                            fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path
+                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                        </svg></button>
+                </form>
+            </div>
+            
         </div>
 
 
@@ -110,18 +125,6 @@
                 <!-- fixed side section -->
                 <div class="container" id="left-side-content">
                     <h3 id="left-side-h3">Filters</h3>
-
-                    <!-- kereső mező -->
-                    <form class="d-flex input-group" role="search">
-                        <input class="form-control" type="search" id="search-input" placeholder="Search"
-                            aria-label="Search" maxlength="50">
-                        <button class="btn" id="search-btn" type="submit"><svg xmlns="http://www.w3.org/2000/svg"
-                                style="margin-right: 4px; margin-bottom: 4px; color: #2C1810;" width="20" height="20"
-                                fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                <path
-                                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                            </svg></button>
-                    </form>
 
                     <div id="most-saved-books" class="checkbox-filter">
                         <div class="form-check">
@@ -258,6 +261,8 @@
                 <div class="noResult">
                     <p class="text-center missing-data-text" id="noSearchResult" hidden>Sorry, your search has no results.</p>
                     <p class="text-center missing-data-text" id="noCategoryResult" hidden>Sorry, there are no books in this category.</p>
+                    <p class="text-center missing-data-text" id="500Result" hidden>Something went wrong. Please try it later!</p>
+
                 </div>
 
                

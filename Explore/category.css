@@ -204,6 +204,7 @@ nav {
     margin-top: 75px;
     background: #EAD7BE;
     height: 96px;
+    box-shadow: 0 4px 2px 0px rgba(0, 0, 0, 0.075); 
 }
 
 #back-arrow-div {
@@ -265,15 +266,13 @@ nav {
 }
 
 form {
-    margin-top: 20px;
+    margin-top: 28px;
+    /* padding-right: 50px; */
 }
 
 #search-input {
-    border-top-left-radius: 30px;
-    border-bottom-left-radius: 30px;
-    border: solid 1px #cdb5aa;
-    border-right: none;
-    background-color: #FFF9F5;
+    width: 500px;
+    margin-right: 72px;
 }
 
 #search-input::placeholder {
@@ -281,17 +280,31 @@ form {
 }
 
 #search-input:focus {
-    /* border-color: transparent; */
     border-right: none;
     box-shadow: none;
 }
 
-#search-btn {
-    border-top-right-radius: 30px;
-    border-bottom-right-radius: 30px;
-    background-color: #FFF9F5;
+#searchKeyword {
+    border-radius: 100px 0px 0px 100px;
     border-color: #cdb5aa;
+    background-color: #FFF9F5;
+    padding-left: 15px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 18px;
+}
+
+#searchKeyword::placeholder {
+    color: #735646ea;
+    font-size: 18px;
+}
+
+#searchBTN {
+    border-radius: 0px 100px 100px 0px;
+    background-color: #FFF9F5;
     border-left: 0;
+    border-color: #cdb5aa;
+    width: 60px;
 }
 
 #most-saved-books {

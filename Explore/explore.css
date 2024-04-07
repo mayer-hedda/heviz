@@ -231,9 +231,13 @@ nav {
     /* position: fixed; */
 }
 
+form{
+    float: right;
+}
+
 #search-input {
     width: 500px;
-    margin-left: 72px;
+    margin-right: 72px;
 }
 
 #search-input::placeholder {
@@ -262,9 +266,7 @@ nav {
 
 #searchBTN {
     border-radius: 0px 100px 100px 0px;
-    /* background-color: #F6EFEA; */
     background-color: #FFF9F5;
-    /* border: 1px solid #cdb5aa; */
     border-left: 0;
     border-color: #cdb5aa;
     width: 60px;
