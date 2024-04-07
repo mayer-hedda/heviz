@@ -3,6 +3,8 @@
 const dataUrl = './db.json';
 const pcGroup = document.getElementById("kulsoPostCard");
 
+const SavedBooks = document.getElementById('SavedBooks');
+
 // CONTROL MODAL INPUT
 const modal_textarea = document.getElementById('message-text');
 const characterCounterText = document.getElementById('characterCounter');
@@ -41,10 +43,14 @@ window.onload = async function () {
                 HomePage.addEventListener('click', (e) => {
                     window.location.href = '../Publisher-Home/PubHome.html';
                 });
+
+                SavedBooks.textContent = "Saved Books";
             } else {
                 HomePage.addEventListener('click', (e) => {
                     window.location.href = '../General-HomePage/GenHome.html';
                 });
+
+                SavedBooks.textContent = "My Books";
             }
 
             const userDatas = await getUserDetails({ "profileUsername": tokenResponse.data.username });

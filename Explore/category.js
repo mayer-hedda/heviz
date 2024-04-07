@@ -1,5 +1,6 @@
 const username = document.getElementById('userName-p');
 const profilePic = document.getElementById('profile-icon');
+const SavedBooks = document.getElementById('SavedBooks');
 
 const c_name = document.getElementById('category-name');
 const current_page = document.getElementById('current-page');
@@ -59,9 +60,12 @@ window.onload = async function () {
             const HomePage = document.getElementById('HomePage');
 
             if (tokenResponse.data.rank == "publisher") {
+                document.getElementById('writingBtn').hidden = true;
                 shopping_btn.hidden = true;
                 publish_btn.hidden = false;
                 book_price.hidden = true;
+
+                SavedBooks.textContent = "Saved Books";
 
                 // amelyik filtereket látja a kiadó
                 /**
@@ -84,6 +88,7 @@ window.onload = async function () {
                 shopping_btn.hidden = false;
                 publish_btn.hidden = true;
                 book_price.hidden = false;
+                SavedBooks.textContent = "My Books";
 
                 HomePage.addEventListener('click', (e) => {
                     window.location.href = '../General-HomePage/GenHome.html';

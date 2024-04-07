@@ -1,5 +1,6 @@
 const username = document.getElementById('userName-p');
 const profilePic = document.getElementById('profile-icon');
+const SavedBooks = document.getElementById('SavedBooks');
 
 // rows to load categories
 const first_row_pics = document.getElementById('first-row-pics');
@@ -43,6 +44,7 @@ window.onload = async function () {
 
             if (tokenResponse.data.rank == "publisher") {
                 document.getElementById('writingBtn').hidden = true;
+                SavedBooks.textContent = "Saved Books";
 
                 HomePage.addEventListener('click',(e)=>{
                     window.location.href = '../Publisher-Home/PubHome.html';
@@ -51,6 +53,8 @@ window.onload = async function () {
                 HomePage.addEventListener('click',(e)=>{
                     window.location.href = '../General-HomePage/GenHome.html';
                 });
+
+                SavedBooks.textContent = "My Books";
             }
 
             const getCategory_response = await getAllCategory();

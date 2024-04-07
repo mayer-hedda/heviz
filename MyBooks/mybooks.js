@@ -1,6 +1,8 @@
 const username = document.getElementById('userName-p');
 const profilePic = document.getElementById('profile-icon');
 
+const SavedBooks = document.getElementById('SavedBooks');
+
 const c_name = document.getElementById('category-name');
 const current_page = document.getElementById('current-page');
 const books_side = document.getElementById('right-side');
@@ -8,14 +10,15 @@ const books_side = document.getElementById('right-side');
 const no_category_result = document.getElementById('noCategoryResult');
 
 const book_list = document.getElementById('book-list');
-const missing_saved = document.getElementById('missing-saved');
-const missing_purchased = document.getElementById('missing-purchased');
+const missing_saved = document.getElementById('zero-saved');
+const missing_purchased = document.getElementById('zero-purchased');
 
 
 //Modal btn-s
 const shopping_btn = document.getElementById('shopping-cart');
 const publish_btn = document.getElementById('publish-btn');
 const book_price = document.getElementById('book-price');
+const read_btn = document.getElementById('read-btn');
 
 // Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
 window.addEventListener('beforeunload', async function () {
@@ -55,15 +58,23 @@ window.onload = async function () {
                 shopping_btn.hidden = true;
                 publish_btn.hidden = false;
                 book_price.hidden = true;
+                read_btn.hidden = true;
                 document.getElementById('writingBtn').hidden = true;
+                SavedBooks.textContent = "Saved Books"
 
                 HomePage.addEventListener('click', (e) => {
                     window.location.href = '../Publisher-Home/PubHome.html';
                 });
+
+                document.getElementById('pb-header').hidden = true;
+
             } else if (tokenResponse.data.rank == "general") {
                 shopping_btn.hidden = false;
                 publish_btn.hidden = true;
                 book_price.hidden = false;
+                read_btn.hidden = true;
+
+                SavedBooks.textContent = "My Books";
 
                 HomePage.addEventListener('click', (e) => {
                     window.location.href = '../General-HomePage/GenHome.html';
@@ -71,11 +82,12 @@ window.onload = async function () {
             }
 
             const savedBookResponse = await getSavedBooksByUserId();
-            switch(savedBookResponse.status){
+            console.log(savedBookResponse.data);
+            switch (savedBookResponse.status) {
                 case 200:
-                    if(savedBookResponse.data.length == 0){
+                    if (savedBookResponse.data.length == 0) {
                         missing_saved.hidden = false;
-                    }else{
+                    } else {
                         missing_saved.hidden = true;
                         LoadBooks(savedBookResponse, false);
                     }
@@ -87,8 +99,8 @@ window.onload = async function () {
                     alert("Something went wrong, please try it later. Status: " + savedBookResponse.status);
                     break;
             }
-            
-           
+
+
             break;
 
         default:
@@ -107,7 +119,7 @@ const purchased_books = document.getElementById('purchased-books');
 const saved_books = document.getElementById('saved-books');
 
 
-purchased_books.addEventListener('click', async function(event) {
+purchased_books.addEventListener('click', async function (event) {
     event.preventDefault();
 
     purchased_books.classList.remove("disabled-btn");
@@ -119,19 +131,20 @@ purchased_books.addEventListener('click', async function(event) {
     book_list.innerHTML = "";
 
     // ITT KELL MAJD MEGHÍVNI A MEGVETT KÖNYVEK ENDPOINTOT --> írd át const-ra
-    var purchasedResult;
+    const purchasedResult = await getPayedBooksByUserId();
+    console.log(purchasedResult.data);
     // Hiba kezelés
 
     if (purchasedResult.data.length == 0) {
         missing_purchased.hidden = false;
-    }else{
+    } else {
         missing_purchased.hidden = true;
         LoadBooks(purchasedResult, true);
     }
 
 });
 
-saved_books.addEventListener('click', async function(event) {
+saved_books.addEventListener('click', async function (event) {
     event.preventDefault();
 
     saved_books.classList.remove("disabled-btn");
@@ -143,11 +156,11 @@ saved_books.addEventListener('click', async function(event) {
     book_list.innerHTML = "";
 
     const savedResult = await getSavedBooksByUserId();
-    switch(savedResult.status){
+    switch (savedResult.status) {
         case 200:
-            if(savedResult.data.length == 0){
+            if (savedResult.data.length == 0) {
                 missing_saved.hidden = false;
-            }else{
+            } else {
                 missing_saved.hidden = true;
                 LoadBooks(savedResult, false);
             }
@@ -158,8 +171,8 @@ saved_books.addEventListener('click', async function(event) {
         default:
             alert("Something went wrong. Please try again later. Status: " + savedResult.status);
     }
-    
- 
+
+
 });
 
 function LoadBooks(response, isPurchased) {
@@ -177,8 +190,8 @@ function LoadBooks(response, isPurchased) {
 
         for (let i = 0; i <= response.data.length - 1; i++) {
             if (response.data[i].coverImage == "Ez a kép elérési útja") {
-                if(response.data[i].publisher != undefined){
-                    book_list.innerHTML += `
+
+                book_list.innerHTML += `
                         <div class="medium-card" style="background-color: #EAD7BE;">
                             <div class="row">
                                 <div class="col-3 my-col3" id="s5-mediumCardPic-div">
@@ -188,69 +201,32 @@ function LoadBooks(response, isPurchased) {
                                 <div class="col-9 medium-right-side">
                                     <h2 class="container medium-h2">${response.data[i].title}</h2>
                                     <p class="username author">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                                    <p class="username author">${response.data[i].publisher}</p>
+                                    <p class="username author" >${response.data[i].publisher || ''}</p>
                                     <p class="medium-desc">${response.data[i].description}</p>
-                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', '${response.data[i].publisher}')">Show Details</button>
+                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${isPurchased}')">Show Details</button>
                                 </div>
                             </div>
                         </div>
-                    `;
-                }else{
-                    book_list.innerHTML += `
+                `;
+
+            } else {
+                book_list.innerHTML += `
                         <div class="medium-card" style="background-color: #EAD7BE;">
                             <div class="row">
                                 <div class="col-3 my-col3" id="s5-mediumCardPic-div">
-                                    <img class="medium-pic" src="../pictures/standard-book-cover.jpg">
-                                </div>
-                
-                                <div class="col-9 medium-right-side">
-                                    <h2 class="container medium-h2">${response.data[i].title}</h2>  
-                                    <p class="username author">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                                    <p class="medium-desc">${response.data[i].description}</p>
-                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', 'null')">Show Details</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }
-                
-            }else{
-                if(response.data[i].publisher != undefined){
-                    book_list.innerHTML += `
-                        <div class="medium-card" style="background-color: #EAD7BE;">
-                            <div class="row">
-                                <div class="col-3 my-col3" id="s5-mediumCardPic-div">
-                                    <img class="medium-pic" src="../pictures/standard-book-cover.jpg">
+                                    <img class="medium-pic" src="../${response.data[i].coverImage}.jpg">
                                 </div>
                 
                                 <div class="col-9 medium-right-side">
                                     <h2 class="container medium-h2">${response.data[i].title}</h2>
                                     <p class="username author">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                                    <p class="username author">${response.data[i].publisher}</p>
+                                    <p class="username author" >${response.data[i].publisher || ''}</p>
                                     <p class="medium-desc">${response.data[i].description}</p>
-                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', '${response.data[i].publisher}')">Show Details</button>
+                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${isPurchased}')">Show Details</button>
                                 </div>
                             </div>
                         </div>
-                    `;
-                }else{
-                    book_list.innerHTML += `
-                        <div class="medium-card" style="background-color: #EAD7BE;">
-                            <div class="row">
-                                <div class="col-3 my-col3" id="s5-mediumCardPic-div">
-                                    <img class="medium-pic" src="../pictures/standard-book-cover.jpg">
-                                </div>
-                
-                                <div class="col-9 medium-right-side">
-                                    <h2 class="container medium-h2">${response.data[i].title}</h2>  
-                                    <p class="username author">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                                    <p class="medium-desc">${response.data[i].description}</p>
-                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', 'null')">Show Details</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }
+                `;
             }
         }
     }
@@ -267,7 +243,7 @@ const book_modal_ranking = document.getElementById('modal-ranking');
 const book_modal_language = document.getElementById('modal-language');
 const book_modal_desc = document.getElementById('modal-desc');
 
-function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher) {
+function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher, isPurchased) {
 
     if (url != "Ez a kép elérési útja") {
         book_modal_img.src = `../${url}.jpg`;
@@ -275,8 +251,10 @@ function loadModalData(url, title, firstName, lastName, description, language, r
         book_modal_img.src = `../pictures/standard-book-cover.jpg`;
     }
 
-    if(publisher != "null"){
+    if (publisher != null) {
         book_modal_publisher.innerText = `${publisher}`;
+    }else{
+        book_modal_publisher.hidden = true;
     }
 
     book_modal_title.innerText = `${title}`;
@@ -299,6 +277,16 @@ function loadModalData(url, title, firstName, lastName, description, language, r
     book_modal_author.addEventListener('click', (e) => {
         navigateToProfile(username);
     })
+
+    if (isPurchased == true) {
+        read_btn.hidden = false;
+        shopping_btn.hidden = true;
+        book_price.hidden = false;
+    }else{
+        read_btn.hidden = true;
+        shopping_btn.hidden = false;
+        book_price.hidden = false;
+    }
 
 }
 
