@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Ápr 06. 11:00
+-- Létrehozás ideje: 2024. Ápr 07. 21:23
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -160,32 +160,46 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getActiveHelpCenter` ()   SELECT `h
 FROM `helpcenter`
 WHERE `helpcenter`.`active` = 1$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllBooksByCategory` (IN `userIdIN` INT, IN `categoryIdIN` INT)   SELECT
-	`book`.`id`,
-    `book`.`coverImage`,
-    `book`.`title`,
-    `writer`.`firstName`,
-    `writer`.`lastName`,
-    `publisher`.`companyName`,
-    `book`.`description`,
-    `book`.`pagesNumber`,
-    `bookrat`.`rat`,
-    `language`.`code`,
-    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
-    `book`.`price`,
-    `writer`.`username`
-FROM `book`
-INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
-LEFT JOIN (
-    SELECT `bookrating`.`bookId`,
-	AVG(`bookrating`.`rating`) AS `rat`
-	FROM `bookrating`
-	GROUP BY `bookrating`.`bookId`
-) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
-INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
-LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-WHERE `book`.`categoryId` = categoryIdIN$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllBooksByCategory` (IN `userIdIN` INT, IN `categoryIdIN` INT, IN `categoryNameIN` VARCHAR(50), OUT `result` INT)   BEGIN
+
+	IF (SELECT `category`.`name` FROM `category` WHERE `category`.`id` = categoryIdIN) != categoryNameIN THEN
+    	
+        SET result = 2;
+    
+    ELSE
+
+        SELECT
+            `book`.`id`,
+            `book`.`coverImage`,
+            `book`.`title`,
+            `writer`.`firstName`,
+            `writer`.`lastName`,
+            `publisher`.`companyName`,
+            `book`.`description`,
+            `book`.`pagesNumber`,
+            `bookrat`.`rat`,
+            `language`.`code`,
+            IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+            `book`.`price`,
+            `writer`.`username`
+        FROM `book`
+        INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+        LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+        LEFT JOIN (
+            SELECT `bookrating`.`bookId`,
+            AVG(`bookrating`.`rating`) AS `rat`
+            FROM `bookrating`
+            GROUP BY `bookrating`.`bookId`
+        ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+        INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+        LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+    	WHERE `book`.`categoryId` = categoryIdIN;
+        
+        SET result = 1;
+        
+    END IF;
+    
+END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllCategory` ()   SELECT *
 FROM `category`$$
@@ -292,117 +306,237 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
         WHERE `user`.`id` = userIdIN;
 
         IF filter = 1 THEN
-            SELECT
-                `book`.`id`,
-                `book`.`coverImage`,
-                `book`.`title`,
-                `writer`.`firstName`,
-                `writer`.`lastName`,
-                `publisher`.`companyName`,
-                `book`.`description`,
-                `book`.`pagesNumber`,
-                `bookrat`.`rat`,
-                `language`.`code`,
-                IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
-                `book`.`price`,
-                `writer`.`username`
-            FROM `book`
-            INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-            LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
-            LEFT JOIN (
-                SELECT `bookrating`.`bookId`,
-                AVG(`bookrating`.`rating`) AS `rat`
-                FROM `bookrating`
-                GROUP BY `bookrating`.`bookId`
-            ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
-            INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
-            LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-            WHERE `book`.`categoryId` = categoryIdIN
-            ORDER BY `book`.`title` ASC;
+        	IF rank = "general" THEN
+                SELECT
+                    `book`.`id`,
+                    `book`.`coverImage`,
+                    `book`.`title`,
+                    `writer`.`firstName`,
+                    `writer`.`lastName`,
+                    `publisher`.`companyName`,
+                    `book`.`description`,
+                    `book`.`pagesNumber`,
+                    `bookrat`.`rat`,
+                    `language`.`code`,
+                    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+                    `book`.`price`,
+                    `writer`.`username`
+                FROM `book`
+                INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN (
+                    SELECT `bookrating`.`bookId`,
+                    AVG(`bookrating`.`rating`) AS `rat`
+                    FROM `bookrating`
+                    GROUP BY `bookrating`.`bookId`
+                ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                ORDER BY `book`.`title` ASC;
+            ELSEIF rank = "publisher" THEN
+            	SELECT
+                    `book`.`id`,
+                    `book`.`coverImage`,
+                    `book`.`title`,
+                    `writer`.`firstName`,
+                    `writer`.`lastName`,
+                    `publisher`.`companyName`,
+                    `book`.`description`,
+                    `book`.`pagesNumber`,
+                    `bookrat`.`rat`,
+                    `language`.`code`,
+                    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+                    `book`.`price`,
+                    `writer`.`username`
+                FROM `book`
+                INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN (
+                    SELECT `bookrating`.`bookId`,
+                    AVG(`bookrating`.`rating`) AS `rat`
+                    FROM `bookrating`
+                    GROUP BY `bookrating`.`bookId`
+                ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                WHERE `book`.`categoryId` = categoryIdIN AND `book`.`status` = "looking for a publisher"
+                ORDER BY `book`.`title` ASC;
+            END IF;
         ELSEIF filter = 2 THEN
-            SELECT
-                `book`.`id`,
-                `book`.`coverImage`,
-                `book`.`title`,
-                `writer`.`firstName`,
-                `writer`.`lastName`,
-                `publisher`.`companyName`,
-                `book`.`description`,
-                `book`.`pagesNumber`,
-                `bookrat`.`rat`,
-                `language`.`code`,
-                IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
-                `book`.`price`,
-                `writer`.`username`
-            FROM `book`
-            INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-            LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
-            LEFT JOIN (
-                SELECT `bookrating`.`bookId`,
-                AVG(`bookrating`.`rating`) AS `rat`
-                FROM `bookrating`
-                GROUP BY `bookrating`.`bookId`
-            ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
-            INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
-            LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-            WHERE `book`.`categoryId` = categoryIdIN
-            ORDER BY `book`.`title` DESC;
+        	IF rank = "general" THEN
+                SELECT
+                    `book`.`id`,
+                    `book`.`coverImage`,
+                    `book`.`title`,
+                    `writer`.`firstName`,
+                    `writer`.`lastName`,
+                    `publisher`.`companyName`,
+                    `book`.`description`,
+                    `book`.`pagesNumber`,
+                    `bookrat`.`rat`,
+                    `language`.`code`,
+                    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+                    `book`.`price`,
+                    `writer`.`username`
+                FROM `book`
+                INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN (
+                    SELECT `bookrating`.`bookId`,
+                    AVG(`bookrating`.`rating`) AS `rat`
+                    FROM `bookrating`
+                    GROUP BY `bookrating`.`bookId`
+                ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                ORDER BY `book`.`title` DESC;
+            ELSEIF rank = "publisher" THEN
+            	SELECT
+                    `book`.`id`,
+                    `book`.`coverImage`,
+                    `book`.`title`,
+                    `writer`.`firstName`,
+                    `writer`.`lastName`,
+                    `publisher`.`companyName`,
+                    `book`.`description`,
+                    `book`.`pagesNumber`,
+                    `bookrat`.`rat`,
+                    `language`.`code`,
+                    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+                    `book`.`price`,
+                    `writer`.`username`
+                FROM `book`
+                INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN (
+                    SELECT `bookrating`.`bookId`,
+                    AVG(`bookrating`.`rating`) AS `rat`
+                    FROM `bookrating`
+                    GROUP BY `bookrating`.`bookId`
+                ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                WHERE `book`.`categoryId` = categoryIdIN AND `book`.`status` = "looking for a publisher"
+                ORDER BY `book`.`title` DESC;
+            END IF;
         ELSEIF filter = 3 THEN
-            SELECT
-                `book`.`id`,
-                `book`.`coverImage`,
-                `book`.`title`,
-                `writer`.`firstName`,
-                `writer`.`lastName`,
-                `publisher`.`companyName`,
-                `book`.`description`,
-                `book`.`pagesNumber`,
-                `bookrat`.`rat`,
-                `language`.`code`,
-                IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
-                `book`.`price`,
-                `writer`.`username`
-            FROM `book`
-            INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-            LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
-            LEFT JOIN (
-                SELECT `bookrating`.`bookId`,
-                AVG(`bookrating`.`rating`) AS `rat`
-                FROM `bookrating`
-                GROUP BY `bookrating`.`bookId`
-            ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
-            INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
-            LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-            WHERE `book`.`categoryId` = categoryIdIN
-            ORDER BY `book`.`publishedTime` ASC;
+        	IF rank = "general" THEN
+                SELECT
+                    `book`.`id`,
+                    `book`.`coverImage`,
+                    `book`.`title`,
+                    `writer`.`firstName`,
+                    `writer`.`lastName`,
+                    `publisher`.`companyName`,
+                    `book`.`description`,
+                    `book`.`pagesNumber`,
+                    `bookrat`.`rat`,
+                    `language`.`code`,
+                    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+                    `book`.`price`,
+                    `writer`.`username`
+                FROM `book`
+                INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN (
+                    SELECT `bookrating`.`bookId`,
+                    AVG(`bookrating`.`rating`) AS `rat`
+                    FROM `bookrating`
+                    GROUP BY `bookrating`.`bookId`
+                ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                ORDER BY `book`.`publishedTime` ASC;
+            ELSEIF rank = "publisher" THEN
+            	SELECT
+                    `book`.`id`,
+                    `book`.`coverImage`,
+                    `book`.`title`,
+                    `writer`.`firstName`,
+                    `writer`.`lastName`,
+                    `publisher`.`companyName`,
+                    `book`.`description`,
+                    `book`.`pagesNumber`,
+                    `bookrat`.`rat`,
+                    `language`.`code`,
+                    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+                    `book`.`price`,
+                    `writer`.`username`
+                FROM `book`
+                INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN (
+                    SELECT `bookrating`.`bookId`,
+                    AVG(`bookrating`.`rating`) AS `rat`
+                    FROM `bookrating`
+                    GROUP BY `bookrating`.`bookId`
+                ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                WHERE `book`.`categoryId` = categoryIdIN AND `book`.`status` = "looking for a publisher"
+                ORDER BY `book`.`publishedTime` ASC;
+            END IF;
         ELSEIF filter = 4 THEN
-            SELECT
-                `book`.`id`,
-                `book`.`coverImage`,
-                `book`.`title`,
-                `writer`.`firstName`,
-                `writer`.`lastName`,
-                `publisher`.`companyName`,
-                `book`.`description`,
-                `book`.`pagesNumber`,
-                `bookrat`.`rat`,
-                `language`.`code`,
-                IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
-                `book`.`price`,
-                `writer`.`username`
-            FROM `book`
-            INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-            LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
-            LEFT JOIN (
-                SELECT `bookrating`.`bookId`,
-                AVG(`bookrating`.`rating`) AS `rat`
-                FROM `bookrating`
-                GROUP BY `bookrating`.`bookId`
-            ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
-            INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
-            LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-            WHERE `book`.`categoryId` = categoryIdIN
-            ORDER BY `book`.`publishedTime` DESC;
+        	IF rank = "general" THEN
+                SELECT
+                    `book`.`id`,
+                    `book`.`coverImage`,
+                    `book`.`title`,
+                    `writer`.`firstName`,
+                    `writer`.`lastName`,
+                    `publisher`.`companyName`,
+                    `book`.`description`,
+                    `book`.`pagesNumber`,
+                    `bookrat`.`rat`,
+                    `language`.`code`,
+                    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+                    `book`.`price`,
+                    `writer`.`username`
+                FROM `book`
+                INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN (
+                    SELECT `bookrating`.`bookId`,
+                    AVG(`bookrating`.`rating`) AS `rat`
+                    FROM `bookrating`
+                    GROUP BY `bookrating`.`bookId`
+                ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                ORDER BY `book`.`publishedTime` DESC;
+            ELSEIF rank = "publisher" THEN
+            	SELECT
+                    `book`.`id`,
+                    `book`.`coverImage`,
+                    `book`.`title`,
+                    `writer`.`firstName`,
+                    `writer`.`lastName`,
+                    `publisher`.`companyName`,
+                    `book`.`description`,
+                    `book`.`pagesNumber`,
+                    `bookrat`.`rat`,
+                    `language`.`code`,
+                    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+                    `book`.`price`,
+                    `writer`.`username`
+                FROM `book`
+                INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN (
+                    SELECT `bookrating`.`bookId`,
+                    AVG(`bookrating`.`rating`) AS `rat`
+                    FROM `bookrating`
+                    GROUP BY `bookrating`.`bookId`
+                ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                WHERE `book`.`categoryId` = categoryIdIN AND `book`.`status` = "looking for a publisher"
+                ORDER BY `book`.`publishedTime` DESC;
+            END IF;
         ELSE
             IF rank = "general" THEN
                 IF filter = 5 THEN
@@ -431,7 +565,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-                    WHERE `book`.`categoryId` = categoryIdIN
+                    WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
                     ORDER BY `book`.`price` ASC;
                 ELSEIF filter = 6 THEN
                     SELECT
@@ -459,7 +593,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-                    WHERE `book`.`categoryId` = categoryIdIN
+                    WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
                     ORDER BY `book`.`price` DESC;
                 ELSEIF filter = 7 THEN
                     SELECT
@@ -487,7 +621,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-                    WHERE `book`.`categoryId` = categoryIdIN
+                    WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
                     ORDER BY (
                         SELECT COUNT(*)
                         FROM `saved`
@@ -519,7 +653,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-                    WHERE `book`.`categoryId` = categoryIdIN
+                    WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
                     ORDER BY `bookrat`.`rat` ASC;
                 ELSEIF filter = 9 THEN
                     SELECT
