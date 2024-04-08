@@ -1,9 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    localStorage.removeItem('searchResult');
-    localStorage.removeItem('Error Code:');
-    localStorage.removeItem('bookId');
-
     const kvb_img = document.getElementById('kvb-img');
     const kvb_section = document.getElementById('KissVivienBrigitta');
 
@@ -13,16 +9,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const szv_img = document.getElementById('szv-img');
     const szv_section = document.getElementById('SzirenyiVivi');
 
-    kvb_img.addEventListener('click', function () {
-        kvb_section.scrollIntoView({ behavior: 'smooth' });
+    kvb_img.addEventListener('click', function(){
+        kvb_section.scrollIntoView({behavior: 'smooth'});
     });
 
-    mha_img.addEventListener('click', function () {
-        mha_section.scrollIntoView({ behavior: 'smooth' });
+    mha_img.addEventListener('click', function(){
+        mha_section.scrollIntoView({behavior: 'smooth'});
     });
 
-    szv_img.addEventListener('click', function () {
-        szv_section.scrollIntoView({ behavior: 'smooth' });
+    szv_img.addEventListener('click', function(){
+        szv_section.scrollIntoView({behavior: 'smooth'});
     });
 
 })
