@@ -3,6 +3,8 @@ package com.exam.cyberread.Model;
 import com.exam.cyberread.Exception.PostException;
 import java.sql.Timestamp;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -205,13 +207,19 @@ public class Post implements Serializable {
                 post.put("id", (Integer) result[0]);
                 post.put("username", (String) result[1]);
                 post.put("image", (String) result[2]);
-                post.put("postTime", (Timestamp) result[3]);
                 post.put("description", (String) result[4]);
                 if((Integer) result[5] == 0) {
                     post.put("liked", false);
                 } else {
                     post.put("liked", true);
                 }
+                
+                Timestamp timestamp = (Timestamp) result[3];
+                LocalDateTime dateTime = timestamp.toLocalDateTime();
+        
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                String truncatedDateTime = dateTime.format(formatter);
+                post.put("postTime", truncatedDateTime);
                 
                 posts.put(post);
             }
@@ -271,13 +279,19 @@ public class Post implements Serializable {
                     post.put("id", (Integer) result[0]);
                     post.put("username", (String) result[1]);
                     post.put("image", (String) result[2]);
-                    post.put("postTime", (Timestamp) result[3]);
                     post.put("description", (String) result[4]);
                     if((Integer) result[5] == 0) {
                         post.put("liked", false);
                     } else {
                         post.put("liked", true);
                     }
+                    
+                    Timestamp timestamp = (Timestamp) result[3];
+                    LocalDateTime dateTime = timestamp.toLocalDateTime();
+
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                    String truncatedDateTime = dateTime.format(formatter);
+                    post.put("postTime", truncatedDateTime);
 
                     posts.put(post);
                 }

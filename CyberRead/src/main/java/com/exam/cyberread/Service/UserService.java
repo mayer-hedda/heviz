@@ -80,12 +80,14 @@ public class UserService {
                     LocalDate date = LocalDate.parse(birthdate);
 
                     if (date.isAfter(now) || date.isEqual(now)) {
-                        error.put("birthdateError", "Invalid birthdate format!");
+                        error.put("birthdateError", "Invalid birthdate!");
                     } else {
                         Period period = Period.between(date, now);
 
                         if (period.getYears() < 15) {
                             error.put("birthdateError", "You are too young!");
+                        } else if(period.getYears() > 100) {
+                            error.put("birthdateError", "Invalid date!");
                         }
                     }
                 } catch (DateTimeException e) {
@@ -134,6 +136,8 @@ public class UserService {
             // company name check
             if(companyName == null || companyName.isEmpty()) {
                 error.put("companyNameError", "The company name field cannot be empty!");
+            } else if(!companyName.matches("^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ].*$")) {
+                error.put("companyNameError", "The company name must not start with a special character!");
             } else if(companyName.length() > 50) {
                 error.put("companyNameError", "The company name cannot be longer than 50 characters!");
             }
@@ -177,17 +181,21 @@ public class UserService {
             // username check
             if(username == null || username.isEmpty()) {
                 error.put("usernameError", "The username field cannot be empty!");
+            } else if(!username.matches("^[a-z].*$")) { 
+                error.put("usernameError", "Username must start with a lowercase letter!");
             } else if(username.length() < 3) {
                 error.put("usernameError", "Username must be at least 3 characters long!");
             } else if(username.length() > 50) {
                 error.put("usernameError", "The username cannot be longer than 50 characters!");
-            } else if(!username.matches("^[a-zA-Z0-9._]*$")) {
-                error.put("usernameError", "Invalid username! Please avoid using special characters exept: _ (underscore) and . (dot)");
+            } else if(!username.matches("^[a-z0-9._]*$")) {
+                error.put("usernameError", "Invalid username! Please avoid using special characters exept: _ (underscore) and . (dot)!");
             }
 
             // first name check
             if(firstName == null || firstName.isEmpty()) {
                 error.put("firstNameError", "The first name field cannot be empty!");
+            } else if(!firstName.matches("^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ].*$")) {
+                error.put("firstNameError", "The first name can only start with a letter!");
             } else if(firstName.length() < 3) {
                 error.put("firstNameError", "First name must be at least 3 character long!");
             } else if(firstName.length() > 50) {
@@ -197,6 +205,8 @@ public class UserService {
             // last name check
             if(lastName == null || lastName.isEmpty()) {
                 error.put("lastNameError", "The last name field cannot be empty!");
+            } else if(!lastName.matches("^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ].*$")) {
+                error.put("lastNameError", "The last name can only start with a letter!");
             } else if(lastName.length() < 3) {
                 error.put("lastNameError", "Last name must be at least 3 character long!");
             } else if(lastName.length() > 50) {
@@ -204,8 +214,13 @@ public class UserService {
             }
 
             // email check
+            Pattern pattern = Pattern.compile("[áéíóöőúüűÁÉÍÓÖŐÚÜŰ]");
+            Matcher match = pattern.matcher(email);
+            
             if(email == null || email.isEmpty()) {
                 error.put("emailError", "The email field cannot be empty!");
+            } else if(match.find()) {
+                error.put("emailError", "The email address must not contain accented characters!");
             } else {
                 Pattern specReg = Pattern.compile("(?=.*[@])");
                 Matcher matcher = specReg.matcher(email);
@@ -349,16 +364,17 @@ public class UserService {
     /**
      * @param userId
      * @param username
+     * @param jwt
      * 
      * @return
         * error: 
             * username error
             * setUsernameError
-        * empty JSONObject: Successfully set username
+        * jwt: Successfully set username
      * 
      * @throws UserException: Something wrong!
      */
-    public static JSONObject setUsername(Integer userId, String username) throws UserException {
+    public static JSONObject setUsername(Integer userId, String username, String jwt) throws UserException {
         try {
             JSONObject error = new JSONObject();
             
@@ -373,6 +389,13 @@ public class UserService {
             } else {
                 if(!User.setUsername(userId, username)) {
                     error.put("setUsernameError", "Could not change your username!");
+                } else {
+                    JSONObject result = new JSONObject();
+                    
+                    String newJwt = Token.createJwtWithNewUsername(jwt, username);
+                    result.put("jwt", newJwt);
+                    
+                    return result;
                 }
             }
             
@@ -538,16 +561,17 @@ public class UserService {
     /**
      * @param userId
      * @param firstName
+     * @param jwt
      * 
      * @return
         * error:
             * firstNameError
             * setFirstNameError
-        * empty JSONObject: Successfully set first name
+        * jwt: Successfully set first name
      * 
      * @throws UserException: Something wrong!
      */
-    public static JSONObject setFirstName(Integer userId, String firstName) throws UserException {
+    public static JSONObject setFirstName(Integer userId, String firstName, String jwt) throws UserException {
         try {
             JSONObject error = new JSONObject();
             
@@ -557,9 +581,18 @@ public class UserService {
                 error.put("firstNameError", "First name must be at least 3 character long!");
             } else if(firstName.length() > 50) {
                 error.put("firstNameError", "The first name cannot be longer than 50 characters!");
-            } else if(!User.setFirstName(userId, firstName)) {
-                error.put("setFirstNameError", "Could not change your first name!");
-            }
+            } else {
+                if(!User.setFirstName(userId, firstName)) {
+                    error.put("setFirstNameError", "Could not change your first name!");
+                } else {
+                    JSONObject result = new JSONObject();
+                    
+                    String newJwt = Token.createJwtWithNewFirstName(jwt, firstName);
+                    result.put("jwt", newJwt);
+                    
+                    return result;
+                }
+            } 
             
             return error;
         } catch(Exception ex) {
@@ -572,16 +605,17 @@ public class UserService {
     /**
      * @param userId
      * @param lastName
+     * @param jwt
      * 
      * @return
         * error:
             * lastNameError
             * setLastNameError
-        * empty JSONObject: Successfully set last name
+        * jwt: Successfully set last name
      * 
      * @throws UserException: Something wrong!
      */
-    public static JSONObject setLastName(Integer userId, String lastName) throws UserException {
+    public static JSONObject setLastName(Integer userId, String lastName, String jwt) throws UserException {
         try {
             JSONObject error = new JSONObject();
             
@@ -591,8 +625,17 @@ public class UserService {
                 error.put("lastNameError", "Last name must be at least 3 character long!");
             } else if(lastName.length() > 50) {
                 error.put("lastNameError", "The last name cannot be longer than 50 characters!");
-            } else if(!User.setLastName(userId, lastName)) {
-                error.put("setLastNameError", "Could not change your last name!");
+            } else {
+                if(!User.setLastName(userId, lastName)) {
+                    error.put("setLastNameError", "Could not change your last name!");
+                } else {
+                    JSONObject result = new JSONObject();
+                    
+                    String newJwt = Token.createJwtWithNewLastName(jwt, lastName);
+                    result.put("jwt", newJwt);
+                    
+                    return result;
+                }
             }
             
             return error;
@@ -669,9 +712,7 @@ public class UserService {
         try {
             JSONObject error = new JSONObject();
             
-            if(website == null || website.isEmpty()) {
-                error.put("websiteError", "The website field cannot be empty!");
-            } else if(website.length() < 4) {
+            if((website == null || website.isEmpty()) && website.length() < 4) {
                 error.put("websiteError", "Website must be at least 4 character long!");
             } else if(website.length() > 100) {
                 error.put("websiteError", "The website cannot be longer than 100 characters!");
@@ -720,16 +761,17 @@ public class UserService {
     /**
      * @param userId
      * @param image
+     * @param jwt
      * 
      * @return
         * error:
             * profileImageError
             * setProfileImage
-        * empty JSONObject: Successfully set profile image
+        * jwt: Successfully set profile image
      * 
      * @throws UserException: Something wrong!
      */
-    public static JSONObject setProfileImage(Integer userId, String image) throws UserException {
+    public static JSONObject setProfileImage(Integer userId, String image, String jwt) throws UserException {
         try {
             JSONObject error = new JSONObject();
             
@@ -737,6 +779,13 @@ public class UserService {
                 error.put("profileImageError", "The profile image cannot be longer than 100 characters!");
             } else if(!User.setProfileImage(userId, image)) {
                 error.put("setProfileImage", "Could not change your profile image!");
+            } else {
+                JSONObject result = new JSONObject();
+                
+                String newJwt = Token.createJwtWithNewImage(jwt, image);
+                result.put("jwt", newJwt);
+                
+                return result;
             }
             
             return error;
@@ -835,8 +884,9 @@ public class UserService {
      * 
      * @throws UserException: Something wrong!
      */
-    public static JSONObject getPublishersWriters(Integer pagesNumber, String profileUsername) throws UserException {
+    public static JSONArray getPublishersWriters(Integer pagesNumber, String profileUsername) throws UserException {
         try {
+            JSONArray errors = new JSONArray();
             JSONObject error = new JSONObject();
             
             // profile username check
@@ -861,7 +911,8 @@ public class UserService {
                 return User.getPublishersWriters(pagesNumber, profileUsername);
             }
             
-            return error;
+            errors.put(error);
+            return errors;
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
             throw new UserException("Error getPublishersWriters() method!");

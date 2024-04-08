@@ -2,8 +2,7 @@ package com.exam.cyberread.Controller;
 
 import com.exam.cyberread.Config.Token;
 import com.exam.cyberread.Exception.FollowException;
-import com.exam.cyberread.Model.Follow;
-import com.exam.cyberread.Service.BookService;
+import com.exam.cyberread.Model.User;
 import com.exam.cyberread.Service.FollowService;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -57,7 +56,7 @@ public class FollowController {
     // --- MY ENDPOINTS ---
     /**
      * @param jwt
-     * @param follow
+     * @param user
      * 
      * @return
         * 200: Successfully follow the user
@@ -72,7 +71,7 @@ public class FollowController {
     @POST
     @Path("followUser")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response followUser(@HeaderParam("Token") String jwt, Follow follow) throws FollowException {
+    public Response followUser(@HeaderParam("Token") String jwt, User user) throws FollowException {
         if(jwt == null) {
             return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
         } else {
@@ -81,7 +80,7 @@ public class FollowController {
             switch(tokenCheckResult) {
                 case 1: 
                     Integer userId = Token.getUserIdByToken(jwt);
-                    JSONObject result = FollowService.followUser(userId, follow.getFollowedId());
+                    JSONObject result = FollowService.followUser(userId, user.getUsername());
                     if(result.isEmpty()) {
                         return Response.status(Response.Status.OK).build();
                     }
@@ -97,7 +96,7 @@ public class FollowController {
     
     /**
      * @param jwt
-     * @param follow
+     * @param user
      * 
      * @return
         * 200: Successfully follow the user
@@ -112,7 +111,7 @@ public class FollowController {
     @DELETE
     @Path("unfollowedUser")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response unfollowedUser(@HeaderParam("Token") String jwt, Follow follow) throws FollowException {
+    public Response unfollowedUser(@HeaderParam("Token") String jwt, User user) throws FollowException {
         if(jwt == null) {
             return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
         } else {
@@ -121,7 +120,7 @@ public class FollowController {
             switch(tokenCheckResult) {
                 case 1: 
                     Integer userId = Token.getUserIdByToken(jwt);
-                    JSONObject result = FollowService.unfollowedUser(userId, follow.getFollowedId());
+                    JSONObject result = FollowService.unfollowedUser(userId, user.getUsername());
                     if(result.isEmpty()) {
                         return Response.status(Response.Status.OK).build();
                     }

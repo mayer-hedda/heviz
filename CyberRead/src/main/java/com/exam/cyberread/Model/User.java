@@ -137,9 +137,11 @@ public class User implements Serializable {
         this.id = id;
     }
     
-    public User(Integer id, String username, String image, String rank, Boolean active) {
+    public User(Integer id, String username, String firstName, String lastName, String image, String rank, Boolean active) {
         this.id = id;
         this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.image = image;
         this.rank = rank;
         this.active = active;
@@ -340,6 +342,8 @@ public class User implements Serializable {
      * @return user
         * id
         * username
+        * first name
+        * last name
         * image
         * rank
      */
@@ -354,6 +358,8 @@ public class User implements Serializable {
             spq.registerStoredProcedureParameter("passwordIN", String.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("userIdOUT", Integer.class, ParameterMode.OUT);
             spq.registerStoredProcedureParameter("usernameOUT", String.class, ParameterMode.OUT);
+            spq.registerStoredProcedureParameter("firstNameOUT", String.class, ParameterMode.OUT);
+            spq.registerStoredProcedureParameter("lastNameOUT", String.class, ParameterMode.OUT);
             spq.registerStoredProcedureParameter("imageOUT", String.class, ParameterMode.OUT);
             spq.registerStoredProcedureParameter("rankOUT", String.class, ParameterMode.OUT);
             spq.registerStoredProcedureParameter("activeOUT", Boolean.class, ParameterMode.OUT);
@@ -365,11 +371,13 @@ public class User implements Serializable {
 
             Integer id = (Integer) spq.getOutputParameterValue("userIdOUT");
             String username = (String) spq.getOutputParameterValue("usernameOUT");
+            String firstName = (String) spq.getOutputParameterValue("firstNameOUT");
+            String lastName = (String) spq.getOutputParameterValue("lastNameOUT");
             String image = (String) spq.getOutputParameterValue("imageOUT");
             String rank = (String) spq.getOutputParameterValue("rankOUT");
             Boolean active = (Boolean) spq.getOutputParameterValue("activeOUT");
 
-            return new User(id, username, image, rank, active);
+            return new User(id, username, firstName, lastName, image, rank, active);
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
             return new User();
@@ -1203,7 +1211,7 @@ public class User implements Serializable {
      * 
      * @throws UserException: Something wrong!
      */
-    public static JSONObject getPublishersWriters(Integer pagesNumber, String profileUsername) throws UserException {
+    public static JSONArray getPublishersWriters(Integer pagesNumber, String profileUsername) throws UserException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
         EntityManager em = emf.createEntityManager();
 
@@ -1219,11 +1227,14 @@ public class User implements Serializable {
             spq.execute();
             
             List<Object[]> resultList = spq.getResultList();
-            JSONObject writers = new JSONObject();
+            JSONArray writers = new JSONArray();
             
             for(Object[] result : resultList) {
-                writers.put("image", result[0]);
-                writers.put("username", result[1]);
+                JSONObject writer = new JSONObject();
+                writer.put("image", result[0]);
+                writer.put("username", result[1]);
+                
+                writers.put(writer);
             }
             
             return writers;

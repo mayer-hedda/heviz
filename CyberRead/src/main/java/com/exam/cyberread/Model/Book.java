@@ -1,6 +1,8 @@
 package com.exam.cyberread.Model;
 
 import com.exam.cyberread.Exception.BookException;
+import com.exam.cyberread.Exception.MissingCategoryException;
+import com.exam.cyberread.Exception.MissingFilterException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -140,7 +142,7 @@ public class Book implements Serializable {
     private int filter;
     
     private String searchText;
-
+    
     public Book() {
     }
 
@@ -1375,6 +1377,99 @@ public class Book implements Serializable {
     
     
     /**
+     * @param userId
+     * @param categoryId
+     * @param categoryName
+     * 
+     * @return
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+            * saved
+            * price
+            * username
+     * 
+     * @throws BookException: Something wrong!
+     * @throws MissingCategoryException: The name of the category id is not the same as the category name!
+     */
+    public static JSONArray getAllBooksByCategory(Integer userId, Integer categoryId, String categoryName) throws BookException, MissingCategoryException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getAllBooksByCategory");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("categoryIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("categoryNameIN", String.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
+            
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("categoryIdIN", categoryId);
+            spq.setParameter("categoryNameIN", categoryName);
+
+            spq.execute();
+            
+            Integer resultOUT = (Integer) spq.getOutputParameterValue("result");
+            
+            switch (resultOUT) {
+                case 1:
+                    List<Object[]> resultList = spq.getResultList();
+                    JSONArray books = new JSONArray();
+                    
+                    for(Object[] result : resultList) {
+                        JSONObject book = new JSONObject();
+                        book.put("id", (Integer) result[0]);
+                        book.put("coverImage", (String) result[1]);
+                        book.put("title", (String) result[2]);
+                        book.put("firstName", (String) result[3]);
+                        book.put("lastName", (String) result[4]);
+                        book.put("publisher", (String) result[5]);
+                        book.put("description", (String) result[6]);
+                        book.put("pagesNumber", (Integer) result[7]);
+                        book.put("rating", (BigDecimal) result[8]);
+                        book.put("language", (String) result[9]);
+                        if((Integer) result[10] == 0) {
+                            book.put("saved", false);
+                        } else {
+                            book.put("saved", true);
+                        }
+                        book.put("price", (Integer) result[11]);
+                        book.put("username", (String) result[12]);
+                        
+                        books.put(book);
+                    }
+                    
+                    return books;
+                case 2:
+                    throw new MissingCategoryException();
+                default:
+                    throw new BookException("Something wrong!");
+            }
+        } catch(MissingCategoryException ex) {
+            throw ex;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getAllBooksByCategory() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param filter
      * @param categoryId
      * 
      * @return
@@ -1394,83 +1489,10 @@ public class Book implements Serializable {
             * username
      * 
      * @throws BookException: Something wrong
+     * @throws MissingCategoryException: This category does not exist!
+     * @throws MissingFilterException: This filter number does not exist!
      */
-    public static JSONArray getAllBooksByCategory(Integer userId, Integer categoryId) throws BookException {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
-        EntityManager em = emf.createEntityManager();
-
-        try {
-            StoredProcedureQuery spq = em.createStoredProcedureQuery("getAllBooksByCategory");
-            
-            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
-            spq.registerStoredProcedureParameter("categoryIdIN", Integer.class, ParameterMode.IN);
-            
-            spq.setParameter("userIdIN", userId);
-            spq.setParameter("categoryIdIN", categoryId);
-
-            spq.execute();
-            
-            List<Object[]> resultList = spq.getResultList();
-            JSONArray books = new JSONArray();
-            
-            for(Object[] result : resultList) { 
-                JSONObject book = new JSONObject();
-                book.put("id", (Integer) result[0]);
-                book.put("coverImage", (String) result[1]);
-                book.put("title", (String) result[2]);
-                book.put("firstName", (String) result[3]);
-                book.put("lastName", (String) result[4]);
-                book.put("publisher", (String) result[5]);
-                book.put("description", (String) result[6]);
-                book.put("pagesNumber", (Integer) result[7]);
-                book.put("rating", (BigDecimal) result[8]);
-                book.put("language", (String) result[9]);
-                if((Integer) result[10] == 0) {
-                    book.put("saved", false);
-                } else {
-                    book.put("saved", true);
-                }
-                book.put("price", (Integer) result[11]);
-                book.put("username", (String) result[12]);
-                
-                books.put(book);
-            }
-            
-            return books;
-        } catch(Exception ex) {
-            System.err.println(ex.getMessage());
-            throw new BookException("Error in getAllBooksByCategory() method!");
-        } finally {
-            em.clear();
-            em.close();
-            emf.close();
-        }
-    }
-    
-    
-    /**
-     * @param userId
-     * @param filter
-     * 
-     * @return
-        * books:
-            * book id
-            * cover image
-            * title
-            * first name
-            * last name
-            * publisher company name
-            * description
-            * pages number
-            * book rating
-            * language
-            * saved
-            * price
-            * username
-     * 
-     * @throws BookException: Something wrong
-     */
-    public static JSONArray getFilteredBooks(Integer userId, Integer filter) throws BookException {
+    public static JSONArray getFilteredBooks(Integer userId, Integer filter, Integer categoryId) throws BookException, MissingCategoryException, MissingFilterException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
         EntityManager em = emf.createEntityManager();
 
@@ -1479,39 +1501,55 @@ public class Book implements Serializable {
             
             spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("filter", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("categoryIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
             
             spq.setParameter("userIdIN", userId);
             spq.setParameter("filter", filter);
+            spq.setParameter("categoryIdIN", categoryId);
 
             spq.execute();
             
-            List<Object[]> resultList = spq.getResultList();
-            JSONArray books = new JSONArray();
+            Integer resultOUT = (Integer) spq.getOutputParameterValue("result");
             
-            for(Object[] result : resultList) { 
-                JSONObject book = new JSONObject();
-                book.put("id", (Integer) result[0]);
-                book.put("coverImage", (String) result[1]);
-                book.put("title", (String) result[2]);
-                book.put("firstName", (String) result[3]);
-                book.put("lastName", (String) result[4]);
-                book.put("publisher", (String) result[5]);
-                book.put("description", (String) result[6]);
-                book.put("pagesNumber", (Integer) result[7]);
-                book.put("rating", (BigDecimal) result[8]);
-                book.put("language", (String) result[9]);
-                if((Integer) result[10] == 0) {
-                    book.put("saved", false);
-                } else {
-                    book.put("saved", true);
-                }
-                book.put("price", (Integer) result[11]);
-                book.put("username", (String) result[12]);
-                
-                books.put(book);
+            switch (resultOUT) {
+                case 1:
+                    List<Object[]> resultList = spq.getResultList();
+                    JSONArray books = new JSONArray();
+                    
+                    for(Object[] result : resultList) {
+                        JSONObject book = new JSONObject();
+                        book.put("id", (Integer) result[0]);
+                        book.put("coverImage", (String) result[1]);
+                        book.put("title", (String) result[2]);
+                        book.put("firstName", (String) result[3]);
+                        book.put("lastName", (String) result[4]);
+                        book.put("publisher", (String) result[5]);
+                        book.put("description", (String) result[6]);
+                        book.put("pagesNumber", (Integer) result[7]);
+                        book.put("rating", (BigDecimal) result[8]);
+                        book.put("language", (String) result[9]);
+                        if((Integer) result[10] == 0) {
+                            book.put("saved", false);
+                        } else {
+                            book.put("saved", true);
+                        }
+                        book.put("price", (Integer) result[11]);
+                        book.put("username", (String) result[12]);
+                        
+                        books.put(book);
+                    }
+                    
+                    return books;
+                case 2:
+                    throw new MissingCategoryException("This category does not exist!");
+                case 3:
+                    throw new MissingFilterException("This filter number does not exist!");
+                default:
+                    throw new BookException("Something wrong!");
             }
-            
-            return books;
+        } catch(MissingCategoryException | MissingFilterException ex) {
+            throw ex;
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
             throw new BookException("Error in getFilteredBooks() method!");
@@ -1660,6 +1698,306 @@ public class Book implements Serializable {
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
             throw new BookException("Error in getSavedBooksByUserId() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * 
+     * @return
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+            * username
+     * 
+     * @throws BookException: Something wrong!
+     */
+    public static JSONArray getPayedBooksByUserId(Integer userId) throws BookException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getPayedBooksByUserId");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            
+            spq.setParameter("userIdIN", userId);
+
+            spq.execute();
+            
+            List<Object[]> resultList = spq.getResultList();
+            JSONArray books = new JSONArray();
+            
+            for(Object[] result : resultList) { 
+                JSONObject book = new JSONObject();
+                book.put("id", (Integer) result[0]);
+                book.put("coverImage", (String) result[1]);
+                book.put("title", (String) result[2]);
+                book.put("firstName", (String) result[3]);
+                book.put("lastName", (String) result[4]);
+                book.put("publisher", (String) result[5]);
+                book.put("description", (String) result[6]);
+                book.put("pagesNumber", (Integer) result[7]);
+                book.put("rating", (BigDecimal) result[8]);
+                book.put("language", (String) result[9]);
+                book.put("username", (String) result[10]);
+                
+                books.put(book);
+            }
+            
+            return books;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getPayedBooksByUserId() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * 
+     * @return
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+            * price
+            * username
+     * 
+     * @throws BookException: Something wrong!
+     */
+    public static JSONArray getPublishedBooksByUserId(Integer userId) throws BookException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getPublishedBooksByUserId");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            
+            spq.setParameter("userIdIN", userId);
+
+            spq.execute();
+            
+            List<Object[]> resultList = spq.getResultList();
+            JSONArray books = new JSONArray();
+            
+            for(Object[] result : resultList) { 
+                JSONObject book = new JSONObject();
+                book.put("id", (Integer) result[0]);
+                book.put("coverImage", (String) result[1]);
+                book.put("title", (String) result[2]);
+                book.put("firstName", (String) result[3]);
+                book.put("lastName", (String) result[4]);
+                book.put("publisher", (String) result[5]);
+                book.put("description", (String) result[6]);
+                book.put("pagesNumber", (Integer) result[7]);
+                book.put("rating", (BigDecimal) result[8]);
+                book.put("language", (String) result[9]);
+                book.put("price", (Integer) result[10]);
+                book.put("username", (String) result[11]);
+                
+                books.put(book);
+            }
+            
+            return books;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getPublishedBooksByUserId() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param categoryId
+     * 
+     * @return
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+            * price
+            * username
+     * 
+     * @throws BookException: Something wrong!
+     * @throws MissingCategoryException: The categoryId is wrong!
+     */
+    public static JSONArray getSavedBooksByCategoryId(Integer userId, Integer categoryId) throws BookException, MissingCategoryException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getSavedBooksByCategoryId");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("categoryIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
+            
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("categoryIdIN", categoryId);
+
+            spq.execute();
+            
+            Integer resultOUT = (Integer) spq.getOutputParameterValue("result");
+            
+            switch(resultOUT) {
+                case 1:
+                    List<Object[]> resultList = spq.getResultList();
+                    JSONArray books = new JSONArray();
+
+                    for(Object[] result : resultList) { 
+                        JSONObject book = new JSONObject();
+                        book.put("id", (Integer) result[0]);
+                        book.put("coverImage", (String) result[1]);
+                        book.put("title", (String) result[2]);
+                        book.put("firstName", (String) result[3]);
+                        book.put("lastName", (String) result[4]);
+                        book.put("publisher", (String) result[5]);
+                        book.put("description", (String) result[6]);
+                        book.put("pagesNumber", (Integer) result[7]);
+                        book.put("rating", (BigDecimal) result[8]);
+                        book.put("language", (String) result[9]);
+                        book.put("price", (Integer) result[10]);
+                        book.put("username", (String) result[11]);
+
+                        books.put(book);
+                    }
+                    
+                    return books;
+                case 2:
+                    throw new MissingCategoryException("This category does not exist!");
+                default:
+                    throw new BookException("Something wrong!");
+            }
+        } catch(MissingCategoryException ex) {
+            throw ex;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getSavedBooksByCategoryId() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param filter
+     * 
+     * @return
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+            * saved
+            * price
+            * username
+     * 
+     * @throws BookException: Something wrong
+     * @throws MissingFilterException: This filter number does not exist!
+     */
+    public static JSONArray getFilteredSavedBooks(Integer userId, Integer filter) throws BookException, MissingFilterException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getFilteredSavedBooks");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("filter", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
+            
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("filter", filter);
+
+            spq.execute();
+            
+            Integer resultOUT = (Integer) spq.getOutputParameterValue("result");
+            
+            switch (resultOUT) {
+                case 1:
+                    List<Object[]> resultList = spq.getResultList();
+                    JSONArray books = new JSONArray();
+                    
+                    for(Object[] result : resultList) {
+                        JSONObject book = new JSONObject();
+                        book.put("id", (Integer) result[0]);
+                        book.put("coverImage", (String) result[1]);
+                        book.put("title", (String) result[2]);
+                        book.put("firstName", (String) result[3]);
+                        book.put("lastName", (String) result[4]);
+                        book.put("publisher", (String) result[5]);
+                        book.put("description", (String) result[6]);
+                        book.put("pagesNumber", (Integer) result[7]);
+                        book.put("rating", (BigDecimal) result[8]);
+                        book.put("language", (String) result[9]);
+                        if((Integer) result[10] == 0) {
+                            book.put("saved", false);
+                        } else {
+                            book.put("saved", true);
+                        }
+                        book.put("price", (Integer) result[11]);
+                        book.put("username", (String) result[12]);
+                        
+                        books.put(book);
+                    }
+                    
+                    return books;
+                case 2:
+                    throw new MissingFilterException("This filter number does not exist!");
+                default:
+                    throw new BookException("Something wrong!");
+            }
+        } catch(MissingFilterException ex) {
+            throw ex;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getFilteredSavedBooks() method!");
         } finally {
             em.clear();
             em.close();
