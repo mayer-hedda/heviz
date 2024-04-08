@@ -1110,10 +1110,7 @@ async function getRecommandedUsers() {
  *  }
  * 
  * @return
-    * 200:
-        * recommanded users
-            * username
-            * image
+    * 200: successfully added category interest
     * 
     * 401:
         * User hasn't token
@@ -1990,6 +1987,64 @@ async function deleteBook(raw) {
 }
 
 
+/**
+ * @param {JSON} raw = {
+ *      "pagesNumber": 1,
+ *      "profileUsername": "ifj_regenyek"
+ * }
+ * 
+ * @return
+    * 200: publisher's writer's:
+        * image
+        * username
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 422:
+        * pagesNumberError
+        * profileUsernameError
+ */
+async function getPublishersWriters(raw) {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/getPublishersWriters", requestOptions);
+
+        if (response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        } else if (response.status == 422 || response.status == 200) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
+        }
+
+        return { status: response.status }
+    } catch (error) {
+        return { error: error }
+    }
+}
+
+
 
 // ----- HELP CENTER -----
 
@@ -2239,7 +2294,7 @@ async function getSearchBooks(raw) {
 
 
 
-// ----- SAVED BOOKS -----
+// ----- MY BOOKS -----
 
 /**
  * @return
@@ -2300,6 +2355,125 @@ async function getSavedBooksByUserId() {
 }
 
 
+/**
+ * @return
+    * 200:
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+            * username
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 403: User is not a general user!
+ */
+async function getPayedBooksByUserId() {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getPayedBooksByUserId", requestOptions);
+
+        if (response.status == 200) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
+        }
+        if (response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        }
+
+        return { status: response.status }
+    } catch (error) {
+        return { error: error }
+    }
+}
+
+
+/**
+ * @return
+    * 200:
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+            * price
+            * username
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 403: User is not a publisher user!
+ */
+async function getPublishedBooksByUserId() {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getPublishedBooksByUserId", requestOptions);
+
+        if (response.status == 200) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
+        }
+        if (response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        }
+
+        return { status: response.status }
+    } catch (error) {
+        return { error: error }
+    }
+}
+
+
 
 // ----- SETTINGS -----
 
@@ -2309,7 +2483,8 @@ async function getSavedBooksByUserId() {
  * }
  * 
  * @return
-    * 200: Successfully set username
+    * 200: 
+        * jwt
     * 401:
         * User hasn't token
         * Invalid token
@@ -2906,7 +3081,8 @@ async function setIntroDescription(raw) {
  * }
  * 
  * @return
-    * 200: Successfully set profile image
+    * 200: 
+        * jwt
     * 401:
         * User hasn't token
         * Invalid token
