@@ -9,16 +9,16 @@ public class FollowService {
     
     /**
      * @param userId
-     * @param followUserId
+     * @param followedUsername
      * 
      * @return
         * followUserError
      * 
      * @throws FollowException: Something wrong
      */
-    public static JSONObject followUser(Integer userId, Integer followUserId) throws FollowException {
+    public static JSONObject followUser(Integer userId, String followedUsername) throws FollowException {
         try {
-            return Follow.followUser(userId, followUserId);
+            return Follow.followUser(userId, followedUsername);
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
             throw new FollowException("Error in followUser() method!");
@@ -28,16 +28,16 @@ public class FollowService {
     
     /**
      * @param userId
-     * @param followUserId
+     * @param followedUsername
      * 
      * @return
         * unfollowedUserError
      * 
      * @throws FollowException: Something wrong
      */
-    public static JSONObject unfollowedUser(Integer userId, Integer followUserId) throws FollowException {
+    public static JSONObject unfollowedUser(Integer userId, String followedUsername) throws FollowException {
         try {
-            return Follow.unfollowedUser(userId, followUserId);
+            return Follow.unfollowedUser(userId, followedUsername);
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
             throw new FollowException("Error in unfollowedUser() method!");

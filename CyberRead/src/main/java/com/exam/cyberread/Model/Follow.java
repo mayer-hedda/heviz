@@ -131,14 +131,14 @@ public class Follow implements Serializable {
     // --- MY PROCEDURES ---
     /**
      * @param userId
-     * @param followUserId
+     * @param followedUsername
      * 
      * @return
         * followUserError  
      * 
      * @throws FollowException: Something wrong
      */
-    public static JSONObject followUser(Integer userId, Integer followUserId) throws FollowException {
+    public static JSONObject followUser(Integer userId, String followedUsername) throws FollowException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
         EntityManager em = emf.createEntityManager();
 
@@ -146,11 +146,11 @@ public class Follow implements Serializable {
             StoredProcedureQuery spq = em.createStoredProcedureQuery("followUser");
             
             spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
-            spq.registerStoredProcedureParameter("followUserIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("followedUsernameIN", String.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
             
             spq.setParameter("userIdIN", userId);
-            spq.setParameter("followUserIdIN", followUserId);
+            spq.setParameter("followedUsernameIN", followedUsername);
 
             spq.execute();
             
@@ -175,14 +175,14 @@ public class Follow implements Serializable {
     
     /**
      * @param userId
-     * @param followUserId
+     * @param followedUsername
      * 
      * @return
         * unfollowedUserError  
      * 
      * @throws FollowException: Something wrong
      */
-    public static JSONObject unfollowedUser(Integer userId, Integer followUserId) throws FollowException {
+    public static JSONObject unfollowedUser(Integer userId, String followedUsername) throws FollowException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
         EntityManager em = emf.createEntityManager();
 
@@ -190,11 +190,11 @@ public class Follow implements Serializable {
             StoredProcedureQuery spq = em.createStoredProcedureQuery("unfollowedUser");
             
             spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
-            spq.registerStoredProcedureParameter("followUserIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("followedUsernameIN", String.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
             
             spq.setParameter("userIdIN", userId);
-            spq.setParameter("followUserIdIN", followUserId);
+            spq.setParameter("followedUsernameIN", followedUsername);
 
             spq.execute();
             

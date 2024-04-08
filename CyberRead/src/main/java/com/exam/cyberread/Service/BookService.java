@@ -906,4 +906,39 @@ public class BookService {
         } 
     }
     
+    
+    /**
+     * @param userId
+     * @param filter
+     * 
+     * @return
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+            * saved
+            * price
+            * username
+     *
+     * @throws BookException: Something wrong!
+     * @throws MissingFilterException: This filter number does not exist!
+     */
+    public static JSONArray getFilteredSavedBooks(Integer userId, Integer filter) throws BookException, MissingFilterException {
+        try {
+            return Book.getFilteredSavedBooks(userId, filter);
+        } catch(BookException ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getFilteredSavedBooks() method!");
+        } catch(MissingFilterException ex) {
+            throw ex;
+        } 
+    }
+    
 }

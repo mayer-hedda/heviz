@@ -1916,5 +1916,93 @@ public class Book implements Serializable {
             emf.close();
         }
     }
+    
+    
+    /**
+     * @param userId
+     * @param filter
+     * 
+     * @return
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+            * saved
+            * price
+            * username
+     * 
+     * @throws BookException: Something wrong
+     * @throws MissingFilterException: This filter number does not exist!
+     */
+    public static JSONArray getFilteredSavedBooks(Integer userId, Integer filter) throws BookException, MissingFilterException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getFilteredSavedBooks");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("filter", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
+            
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("filter", filter);
+
+            spq.execute();
+            
+            Integer resultOUT = (Integer) spq.getOutputParameterValue("result");
+            
+            switch (resultOUT) {
+                case 1:
+                    List<Object[]> resultList = spq.getResultList();
+                    JSONArray books = new JSONArray();
+                    
+                    for(Object[] result : resultList) {
+                        JSONObject book = new JSONObject();
+                        book.put("id", (Integer) result[0]);
+                        book.put("coverImage", (String) result[1]);
+                        book.put("title", (String) result[2]);
+                        book.put("firstName", (String) result[3]);
+                        book.put("lastName", (String) result[4]);
+                        book.put("publisher", (String) result[5]);
+                        book.put("description", (String) result[6]);
+                        book.put("pagesNumber", (Integer) result[7]);
+                        book.put("rating", (BigDecimal) result[8]);
+                        book.put("language", (String) result[9]);
+                        if((Integer) result[10] == 0) {
+                            book.put("saved", false);
+                        } else {
+                            book.put("saved", true);
+                        }
+                        book.put("price", (Integer) result[11]);
+                        book.put("username", (String) result[12]);
+                        
+                        books.put(book);
+                    }
+                    
+                    return books;
+                case 2:
+                    throw new MissingFilterException("This filter number does not exist!");
+                default:
+                    throw new BookException("Something wrong!");
+            }
+        } catch(MissingFilterException ex) {
+            throw ex;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getFilteredSavedBooks() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
         
 }
