@@ -2294,7 +2294,7 @@ async function getSearchBooks(raw) {
 
 
 
-// ----- OWN BOOKS -----
+// ----- MY BOOKS -----
 
 /**
  * @return
@@ -2471,19 +2471,6 @@ async function getPublishedBooksByUserId() {
     } catch (error) {
         return { error: error }
     }
-}
-
-
-/**
- * @param {JSON} raw = {
- *      "id": 1
- *  }
- * 
- * @return
-    * 200:
- */
-async function getSavedBooksByCategoryId(raw) {
-
 }
 
 
