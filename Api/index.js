@@ -1722,7 +1722,7 @@ async function deleteSavedBook(raw) {
 
 /**
  * @param {JSON} raw = {
- *      "followedId": 2
+ *      "username": "lilapapucs"
  *  }
  * 
  * @return
@@ -1775,7 +1775,7 @@ async function followUser(raw) {
 
 /**
  * @param {JSON} raw = {
- *      "followedId": 1
+ *      "username": "lilapapucs"
  *  }
  * 
  * @return
