@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Ápr 07. 21:23
+-- Létrehozás ideje: 2024. Ápr 08. 14:59
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -162,38 +162,73 @@ WHERE `helpcenter`.`active` = 1$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllBooksByCategory` (IN `userIdIN` INT, IN `categoryIdIN` INT, IN `categoryNameIN` VARCHAR(50), OUT `result` INT)   BEGIN
 
+	DECLARE rank VARCHAR(20);
+
 	IF (SELECT `category`.`name` FROM `category` WHERE `category`.`id` = categoryIdIN) != categoryNameIN THEN
     	
         SET result = 2;
     
     ELSE
+    
+    	SELECT `user`.`rank` INTO rank FROM `user` WHERE `user`.`id` = userIdIN;
 
-        SELECT
-            `book`.`id`,
-            `book`.`coverImage`,
-            `book`.`title`,
-            `writer`.`firstName`,
-            `writer`.`lastName`,
-            `publisher`.`companyName`,
-            `book`.`description`,
-            `book`.`pagesNumber`,
-            `bookrat`.`rat`,
-            `language`.`code`,
-            IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
-            `book`.`price`,
-            `writer`.`username`
-        FROM `book`
-        INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-        LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
-        LEFT JOIN (
-            SELECT `bookrating`.`bookId`,
-            AVG(`bookrating`.`rating`) AS `rat`
-            FROM `bookrating`
-            GROUP BY `bookrating`.`bookId`
-        ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
-        INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
-        LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-    	WHERE `book`.`categoryId` = categoryIdIN;
+		IF rank = "general" THEN
+            SELECT
+                `book`.`id`,
+                `book`.`coverImage`,
+                `book`.`title`,
+                `writer`.`firstName`,
+                `writer`.`lastName`,
+                `publisher`.`companyName`,
+                `book`.`description`,
+                `book`.`pagesNumber`,
+                `bookrat`.`rat`,
+                `language`.`code`,
+                IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+                `book`.`price`,
+                `writer`.`username`
+            FROM `book`
+            INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+            LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+            LEFT JOIN (
+                SELECT `bookrating`.`bookId`,
+                AVG(`bookrating`.`rating`) AS `rat`
+                FROM `bookrating`
+                GROUP BY `bookrating`.`bookId`
+            ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+            INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+            LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+            WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+            ORDER BY RAND();
+        ELSEIF rank = "publisher" THEN
+        	SELECT
+                `book`.`id`,
+                `book`.`coverImage`,
+                `book`.`title`,
+                `writer`.`firstName`,
+                `writer`.`lastName`,
+                `publisher`.`companyName`,
+                `book`.`description`,
+                `book`.`pagesNumber`,
+                `bookrat`.`rat`,
+                `language`.`code`,
+                IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+                `book`.`price`,
+                `writer`.`username`
+            FROM `book`
+            INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+            LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+            LEFT JOIN (
+                SELECT `bookrating`.`bookId`,
+                AVG(`bookrating`.`rating`) AS `rat`
+                FROM `bookrating`
+                GROUP BY `bookrating`.`bookId`
+            ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+            INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+            LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+            WHERE `book`.`categoryId` = categoryIdIN AND `book`.`status` = "looking for a publisher"
+            ORDER BY RAND();
+        END IF;
         
         SET result = 1;
         
