@@ -103,9 +103,10 @@ window.onload = async function () {
                 c_name.innerText = categoryFromLink;
                 current_page.innerText = categoryFromLink;
                 categoryId = urlParams.get('id');
+                categoryFromLink = categoryFromLink.toLowerCase();
 
                 console.log(categoryId);
-                const categoryResponse = await getAllBooksByCategory({ "id": categoryId });
+                const categoryResponse = await getAllBooksByCategory({ "name": categoryFromLink, "id": categoryId });
 
                 switch (categoryResponse.status) {
                     case 200:
@@ -299,14 +300,14 @@ function LoadCategoryResult(response) {
     }
 }
 
-const searchBTN = document.getElementById('search-btn');
-const search_input = document.getElementById('search-input');
+const searchBTN = document.getElementById('searchBTN');
+const search_input = document.getElementById('searchKeyword');
 
 searchBTN.addEventListener('click', async function (event) {
     event.preventDefault();
-    const s_value = search_input.value;
+    const s_value = search_input.value.trim();
 
-    if (s_value.trim() != "") {
+    if (s_value != "") {
         const searchResult = await getSearchBooks({ "searchText": `${s_value}` });
 
         switch (searchResult.status) {

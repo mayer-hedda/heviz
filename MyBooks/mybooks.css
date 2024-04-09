@@ -411,8 +411,8 @@ form {
     flex-direction: column;
 }
 
-.medium-h2 {
-    margin-top: 30px;
+.medium-h2{
+    margin-top: 20px;
     margin-left: 25px;
     font-size: 25px;
     font-family: 'Poppins-Medium', sans-serif;
@@ -440,7 +440,7 @@ form {
     color: #B43C82!important;
 }
 
-.medium-desc {
+.medium-desc{
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
@@ -453,6 +453,9 @@ form {
     padding-left: 12px;
     text-align: justify;
     padding-right: 20px;
+    margin-bottom: 0px;
+    word-wrap: break-word;
+    width: 370px;
 }
 
 .moreBtn-medium {

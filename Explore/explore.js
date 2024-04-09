@@ -32,11 +32,11 @@ window.onload = async function () {
             localStorage.removeItem('searchResult');
             localStorage.removeItem('Error Code:');
             localStorage.removeItem('bookId');
-            
+
             username.innerText = `@${tokenResponse.data.username}`;
             profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;
 
-            document.getElementById('profile-link').addEventListener('click', (e)=>{
+            document.getElementById('profile-link').addEventListener('click', (e) => {
                 window.location.href = `../Profile/profile.html?username=${tokenResponse.data.username}`;
             });
 
@@ -46,11 +46,11 @@ window.onload = async function () {
                 document.getElementById('writingBtn').hidden = true;
                 SavedBooks.textContent = "Saved Books";
 
-                HomePage.addEventListener('click',(e)=>{
+                HomePage.addEventListener('click', (e) => {
                     window.location.href = '../Publisher-Home/PubHome.html';
                 });
-            }else{
-                HomePage.addEventListener('click',(e)=>{
+            } else {
+                HomePage.addEventListener('click', (e) => {
                     window.location.href = '../General-HomePage/GenHome.html';
                 });
 
@@ -156,27 +156,33 @@ function navigateToCategory(categoryName, categoryId) {
 const searchBTN = document.getElementById('searchBTN');
 const search_input = document.getElementById('searchKeyword');
 
-searchBTN.addEventListener('click', async function(event){
+searchBTN.addEventListener('click', async function (event) {
     event.preventDefault();
-    const searchResult = await getSearchBooks({"searchText": `${search_input.value}`});
+    const s_value = search_input.value.trim();
 
-    switch (searchResult.status){
-        case 200:
-            localStorage.setItem('searchResult', JSON.stringify(searchResult.data.books));
-            window.location.href = `./category.html?search=${search_input.value}`;
-            search_input.value ="";
-            break;
-        case 401:
-            window.location.href = "../Log-in/login.html";
-            break;
-        case 422:
-            alert("422 - Something went wrong. Please try again later.");
-            console.error("Error: " + responseUser);
-            break;
+    if (s_value != "") {
+        const searchResult = await getSearchBooks({ "searchText": `${s_value}` });
 
-        default:
-            alert("Somethings went wrong. Please try again later. Status: " + searchResult.status);
-            break;
+        switch (searchResult.status) {
+            case 200:
+                localStorage.setItem('searchResult', JSON.stringify(searchResult.data.books));
+                window.location.href = `./category.html?search=${s_value}`;
+                s_value = "";
+                break;
+            case 401:
+                window.location.href = "../Log-in/login.html";
+                break;
+            case 422:
+                alert("422 - Something went wrong. Please try again later.");
+                console.error("Error: " + responseUser);
+                break;
+
+            default:
+                alert("Somethings went wrong. Please try again later. Status: " + searchResult.status);
+                break;
+        }
+    }else {
+        alert("Please enter a valid search term. Searching with an empty field is not possible.");
     }
 });
 

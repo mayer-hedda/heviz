@@ -280,7 +280,7 @@ nav {
 }
 
 .medium-h2{
-    margin-top: 30px;
+    margin-top: 20px;
     margin-left: 25px;
     font-size: 25px;
     font-family: 'Poppins-Medium', sans-serif;
@@ -313,6 +313,9 @@ nav {
     padding-left: 12px;
     text-align: justify;
     padding-right: 20px;
+    margin-bottom: 0px;
+    word-wrap: break-word;
+    width: 370px;
 }
 
 .medium-right-side{
@@ -321,7 +324,6 @@ nav {
 }
 
 .moreBtn-medium{
-    /* align-items: baseline; */
     margin-left: 30px;
     margin-top: 5%;
 }

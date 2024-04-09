@@ -522,7 +522,7 @@ Ha találok rá jobb megoldást javítom :)  */
 }
 
 .medium-h2 {
-    margin-top: 30px;
+    margin-top: 20px;
     margin-left: 25px;
     font-size: 25px;
     font-family: 'Poppins-Medium', sans-serif;
@@ -567,7 +567,10 @@ Ha találok rá jobb megoldást javítom :)  */
     font-size: 16px;
     padding-left: 12px;
     text-align: justify;
+    margin-bottom: 0px;
     padding-right: 20px;
+    word-wrap: break-word;
+    width: 370px;
 }
 
 .moreBtn-medium {
