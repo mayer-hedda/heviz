@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="feed.css">
+
 
     <!--? Bootstrap  -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -13,6 +13,8 @@
 
     <!--? bootstrap icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+
+    <link rel="stylesheet" href="feed.css">
 
     <title>Feed</title>
 
@@ -36,37 +38,45 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse  justify-content-center" id="navbarNav">
-                <div class="navbar-nav text-center">
-                    <a class="nav-link" aria-current="page" id="HomePage" href="../General-HomePage/GenHome.html">Home
-                        Page</a>
-                    <a class="nav-link active" id="Feed" href="#">Feed</a>
-                    <a class="nav-link" id="Explore" href="../GenExplore/genExplore.html">Explore</a>
-                    <a class="nav-link" id="SavedBooks" href="#">Saved Books</a>
+            <div class="collapse navbar-collapse " id="navbarNav" style="margin-left: 195px;">
+                <div class="navbar-nav text-center justify-content-center">
+                    <a class="nav-link" aria-current="page" id="HomePage">Home Page</a>
+                    <a class="nav-link active" id="Feed" onclick="window.location.reload()">Feed</a>
+                    <a class="nav-link" id="Explore" href="../Explore/explore.html">Explore</a>
+                    <a class="nav-link" id="SavedBooks" href="../MyBooks/mybooks.html"></a>
                 </div>
 
-            </div>
 
-            <button role="button" type="submit" class="btn align-content-center" id="writingBtn"
-                onclick="window.location.href='../Create Book/createBook.html'">
-                Start Witing
-            </button>
 
-            <!--? Profilkép helye -->
-            <div id="profile-icon" class="rounded-circle"></div>
-            <!--? User nevének helye -->
-            <div id="user-name">
-                <div class="dropdown">
-                    <button class="bg-transparent border-0 dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        <p id="userName-p"></p>
+                <div id="usernamePicture">
+                    <button role="button" type="submit" class="btn align-content-center" id="writingBtn"
+                        onclick="window.location.href='../Create Book/createBook.html'">
+                        Start Witing
                     </button>
 
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" id="Logout">Log Out</a></li>
-                        <li id="profile-link"><a class="dropdown-item">Profile</a></li>
-                    </ul>
+                    <!-- <div id="user"> -->
+                    <!--? Profilkép helye -->
+                    <div id="profile-icon" class="rounded-circle"></div>
+
+                    <!--? User nevének helye -->
+                    <div id="user-name">
+                        <div class="dropdown">
+                            <button class="bg-transparent border-0 dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <p id="userName-p"></p>
+                            </button>
+
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" id="Logout">Log Out</a></li>
+                                <li id="profile-link"><a class="dropdown-item">Profile</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- </div> -->
+
+
                 </div>
+
             </div>
         </div>
     </nav>
@@ -75,13 +85,15 @@
     <section id="first-section">
 
         <div class="container-fluid">
-            <div class="row">
+            <div id="row-div">
                 <div class="col-8 left-side">
                     <!-- TODO: POST SECTION -->
                     <div id="kulsoPostCard">
                         <div class="container" id="no-Post" hidden>
-                            <p class="missing-data-text text-center">Unfortunately, we are unable to display any posts. To see posts, you must follow users.</p>
+                            <p class="missing-data-text text-center">Unfortunately, we are unable to display any posts.
+                                To see posts, you must follow users.</p>
                         </div>
+
                     </div>
                 </div>
 
@@ -93,11 +105,19 @@
                             <!-- suggested profiles -->
                         </div>
 
-                        <button type="button" class="btn" id="post-BTN" data-bs-toggle="modal"
-                            data-bs-target="#postModal"><i class="bi bi-plus-circle"></i> What's in your mind?</button>
-
                     </div>
                 </div>
+            </div>
+
+            <div class="fixed-bottom-right">
+                <button type="button" class="btn" id="post-BTN" data-bs-toggle="modal" data-bs-target="#postModal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                    </svg>
+                </button>
             </div>
         </div>
 
@@ -146,7 +166,7 @@
         <div class="container-fluid align-content-center">
 
             <div class="row">
-                <div class=" col-12 col-sm-6 d-flex align-items-center mx-auto">
+                <div class=" col-12 col-sm-6 d-flex align-items-center mx-auto" id="footer-logo-div">
                     <!-- capterX logo -->
                     <img src="../pictures/LOGO.svg" id="footer-logo">
                 </div>
@@ -154,7 +174,7 @@
                     <!-- hasznos linkek -->
                     <h3 id="footer-h3" class="textCentered">Useful Links</h3>
                     <ul id="footer-ul">
-                        <li id="email"><i class="bi bi-google"
+                        <li id="email"><i class="icon bi bi-google"
                                 style="margin-right: 0.625rem;"></i>cyberread2023@gmail.com
                         </li>
                         <li id="facebook"><i class="bi bi-facebook" style="margin-right: 0.625rem;"></i><a
@@ -163,7 +183,10 @@
                                 href="https://instagram.com/cyberread2023?igshid=MzRlODBiNWFlZA==">Instagram</a>
                         </li>
                         <li id="help-center"><i class="bi bi-info-circle-fill" style="margin-right: 0.625rem;"></i><a
-                                href="#">Help Center</a></li>
+                                href="../HelpCenter/helpcenter.html">Help Center</a></li>
+                        <li id="help-center"><img src="../icons/C-logo.svg"
+                                style="width: 25px; margin-right: 0.313rem;"><a href="../About Us/aboutus.html">About
+                                Us</a></li>
                     </ul>
                 </div>
                 <div id="copy-right-div" class="text-end">
@@ -177,7 +200,7 @@
         </div>
     </footer>
 
-   
+
 
 
     <!--? Bootstrap  -->

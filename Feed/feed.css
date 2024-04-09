@@ -1,16 +1,1378 @@
 /** ----------- MEDIA QUERY ------------------------*/
-@media (max-width: 576px) {
-    nav .navbar-toggler {
-        order: 3 !important;
-        margin-left: 0rem !important;
+@media (min-width: 250px) and (max-width:309px) {
+    #logo {
+        width: 100px;
     }
 
-    section {
-        width: auto !important;
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
     }
 
+    #navbarNav {
+        margin-left: 40px!important;
+    }
+
+    #navbar a {
+        font-size: 15px !important;
+        padding-top: 15px !important;
+        padding-bottom: 0px !important;
+        display: flex !important;
+        justify-content: right;
+    }
+
+    #writingBtn {
+        margin-top: 20px;
+        margin-right: 0px !important;
+    }
+
+    .col-8,
+    .col-4 {
+        width: 100% !important;
+    }
+
+    .right-side {
+        border-left: 0px !important;
+        left: 0% !important;
+        position: absolute !important;
+        height: fit-content !important;
+    }
+
+    .left-side {
+        width: 100%;
+        margin-top: 130px;
+    }
+
+    #suggestion-div {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 30px !important;
+    }
+
+    .suggested-user {
+        margin-left: 0px !important;
+    }
+
+    .sug-user-name {
+        font-size: 12px !important;
+    }
+
+    .profile-suggestion {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .first-row {
+        flex-direction: column;
+        width: 165px !important;
+
+    }
+
+    .card-date-text {
+        width: 120px;
+        position: absolute;
+        top: -10px;
+        right: -50px;
+        font-size: 12px !important;
+    }
+
+    .smaller-user-profile-pic {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    .userName {
+        gap: 8px !important;
+        margin-left: 0% !important;
+    }
+
+    .card-user-name {
+        font-size: 12px !important;
+        width: 115px !important;
+    }
+
+    .btn-more {
+        display: none;
+    }
+
+    .post-profile-icon {
+        width: 30px !important;
+        height: 30px !important;
+    }
+
+    .post-card {
+        width: 200px !important;
+        padding: 16px !important;
+    }
+
+    .postText {
+        overflow: hidden !important;
+        width: 150px !important;
+        padding: 0px !important;
+        margin-left: 15px !important;
+    }
+
+    .post-text {
+        width: 140px !important;
+        word-wrap: break-word !important;
+        hyphens: manual !important;
+        font-size: 12px !important;
+    }
+
+    #post-BTN {
+        padding: 2px 7px 7px 7px !important;
+    }
+
+    #post-BTN svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .fixed-bottom-right {
+        position: sticky;
+        z-index: 999;
+        display: flex;
+        justify-content: right;
+        bottom: 30px !important;
+        margin-right: 5px !important;
+    }
+
+    .like-and-share {
+        padding-right: 0px !important;
+        bottom: 10px !important;
+        right: 15px !important;
+    }
+
+    svg.liked,
+    svg.bi-suit-heart-fill {
+        width: 15px;
+    }
+
+    #footer-logo-div {
+        width: 150px !important;
+    }
+
+    #footer-logo {
+        width: 120px;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    #useful-links {
+        padding: 0px;
+    }
+
+    #footer-ul {
+        margin-top: 0.938rem;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email {
+        font-size: 12px !important;
+    }
 }
 
+@media (min-width: 310px) and (max-width:375px) {
+    #logo {
+        width: 80px;
+    }
+
+    #navbarNav {
+        margin-left: 40px!important;
+    }
+
+    .navbar-toggler {
+        width: 30px;
+        height: 30px;
+    }
+
+    .navbar-toggler-icon {
+        width: 20px;
+        position: relative;
+        right: 7.5px;
+        bottom: 4px;
+    }
+
+    #navbar a {
+        font-size: 12px !important;
+        padding-top: 15px !important;
+        padding-bottom: 0px !important;
+        display: flex !important;
+        justify-content: right;
+    }
+
+    #writingBtn {
+        margin-top: 20px;
+        margin-right: auto !important;
+        margin-bottom: 30px;
+        font-size: 10px !important;
+        padding: 2px 7px;
+        margin-right: 0px !important;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #profile-icon img.rounded-circle {
+        width: 40px;
+        height: 40px;
+        margin-right: 90px;
+    }
+
+    #userName-p {
+        font-size: 12px !important;
+    }
+
+    .dropdown-toggle {
+        margin-right: 100px;
+    }
+
+    .dropdown-menu {
+        padding-top: 0px !important;
+    }
+
+    #first-section {
+        margin-top: 80px !important;
+        display: grid;
+        justify-content: center;
+        margin-bottom: 30px !important;
+    }
+
+    .col-8,
+    .col-4 {
+        width: 100% !important;
+    }
+
+    .right-side {
+        border-left: 0px !important;
+        left: 0% !important;
+        position: absolute !important;
+        height: fit-content !important;
+    }
+
+    #suggestion-div {
+        display: flex !important;
+        flex-direction: row !important;
+    }
+
+    #suggestion-h2{
+        font-size: 18px;
+    }
+
+    .smaller-user-profile-pic{
+        width: 40px!important;
+        height: 40px!important;
+    }
+
+    .suggested-user {
+        margin-left: 0px !important;
+    }
+
+    .sug-user-name {
+        font-size: 12px !important;
+    }
+
+    .profile-suggestion {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .btn-more {
+        display: none;
+    }
+
+    .left-side {
+        width: 100%;
+        margin-top: 200px;
+    }
+
+    .post-card {
+        width: 300px !important;
+        padding: 12px !important;
+    }
+
+    .first-row {
+        display: flex;
+        flex-direction: column !important;
+        justify-content: left !important;
+    }
+
+    .post-profile-icon {
+        width: 30px !important;
+        height: 30px !important;
+    }
+
+    .userName {
+        margin-top: 5px !important;
+        margin-left: 10px !important;
+        display: flex;
+        gap: 7px !important;
+        margin-bottom: 0px;
+    }
+
+    .card-user-name {
+        font-size: 12px !important;
+        margin-top: 5px !important;
+        margin-bottom: 5px;
+    }
+
+    .card-user-name:hover {
+        cursor: pointer;
+        color: #B43C82 !important;
+    }
+
+    .card-date-text {
+        width: 120px;
+        position: absolute;
+        margin-top: -18px;
+        right: 45px;
+        font-size: 12px !important;
+    }
+
+    .postText {
+        padding-right: 20px !important;
+        padding-left: 20px !important;
+        width: 300px !important;
+        overflow: hidden;
+    }
+
+    .post-text {
+        font-size: 13px !important;
+        width: 240px !important;
+        word-wrap: break-word !important;
+        hyphens: manual !important;
+    }
+
+    .like-and-share {
+        padding-right: 0px !important;
+        right: 15px !important;
+        bottom: 15px !important;
+    }
+
+    svg.liked,
+    svg.bi-suit-heart-fill {
+        width: 16px;
+    }
+
+    #post-BTN {
+        padding: 2px 7px 7px 7px !important;
+    }
+
+    #post-BTN svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .fixed-bottom-right {
+        /* display: none!important; */
+        position: sticky;
+        z-index: 999;
+        display: flex;
+        justify-content: right;
+        bottom: 30px !important;
+        margin-right: 10px !important;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email {
+        font-size: 13px !important;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+
+    #footer-ul {
+        margin-top: 20px !important;
+        padding-left: 0px;
+    }
+
+    #footer-ul i {
+        width: 10px !important;
+        height: 10px !important;
+    }
+
+    #footer-logo-div {
+        width: 150px !important;
+    }
+
+    #footer-logo {
+        width: 120px;
+    }
+}
+
+@media (min-width: 376px) and (max-width:425px) {
+    #logo {
+        width: 80px;
+    }
+
+    #navbarNav {
+        order: 3 !important;
+    }
+
+    .navbar-toggler {
+        width: 30px;
+        height: 30px;
+    }
+
+    .navbar-toggler-icon {
+        width: 20px;
+        position: relative;
+        right: 7.5px;
+        bottom: 4px;
+    }
+
+    #navbar a {
+        font-size: 15px !important;
+        padding-top: 15px !important;
+        padding-bottom: 0px !important;
+        display: flex !important;
+        justify-content: right;
+    }
+
+    #writingBtn {
+        margin-top: 20px;
+        margin-right: auto !important;
+        margin-bottom: 30px;
+        font-size: 14px !important;
+        padding: 5px 10px;
+        margin-right: 0px !important;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #profile-icon img.rounded-circle {
+        width: 40px;
+        height: 40px;
+        margin-right: 90px;
+    }
+
+    #userName-p {
+        font-size: 15px !important;
+    }
+
+    .dropdown-toggle {
+        margin-right: 90px;
+    }
+
+    .dropdown-menu {
+        padding-top: 0px !important;
+    }
+
+    .dropdown-menu li {
+        margin-bottom: 0px !important;
+        ;
+    }
+
+    .dropdown-item {
+        display: flex !important;
+        justify-content: center !important;
+    }
+
+    #first-section {
+        margin-top: 80px !important;
+        display: grid;
+        justify-content: center;
+        margin-bottom: 30px !important;
+    }
+
+    .col-8,
+    .col-4 {
+        width: 100% !important;
+    }
+
+    .right-side {
+        border-left: 0px !important;
+        left: 0% !important;
+        position: absolute !important;
+        height: fit-content !important;
+    }
+
+    .btn-more{
+        display: none;
+    }
+
+    #suggestion-div {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 30px !important;
+    }
+
+    .suggested-user {
+        margin-left: 0px !important;
+    }
+
+    .sug-user-name {
+        font-size: 12px !important;
+    }
+
+    .left-side {
+        width: 100%;
+        margin-top: 200px;
+    }
+
+    .profile-suggestion {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .smaller-user-profile-pic {
+        width: 50px !important;
+        height: 50px !important;
+    }
+
+    .post-card {
+        width: 350px !important;
+        padding: 16px !important;
+    }
+
+    .first-row{
+        gap: 20px;
+    }
+
+    .post-profile-icon {
+        width: 30px !important;
+        height: 30px !important;
+    }
+
+    .userName {
+        margin-top: 5px !important;
+        margin-left: 10px !important;
+    }
+
+    .card-user-name {
+        font-size: 14px !important;
+    }
+
+    .card-date-text {
+        font-size: 12px !important;
+        width: 120px;
+        position: absolute;
+        right: 80px;
+        top: -5px;
+    }
+
+    .postText {
+        padding-right: 20px !important;
+        padding-left: 20px !important;
+        width: 350px !important;
+        overflow: hidden;
+    }
+
+    .post-text {
+        font-size: 12px !important;
+        width: 280px !important;
+        word-wrap: break-word !important;
+        hyphens: manual !important;
+    }
+
+    .like-and-share {
+        padding-right: 0px !important;
+        right: 15px !important;
+        bottom: 15px !important;
+    }
+
+    svg.liked,
+    svg.bi-suit-heart-fill {
+        width: 18px;
+    }
+
+    .fixed-bottom-right {
+        position: sticky;
+        z-index: 999;
+        display: flex;
+        justify-content: right;
+        bottom: 30px !important;
+        margin-right: 10px !important;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email {
+        font-size: 15px !important;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    #footer-ul {
+        margin-top: 0.938rem;
+    }
+
+    #footer-logo-div {
+        width: 150px !important;
+    }
+
+    #footer-logo {
+        width: 120px;
+    }
+}
+
+@media (min-width: 426px) and (max-width: 500px) {
+
+    #logo {
+        width: 120px;
+    }
+
+    .navbar-toggler {
+        width: 40px;
+        height: 40px;
+    }
+
+    .navbar-toggler-icon {
+        width: 25px;
+        position: relative;
+        right: 5.5px;
+        bottom: 0px;
+    }
+
+    #navbar a {
+        font-size: 20px !important;
+        padding-top: 15px !important;
+        padding-bottom: 0px !important;
+        display: flex !important;
+        justify-content: right;
+    }
+
+    #userName-p {
+        font-size: 20px !important;
+    }
+
+    #profile-icon img.rounded-circle {
+        margin-right: 100px;
+        margin-bottom: 10px;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #writingBtn {
+        margin-top: 20px;
+        margin-right: auto !important;
+        margin-bottom: 30px;
+        font-size: 18px !important;
+        padding: 5px 10px;
+        margin-right: 0px !important;
+    }
+
+    .dropdown-toggle {
+        margin-right: 100px;
+    }
+
+    .dropdown-item {
+        display: flex !important;
+        justify-content: center !important;
+    }
+
+    #first-section {
+        margin-top: 100px !important;
+        display: grid;
+        justify-content: center;
+        margin-bottom: 30px !important;
+    }
+
+    .col-8,
+    .col-4 {
+        width: 100% !important;
+    }
+
+    .right-side {
+        border-left: 0px !important;
+        left: 0% !important;
+        position: absolute !important;
+        height: fit-content !important;
+    }
+
+    .btn-more{
+        display: none;
+    }
+
+    #suggestion-div {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 30px !important;
+    }
+
+    .suggested-user {
+        margin-left: 0px !important;
+    }
+
+    .sug-user-name {
+        font-size: 12px !important;
+    }
+
+    .profile-suggestion {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .left-side {
+        width: 100%;
+        margin-top: 150px;
+    }
+
+    .post-card {
+        width: 400px !important;
+        padding: 20px !important;
+    }
+
+    .first-row {
+        gap: 25px;
+    }
+
+    .post-profile-icon {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    .userName {
+        margin-left: 10px !important;
+    }
+
+    .card-user-name {
+        font-size: 18px !important;
+    }
+
+    .card-date-text {
+        font-size: 14px !important;
+        width: 150px;
+        position: absolute;
+        right: 85px;
+    }
+
+    .postText {
+        width: 350px!important;
+        padding-right: 20px !important;
+        padding-left: 20px !important;
+        overflow: hidden;
+    }
+
+    .post-text {
+        width: 280px!important;
+        font-size: 15px !important;
+        word-wrap: break-word !important;
+        hyphens: manual !important;
+    }
+
+    .like-and-share {
+        padding-right: 0px !important;
+        right: 20px !important;
+        bottom: 15px !important;
+    }
+
+    svg.liked,
+    svg.bi-suit-heart-fill {
+        width: 20px;
+    }
+
+    .fixed-bottom-right {
+        bottom: 50px !important;
+        margin-right: 10px !important;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email {
+        font-size: 15px !important;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    #footer-ul {
+        margin-top: 0.938rem;
+    }
+
+    #footer-logo-div {
+        width: 150px !important;
+    }
+
+    #footer-logo {
+        width: 120px;
+    }
+}
+
+@media (min-width: 501px) and (max-width: 630px){
+    .navbar-toggler {
+        width: 40px;
+        height: 40px;
+    }
+
+    .navbar-toggler-icon {
+        width: 25px;
+        position: relative;
+        right: 5.5px;
+        bottom: 0px;
+    }
+
+    #navbar a {
+        font-size: 20px !important;
+        padding-top: 15px !important;
+        padding-bottom: 0px !important;
+        display: flex !important;
+        justify-content: right;
+    }
+
+    #userName-p {
+        font-size: 20px !important;
+    }
+
+    #profile-icon img.rounded-circle {
+        margin-right: 220px;
+        margin-bottom: 10px;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #writingBtn {
+        margin-top: 20px;
+        margin-right: auto !important;
+        margin-bottom: 30px;
+        font-size: 18px !important;
+        padding: 5px 10px;
+        margin-right: 0px !important;
+    }
+
+    .dropdown-toggle {
+        margin-right: 220px;
+    }
+
+    .dropdown-item {
+        display: flex !important;
+        justify-content: center !important;
+    }
+
+    #first-section {
+        margin-top: 100px !important;
+        display: grid;
+        justify-content: center;
+        margin-bottom: 30px !important;
+    }
+
+    .col-8,
+    .col-4 {
+        width: 100% !important;
+    }
+
+    .right-side {
+        border-left: 0px !important;
+        left: 0% !important;
+        position: absolute !important;
+        height: fit-content !important;
+    }
+
+    .btn-more{
+        display: none;
+    }
+
+    #suggestion-div {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 30px !important;
+    }
+
+    .suggested-user {
+        margin-left: 0px !important;
+    }
+
+    .sug-user-name {
+        font-size: 12px !important;
+    }
+
+    .profile-suggestion {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .left-side {
+        margin-top: 150px;
+    }
+
+    .post-card {
+        width: 470px !important;
+        padding: 20px !important;
+    }
+
+    .first-row {
+        gap: 30px;
+    }
+
+    .post-profile-icon {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    .userName {
+        margin-left: 10px !important;
+    }
+
+    .card-user-name {
+        font-size: 16px !important;
+    }
+
+    .card-date-text {
+        font-size: 15px !important;
+        width: 150px;
+        position: absolute;
+        top: -5px;
+        right: 155px;
+    }
+
+    .postText {
+        width: 420px!important;
+        padding-right: 20px !important;
+        padding-left: 20px !important;
+        overflow: hidden;
+    }
+
+    .post-text {
+        width: 400px!important;
+        font-size: 15px !important;
+        word-wrap: break-word !important;
+        hyphens: manual !important;
+    }
+
+    .fixed-bottom-right {
+        bottom: 50px !important;
+        margin-right: 0px !important;
+    }
+}
+
+@media (min-width: 631px) and (max-width: 768px){
+    .navbar-toggler {
+        width: 40px;
+        height: 40px;
+    }
+
+    .navbar-toggler-icon {
+        width: 25px;
+        position: relative;
+        right: 5.5px;
+        bottom: 0px;
+    }
+
+    #navbar a {
+        font-size: 20px !important;
+        padding-top: 15px !important;
+        padding-bottom: 0px !important;
+        display: flex !important;
+        justify-content: right;
+    }
+
+    #userName-p {
+        font-size: 20px !important;
+    }
+
+    #profile-icon img.rounded-circle {
+        margin-right: 220px;
+        margin-bottom: 10px;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #writingBtn {
+        margin-top: 20px;
+        margin-right: auto !important;
+        margin-bottom: 30px;
+        font-size: 18px !important;
+        padding: 5px 10px;
+        margin-right: 0px !important;
+    }
+
+    .dropdown-toggle {
+        margin-right: 220px;
+    }
+
+    .dropdown-item {
+        display: flex !important;
+        justify-content: center !important;
+    }
+
+    #first-section {
+        margin-top: 100px !important;
+        display: grid;
+        justify-content: center;
+        margin-bottom: 30px !important;
+    }
+
+    .col-8,
+    .col-4 {
+        width: 100% !important;
+    }
+
+    .right-side {
+        border-left: 0px !important;
+        left: 0% !important;
+        position: absolute !important;
+        height: fit-content !important;
+    }
+
+    .btn-more{
+        display: none;
+    }
+
+    #suggestion-div {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 30px !important;
+    }
+
+    .smaller-user-profile-pic{
+        width: 60px !important;
+        height: 60px !important;
+    }
+
+    .suggested-user {
+        margin-left: 0px !important;
+    }
+
+    .sug-user-name {
+        font-size: 16px !important;
+    }
+
+    .profile-suggestion {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .left-side {
+        margin-top: 200px;
+    }
+
+    .post-card {
+        width: 600px !important;
+        padding: 20px !important;
+    }
+
+    .card-date-text {
+        width: 150px;
+        position: absolute;
+        top: 0px;
+        right: 265px;
+     }
+
+    .postText {
+        width: 550px!important;
+        padding-right: 20px !important;
+        padding-left: 20px !important;
+        overflow: hidden;
+    }
+
+    .post-text {
+        width: 530px!important;
+        font-size: 15px !important;
+        word-wrap: break-word !important;
+        hyphens: manual !important;
+    }
+
+    
+
+    .fixed-bottom-right {
+        bottom: 50px !important;
+        margin-right: 10px !important;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 991px) {
+    .navbar-toggler {
+        width: 40px;
+        height: 40px;
+    }
+
+    .navbar-toggler-icon {
+        width: 25px;
+        position: relative;
+        right: 5.5px;
+        bottom: 0px;
+    }
+
+    #navbar a {
+        font-size: 20px !important;
+        padding-top: 15px !important;
+        padding-bottom: 0px !important;
+        display: flex !important;
+        justify-content: right;
+    }
+
+    #userName-p {
+        font-size: 20px !important;
+    }
+
+    #profile-icon img.rounded-circle {
+        margin-right: 220px;
+        margin-bottom: 10px;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #writingBtn {
+        margin-top: 20px;
+        margin-right: auto !important;
+        margin-bottom: 30px;
+        font-size: 18px !important;
+        padding: 5px 10px;
+        margin-right: 0px !important;
+    }
+
+    .dropdown-toggle {
+        margin-right: 220px;
+    }
+
+    .dropdown-item {
+        display: flex !important;
+        justify-content: center !important;
+    }
+
+    #first-section {
+        margin-top: 100px !important;
+        display: grid;
+        justify-content: center;
+        margin-bottom: 30px !important;
+    }
+
+    .col-8,
+    .col-4 {
+        width: 100% !important;
+    }
+
+    .right-side {
+        border-left: 0px !important;
+        left: 0% !important;
+        position: absolute !important;
+        height: fit-content !important;
+    }
+
+    .btn-more{
+        display: none;
+    }
+
+    #suggestion-div {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 50px !important;
+    }
+
+    .suggested-user {
+        margin-left: 0px !important;
+    }
+
+    .sug-user-name {
+        font-size: 16px !important;
+    }
+
+    .profile-suggestion {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .smaller-user-profile-pic{
+        width: 70px !important;
+        height: 70px!important;
+    }
+
+    .left-side {
+        margin-top: 200px;
+    }
+
+    .card-date-text {
+        width: 150px;
+        position: absolute;
+        top: 25px;
+        right: 340px;
+     }
+ 
+     .fixed-bottom-right {
+         bottom: 50px !important;
+         margin-right: 0px !important;
+     }
+}
+
+@media (min-width: 992px) and (max-width: 1024px) {
+
+    #navbarNav{
+        margin-left: 50px!important;
+    }
+
+    .nav-link{
+        font-size: 16px!important;
+    }
+
+    #writingBtn {
+        font-size: 13px !important;
+        padding: 5px 10px!important;
+        margin-right: 20px!important;
+    }
+
+    #profile-icon img.rounded-circle {
+        width: 40px;
+        height: 40px;
+    }
+
+    #userName-p {
+        font-size: 16px !important;
+        padding: 8px!important;
+    }
+
+    .post-profile-icon{
+        width: 40px!important;
+        height: 40px!important;
+    }
+
+    .card-user-name{
+        font-size: 16px!important;
+    }
+
+    .cardDate{
+        position: absolute;
+        top: 30px!important;
+        right: 40px!important;
+    }
+
+    .post-card {
+        width: 500px !important;
+        padding: 16px !important;
+    }
+
+    .postText {
+        padding-right: 20px !important;
+        padding-left: 20px !important;
+        width: 450px !important;
+    }
+
+    .post-text {
+        font-size: 15px !important;
+        width: 380px !important;
+        word-wrap: break-word !important;
+        hyphens: manual !important;
+    }
+
+    .smaller-user-profile-pic{
+        width: 40px!important;
+        height: 40px!important;
+    }
+
+    .sug-user-name {
+        font-size: 15px !important;
+    }
+
+    .btn-more{
+        margin-left: 30px!important;
+    }
+}
+
+@media (min-width: 1025px) and (max-width: 1307px) {
+    #navbarNav{
+        margin-left: 90px !important;
+    }
+
+    .nav-link{
+        font-size: 16px!important;
+    }
+
+    #writingBtn {
+        font-size: 13px !important;
+        padding: 5px 10px!important;
+        margin-right: 20px!important;
+    }
+
+    #profile-icon img.rounded-circle {
+        width: 40px;
+        height: 40px;
+    }
+
+    #userName-p {
+        font-size: 16px !important;
+        padding: 8px!important;
+    }
+
+    .post-profile-icon{
+        width: 40px!important;
+        height: 40px!important;
+    }
+
+    .card-user-name{
+        font-size: 16px!important;
+    }
+
+    .cardDate{
+        position: absolute;
+        top: 30px!important;
+        right: 40px!important;
+    }
+
+    .post-card {
+        width: 500px !important;
+        padding: 16px !important;
+    }
+
+    .postText {
+        padding-right: 20px !important;
+        padding-left: 20px !important;
+        width: 450px !important;
+    }
+
+    .post-text {
+        font-size: 15px !important;
+        width: 380px !important;
+        word-wrap: break-word !important;
+        hyphens: manual !important;
+    }
+
+    .smaller-user-profile-pic{
+        width: 40px!important;
+        height: 40px!important;
+    }
+
+    .sug-user-name {
+        font-size: 15px !important;
+    }
+
+    .btn-more{
+        margin-left: 30px!important;
+    }
+
+    .fixed-bottom-right{
+        margin-right: 400px!important;
+    }
+}
 
 /** ----------- VÁLTOZÓK DEFINIÁLÁSA */
 :root {
@@ -56,7 +1418,6 @@
     font-style: normal;
 }
 
-/*? ---- Montserrat ---- */
 @font-face {
     font-family: 'Montserrat';
     src: url("../fonts/Montserrat/static/Montserrat-Regular.ttf") format('truetype');
@@ -84,8 +1445,6 @@
     font-weight: 700;
     font-style: normal;
 }
-
-/*? --------------------- */
 
 @font-face {
     font-family: 'Pt sans';
@@ -129,6 +1488,17 @@ nav {
 
 }
 
+#usernamePicture {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+}
+
+#writingBtn {
+    margin-left: auto;
+}
+
 #navbar {
     padding-right: 5%;
     padding-left: 5%;
@@ -152,12 +1522,10 @@ nav {
     color: var(--navbar-p-color) !important;
 }
 
-
-
-#navbar a:hover {
-    color: var(--navbar-a-hover-color);
-    /* font-weight: 700; */
-    /* font-style: italic; */
+.nav-link:hover {
+    color: var(--navbar-a-hover-color) !important;
+    text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
+    text-underline-offset: 0.281rem;
 }
 
 .active {
@@ -172,6 +1540,7 @@ nav {
     /*? aktuális page hover */
     color: var(--current-page-hover-color) !important;
     /* font-style: italic; */
+    cursor: pointer;
 }
 
 #Feed {
@@ -188,7 +1557,8 @@ nav {
     /* font-style: italic; */
 }
 
-#profile-icon img, .smaller-user-profile-pic{
+#profile-icon img,
+.smaller-user-profile-pic {
     width: 50px;
     height: 50px;
     background-size: cover;
@@ -196,11 +1566,12 @@ nav {
     cursor: pointer;
 }
 
-#navbarNav{
+#navbarNav {
     margin-left: 90px;
 }
 
-#writingBtn, #writingBtn-zeroData{
+#writingBtn,
+#writingBtn-zeroData {
     font-size: medium;
     font-family: 'Inter', sans-serif;
     color: var(--btn-text-color);
@@ -223,7 +1594,8 @@ nav {
     /* align-items: self-end; */
 }
 
-#writingBtn:hover, #writingBtn-zeroData:hover{
+#writingBtn:hover,
+#writingBtn-zeroData:hover {
     transition: color 0.8s ease;
     /*átmenet a hover és a rendes állapot között*/
     transition: background-color 0.3s ease;
@@ -233,14 +1605,15 @@ nav {
     border: dashed 0.094rem var(--dash-color);
 }
 
-.dropdown-menu li{
+.dropdown-menu li {
     padding: 5px;
     margin-bottom: 5px;
 }
 
-.dropdown-menu a:hover{
+.dropdown-menu a:hover {
     background-color: transparent;
     cursor: pointer;
+    color: var(--navbar-a-hover-color) !important;
 }
 
 
@@ -251,6 +1624,10 @@ nav {
     padding-right: 5%;
     padding-left: 5%;
     margin-bottom: 6.25rem;
+}
+
+#row-div {
+    display: flex;
 }
 
 .missing-data-text {
@@ -290,28 +1667,32 @@ nav {
 }
 
 .userName {
-    margin-top: 0.625rem;
+    display: flex;
+    gap: 20px;
     margin-left: 1.25rem;
 }
 
-.card-user-name {
+.card-user-name,
+.sug-user-name {
     font-size: larger;
     color: rgb(65, 61, 63) !important;
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
+    margin-top: 10px;
 }
 
-.user{
+.user {
     cursor: pointer;
 }
 
-.user:hover{
-    color: #B43C82!important;
+.user:hover {
+    color: #B43C82 !important;
 }
 
 .cardDate {
-    margin-left: auto !important;
-    margin-top: 5px;
+   position: absolute;
+   top: 60px;
+   right: 70px;
 }
 
 .card-date-text {
@@ -319,17 +1700,15 @@ nav {
     color: var(--dash-color);
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
-    position: absolute;
-    right: 40px;
-    top: 59px;
 }
 
 .postText {
     margin-top: 1.25rem;
     padding-left: 1.875rem;
     padding-right: 3.125rem;
-    width: fit-content;
+    width: 620px;
     text-align: justify;
+    overflow: hidden;
 }
 
 .post-text {
@@ -337,7 +1716,10 @@ nav {
     font-weight: 400;
     font-size: 1.125rem;
     text-align: justify;
-    padding: 0!important;
+    padding: 0 !important;
+    width: 570px;
+    word-wrap: break-word;
+    hyphens: manual;
 }
 
 .last-row {
@@ -356,15 +1738,9 @@ nav {
     bottom: 30px;
 }
 
-.liked{
+.liked {
     fill: #c43700;
 }
-
-
-/* .like-and-share span {
-    margin-bottom: 5px !important;
-    cursor: pointer;
-} */
 
 .like-button {
     fill: #2d1810;
@@ -376,27 +1752,14 @@ nav {
 }
 
 
-.share {
-    margin-left: 0.625rem !important;
-    fill: rgb(45, 24, 16);
-}
-
-.share:hover {
-    /* fill: rgb(152, 88, 201) !important; */
-    color: var(--dash-color) !important;
-    cursor: pointer;
-}
-
 /** SIDE BAR */
 
 .right-side {
     border-left: 0.125rem solid rgb(235, 210, 186);
-    /* margin-top: 50px; */
     position: sticky;
     top: 90px;
     left: 70%;
-    height: 65vh;
-    /* vh - A böngésző ablak magasságát veszi figyelembe */
+    height: 90vh;
     margin-bottom: 20px;
 
 }
@@ -414,7 +1777,7 @@ nav {
     margin-bottom: 1.875rem;
 }
 
-#suggestion-div{
+#suggestion-div {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -454,24 +1817,29 @@ nav {
 }
 
 #post-BTN {
-    background-color: rgb(187, 205, 149);
+    background-color: rgb(174, 201, 113);
     color: var(--green-btn-dark-text);
     margin-top: 2rem;
     align-self: center;
     height: fit-content;
     width: fit-content;
-    padding: 0.625rem 0.938rem !important;
     border-radius: 1.875rem;
+    padding: 10px 15px 15px 15px
+}
 
-    font-size: 1rem;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 500;
+.fixed-bottom-right {
+    position: sticky;
+    bottom: 50px;
+    z-index: 999;
+    display: flex;
+    justify-content: right;
+    margin-right: 470px;
+    height: 50px;
 }
 
 #post-BTN:hover {
     background-color: rgb(45, 95, 14);
     color: var(--light-text-color);
-
 }
 
 #post-BTN::after {
@@ -516,6 +1884,18 @@ nav {
     margin-top: 0.625rem;
 }
 
+.errorMessage{
+    margin-bottom: 0%;
+    color: #EE1D52;
+    font-size: small;
+}
+
+.inputError {
+    background: rgb(255, 214, 220) !important;
+    border-color: rgb(243, 82, 93) !important;
+    /* margin-left: 4%; */
+}
+
 .counter {
     margin-left: 30px;
     color: var(--input-border);
@@ -554,7 +1934,7 @@ footer {
 
 footer h3 {
     font-size: 1.75rem;
-    margin-bottom: 1rem;
+    margin-bottom: 10px;
 }
 
 footer ul {
@@ -570,16 +1950,16 @@ footer a {
     color: var(--mostUsed-text-color);
 }
 
-footer a:hover{
+footer a:hover {
     color: #B43C82;
 }
 
-#copy-right-div{
-    float: right!important;
+#copy-right-div {
+    float: right !important;
 }
 
-#copy-right{
+#copy-right {
     font-size: small;
     font-family: 'Poppins-Regular', sans-serif;
-    
+
 }

@@ -118,103 +118,15 @@ nav {
 
 
 #navbar {
+    padding-top: 10px;
     padding-right: 5%;
     padding-left: 5%;
+    height: 76px;
 }
 
-/* .asd {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-} */
-
-#navbar a {
-    font-size: larger;
-    display: inline;
-    padding: 0.938rem;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    color: var(--navbar-a-color);
-}
-
-#navbar a:hover {
-    color: var(--navbar-a-hover-color);
-    /* font-weight: 700; */
-    font-style: italic;
-}
-
-
-.active {
-    /*? Az aktuális page */
-    color: var(--current-page-color) !important;
-    text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
-    /* ? távolság növelése az alláhúzás vonal és a szöveg alja között */
-    text-underline-offset: 0.281rem;
-}
-
-
-.active:hover {
-    /*? aktuális page hover */
-    color: var(--current-page-hover-color) !important;
-    font-style: italic;
-}
-
-#loginBtn {
-    /*? navbar login btn-ja */
-    border-width: 0rem;
-    background-color: transparent;
-
-    font-size: larger;
-    color: var(--btn-text-color);
-    font-family: 'Inter', sans-serif;
-
-    margin-right: 0.9rem;
-    padding: 0.625rem 1.25rem;
-
-    transition: color 0.5s ease;
-    /*átmenet a hover és a rendes állapot között*/
-    line-height: 1.125rem;
-
-    box-sizing: border-box;
-    /* A padding + border szélessége is hozzáadódik az elem méretéhez */
-}
-
-#loginBtn:hover {
-    /*? navbar login btn hover */
-    color: rgb(146, 104, 74);
-}
-
-#signUpBtn {
-    /*? navbar signup btn-ja */
-    font-size: larger;
-    font-family: 'Inter', sans-serif;
-    color: var(--btn-text-color);
-
-    border-width: 0rem;
-    border-radius: 1.5rem;
-
-    background-color: var(--primary-BTN-Bg-color);
-
-    padding: 0.625rem 1.25rem;
-
-    transition: color 0.8s ease;
-    /*átmenet a hover és a rendes állapot között*/
-    transition: background-color 0.8s ease;
-    /*átmenet a hover és a rendes állapot között*/
-    line-height: 1.125rem;
-
-    box-sizing: border-box;
-    /* A padding + border szélessége is hozzáadódik az elem méretéhez */
-}
-
-#signUpBtn:hover {
-    /*? navbar login btn hover */
-    transition: color 0.8s ease;
-    /*átmenet a hover és a rendes állapot között*/
-    transition: background-color 0.8s ease;
-    /*átmenet a hover és a rendes állapot között*/
-    background-color: rgb(247, 245, 236);
-    color: var(--mostUsed-text-color);
-    border: dashed 0.094rem var(--dash-color);
+#logo{
+    display: flex;
+    justify-content: right;
 }
 
 #s1-outsideDiv {

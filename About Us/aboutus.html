@@ -27,23 +27,20 @@
 
 
     <nav class="navbar fixed-top navbar-expand-lg" id="navbar">
-        <div class="container-fluid">
-            <img src="../pictures/LOGO.svg" alt="Logo" width="125" height="40" class="d-inline-block align-text-top"
-                id="logo" />
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+        <div class="nav-element" id="back-arrow">
+            <button class="border-0 bg-transparent" onclick="history.back()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" fill="currentColor"
+                    class="bi bi-arrow-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+                </svg>
             </button>
 
-            <div class="collapse navbar-collapse  justify-content-center" id="navbarNav">
-                <div class="navbar-nav text-center">
-                    <a class="nav-link" aria-current="page" id="Home" href="../Landing-Page/landing.html">Home</a>
-                    <a class="nav-link active" id="AboutUs" href="../AboutUs/AboutUs.html">About Us</a>
-                </div>
-            </div>
+        </div>
 
-
+        <div class="container-fluid" id="logo">
+            <img src="../pictures/LOGO.svg" alt="Logo" width="125" height="40" class="d-inline-block align-text-top"
+                id="logo" />
         </div>
     </nav>
 
@@ -234,7 +231,7 @@
                                 href="https://instagram.com/cyberread2023?igshid=MzRlODBiNWFlZA==" target="_blank">Instagram</a>
                         </li>
                         <li id="help-center"><i class="bi bi-info-circle-fill" style="margin-right: 0.625rem;"></i><a
-                                href="#" target="_blank">Help Center</a></li>
+                                href="../HelpCenter/helpcenter.html" target="_blank">Help Center</a></li>
                     </ul>
                 </div>
                 <div>

@@ -3,10 +3,13 @@
 const dataUrl = './db.json';
 const pcGroup = document.getElementById("kulsoPostCard");
 
+const SavedBooks = document.getElementById('SavedBooks');
+
 // CONTROL MODAL INPUT
 const modal_textarea = document.getElementById('message-text');
 const characterCounterText = document.getElementById('characterCounter');
 const charCounterDes = document.getElementById('characterCounter');
+const textError = document.getElementById('textError');
 const LetsPost_btn = document.getElementById('LetsPost-btn');
 
 // Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
@@ -27,9 +30,28 @@ window.onload = async function () {
             window.location.href = "../Log-in/login.html";
             break;
         case 302:
+            localStorage.removeItem('searchResult');
+            localStorage.removeItem('Error Code:');
+            localStorage.removeItem('bookId');
+
             document.getElementById('profile-link').addEventListener('click', (e) => {
                 window.location.href = `../Profile/profile.html?username=${tokenResponse.data.username}`;
             });
+
+            const HomePage = document.getElementById('HomePage');
+            if (tokenResponse.data.rank == 'publisher') {
+                HomePage.addEventListener('click', (e) => {
+                    window.location.href = '../Publisher-Home/PubHome.html';
+                });
+
+                SavedBooks.textContent = "Saved Books";
+            } else {
+                HomePage.addEventListener('click', (e) => {
+                    window.location.href = '../General-HomePage/GenHome.html';
+                });
+
+                SavedBooks.textContent = "My Books";
+            }
 
             const userDatas = await getUserDetails({ "profileUsername": tokenResponse.data.username });
             LoadUserDatas(userDatas);
@@ -47,11 +69,25 @@ window.onload = async function () {
     }
 }
 
+modal_textarea.addEventListener('focusin', (e)=>{
+    modal_textarea.classList.remove('inputError');
+    textError.innerHTML = "";   
+});
+
+let count = 0;
+const postModal = document.getElementById('postModal');
 modal_textarea.addEventListener('input', (e) => {
     e.preventDefault();
     const currentText = modal_textarea.value;
-    let count = currentText.length;
+    count = currentText.length;
     characterCounterText.textContent = `${count}/1000`;
+
+    if(count == 0){
+      
+        LetsPost_btn.removeAttribute('data-bs-dismiss', 'modal');
+    }else{
+        LetsPost_btn.setAttribute('data-bs-dismiss', 'modal');
+    }
 
     if (count >= 950) {
         console.log("bemegy az ifbe");
@@ -71,32 +107,35 @@ modal_textarea.addEventListener('input', (e) => {
     }
 });
 
-const postModal = document.getElementById('postModal');
+LetsPost_btn.addEventListener('click', async function (e) {
+    // Megakadályozzuk az alapértelmezett eseményt (modális ablak bezárását)
+    e.preventDefault();
+    
 
-LetsPost_btn.addEventListener('click', async function () {
     const currentData = modal_textarea.value;
     if (currentData == "") {
-        alert('You have to write something to post.')
+        alert('You have to write something to post.');
     } else {
         const addPost_result = await addPost({ "description": currentData });
 
         if (addPost_result.status == 200) {
             alert("You posted successfully. You can already seen on your profile.");
             modal_textarea.value = "";
-            postModal.hide();
-            // location.reload();
+            count = 0;
+            characterCounterText.textContent = `${count}/1000`;
         } else if (addPost_result.status == 401) {
             window.location.href = "../Log-in/login.html";
         } else if (addPost_result.status == 409) {
-            alert("Something went wrong. Please try again later.")
+            alert("Something went wrong. Please try again later.");
         } else if (addPost_result.status == 422) {
-            alert("You can't post the big nothing. Please give us some text.")
+            textError.innerHTML = `<p>${addPost_result.data.postError}</p>`;
+            modal_textarea.classList.add('inputError');
         } else {
             alert("Something went wrong. Status code: " + addPost_result.status);
         }
     }
+});
 
-})
 
 let likeButtons = document.querySelectorAll(".like-button");
 
@@ -121,9 +160,8 @@ async function LoadPosts(response) {
                     <div class="post-card ">
                         <div class="first-row">
                             
-                            <img class="post-profile-icon rounded-circle shadow-sm" src="../${response.data[i].image}">
-                            
                             <div class="userName">
+                                <img class="post-profile-icon rounded-circle shadow-sm" src="../${response.data[i].image}">
                                 <p class="card-user-name user" onclick="navigateToProfile('${response.data[i].username}')">@${response.data[i].username}</p>
                             </div>
                             <div class="cardDate align-content-end">
@@ -157,10 +195,9 @@ async function LoadPosts(response) {
                 pcGroup.innerHTML += `
                     <div class="post-card ">
                         <div class="first-row">
-                                
-                            <img class="post-profile-icon rounded-circle shadow-sm" src="../${response.data[i].image}">
-                                
+                                    
                             <div class="userName">
+                                <img class="post-profile-icon rounded-circle shadow-sm" src="../${response.data[i].image}">
                                 <p class="card-user-name user" onclick="navigateToProfile('${response.data[i].username}')">@${response.data[i].username}</p>
                             </div>
                             <div class="cardDate align-content-end">
@@ -168,8 +205,8 @@ async function LoadPosts(response) {
                             </div>
                         </div>
     
-                        <div class="postText">
-                            <p class="post-text">${response.data[i].description}</p>
+                        <div  class="postText">
+                            <p lang="hu" class="post-text">${response.data[i].description}</p>
                         </div>
     
                         <div class="last-row">
@@ -182,13 +219,7 @@ async function LoadPosts(response) {
                                     </svg></button>
                                     
                                 </div>
-                                    <div class="d-flex flex-column align-items-center">
-                                        <button class="border-0 bg-transparent share"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" class="bi bi-share-fill" viewBox="0 0 16 16">
-                                            <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5"/>
-                                            </svg>
-                                        </button>
-                                        
-                                    </div>
+                                    
                                 </div>
                             </div>
                     </div>
@@ -197,6 +228,8 @@ async function LoadPosts(response) {
 
         }
     }
+
+
 }
 
 function navigateToProfile(username) {
@@ -269,8 +302,8 @@ async function LoadRecommandedUsers(response) {
                 
                     <img class="rounded-circle smaller-user-profile-pic" src="../${response.data[i].image}" alt="${response.data[i].username} profile picture"></img>
                
-                    <div class="userName">
-                        <p class="card-user-name">${response.data[i].username}</p>
+                    <div class="userName suggested-user">
+                        <p class="sug-user-name user" onclick="navigateToProfile('${response.data[i].username}')">@${response.data[i].username}</p>
                     </div>
                 <button type="submit" class="btn-more" onclick="navigateToProfile('${response.data[i].username}')">More</button>
             </div> 
