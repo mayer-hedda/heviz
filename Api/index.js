@@ -1722,7 +1722,7 @@ async function deleteSavedBook(raw) {
 
 /**
  * @param {JSON} raw = {
- *      "followedId": 2
+ *      "username": "lilapapucs"
  *  }
  * 
  * @return
@@ -1775,7 +1775,7 @@ async function followUser(raw) {
 
 /**
  * @param {JSON} raw = {
- *      "followedId": 1
+ *      "username": "lilapapucs"
  *  }
  * 
  * @return
@@ -2150,7 +2150,6 @@ async function getAllBooksByCategory(raw) {
 
 /**
  * @param {JSON} raw = {
- *      "categoryId": 1
  *      "filter":           1: a-z
                             2: z-a
                             3: dátum - legutóbb feltöltött elöl
@@ -2295,7 +2294,7 @@ async function getSearchBooks(raw) {
 
 
 
-// ----- OWN BOOKS -----
+// ----- MY BOOKS -----
 
 /**
  * @return
@@ -2472,19 +2471,6 @@ async function getPublishedBooksByUserId() {
     } catch (error) {
         return { error: error }
     }
-}
-
-
-/**
- * @param {JSON} raw = {
- *      "id": 1
- *  }
- * 
- * @return
-    * 200:
- */
-async function getSavedBooksByCategoryId(raw) {
-
 }
 
 
@@ -3347,4 +3333,3 @@ async function getDetails() {
         return { error: error }
     }
 }
-
