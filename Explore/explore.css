@@ -1,0 +1,378 @@
+/** ----------- VÁLTOZÓK DEFINIÁLÁSA */
+:root {
+    /* -----------COLORS -----------*/
+    --primary: rgb(232, 181, 160);
+    --btn-text-color: rgb(51, 47, 49);
+    --mostUsed-text-color: rgb(65, 61, 63);
+    --dash-color: rgb(129, 105, 117);
+    --page-bg-color: rgb(247, 245, 236);
+    --footer-bg-color: rgb(246, 227, 205);
+    --navbar-a-color: rgb(151, 121, 110);
+    --navbar-a-hover-color: rgb(113, 145, 128);
+    --navbar-p-color: rgb(117, 55, 31);
+    --current-page-color: rgb(60, 32, 22);
+    --current-page-hover-color: rgb(68, 92, 79);
+    --card-bg: rgb(234, 215, 190);
+}
+
+
+/**--------------- FONTS ---------------*/
+@font-face {
+    font-family: 'Inter-Medium';
+    src: url('../fonts/Inter/static/Inter-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter-SemiBold';
+    src: url('../fonts/Inter/static/Inter-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat-Bold';
+    src: url("../fonts/Montserrat/static/Montserrat-Bold.ttf") format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat-SemiBold';
+    src: url("../fonts/Montserrat/static/Montserrat-SemiBold.ttf") format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat-Regular';
+    src: url("../fonts/Montserrat/static/Montserrat-Regular.ttf") format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat-Medium';
+    src: url("../fonts/Montserrat/static/Montserrat-Medium.ttf") format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PTsans-Regular';
+    src: url("../fonts/PT_Sans/PTSans-Regular.ttf") format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins-Regular';
+    src: url('../fonts/Poppins/Poppins-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins-Medium';
+    src: url("../fonts/Poppins/Poppins-Medium.ttf") format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins-light';
+    src: url("../fonts/Poppins/Poppins-Light.ttf") format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+/* ------- Scrollbar ------- */
+/* scrollbar width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* scrollbar Track */
+::-webkit-scrollbar-track {
+    background: rgb(235, 233, 224);
+
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #92827a;
+    border-radius: 20px;
+
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #ACA09A;
+}
+
+/** --------------- NAVBAR ---------------*/
+
+
+nav {
+    background-color: var(--page-bg-color);
+
+}
+
+#navbar {
+    padding-right: 5%;
+    padding-left: 5%;
+    /* padding: var(--default-padding); */
+}
+
+#navbar a,
+#navbar p {
+    font-size: larger;
+    display: inline;
+    padding: 0.938rem;
+    font-family: 'Inter-Medium', sans-serif;
+}
+
+#navbar a {
+    color: var(--navbar-a-color);
+}
+
+#navbar p {
+    color: var(--navbar-p-color) !important;
+}
+
+.nav-link:hover {
+    color: var(--navbar-a-hover-color)!important;
+    /* font-weight: 700; */
+    text-decoration: underline 0.125rem var(--primary);
+    text-underline-offset: 0.281rem;
+}
+
+.active {
+    /*? Az aktuális page */
+    color: var(--current-page-color) !important;
+    text-decoration: underline 0.125rem var(--primary);
+    /* ? távolság növelése az alláhúzás vonal és a szöveg alja között */
+    text-underline-offset: 0.281rem;
+}
+
+.active:hover {
+    /*? aktuális page hover */
+    color: var(--current-page-hover-color) !important;
+    /* font-style: italic; */
+    cursor: pointer;
+}
+
+#profile-icon img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+}
+
+#navbarNav {
+    margin-left: 90px;
+}
+
+#writingBtn {
+    font-size: medium;
+    font-family: 'Inter-Medium', sans-serif;
+    color: var(--btn-text-color);
+    border: 1px solid var(--primary);
+    /* border-width: 0rem; */
+    border-radius: 1.5rem;
+
+    background-color: var(--primary);
+
+    padding: 0.625rem 1.25rem;
+
+    transition: color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    transition: background-color 0.3s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    line-height: 1.125rem;
+
+    box-sizing: border-box;
+    margin-right: 50px;
+    /* align-items: self-end; */
+}
+
+#writingBtn:hover {
+    transition: color 0.8s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    transition: background-color 0.3s ease;
+    /*átmenet a hover és a rendes állapot között*/
+    background-color: rgb(247, 245, 236);
+    color: var(--mostUsed-text-color);
+    border: dashed 0.094rem var(--dash-color);
+}
+
+.dropdown-menu li{
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.dropdown-menu a:hover{
+    background-color: transparent;
+    cursor: pointer;
+    color: var(--navbar-a-hover-color)!important;
+}
+
+/** ---------- SECTION ONE ----------------------  */
+#s1 {
+    z-index: 1000;
+    margin-top: 75px;
+    background-color: #EAD7BE;
+    height: fit-content;
+    padding-top: 25px;
+    padding-bottom: 10px;
+    /* position: fixed; */
+}
+
+form{
+    float: right;
+}
+
+#search-input {
+    width: 500px;
+    margin-right: 72px;
+}
+
+#search-input::placeholder {
+    color: #735646ea;
+}
+
+#search-input:focus {
+    border-right: none;
+    box-shadow: none;
+}
+
+#searchKeyword {
+    border-radius: 100px 0px 0px 100px;
+    border-color: #cdb5aa;
+    background-color: #FFF9F5;
+    padding-left: 15px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 18px;
+}
+
+#searchKeyword::placeholder {
+    color: #735646ea;
+    font-size: 18px;
+}
+
+#searchBTN {
+    border-radius: 0px 100px 100px 0px;
+    background-color: #FFF9F5;
+    border-left: 0;
+    border-color: #cdb5aa;
+    width: 60px;
+}
+
+/** --------------- H2 + SECOND SECTION ---------------*/
+#title-h2{
+    margin-top: 250px!important;
+}
+
+.rowPics {
+    width: 217px;
+    height: 242px;
+}
+
+.image-container {
+    text-align: center;
+    /* A tartalomat középre igazítja */
+    position: relative;
+    margin-bottom: 50px;
+    cursor: pointer;
+}
+
+
+
+#title-h2 {
+    font-family: 'Inter-SemiBold', sans-serif;
+    text-transform: uppercase !important;
+    font-size: 30px;
+    margin-top: 100px;
+    margin-bottom: 50px;
+}
+
+.rows {
+    display: inline-flex;
+    column-gap: 40px;
+}
+
+.image-container {
+    position: relative;
+    margin-bottom: 50px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.default {
+    border-radius: 30px;
+    outline: 3.5px solid var(--primary);
+    object-fit: cover;
+    backdrop-filter: blur(1px);
+}
+
+.rowPics {
+    width: 217px;
+    height: 242px;
+}
+
+#nineth-row-pics{
+    margin-right: 775px;
+}
+
+/** --------------- FOOTER ---------------*/
+
+#footer-logo {
+    /* padding-left: 6%; */
+    display: flex;
+}
+
+footer {
+    
+    border-top: 0.094rem solid var(--dash-color);
+    background-color: var(--footer-bg-color);
+    padding-top: 30px;
+    padding-right: 5%;
+    padding-left: 5%;
+    height: 300px;
+}
+
+footer h3 {
+    font-size: 1.75rem;
+    margin-bottom: 10px;
+}
+
+footer ul {
+    list-style-type: none;
+}
+
+footer ul li {
+    font-size: 1.25rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+footer a {
+    color: var(--mostUsed-text-color);
+}
+
+footer a:hover{
+    color: #B43C82;
+}
+
+#copy-right-div{
+    float: right!important;
+    margin-top: -20px;
+}
+
+#copy-right{
+    font-size: small;
+    font-family: 'Poppins-Regular', sans-serif;  
+}
