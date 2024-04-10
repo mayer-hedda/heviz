@@ -12,7 +12,7 @@
     /* --dash-color: rgb(129, 105, 117); */
 }
 
-:read-only:after {
+:disabled:after {
     border: none;
 }
 
@@ -106,7 +106,6 @@ body {
 
 /* -------- First section --------- */
 #s1 {
-    /* background-color: var(--primary); */
     margin: 0;
     height: 40vh;
 }
@@ -165,7 +164,6 @@ body {
 
 #name {
     font-size: 38px;
-    /* margin-left: 50px; */
     margin-top: 10px;
     margin-bottom: 0px;
     font-family: 'Montserrat-SemiBold', sans-serif;
@@ -238,12 +236,6 @@ Ha találok rá jobb megoldást javítom :)  */
     color: var(--primary-text);
     border-color: var(--primary);
 }
-
-/* .followed {
-    background: transparent !important;
-    color: rgb(44, 24, 16) !important;
-    border: solid var(--border-color) !important;
-} */
 
 #edit-coverCol-div {
     margin-left: auto;
@@ -496,7 +488,7 @@ Ha találok rá jobb megoldást javítom :)  */
     display: flexbox;
     border-radius: 15px;
     filter: drop-shadow(4px 4px 4px rgba(84, 84, 84, 0.051));
-    /* margin-top: 50px; */
+    position: relative;
 }
 
 .my-col3 {
@@ -601,6 +593,9 @@ Ha találok rá jobb megoldást javítom :)  */
 
 .card-footer {
     display: flex;
+    position: absolute;
+    bottom: 0px;
+    gap: 130px;
 }
 
 .edit-delete-div-books {
@@ -679,8 +674,9 @@ Ha találok rá jobb megoldást javítom :)  */
     margin-top: 1.25rem;
     padding-left: 1.875rem;
     padding-right: 1.875rem;
-    width: fit-content;
+    width: 630px;
     text-align: justify;
+    word-wrap: break-word;
 }
 
 .post-text {
@@ -697,14 +693,6 @@ Ha találok rá jobb megoldást javítom :)  */
     width: fit-content;
 
 }
-
-/* .last-row a {
-    text-decoration: none;
-    font-size: 0.938rem;
-    color: rgb(51, 47, 49);
-    font-family: 'Inter';
-    font-weight: 500;
-} */
 
 .like-and-share {
     margin-left: auto !important;
@@ -735,22 +723,12 @@ Ha találok rá jobb megoldást javítom :)  */
     height: 40px !important;
 }
 
-/* .like-and-share span {
-    margin-bottom: 5px !important;
-    cursor: pointer;
-} */
-/* 
-.like {
-    margin-right: 0.625rem !important;
-    fill: rgb(45, 24, 16);
-} */
 .share {
     margin-left: 0.625rem !important;
     fill: rgb(45, 24, 16);
 }
 
 .share:hover {
-    /* fill: rgb(152, 88, 201) !important; */
     color: var(--dash-color) !important;
     cursor: pointer;
 }
@@ -768,7 +746,6 @@ Ha találok rá jobb megoldást javítom :)  */
 }
 
 .share:hover {
-    /* fill: rgb(152, 88, 201) !important; */
     color: var(--dash-color) !important;
     cursor: pointer;
 }
@@ -877,6 +854,11 @@ Ha találok rá jobb megoldást javítom :)  */
 }
 
 /* settings */
+#settings-body::-webkit-scrollbar-track{
+    background: transparent!important;
+    border-radius: 10px;
+}
+
 .error {
     color: var(--error-color);
     font-family: 'Poppins', sans-serif;
@@ -890,7 +872,6 @@ Ha találok rá jobb megoldást javítom :)  */
     background-color: #D6C3AA;
     height: 800px;
 }
-
 
 #settings-header {
     border-bottom: none;
@@ -906,8 +887,10 @@ Ha találok rá jobb megoldást javítom :)  */
     margin-bottom: 20px;
 }
 
-#options-panel {
-    border-right: solid 1px #846856b6;
+.actual-settings{
+    border-left: solid 1px #846856b6;
+    height: fit-content;
+    padding-bottom: 20px;
 }
 
 .active-set {
@@ -969,9 +952,13 @@ Ha találok rá jobb megoldást javítom :)  */
     color: var(--label);
 }
 
-.set-inputs {
+.set-inputs:disabled, .set-inputs:not(:disabled){
     height: 30px;
-    width: 300px;
+    width: 300px!important;
+}
+
+.set-inputs:disabled {
+    
     margin-top: 0px;
     border-color: #33262154;
     background-color: rgb(232, 221, 213);
@@ -1220,6 +1207,31 @@ Ha találok rá jobb megoldást javítom :)  */
 #modalLabel-tag {
     margin-top: 0.625rem;
 }
+
+/* Modal az ár szerkesztéséhez */
+.modal-p{
+    margin-bottom: 30px;
+}
+
+.setPrice-div{
+    display: flex;
+}
+
+#price-div{
+    width: 300px;
+    margin-left: 40px;
+}
+
+#forint, #newPrice{
+    border: 1px solid var(--border-color);
+    height: 40px;
+
+}
+
+#setPrice-modalFooter{
+    border-top: none;
+}
+
 
 /** --------------- FOOTER ---------------*/
 

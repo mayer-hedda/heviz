@@ -28,7 +28,7 @@
     --card-width: 270px;
     /* --pic-height: 400; */
     /* --offset: 60; */
-    --max-lines: 6;
+    --max-lines: 5;
     --line-height: 1.5;
 }
 
@@ -259,7 +259,7 @@ nav {
     display: flexbox;
     border-radius: 15px;
     box-shadow: 6px 6px 3px #3a3a3a2c;
-
+    position: relative;
 }
 
 .medium-pic{
@@ -332,6 +332,31 @@ section{
     margin-bottom: 50px;
 }
 
+.bottom-row{
+    display: flex;
+    position: absolute;
+    bottom: 20px;
+    gap: 300px;
+}
+
+.category{
+    margin-top: 20px;
+    height: fit-content;
+    font-size: 18px;
+    font-family: 'Poppins-Regular';
+    background-color: #91796d;
+    padding: 5px 10px;
+    color: whitesmoke;
+    border-radius: 10px;
+}
+
+.bottom-row-medium{
+    display: flex;
+    position: absolute;
+    bottom: -5px;
+    gap: 100px;
+}
+
 /** --------------- FIRST-SECTION ---------------*/
 
 
@@ -345,15 +370,12 @@ section{
 .full-card {
     background-color: #EAD7BE;
     margin-top: 85px;
-    /* margin-left: 100px !important; */
     border-radius: 20px !important;
     width: 950px !important;
     height: fit-content;
     border-radius: 15px !important;
     box-shadow: 8px 8px 4px #3a3a3a2c;
-    /* border-color: linear-gradient(to right, #EAD7BE, #E8B5A0); */
-    /* border: 10px!important; */
-
+    position: relative;
 }
 
 .picSide img {
@@ -489,6 +511,15 @@ section{
     text-align: center;
     opacity: 0; /* Kezdeti átlátszóság: teljesen átlátszó */
     transition: opacity 0.5s ease; /* Átmenet az opacity tulajdonságon */
+}
+
+.category-overlay{
+    position: absolute;
+    top: 40px;
+    font-size: 20px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-family: 'Inter-Light', sans-serif;
 }
 
 .overlay p {

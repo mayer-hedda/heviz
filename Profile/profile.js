@@ -21,7 +21,7 @@ const buisness_settings = document.getElementById('buisness-settings');
 const isEmail_public = document.getElementById('email-isPublic');
 const isPhone_public = document.getElementById('phone-isPublic');
 
-const ourWriters_div = document.getElementById('our-writers-div');
+// const ourWriters_div = document.getElementById('our-writers-div');
 const carousel = document.getElementById('recom-profs');
 const just_two_writer = document.getElementById('just-two-writer');
 
@@ -74,10 +74,13 @@ window.onload = async function () {
                      *  - Our Posts menü helyett --> My Posts
                      */
                     if (responseUser.data.rank == "general") {
-                        ourWriters_div.hidden = true;
+                        // ourWriters_div.hidden = true;
                         our_books.textContent = "My Books";
                         our_posts.textContent = "My Posts";
                         buisness_settings.hidden = true;
+                    } else {
+                        our_books.textContent = "Our Books";
+                        our_posts.textContent = "Our Posts";
                     }
 
                     const isOwnProf = checkOwnProfile(responseUser);
@@ -92,6 +95,8 @@ window.onload = async function () {
                             isIntroExist = true;
                         }
 
+
+
                         modal_footer_div.hidden = true;
 
                         // load books
@@ -100,6 +105,22 @@ window.onload = async function () {
                         switch (responseBooks.status) {
                             case 200:
                                 getBooks(responseBooks, responseUser);
+
+                                if (responseUser.data.rank == "publisher") {
+                                    const editBooks = document.querySelectorAll('.edit-book');
+                                    editBooks.forEach(button => {
+                                        button.setAttribute('data-bs-toggle', 'modal');
+                                        button.setAttribute('data-bs-target', '#setPriceModal');
+                                    });
+
+                                } else {
+                                    const editBooks = document.querySelectorAll('.edit-book');
+                                    editBooks.forEach(button => {
+                                        button.removeAttribute('data-bs-toggle', 'modal');
+                                        button.removeAttribute('data-bs-target', '#setPriceModal');
+                                    });
+                                }
+
                                 break;
                             case 401:
 
@@ -433,6 +454,8 @@ function loadCoverColor(response) {
     }
 }
 
+var userBookNumber;
+
 /**
  * Documentation
  * --------------
@@ -473,6 +496,7 @@ function loadUserTextDatas(responseUser) {
 
         if (responseUser.data.bookCount !== undefined) {
             partners_books.textContent = `${responseUser.data.savedBookCount}`;
+            userBookNumber = responseUser.data.bookCount;
         }
     }
 
@@ -571,18 +595,25 @@ const book_modal_body = document.getElementById('book-popup-modal-body');
 const book_modal_img = document.getElementById('book-modal-img');
 const book_modal_title = document.getElementById('modal-title');
 const book_modal_author = document.getElementById('modal-author');
+const book_modal_publisher = document.getElementById('modal-publisher');
 const book_modal_pages = document.getElementById('modal-pages');
 const book_modal_ranking = document.getElementById('modal-ranking');
 const book_modal_language = document.getElementById('modal-language');
 const book_modal_desc = document.getElementById('modal-desc');
 
 
-function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username) {
+function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher) {
 
     if (url != "Ez a kép elérési útja") {
         book_modal_img.src = `../${url}.jpg`;
     } else {
         book_modal_img.src = '../pictures/standard-book-cover.jpg';
+    }
+
+    if (publisher != null) {
+        book_modal_publisher.innerText = `${publisher}`;
+    } else {
+        book_modal_publisher.hidden = true;
     }
 
     book_modal_title.innerText = `${title}`;
@@ -1007,6 +1038,8 @@ function navigateToProfile(username) {
 }
 
 async function DeleteBookBTN(button, bookID) {
+    userBookNumber--;
+    document.getElementById('own-books-number').textContent = `${userBookNumber}`;
     console.log("Ennél a könyvnél nyomtad meg a törlést: " + bookID);
     const deleteResult = await deleteBook({ "id": bookID });
     if (deleteResult.status == 200) {
@@ -1017,10 +1050,31 @@ async function DeleteBookBTN(button, bookID) {
     }
 }
 
-function setBookFunction(bookId) {
-    localStorage.setItem("bookId", bookId);
-    window.location.href = "../Create Book/createBook.html";
+function setBookFunction(bookId, userRank) {
+    console.log(bookId);
+    console.log("Gomb megnyomva");
+    console.log(userRank);
+    if (userRank == 'general') {
+        localStorage.setItem("bookId", bookId);
+        window.location.href = "../Create Book/createBook.html";
+    }
 }
+
+const save_modal_price = document.getElementById('save-modal-price');
+const newPriceInput = document.getElementById('newPrice');
+newPriceInput.addEventListener('focusin', (e)=>{
+    document.getElementById('newPriceErr').textContent = "";
+})
+
+save_modal_price.addEventListener('click', async function(){
+    const priceValue = newPriceInput.value;
+    if (priceValue >= 1000) {
+        
+        // ide jön az hogy elküldöm a helyes új adatot a backendnek
+    }else{
+        document.getElementById('newPriceErr').textContent = "The given price cannot be lower than 1 000 Ft!";
+    }
+})
 
 // show books
 ourBooks_btn.addEventListener('click', (e) => {
@@ -1045,73 +1099,31 @@ function getBooks(responseBook, userResponse) {
         missing_book_text.hidden = false;
     } else {
         for (let i = 0; i <= responseBook.data.myBooks.length - 1; i++) {
+            const bookData = JSON.stringify(responseBook.data.myBooks[i]);
+            console.warn("Book Data: "+bookData);
             if (responseBook.data.myBooks[i].coverImage != "Ez a kép elérési útja") {
-                if (responseBook.data.myBooks[i].companyName != undefined) {
-                    books_div.innerHTML += `
-                        <div class="container medium-card book-card" style="background-color: #EAD7BE;">
-                            <div class="row">
-                                <div class="col-3 my-col3">
-                                    <!--? Picture => Alt-nak mehet majd a könyv címe -->
-                                
-                                    <img class="medium-pic" src="../${responseBook.data.myBooks[i].coverImage}.jpg" alt="${responseBook.data.myBooks[i].title}">
-                                    
-                                </div>
-        
-                                <div class="col-9 medium-right-side">
-                                    <!--? Author + Book Title  -->
-                                    <h2 class="container medium-h2" >${responseBook.data.myBooks[i].title}</h2>
-                                    <p class="username author" onclick="navigateToProfile('${responseBook.data.myBooks[i].username}')">${responseBook.data.myBooks[i].firstName} ${responseBook.data.myBooks[i].lastName}</p>
-                                    <p class="username author">${responseBook.data.myBooks[i].companyName}</p>
-                                    <p class="medium-desc" >${responseBook.data.myBooks[i].description}</p>
-        
-                                    <div class="card-footer">
-                                    <button class="moreBtn-medium" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${responseBook.data.myBooks[i].coverImage}', '${responseBook.data.myBooks[i].title}', '${responseBook.data.myBooks[i].firstName}', '${responseBook.data.myBooks[i].lastName}', '${responseBook.data.myBooks[i].description}', '${responseBook.data.myBooks[i].language}', '${responseBook.data.myBooks[i].rating}', '${responseBook.data.myBooks[i].pagesNumber}', '${responseBook.data.myBooks[i].price}', '${responseBook.data.myBooks[i].username}')">Show
-                                    Details</button>
-        
-                                        <div class="edit-delete-div-books">
-                                            <button type="button" class="bg-transparent border-0 edit-book" onclick="setBookFunction(${responseBook.data.myBooks[i].id})">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor"
-                                                    class="bi bi-pen" viewBox="0 0 16 16">
-                                                    <path
-                                                        d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
-                                                </svg>
-                                            </button>
-        
-                                            <button type="button" class="bg-transparent border-0 delete-book" onclick="DeleteBookBTN(this, ${responseBook.data.myBooks[i].id})">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                                                    <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
 
-                } else {
-                    books_div.innerHTML += `
-                        <div class="container medium-card book-card" style="background-color: #EAD7BE;">
+                books_div.innerHTML += `
+                        <div class="container medium-card" style="background-color: #EAD7BE;">
                             <div class="row">
                                 <div class="col-3 my-col3">
-                                    <!--? Picture => Alt-nak mehet majd a könyv címe -->
-                                
                                     <img class="medium-pic" src="../${responseBook.data.myBooks[i].coverImage}.jpg" alt="${responseBook.data.myBooks[i].title}">
-                                    
                                 </div>
         
                                 <div class="col-9 medium-right-side">
-                                    <!--? Author + Book Title  -->
+                                    
                                     <h2 class="container medium-h2" >${responseBook.data.myBooks[i].title}</h2>
                                     <p class="username author" onclick="navigateToProfile('${responseBook.data.myBooks[i].username}')">${responseBook.data.myBooks[i].firstName} ${responseBook.data.myBooks[i].lastName}</p>
+                                    <p class="username author">${responseBook.data.myBooks[i].companyName || ''}</p>
                                     <p class="medium-desc" >${responseBook.data.myBooks[i].description}</p>
         
                                     <div class="card-footer">
-                                    <button class="moreBtn-medium" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${responseBook.data.myBooks[i].coverImage}', '${responseBook.data.myBooks[i].title}', '${responseBook.data.myBooks[i].firstName}', '${responseBook.data.myBooks[i].lastName}', '${responseBook.data.myBooks[i].description}', '${responseBook.data.myBooks[i].language}', '${responseBook.data.myBooks[i].rating}', '${responseBook.data.myBooks[i].pagesNumber}', '${responseBook.data.myBooks[i].price}', '${responseBook.data.myBooks[i].username}')">Show
+                                    <button class="moreBtn-medium" data-bs-toggle="modal" data-bs-target="#bookPopup" 
+                                    onclick="loadModalData('${responseBook.data.myBooks[i].coverImage}', '${responseBook.data.myBooks[i].title}', '${responseBook.data.myBooks[i].firstName}', '${responseBook.data.myBooks[i].lastName}', '${responseBook.data.myBooks[i].description}', '${responseBook.data.myBooks[i].language}', '${responseBook.data.myBooks[i].rating}', '${responseBook.data.myBooks[i].pagesNumber}', '${responseBook.data.myBooks[i].price}', '${responseBook.data.myBooks[i].username}', ${responseBook.data.myBooks[i].companyName !== undefined ? `'${responseBook.data.myBooks[i].companyName}'` : null})">Show
                                     Details</button>
         
                                         <div class="edit-delete-div-books">
-                                            <button type="button" class="bg-transparent border-0 edit-book" onclick="setBookFunction(${responseBook.data.myBooks[i].id})">
+                                        <button type="button" class="bg-transparent border-0 edit-book" onclick="setBookFunction('${responseBook.data.myBooks[i].id}', '${userResponse.data.rank}')">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor"
                                                     class="bi bi-pen" viewBox="0 0 16 16">
                                                     <path
@@ -1129,56 +1141,11 @@ function getBooks(responseBook, userResponse) {
                                 </div>
                             </div>
                         </div>
-                    `;
-                }
+                `;
 
             } else {
-                if (responseBook.data.myBooks[i].companyName != undefined){
-                    books_div.innerHTML += `
-                        <div class="container medium-card book-card" style="background-color: #EAD7BE;">
-                            <div class="row">
-                                <div class="col-3 my-col3" id="s5-mediumCardPic-div">
-                                    <!--? Picture => Alt-nak mehet majd a könyv címe -->
-                                
-                                    <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${responseBook.data.myBooks[i].title}">
-                                    
-                                </div>
-        
-                                <div class="col-9 medium-right-side">
-                                    <!--? Author + Book Title  -->
-                                    <h2 class="container medium-h2" >${responseBook.data.myBooks[i].title}</h2>
-                                    <p class="username author" onclick="navigateToProfile('${responseBook.data.myBooks[i].username}')">${responseBook.data.myBooks[i].firstName} ${responseBook.data.myBooks[i].lastName}</p>
-                                    <p class="username author">${responseBook.data.myBooks[i].companyName}</p>
-                                    <p class="medium-desc" >${responseBook.data.myBooks[i].description}</p>
-        
-                                    <div class="card-footer">
-                                    <button class="moreBtn-medium" data-bs-toggle="modal" data-bs-target="#bookPopup"
-                                    onclick="loadModalData('${responseBook.data.myBooks[i].coverImage}', '${responseBook.data.myBooks[i].title}', '${responseBook.data.myBooks[i].firstName}', '${responseBook.data.myBooks[i].lastName}', '${responseBook.data.myBooks[i].description}', '${responseBook.data.myBooks[i].language}', '${responseBook.data.myBooks[i].rating}', '${responseBook.data.myBooks[i].pagesNumber}', '${responseBook.data.myBooks[i].price}', '${responseBook.data.myBooks[i].username}')">Show
-                                    Details</button>
-        
-                                        <div class="edit-delete-div-books">
-                                            <button type="button" class="bg-transparent border-0 edit-book" onclick="setBookFunction(${responseBook.data.myBooks[i].id})">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor"
-                                                    class="bi bi-pen" viewBox="0 0 16 16">
-                                                    <path
-                                                        d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
-                                                </svg>
-                                            </button>
-        
-                                            <button type="button" class="bg-transparent border-0 delete-book" onclick="DeleteBookBTN(this, ${responseBook.data.myBooks[i].id})">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                                                    <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
 
-                }else{
-                    books_div.innerHTML += `
+                books_div.innerHTML += `
                         <div class="container medium-card book-card" style="background-color: #EAD7BE;">
                             <div class="row">
                                 <div class="col-3 my-col3" id="s5-mediumCardPic-div">
@@ -1192,15 +1159,16 @@ function getBooks(responseBook, userResponse) {
                                     <!--? Author + Book Title  -->
                                     <h2 class="container medium-h2" >${responseBook.data.myBooks[i].title}</h2>
                                     <p class="username author" onclick="navigateToProfile('${responseBook.data.myBooks[i].username}')">${responseBook.data.myBooks[i].firstName} ${responseBook.data.myBooks[i].lastName}</p>
+                                    <p class="username author">${responseBook.data.myBooks[i].companyName || ''}</p>
                                     <p class="medium-desc" >${responseBook.data.myBooks[i].description}</p>
         
                                     <div class="card-footer">
-                                    <button class="moreBtn-medium" data-bs-toggle="modal" data-bs-target="#bookPopup"
-                                    onclick="loadModalData('${responseBook.data.myBooks[i].coverImage}', '${responseBook.data.myBooks[i].title}', '${responseBook.data.myBooks[i].firstName}', '${responseBook.data.myBooks[i].lastName}', '${responseBook.data.myBooks[i].description}', '${responseBook.data.myBooks[i].language}', '${responseBook.data.myBooks[i].rating}', '${responseBook.data.myBooks[i].pagesNumber}', '${responseBook.data.myBooks[i].price}', '${responseBook.data.myBooks[i].username}')">Show
-                                    Details</button>
+                                        <button class="moreBtn-medium" data-bs-toggle="modal" data-bs-target="#bookPopup" 
+                                        onclick="loadModalData('${responseBook.data.myBooks[i].coverImage}', '${responseBook.data.myBooks[i].title}', '${responseBook.data.myBooks[i].firstName}', '${responseBook.data.myBooks[i].lastName}', '${responseBook.data.myBooks[i].description}', '${responseBook.data.myBooks[i].language}', '${responseBook.data.myBooks[i].rating}', '${responseBook.data.myBooks[i].pagesNumber}', '${responseBook.data.myBooks[i].price}', '${responseBook.data.myBooks[i].username}', ${responseBook.data.myBooks[i].companyName !== undefined ? `'${responseBook.data.myBooks[i].companyName}'` : null})">Show
+                                        Details</button>
         
                                         <div class="edit-delete-div-books">
-                                            <button type="button" class="bg-transparent border-0 edit-book" onclick="setBookFunction(${responseBook.data.myBooks[i].id})">
+                                        <button type="button" class="bg-transparent border-0 edit-book" onclick="setBookFunction('${responseBook.data.myBooks[i].id}', '${userResponse.data.rank}')">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor"
                                                     class="bi bi-pen" viewBox="0 0 16 16">
                                                     <path
@@ -1218,8 +1186,7 @@ function getBooks(responseBook, userResponse) {
                                 </div>
                             </div>
                         </div>
-                    `;
-                }
+                `;
             }
         }
     }
@@ -1378,7 +1345,7 @@ const c_error = document.getElementById('c-error');
  * @param {HTMLDivElement} buttonsRow - The div that contains the cancel and save buttons
  */
 function EditIcon(element, buttonsRow) {
-    element.removeAttribute('readonly')
+    element.removeAttribute('disabled')
     buttonsRow.hidden = false;
     console.log("Most szerkeszthető az input");
 }
@@ -1391,7 +1358,7 @@ function EditIcon(element, buttonsRow) {
  */
 function Cancel(element, buttonsRow) {
     element.value = "";
-    element.setAttribute('readonly', true);
+    element.setAttribute('disabled', true);
     buttonsRow.hidden = true;
 }
 
@@ -1787,8 +1754,7 @@ un_save.addEventListener('click', async function () {
         if (setUnResponse.status == 200) {
             // console.log("Sikeresen szerkesztetted a usernevet a következőre: " + inputUn_value);
 
-            window.location.href = "../Log-in/login.html";
-            localStorage.removeItem("Token");
+            window.location.href = `../Profile/profile.html?username=${inputUn_value}`;
 
         } else if (setUnResponse.status == 401) {
             window.location.href = "../Log-in/login.html";

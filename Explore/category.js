@@ -4,9 +4,11 @@ const SavedBooks = document.getElementById('SavedBooks');
 
 const c_name = document.getElementById('category-name');
 const current_page = document.getElementById('current-page');
-const books_side = document.getElementById('right-side');
+const books_side = document.getElementById('books-div');
 
 const no_category_result = document.getElementById('noCategoryResult');
+const no_self_result = document.getElementById('noSelfInCategory');
+const no_publisher_result = document.getElementById('noPublihserInCategory');
 
 //Modal btn-s
 const shopping_btn = document.getElementById('shopping-cart');
@@ -187,13 +189,11 @@ function LoadSearchResult() {
         });
 
     } else {
-        // document.getElementById('noSearchResult').hidden = true;
 
         for (let i = 0; i <= storedSearchResult.length - 1; i++) {
-            //    console.log(storedSearchResult[i].title);
 
             if (storedSearchResult[i].coverImage == "Ez a kép elérési útja") {
-                // if (storedSearchResult[i].publisher != undefined) {
+
 
                 books_side.innerHTML += `
                     <div class="col-6">
@@ -208,7 +208,11 @@ function LoadSearchResult() {
                                     <p class="username author" onclick="navigateToProfile('${storedSearchResult[i].username}')">${storedSearchResult[i].firstName} ${storedSearchResult[i].lastName}</p>
                                     <p class="username author" >${storedSearchResult[i].publisher || ''}</p>
                                     <p class="medium-desc" >${storedSearchResult[i].description}</p>
-                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${storedSearchResult[i].coverImage}', '${storedSearchResult[i].title}', '${storedSearchResult[i].firstName}', '${storedSearchResult[i].lastName}', '${storedSearchResult[i].description}', '${storedSearchResult[i].language}', '${storedSearchResult[i].rating}', '${storedSearchResult[i].pagesNumber}', '${storedSearchResult[i].price}', '${storedSearchResult[i].username}', '${storedSearchResult[i].publisher !== undefined ? storedSearchResult[i].publisher : null}')">Show Details</button>
+                                    
+                                    <div class="bottom-row-medium">
+                                        <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${storedSearchResult[i].coverImage}', '${storedSearchResult[i].title}', '${storedSearchResult[i].firstName}', '${storedSearchResult[i].lastName}', '${storedSearchResult[i].description}', '${storedSearchResult[i].language}', '${storedSearchResult[i].rating}', '${storedSearchResult[i].pagesNumber}', '${storedSearchResult[i].price}', '${storedSearchResult[i].username}', '${storedSearchResult[i].publisher !== undefined ? storedSearchResult[i].publisher : null}')">Show Details</button>
+                                        <p class="category" id="s2-mediumC-category">Comedy</p>
+                                    </div>
                                 </div>
                              </div>
                          </div>
@@ -230,7 +234,10 @@ function LoadSearchResult() {
                                     <p class="username author" onclick="navigateToProfile('${storedSearchResult[i].username}')">${storedSearchResult[i].firstName} ${storedSearchResult[i].lastName}</p>
                                     <p class="username author" >${storedSearchResult[i].publisher || ''}</p>
                                     <p class="medium-desc" >${storedSearchResult[i].description}</p>
-                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${storedSearchResult[i].coverImage}', '${storedSearchResult[i].title}', '${storedSearchResult[i].firstName}', '${storedSearchResult[i].lastName}', '${storedSearchResult[i].description}', '${storedSearchResult[i].language}', '${storedSearchResult[i].rating}', '${storedSearchResult[i].pagesNumber}', '${storedSearchResult[i].price}', '${storedSearchResult[i].username}', '${storedSearchResult[i].publisher !== undefined ? storedSearchResult[i].publisher : null}')">Show Details</button>
+                                    <div class="bottom-row-medium">
+                                        <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${storedSearchResult[i].coverImage}', '${storedSearchResult[i].title}', '${storedSearchResult[i].firstName}', '${storedSearchResult[i].lastName}', '${storedSearchResult[i].description}', '${storedSearchResult[i].language}', '${storedSearchResult[i].rating}', '${storedSearchResult[i].pagesNumber}', '${storedSearchResult[i].price}', '${storedSearchResult[i].username}', '${storedSearchResult[i].publisher !== undefined ? storedSearchResult[i].publisher : null}')">Show Details</button>
+                                        <p class="category" id="s2-mediumC-category">Comedy</p>
+                                    </div>
                                 </div>
                              </div>
                          </div>
@@ -263,8 +270,11 @@ function LoadCategoryResult(response) {
                                 <p class="username author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
                                 <p class="username author" >${response.data[i].publisher || ''}</p>
                                 <p class="medium-desc" >${response.data[i].description}</p>
-                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', '${response.data[i].publisher !== undefined ? response.data[i].publisher : null}')">Show Details</button>
-    
+                                
+                                <div class="bottom-row-medium">
+                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', '${response.data[i].publisher !== undefined ? response.data[i].publisher : null}')">Show Details</button>
+                                    <p class="category" id="s2-mediumC-category">Comedy</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -287,7 +297,10 @@ function LoadCategoryResult(response) {
                                 <p class="username author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
                                 <p class="username author" >${response.data[i].publisher || ''}</p>
                                 <p class="medium-desc" >${response.data[i].description}</p>
-                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', '${response.data[i].publisher !== undefined ? response.data[i].publisher : null}')">Show Details</button>
+                                <div class="bottom-row-medium">
+                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', '${response.data[i].publisher !== undefined ? response.data[i].publisher : null}')">Show Details</button>
+                                    <p class="category" id="s2-mediumC-category">Comedy</p>
+                                </div>
     
                             </div>
                         </div>
@@ -394,6 +407,9 @@ function loadModalData(url, title, firstName, lastName, description, language, r
 // most saved books
 const mostSaved = document.getElementById('most-saved-books-radio');
 mostSaved.addEventListener('change', async function () {
+    no_publisher_result.hidden = true;
+    no_self_result.hidden = true;
+    
     if (this.checked) {
         books_side.innerHTML = '';
 
@@ -416,8 +432,10 @@ mostSaved.addEventListener('change', async function () {
                                         <p class="username author"  onclick="navigateToProfile('${mostSaved_result.data[i].username}')">${mostSaved_result.data[i].firstName} ${mostSaved_result.data[i].lastName}</p>
                                         <p class="username author" >${mostSaved_result.data[i].publisher || ''}</p>
                                         <p class="medium-desc" >${mostSaved_result.data[i].description}</p>
-                                        <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${mostSaved_result.data[i].coverImage}', '${mostSaved_result.data[i].title}', '${mostSaved_result.data[i].firstName}', '${mostSaved_result.data[i].lastName}', '${mostSaved_result.data[i].description}', '${mostSaved_result.data[i].language}', '${mostSaved_result.data[i].rating}', '${mostSaved_result.data[i].pagesNumber}', '${mostSaved_result.data[i].price}', '${mostSaved_result.data[i].username}', '${mostSaved_result.data[i].publisher !== undefined ? mostSaved_result.data[i].publisher : null}')">Show Details</button>
-            
+                                        <div class="bottom-row-medium">
+                                            <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${mostSaved_result.data[i].coverImage}', '${mostSaved_result.data[i].title}', '${mostSaved_result.data[i].firstName}', '${mostSaved_result.data[i].lastName}', '${mostSaved_result.data[i].description}', '${mostSaved_result.data[i].language}', '${mostSaved_result.data[i].rating}', '${mostSaved_result.data[i].pagesNumber}', '${mostSaved_result.data[i].price}', '${mostSaved_result.data[i].username}', '${mostSaved_result.data[i].publisher !== undefined ? mostSaved_result.data[i].publisher : null}')">Show Details</button>
+                                            <p class="category" id="s2-mediumC-category">Comedy</p>
+                                        </div>   
                                     </div>
                                 </div>
                             </div>
@@ -439,7 +457,10 @@ mostSaved.addEventListener('change', async function () {
                                         <p class="username author"  onclick="navigateToProfile('${mostSaved_result.data[i].username}')">${mostSaved_result.data[i].firstName} ${mostSaved_result.data[i].lastName}</p>
                                         <p class="username author" >${mostSaved_result.data[i].publisher || ''}</p>
                                         <p class="medium-desc" >${mostSaved_result.data[i].description}</p>
-                                        <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${mostSaved_result.data[i].coverImage}', '${mostSaved_result.data[i].title}', '${mostSaved_result.data[i].firstName}', '${mostSaved_result.data[i].lastName}', '${mostSaved_result.data[i].description}', '${mostSaved_result.data[i].language}', '${mostSaved_result.data[i].rating}', '${mostSaved_result.data[i].pagesNumber}', '${mostSaved_result.data[i].price}', '${mostSaved_result.data[i].username}', '${mostSaved_result.data[i].publisher !== undefined ? mostSaved_result.data[i].publisher : null}')">Show Details</button>
+                                        <div class="bottom-row-medium">
+                                            <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${mostSaved_result.data[i].coverImage}', '${mostSaved_result.data[i].title}', '${mostSaved_result.data[i].firstName}', '${mostSaved_result.data[i].lastName}', '${mostSaved_result.data[i].description}', '${mostSaved_result.data[i].language}', '${mostSaved_result.data[i].rating}', '${mostSaved_result.data[i].pagesNumber}', '${mostSaved_result.data[i].price}', '${mostSaved_result.data[i].username}', '${mostSaved_result.data[i].publisher !== undefined ? mostSaved_result.data[i].publisher : null}')">Show Details</button>
+                                            <p class="category" id="s2-mediumC-category">Comedy</p>
+                                        </div>
             
                                     </div>
                                 </div>
@@ -459,6 +480,9 @@ mostSaved.addEventListener('change', async function () {
 // top rated books
 const topRated = document.getElementById('top-rated-books-radio');
 topRated.addEventListener('change', async function () {
+    no_publisher_result.hidden = true;
+    no_self_result.hidden = true;
+
     if (this.checked) {
         // console.log(this.id);
         books_side.innerHTML = '';
@@ -480,8 +504,10 @@ topRated.addEventListener('change', async function () {
                                     <p class="username author"  onclick="navigateToProfile('${mostRated_result.data[i].username}')">${mostRated_result.data[i].firstName} ${mostRated_result.data[i].lastName}</p>
                                     <p class="username author" >${mostRated_result.data[i].publisher || ''}</p>
                                     <p class="medium-desc" >${mostRated_result.data[i].description}</p>
-                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${mostRated_result.data[i].coverImage}', '${mostRated_result.data[i].title}', '${mostRated_result.data[i].firstName}', '${mostRated_result.data[i].lastName}', '${mostRated_result.data[i].description}', '${mostRated_result.data[i].language}', '${mostRated_result.data[i].rating}', '${mostRated_result.data[i].pagesNumber}', '${mostRated_result.data[i].price}', '${mostRated_result.data[i].username}', '${mostRated_result.data[i].publisher !== undefined ? mostRated_result.data[i].publisher : null}')">Show Details</button>
-            
+                                    <div class="bottom-row-medium">
+                                        <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${mostRated_result.data[i].coverImage}', '${mostRated_result.data[i].title}', '${mostRated_result.data[i].firstName}', '${mostRated_result.data[i].lastName}', '${mostRated_result.data[i].description}', '${mostRated_result.data[i].language}', '${mostRated_result.data[i].rating}', '${mostRated_result.data[i].pagesNumber}', '${mostRated_result.data[i].price}', '${mostRated_result.data[i].username}', '${mostRated_result.data[i].publisher !== undefined ? mostRated_result.data[i].publisher : null}')">Show Details</button>
+                                        <p class="category" id="s2-mediumC-category">Comedy</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -501,7 +527,10 @@ topRated.addEventListener('change', async function () {
                                     <p class="username author"  onclick="navigateToProfile('${mostRated_result.data[i].username}')">${mostRated_result.data[i].firstName} ${mostRated_result.data[i].lastName}</p>
                                     <p class="username author" >${mostRated_result.data[i].publisher || ''}</p>
                                     <p class="medium-desc" >${mostRated_result.data[i].description}</p>
-                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${mostRated_result.data[i].coverImage}', '${mostRated_result.data[i].title}', '${mostRated_result.data[i].firstName}', '${mostRated_result.data[i].lastName}', '${mostRated_result.data[i].description}', '${mostRated_result.data[i].language}', '${mostRated_result.data[i].rating}', '${mostRated_result.data[i].pagesNumber}', '${mostRated_result.data[i].price}', '${mostRated_result.data[i].username}', '${mostRated_result.data[i].publisher !== undefined ? mostRated_result.data[i].publisher : null}')">Show Details</button>
+                                    <div class="bottom-row-medium">
+                                        <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${mostRated_result.data[i].coverImage}', '${mostRated_result.data[i].title}', '${mostRated_result.data[i].firstName}', '${mostRated_result.data[i].lastName}', '${mostRated_result.data[i].description}', '${mostRated_result.data[i].language}', '${mostRated_result.data[i].rating}', '${mostRated_result.data[i].pagesNumber}', '${mostRated_result.data[i].price}', '${mostRated_result.data[i].username}', '${mostRated_result.data[i].publisher !== undefined ? mostRated_result.data[i].publisher : null}')">Show Details</button>
+                                        <p class="category" id="s2-mediumC-category">Comedy</p>
+                                    </div>
             
                                 </div>
                             </div>
@@ -525,58 +554,72 @@ topRated.addEventListener('change', async function () {
 // self published books
 const selfBooks = document.getElementById('self-published-books-radio');
 selfBooks.addEventListener('change', async function () {
+    no_publisher_result.hidden = true;
+    no_self_result.hidden = true;
     if (this.checked) {
         books_side.innerHTML = '';
         const self_result = await getFilteredBooks({ "categoryId": categoryId, "filter": 9 });
 
         if (self_result.status == 200) {
-            for (let i = 0; i <= self_result.data.length - 1; i++) {
-                if (self_result.data[i].coverImage == "Ez a kép elérési útja") {
+            if (self_result.data.length == 0) {
+                no_self_result.hidden = false;
+            } else {
+                no_self_result.hidden = true;
+                for (let i = 0; i <= self_result.data.length - 1; i++) {
+                    if (self_result.data[i].coverImage == "Ez a kép elérési útja") {
 
-                    books_side.innerHTML += `
-                            <div class="container medium-card" style="background-color: #EAD7BE;">
-                                <div class="row">
-                                    <div class="col-3 my-col3" >
-                                        <img class="medium-pic" src="../pictures/standard-book-cover.jpg">
+                        books_side.innerHTML += `
+                                <div class="container medium-card" style="background-color: #EAD7BE;">
+                                    <div class="row">
+                                        <div class="col-3 my-col3" >
+                                            <img class="medium-pic" src="../pictures/standard-book-cover.jpg">
+                                            
+                                        </div>
+                
+                                        <div class="col-9 medium-right-side">
                                         
-                                    </div>
-            
-                                    <div class="col-9 medium-right-side">
-                                    
-                                        <h2 class="container medium-h2">${self_result.data[i].title}</h2>
-                                        <p class="username author"  onclick="navigateToProfile('${self_result.data[i].username}')">${self_result.data[i].firstName} ${self_result.data[i].lastName}</p>
-                                        <p class="medium-desc" >${self_result.data[i].description}</p>
-                                        <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${self_result.data[i].coverImage}', '${self_result.data[i].title}', '${self_result.data[i].firstName}', '${self_result.data[i].lastName}', '${self_result.data[i].description}', '${self_result.data[i].language}', '${self_result.data[i].rating}', '${self_result.data[i].pagesNumber}', '${self_result.data[i].price}', '${self_result.data[i].username}', 'null')">Show Details</button>
-            
+                                            <h2 class="container medium-h2">${self_result.data[i].title}</h2>
+                                            <p class="username author"  onclick="navigateToProfile('${self_result.data[i].username}')">${self_result.data[i].firstName} ${self_result.data[i].lastName}</p>
+                                            <p class="medium-desc" >${self_result.data[i].description}</p>
+                                            
+                                            <div class="bottom-row-medium">
+                                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${self_result.data[i].coverImage}', '${self_result.data[i].title}', '${self_result.data[i].firstName}', '${self_result.data[i].lastName}', '${self_result.data[i].description}', '${self_result.data[i].language}', '${self_result.data[i].rating}', '${self_result.data[i].pagesNumber}', '${self_result.data[i].price}', '${self_result.data[i].username}', 'null')">Show Details</button>
+                                                <p class="category" id="s2-mediumC-category">Comedy</p>
+                                            </div> 
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-            
-                        `;
+                
+                            `;
 
-                } else {
-                    books_side.innerHTML += `
-                            <div class="container medium-card" style="background-color: #EAD7BE;">
-                                <div class="row">
-                                    <div class="col-3 my-col3" >
-                                        <img class="medium-pic" src="../${self_result.data[i].coverImage}.jpg">
+                    } else {
+                        books_side.innerHTML += `
+                                <div class="container medium-card" style="background-color: #EAD7BE;">
+                                    <div class="row">
+                                        <div class="col-3 my-col3" >
+                                            <img class="medium-pic" src="../${self_result.data[i].coverImage}.jpg">
+                                            
+                                        </div>
+                
+                                        <div class="col-9 medium-right-side">
                                         
-                                    </div>
-            
-                                    <div class="col-9 medium-right-side">
-                                    
-                                        <h2 class="container medium-h2">${self_result.data[i].title}</h2>
-                                        <p class="username author"  onclick="navigateToProfile('${self_result.data[i].username}')">${self_result.data[i].firstName} ${self_result.data[i].lastName}</p>
-                                        <p class="medium-desc" >${self_result.data[i].description}</p>
-                                        <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${self_result.data[i].coverImage}', '${self_result.data[i].title}', '${self_result.data[i].firstName}', '${self_result.data[i].lastName}', '${self_result.data[i].description}', '${self_result.data[i].language}', '${self_result.data[i].rating}', '${self_result.data[i].pagesNumber}', '${self_result.data[i].price}', 'null')">Show Details</button>
-            
+                                            <h2 class="container medium-h2">${self_result.data[i].title}</h2>
+                                            <p class="username author"  onclick="navigateToProfile('${self_result.data[i].username}')">${self_result.data[i].firstName} ${self_result.data[i].lastName}</p>
+                                            <p class="medium-desc" >${self_result.data[i].description}</p>
+                                            <div class="bottom-row-medium">
+                                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${self_result.data[i].coverImage}', '${self_result.data[i].title}', '${self_result.data[i].firstName}', '${self_result.data[i].lastName}', '${self_result.data[i].description}', '${self_result.data[i].language}', '${self_result.data[i].rating}', '${self_result.data[i].pagesNumber}', '${self_result.data[i].price}', '${self_result.data[i].username}', 'null')">Show Details</button>
+                                                <p class="category" id="s2-mediumC-category">Comedy</p>
+                                            </div> 
+                
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-            
-                        `;
+                
+                            `;
+                    }
                 }
             }
+
         } else if (self_result.status == 401) {
             window.location.href = '../Log-in/login.html';
         } else {
@@ -588,60 +631,74 @@ selfBooks.addEventListener('change', async function () {
 // published by publisher
 const byPublisher = document.getElementById('published-by-publisher-books-radio');
 byPublisher.addEventListener('change', async function () {
+    no_publisher_result.hidden = true;
+    no_self_result.hidden = true;
     if (this.checked) {
         books_side.innerHTML = '';
         const publisher_result = await getFilteredBooks({ "categoryId": categoryId, "filter": 10 });
         if (publisher_result.status == 200) {
-            for (let i = 0; i <= publisher_result.data.length - 1; i++) {
-                if (publisher_result.data[i].coverImage == "Ez a kép elérési útja") {
+            if (publisher_result.data.length == 0) {
+                no_publisher_result.hidden = false;
+            } else {
+                no_publisher_result.hidden = true;
+                for (let i = 0; i <= publisher_result.data.length - 1; i++) {
+                    if (publisher_result.data[i].coverImage == "Ez a kép elérési útja") {
 
-                    books_side.innerHTML += `
-                            <div class="container medium-card" style="background-color: #EAD7BE;">
-                                <div class="row">
-                                    <div class="col-3 my-col3" >
-                                        <img class="medium-pic" src="../pictures/standard-book-cover.jpg">
+                        books_side.innerHTML += `
+                                <div class="container medium-card" style="background-color: #EAD7BE;">
+                                    <div class="row">
+                                        <div class="col-3 my-col3" >
+                                            <img class="medium-pic" src="../pictures/standard-book-cover.jpg">
+                                            
+                                        </div>
+                
+                                        <div class="col-9 medium-right-side">
                                         
-                                    </div>
-            
-                                    <div class="col-9 medium-right-side">
-                                    
-                                        <h2 class="container medium-h2">${publisher_result.data[i].title}</h2>
-                                        <p class="username author" onclick="navigateToProfile('${publisher_result.data[i].username}')">${publisher_result.data[i].firstName} ${publisher_result.data[i].lastName}</p>
-                                        <p class="username author">${publisher_result.data[i].publisher}</p>
-                                        <p class="medium-desc">${publisher_result.data[i].description}</p>
-                                        <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${publisher_result.data[i].coverImage}', '${publisher_result.data[i].title}', '${publisher_result.data[i].firstName}', '${publisher_result.data[i].lastName}', '${publisher_result.data[i].description}', '${publisher_result.data[i].language}', '${publisher_result.data[i].rating}', '${publisher_result.data[i].pagesNumber}', '${publisher_result.data[i].price}', '${publisher_result.data[i].username}', '${publisher_result.data[i].publisher}')">Show Details</button>
-            
+                                            <h2 class="container medium-h2">${publisher_result.data[i].title}</h2>
+                                            <p class="username author" onclick="navigateToProfile('${publisher_result.data[i].username}')">${publisher_result.data[i].firstName} ${publisher_result.data[i].lastName}</p>
+                                            <p class="username author">${publisher_result.data[i].publisher}</p>
+                                            <p class="medium-desc">${publisher_result.data[i].description}</p>
+                                            
+                                            <div class="bottom-row-medium">
+                                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${publisher_result.data[i].coverImage}', '${publisher_result.data[i].title}', '${publisher_result.data[i].firstName}', '${publisher_result.data[i].lastName}', '${publisher_result.data[i].description}', '${publisher_result.data[i].language}', '${publisher_result.data[i].rating}', '${publisher_result.data[i].pagesNumber}', '${publisher_result.data[i].price}', '${publisher_result.data[i].username}', '${publisher_result.data[i].publisher}')">Show Details</button>
+                                                <p class="category" id="s2-mediumC-category">Comedy</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-            
-                        `;
+                
+                            `;
 
-                } else {
+                    } else {
 
-                    books_side.innerHTML += `
-                            <div class="container medium-card" style="background-color: #EAD7BE;">
-                                <div class="row">
-                                    <div class="col-3 my-col3">
-                                        <img class="medium-pic" src="../${publisher_result.data[i].coverImage}.jpg">
+                        books_side.innerHTML += `
+                                <div class="container medium-card" style="background-color: #EAD7BE;">
+                                    <div class="row">
+                                        <div class="col-3 my-col3">
+                                            <img class="medium-pic" src="../${publisher_result.data[i].coverImage}.jpg">
+                                            
+                                        </div>
+                
+                                        <div class="col-9 medium-right-side">
                                         
-                                    </div>
-            
-                                    <div class="col-9 medium-right-side">
-                                    
-                                        <h2 class="container medium-h2">${publisher_result.data[i].title}</h2>
-                                        <p class="username author"  onclick="navigateToProfile('${publisher_result.data[i].username}')">${publisher_result.data[i].firstName} ${publisher_result.data[i].lastName}</p>
-                                        <p class="username author" >${publisher_result.data[i].publisher}</p>
-                                        <p class="medium-desc" >${publisher_result.data[i].description}</p>
-                                        <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${publisher_result.data[i].coverImage}', '${publisher_result.data[i].title}', '${publisher_result.data[i].firstName}', '${publisher_result.data[i].lastName}', '${publisher_result.data[i].description}', '${publisher_result.data[i].language}', '${publisher_result.data[i].rating}', '${publisher_result.data[i].pagesNumber}', '${publisher_result.data[i].price}', '${publisher_result.data[i].username}', '${publisher_result.data[i].publisher}')">Show Details</button>
-            
+                                            <h2 class="container medium-h2">${publisher_result.data[i].title}</h2>
+                                            <p class="username author"  onclick="navigateToProfile('${publisher_result.data[i].username}')">${publisher_result.data[i].firstName} ${publisher_result.data[i].lastName}</p>
+                                            <p class="username author" >${publisher_result.data[i].publisher}</p>
+                                            <p class="medium-desc" >${publisher_result.data[i].description}</p>
+                                            <div class="bottom-row-medium">
+                                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${publisher_result.data[i].coverImage}', '${publisher_result.data[i].title}', '${publisher_result.data[i].firstName}', '${publisher_result.data[i].lastName}', '${publisher_result.data[i].description}', '${publisher_result.data[i].language}', '${publisher_result.data[i].rating}', '${publisher_result.data[i].pagesNumber}', '${publisher_result.data[i].price}', '${publisher_result.data[i].username}', '${publisher_result.data[i].publisher}')">Show Details</button>
+                                                <p class="category" id="s2-mediumC-category">Comedy</p>
+                                            </div>
+                
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-            
-                        `;
+                
+                            `;
+                    }
                 }
             }
+
         } else if (publisher_result.status == 401) {
             window.location.href = '../Log-in/login.html';
         } else {
@@ -654,6 +711,9 @@ byPublisher.addEventListener('change', async function () {
 const abc_check = document.querySelectorAll('.ABC-radio');
 abc_check.forEach(function (radioButton) {
     radioButton.addEventListener('change', async function () {
+        no_publisher_result.hidden = true;
+        no_self_result.hidden = true;
+
         if (this.checked) {
             // console.log(this.id);
             books_side.innerHTML = '';
@@ -679,8 +739,11 @@ abc_check.forEach(function (radioButton) {
                                                 <p class="username author" onclick="navigateToProfile('${fromA_toZ.data[i].username}')">${fromA_toZ.data[i].firstName} ${fromA_toZ.data[i].lastName}</p>
                                                 <p class="username author" >${fromA_toZ.data[i].publisher || ''}</p>
                                                 <p class="medium-desc" >${fromA_toZ.data[i].description}</p>
-                                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${fromA_toZ.data[i].coverImage}', '${fromA_toZ.data[i].title}', '${fromA_toZ.data[i].firstName}', '${fromA_toZ.data[i].lastName}', '${fromA_toZ.data[i].description}', '${fromA_toZ.data[i].language}', '${fromA_toZ.data[i].rating}', '${fromA_toZ.data[i].pagesNumber}', '${fromA_toZ.data[i].price}', '${fromA_toZ.data[i].username}', '${fromA_toZ.data[i].publisher !== undefined ? fromA_toZ.data[i].publisher : null}')">Show Details</button>
-                    
+                                               
+                                                <div class="bottom-row-medium">
+                                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${fromA_toZ.data[i].coverImage}', '${fromA_toZ.data[i].title}', '${fromA_toZ.data[i].firstName}', '${fromA_toZ.data[i].lastName}', '${fromA_toZ.data[i].description}', '${fromA_toZ.data[i].language}', '${fromA_toZ.data[i].rating}', '${fromA_toZ.data[i].pagesNumber}', '${fromA_toZ.data[i].price}', '${fromA_toZ.data[i].username}', '${fromA_toZ.data[i].publisher !== undefined ? fromA_toZ.data[i].publisher : null}')">Show Details</button>
+                                                    <p class="category" id="s2-mediumC-category">Comedy</p>
+                                                </div>   
                                             </div>
                                         </div>
                                     </div>
@@ -702,7 +765,10 @@ abc_check.forEach(function (radioButton) {
                                                 <p class="username author" onclick="navigateToProfile('${fromA_toZ.data[i].username}')">${fromA_toZ.data[i].firstName} ${fromA_toZ.data[i].lastName}</p>
                                                 <p class="username author" >${fromA_toZ.data[i].publisher || ''}</p>
                                                 <p class="medium-desc" >${fromA_toZ.data[i].description}</p>
-                                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${fromA_toZ.data[i].coverImage}', '${fromA_toZ.data[i].title}', '${fromA_toZ.data[i].firstName}', '${fromA_toZ.data[i].lastName}', '${fromA_toZ.data[i].description}', '${fromA_toZ.data[i].language}', '${fromA_toZ.data[i].rating}', '${fromA_toZ.data[i].pagesNumber}', '${fromA_toZ.data[i].price}', '${fromA_toZ.data[i].username}', '${fromA_toZ.data[i].publisher !== undefined ? fromA_toZ.data[i].publisher : null}')">Show Details</button>
+                                                <div class="bottom-row-medium">
+                                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${fromA_toZ.data[i].coverImage}', '${fromA_toZ.data[i].title}', '${fromA_toZ.data[i].firstName}', '${fromA_toZ.data[i].lastName}', '${fromA_toZ.data[i].description}', '${fromA_toZ.data[i].language}', '${fromA_toZ.data[i].rating}', '${fromA_toZ.data[i].pagesNumber}', '${fromA_toZ.data[i].price}', '${fromA_toZ.data[i].username}', '${fromA_toZ.data[i].publisher !== undefined ? fromA_toZ.data[i].publisher : null}')">Show Details</button>
+                                                    <p class="category" id="s2-mediumC-category">Comedy</p>
+                                                </div>  
                     
                                             </div>
                                         </div>
@@ -743,8 +809,11 @@ abc_check.forEach(function (radioButton) {
                                                 <p class="username author" onclick="navigateToProfile('${fromZ_toA.data[i].username}')">${fromZ_toA.data[i].firstName} ${fromZ_toA.data[i].lastName}</p>
                                                 <p class="username author" >${fromZ_toA.data[i].publisher || ''}</p>
                                                 <p class="medium-desc" >${fromZ_toA.data[i].description}</p>
-                                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${fromZ_toA.data[i].coverImage}', '${fromZ_toA.data[i].title}', '${fromZ_toA.data[i].firstName}', '${fromZ_toA.data[i].lastName}', '${fromZ_toA.data[i].description}', '${fromZ_toA.data[i].language}', '${fromZ_toA.data[i].rating}', '${fromZ_toA.data[i].pagesNumber}', '${fromZ_toA.data[i].price}', '${fromZ_toA.data[i].username}', '${fromZ_toA.data[i].publisher !== undefined ? fromZ_toA.data[i].publisher : null}')">Show Details</button>
-                    
+                                               
+                                                <div class="bottom-row-medium">
+                                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${fromZ_toA.data[i].coverImage}', '${fromZ_toA.data[i].title}', '${fromZ_toA.data[i].firstName}', '${fromZ_toA.data[i].lastName}', '${fromZ_toA.data[i].description}', '${fromZ_toA.data[i].language}', '${fromZ_toA.data[i].rating}', '${fromZ_toA.data[i].pagesNumber}', '${fromZ_toA.data[i].price}', '${fromZ_toA.data[i].username}', '${fromZ_toA.data[i].publisher !== undefined ? fromZ_toA.data[i].publisher : null}')">Show Details</button>
+                                                    <p class="category" id="s2-mediumC-category">Comedy</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -766,7 +835,10 @@ abc_check.forEach(function (radioButton) {
                                             <p class="username author" onclick="navigateToProfile('${fromZ_toA.data[i].username}')">${fromZ_toA.data[i].firstName} ${fromZ_toA.data[i].lastName}</p>
                                             <p class="username author" >${fromZ_toA.data[i].publisher || ''}</p>
                                             <p class="medium-desc" >${fromZ_toA.data[i].description}</p>
-                                            <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${fromZ_toA.data[i].coverImage}', '${fromZ_toA.data[i].title}', '${fromZ_toA.data[i].firstName}', '${fromZ_toA.data[i].lastName}', '${fromZ_toA.data[i].description}', '${fromZ_toA.data[i].language}', '${fromZ_toA.data[i].rating}', '${fromZ_toA.data[i].pagesNumber}', '${fromZ_toA.data[i].price}', '${fromZ_toA.data[i].username}', '${fromZ_toA.data[i].publisher !== undefined ? fromZ_toA.data[i].publisher : null}')">Show Details</button>
+                                            <div class="bottom-row-medium">
+                                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${fromZ_toA.data[i].coverImage}', '${fromZ_toA.data[i].title}', '${fromZ_toA.data[i].firstName}', '${fromZ_toA.data[i].lastName}', '${fromZ_toA.data[i].description}', '${fromZ_toA.data[i].language}', '${fromZ_toA.data[i].rating}', '${fromZ_toA.data[i].pagesNumber}', '${fromZ_toA.data[i].price}', '${fromZ_toA.data[i].username}', '${fromZ_toA.data[i].publisher !== undefined ? fromZ_toA.data[i].publisher : null}')">Show Details</button>
+                                                <p class="category" id="s2-mediumC-category">Comedy</p>
+                                            </div>
                 
                                         </div>
                                     </div>
@@ -795,6 +867,9 @@ const byPrice = document.querySelectorAll('.byPrice');
 
 byPrice.forEach(function (radioButton) {
     radioButton.addEventListener('change', async function () {
+        no_publisher_result.hidden = true;
+        no_self_result.hidden = true;
+
         if (this.checked) {
             console.log(this.id);
             books_side.innerHTML = '';
@@ -820,8 +895,10 @@ byPrice.forEach(function (radioButton) {
                                                 <p class="username author"  onclick="navigateToProfile('${price_lowToHigh.data[i].username}')">${price_lowToHigh.data[i].firstName} ${price_lowToHigh.data[i].lastName}</p>
                                                 <p class="username author" >${price_lowToHigh.data[i].publisher || ''}</p>
                                                 <p class="medium-desc" >${price_lowToHigh.data[i].description}</p>
-                                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${price_lowToHigh.data[i].coverImage}', '${price_lowToHigh.data[i].title}', '${price_lowToHigh.data[i].firstName}', '${price_lowToHigh.data[i].lastName}', '${price_lowToHigh.data[i].description}', '${price_lowToHigh.data[i].language}', '${price_lowToHigh.data[i].rating}', '${price_lowToHigh.data[i].pagesNumber}', '${price_lowToHigh.data[i].price}', '${price_lowToHigh.data[i].username}', '${price_lowToHigh.data[i].publisher !== undefined ? price_lowToHigh.data[i].publisher : null}')">Show Details</button>
-                    
+                                                <div class="bottom-row-medium">
+                                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${price_lowToHigh.data[i].coverImage}', '${price_lowToHigh.data[i].title}', '${price_lowToHigh.data[i].firstName}', '${price_lowToHigh.data[i].lastName}', '${price_lowToHigh.data[i].description}', '${price_lowToHigh.data[i].language}', '${price_lowToHigh.data[i].rating}', '${price_lowToHigh.data[i].pagesNumber}', '${price_lowToHigh.data[i].price}', '${price_lowToHigh.data[i].username}', '${price_lowToHigh.data[i].publisher !== undefined ? price_lowToHigh.data[i].publisher : null}')">Show Details</button>
+                                                    <p class="category" id="s2-mediumC-category">Comedy</p>
+                                                </div>  
                                             </div>
                                         </div>
                                     </div>
@@ -844,7 +921,10 @@ byPrice.forEach(function (radioButton) {
                                                 <p class="username author"  onclick="navigateToProfile('${price_lowToHigh.data[i].username}')">${price_lowToHigh.data[i].firstName} ${price_lowToHigh.data[i].lastName}</p>
                                                 <p class="username author" >${price_lowToHigh.data[i].publisher || ''}</p>
                                                 <p class="medium-desc" >${price_lowToHigh.data[i].description}</p>
-                                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${price_lowToHigh.data[i].coverImage}', '${price_lowToHigh.data[i].title}', '${price_lowToHigh.data[i].firstName}', '${price_lowToHigh.data[i].lastName}', '${price_lowToHigh.data[i].description}', '${price_lowToHigh.data[i].language}', '${price_lowToHigh.data[i].rating}', '${price_lowToHigh.data[i].pagesNumber}', '${price_lowToHigh.data[i].price}', '${price_lowToHigh.data[i].username}', '${price_lowToHigh.data[i].publisher !== undefined ? price_lowToHigh.data[i].publisher : null}')">Show Details</button>
+                                                <div class="bottom-row-medium">
+                                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${price_lowToHigh.data[i].coverImage}', '${price_lowToHigh.data[i].title}', '${price_lowToHigh.data[i].firstName}', '${price_lowToHigh.data[i].lastName}', '${price_lowToHigh.data[i].description}', '${price_lowToHigh.data[i].language}', '${price_lowToHigh.data[i].rating}', '${price_lowToHigh.data[i].pagesNumber}', '${price_lowToHigh.data[i].price}', '${price_lowToHigh.data[i].username}', '${price_lowToHigh.data[i].publisher !== undefined ? price_lowToHigh.data[i].publisher : null}')">Show Details</button>
+                                                    <p class="category" id="s2-mediumC-category">Comedy</p>
+                                                </div> 
                     
                                             </div>
                                         </div>
@@ -886,8 +966,11 @@ byPrice.forEach(function (radioButton) {
                                                 <p class="username author" onclick="navigateToProfile('${price_highToLow.data[i].username}')">${price_highToLow.data[i].firstName} ${price_highToLow.data[i].lastName}</p>
                                                 <p class="username author" >${price_highToLow.data[i].publisher || ''}</p>
                                                 <p class="medium-desc">${price_highToLow.data[i].description}</p>
-                                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${price_highToLow.data[i].coverImage}', '${price_highToLow.data[i].title}', '${price_highToLow.data[i].firstName}', '${price_highToLow.data[i].lastName}', '${price_highToLow.data[i].description}', '${price_highToLow.data[i].language}', '${price_highToLow.data[i].rating}', '${price_highToLow.data[i].pagesNumber}', '${price_highToLow.data[i].price}', '${price_highToLow.data[i].username}', '${price_highToLow.data[i].publisher !== undefined ? price_highToLow.data[i].publisher : null}')">Show Details</button>
-                    
+                                                
+                                                <div class="bottom-row-medium">
+                                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${price_highToLow.data[i].coverImage}', '${price_highToLow.data[i].title}', '${price_highToLow.data[i].firstName}', '${price_highToLow.data[i].lastName}', '${price_highToLow.data[i].description}', '${price_highToLow.data[i].language}', '${price_highToLow.data[i].rating}', '${price_highToLow.data[i].pagesNumber}', '${price_highToLow.data[i].price}', '${price_highToLow.data[i].username}', '${price_highToLow.data[i].publisher !== undefined ? price_highToLow.data[i].publisher : null}')">Show Details</button>
+                                                    <p class="category" id="s2-mediumC-category">Comedy</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -909,7 +992,10 @@ byPrice.forEach(function (radioButton) {
                                                 <p class="username author" onclick="navigateToProfile('${price_highToLow.data[i].username}')">${price_highToLow.data[i].firstName} ${price_highToLow.data[i].lastName}</p>
                                                 <p class="username author" >${price_highToLow.data[i].publisher || ''}</p>
                                                 <p class="medium-desc">${price_highToLow.data[i].description}</p>
-                                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${price_highToLow.data[i].coverImage}', '${price_highToLow.data[i].title}', '${price_highToLow.data[i].firstName}', '${price_highToLow.data[i].lastName}', '${price_highToLow.data[i].description}', '${price_highToLow.data[i].language}', '${price_highToLow.data[i].rating}', '${price_highToLow.data[i].pagesNumber}', '${price_highToLow.data[i].price}', '${price_highToLow.data[i].username}', '${price_highToLow.data[i].publisher !== undefined ? price_highToLow.data[i].publisher : null}')">Show Details</button>
+                                                <div class="bottom-row-medium">
+                                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${price_highToLow.data[i].coverImage}', '${price_highToLow.data[i].title}', '${price_highToLow.data[i].firstName}', '${price_highToLow.data[i].lastName}', '${price_highToLow.data[i].description}', '${price_highToLow.data[i].language}', '${price_highToLow.data[i].rating}', '${price_highToLow.data[i].pagesNumber}', '${price_highToLow.data[i].price}', '${price_highToLow.data[i].username}', '${price_highToLow.data[i].publisher !== undefined ? price_highToLow.data[i].publisher : null}')">Show Details</button>
+                                                    <p class="category" id="s2-mediumC-category">Comedy</p>
+                                                </div>
                     
                                             </div>
                                         </div>
@@ -939,6 +1025,9 @@ const byDate = document.querySelectorAll('.byDate');
 
 byDate.forEach(function (radioButton) {
     radioButton.addEventListener('change', async function () {
+        no_publisher_result.hidden = true;
+        no_self_result.hidden = true;
+
         if (this.checked) {
             console.log(this.id);
             books_side.innerHTML = '';
@@ -965,8 +1054,10 @@ byDate.forEach(function (radioButton) {
                                                 <p class="username author" onclick="navigateToProfile('${date_lowToHigh.data[i].username}')">${date_lowToHigh.data[i].firstName} ${date_lowToHigh.data[i].lastName}</p>
                                                 <p class="username author" >${date_lowToHigh.data[i].publisher || ''}</p>
                                                 <p class="medium-desc">${date_lowToHigh.data[i].description}</p>
-                                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${date_lowToHigh.data[i].coverImage}', '${date_lowToHigh.data[i].title}', '${date_lowToHigh.data[i].firstName}', '${date_lowToHigh.data[i].lastName}', '${date_lowToHigh.data[i].description}', '${date_lowToHigh.data[i].language}', '${date_lowToHigh.data[i].rating}', '${date_lowToHigh.data[i].pagesNumber}', '${date_lowToHigh.data[i].price}', '${date_lowToHigh.data[i].username}', '${date_lowToHigh.data[i].publisher !== undefined ? date_lowToHigh.data[i].publisher : null}')">Show Details</button>
-                    
+                                                <div class="bottom-row-medium">
+                                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${date_lowToHigh.data[i].coverImage}', '${date_lowToHigh.data[i].title}', '${date_lowToHigh.data[i].firstName}', '${date_lowToHigh.data[i].lastName}', '${date_lowToHigh.data[i].description}', '${date_lowToHigh.data[i].language}', '${date_lowToHigh.data[i].rating}', '${date_lowToHigh.data[i].pagesNumber}', '${date_lowToHigh.data[i].price}', '${date_lowToHigh.data[i].username}', '${date_lowToHigh.data[i].publisher !== undefined ? date_lowToHigh.data[i].publisher : null}')">Show Details</button>
+                                                    <p class="category" id="s2-mediumC-category">Comedy</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -988,7 +1079,10 @@ byDate.forEach(function (radioButton) {
                                                 <p class="username author" onclick="navigateToProfile('${date_lowToHigh.data[i].username}')">${date_lowToHigh.data[i].firstName} ${date_lowToHigh.data[i].lastName}</p>
                                                 <p class="username author" >${date_lowToHigh.data[i].publisher || ''}</p>
                                                 <p class="medium-desc">${date_lowToHigh.data[i].description}</p>
-                                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${date_lowToHigh.data[i].coverImage}', '${date_lowToHigh.data[i].title}', '${date_lowToHigh.data[i].firstName}', '${date_lowToHigh.data[i].lastName}', '${date_lowToHigh.data[i].description}', '${date_lowToHigh.data[i].language}', '${date_lowToHigh.data[i].rating}', '${date_lowToHigh.data[i].pagesNumber}', '${date_lowToHigh.data[i].price}', '${date_lowToHigh.data[i].username}', '${date_lowToHigh.data[i].publisher !== undefined ? date_lowToHigh.data[i].publisher : null}')">Show Details</button>
+                                                <div class="bottom-row-medium">
+                                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${date_lowToHigh.data[i].coverImage}', '${date_lowToHigh.data[i].title}', '${date_lowToHigh.data[i].firstName}', '${date_lowToHigh.data[i].lastName}', '${date_lowToHigh.data[i].description}', '${date_lowToHigh.data[i].language}', '${date_lowToHigh.data[i].rating}', '${date_lowToHigh.data[i].pagesNumber}', '${date_lowToHigh.data[i].price}', '${date_lowToHigh.data[i].username}', '${date_lowToHigh.data[i].publisher !== undefined ? date_lowToHigh.data[i].publisher : null}')">Show Details</button>
+                                                    <p class="category" id="s2-mediumC-category">Comedy</p>
+                                                </div>
                     
                                             </div>
                                         </div>
@@ -1029,8 +1123,11 @@ byDate.forEach(function (radioButton) {
                                                 <p class="username author" onclick="navigateToProfile('${date_highToLow.data[i].username}')">${date_highToLow.data[i].firstName} ${date_highToLow.data[i].lastName}</p>
                                                 <p class="username author" >${date_highToLow.data[i].publisher || ''}</p>
                                                 <p class="medium-desc">${date_highToLow.data[i].description}</p>
-                                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${date_highToLow.data[i].coverImage}', '${date_highToLow.data[i].title}', '${date_highToLow.data[i].firstName}', '${date_highToLow.data[i].lastName}', '${date_highToLow.data[i].description}', '${date_highToLow.data[i].language}', '${date_highToLow.data[i].rating}', '${date_highToLow.data[i].pagesNumber}', '${date_highToLow.data[i].price}', '${date_highToLow.data[i].username}', '${date_highToLow.data[i].publisher !== undefined ? date_highToLow.data[i].publisher : null}')">Show Details</button>
-                    
+                                                
+                                                <div class="bottom-row-medium">
+                                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${date_highToLow.data[i].coverImage}', '${date_highToLow.data[i].title}', '${date_highToLow.data[i].firstName}', '${date_highToLow.data[i].lastName}', '${date_highToLow.data[i].description}', '${date_highToLow.data[i].language}', '${date_highToLow.data[i].rating}', '${date_highToLow.data[i].pagesNumber}', '${date_highToLow.data[i].price}', '${date_highToLow.data[i].username}', '${date_highToLow.data[i].publisher !== undefined ? date_highToLow.data[i].publisher : null}')">Show Details</button>
+                                                    <p class="category" id="s2-mediumC-category">Comedy</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1053,7 +1150,10 @@ byDate.forEach(function (radioButton) {
                                                 <p class="username author" onclick="navigateToProfile('${date_highToLow.data[i].username}')">${date_highToLow.data[i].firstName} ${date_highToLow.data[i].lastName}</p>
                                                 <p class="username author" >${date_highToLow.data[i].publisher || ''}</p>
                                                 <p class="medium-desc">${date_highToLow.data[i].description}</p>
-                                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${date_highToLow.data[i].coverImage}', '${date_highToLow.data[i].title}', '${date_highToLow.data[i].firstName}', '${date_highToLow.data[i].lastName}', '${date_highToLow.data[i].description}', '${date_highToLow.data[i].language}', '${date_highToLow.data[i].rating}', '${date_highToLow.data[i].pagesNumber}', '${date_highToLow.data[i].price}', '${date_highToLow.data[i].username}', '${date_highToLow.data[i].publisher !== undefined ? date_highToLow.data[i].publisher : null}')">Show Details</button>
+                                                <div class="bottom-row-medium">
+                                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${date_highToLow.data[i].coverImage}', '${date_highToLow.data[i].title}', '${date_highToLow.data[i].firstName}', '${date_highToLow.data[i].lastName}', '${date_highToLow.data[i].description}', '${date_highToLow.data[i].language}', '${date_highToLow.data[i].rating}', '${date_highToLow.data[i].pagesNumber}', '${date_highToLow.data[i].price}', '${date_highToLow.data[i].username}', '${date_highToLow.data[i].publisher !== undefined ? date_highToLow.data[i].publisher : null}')">Show Details</button>
+                                                    <p class="category" id="s2-mediumC-category">Comedy</p>
+                                                </div>
                     
                                             </div>
                                         </div>

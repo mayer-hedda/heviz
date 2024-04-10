@@ -386,7 +386,7 @@ form {
     display: flexbox;
     border-radius: 15px;
     box-shadow: 6px 6px 3px #3a3a3a2c;
-    /* margin-top: 50px; */
+    position: relative;
 }
 
 .my-col3 {
@@ -456,6 +456,24 @@ form {
     margin-bottom: 0px;
     word-wrap: break-word;
     width: 370px;
+}
+
+.category{
+    margin-top: 20px;
+    height: fit-content;
+    font-size: 18px;
+    font-family: 'Poppins-Regular';
+    background-color: #91796d;
+    padding: 5px 10px;
+    color: whitesmoke;
+    border-radius: 10px;
+}
+
+.bottom-row-medium{
+    display: flex;
+    position: absolute;
+    bottom: -5px;
+    gap: 100px;
 }
 
 .moreBtn-medium {
@@ -660,7 +678,7 @@ footer {
     
     border-top: 0.094rem solid var(--dash-color);
     background-color: var(--footer-bg-color);
-    padding-top: 50px;
+    padding-top: 30px;
     padding-right: 5%;
     padding-left: 5%;
     height: 300px;
