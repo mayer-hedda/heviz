@@ -27,20 +27,24 @@
 
 
     <nav class="navbar fixed-top navbar-expand-lg" id="navbar">
-        <div class="nav-element" id="back-arrow">
-            <button class="border-0 bg-transparent" onclick="history.back()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" fill="currentColor"
-                    class="bi bi-arrow-left" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                        d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
-                </svg>
-            </button>
+        <div class="container-fluid" id="navbarNav">
+            <div class="nav-element" id="back-arrow">
 
-        </div>
+                <button class="border-0 bg-transparent" onclick="history.back()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" fill="currentColor"
+                        class="bi bi-arrow-left" viewBox="0 0 16 16" id="back-arrow-icon">
+                        <path fill-rule="evenodd"
+                            d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+                    </svg>
+                </button>
+            </div>
 
-        <div class="container-fluid" id="logo">
-            <img src="../pictures/LOGO.svg" alt="Logo" width="125" height="40" class="d-inline-block align-text-top"
-                id="logo" />
+            <div class="container-fluid nav-element" id="logo-div">
+                <img src="../pictures/LOGO.svg" alt="Logo" width="125" height="40" class="d-inline-block align-text-top"
+                    id="logo" />
+            </div>
+
+
         </div>
     </nav>
 
@@ -98,25 +102,25 @@
 
             <div class="col-4 KissVivi">
                 <img src="../pictures/AboutUs/KVB.png" class="memberIMG" id="kvb-img">
-                <a href="#KissVivienBrigitta">
-                    <h2 class="KissVivien">Kiss Vivien Brigitta</h2>
-                </a>
+
+                <h2 class="names" id="KissVivien">Kiss Vivien Brigitta</h2>
+
                 <p class="KissViviRole roles">Frontend developer</p>
             </div>
 
             <div class="col-4 MayerHedda">
                 <img src="../pictures/AboutUs/Mayer_Hedi_img.png" class="memberIMG" id="mha-img">
-                <a href="#MayerHeddaAdrienn">
-                    <h2 class="MayerHedda">Mayer Hedda Adrienn</h2>
-                </a>
+
+                <h2 class="names" id="MayerHedda">Mayer Hedda Adrienn</h2>
+
                 <p class="MayerHediRole roles">Fullstack developer</p>
             </div>
 
             <div class="col-4 SzirenyiVivi">
                 <img src="../pictures/AboutUs/Szirenyi_Vivi_img.png" class="memberIMG" id="szv-img">
-                <a href="#SzirenyiVivi">
-                    <h2 class="SzirenyiVivien">Szirényi Vivien</h2>
-                </a>
+
+                <h2 class="names" id="SzirenyiVivien">Szirényi Vivien</h2>
+
                 <p class="SzirenyiViviRole roles">Designer & Tester & Frontend developer</p>
             </div>
 
@@ -124,14 +128,11 @@
 
     </section>
 
-    <div id="KissVivienBrigitta">
-        <!-- Ez egy üres div, de a neveink ide vannak behivatkozva azért, hogy
-        a teljes szekció látható legyen és ne lógjon rá a navbár -->
-    </div>
+
 
     <section class="third-section container-fluid">
 
-        <div class="KissVivienBrigitta">
+        <div class="KissVivienBrigitta" id="KissVivienBrigitta">
             <div class="int_bg container">
                 <h1 class="IntName">Kiss Vivien Brigitta</h1>
                 <h2 class="IntRole">Frontend developer</h2>
@@ -226,9 +227,11 @@
                                 style="margin-right: 0.625rem;"></i>cyberread2023@gmail.com
                         </li>
                         <li id="facebook"><i class="bi bi-facebook" style="margin-right: 0.625rem;"></i><a
-                                href="https://www.facebook.com/profile.php?id=61551909364683    " target="_blank">Facebook</a></li>
+                                href="https://www.facebook.com/profile.php?id=61551909364683    "
+                                target="_blank">Facebook</a></li>
                         <li id="instagram"><i class="bi bi-instagram" style="margin-right: 0.625rem;"></i><a
-                                href="https://instagram.com/cyberread2023?igshid=MzRlODBiNWFlZA==" target="_blank">Instagram</a>
+                                href="https://instagram.com/cyberread2023?igshid=MzRlODBiNWFlZA=="
+                                target="_blank">Instagram</a>
                         </li>
                         <li id="help-center"><i class="bi bi-info-circle-fill" style="margin-right: 0.625rem;"></i><a
                                 href="../HelpCenter/helpcenter.html" target="_blank">Help Center</a></li>

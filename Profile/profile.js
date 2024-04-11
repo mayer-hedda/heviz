@@ -507,7 +507,6 @@ function loadUserTextDatas(responseUser) {
     followers.innerHTML = `${responseUser.data.followersCount}`;
 }
 
-
 function checkOwnProfile(response) {
     const editPicture = document.getElementById('edit-pic-div');
     const editCover = document.getElementById('edit-coverCol-div');

@@ -1,4 +1,904 @@
-/** ---- FONTS ---- */
+/* Media Query */
+@media (min-width: 190px) and (max-width: 250px) {
+
+    #back-arrow-icon {
+        width: 25px !important;
+        height: 25px !important;
+    }
+
+    #logo-div {
+        width: fit-content;
+        margin-right: 0px;
+    }
+
+    #logo {
+        width: 70px;
+        margin-right: 0px;
+    }
+
+    .first-section {
+        margin-bottom: 80px !important;
+    }
+
+    #s1-outsideDiv {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .col-6 {
+        width: 100%;
+    }
+
+    .firstsection-h2 {
+        font-size: 15px;
+        text-decoration: underline 2px var(--primary-BTN-Bg-color) !important;
+        text-underline-offset: 5px !important;
+    }
+
+    .firstsection-ptags {
+        margin-top: 30px !important;
+    }
+
+    .firstsection-p1,
+    .firstsection-p2,
+    .firstsection-p3 {
+        font-size: 12px !important;
+    }
+
+    .firstsection-picture {
+        display: none;
+    }
+
+    .Members {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .memberIMG {
+        width: 80px !important;
+    }
+
+    .names {
+        width: 80px;
+        font-size: 12px !important;
+        text-align: center !important;
+    }
+
+    .roles {
+        width: 80px;
+        font-size: 12px !important;
+        text-align: center;
+    }
+
+    .int_bg {
+        padding: 20px 10px !important;
+    }
+
+    .IntName {
+        font-size: 18px !important;
+    }
+
+    .IntRole {
+        font-size: 15px !important;
+    }
+
+    .IntText {
+        font-size: 12px !important;
+    }
+
+    #footer-logo-div {
+        width: 150px !important;
+    }
+
+    #footer-logo {
+        width: 120px;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    #useful-links {
+        padding: 0px;
+    }
+
+    #footer-ul {
+        margin-top: 0.938rem;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email {
+        font-size: 12px !important;
+    }
+}
+
+@media (min-width: 251px) and (max-width: 320px) {
+    #back-arrow-icon {
+        width: 25px !important;
+        height: 25px !important;
+    }
+
+    #logo-div {
+        width: fit-content;
+        margin-right: 0px;
+    }
+
+    #logo {
+        width: 70px;
+        margin-right: 0px;
+    }
+
+    .first-section {
+        padding-right: 16px !important;
+        margin-bottom: 80px !important;
+    }
+
+    #s1-outsideDiv {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .col-6 {
+        width: 100%;
+    }
+
+    .firstsection-h2 {
+        font-size: 15px;
+        text-decoration: underline 2px var(--primary-BTN-Bg-color) !important;
+        text-underline-offset: 5px !important;
+    }
+
+    .firstsection-ptags {
+        margin-top: 20px !important;
+    }
+
+    .firstsection-p1,
+    .firstsection-p2,
+    .firstsection-p3 {
+        font-size: 15px !important;
+    }
+
+    .firstsection-picture {
+        display: none;
+    }
+
+    .Members {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .KissVivi,
+    .MayerHedda,
+    .SzirenyiVivi {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .memberIMG {
+        width: 150px !important;
+    }
+
+    .names {
+        width: 150px;
+        font-size: 15px !important;
+        text-align: center !important;
+    }
+
+    .roles {
+        width: 150px;
+        font-size: 15px !important;
+        text-align: center;
+    }
+
+    .int_bg {
+        padding: 20px 10px !important;
+    }
+
+    .IntName {
+        font-size: 18px !important;
+    }
+
+    .IntRole {
+        font-size: 15px !important;
+    }
+
+    .IntText {
+        font-size: 12px !important;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email {
+        font-size: 13px !important;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+
+    #footer-ul {
+        margin-top: 20px !important;
+        padding-left: 0px;
+    }
+
+    #footer-ul i {
+        width: 10px !important;
+        height: 10px !important;
+    }
+
+    #footer-logo-div {
+        width: 150px !important;
+    }
+
+    #footer-logo {
+        width: 120px;
+    }
+}
+
+@media (min-width: 321px) and (max-width: 374px) {
+    #back-arrow-icon {
+        width: 25px !important;
+        height: 25px !important;
+    }
+
+    #logo-div {
+        width: fit-content;
+        margin-right: 0px;
+    }
+
+    #logo {
+        width: 90px;
+        margin-right: 0px;
+    }
+
+    .first-section {
+        margin-bottom: 80px !important;
+        padding-left: 18px !important;
+        padding-right: 18px !important;
+    }
+
+    #s1-outsideDiv {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .col-6 {
+        width: 100%;
+    }
+
+    .firstsection-h2 {
+        font-size: 20px;
+        text-decoration: underline 2px var(--primary-BTN-Bg-color) !important;
+        text-underline-offset: 5px !important;
+    }
+
+    .firstsection-ptags {
+        margin-top: 30px !important;
+    }
+
+    .firstsection-p1,
+    .firstsection-p2,
+    .firstsection-p3 {
+        font-size: 15px !important;
+    }
+
+    .firstsection-picture {
+        display: none !important;
+    }
+
+    .Members {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .KissVivi,
+    .MayerHedda,
+    .SzirenyiVivi {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .memberIMG {
+        width: 230px !important;
+    }
+
+    .names {
+        width: 230px;
+        font-size: 18px !important;
+        text-align: center !important;
+    }
+
+    .roles {
+        width: 230px;
+        font-size: 15px !important;
+        text-align: center;
+    }
+
+    .int_bg {
+        padding: 20px 10px !important;
+    }
+
+    .IntName {
+        font-size: 20px !important;
+    }
+
+    .IntRole {
+        font-size: 18px !important;
+    }
+
+    .IntText {
+        font-size: 15px !important;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email {
+        font-size: 13px !important;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+
+    #footer-ul {
+        margin-top: 20px !important;
+        padding-left: 0px;
+    }
+
+    #footer-ul i {
+        width: 10px !important;
+        height: 10px !important;
+    }
+
+    #footer-logo-div {
+        width: 150px !important;
+    }
+
+    #footer-logo {
+        width: 120px;
+    }
+}
+
+@media (min-width: 375px) and (max-width: 424px) {
+    #back-arrow-icon {
+        width: 25px !important;
+        height: 25px !important;
+    }
+
+    #logo-div {
+        width: fit-content;
+        margin-right: 0px;
+    }
+
+    #logo {
+        width: 100px;
+        margin-right: 0px;
+    }
+
+    .first-section {
+        padding-right: 16px !important;
+        margin-bottom: 80px !important;
+    }
+
+    #s1-outsideDiv {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .col-6 {
+        width: 100%;
+    }
+
+    .firstsection-h2 {
+        font-size: 20px;
+        text-decoration: underline 2px var(--primary-BTN-Bg-color) !important;
+        text-underline-offset: 5px !important;
+    }
+
+    .firstsection-ptags {
+        margin-top: 20px !important;
+    }
+
+    .firstsection-p1,
+    .firstsection-p2,
+    .firstsection-p3 {
+        font-size: 15px !important;
+    }
+
+    .firstsection-picture {
+        display: none;
+    }
+
+    .Members {
+        display: flex;
+        flex-direction: column;
+        gap: 50px;
+    }
+
+    .KissVivi,
+    .MayerHedda,
+    .SzirenyiVivi {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .memberIMG {
+        width: 250px !important;
+    }
+
+    .names {
+        width: 250px;
+        font-size: 18px !important;
+        text-align: center !important;
+    }
+
+    .roles {
+        width: 250px;
+        font-size: 18px !important;
+        text-align: center;
+    }
+
+    .int_bg {
+        padding: 20px 15px !important;
+    }
+
+    .IntName {
+        font-size: 20px !important;
+    }
+
+    .IntRole {
+        font-size: 16px !important;
+    }
+
+    .IntText {
+        font-size: 15px !important;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email {
+        font-size: 15px !important;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    #footer-ul {
+        margin-top: 0.938rem;
+    }
+
+    #footer-logo-div {
+        width: 150px !important;
+    }
+
+    #footer-logo {
+        width: 120px;
+    }
+}
+
+@media (min-width: 425px) and (max-width: 500px) {
+    #back-arrow-icon {
+        width: 25px !important;
+        height: 25px !important;
+    }
+
+    #logo-div {
+        width: fit-content;
+        margin-right: 0px;
+    }
+
+    #logo {
+        width: 100px;
+        margin-right: 0px;
+    }
+
+    .first-section {
+        padding-right: 16px !important;
+    }
+
+    #s1-outsideDiv {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .col-6 {
+        width: 100%;
+    }
+
+    .firstsection-h2 {
+        font-size: 22px;
+        text-decoration: underline 2px var(--primary-BTN-Bg-color) !important;
+        text-underline-offset: 5px !important;
+    }
+
+    .firstsection-ptags {
+        margin-top: 20px !important;
+    }
+
+    .firstsection-p1,
+    .firstsection-p2,
+    .firstsection-p3 {
+        font-size: 16px !important;
+    }
+
+    .firstsection-picture {
+        display: none;
+    }
+
+    .Members {
+        display: flex;
+        flex-direction: column;
+        gap: 60px;
+    }
+
+    .KissVivi,
+    .MayerHedda,
+    .SzirenyiVivi {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .memberIMG {
+        width: 270px !important;
+    }
+
+    .names {
+        width: 270px;
+        font-size: 18px !important;
+        text-align: center !important;
+    }
+
+    .roles {
+        width: 270px;
+        font-size: 18px !important;
+        text-align: center;
+    }
+
+    .int_bg {
+        padding: 20px 15px !important;
+    }
+
+    .IntName {
+        font-size: 20px !important;
+    }
+
+    .IntRole {
+        font-size: 16px !important;
+    }
+
+    .IntText {
+        font-size: 15px !important;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email {
+        font-size: 15px !important;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    #footer-ul {
+        margin-top: 0.938rem;
+    }
+
+    #footer-logo-div {
+        width: 150px !important;
+    }
+
+    #footer-logo {
+        width: 120px;
+    }
+}
+
+@media (min-width: 501px) and (max-width: 630px) {
+    #back-arrow-icon {
+        width: 25px !important;
+        height: 25px !important;
+    }
+
+    #logo-div {
+        width: fit-content;
+        margin-right: 0px;
+    }
+
+    #logo {
+        width: 100px;
+        margin-right: 0px;
+    }
+
+    .first-section {
+        padding-right: 16px !important;
+    }
+
+    #s1-outsideDiv {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .col-6 {
+        width: 100%;
+    }
+
+    .firstsection-h2 {
+        font-size: 25px;
+        text-decoration: underline 2px var(--primary-BTN-Bg-color) !important;
+        text-underline-offset: 5px !important;
+    }
+
+    .firstsection-ptags {
+        margin-top: 20px !important;
+    }
+
+    .firstsection-p1,
+    .firstsection-p2,
+    .firstsection-p3 {
+        font-size: 18px !important;
+    }
+
+    .firstsection-picture {
+        display: none;
+    }
+
+    .Members {
+        display: flex;
+        flex-direction: column;
+        gap: 50px;
+    }
+
+    .KissVivi,
+    .MayerHedda,
+    .SzirenyiVivi {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .memberIMG {
+        width: 300px !important;
+    }
+
+    .names {
+        width: 300px;
+        font-size: 20px !important;
+        text-align: center !important;
+    }
+
+    .roles {
+        width: 300px;
+        font-size: 20px !important;
+        text-align: center;
+    }
+
+    .int_bg {
+        padding: 20px 15px !important;
+    }
+
+    .IntName {
+        font-size: 25px !important;
+    }
+
+    .IntRole {
+        font-size: 18px !important;
+        margin-top: 10px;
+    }
+
+    .IntText {
+        font-size: 15px !important;
+    }
+}
+
+@media (min-width: 631px) and (max-width: 768px) {
+    #back-arrow-icon {
+        width: 25px !important;
+        height: 25px !important;
+    }
+
+    #logo-div {
+        width: fit-content;
+        margin-right: 0px;
+    }
+
+    #logo {
+        width: 120px;
+        margin-right: 0px;
+    }
+   
+    #s1-picDiv {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .first-section{
+        margin-bottom: 50px !important;
+    }
+
+    .firstsection-h2 {
+        font-size: 23px;
+        text-decoration: underline 2px var(--primary-BTN-Bg-color) !important;
+        text-underline-offset: 5px !important;
+    }
+
+    .firstsection-ptags {
+        margin-top: 20px !important;
+    }
+
+    .firstsection-p1,
+    .firstsection-p2,
+    .firstsection-p3 {
+        font-size: 15px !important;
+    }
+
+    .firstsection-picture {
+        margin-top: 110px!important;
+        width: 245px;
+        height: 488px!important;
+    }
+
+    .KissVivi,
+    .MayerHedda,
+    .SzirenyiVivi {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .memberIMG {
+        width: 150px !important;
+    }
+
+    .names {
+        width: 150px;
+        font-size: 15px !important;
+        text-align: center !important;
+    }
+
+    .roles {
+        width: 150px;
+        font-size: 15px !important;
+        text-align: center;
+    }
+
+    .third-section{
+        margin-top: 40px;
+    }
+
+    .int_bg {
+        padding: 50px 20px !important;
+    }
+
+    .IntName {
+        font-size: 25px !important;
+    }
+
+    .IntRole {
+        font-size: 20px !important;
+        margin-top: 10px;
+    }
+
+    .IntText {
+        font-size: 17px !important;
+    }
+}
+
+@media (min-width: 769px) and (max-width:  991px){
+    #logo-div {
+        width: fit-content;
+        margin-right: 0px;
+    }
+
+    #logo {
+        width: 150px;
+        margin-right: 0px;
+    }
+
+    .firstsection-picture {
+        margin-top: 110px!important;
+        width: 285px;
+        height: 528px!important;
+    }
+
+    .KissVivi,
+    .MayerHedda,
+    .SzirenyiVivi {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .memberIMG {
+        width: 180px !important;
+    }
+
+    .names {
+        width: 180px;
+        font-size: 15px !important;
+        text-align: center !important;
+    }
+
+    .roles {
+        width: 180px;
+        font-size: 15px !important;
+        text-align: center;
+    }
+
+    .int_bg {
+        padding: 40px 20px !important;
+    }
+}
+
+@media (min-width: 992px) and (max-width:  1024px){
+    #logo-div {
+        width: fit-content;
+        margin-right: 0px;
+    }
+
+    .firstsection-picture{
+        margin-top: 150px!important;
+       height: 665px!important;
+    }
+
+    .KissVivi,
+    .MayerHedda,
+    .SzirenyiVivi {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .memberIMG {
+        width: 240px !important;
+    }
+
+    .names {
+        width: 240px;
+        font-size: 18px !important;
+        text-align: center !important;
+    }
+
+    .roles {
+        width: 240px;
+        font-size: 18px !important;
+        text-align: center;
+    }
+}
+
+@media (min-width: 1025px) and (max-width:  1220px){
+    .firstsection-picture{
+        height: 750px!important;
+     }
+}
+
+/* ---- FONTS ---- */
 
 @font-face {
     font-family: 'Inter-Medium';
@@ -107,8 +1007,9 @@
 
 /** --- CSS -----  */
 
-body{
-    scroll-behavior: smooth!important; /* Smooth scrolling beállítása */
+body {
+    scroll-behavior: smooth !important;
+    /* Smooth scrolling beállítása */
 }
 
 nav {
@@ -124,7 +1025,7 @@ nav {
     height: 76px;
 }
 
-#logo{
+#logo {
     display: flex;
     justify-content: right;
 }
@@ -163,7 +1064,6 @@ nav {
 .firstsection-p1 {
 
     margin-top: 40px;
-    /* font-family: 'Montserrat'; */
     font-size: 20px;
 
 }
@@ -171,7 +1071,6 @@ nav {
 .firstsection-p2 {
 
     margin-top: 10px;
-    /* font-family: 'Montserrat'; */
     font-size: 20px;
 
 }
@@ -179,7 +1078,6 @@ nav {
 .firstsection-p3 {
 
     margin-top: 10px;
-    /* font-family: 'Montserrat'; */
     font-size: 20px;
 
 }
@@ -197,8 +1095,8 @@ nav {
 
 }
 
-.memberIMG{
-    width: 300px!important;
+.memberIMG {
+    width: 300px;
     margin-bottom: 5%;
 }
 
@@ -207,28 +1105,27 @@ nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    /* margin: 100px; */
     text-align: center;
 
 }
 
-.Members a{
+.Members a {
     text-decoration: none;
 }
 
-.Members h2:hover{
-    color: var(--navbar-a-hover-color);
-}
-
-.Members img:hover{
+.Members img:hover {
     cursor: pointer;
 }
 
-.KissVivien {
+.names:hover {
+    cursor: pointer;
+    color: var(--navbar-a-hover-color) !important;
+}
+
+#KissVivien {
 
     color: #2C1810;
     font-family: 'Montserrat-Semibold', sans-serif;
-    /* font-weight: 500; */
     text-transform: uppercase;
     letter-spacing: 1px;
     font-size: 20px;
@@ -246,7 +1143,7 @@ nav {
 
 }
 
-.MayerHedda {
+#MayerHedda {
 
     color: #2C1810;
     font-family: 'Montserrat-Semibold', sans-serif;
@@ -268,7 +1165,7 @@ nav {
 
 }
 
-.SzirenyiVivien {
+#SzirenyiVivien {
 
     color: #2C1810;
     font-family: 'Montserrat-Semibold', sans-serif;
@@ -297,7 +1194,7 @@ nav {
 
 }
 
-.IntName{
+.IntName {
     font-family: 'Montserrat-Semibold', sans-serif;
     font-size: 30px;
     margin-bottom: 0;
@@ -328,16 +1225,16 @@ nav {
 .third-section,
 .fourth-section,
 .fifth-section {
-    margin-top: 3%;
+    margin-top: 50px;
     background-color: #E5D9CA;
 }
 
-.fifth-section{
+.fifth-section {
     margin-bottom: 50px;
 }
 
 footer {
-    
+
     border-top: 0.094rem solid var(--dash-color);
     background-color: var(--footer-bg-color);
     padding-top: 5%;
