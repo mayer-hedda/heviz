@@ -120,6 +120,10 @@ window.onload = async function () {
             break;
 
         case 302:
+            localStorage.removeItem('searchResult');
+            localStorage.removeItem('Error Code:');
+            localStorage.removeItem('bookId');
+            
             document.getElementById('profile-link').addEventListener('click', (e) => {
                 window.location.href = `../Profile/profile.html?username=${tokenResponse.data.username}`;
             });
@@ -352,6 +356,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                         <div class="cover-photo">
                             <img src="../${response.data[i].coverImage}.jpg" alt="${response.data[i].title}" class="cover">
                             <div class="overlay">
+                                <p class="category-overlay">Category</p>
                                 <p class="book-title">${response.data[i].title}</p>
                                 <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
                                 <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}')">Show Details</button>
@@ -367,6 +372,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                         <div class="cover-photo">
                             <img src="../pictures/standard-book-cover.jpg" alt="${response.data[i].title}" class="cover">
                             <div class="overlay">
+                                <p class="category-overlay">Category</p>
                                 <p class="book-title">${response.data[i].title}</p>
                                 <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
                                 <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}')">Show Details</button>
@@ -384,6 +390,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                         <div class="cover-photo">
                             <img src="../${response.data[i].coverImage}.jpg" alt="${response.data[i].title}" class="cover">
                             <div class="overlay">
+                                <p class="category-overlay">Category</p>
                                 <p class="book-title">${response.data[i].title}</p>
                                 <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
                                 <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}')">Show Details</button>
@@ -397,6 +404,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                         <div class="cover-photo">
                             <img src="../pictures/standard-book-cover.jpg" alt="${response.data[i].title}" class="cover">
                             <div class="overlay">
+                                <p class="category-overlay">Category</p>
                                 <p class="book-title">${response.data[i].title}</p>
                                 <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
                                 <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}')">Show Details</button>
@@ -505,6 +513,7 @@ function loadRandoms(separetedObj, separeted_number, subtitle, mediumC_PicDiv, m
                             <div class="cover-photo">
                                 <img src="../${separetedObj[separeted_number].data[i].coverImage}.jpg" alt="${separetedObj[separeted_number].data[i].title}" class="cover">
                                 <div class="overlay">
+                                    <p class="category-overlay">Category</p>
                                     <p class="book-title">${separetedObj[separeted_number].data[i].title}</p>
                                     <p class="author-p author" onclick="navigateToProfile('${separetedObj[separeted_number].data[i].username}')">${separetedObj[separeted_number].data[i].firstName} ${separetedObj[separeted_number].data[i].lastName}</p>
                                     <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${separetedObj[separeted_number].data[i].coverImage}', '${separetedObj[separeted_number].data[i].title}', '${separetedObj[separeted_number].data[i].firstName}', '${separetedObj[separeted_number].data[i].lastName}', '${separetedObj[separeted_number].data[i].description}', '${separetedObj[separeted_number].data[i].language}', '${separetedObj[separeted_number].data[i].rating}', '${separetedObj[separeted_number].data[i].pagesNumber}', '${separetedObj[separeted_number].data[i].price}', '${separetedObj[separeted_number].data[i].username}')">Show Details</button>
@@ -518,6 +527,7 @@ function loadRandoms(separetedObj, separeted_number, subtitle, mediumC_PicDiv, m
                             <div class="cover-photo">
                                 <img src="../pictures/standard-book-cover.jpg" alt="${separetedObj[separeted_number].data[i].title}" class="cover">
                                 <div class="overlay">
+                                    <p class="category-overlay">Category</p>
                                     <p class="book-title">${separetedObj[separeted_number].data[i].title}</p>
                                     <p class="author-p author" onclick="navigateToProfile('${separetedObj[separeted_number].data[i].username}')">${separetedObj[separeted_number].data[i].firstName} ${separetedObj[separeted_number].data[i].lastName}</p>
                                     <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${separetedObj[separeted_number].data[i].coverImage}', '${separetedObj[separeted_number].data[i].title}', '${separetedObj[separeted_number].data[i].firstName}', '${separetedObj[separeted_number].data[i].lastName}', '${separetedObj[separeted_number].data[i].description}', '${separetedObj[separeted_number].data[i].language}', '${separetedObj[separeted_number].data[i].rating}', '${separetedObj[separeted_number].data[i].pagesNumber}', '${separetedObj[separeted_number].data[i].price}', '${separetedObj[separeted_number].data[i].username}')">Show Details</button>
@@ -535,6 +545,7 @@ function loadRandoms(separetedObj, separeted_number, subtitle, mediumC_PicDiv, m
                             <div class="cover-photo">
                                 <img src="../${separetedObj[separeted_number].data[i].coverImage}.jpg" alt="${separetedObj[separeted_number].data[i].title}" class="cover">
                                 <div class="overlay">
+                                    <p class="category-overlay">Category</p>
                                     <p class="book-title">${separetedObj[separeted_number].data[i].title}</p>
                                     <p class="author-p author" onclick="navigateToProfile('${separetedObj[separeted_number].data[i].username}')">${separetedObj[separeted_number].data[i].firstName} ${separetedObj[separeted_number].data[i].lastName}</p>
                                     <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${separetedObj[separeted_number].data[i].coverImage}', '${separetedObj[separeted_number].data[i].title}', '${separetedObj[separeted_number].data[i].firstName}', '${separetedObj[separeted_number].data[i].lastName}', '${separetedObj[separeted_number].data[i].description}', '${separetedObj[separeted_number].data[i].language}', '${separetedObj[separeted_number].data[i].rating}', '${separetedObj[separeted_number].data[i].pagesNumber}', '${separetedObj[separeted_number].data[i].price}', '${separetedObj[separeted_number].data[i].username}')">Show Details</button>
@@ -548,6 +559,7 @@ function loadRandoms(separetedObj, separeted_number, subtitle, mediumC_PicDiv, m
                             <div class="cover-photo">
                                 <img src="../pictures/standard-book-cover.jpg" alt="${separetedObj[separeted_number].data[i].title}" class="cover">
                                 <div class="overlay">
+                                    <p class="category-overlay">Category</p>
                                     <p class="book-title">${separetedObj[separeted_number].data[i].title}</p>
                                     <p class="author-p author" onclick="navigateToProfile('${separetedObj[separeted_number].data[i].username}')">${separetedObj[separeted_number].data[i].firstName} ${separetedObj[separeted_number].data[i].lastName}</p>
                                     <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${separetedObj[separeted_number].data[i].coverImage}', '${separetedObj[separeted_number].data[i].title}', '${separetedObj[separeted_number].data[i].firstName}', '${separetedObj[separeted_number].data[i].lastName}', '${separetedObj[separeted_number].data[i].description}', '${separetedObj[separeted_number].data[i].language}', '${separetedObj[separeted_number].data[i].rating}', '${separetedObj[separeted_number].data[i].pagesNumber}', '${separetedObj[separeted_number].data[i].price}', '${separetedObj[separeted_number].data[i].username}')">Show Details</button>
@@ -565,6 +577,7 @@ function loadRandoms(separetedObj, separeted_number, subtitle, mediumC_PicDiv, m
                             <div class="cover-photo">
                                 <img src="../${separetedObj[separeted_number].data[i].coverImage}.jpg" alt="${separetedObj[separeted_number].data[i].title}" class="cover">
                                 <div class="overlay">
+                                    <p class="category-overlay">Category</p>
                                     <p class="book-title">${separetedObj[separeted_number].data[i].title}</p>
                                     <p class="author-p author" onclick="navigateToProfile('${separetedObj[separeted_number].data[i].username}')">${separetedObj[separeted_number].data[i].firstName} ${separetedObj[separeted_number].data[i].lastName}</p>
                                     <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${separetedObj[separeted_number].data[i].coverImage}', '${separetedObj[separeted_number].data[i].title}', '${separetedObj[separeted_number].data[i].firstName}', '${separetedObj[separeted_number].data[i].lastName}', '${separetedObj[separeted_number].data[i].description}', '${separetedObj[separeted_number].data[i].language}', '${separetedObj[separeted_number].data[i].rating}', '${separetedObj[separeted_number].data[i].pagesNumber}', '${separetedObj[separeted_number].data[i].price}', '${separetedObj[separeted_number].data[i].username}')">Show Details</button>
@@ -578,6 +591,7 @@ function loadRandoms(separetedObj, separeted_number, subtitle, mediumC_PicDiv, m
                             <div class="cover-photo">
                                 <img src="../pictures/standard-book-cover.jpg" alt="${separetedObj[separeted_number].data[i].title}" class="cover">
                                 <div class="overlay">
+                                    <p class="category-overlay">Category</p>
                                     <p class="book-title">${separetedObj[separeted_number].data[i].title}</p>
                                     <p class="author-p author" onclick="navigateToProfile('${separetedObj[separeted_number].data[i].username}')">${separetedObj[separeted_number].data[i].firstName} ${separetedObj[separeted_number].data[i].lastName}</p>
                                     <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${separetedObj[separeted_number].data[i].coverImage}', '${separetedObj[separeted_number].data[i].title}', '${separetedObj[separeted_number].data[i].firstName}', '${separetedObj[separeted_number].data[i].lastName}', '${separetedObj[separeted_number].data[i].description}', '${separetedObj[separeted_number].data[i].language}', '${separetedObj[separeted_number].data[i].rating}', '${separetedObj[separeted_number].data[i].pagesNumber}', '${separetedObj[separeted_number].data[i].price}', '${separetedObj[separeted_number].data[i].username}')">Show Details</button>

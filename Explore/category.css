@@ -3,15 +3,8 @@
     /* -----------COLORS -----------*/
     --primary: rgb(232, 181, 160);
     --btn-text-color: rgb(51, 47, 49);
-    /*text color for:
-        -loginBTN text
-        - signupBTN text
-        - first section btn text
-        - fourth section btn text */
     --mostUsed-text-color: rgb(65, 61, 63);
-    /* its for text colors*/
     --dash-color: rgb(129, 105, 117);
-    /* its for btn dashes*/
     --page-bg-color: rgb(247, 245, 236);
     --footer-bg-color: rgb(246, 227, 205);
     --navbar-a-color: rgb(151, 121, 110);
@@ -20,12 +13,6 @@
     --current-page-color: rgb(60, 32, 22);
     --current-page-hover-color: rgb(68, 92, 79);
     --card-bg: rgb(234, 215, 190);
-
-
-    --card-height: 400px;
-    --card-width: 270px;
-    --max-lines: 6;
-    --line-height: 1.5;
 }
 
 /*--------------- FONTS ---------------*/
@@ -432,11 +419,30 @@ form {
     border-radius: 15px;
     box-shadow: 6px 6px 3px #3a3a3a2c;
     margin-top: 50px;
+    position: relative;
 }
 
 .my-col3 {
     padding-left: 0 !important;
     padding-right: 0 !important;
+}
+
+.category{
+    margin-top: 20px;
+    height: fit-content;
+    font-size: 18px;
+    font-family: 'Poppins-Regular';
+    background-color: #91796d;
+    padding: 5px 10px;
+    color: whitesmoke;
+    border-radius: 10px;
+}
+
+.bottom-row-medium{
+    display: flex;
+    position: absolute;
+    bottom: -5px;
+    gap: 100px;
 }
 
 .medium-pic {
