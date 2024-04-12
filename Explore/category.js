@@ -119,13 +119,16 @@ window.onload = async function () {
                                 radioButton.disabled = true;
                             });
 
-                            const checkBoxes = document.querySelectorAll('input[type="checkbox"]');
-                            checkBoxes.forEach(checkBox => {
-                                checkBox.disabled = true;
+                        } else if(categoryResponse.data.length == 1){
+                            const radioButtons = document.querySelectorAll('input[type="radio"]');
+                            radioButtons.forEach(radioButton => {
+                                radioButton.disabled = true;
                             });
-                        } else {
+
+                            LoadCategoryResult(categoryResponse);
+
+                        }else {
                             document.getElementById('noCategoryResult').hidden = true;
-                            // console.log(typeof categoryResponse);
                             LoadCategoryResult(categoryResponse);
                         }
 
@@ -178,17 +181,63 @@ function LoadSearchResult() {
     if (storedSearchResult.length == 0) {
         document.getElementById('noSearchResult').hidden = false;
 
-        const radioButtons = document.querySelectorAll('input[type="radio"]');
-        radioButtons.forEach(radioButton => {
-            radioButton.disabled = true;
-        });
 
-        const checkBoxes = document.querySelectorAll('input[type="checkbox"]');
-        checkBoxes.forEach(checkBox => {
-            checkBox.disabled = true;
-        });
+    } else if(storedSearchResult.length == 1){
+       
+            if (storedSearchResult[0].coverImage == "Ez a kép elérési útja") {
 
-    } else {
+
+                books_side.innerHTML += `
+                    <div class="col-6">
+                        <div class="container medium-card" style="background-color: #EAD7BE;">
+                            <div class="row">
+                                <div class="col-3 my-col3">
+                                    <img class="medium-pic" src="../pictures/standard-book-cover.jpg">
+                                </div>
+
+                                <div class="col-9 medium-right-side">
+                                    <h2 class="container medium-h2">${storedSearchResult[0].title}</h2>
+                                    <p class="username author" onclick="navigateToProfile('${storedSearchResult[0].username}')">${storedSearchResult[0].firstName} ${storedSearchResult[0].lastName}</p>
+                                    <p class="username author" >${storedSearchResult[0].publisher || ''}</p>
+                                    <p class="medium-desc" >${storedSearchResult[0].description}</p>
+                                    
+                                    <div class="bottom-row-medium">
+                                        <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${storedSearchResult[0].coverImage}', '${storedSearchResult[0].title}', '${storedSearchResult[0].firstName}', '${storedSearchResult[0].lastName}', '${storedSearchResult[0].description}', '${storedSearchResult[0].language}', '${storedSearchResult[0].rating}', '${storedSearchResult[0].pagesNumber}', '${storedSearchResult[0].price}', '${storedSearchResult[0].username}', '${storedSearchResult[0].publisher !== undefined ? storedSearchResult[0].publisher : null}')">Show Details</button>
+                                        <p class="category" id="s2-mediumC-category">Comedy</p>
+                                    </div>
+                                </div>
+                             </div>
+                         </div>
+                     </div>
+                 `;
+
+            } else {
+
+                books_side.innerHTML += `
+                    <div class="col-6">
+                        <div class="container medium-card" style="background-color: #EAD7BE;">
+                            <div class="row">
+                                <div class="col-3 my-col3">
+                                    <img class="medium-pic" src="../${storedSearchResult[i].coverImage}.jpg">
+                                </div>
+
+                                <div class="col-9 medium-right-side">
+                                    <h2 class="container medium-h2">${storedSearchResult[i].title}</h2>
+                                    <p class="username author" onclick="navigateToProfile('${storedSearchResult[i].username}')">${storedSearchResult[i].firstName} ${storedSearchResult[i].lastName}</p>
+                                    <p class="username author" >${storedSearchResult[i].publisher || ''}</p>
+                                    <p class="medium-desc" >${storedSearchResult[i].description}</p>
+                                    <div class="bottom-row-medium">
+                                        <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${storedSearchResult[i].coverImage}', '${storedSearchResult[i].title}', '${storedSearchResult[i].firstName}', '${storedSearchResult[i].lastName}', '${storedSearchResult[i].description}', '${storedSearchResult[i].language}', '${storedSearchResult[i].rating}', '${storedSearchResult[i].pagesNumber}', '${storedSearchResult[i].price}', '${storedSearchResult[i].username}', '${storedSearchResult[i].publisher !== undefined ? storedSearchResult[i].publisher : null}')">Show Details</button>
+                                        <p class="category" id="s2-mediumC-category">Comedy</p>
+                                    </div>
+                                </div>
+                             </div>
+                         </div>
+                     </div>
+                 `;
+            }
+
+    }else {
 
         for (let i = 0; i <= storedSearchResult.length - 1; i++) {
 

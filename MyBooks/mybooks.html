@@ -218,20 +218,39 @@
 
 
                 <div class="container" id="book-list">
-                    <!-- default when the page loaded => saved books -->
-                    <div id="zero-saved" class="text-center" hidden>
-                        <p id="missing-saved" class="missing-data-text text-center">You haven't saved any books yet.</p>
-                        <button class="btn clear-filter rounded-5" id="go-to-explore"
-                            onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+
+                    <div id="loaded-books">
+                        <!-- books -->
                     </div>
 
+                    <div id="missing-datas">
+                        <!-- default when the page loaded => saved books -->
+                        <div id="zero-saved" class="text-center" hidden>
+                            <p id="missing-saved" class="missing-data-text text-center">You haven't saved any books yet.
+                            </p>
+                            <button class="btn clear-filter rounded-5" id="go-to-explore"
+                                onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+                        </div>
 
-                    <div id="zero-purchased" class="text-center" hidden>
-                        <p id="missing-purchased" class="missing-data-text text-center">You haven't bought any books
-                            yet.</p>
-                        <button class="btn clear-filter rounded-5" id="go-to-explore"
-                            onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+                        <p id="missing-self-saved" class="missing-data-text text-center" hidden>You haven't saved any
+                            self published books yet.</p>
+
+                        <p id="missing-publisher-saved" class="missing-data-text text-center" hidden>You haven't yet saved any books published by a publisher.</p>
+                        
+
+                        <div id="zero-purchased" class="text-center" hidden>
+                            <p id="missing-purchased" class="missing-data-text text-center">You haven't bought any books
+                                yet.</p>
+                            <button class="btn clear-filter rounded-5" id="go-to-explore"
+                                onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+                        </div>
+
+                        <p id="missing-self-purchased" class="missing-data-text text-center" hidden>You haven't
+                            purchased any self published books yet.</p>
+                        <p id="missing-publisher-purchased" class="missing-data-text text-center" hidden>You have not
+                            yet purchased any books published by a publisher.</p>
                     </div>
+
 
 
                 </div>
