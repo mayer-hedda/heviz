@@ -64,7 +64,6 @@ window.onload = async function () {
                      *  - Our Posts menü helyett --> My Posts
                      */
                     if (responseUser.data.rank == "general") {
-                        ourWriters_div.hidden = true;
                         our_books.textContent = "My Books";
                         our_posts.textContent = "My Posts";
                         buisness_settings.hidden = true;
