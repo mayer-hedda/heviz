@@ -15,7 +15,6 @@
 
    #error-message {
       font-size: 13px !important;
-      /* text-align: justify; */
       padding: 10px 22px 0px!important;
    }
 }
@@ -115,7 +114,6 @@
    }
 
    #error-message {
-      /* font-size: 20px !important; */
       padding-top: 0px !important;
       padding-left: 22px;
       padding-right: 22px;
@@ -174,7 +172,6 @@ body {
 }
 
 #big-container {
-   /* display: flex;  */
    margin-top: 150px;
 }
 
@@ -196,5 +193,4 @@ body {
 #error-message {
    padding-top: 50px;
    font-size: 20px;
-   /*  */
 }

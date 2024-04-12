@@ -1,9 +1,5 @@
 const username = document.getElementById('userName-p');
 const profilePic = document.getElementById('profile-icon');
-// const defaultP_pic = document.getElementById('default-profile-pic');
-
-//* LOADING DATAS
-const dataURL = './db.json';
 
 // Section tags
 const first_section = document.getElementById('first-section');
@@ -59,7 +55,7 @@ const s5_mediumC_btn = document.getElementById('s5-mediumC-btn');
 const s5_first_row = document.getElementById('s5-first-row');
 const s5_second_row = document.getElementById('s5-second-row');
 
-//* MODAL
+// MODAL
 const modal_body = document.getElementById('modal-body');
 const modal_img = document.getElementById('modal-img');
 const modal_title = document.getElementById('modal-title');
@@ -79,7 +75,6 @@ let s3 = false;
 let s4 = false;
 let s5 = false;
 
-// Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
 window.addEventListener('beforeunload', async function () {
     const tokenResponse = await token();
     console.log(tokenResponse);
@@ -89,12 +84,9 @@ window.addEventListener('beforeunload', async function () {
     }
 });
 
-// LOADING PAGE
 window.onload = async function () {
     const tokenResponse = await token();
     console.log(tokenResponse);
-    // username to the navbar
-    // console.log(tokenResponse);
 
     switch (tokenResponse.status) {
         case 401:
@@ -112,17 +104,14 @@ window.onload = async function () {
             const userResponse = await getUserDetails({ "profileUsername": tokenResponse.data.username })
 
             username.innerText = `@${tokenResponse.data.username}`;
-            // const userDatas = await getUserDetails({ "profileUsername": tokenResponse.data.username });
             profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;
 
             switch (tokenResponse.data.rank) {
                 case 'general':
                     document.getElementById('welcome').innerText = `Welcome ${userResponse.data.firstName} ${userResponse.data.lastName}!`;
 
-                    // Egy nagy random kártya
+                    // one random book
                     const responseRandomBook = await getOneRandomBook();
-                    console.log("Random book response: ", responseRandomBook);
-                    console.log("Random book response length: ", responseRandomBook.data.length);
                     // egy nagy random könyv
                     if (responseRandomBook.data.length != 0) {
                         LoadRandomBook(responseRandomBook);
@@ -132,13 +121,10 @@ window.onload = async function () {
                         first_section.hidden = true;
                     }
 
-                    // A hónap könyve(i)
+                    // book(s) of the month
                     const responseBooksOfMonth = await getMostSavedBooksOfTheMonth();
-                    console.log("Most saved books of month response: ", responseBooksOfMonth);
-                    console.log("Most saved books of month response length: ", responseBooksOfMonth.data.length);
                     // legtöbbet elmentett könyvek a hónapban
                     if (responseBooksOfMonth.data.length != 0) {
-                        // 
                         OneRowAndMediumCard("Books of the month", responseBooksOfMonth, s2_mediumC_picDiv, s2_mediumC_h2, s2_mediumC_author, s2_mediumC_publisher, s2_mediumC_p, s2_mediumC_btn, s2_first_row);
                         s2 = true;
 
@@ -149,8 +135,6 @@ window.onload = async function () {
 
                     // ajánlások neked
                     const responseRecommanded = await getRecommandedBooks();
-                    console.log("Recommanded books for you: ", responseRecommanded);
-                    console.log("Recommanded books for you length: ", responseRecommanded.data.length);
 
                     if (responseRecommanded.data.length != 0) {
                         TwoRowAndMediumCard("Recommanded books for you", responseRecommanded, s3_mediumCardPic_div, s3_mediumC_h2, s3_mediumC_author, s3_mediumC_publisher, s3_mediumC_desc, s3_mediumC_btn, s3_first_row, s3_second_row);
@@ -160,9 +144,7 @@ window.onload = async function () {
                     }
 
                     // csak kiadósok
-                    const responsePublisher = await getPublishedBooks();
-                    console.log("Publisher books: ", responsePublisher);
-                    console.log("Publisher books length: ", responsePublisher.data.length);
+                    const responsePublisher = await getPublishedBooks();;
 
                     if (responsePublisher.data.length != 0) {
                         TwoRowAndMediumCard("Publisher books", responsePublisher, s4_mediumCardPic_div, s4_mediumC_h2, s4_mediumC_author, s4_mediumC_publisher, s4_mediumC_desc, s4_mediumC_btn, s4_first_row, s4_second_row);
@@ -173,8 +155,6 @@ window.onload = async function () {
 
                     // csak öncélú
                     const responseSelfPublished = await getSelfPublishedBooks();
-                    console.log("Self-published books: ", responseSelfPublished);
-                    console.log("Self-published books length: ", responseSelfPublished.data.length);
 
                     if (responseSelfPublished.data.length != 0) {
 
@@ -259,8 +239,6 @@ function LoadRandomBook(response) {
         }
 
         modal_title.innerText = `${response.data[0].title}`;
-        // modal_title.innerText = "`${response.data[0].title}`";
-        // console.error("Cím: ", response.data[0].title);
         modal_author.innerText = `${response.data[0].firstName} ${response.data[0].lastName}`;
         modal_pages.innerText = `${response.data[0].pagesNumber}`;
 
@@ -305,9 +283,6 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
             <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
         `;
     } else {
-        // Ide majd az elési utat kell megadni az scr-be, de mivel a db-ben nincs fent a tényleges kép 
-        // ezért a szemléltetés miatt mindenhol a standard-et töltöm be 
-        console.log(sectionName, " Medium Card Cover book path: ", mediumCover);
 
         mediumC_PicDiv.innerHTML = `
 
@@ -334,7 +309,6 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
 
         if (response.data[0].coverImage != "Ez a kép elérési útja") {
 
-            console.log("Kép elérési útja: " + response.data[0].coverImage);
             modal_img.src = `../${response.data[0].coverImage}.jpg`;
         } else {
             modal_img.src = "../pictures/standard-book-cover.jpg";
@@ -345,7 +319,6 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
         } else {
             modal_publisher.innerText = "";
         }
-
 
         modal_title.innerText = `${response.data[0].title}`;
         modal_author.innerText = `${response.data[0].firstName} ${response.data[0].lastName}`;
@@ -432,8 +405,6 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
         `
     } else {
 
-        console.log(sectionName, " Medium Card Cover book path: ", response.data[0].coverImage);
-
         mediumC_PicDiv.innerHTML = `
             <img class="medium-pic" src="../${response.data[0].coverImage}.jpg" alt="${response.data[0].title} cover">
         `
@@ -457,7 +428,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
         e.preventDefault();
 
         if (response.data[0].coverImage != "Ez a kép elérési útja") {
-            console.log("Kép elérési útja: " + response.data[0].coverImage);
+            
             modal_img.src = `../${response.data[0].coverImage}.jpg`;
         } else {
             modal_img.src = "../pictures/standard-book-cover.jpg";
@@ -584,7 +555,7 @@ function loadModalData(url, title, firstName, lastName, description, language, r
     modal_title.innerText = `${title}`;
     modal_author.innerText = `${firstName} ${lastName}`;
     modal_pages.innerText = `${pages}`;
-    console.log(title + " Rating: " + rating);
+    
     if (rating != 'undefined') {
         modal_ranking.innerText = `${rating}`;
     } else {

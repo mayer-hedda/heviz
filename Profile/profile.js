@@ -8,7 +8,7 @@ const input_fName = document.getElementById('input-fName');
 const input_lName = document.getElementById('input-lName');
 const input_company = document.getElementById('input-company');
 
-let isIntroExist = false; // Ez arra szolgáló segédváltozó, hogy a rendszer üzenetet szabályozzam
+let isIntroExist = false; 
 const missing_intro_text = document.getElementById('missing-intro-text');
 const our_books = document.getElementById('our-books');
 const our_posts = document.getElementById('our-posts');
@@ -36,7 +36,6 @@ const publish_btn = document.getElementById('publish-btn');
 const modal_footer_div = document.getElementById('general-m-footer-shop');
 const book_price = document.getElementById('book-price');
 
-// Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
 window.addEventListener('beforeunload', async function () {
     const tokenResponse = await token();
     console.log(tokenResponse);
@@ -46,17 +45,14 @@ window.addEventListener('beforeunload', async function () {
 });
 
 window.onload = async function () {
-    // Szerezzük be a username paramétert a URL-ből
     const urlParams = new URLSearchParams(window.location.search);
     var usernameFromLink = urlParams.get('username');
 
-    console.log('Felhasználónév: ', usernameFromLink);
     var tokenResponese = await token();
-    // console.log(tokenResponese);
     switch (tokenResponese.status) {
         case 302:
             var responseUser = await getUserDetails({ "profileUsername": usernameFromLink });
-            console.log("User details: " + JSON.stringify(responseUser));
+          
             switch (responseUser.status) {
                 case 200:
                     /**
@@ -90,7 +86,7 @@ window.onload = async function () {
 
                         // load books
                         const responseBooks = await getUserBooks({ "profileUsername": usernameFromLink });
-                        console.log("Books details: ", responseBooks);
+                      
                         switch (responseBooks.status) {
                             case 200:
                                 getBooks(responseBooks, responseUser);
@@ -131,7 +127,7 @@ window.onload = async function () {
 
                         if (responseUser.data.rank == "publisher" && tokenResponese.data.rank == "publisher") {
                             document.getElementById('access-denied-notification').hidden = false;
-                            // books_div.hidden = true;
+                 
                         } else if (responseUser.data.rank == "general" && tokenResponese.data.rank == "publisher") {
                             publish_btn.hidden = false;
                             book_price.hidden = true;
@@ -139,7 +135,7 @@ window.onload = async function () {
 
                             // load books
                             const responseBooks = await getUserBooks({ "profileUsername": usernameFromLink });
-                            console.log("Books details: ", responseBooks);
+                          
                             switch (responseBooks.status) {
                                 case 200:
                                     getBooks(responseBooks, responseUser);
@@ -159,7 +155,7 @@ window.onload = async function () {
 
                             // load books
                             const responseBooks = await getUserBooks({ "profileUsername": usernameFromLink });
-                            console.log("Books details: ", responseBooks);
+                         
                             switch (responseBooks.status) {
                                 case 200:
                                     getBooks(responseBooks, responseUser);
@@ -185,15 +181,13 @@ window.onload = async function () {
                     if (responseUser.data.ownProfile == true) {
                         // settings endpont meghívása
                         var settingsDetails = await getDetails();
-                        console.log("Settings details: " + JSON.stringify(settingsDetails));
-
+                       
                         addPlaceholder(settingsDetails, "username", input_un);
                         addPlaceholder(settingsDetails, "website", input_website);
                         addPlaceholder(settingsDetails, "email", input_email);
                         addPlaceholder(settingsDetails, "phoneNumber", input_phoneNumber);
                         addPlaceholder(settingsDetails, "firstName", input_fName);
                         addPlaceholder(settingsDetails, "lastName", input_lName);
-                        // setSwitches(settingsDetails, isEmail_public, isPhone_public);
 
                         if (settingsDetails.data.publicEmail == true) {
                             isEmail_public.checked = true;
@@ -214,7 +208,6 @@ window.onload = async function () {
 
                     // load posts
                     const responsePosts = await getUserPosts({ "profileUsername": usernameFromLink });
-                    // console.log("Post details: ", JSON.stringify(responsePosts));
 
                     switch (responsePosts.status) {
                         case 200:
@@ -234,7 +227,7 @@ window.onload = async function () {
 
                     break;
                 case 401:
-                    // link to the login --> doesn't have token
+                   
                     window.location.href = "../Log-in/login.html";
                     break;
 
@@ -325,7 +318,6 @@ introText.addEventListener('input', (e) => {
     characterCounter.textContent = `${count}/1000`;
 
     if (count >= 950) {
-        // console.log("bemegy az ifbe");
         characterCounter.classList.remove('counter');
         characterCounter.classList.add('counterErrorLight');
 
@@ -346,12 +338,9 @@ introText.addEventListener('input', (e) => {
 
 intro_saveBtn.addEventListener('click', async function () {
     const introValue = introText.value;
-    // itt helyesen kiszedi az adatot
-    console.log(introValue);
 
     const introResult = await setIntroDescription({ "introDescription": `${introValue}` });
     if (introResult.status == 200) {
-        console.log("Successful intro description");
         location.reload();
 
     } else if (introResult.status == 401) {
@@ -377,7 +366,6 @@ post_textarea.addEventListener('input', (e) => {
     characterCounterPost.textContent = `${count}/1000`;
 
     if (count >= 950) {
-        // console.log("bemegy az ifbe");
         characterCounterPost.classList.remove('counter');
         characterCounterPost.classList.add('counterErrorLight');
 
@@ -513,7 +501,6 @@ function contactInfos(response) {
     if (response.data.website != undefined && response.data.website != "") {
         website.innerHTML = `<a href="${response.data.website}" class="website-link">${response.data.website}</a>`
         BooleanW = true;
-        // console.log("website: "+BooleanW);
     } else {
         website_div.hidden = true;
     }
@@ -630,27 +617,20 @@ function uploadImage() {
     add_photo_icon.hidden = true;
     upload_p.hidden = true;
     upload_span.hidden = true;
-    // imgView.style.border = 0;
-
     var img = new Image();
     img.src = imgLink;
 
     img.onload = function () {
         let height = img.naturalHeight;
         let width = img.naturalWidth;
-        console.log("A kép magassága: " + height);
-        console.log("A kép szélessége: " + width);
 
         let size = imgFile.size;
-        console.log("A fájl mérete byte-ban: " + size);
         let name = imgFile.name;
-        console.log("Fájl neve: " + name);
         //    !itt kell még meghatározni a min max képarányt és a méretet byte-ban
 
 
         document.getElementById('save-pPic').addEventListener('click', async function () {
             const imgResponse = await setProfileImage({ "image": `../pictures/user/${name}` });
-            console.log(imgResponse.status);
 
             if (imgResponse.status == 200) {
                 location.reload();
@@ -681,9 +661,7 @@ const saveButton = document.getElementById('color-save');
 
 saveButton.addEventListener('click', async function () {
     let colorValue = colorInput.value;
-    // console.log(colorValue);
-    const colorResponse = await setCoverColor({ "code": colorValue })
-    // console.log(colorResponse);
+    const colorResponse = await setCoverColor({ "code": colorValue });
     if (colorResponse.status == 200) {
         location.reload();
     } else if (setPublicPhone_result.status == 401) {
@@ -707,9 +685,6 @@ async function Follow(btn, responseUser, id) {
 
             switch (followResult.status) {
                 case 200:
-                    // btn.classList.remove('default-follow');
-                    // btn.classList.add('followed');
-                    // btn.textContent = "Followed";
                     window.location.reload();
                     break;
                 case 401:
@@ -731,9 +706,6 @@ async function Follow(btn, responseUser, id) {
 
             switch (unfollowResult.status) {
                 case 200:
-                    // btn.classList.remove('followed');
-                    // btn.classList.add('default-follow');
-                    // btn.textContent = "Follow";
                     window.location.reload();
                     break;
                 case 401:
@@ -895,9 +867,6 @@ function getPosts(responsePost, responseUser) {
         }
     }
 
-
-
-    // console.log(postId);
     if (responsePost.data.ownPosts === true) {
         const post_editDelete_div = document.querySelectorAll('.edit-delete-div');
         const like_and_share_div = document.querySelectorAll('.like-and-share');
@@ -924,16 +893,15 @@ function getPosts(responsePost, responseUser) {
 function editPost(postID, currentText) {
     var editedText;
     editedText = currentText;
-    console.log(postID);
 
-    post_textarea.value = editedText;  //paste current text
+    post_textarea.value = editedText;
     let editPostResult;
 
     document.getElementById('LetsPost-btn').addEventListener('click', async function () {
-        editedText = post_textarea.value; // Frissítem a editedText változót a post_textarea-nél
+        editedText = post_textarea.value; 
         editPostResult = await updatePost({ "id": `${postID}`, "description": `${editedText}` });
         if (editPostResult.status == 200) {
-            location.reload();  //reload the page
+            location.reload(); 
         } else {
             console.error("somethins went wrong: " + editPostResult.status);
         }
@@ -942,8 +910,7 @@ function editPost(postID, currentText) {
 
 
 async function DeletePostBTN(button, postID) {
-    console.log(postID);
-    console.log("megnyomtad a törlés gombot");
+
     const deleteResult = await deletePost({ "id": postID });
     if (deleteResult.status == 200) {
         const postCard = button.closest('.post-card');
@@ -955,26 +922,22 @@ async function DeletePostBTN(button, postID) {
 async function Liked(button, postID) {
     let postLiked = postLikes[postID];
 
-
     if (!postLiked) {
-        // Ha a poszt nincs like-olva, akkor like-oljuk
         const liked_result = await postLike({ "postId": postID });
         if (liked_result.status == 200) {
             button.style.fill = "#c43700";
-            postLikes[postID] = true; // Frissítjük a like állapotot
-            console.log("Sikeres kedvelés. Post id: " + postID);
+            postLikes[postID] = true; 
         } else if (liked_result.status == 401) {
             window.location.href = "../Log-in/login.html";
         } else if (liked_result.status == 422) {
             alert("Something went wrong. Please try again later.")
         }
     } else {
-        // Ha a poszt like-olva van, akkor dislike-oljuk
+
         const disliked_result = await postDislike({ "postId": postID });
         if (disliked_result.status == 200) {
             button.style.fill = "#2d1810";
-            postLikes[postID] = false; // Frissítjük a like állapotot
-            console.log("Sikeres dislike. Post id: " + postID);
+            postLikes[postID] = false; 
         } else if (disliked_result.status == 401) {
             window.location.href = "../Log-in/login.html";
         } else if (disliked_result.status == 422) {
@@ -989,7 +952,6 @@ function navigateToProfile(username) {
 }
 
 async function DeleteBookBTN(button, bookID) {
-    console.log("Ennél a könyvnél nyomtad meg a törlést: " + bookID);
     const deleteResult = await deleteBook({ "id": bookID });
     if (deleteResult.status == 200) {
         const bookCard = button.closest('.book-card');
@@ -1027,14 +989,13 @@ function getBooks(responseBook, userResponse) {
                     <div class="container medium-card book-card" style="background-color: #EAD7BE;">
                         <div class="row">
                             <div class="col-3 my-col3">
-                                <!--? Picture => Alt-nak mehet majd a könyv címe -->
                                
                                 <img class="medium-pic" src="../${responseBook.data.myBooks[i].coverImage}.jpg" alt="${responseBook.data.myBooks[i].title}">
                                 
                             </div>
     
                             <div class="col-9 medium-right-side">
-                                <!--? Author + Book Title  -->
+                               
                                 <h2 class="container medium-h2" >${responseBook.data.myBooks[i].title}</h2>
                                 <p class="username author" onclick="navigateToProfile('${responseBook.data.myBooks[i].username}')">${responseBook.data.myBooks[i].firstName} ${responseBook.data.myBooks[i].lastName}</p>
                                 <p class="medium-desc" >${responseBook.data.myBooks[i].description}</p>
@@ -1068,14 +1029,13 @@ function getBooks(responseBook, userResponse) {
                     <div class="container medium-card book-card" style="background-color: #EAD7BE;">
                         <div class="row">
                             <div class="col-3 my-col3" id="s5-mediumCardPic-div">
-                                <!--? Picture => Alt-nak mehet majd a könyv címe -->
-                               
+                            
                                 <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${responseBook.data.myBooks[i].title}">
                                 
                             </div>
     
                             <div class="col-9 medium-right-side">
-                                <!--? Author + Book Title  -->
+                             
                                 <h2 class="container medium-h2" >${responseBook.data.myBooks[i].title}</h2>
                                 <p class="username author" onclick="navigateToProfile('${responseBook.data.myBooks[i].username}')">${responseBook.data.myBooks[i].firstName} ${responseBook.data.myBooks[i].lastName}</p>
                                 <p class="medium-desc" >${responseBook.data.myBooks[i].description}</p>
@@ -1361,11 +1321,11 @@ function upTo3(value, inputName, inputId, errorDiv) {
 
 function validateEmail(emailValue) {
     let allowedChars = /^[a-z1-9@.]+$/;
-    //* to check @ character
+    
     const specReg = new RegExp("(?=.*[@])");
     if (specReg.test(emailValue) == false) {
         e_error.innerHTML = `<p>Email address must be contains the "@" symbol.</p>`;
-        console.log("Email addres doesn't include @ character. Input: " + emailValue);
+        
         input_email.style.background = "rgb(255, 214, 220)";
         input_email.style.borderColor = "rgb(243, 82, 93)";
         at_symbol = false;
@@ -1377,20 +1337,20 @@ function validateEmail(emailValue) {
         at_symbol = true;
         if (atCount !== 1) {
             e_error.innerHTML = `<p>Email address must contain exactly one "@" symbol.</p>`;
-            console.log("Email address must contain exactly one @ symbol. Input:" + emailValue);
+            
             input_email.style.background = "rgb(255, 214, 220)";
             input_email.style.borderColor = "rgb(243, 82, 93)";
             return false;
         } else {
             //It checks what is in front of the @.
             const firsPartOfEmail = emailValue.slice(0, emailValue.indexOf('@'));
-            console.log("Include @. The value before @: " + firsPartOfEmail);
+            
 
             if (firsPartOfEmail == "") {
                 e_error.innerHTML = `<p>Email address cannot empty before "@" symbol.</p>`;
                 input_email.style.background = "rgb(255, 214, 220)";
                 input_email.style.borderColor = "rgb(243, 82, 93)";
-                console.log("The first part of the email is empty. Input: " + emailValue);
+                
                 fp_email = false;
             } else {
                 if (allowedChars.test(emailValue) == true) {
@@ -1400,41 +1360,36 @@ function validateEmail(emailValue) {
 
                         input_email.style.background = "rgb(255, 214, 220)";
                         input_email.style.borderColor = "rgb(243, 82, 93)";
-                        console.log("First part of email length is not enough. Value: " + firsPartOfEmail);
+                        
                         fp_email = false;
                     } else {
 
                         fp_email = true;
 
-                        // Checks that the part after @ matches.
                         const lastPartOfEmail = emailValue.slice(emailValue.indexOf('@') + 1);
-                        console.log("Value after @: " + lastPartOfEmail);
+                       
 
-                        // Checks that the part after the @ contains a period.
                         const dotReg = new RegExp("(?=.*[.])");
 
                         if (dotReg.test(lastPartOfEmail) == true) {
-                            console.log("last part of email include period");
-                            console.log("Last part of email pass. Value: " + lastPartOfEmail);
 
-                            // Make sure that the part in front of the period is at least 2 characters in length.
                             const beforeDot = lastPartOfEmail.slice(0, lastPartOfEmail.indexOf('.'));
-                            console.log("Value before dot: " + beforeDot);
+                          
 
                             if (beforeDot == "" || beforeDot.length < 2) {
-                                console.log("Last part of email before dot is not enough. Last part: " + lastPartOfEmail);
+                               
                                 e_error.innerHTML = `<p>Please ensure you have at least 2 characters before the " . " (dot) symbol.</p>`;
                                 lp_email = false;
                                 input_email.style.background = "rgb(255, 214, 220)";
                                 input_email.style.borderColor = "rgb(243, 82, 93)";
                             } else {
                                 lp_email = true;
-                                console.log("Last part of email is complied. Input: " + emailValue);
+                               
                             }
 
 
                         } else {
-                            console.log("Last part of email doesn't include dot. Input: " + emailValue);
+                          
                             e_error.innerHTML = `<p>Please include the '.' (dot) symbol in your email address.</p>`;
                             input_email.style.background = "rgb(255, 214, 220)";
                             input_email.style.borderColor = "rgb(243, 82, 93)";
@@ -1445,7 +1400,7 @@ function validateEmail(emailValue) {
                     e_error.innerHTML = `<p>The email address must contain only the English alphabet, a dot (.) and the at (@) symbol.</p>`;
                     input_email.style.background = "rgb(255, 214, 220)";
                     input_email.style.borderColor = "rgb(243, 82, 93)";
-                    console.error("Email address contains something that not allowed");
+                   
                     chars_email = false;
                 }
 
@@ -1457,7 +1412,7 @@ function validateEmail(emailValue) {
         at_symbol = false;
         input_email.style.background = "rgb(255, 214, 220)";
         input_email.style.borderColor = "rgb(243, 82, 93)";
-        console.log("Email error: doesn't include @. Value:" + emailValue);
+        
     }
 
     if (fp_email == true && lp_email == true && at_symbol == true && chars_email == true) {
@@ -1497,17 +1452,17 @@ function validateCompany(companyValue, companyError, inputCompany) {
         companyError.innerHTML = `<p>Company field cannot be empty</p>`;
         inputCompany.style.background = "rgb(255, 214, 220)";
         inputCompany.style.borderColor = "rgb(243, 82, 93)";
-        console.log("Company field is empty.");
+       
         return false;
 
     } else if (companyValue.length < 2) {
         companyError.innerHTML = `<p>Company name must be at least 2 characters long.</p>`;
         inputCompany.style.background = "rgb(255, 214, 220)";
         inputCompany.style.borderColor = "rgb(243, 82, 93)";
-        console.log("Company length is not enough: Input: " + companyValue);
+       
         return false;
     } else {
-        console.log("Company name is complied. Input: " + companyValue);
+      
         return true;
     }
 }
@@ -1551,7 +1506,7 @@ function validatePwd(pwdValue, pwdInput, errorField) {
         errorField.innerHTML = `<p>Password field cannot be empty</p>`;
         pwdInput.target.style.background = "rgb(255, 214, 220)";
         pwdInput.target.style.borderColor = "rgb(243, 82, 93)";
-        console.log("The" + pwdInput + " pwd field is empty.");
+        
         return false;
 
     } else if (pwdValue.length < 8) {
@@ -1559,20 +1514,20 @@ function validatePwd(pwdValue, pwdInput, errorField) {
         errorField.innerHTML = `<p>Password must be at least 8 characters long.</p>`;
         pwdInput.style.background = "rgb(255, 214, 220)";
         pwdInput.style.borderColor = "rgb(243, 82, 93)";
-        console.log("The" + pwdInput + " pwd is less than 8 characters. Input: " + pwdValue);
+       
         return false;
 
     } else {
-        // It checks for uppercase, lowercase, numbers and special characters.
+       
         if (upperCaseReg.test(pwdValue) == true && lowerCaseReg.test(pwdValue) == true && numReg.test(pwdValue) == true && specReg.test(pwdValue) == true) {
-            console.log("The" + pwdInput + " is complied. Input: " + pwdValue);
+           
             return true;
 
         } else {
             errorField.innerHTML = `<p>Password must contain at least 1 uppercase, 1 lowercase, 1 number and 1 special character.</p>`;
             pwdInput.style.background = "rgb(255, 214, 220)";
             pwdInput.style.borderColor = "rgb(243, 82, 93)";
-            console.log("Something is missing from the " + pwdInput + ". Input: " + pwdValue);
+            
             return false;
         }
     }
@@ -1610,8 +1565,6 @@ function validatePhone(phoneValue, inputPhone, errorPhone) {
     } else {
         errorPhone.innerHTML = `<p>This field cannot be empty.</p>`;
     }
-
-
 }
 
 function checkPhoneLenght(value, input, errorDiv) {
@@ -1667,10 +1620,9 @@ un_save.addEventListener('click', async function () {
 
     if (un_boolean == true) {
         let inputUn_value = input_un.value;
-        console.log("Amire változtatni szeretnék: " + inputUn_value);
+       
         const setUnResponse = await setUsername({ "username": inputUn_value });
         if (setUnResponse.status == 200) {
-            // console.log("Sikeresen szerkesztetted a usernevet a következőre: " + inputUn_value);
 
             window.location.href = "../Log-in/login.html";
             localStorage.removeItem("Token");
@@ -1687,7 +1639,7 @@ un_save.addEventListener('click', async function () {
 
 input_un.addEventListener('input', (e) => {
     const checkResult = checkUserCharacters(input_un.value, input_un, un_error);
-    console.log(checkResult);
+   
     if (checkResult == false) {
         un_save.disabled = true;
     } else {
@@ -1703,7 +1655,6 @@ input_un.addEventListener('focusin', (e) => {
 
 // email 
 edit_email.addEventListener('click', (e) => {
-    // e.preventDefault();
     EditIcon(input_email, email_saveCancel);
 })
 
@@ -1715,15 +1666,13 @@ e_cancel.addEventListener('click', (e) => {
 })
 
 e_save.addEventListener('click', async function () {
-    // console.log("Megnyomtad az email save gombot");
     let e_boolean = validateEmail(input_email.value);
-    console.log("email save btn: " + e_boolean);
-
+    
     if (e_boolean == true) {
         let inputEmail_value = input_email.value;
         const setEmailResponse = await setEmail({ "email": `${inputEmail_value}` });
         if (setEmailResponse.status == 200) {
-            console.log("Sikeresen szerkesztetted az emailt a következőre: " + inputEmail_value);
+           
             const settingCall = await getDetails();
             addPlaceholder(settingCall, "email", input_email);
             Cancel(input_email, email_saveCancel);
@@ -1766,7 +1715,7 @@ w_save.addEventListener('click', async function () {
         if (input_website.value.length >= 4 && input_website.value.length <= 100) {
             const setWebsiteResponse = await setWebsite({ "website": input_website.value });
             if (setWebsiteResponse.status == 200) {
-                console.log("Sikeresen szerkesztetted a website-ot a következőre: " + input_website.value);
+               
                 input_website.style.background = "";
                 input_website.style.borderColor = "";
                 w_error.innerHTML = "";
@@ -1801,15 +1750,14 @@ pwd_cancel.addEventListener('click', (e) => {
 })
 
 pwd_save.addEventListener('click', async function () {
-    // console.log("Megnyomtad a pwd save gombot");
     let pwd_boolean = validatePwd(input_pwd.value, input_pwd, pwd_error);
-    console.log("pwd valid boolean: " + pwd_boolean);
+    
 
     if (pwd_boolean == true) {
         let pwd_value = input_pwd.value;
         const setPwdResponse = await setPassword({ "password": `${pwd_value}` });
         if (setPwdResponse.status == 200) {
-            // console.log("Sikeresen szerkesztetted a jelszavadat");
+            
 
             window.location.href = "../Log-in/login.html";
             localStorage.removeItem("Token");
@@ -1849,16 +1797,16 @@ input_phoneNumber.addEventListener('input', (e) => {
 })
 
 p_save.addEventListener('click', async function () {
-    console.log("Megnyomtad a phone save gombot");
+    
     let phone_lenght = checkPhoneLenght(input_phoneNumber.value, input_phoneNumber, phone_error);
-    console.log("phone boolean: " + phone_boolean);
+    
 
     if (phone_boolean == true && phone_lenght == true) {
 
         let phone_value = input_phoneNumber.value;
         const setPhoneResponse = await setPhoneNumber({ "phoneNumber": `${phone_value}` });
         if (setPhoneResponse.status == 200) {
-            console.log("Sikeresen szerkesztetted a jelszavadat");
+            
             location.reload();
 
         } else if (setEmailResponse.status == 401) {
@@ -1891,15 +1839,15 @@ fn_cancel.addEventListener('click', (e) => {
 })
 
 fn_save.addEventListener('click', async function () {
-    // console.log("megnyomtad a save gombot");
+    
     let fn_boolean = upTo3(input_fName.value, "first name", input_fName, fn_error);
-    console.log("username save btn: " + fn_boolean);
+    
 
     if (fn_boolean == true) {
         let firstname_value = input_fName.value;
         const setFirstResponse = await setFirstName({ "firstName": `${firstname_value}` });
         if (setFirstResponse.status == 200) {
-            console.log("Sikeresen szerkesztetted a first name-t a következőre: " + firstname_value);
+            
             const settingCall = await getDetails();
             addPlaceholder(settingCall, "firstName", input_fName);
             Cancel(input_fName, fName_saveCancel);
@@ -1933,15 +1881,15 @@ ln_cancel.addEventListener('click', (e) => {
 })
 
 ln_save.addEventListener('click', async function () {
-    // console.log("megnyomtad a save gombot");
+    
     let ln_boolean = upTo3(input_lName.value, "last name", input_lName, ln_error);
-    console.log("username save btn: " + ln_boolean);
+    
 
     if (ln_boolean == true) {
         let lastname_value = input_lName.value;
         const setLastResponse = await setLastName({ "lastName": `${lastname_value}` });
         if (setLastResponse.status == 200) {
-            console.log("Sikeresen szerkesztetted a last name-t a következőre: " + lastname_value);
+           
             const settingCall = await getDetails();
             addPlaceholder(settingCall, "lastName", input_lName);
             Cancel(input_lName, lName_saveCancel);
@@ -1974,17 +1922,17 @@ c_cancel.addEventListener('click', (e) => {
     c_error.innerHTML = "";
 })
 
-// ! 422-es hibakód
+
 c_save.addEventListener('click', async function () {
-    console.log("megnyomtad a save gombot");
+   
     let c_boolean = validateCompany(input_company.value, c_error, input_company);
-    console.log("company boolean: " + c_boolean);
+   
 
     if (c_boolean == true) {
         let company_value = input_company.value;
         const setCompanyResponse = await setCompanyName({ "companyName": `${company_value}` });
         if (setCompanyResponse.status == 200) {
-            console.log("Sikeresen szerkesztetted a company name-t a következőre: " + company_value);
+            
             const settingCall = await getDetails();
             addPlaceholder(settingCall, "companyName", input_company);
             Cancel(input_company, company_saveCancel);
@@ -2020,10 +1968,9 @@ function isChecked(elementID) {
 
 isEmail_public.addEventListener('change', async function () {
     let ischecked = isChecked(isEmail_public);
-    console.log(ischecked);
+   
     const setPublicEmail_result = await setPublicEmail();
-    console.log(setPublicEmail_result.status);
-
+   
     if (setPublicEmail_result.status == 200) {
         if (ischecked == true) {
             // isEmail_public.checked = false;
@@ -2065,6 +2012,6 @@ isPhone_public.addEventListener('change', async function () {
 
 const settings_modal = document.getElementById('settings-modal');
 settings_modal.addEventListener('hidden.bs.modal', function () {
-    // Újratöltjük az oldalt
+  
     location.reload();
 });

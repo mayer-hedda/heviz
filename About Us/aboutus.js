@@ -23,22 +23,22 @@ document.addEventListener('DOMContentLoaded', function () {
     })
 
     mha_img.addEventListener('click', function () {
-        mha_section.style.scrollMarginTop = '40px';
+        mha_section.style.scrollMarginTop = '50px';
         mha_section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 
     mha_name.addEventListener('click', function(){
-        mha_section.style.scrollMarginTop = '40px';
+        mha_section.style.scrollMarginTop = '50px';
         mha_section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     })
 
     szv_img.addEventListener('click', function () {
-        szv_section.style.scrollMarginTop = '40px';
+        szv_section.style.scrollMarginTop = '50px';
         szv_section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 
     szv_name.addEventListener('click', function(){
-        szv_section.style.scrollMarginTop = '40px';
+        szv_section.style.scrollMarginTop = '50px';
         szv_section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     })
 

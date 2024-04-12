@@ -61,7 +61,6 @@
 
     <section class="container-fluid" id="s2">
         <div id="profile-pic-div">
-            <!-- ! innen ki kell szedni az src-t -->
             <img class="rounded-circle shadow-sm" height="240" width="240" id="profile-picture">
 
         </div>
@@ -121,7 +120,6 @@
 
     <section class="container-fluid" id="s3">
         <div class="content">
-            <!-- intros and recomm. prof.s -->
             <div class="col-6" id="personal-infos">
                 <div class="personal-card" id="introdution">
                     <h2 class="intro-h2">Introdution:</h2>
@@ -177,54 +175,16 @@
                         <p class="personal-datas-light" id="website-link">----</p>
                     </div>
                 </div>
-
-                <div id="our-writers-div" hidden>
-                    <h2 class="intro-h2">Some of our writers:</h2>
-
-                    <div class="item-row" id="just-two-writer" hidden>
-                        <!-- profile cards -->
-                    </div>
-
-                    <div id="recom-profs" class="carousel slide mb-5">
-
-                        <div class="carousel-inner">
-                            <div class="carousel-item active" id="active-writers">
-
-                                <div class="item-row" id="active-writer-items">
-                                    
-                                </div>
-                                
-
-                            </div>
-
-                             <div class="carousel-item" id="carouselDiv">
-
-                              
-                            </div> 
-                        </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#recom-profs"
-                            data-bs-slide="prev" >
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#recom-profs"
-                            data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    </div>
-                </div>
-
             </div>
 
             <!-- books and posts -->
             <div class="col-6" id="posts-and-books">
                 <div class="container-fluid pb-header-btns" id="pb-header">
-                    <button class="active-btn btn-h2 border-0" id="our-books">Our Books</button> <!-- DEFAULT -->
+                    <button class="active-btn btn-h2 border-0" id="our-books">Our Books</button> 
                     <button class="disabled-btn btn-h2 border-0" id="our-posts">Our Posts</button>
                 </div>
 
-                <div class="container" id="books"> <!-- DEFAULT -->
+                <div class="container" id="books"> 
                     <!-- books -->
                     <p id="missing-book-text-own" class="missing-data-text text-center" hidden>You don't have any books.</p>
                     <p id="missing-book-text" class="missing-data-text text-center" hidden>This user doesn't have any books.</p>
@@ -250,7 +210,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- drag and drop -->
+                   
                     <div id="drop-image" class="text-center">
                         <label for="inputPicture" id="drop-area-picture">
                             <input type="file" accept=".jpg" id="inputPicture" hidden>
@@ -298,7 +258,6 @@
     </div>
 
     <!-- popup a beállításokhoz -->
-
     <div class="modal fade" id="settings-modal" tabindex="-1" aria-labelledby="settings-labels" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content" id="settings-modal-content">
@@ -309,9 +268,9 @@
                 </div>
 
                 <div class="modal-body" id="settings-body">
-                    <!-- two side -->
+                   
                     <div class="col-3 container" id="options-panel">
-                        <!-- options panel -->
+                      
                         <p class="active-set" id="profile-settings">Profile Settings</p>
                         <p class="disabled-set" id="privacy-settings">Privacy Settings</p>
                         <p class="disabled-set" id="buisness-settings">Buisness Information</p>
@@ -319,9 +278,8 @@
 
                     </div>
 
-                    <!-- default visible -> profile settings -->
                     <div class="col-9 container actual-settings" id="profile-settings-div">
-                        <!-- actual settings -->
+                     
                         <div id="set-username" class="set-row">
                             <div class="label-div">
                                 <p class="set-label">Username</p>
@@ -340,7 +298,7 @@
                                     </svg>
                                 </button>
                             </div>
-                            <div class="error" id="un-error"></div> <!-- error message -->
+                            <div class="error" id="un-error"></div> 
                             <div class="save-and-cancel" id="username-saveCancel" hidden>
                                 <button type="button" class="btn saveChanges-btn" id="un-save" disabled>Save</button>
                                 <button type="button" class="btn cancel-btn" id="un-cancel">Cancel</button>
@@ -359,7 +317,7 @@
                                     </svg>
                                 </button>
                             </div>
-                            <div class="error" id="e-error"></div> <!-- error message -->
+                            <div class="error" id="e-error"></div> 
 
                             <div class="save-and-cancel" id="email-saveCancel" hidden>
                                 <button type="button" class="btn saveChanges-btn" id="e-save">Save</button>
@@ -380,7 +338,7 @@
                                     </svg>
                                 </button>
                             </div>
-                            <div class="error" id="w-error"></div> <!-- error message -->
+                            <div class="error" id="w-error"></div> 
 
                             <div class="save-and-cancel" id="web-saveCancel" hidden>
                                 <button type="button" class="btn saveChanges-btn" id="w-save">Save</button>
@@ -401,7 +359,7 @@
                                     </svg>
                                 </button>
                             </div>
-                            <div class="error" id="pwd-error"></div> <!-- error message -->
+                            <div class="error" id="pwd-error"></div> 
                             <div class="save-and-cancel" id="pwd-saveCancel" hidden>
                                 <button type="button" class="btn saveChanges-btn" id="pwd-save">Save</button>
                                 <button type="button" class="btn cancel-btn" id="pwd-cancel">Cancel</button>
@@ -429,7 +387,7 @@
                                 </button>
                             </div>
 
-                            <div class="error" id="phone-error"></div> <!-- error message -->
+                            <div class="error" id="phone-error"></div> 
 
                             <div class="save-and-cancel" id="phone-saveCancel" hidden>
                                 <button type="button" class="btn saveChanges-btn" id="p-save">Save</button>
@@ -454,7 +412,7 @@
                                         </button>
                                     </div>
 
-                                    <div class="error" id="fn-error"></div> <!-- error message -->
+                                    <div class="error" id="fn-error"></div> 
 
                                     <div class="save-and-cancel" id="fName-saveCancel" hidden>
                                         <button type="button" class="btn saveChanges-btn" id="fn-save">Save</button>
@@ -475,7 +433,7 @@
                                         </button>
                                     </div>
 
-                                    <div class="error" id="ln-error"></div> <!-- error message -->
+                                    <div class="error" id="ln-error"></div> 
 
                                     <div class="save-and-cancel" id="lName-saveCancel" hidden>
                                         <button type="button" class="btn saveChanges-btn" id="ln-save">Save</button>
@@ -493,7 +451,7 @@
 
                     <!-- default hidden -> privacy settings -->
                     <div class="col-9 container actual-settings" id="privacy-settings-div" hidden>
-                        <!-- actual settings -->
+                        
                         <div class="form-check form-switch" id="pub-email-div">
 
                             <input class="form-check-input my-switch" type="checkbox" data-bs-toggle="toggle"
@@ -529,7 +487,7 @@
                                 </button>
                             </div>
 
-                            <div class="error" id="c-error"></div> <!-- error message -->
+                            <div class="error" id="c-error"></div> 
 
                             <div class="save-and-cancel" id="company-saveCancel" hidden>
                                 <button type="button" class="btn saveChanges-btn" id="c-save">Save</button>
@@ -560,7 +518,6 @@
     <div id="bookPopup" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-scrollable">
 
-            <!-- Modal content-->
             <div class="modal-content" id="book-modal-content">
                 <div class="modal-header" id="book-modal-header">
                     <!--TODO: klikkre váltson át a teli bookmark-ra  -->
@@ -574,36 +531,31 @@
                 </div>
                 <div class="modal-body" id="book-popup-modal-body">
 
-                    <!-- ide kell beszúrni a képet js-en keresztül -->
                     <img src="../pictures/standard-book-cover.jpg" class="modal-img" id="book-modal-img">
 
-                    <!-- book title -->
                     <h3 class="modal-h3" id="modal-title"></h3>
 
-                    <!-- author -->
                     <p class="modal-p author" id="modal-author"></p>
 
                     <div class="babszem text-center">
 
                         <div class="col-3 colDiv babszem-margin">
-                            <!-- page number -->
                             <h4 class="align-middle" id="modal-pages"></h4>
                             <p>Pages</p>
                         </div>
+
                         <div class="col-3 colDiv babszem-margin">
-                            <!-- ranking number -->
                             <h4 id="modal-ranking"></h4>
                             <p>Ranking</p>
                         </div>
+
                         <div class="col-3 colDiv">
-                            <!-- language -->
                             <h4 id="modal-language"></h4>
                             <p>Language</p>
                         </div>
                     </div>
 
                     <div class="modal-description">
-                        <!-- descriptipn -->
                         <p id="modal-desc"></p>
                     </div>
 
@@ -674,11 +626,9 @@
 
             <div class="row">
                 <div class=" col-12 col-sm-6 d-flex align-items-center mx-auto" id="footer-logo-div">
-                    <!-- capterX logo -->
                     <img src="../pictures/LOGO.svg" id="footer-logo">
                 </div>
                 <div class=" col-12 col-sm-6 text-lg-start text-xl-start" id="useful-links">
-                    <!-- hasznos linkek -->
                     <h3 id="footer-h3" class="textCentered">Useful Links</h3>
                     <ul id="footer-ul">
                         <li id="email"><i class="icon bi bi-google"
@@ -697,8 +647,6 @@
                     </ul>
                 </div>
                 <div id="copy-right-div" class="text-end">
-                    <!--? copyright logo -->
-                    <!--? Minden jog fentartva -->
                     <p id="copy-right" class=""><img src="../icons/copyright.svg" style="margin-right: 0.313rem;">2023
                         All rights reserved.</p>
                 </div>

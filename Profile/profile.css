@@ -1,5 +1,4 @@
 :root {
-    /* Colors */
     --primary: rgb(232, 181, 160);
     --primary-hover: #649984;
     --primary-text: rgb(44, 24, 16);
@@ -9,7 +8,6 @@
     --border-color: rgb(129, 105, 117);
     --label: rgb(34, 34, 36);
     --error-color: rgb(238, 29, 82);
-    /* --dash-color: rgb(129, 105, 117); */
 }
 
 :read-only:after {
@@ -106,7 +104,6 @@ body {
 
 /* -------- First section --------- */
 #s1 {
-    /* background-color: var(--primary); */
     margin: 0;
     height: 40vh;
 }
@@ -165,7 +162,6 @@ body {
 
 #name {
     font-size: 38px;
-    /* margin-left: 50px; */
     margin-top: 10px;
     margin-bottom: 0px;
     font-family: 'Montserrat-SemiBold', sans-serif;
@@ -173,7 +169,6 @@ body {
 }
 
 #username {
-    /* margin-left: 50px; */
     margin-top: 0px;
     margin-bottom: 20px;
     font-size: 20px;
@@ -223,8 +218,6 @@ body {
     transition: background-color 0.8s ease;
 }
 
-/* azért van ennyi important mert a class esetében valamiért nem érzékeli a módosításokat
-Ha találok rá jobb megoldást javítom :)  */
 .default-follow:hover, .followed {
     font-size: 22px;
     font-family: 'Montserrat-Medium', sans-serif;
@@ -299,7 +292,6 @@ Ha találok rá jobb megoldást javítom :)  */
 
 .intro-text {
     resize: none;
-    /* overflow: hidden; */
     min-height: 250px;
     min-width: 100%;
     width: auto;
@@ -406,61 +398,6 @@ Ha találok rá jobb megoldást javítom :)  */
     justify-content: space-evenly;
 }
 
-/* recom. profs */
-#recom-profs {
-    width: 550px;
-}
-
-.carousel-item.active {
-    display: grid;
-    place-items: center;
-}
-
-.item-row{
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    align-items: center;
-}
-
-.carousel-control-next-icon,
-.carousel-control-prev-icon {
-    background-color: black;
-    border-radius: 50px;
-}
-
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-    width: 20px;
-}
-
-.profiles {
-    height: fit-content;
-    background-color: #d4beb2;
-    border-top-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    padding: 10px;
-}
-
-.prof-pic {
-    height: 150px;
-    object-fit: cover;
-    border-top-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    box-shadow: 0px -2px 0px black;
-}
-
-.our-users-name {
-    font-size: 18px;
-    font-family: 'Montserrat-Medium', sans-serif;
-    margin-top: 8px;
-    color: var(--primary-text);
-}
-
 /* ----- Buttons for posts and books ---------- */
 .pb-header-btns button.disabled-btn {
     border: 0rem;
@@ -496,7 +433,6 @@ Ha találok rá jobb megoldást javítom :)  */
     display: flexbox;
     border-radius: 15px;
     filter: drop-shadow(4px 4px 4px rgba(84, 84, 84, 0.051));
-    /* margin-top: 50px; */
 }
 
 .my-col3 {
@@ -637,11 +573,8 @@ Ha találok rá jobb megoldást javítom :)  */
     width: 3.125rem;
     height: 3.125rem;
     background-image: url('../pictures/default-profile-pic.png');
-    /* Alapértelmezett kép beállítása */
     background-size: cover;
-    /* A kép méretezése a konténerhez */
     cursor: pointer;
-    /* Mutató kurzor megjelenítése, hogy látható legyen, kattintható */
     background-position: center;
 }
 
@@ -695,14 +628,6 @@ Ha találok rá jobb megoldást javítom :)  */
 
 }
 
-/* .last-row a {
-    text-decoration: none;
-    font-size: 0.938rem;
-    color: rgb(51, 47, 49);
-    font-family: 'Inter';
-    font-weight: 500;
-} */
-
 .like-and-share {
     margin-left: auto !important;
 
@@ -732,22 +657,13 @@ Ha találok rá jobb megoldást javítom :)  */
     height: 40px !important;
 }
 
-/* .like-and-share span {
-    margin-bottom: 5px !important;
-    cursor: pointer;
-} */
-/* 
-.like {
-    margin-right: 0.625rem !important;
-    fill: rgb(45, 24, 16);
-} */
+
 .share {
     margin-left: 0.625rem !important;
     fill: rgb(45, 24, 16);
 }
 
 .share:hover {
-    /* fill: rgb(152, 88, 201) !important; */
     color: var(--dash-color) !important;
     cursor: pointer;
 }
@@ -765,7 +681,6 @@ Ha találok rá jobb megoldást javítom :)  */
 }
 
 .share:hover {
-    /* fill: rgb(152, 88, 201) !important; */
     color: var(--dash-color) !important;
     cursor: pointer;
 }
@@ -1195,7 +1110,6 @@ Ha találok rá jobb megoldást javítom :)  */
 #postModalLabel {
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
-    /* letter-spacing: -1px; */
     color: var(--popup-h1);
 }
 
@@ -1218,7 +1132,7 @@ Ha találok rá jobb megoldást javítom :)  */
     margin-top: 0.625rem;
 }
 
-/** --------------- FOOTER ---------------*/
+/* --------------- FOOTER ---------------*/
 
 #footer-logo {
     display: flex;
@@ -1264,6 +1178,3 @@ footer a:hover {
     font-family: 'Poppins-Regular', sans-serif;
 
 }
-
-
-/* ---------- */

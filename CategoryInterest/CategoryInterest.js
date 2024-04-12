@@ -11,7 +11,6 @@ const nineth_row_pics = document.getElementById('nineth-row-pics');
 
 const next_btn = document.getElementById('next-btn');
 
-// Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
 window.addEventListener('beforeunload', async function () {
     var tokenResponse = await token();
 
@@ -28,7 +27,6 @@ window.onload = async function () {
             break;
         case 302:
             const getCategory_response = await getAllCategory();
-            console.log(getCategory_response);
             loadCategories(getCategory_response);
             
             break;
@@ -39,12 +37,8 @@ next_btn.addEventListener('click', async function () {
     let array = { "categoryIds": choosedCategories };
     var tokenResponse = await token();
     if (categoryPass && choosedCategories.length > 0) {
-        console.log(array);
-        console.log(typeof array);
         let category_result = await addCategoryInterest(array);
 
-        console.log(category_result.status);
-        // console.log(category_result.error);
         if (category_result.status == undefined) {
             alert(category_result.error);
         } else {
@@ -161,29 +155,29 @@ function addCategory(event, category_id) {
             target.classList.add('choosed');
             choosedCategories.push(category_id);
             choosed = true;
-            console.log(choosedCategories);
+            
         } else {
             target.classList.remove('choosed');
             target.classList.add('default');
             choosed = false;
-            // elem törlése a tömbből
+            
             const index = choosedCategories.indexOf(category_id);
             if (index !== -1) {
                 choosedCategories.splice(index, 1);
-                console.log(choosedCategories);
+                
             }
         }
     }
 
     if (choosedCategories.length >= 3) {
-        console.log("Több van benne mint három");
+       
         next_btn.removeAttribute('data-bs-toggle', 'modal');
         next_btn.removeAttribute('data-bs-target', '#errorModal');
         categoryPass = true;
-        console.log(categoryPass);
+        
     } else {
         categoryPass = false;
-        console.log(categoryPass);
+        
         next_btn.setAttribute('data-bs-toggle', 'modal');
         next_btn.setAttribute('data-bs-target', '#errorModal');
     }
