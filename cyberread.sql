@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Ápr 08. 17:41
+-- Létrehozás ideje: 2024. Ápr 13. 09:24
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -20,13 +20,12 @@ SET time_zone = "+00:00";
 --
 -- Adatbázis: `cyberread`
 --
-CREATE DATABASE IF NOT EXISTS `cyberread` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `cyberread`;
 
 DELIMITER $$
 --
 -- Eljárások
 --
+DROP PROCEDURE IF EXISTS `addBook`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `addBook` (IN `userIdIN` INT, IN `titleIN` VARCHAR(50), IN `descriptionIN` VARCHAR(1000), IN `targetAudienceIdIN` INT, IN `languageIdIN` INT, IN `adultFictionIN` BOOLEAN, IN `categoryIdIN` INT, IN `statusIN` INT, IN `priceIN` INT, IN `coverImageIN` VARCHAR(100), IN `fileIN` VARCHAR(100), IN `bankAccountNumberIN` VARCHAR(30), IN `chapterNumberIN` INT, IN `freeChapterNumberIN` INT, OUT `result` INT)   BEGIN
 
 	DECLARE statusText VARCHAR(50);
@@ -65,6 +64,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `addBook` (IN `userIdIN` INT, IN `ti
     
 END$$
 
+DROP PROCEDURE IF EXISTS `addCategoryInterest`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `addCategoryInterest` (IN `userIdIN` INT, IN `categoryIds` TEXT)   BEGIN
 
     DECLARE counter INT DEFAULT 1;
@@ -83,9 +83,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `addCategoryInterest` (IN `userIdIN`
     
 END$$
 
+DROP PROCEDURE IF EXISTS `addPost`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `addPost` (IN `userIdIN` INT, IN `descriptionIN` VARCHAR(1000))   INSERT INTO `post` (`post`.`userId`, `post`.`description`)
 VALUES (userIdIN, descriptionIN)$$
 
+DROP PROCEDURE IF EXISTS `deleteBook`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteBook` (IN `userIdIN` INT, IN `bookIdIN` INT, OUT `result` INT)   BEGIN
 
 	IF (SELECT `book`.`writerId` FROM `book` WHERE `book`.`id` = bookIdIN) != userIdIN THEN
@@ -101,6 +103,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteBook` (IN `userIdIN` INT, IN 
 
 END$$
 
+DROP PROCEDURE IF EXISTS `deletePost`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `deletePost` (IN `userIdIN` INT, IN `postIdIN` INT, OUT `result` INT)   BEGIN
 
 	IF (SELECT `post`.`userId` FROM `post` WHERE `post`.`id` = postIdIN) != userIdIN THEN
@@ -116,6 +119,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `deletePost` (IN `userIdIN` INT, IN 
 	
 END$$
 
+DROP PROCEDURE IF EXISTS `deleteSavedBook`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteSavedBook` (IN `userIdIN` INT, IN `bookIdIN` INT, OUT `result` INT)   BEGIN
 
 	IF NOT EXISTS (SELECT * FROM `saved` WHERE `saved`.`userId` = userIdIN AND `saved`.`bookId` = bookIdIN) THEN
@@ -129,6 +133,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteSavedBook` (IN `userIdIN` INT
 
 END$$
 
+DROP PROCEDURE IF EXISTS `followUser`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `followUser` (IN `userIdIN` INT, IN `followedUsernameIN` VARCHAR(50), OUT `result` INT)   BEGIN
 
 	DECLARE followedUserId INT;
@@ -148,6 +153,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `followUser` (IN `userIdIN` INT, IN 
 
 END$$
 
+DROP PROCEDURE IF EXISTS `generalRegistration`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `generalRegistration` (IN `usernameIN` VARCHAR(50), IN `firstNameIN` VARCHAR(50), IN `lastNameIN` VARCHAR(50), IN `emailIN` VARCHAR(50), IN `birthdateIN` DATE, IN `passwordIN` VARCHAR(100))   BEGIN
 
 	INSERT INTO `general` (`general`.`birthdate`)
@@ -160,10 +166,12 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `generalRegistration` (IN `usernameI
 
 END$$
 
+DROP PROCEDURE IF EXISTS `getActiveHelpCenter`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getActiveHelpCenter` ()   SELECT `helpcenter`.`id`, `helpcenter`.`question`, `helpcenter`.`answer`
 FROM `helpcenter`
 WHERE `helpcenter`.`active` = 1$$
 
+DROP PROCEDURE IF EXISTS `getAllBooksByCategory`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllBooksByCategory` (IN `userIdIN` INT, IN `categoryIdIN` INT, IN `categoryNameIN` VARCHAR(50), OUT `result` INT)   BEGIN
 
 	DECLARE rank VARCHAR(20);
@@ -240,15 +248,19 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllBooksByCategory` (IN `userIdI
     
 END$$
 
+DROP PROCEDURE IF EXISTS `getAllCategory`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllCategory` ()   SELECT *
 FROM `category`$$
 
+DROP PROCEDURE IF EXISTS `getAllLanguages`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllLanguages` ()   SELECT *
 FROM `language`$$
 
+DROP PROCEDURE IF EXISTS `getAllTargetAudiences`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllTargetAudiences` ()   SELECT *
 FROM `targetaudience`$$
 
+DROP PROCEDURE IF EXISTS `getBookDetails`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getBookDetails` (IN `bookIdIN` INT)   SELECT
 	`book`.`id`,
     `book`.`title`,
@@ -265,6 +277,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getBookDetails` (IN `bookIdIN` INT)
 FROM `book`
 WHERE `book`.`id` = bookIdIN$$
 
+DROP PROCEDURE IF EXISTS `getDetails`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getDetails` (IN `userIdIN` INT)   BEGIN
 
 	DECLARE rank VARCHAR(20);
@@ -311,6 +324,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getDetails` (IN `userIdIN` INT)   B
 
 END$$
 
+DROP PROCEDURE IF EXISTS `getFeedPosts`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getFeedPosts` (IN `userIdIN` INT)   SELECT 
 	`post`.`id`,
     `user`.`username`, 
@@ -330,6 +344,7 @@ WHERE
     `follow`.`followerId` = userIdIN
 ORDER BY `post`.`postTime` DESC$$
 
+DROP PROCEDURE IF EXISTS `getFilteredBooks`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` INT, IN `filter` INT, IN `categoryIdIN` INT, OUT `result` INT)   BEGIN
 
 	DECLARE rank VARCHAR(20);
@@ -760,6 +775,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
 
 END$$
 
+DROP PROCEDURE IF EXISTS `getFilteredSavedBooks`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdIN` INT, IN `filter` INT, OUT `result` INT)   BEGIN
 
 	DECLARE rank VARCHAR(20);
@@ -1188,6 +1204,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
 
 END$$
 
+DROP PROCEDURE IF EXISTS `getMostSavedBooksOfTheMonth`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getMostSavedBooksOfTheMonth` (IN `userIdIN` INT)   SELECT DISTINCT 
 	`book`.`id`,
     `book`.`coverImage`,
@@ -1228,6 +1245,7 @@ WHERE
 ORDER BY `save`.`count` DESC
 LIMIT 5$$
 
+DROP PROCEDURE IF EXISTS `getOneRandomBook`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getOneRandomBook` (IN `userIdIN` INT)   SELECT DISTINCT
     `book`.`id`, 
     `book`.`coverImage`, 
@@ -1257,6 +1275,7 @@ LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userI
 ORDER BY RAND()
 LIMIT 1$$
 
+DROP PROCEDURE IF EXISTS `getOneRandomLookingForPublisherBook`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getOneRandomLookingForPublisherBook` (IN `userIdIN` INT)   SELECT DISTINCT
     `book`.`id`, 
     `book`.`coverImage`, 
@@ -1284,6 +1303,7 @@ WHERE `book`.`status` = "looking for a publisher"
 ORDER BY RAND()
 LIMIT 1$$
 
+DROP PROCEDURE IF EXISTS `getPayedBooksByUserId`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getPayedBooksByUserId` (IN `userIdIN` INT)   BEGIN
 
 
@@ -1325,6 +1345,7 @@ END IF;
 
 END$$
 
+DROP PROCEDURE IF EXISTS `getPublishedBooks`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getPublishedBooks` (IN `userIdIN` INT)   SELECT DISTINCT
     `book`.`id`, 
     `book`.`coverImage`, 
@@ -1355,6 +1376,7 @@ WHERE `book`.`status` = "published by"
 ORDER BY RAND()
 LIMIT 9$$
 
+DROP PROCEDURE IF EXISTS `getPublishedBooksByUserId`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getPublishedBooksByUserId` (IN `userIdIN` INT)   SELECT
     `book`.`id`,
     `book`.`coverImage`,
@@ -1381,6 +1403,7 @@ INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
 LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id`
 WHERE `book`.`publisherId` = userIdIN$$
 
+DROP PROCEDURE IF EXISTS `getPublishersWriters`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getPublishersWriters` (IN `pagesNumberIN` INT, IN `profileUsernameIN` VARCHAR(50))   BEGIN
 
 	DECLARE rank VARCHAR(20);
@@ -1407,6 +1430,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getPublishersWriters` (IN `pagesNum
     
 END$$
 
+DROP PROCEDURE IF EXISTS `getRandomBookByCategory`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getRandomBookByCategory` (IN `userIdIN` INT)   BEGIN
 
 	DECLARE i INT DEFAULT 0;
@@ -1487,6 +1511,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getRandomBookByCategory` (IN `userI
     
 END$$
 
+DROP PROCEDURE IF EXISTS `getRecommandedBooks`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getRecommandedBooks` (IN `userIdIN` INT)   SELECT DISTINCT
     `book`.`id`, 
     `book`.`coverImage`, 
@@ -1530,6 +1555,7 @@ ORDER BY
     RAND()
 LIMIT 9$$
 
+DROP PROCEDURE IF EXISTS `getRecommandedBooksForPublisher`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getRecommandedBooksForPublisher` (IN `userIdIN` INT)   SELECT DISTINCT
     `book`.`id`, 
     `book`.`coverImage`, 
@@ -1571,6 +1597,7 @@ ORDER BY
     RAND()
 LIMIT 9$$
 
+DROP PROCEDURE IF EXISTS `getRecommandedUsers`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getRecommandedUsers` (IN `userIdIN` INT)   SELECT DISTINCT `user`.`image`, `user`.`username`
 FROM `user`
 INNER JOIN `follow` ON `user`.`id` = `follow`.`followerId`
@@ -1589,6 +1616,7 @@ AND `user`.`id` NOT IN (
 )
 LIMIT 10$$
 
+DROP PROCEDURE IF EXISTS `getSavedBooksByCategoryId`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getSavedBooksByCategoryId` (IN `userIdIN` INT, IN `categoryIdIN` INT, OUT `result` INT)   BEGIN
 	
     IF EXISTS(SELECT * FROM `category` WHERE `category`.`id` = categoryIdIN) THEN
@@ -1629,6 +1657,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getSavedBooksByCategoryId` (IN `use
     
 END$$
 
+DROP PROCEDURE IF EXISTS `getSavedBooksByUserId`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getSavedBooksByUserId` (IN `userIdIN` INT)   BEGIN
 
 
@@ -1696,6 +1725,7 @@ END IF;
 
 END$$
 
+DROP PROCEDURE IF EXISTS `getSearchBooks`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getSearchBooks` (IN `userIdIN` INT, IN `searchTextIN` VARCHAR(50))   BEGIN
 
 	DECLARE userRank VARCHAR(50);
@@ -1762,6 +1792,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getSearchBooks` (IN `userIdIN` INT,
 
 END$$
 
+DROP PROCEDURE IF EXISTS `getSelfPublishedBooks`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getSelfPublishedBooks` (IN `userIdIN` INT)   SELECT DISTINCT
     `book`.`id`, 
     `book`.`coverImage`, 
@@ -1789,6 +1820,7 @@ WHERE `book`.`status` = "self-published"
 ORDER BY RAND()
 LIMIT 9$$
 
+DROP PROCEDURE IF EXISTS `getUserBooks`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserBooks` (IN `userIdIN` INT, IN `profileUsernameIN` VARCHAR(50), OUT `result` INT, OUT `ownBooks` BOOLEAN)   BEGIN
 
 	DECLARE profileUserId INT;
@@ -1870,6 +1902,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserBooks` (IN `userIdIN` INT, I
 
 END$$
 
+DROP PROCEDURE IF EXISTS `getUserDetails`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserDetails` (IN `userIdIN` INT, IN `usernameIN` VARCHAR(50), IN `profileUsernameIN` VARCHAR(50), OUT `result` INT)   BEGIN
     DECLARE profileUserId INT;
     DECLARE profileUserRank VARCHAR(20);
@@ -1939,6 +1972,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserDetails` (IN `userIdIN` INT,
 
 END$$
 
+DROP PROCEDURE IF EXISTS `getUserPosts`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserPosts` (IN `userIdIN` INT, IN `profileUsernameIN` VARCHAR(50), OUT `result` INT, OUT `ownPosts` BOOLEAN)   BEGIN
 
 	DECLARE profileUserId INT;
@@ -1970,6 +2004,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserPosts` (IN `userIdIN` INT, I
 
 END$$
 
+DROP PROCEDURE IF EXISTS `login`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `login` (IN `emailIN` VARCHAR(50), IN `passwordIN` VARCHAR(100), OUT `userIdOUT` INT, OUT `usernameOUT` VARCHAR(50), OUT `firstNameOUT` VARCHAR(50), OUT `lastNameOUT` VARCHAR(50), OUT `imageOUT` VARCHAR(100), OUT `rankOUT` ENUM("admin","general","publisher"), OUT `activeOUT` BOOLEAN)   BEGIN
 
 	SELECT `user`.`id`, `user`.`username`, `user`.`firstName`, `user`.`lastName`, `user`.`image`, `user`.`rank`, `user`.`firstLogin`
@@ -1982,6 +2017,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `login` (IN `emailIN` VARCHAR(50), I
     WHERE `user`.`email` = emailIN;
 END$$
 
+DROP PROCEDURE IF EXISTS `postDislike`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `postDislike` (IN `userIdIN` INT, IN `postIdIN` INT, OUT `result` INT)   BEGIN
 
 	IF NOT EXISTS (SELECT * FROM `post` WHERE `post`.`id` = postIdIN) THEN
@@ -1996,6 +2032,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `postDislike` (IN `userIdIN` INT, IN
 
 END$$
 
+DROP PROCEDURE IF EXISTS `postLike`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `postLike` (IN `userIdIN` INT, IN `postIdIN` INT, OUT `result` INT)   BEGIN
 
 	IF NOT EXISTS (SELECT * FROM `post` WHERE `post`.`id` = postIdIN) THEN
@@ -2009,6 +2046,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `postLike` (IN `userIdIN` INT, IN `p
     
 END$$
 
+DROP PROCEDURE IF EXISTS `publisherRegistration`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `publisherRegistration` (IN `usernameIN` VARCHAR(50), IN `firstNameIN` VARCHAR(50), IN `lastNameIN` VARCHAR(50), IN `companyNameIN` VARCHAR(50), IN `emailIN` VARCHAR(50), IN `passwordIN` VARCHAR(100))   BEGIN
 
 	INSERT INTO `publisher` (`publisher`.`companyName`)
@@ -2021,6 +2059,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `publisherRegistration` (IN `usernam
 
 END$$
 
+DROP PROCEDURE IF EXISTS `saveBook`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `saveBook` (IN `userIdIN` INT, IN `bookIdIN` INT, OUT `result` INT)   BEGIN
 
 	IF NOT EXISTS (SELECT * FROM `saved` WHERE `saved`.`userId` = userIdIN AND `saved`.`bookId` = bookIdIN) THEN
@@ -2038,7 +2077,12 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `saveBook` (IN `userIdIN` INT, IN `b
     
 END$$
 
+DROP PROCEDURE IF EXISTS `setBook`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `setBook` (IN `bookIdIN` INT, IN `titleIN` VARCHAR(50), IN `descriptionIN` VARCHAR(1000), IN `targetAudienceIdIN` INT, IN `languageIdIN` INT, IN `adultFictionIN` BOOLEAN, IN `categoryIdIN` INT, IN `statusIdIN` INT, IN `priceIN` INT, IN `coverImageIN` VARCHAR(100), IN `fileIN` VARCHAR(100), IN `bankAccountNumberIN` VARCHAR(30), IN `chapterNumberIN` INT, IN `freeChapterNumberIN` INT, OUT `result` INT)   BEGIN
+
+	DECLARE userId INT;
+    
+    SELECt `book`.`writerId` INTO userId FROM `book` WHERE `book`.`id` = bookIdIN;
     
     IF NOT EXISTS (SELECT * FROM `targetaudience` WHERE `targetaudience`.`id` = targetAudienceIdIN) AND NOT EXISTS (SELECT * FROM `language` WHERE `language`.`id` = languageIdIN) AND NOT EXISTS (SELECT * FROM `category` WHERE `category`.`id` = categoryIdIN) THEN
     	SET result = 8;
@@ -2080,8 +2124,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `setBook` (IN `bookIdIN` INT, IN `ti
                 IF bankAccountNumberIN IS NOT NULL THEN
                     UPDATE `book`
                     SET `book`.`bankAccountNumber` = bankAccountNumberIN
-                    WHERE `user`.`id` = (SELECT `book`.`writerId` FROM `book` WHERE `book`.`id` = bookIdIN);
-                END IF;
+                    WHERE `book`.`id` = bookIdIN;
+                 END IF;
             END IF;
         END IF;
 
@@ -2150,6 +2194,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `setBook` (IN `bookIdIN` INT, IN `ti
 
 END$$
 
+DROP PROCEDURE IF EXISTS `setCompanyName`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `setCompanyName` (IN `userIdIN` INT, IN `companyNameIN` VARCHAR(50), OUT `result` INT)   BEGIN
 
 	DECLARE rank VARCHAR(20);
@@ -2168,6 +2213,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `setCompanyName` (IN `userIdIN` INT,
 
 END$$
 
+DROP PROCEDURE IF EXISTS `setCoverColor`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `setCoverColor` (IN `userIdIN` INT, IN `coverColorIN` VARCHAR(8))   BEGIN
 
 	DECLARE colorId INT;
@@ -2189,22 +2235,27 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `setCoverColor` (IN `userIdIN` INT, 
 
 END$$
 
+DROP PROCEDURE IF EXISTS `setEmail`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `setEmail` (IN `userIdIN` INT, IN `emailIN` VARCHAR(50))   UPDATE `user`
 SET `user`.`email` = emailIN
 WHERE `user`.`id` = userIdIN$$
 
+DROP PROCEDURE IF EXISTS `setFirstName`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `setFirstName` (IN `userIdIN` INT, IN `firstNameIN` VARCHAR(50))   UPDATE `user`
 SET `user`.`firstName` = firstNameIN
 WHERE `user`.`id` = userIdIN$$
 
+DROP PROCEDURE IF EXISTS `setIntroDescription`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `setIntroDescription` (IN `userIdIN` INT, IN `introDescriptionIN` VARCHAR(1000))   UPDATE `user`
 SET `user`.`introDescription` = introDescriptionIN
 WHERE `user`.`id` = userIdIN$$
 
+DROP PROCEDURE IF EXISTS `setLastName`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `setLastName` (IN `userIdIN` INT, IN `lastNameIN` VARCHAR(50))   UPDATE `user`
 SET `user`.`lastName` = lastNameIN
 WHERE `user`.`id` = userIdIN$$
 
+DROP PROCEDURE IF EXISTS `setPassword`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `setPassword` (IN `userIdIN` INT, IN `passwordIN` VARCHAR(100), OUT `result` INT)   BEGIN
 
 	IF SHA1(passwordIN) = (SELECT `user`.`password` FROM `user` WHERE `user`.`id` = userIdIN) THEN
@@ -2219,10 +2270,12 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `setPassword` (IN `userIdIN` INT, IN
     
 END$$
 
+DROP PROCEDURE IF EXISTS `setPhoneNumber`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `setPhoneNumber` (IN `userIdIN` INT, IN `phoneNumberIN` VARCHAR(15))   UPDATE `user`
 SET `user`.`phoneNumber` = phoneNumberIN
 WHERE `user`.`id` = userIdIN$$
 
+DROP PROCEDURE IF EXISTS `setProfileImage`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `setProfileImage` (IN `userIdIN` INT, IN `imageIN` VARCHAR(100))   BEGIN
 
 	IF CHAR_LENGTH(imageIN) = 0 THEN
@@ -2237,6 +2290,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `setProfileImage` (IN `userIdIN` INT
     
 END$$
 
+DROP PROCEDURE IF EXISTS `setPublicEmail`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `setPublicEmail` (IN `userIdIN` INT)   BEGIN
 
 	IF (SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = userIdIN) = true THEN
@@ -2251,6 +2305,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `setPublicEmail` (IN `userIdIN` INT)
 
 END$$
 
+DROP PROCEDURE IF EXISTS `setPublicPhoneNumber`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `setPublicPhoneNumber` (IN `userIdIN` INT)   BEGIN
 
 	IF (SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = userIdIN) = false THEN
@@ -2265,14 +2320,17 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `setPublicPhoneNumber` (IN `userIdIN
 
 END$$
 
+DROP PROCEDURE IF EXISTS `setUsername`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `setUsername` (IN `userIdIN` INT, IN `usernameIN` VARCHAR(50))   UPDATE `user`
 SET `user`.`username` = usernameIN
 WHERE `user`.`id` = userIdIN$$
 
+DROP PROCEDURE IF EXISTS `setWebsite`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `setWebsite` (IN `userIdIN` INT, IN `websiteIN` VARCHAR(100))   UPDATE `user`
 SET `user`.`website` = websiteIN
 WHERE `user`.`id` = userIdIN$$
 
+DROP PROCEDURE IF EXISTS `unfollowedUser`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `unfollowedUser` (IN `userIdIN` INT, IN `followedUsernameIN` VARCHAR(50), OUT `result` INT)   BEGIN
 
 	DECLARE followedUserId INT;
@@ -2290,6 +2348,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `unfollowedUser` (IN `userIdIN` INT,
 
 END$$
 
+DROP PROCEDURE IF EXISTS `updatePost`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `updatePost` (IN `userIdIN` INT, IN `postIdIN` INT, IN `postDescriptionIN` VARCHAR(1000), OUT `result` INT)   BEGIN
 
 	IF (SELECT `post`.`userId` FROM `post` WHERE `post`.`id` = postIdIN) != userIdIN THEN
@@ -2314,6 +2373,7 @@ DELIMITER ;
 -- Tábla szerkezet ehhez a táblához `aszf`
 --
 
+DROP TABLE IF EXISTS `aszf`;
 CREATE TABLE `aszf` (
   `id` int(11) NOT NULL,
   `startDate` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -2327,6 +2387,7 @@ CREATE TABLE `aszf` (
 -- Tábla szerkezet ehhez a táblához `book`
 --
 
+DROP TABLE IF EXISTS `book`;
 CREATE TABLE `book` (
   `id` int(11) NOT NULL,
   `title` varchar(50) NOT NULL,
@@ -2358,7 +2419,7 @@ INSERT INTO `book` (`id`, `title`, `status`, `writerId`, `publisherId`, `publish
 (2, 'Echoes of Eternity', 'published by', 5, 7, '2023-12-17 17:58:06', NULL, 'An epic fantasy saga spanning across realms and generations.', 2500, 'pictures/book/Echoes-of-Eternity', '', 40, 8, 350, 0, '0987654321', 2, 5, 18),
 (3, 'Beyond the Horizon', 'self-published', 8, NULL, '2023-12-17 17:58:06', NULL, 'A journey of self-discovery and adventure in the heart of the unknown.', 1800, 'pictures/book/Beyond-the-Horizon', '', 25, 5, 180, 0, '1357902468', 3, 3, 9),
 (4, 'The Enigma Code', 'self-published', 3, NULL, '2023-12-17 17:58:38', NULL, 'A gripping thriller revealing the secrets of an encrypted message.', 2200, 'pictures/book/The-Enigma-Code', '', 35, 7, 280, 1, '2468135790', 4, 2, 7),
-(5, 'Whispers in the Dark', 'looking for a publisher', 14, NULL, '2023-12-17 17:58:38', NULL, 'Mysterious occurrences lead to uncovering dark secrets in a small town.', 1700, 'pictures/book/Whispers-in-the-Dark', '', 28, 5, 220, 0, '9876543210', 2, 6, 14),
+(5, 'Szerkesztett', 'self-published', 14, NULL, '2023-12-17 17:58:38', NULL, 'Szerkesztett leírás', 1000, 'Cover image', 'file', 12, 1, 220, 0, '9876543210', 1, 1, 1),
 (6, 'Skyward Odyssey', 'published by', 3, 5, '2023-12-17 17:58:38', NULL, 'Space adventure exploring uncharted galaxies and alien civilizations.', 2800, 'pictures/book/Skyward-Odyssey', '', 45, 9, 400, 0, '0123456789', 3, 4, 21),
 (7, 'The Silent Observer', 'self-published', 20, NULL, '2023-12-17 17:58:38', NULL, 'A psychological thriller about an observer amidst a series of eerie events.', 1900, 'pictures/book/The-Silent-Observer', '', 32, 6, 250, 1, '5432109876', 5, 1, 10),
 (8, 'Legacy of Shadows', 'looking for a publisher', 23, NULL, '2023-12-17 17:58:38', NULL, 'A tale of inheritance, betrayal, and the secrets that haunt a family.', 2000, 'pictures/book/Legacy-of-Shadows', '', 33, 6, 260, 0, '6547893210', 1, 5, 17),
@@ -2411,6 +2472,7 @@ INSERT INTO `book` (`id`, `title`, `status`, `writerId`, `publisherId`, `publish
 -- Tábla szerkezet ehhez a táblához `bookrating`
 --
 
+DROP TABLE IF EXISTS `bookrating`;
 CREATE TABLE `bookrating` (
   `id` int(11) NOT NULL,
   `ratingerId` int(11) NOT NULL,
@@ -2441,6 +2503,7 @@ INSERT INTO `bookrating` (`id`, `ratingerId`, `bookId`, `rating`, `ratingTime`) 
 -- Tábla szerkezet ehhez a táblához `bookreport`
 --
 
+DROP TABLE IF EXISTS `bookreport`;
 CREATE TABLE `bookreport` (
   `id` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
@@ -2455,6 +2518,7 @@ CREATE TABLE `bookreport` (
 -- Tábla szerkezet ehhez a táblához `bookshopping`
 --
 
+DROP TABLE IF EXISTS `bookshopping`;
 CREATE TABLE `bookshopping` (
   `id` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
@@ -2476,6 +2540,7 @@ INSERT INTO `bookshopping` (`id`, `userId`, `bookId`, `shoppingTime`) VALUES
 -- Tábla szerkezet ehhez a táblához `category`
 --
 
+DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
@@ -2527,6 +2592,7 @@ INSERT INTO `category` (`id`, `name`, `image`) VALUES
 -- Tábla szerkezet ehhez a táblához `categoryinterest`
 --
 
+DROP TABLE IF EXISTS `categoryinterest`;
 CREATE TABLE `categoryinterest` (
   `id` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
@@ -2657,6 +2723,7 @@ INSERT INTO `categoryinterest` (`id`, `userId`, `categoryId`) VALUES
 -- Tábla szerkezet ehhez a táblához `color`
 --
 
+DROP TABLE IF EXISTS `color`;
 CREATE TABLE `color` (
   `id` int(11) NOT NULL,
   `code` varchar(8) NOT NULL
@@ -2699,6 +2766,7 @@ INSERT INTO `color` (`id`, `code`) VALUES
 -- Tábla szerkezet ehhez a táblához `follow`
 --
 
+DROP TABLE IF EXISTS `follow`;
 CREATE TABLE `follow` (
   `id` int(11) NOT NULL,
   `followerId` int(11) NOT NULL,
@@ -2739,6 +2807,7 @@ INSERT INTO `follow` (`id`, `followerId`, `followedId`, `followingTime`) VALUES
 -- Tábla szerkezet ehhez a táblához `forgotpassword`
 --
 
+DROP TABLE IF EXISTS `forgotpassword`;
 CREATE TABLE `forgotpassword` (
   `id` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
@@ -2752,6 +2821,7 @@ CREATE TABLE `forgotpassword` (
 -- Tábla szerkezet ehhez a táblához `general`
 --
 
+DROP TABLE IF EXISTS `general`;
 CREATE TABLE `general` (
   `id` int(11) NOT NULL,
   `birthdate` date NOT NULL,
@@ -2826,6 +2896,7 @@ INSERT INTO `general` (`id`, `birthdate`, `publishedBookCount`, `selfPublishedBo
 -- Tábla szerkezet ehhez a táblához `helpcenter`
 --
 
+DROP TABLE IF EXISTS `helpcenter`;
 CREATE TABLE `helpcenter` (
   `id` int(11) NOT NULL,
   `question` text NOT NULL,
@@ -2890,6 +2961,7 @@ INSERT INTO `helpcenter` (`id`, `question`, `answer`, `active`) VALUES
 -- Tábla szerkezet ehhez a táblához `language`
 --
 
+DROP TABLE IF EXISTS `language`;
 CREATE TABLE `language` (
   `id` int(11) NOT NULL,
   `code` char(2) NOT NULL,
@@ -2913,6 +2985,7 @@ INSERT INTO `language` (`id`, `code`, `language`) VALUES
 -- Tábla szerkezet ehhez a táblához `payment`
 --
 
+DROP TABLE IF EXISTS `payment`;
 CREATE TABLE `payment` (
   `id` int(11) NOT NULL,
   `bookShoppingId` int(11) NOT NULL,
@@ -2926,6 +2999,7 @@ CREATE TABLE `payment` (
 -- Tábla szerkezet ehhez a táblához `post`
 --
 
+DROP TABLE IF EXISTS `post`;
 CREATE TABLE `post` (
   `id` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
@@ -2971,6 +3045,7 @@ INSERT INTO `post` (`id`, `userId`, `description`, `postTime`) VALUES
 -- Tábla szerkezet ehhez a táblához `postlike`
 --
 
+DROP TABLE IF EXISTS `postlike`;
 CREATE TABLE `postlike` (
   `id` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
@@ -3002,6 +3077,7 @@ INSERT INTO `postlike` (`id`, `userId`, `postId`, `likeTime`) VALUES
 -- Tábla szerkezet ehhez a táblához `publisher`
 --
 
+DROP TABLE IF EXISTS `publisher`;
 CREATE TABLE `publisher` (
   `id` int(11) NOT NULL,
   `companyName` varchar(50) DEFAULT NULL,
@@ -3033,6 +3109,7 @@ INSERT INTO `publisher` (`id`, `companyName`, `publishedBookCount`, `publishedBo
 -- Tábla szerkezet ehhez a táblához `saved`
 --
 
+DROP TABLE IF EXISTS `saved`;
 CREATE TABLE `saved` (
   `id` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
@@ -3067,6 +3144,7 @@ INSERT INTO `saved` (`id`, `userId`, `bookId`, `savedTime`) VALUES
 -- Tábla szerkezet ehhez a táblához `targetaudience`
 --
 
+DROP TABLE IF EXISTS `targetaudience`;
 CREATE TABLE `targetaudience` (
   `id` int(11) NOT NULL,
   `name` varchar(20) NOT NULL,
@@ -3092,6 +3170,7 @@ INSERT INTO `targetaudience` (`id`, `name`, `minAge`, `maxAge`) VALUES
 -- Tábla szerkezet ehhez a táblához `user`
 --
 
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
