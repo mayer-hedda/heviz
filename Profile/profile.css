@@ -9,7 +9,7 @@
     --border-color: rgb(129, 105, 117);
     --label: rgb(34, 34, 36);
     --error-color: rgb(238, 29, 82);
-    /* --dash-color: rgb(129, 105, 117); */
+    --btn-text-color: rgb(51, 47, 49);
 }
 
 :disabled:after {
@@ -1175,7 +1175,7 @@ Ha találok rá jobb megoldást javítom :)  */
 
 .sMoreBtn:hover{
     background-color: #649984;
-    color: white;
+    color: #ffffff;
     transition: color 0.8s ease;
     transition: background-color 0.8s ease;
 }

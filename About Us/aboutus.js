@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
+    localStorage.removeItem('id');
+    localStorage.removeItem('name');
+    localStorage.removeItem('searchResult');
+    localStorage.removeItem('Error Code:');
 
     const kvb_img = document.getElementById('kvb-img');
     const kvb_name = document.getElementById('KissVivien');
@@ -17,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
         kvb_section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 
-    kvb_name.addEventListener('click', function(){
+    kvb_name.addEventListener('click', function () {
         kvb_section.style.scrollMarginTop = '80px';
         kvb_section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     })
@@ -27,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
         mha_section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 
-    mha_name.addEventListener('click', function(){
+    mha_name.addEventListener('click', function () {
         mha_section.style.scrollMarginTop = '40px';
         mha_section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     })
@@ -37,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
         szv_section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 
-    szv_name.addEventListener('click', function(){
+    szv_name.addEventListener('click', function () {
         szv_section.style.scrollMarginTop = '40px';
         szv_section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     })

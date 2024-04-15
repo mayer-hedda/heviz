@@ -8,7 +8,7 @@ const input_fName = document.getElementById('input-fName');
 const input_lName = document.getElementById('input-lName');
 const input_company = document.getElementById('input-company');
 
-let isIntroExist = false; // Ez arra szolgáló segédváltozó, hogy a rendszer üzenetet szabályozzam
+let isIntroExist = false;
 const missing_intro_text = document.getElementById('missing-intro-text');
 const our_books = document.getElementById('our-books');
 const our_posts = document.getElementById('our-posts');
@@ -21,7 +21,7 @@ const buisness_settings = document.getElementById('buisness-settings');
 const isEmail_public = document.getElementById('email-isPublic');
 const isPhone_public = document.getElementById('phone-isPublic');
 
-// const ourWriters_div = document.getElementById('our-writers-div');
+
 const carousel = document.getElementById('recom-profs');
 const just_two_writer = document.getElementById('just-two-writer');
 
@@ -36,7 +36,6 @@ const publish_btn = document.getElementById('publish-btn');
 const modal_footer_div = document.getElementById('general-m-footer-shop');
 const book_price = document.getElementById('book-price');
 
-// Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
 window.addEventListener('beforeunload', async function () {
     const tokenResponse = await token();
     console.log(tokenResponse);
@@ -46,22 +45,17 @@ window.addEventListener('beforeunload', async function () {
 });
 
 window.onload = async function () {
-    // Szerezzük be a username paramétert a URL-ből
-    const urlParams = new URLSearchParams(window.location.search);
-    var usernameFromLink = urlParams.get('username');
 
-    console.log('Felhasználónév: ', usernameFromLink);
+    var username = localStorage.getItem('username');
+
     var tokenResponese = await token();
-    // console.log(tokenResponese);
     switch (tokenResponese.status) {
         case 302:
 
-            localStorage.removeItem('searchResult');
             localStorage.removeItem('Error Code:');
-            localStorage.removeItem('bookId');
 
-            var responseUser = await getUserDetails({ "profileUsername": usernameFromLink });
-            console.log("User details: " + JSON.stringify(responseUser));
+            var responseUser = await getUserDetails({ "profileUsername": username });
+
 
             switch (responseUser.status) {
                 case 200:
@@ -100,8 +94,8 @@ window.onload = async function () {
                         modal_footer_div.hidden = true;
 
                         // load books
-                        const responseBooks = await getUserBooks({ "profileUsername": usernameFromLink });
-                        console.log("Books details: ", responseBooks);
+                        const responseBooks = await getUserBooks({ "profileUsername": username });
+
                         switch (responseBooks.status) {
                             case 200:
                                 getBooks(responseBooks, responseUser);
@@ -158,25 +152,25 @@ window.onload = async function () {
 
                         if (responseUser.data.rank == "publisher" && tokenResponese.data.rank == "publisher") {
                             document.getElementById('access-denied-notification').hidden = false;
-                            // books_div.hidden = true;
+
                         } else if (responseUser.data.rank == "general" && tokenResponese.data.rank == "publisher") {
                             publish_btn.hidden = false;
                             book_price.hidden = true;
                             shopping_btn.hidden = true;
 
                             // load books
-                            const responseBooks = await getUserBooks({ "profileUsername": usernameFromLink });
-                            console.log("Books details: ", responseBooks);
+                            const responseBooks = await getUserBooks({ "profileUsername": username });
+
                             switch (responseBooks.status) {
                                 case 200:
                                     getBooks(responseBooks, responseUser);
                                     break;
                                 case 401:
-
+                                    // Hibakezelés hiányzik
                                     break;
 
                                 case 422:
-
+                                    // hibakezelés hiányzik
                                     break;
                             }
                         } else if (responseUser.data.rank == "general" && tokenResponese.data.rank == "general" || responseUser.data.rank == "publisher" && tokenResponese.data.rank == "general") {
@@ -185,8 +179,8 @@ window.onload = async function () {
                             shopping_btn.hidden = false;
 
                             // load books
-                            const responseBooks = await getUserBooks({ "profileUsername": usernameFromLink });
-                            console.log("Books details: ", responseBooks);
+                            const responseBooks = await getUserBooks({ "profileUsername": username });
+
                             switch (responseBooks.status) {
                                 case 200:
                                     getBooks(responseBooks, responseUser);
@@ -210,9 +204,9 @@ window.onload = async function () {
                     contactInfos(responseUser);
 
                     if (responseUser.data.ownProfile == true) {
-                        // settings endpont meghívása
+
                         var settingsDetails = await getDetails();
-                        console.log("Settings details: " + JSON.stringify(settingsDetails));
+
 
                         addPlaceholder(settingsDetails, "username", input_un);
                         addPlaceholder(settingsDetails, "website", input_website);
@@ -220,7 +214,7 @@ window.onload = async function () {
                         addPlaceholder(settingsDetails, "phoneNumber", input_phoneNumber);
                         addPlaceholder(settingsDetails, "firstName", input_fName);
                         addPlaceholder(settingsDetails, "lastName", input_lName);
-                        // setSwitches(settingsDetails, isEmail_public, isPhone_public);
+
 
                         if (settingsDetails.data.publicEmail == true) {
                             isEmail_public.checked = true;
@@ -240,8 +234,8 @@ window.onload = async function () {
                     }
 
                     // load posts
-                    const responsePosts = await getUserPosts({ "profileUsername": usernameFromLink });
-                    // console.log("Post details: ", JSON.stringify(responsePosts));
+                    const responsePosts = await getUserPosts({ "profileUsername": username });
+
 
                     switch (responsePosts.status) {
                         case 200:
@@ -261,7 +255,7 @@ window.onload = async function () {
 
                     break;
                 case 401:
-                    // link to the login --> doesn't have token
+
                     window.location.href = "../Log-in/login.html";
                     break;
 
@@ -330,7 +324,6 @@ intro_cancelBtn.addEventListener('click', (e) => {
         introText.hidden = true;
         missing_intro_text.hidden = false;
 
-
         intro_saveBtn.hidden = true;
         intro_cancelBtn.hidden = true;
         error_and_counter.hidden = true;
@@ -352,7 +345,6 @@ introText.addEventListener('input', (e) => {
     characterCounter.textContent = `${count}/1000`;
 
     if (count >= 950) {
-        // console.log("bemegy az ifbe");
         characterCounter.classList.remove('counter');
         characterCounter.classList.add('counterErrorLight');
 
@@ -373,15 +365,13 @@ introText.addEventListener('input', (e) => {
 
 intro_saveBtn.addEventListener('click', async function () {
     const introValue = introText.value;
-    // itt helyesen kiszedi az adatot
-    console.log(introValue);
+
 
     const introResult = await setIntroDescription({ "introDescription": `${introValue}` });
     if (introResult.status == 200) {
-        console.log("Successful intro description");
-        const urlParams = new URLSearchParams(window.location.search);
-        var usernameFromLink = urlParams.get('username');
-        const userDetailsIntro = await getUserDetails({ "profileUsername": `${usernameFromLink}` });
+
+        var username = localStorage.getItem('username');
+        const userDetailsIntro = await getUserDetails({ "profileUsername": `${username}` });
         if (userDetailsIntro.status == 200) {
             console.log("Success");
             introText.readOnly = true;
@@ -417,7 +407,7 @@ post_textarea.addEventListener('input', (e) => {
     characterCounterPost.textContent = `${count}/1000`;
 
     if (count >= 950) {
-        // console.log("bemegy az ifbe");
+
         characterCounterPost.classList.remove('counter');
         characterCounterPost.classList.add('counterErrorLight');
 
@@ -555,7 +545,6 @@ function contactInfos(response) {
     if (response.data.website != undefined && response.data.website != "") {
         website.innerHTML = `<a href="${response.data.website}" class="website-link">${response.data.website}</a>`
         BooleanW = true;
-        // console.log("website: "+BooleanW);
     } else {
         website_div.hidden = true;
     }
@@ -600,8 +589,10 @@ const book_modal_ranking = document.getElementById('modal-ranking');
 const book_modal_language = document.getElementById('modal-language');
 const book_modal_desc = document.getElementById('modal-desc');
 
+// const bookmark = document.getElementById('bookmark');
+let saveClick = false;
 
-function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher) {
+function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher, bookId, isSaved) {
 
     if (url != "Ez a kép elérési útja") {
         book_modal_img.src = `../${url}.jpg`;
@@ -636,6 +627,143 @@ function loadModalData(url, title, firstName, lastName, description, language, r
         navigateToProfile(username);
     })
 
+    if (isSaved == "true") {
+
+        save_btn.innerHTML = "";
+        save_btn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5m8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
+            </svg>
+        `;
+        
+    } else {
+       
+        save_btn.innerHTML = "";
+        save_btn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="bi bi-bookmark" viewBox="0 0 16 16" id="bookmark">
+                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
+            </svg>
+        `;
+    }
+
+    save_btn.addEventListener('click', (e)=>{
+        if(isSaved == "true"){
+            UnsavingBook(bookId);
+            isSaved = "false";
+            saveClick = true;
+            console.log(isSaved);
+        }else{
+            SavingBook(bookId);
+            isSaved = "true";
+            saveClick = true;
+            console.log(isSaved);
+        }
+    });
+}
+
+document.getElementById('bookPopup').addEventListener('hidden.bs.modal', (e)=>{
+    if (saveClick == true) {
+        location.reload();
+    }
+})
+
+
+async function SavingBook(bookId) {
+    const savedResult = await saveBook({ "id": bookId });
+    switch (savedResult.status) {
+        case 200:
+            save_btn.innerHTML = "";
+            save_btn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5m8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
+                </svg>
+            `;
+            break;
+        case 401:
+            window.location.href = '../Log-in/login.html';
+            break;
+        case 422:
+            alert('Something went wrong. Please try again later!');
+            console.log("Error status: " + savedResult.status);
+            break;
+        default:
+            alert('Something went wrong. Please try again later!');
+            console.error("Error status: " + savedResult.status);
+            console.error("Error msg: " + savedResult.error);
+            console.error("Error data: " + savedResult.data);
+            break;
+
+    }
+}
+
+async function UnsavingBook(bookId) {
+    const unsavingResult = await deleteSavedBook({ "id": bookId });
+    switch (unsavingResult.status) {
+        case 200:
+            // console.log("Successfully unsaved!");
+            save_btn.innerHTML = "";
+            save_btn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="bi bi-bookmark" viewBox="0 0 16 16" id="bookmark">
+                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
+                </svg>
+            `;
+            break;
+        case 401:
+            window.location.href = '../Log-in/login.html';
+            break;
+        case 422:
+            alert('Something went wrong. Please try again later!');
+            console.log("Error status: " + unsavingResult.status);
+            break;
+        default:
+            alert('Something went wrong. Please try again later!');
+            console.error("Error status: " + unsavingResult.status);
+            console.error("Error msg: " + unsavingResult.error);
+            console.error("Error data: " + unsavingResult.data);
+            break;
+
+    }
+}
+
+let Published_Books = {};
+async function PublishBtn(button, bookId) {
+    let isPublished_book = Published_Books[bookId];
+
+    if (!isPublished_book) {
+        // ha nincs kiadva akkor meghívjuk a kiadás endpointot
+
+        // beállítani a style-okat ha 200as a kiadás státusz
+        button.textContent = "Publihsed";
+        button.style.backgroundColor = "#649984";
+        button.style.color = "#ffffff";
+
+
+        button.addEventListener('mouseenter', (e) => {
+            button.style.backgroundColor = "#f1b9a0";
+        });
+
+        button.addEventListener('mouseleave', (e) => {
+            button.style.backgroundColor = "#649984";
+        });
+
+    } else {
+        // kiadás visszavonása
+
+        button.textContent = "Let's Publish";
+        button.style.backgroundColor = "#f1b9a0";
+        button.style.color = "rgb(51, 47, 49)";
+
+
+        button.addEventListener('mouseenter', (e) => {
+            button.style.backgroundColor = "#649984";
+            button.style.color = "#ffffff";
+        });
+
+        button.addEventListener('mouseleave', (e) => {
+            button.style.backgroundColor = "#f1b9a0";
+            button.style.color = "rgb(51, 47, 49)";
+        });
+    }
 }
 
 // Upload profile picture
@@ -681,7 +809,6 @@ function uploadImage() {
     add_photo_icon.hidden = true;
     upload_p.hidden = true;
     upload_span.hidden = true;
-    // imgView.style.border = 0;
 
     var img = new Image();
     img.src = imgLink;
@@ -689,8 +816,6 @@ function uploadImage() {
     img.onload = function () {
         let height = img.naturalHeight;
         let width = img.naturalWidth;
-        console.log("A kép magassága: " + height);
-        console.log("A kép szélessége: " + width);
 
         let size = imgFile.size;
         console.log("A fájl mérete byte-ban: " + size);
@@ -701,7 +826,7 @@ function uploadImage() {
 
         document.getElementById('save-pPic').addEventListener('click', async function () {
             const imgResponse = await setProfileImage({ "image": `../pictures/user/${name}` });
-            console.log(imgResponse.status);
+
 
             if (imgResponse.status == 200) {
                 location.reload();
@@ -732,9 +857,9 @@ const saveButton = document.getElementById('color-save');
 
 saveButton.addEventListener('click', async function () {
     let colorValue = colorInput.value;
-    // console.log(colorValue);
+
     const colorResponse = await setCoverColor({ "code": colorValue })
-    // console.log(colorResponse);
+
     if (colorResponse.status == 200) {
         location.reload();
     } else if (setPublicPhone_result.status == 401) {
@@ -990,8 +1115,7 @@ function editPost(postID, currentText) {
 
 
 async function DeletePostBTN(button, postID) {
-    console.log(postID);
-    console.log("megnyomtad a törlés gombot");
+
     const deleteResult = await deletePost({ "id": postID });
     if (deleteResult.status == 200) {
         const postCard = button.closest('.post-card');
@@ -1003,14 +1127,13 @@ async function DeletePostBTN(button, postID) {
 async function Liked(button, postID) {
     let postLiked = postLikes[postID];
 
-
     if (!postLiked) {
         // Ha a poszt nincs like-olva, akkor like-oljuk
         const liked_result = await postLike({ "postId": postID });
         if (liked_result.status == 200) {
             button.style.fill = "#c43700";
             postLikes[postID] = true; // Frissítjük a like állapotot
-            console.log("Sikeres kedvelés. Post id: " + postID);
+
         } else if (liked_result.status == 401) {
             window.location.href = "../Log-in/login.html";
         } else if (liked_result.status == 422) {
@@ -1022,7 +1145,7 @@ async function Liked(button, postID) {
         if (disliked_result.status == 200) {
             button.style.fill = "#2d1810";
             postLikes[postID] = false; // Frissítjük a like állapotot
-            console.log("Sikeres dislike. Post id: " + postID);
+
         } else if (disliked_result.status == 401) {
             window.location.href = "../Log-in/login.html";
         } else if (disliked_result.status == 422) {
@@ -1033,13 +1156,14 @@ async function Liked(button, postID) {
 }
 
 function navigateToProfile(username) {
+    localStorage.setItem("username", username);
     window.location.href = `../Profile/profile.html?username=${username}`;
 }
 
 async function DeleteBookBTN(button, bookID) {
     userBookNumber--;
     document.getElementById('own-books-number').textContent = `${userBookNumber}`;
-    console.log("Ennél a könyvnél nyomtad meg a törlést: " + bookID);
+
     const deleteResult = await deleteBook({ "id": bookID });
     if (deleteResult.status == 200) {
         const bookCard = button.closest('.book-card');
@@ -1050,9 +1174,7 @@ async function DeleteBookBTN(button, bookID) {
 }
 
 function setBookFunction(bookId, userRank) {
-    console.log(bookId);
-    console.log("Gomb megnyomva");
-    console.log(userRank);
+
     if (userRank == 'general') {
         localStorage.setItem("bookId", bookId);
         window.location.href = "../Create Book/createBook.html";
@@ -1061,16 +1183,16 @@ function setBookFunction(bookId, userRank) {
 
 const save_modal_price = document.getElementById('save-modal-price');
 const newPriceInput = document.getElementById('newPrice');
-newPriceInput.addEventListener('focusin', (e)=>{
+newPriceInput.addEventListener('focusin', (e) => {
     document.getElementById('newPriceErr').textContent = "";
 })
 
-save_modal_price.addEventListener('click', async function(){
+save_modal_price.addEventListener('click', async function () {
     const priceValue = newPriceInput.value;
     if (priceValue >= 1000) {
-        
+
         // ide jön az hogy elküldöm a helyes új adatot a backendnek
-    }else{
+    } else {
         document.getElementById('newPriceErr').textContent = "The given price cannot be lower than 1 000 Ft!";
     }
 })
@@ -1099,7 +1221,7 @@ function getBooks(responseBook, userResponse) {
     } else {
         for (let i = 0; i <= responseBook.data.myBooks.length - 1; i++) {
             const bookData = JSON.stringify(responseBook.data.myBooks[i]);
-            console.warn("Book Data: "+bookData);
+
             if (responseBook.data.myBooks[i].coverImage != "Ez a kép elérési útja") {
 
                 books_div.innerHTML += `
@@ -1118,7 +1240,7 @@ function getBooks(responseBook, userResponse) {
         
                                     <div class="card-footer">
                                     <button class="moreBtn-medium" data-bs-toggle="modal" data-bs-target="#bookPopup" 
-                                    onclick="loadModalData('${responseBook.data.myBooks[i].coverImage}', '${responseBook.data.myBooks[i].title}', '${responseBook.data.myBooks[i].firstName}', '${responseBook.data.myBooks[i].lastName}', '${responseBook.data.myBooks[i].description}', '${responseBook.data.myBooks[i].language}', '${responseBook.data.myBooks[i].rating}', '${responseBook.data.myBooks[i].pagesNumber}', '${responseBook.data.myBooks[i].price}', '${responseBook.data.myBooks[i].username}', ${responseBook.data.myBooks[i].companyName !== undefined ? `'${responseBook.data.myBooks[i].companyName}'` : null})">Show
+                                    onclick="loadModalData('${responseBook.data.myBooks[i].coverImage}', '${responseBook.data.myBooks[i].title}', '${responseBook.data.myBooks[i].firstName}', '${responseBook.data.myBooks[i].lastName}', '${responseBook.data.myBooks[i].description}', '${responseBook.data.myBooks[i].language}', '${responseBook.data.myBooks[i].rating}', '${responseBook.data.myBooks[i].pagesNumber}', '${responseBook.data.myBooks[i].price}', '${responseBook.data.myBooks[i].username}', ${responseBook.data.myBooks[i].companyName !== undefined ? `'${responseBook.data.myBooks[i].companyName}'` : null}, '${responseBook.data.myBooks[i].id}' ,'${responseBook.data.myBooks[i].saved}')">Show
                                     Details</button>
         
                                         <div class="edit-delete-div-books">
@@ -1163,7 +1285,7 @@ function getBooks(responseBook, userResponse) {
         
                                     <div class="card-footer">
                                         <button class="moreBtn-medium" data-bs-toggle="modal" data-bs-target="#bookPopup" 
-                                        onclick="loadModalData('${responseBook.data.myBooks[i].coverImage}', '${responseBook.data.myBooks[i].title}', '${responseBook.data.myBooks[i].firstName}', '${responseBook.data.myBooks[i].lastName}', '${responseBook.data.myBooks[i].description}', '${responseBook.data.myBooks[i].language}', '${responseBook.data.myBooks[i].rating}', '${responseBook.data.myBooks[i].pagesNumber}', '${responseBook.data.myBooks[i].price}', '${responseBook.data.myBooks[i].username}', ${responseBook.data.myBooks[i].companyName !== undefined ? `'${responseBook.data.myBooks[i].companyName}'` : null})">Show
+                                        onclick="loadModalData('${responseBook.data.myBooks[i].coverImage}', '${responseBook.data.myBooks[i].title}', '${responseBook.data.myBooks[i].firstName}', '${responseBook.data.myBooks[i].lastName}', '${responseBook.data.myBooks[i].description}', '${responseBook.data.myBooks[i].language}', '${responseBook.data.myBooks[i].rating}', '${responseBook.data.myBooks[i].pagesNumber}', '${responseBook.data.myBooks[i].price}', '${responseBook.data.myBooks[i].username}', ${responseBook.data.myBooks[i].companyName !== undefined ? `'${responseBook.data.myBooks[i].companyName}'` : null}, '${responseBook.data.myBooks[i].id}' ,'${responseBook.data.myBooks[i].saved}')">Show
                                         Details</button>
         
                                         <div class="edit-delete-div-books">
@@ -1199,6 +1321,13 @@ function getBooks(responseBook, userResponse) {
         const post_editDelete_div_books = document.querySelectorAll('.edit-delete-div-books');
         post_editDelete_div_books.forEach(div => {
             div.hidden = true;
+        });
+    }
+
+    if (userResponse.data.rank = "publisher") {
+        const trashCan = document.querySelectorAll('.delete-book');
+        trashCan.forEach(button => {
+            button.hidden = true;
         });
     }
 
@@ -1384,7 +1513,7 @@ function Cancel(element, buttonsRow) {
 
 function upTo3(value, inputName, inputId, errorDiv) {
     if (value.length < 3) {
-        console.log(inputName + " error: length");
+
         inputId.style.background = "rgb(255, 214, 220)";
         inputId.style.borderColor = "rgb(243, 82, 93)";
         errorDiv.innerHTML = `<p>It should be at least 3 characters.</p>`;
@@ -1442,11 +1571,11 @@ function upTo3(value, inputName, inputId, errorDiv) {
 
 function validateEmail(emailValue) {
     let allowedChars = /^[a-z1-9@.]+$/;
-    //* to check @ character
+
     const specReg = new RegExp("(?=.*[@])");
     if (specReg.test(emailValue) == false) {
         e_error.innerHTML = `<p>Email address must be contains the "@" symbol.</p>`;
-        console.log("Email addres doesn't include @ character. Input: " + emailValue);
+
         input_email.style.background = "rgb(255, 214, 220)";
         input_email.style.borderColor = "rgb(243, 82, 93)";
         at_symbol = false;
@@ -1458,20 +1587,20 @@ function validateEmail(emailValue) {
         at_symbol = true;
         if (atCount !== 1) {
             e_error.innerHTML = `<p>Email address must contain exactly one "@" symbol.</p>`;
-            console.log("Email address must contain exactly one @ symbol. Input:" + emailValue);
+
             input_email.style.background = "rgb(255, 214, 220)";
             input_email.style.borderColor = "rgb(243, 82, 93)";
             return false;
         } else {
             //It checks what is in front of the @.
             const firsPartOfEmail = emailValue.slice(0, emailValue.indexOf('@'));
-            console.log("Include @. The value before @: " + firsPartOfEmail);
+
 
             if (firsPartOfEmail == "") {
                 e_error.innerHTML = `<p>Email address cannot empty before "@" symbol.</p>`;
                 input_email.style.background = "rgb(255, 214, 220)";
                 input_email.style.borderColor = "rgb(243, 82, 93)";
-                console.log("The first part of the email is empty. Input: " + emailValue);
+
                 fp_email = false;
             } else {
                 if (allowedChars.test(emailValue) == true) {
@@ -1481,41 +1610,36 @@ function validateEmail(emailValue) {
 
                         input_email.style.background = "rgb(255, 214, 220)";
                         input_email.style.borderColor = "rgb(243, 82, 93)";
-                        console.log("First part of email length is not enough. Value: " + firsPartOfEmail);
+
                         fp_email = false;
                     } else {
 
                         fp_email = true;
 
-                        // Checks that the part after @ matches.
                         const lastPartOfEmail = emailValue.slice(emailValue.indexOf('@') + 1);
                         console.log("Value after @: " + lastPartOfEmail);
 
-                        // Checks that the part after the @ contains a period.
                         const dotReg = new RegExp("(?=.*[.])");
 
                         if (dotReg.test(lastPartOfEmail) == true) {
-                            console.log("last part of email include period");
-                            console.log("Last part of email pass. Value: " + lastPartOfEmail);
 
-                            // Make sure that the part in front of the period is at least 2 characters in length.
                             const beforeDot = lastPartOfEmail.slice(0, lastPartOfEmail.indexOf('.'));
-                            console.log("Value before dot: " + beforeDot);
+
 
                             if (beforeDot == "" || beforeDot.length < 2) {
-                                console.log("Last part of email before dot is not enough. Last part: " + lastPartOfEmail);
+
                                 e_error.innerHTML = `<p>Please ensure you have at least 2 characters before the " . " (dot) symbol.</p>`;
                                 lp_email = false;
                                 input_email.style.background = "rgb(255, 214, 220)";
                                 input_email.style.borderColor = "rgb(243, 82, 93)";
                             } else {
                                 lp_email = true;
-                                console.log("Last part of email is complied. Input: " + emailValue);
+
                             }
 
 
                         } else {
-                            console.log("Last part of email doesn't include dot. Input: " + emailValue);
+
                             e_error.innerHTML = `<p>Please include the '.' (dot) symbol in your email address.</p>`;
                             input_email.style.background = "rgb(255, 214, 220)";
                             input_email.style.borderColor = "rgb(243, 82, 93)";
@@ -1526,7 +1650,7 @@ function validateEmail(emailValue) {
                     e_error.innerHTML = `<p>The email address must contain only the English alphabet, a dot (.) and the at (@) symbol.</p>`;
                     input_email.style.background = "rgb(255, 214, 220)";
                     input_email.style.borderColor = "rgb(243, 82, 93)";
-                    console.error("Email address contains something that not allowed");
+
                     chars_email = false;
                 }
 
@@ -1538,7 +1662,7 @@ function validateEmail(emailValue) {
         at_symbol = false;
         input_email.style.background = "rgb(255, 214, 220)";
         input_email.style.borderColor = "rgb(243, 82, 93)";
-        console.log("Email error: doesn't include @. Value:" + emailValue);
+
     }
 
     if (fp_email == true && lp_email == true && at_symbol == true && chars_email == true) {
@@ -1578,17 +1702,17 @@ function validateCompany(companyValue, companyError, inputCompany) {
         companyError.innerHTML = `<p>Company field cannot be empty</p>`;
         inputCompany.style.background = "rgb(255, 214, 220)";
         inputCompany.style.borderColor = "rgb(243, 82, 93)";
-        console.log("Company field is empty.");
+
         return false;
 
     } else if (companyValue.length < 2) {
         companyError.innerHTML = `<p>Company name must be at least 2 characters long.</p>`;
         inputCompany.style.background = "rgb(255, 214, 220)";
         inputCompany.style.borderColor = "rgb(243, 82, 93)";
-        console.log("Company length is not enough: Input: " + companyValue);
+
         return false;
     } else {
-        console.log("Company name is complied. Input: " + companyValue);
+
         return true;
     }
 }
@@ -1632,7 +1756,7 @@ function validatePwd(pwdValue, pwdInput, errorField) {
         errorField.innerHTML = `<p>Password field cannot be empty</p>`;
         pwdInput.target.style.background = "rgb(255, 214, 220)";
         pwdInput.target.style.borderColor = "rgb(243, 82, 93)";
-        console.log("The" + pwdInput + " pwd field is empty.");
+
         return false;
 
     } else if (pwdValue.length < 8) {
@@ -1640,20 +1764,20 @@ function validatePwd(pwdValue, pwdInput, errorField) {
         errorField.innerHTML = `<p>Password must be at least 8 characters long.</p>`;
         pwdInput.style.background = "rgb(255, 214, 220)";
         pwdInput.style.borderColor = "rgb(243, 82, 93)";
-        console.log("The" + pwdInput + " pwd is less than 8 characters. Input: " + pwdValue);
+
         return false;
 
     } else {
         // It checks for uppercase, lowercase, numbers and special characters.
         if (upperCaseReg.test(pwdValue) == true && lowerCaseReg.test(pwdValue) == true && numReg.test(pwdValue) == true && specReg.test(pwdValue) == true) {
-            console.log("The" + pwdInput + " is complied. Input: " + pwdValue);
+
             return true;
 
         } else {
             errorField.innerHTML = `<p>Password must contain at least 1 uppercase, 1 lowercase, 1 number and 1 special character.</p>`;
             pwdInput.style.background = "rgb(255, 214, 220)";
             pwdInput.style.borderColor = "rgb(243, 82, 93)";
-            console.log("Something is missing from the " + pwdInput + ". Input: " + pwdValue);
+
             return false;
         }
     }
@@ -1744,14 +1868,14 @@ un_cancel.addEventListener('click', (e) => {
 un_save.addEventListener('click', async function () {
 
     let un_boolean = upTo3(input_un.value, "username", input_un, un_error);
-    console.log("username save btn: " + un_boolean);
+
 
     if (un_boolean == true) {
         let inputUn_value = input_un.value;
-        console.log("Amire változtatni szeretnék: " + inputUn_value);
+
         const setUnResponse = await setUsername({ "username": inputUn_value });
         if (setUnResponse.status == 200) {
-            // console.log("Sikeresen szerkesztetted a usernevet a következőre: " + inputUn_value);
+
 
             window.location.href = `../Profile/profile.html?username=${inputUn_value}`;
 
@@ -1767,7 +1891,7 @@ un_save.addEventListener('click', async function () {
 
 input_un.addEventListener('input', (e) => {
     const checkResult = checkUserCharacters(input_un.value, input_un, un_error);
-    console.log(checkResult);
+
     if (checkResult == false) {
         un_save.disabled = true;
     } else {
@@ -1783,7 +1907,7 @@ input_un.addEventListener('focusin', (e) => {
 
 // email 
 edit_email.addEventListener('click', (e) => {
-    // e.preventDefault();
+
     EditIcon(input_email, email_saveCancel);
 })
 
@@ -1795,15 +1919,13 @@ e_cancel.addEventListener('click', (e) => {
 })
 
 e_save.addEventListener('click', async function () {
-    // console.log("Megnyomtad az email save gombot");
     let e_boolean = validateEmail(input_email.value);
-    console.log("email save btn: " + e_boolean);
 
     if (e_boolean == true) {
         let inputEmail_value = input_email.value;
         const setEmailResponse = await setEmail({ "email": `${inputEmail_value}` });
         if (setEmailResponse.status == 200) {
-            console.log("Sikeresen szerkesztetted az emailt a következőre: " + inputEmail_value);
+
             const settingCall = await getDetails();
             addPlaceholder(settingCall, "email", input_email);
             Cancel(input_email, email_saveCancel);
@@ -1846,7 +1968,7 @@ w_save.addEventListener('click', async function () {
         if (input_website.value.length >= 4 && input_website.value.length <= 100) {
             const setWebsiteResponse = await setWebsite({ "website": input_website.value });
             if (setWebsiteResponse.status == 200) {
-                console.log("Sikeresen szerkesztetted a website-ot a következőre: " + input_website.value);
+
                 input_website.style.background = "";
                 input_website.style.borderColor = "";
                 w_error.innerHTML = "";
@@ -1881,15 +2003,13 @@ pwd_cancel.addEventListener('click', (e) => {
 })
 
 pwd_save.addEventListener('click', async function () {
-    // console.log("Megnyomtad a pwd save gombot");
+
     let pwd_boolean = validatePwd(input_pwd.value, input_pwd, pwd_error);
-    console.log("pwd valid boolean: " + pwd_boolean);
 
     if (pwd_boolean == true) {
         let pwd_value = input_pwd.value;
         const setPwdResponse = await setPassword({ "password": `${pwd_value}` });
         if (setPwdResponse.status == 200) {
-            // console.log("Sikeresen szerkesztetted a jelszavadat");
 
             window.location.href = "../Log-in/login.html";
             localStorage.removeItem("Token");
@@ -1929,16 +2049,16 @@ input_phoneNumber.addEventListener('input', (e) => {
 })
 
 p_save.addEventListener('click', async function () {
-    console.log("Megnyomtad a phone save gombot");
+
     let phone_lenght = checkPhoneLenght(input_phoneNumber.value, input_phoneNumber, phone_error);
-    console.log("phone boolean: " + phone_boolean);
+
 
     if (phone_boolean == true && phone_lenght == true) {
 
         let phone_value = input_phoneNumber.value;
         const setPhoneResponse = await setPhoneNumber({ "phoneNumber": `${phone_value}` });
         if (setPhoneResponse.status == 200) {
-            console.log("Sikeresen szerkesztetted a jelszavadat");
+
             location.reload();
 
         } else if (setEmailResponse.status == 401) {
@@ -1971,15 +2091,15 @@ fn_cancel.addEventListener('click', (e) => {
 })
 
 fn_save.addEventListener('click', async function () {
-    // console.log("megnyomtad a save gombot");
+
     let fn_boolean = upTo3(input_fName.value, "first name", input_fName, fn_error);
-    console.log("username save btn: " + fn_boolean);
+
 
     if (fn_boolean == true) {
         let firstname_value = input_fName.value;
         const setFirstResponse = await setFirstName({ "firstName": `${firstname_value}` });
         if (setFirstResponse.status == 200) {
-            console.log("Sikeresen szerkesztetted a first name-t a következőre: " + firstname_value);
+
             const settingCall = await getDetails();
             addPlaceholder(settingCall, "firstName", input_fName);
             Cancel(input_fName, fName_saveCancel);
@@ -2013,15 +2133,15 @@ ln_cancel.addEventListener('click', (e) => {
 })
 
 ln_save.addEventListener('click', async function () {
-    // console.log("megnyomtad a save gombot");
+
     let ln_boolean = upTo3(input_lName.value, "last name", input_lName, ln_error);
-    console.log("username save btn: " + ln_boolean);
+
 
     if (ln_boolean == true) {
         let lastname_value = input_lName.value;
         const setLastResponse = await setLastName({ "lastName": `${lastname_value}` });
         if (setLastResponse.status == 200) {
-            console.log("Sikeresen szerkesztetted a last name-t a következőre: " + lastname_value);
+
             const settingCall = await getDetails();
             addPlaceholder(settingCall, "lastName", input_lName);
             Cancel(input_lName, lName_saveCancel);
@@ -2054,17 +2174,17 @@ c_cancel.addEventListener('click', (e) => {
     c_error.innerHTML = "";
 })
 
-// ! 422-es hibakód
+
 c_save.addEventListener('click', async function () {
-    console.log("megnyomtad a save gombot");
+
     let c_boolean = validateCompany(input_company.value, c_error, input_company);
-    console.log("company boolean: " + c_boolean);
+
 
     if (c_boolean == true) {
         let company_value = input_company.value;
         const setCompanyResponse = await setCompanyName({ "companyName": `${company_value}` });
         if (setCompanyResponse.status == 200) {
-            console.log("Sikeresen szerkesztetted a company name-t a következőre: " + company_value);
+
             const settingCall = await getDetails();
             addPlaceholder(settingCall, "companyName", input_company);
             Cancel(input_company, company_saveCancel);
@@ -2100,16 +2220,14 @@ function isChecked(elementID) {
 
 isEmail_public.addEventListener('change', async function () {
     let ischecked = isChecked(isEmail_public);
-    console.log(ischecked);
+
     const setPublicEmail_result = await setPublicEmail();
-    console.log(setPublicEmail_result.status);
+
 
     if (setPublicEmail_result.status == 200) {
         if (ischecked == true) {
-            // isEmail_public.checked = false;
             console.log("A következőre változott az érték: true");
         } else {
-            // isEmail_public.checked = true;
             console.log("A következőre változott az érték: false");
         }
     } else if (setPublicEmail_result.status == 401) {
@@ -2124,14 +2242,14 @@ isEmail_public.addEventListener('change', async function () {
 isPhone_public.addEventListener('change', async function () {
     let ischecked = isChecked(isPhone_public);
     const setPublicPhone_result = await setPublicPhoneNumber();
-    console.log(setPublicPhone_result.status);
+
 
     if (setPublicPhone_result.status == 200) {
         if (ischecked == true) {
-            // isEmail_public.checked = false;
+
             console.log("A következőre változott az érték: true");
         } else {
-            // isEmail_public.checked = true;
+
             console.log("A következőre változott az érték: false");
         }
     } else if (setPublicPhone_result.status == 401) {
@@ -2145,6 +2263,5 @@ isPhone_public.addEventListener('change', async function () {
 
 const settings_modal = document.getElementById('settings-modal');
 settings_modal.addEventListener('hidden.bs.modal', function () {
-    // Újratöltjük az oldalt
     location.reload();
 });

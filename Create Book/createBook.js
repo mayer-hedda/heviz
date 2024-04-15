@@ -49,6 +49,8 @@ window.onload = async function () {
         case 302:
             localStorage.removeItem('searchResult');
             localStorage.removeItem('Error Code:');
+            localStorage.removeItem('id');
+            localStorage.removeItem('name');
 
             const dropdown_response = await getDropDownValues();
             console.log(dropdown_response);

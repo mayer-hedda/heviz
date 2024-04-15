@@ -122,7 +122,10 @@ window.onload = async function () {
         case 302:
             localStorage.removeItem('searchResult');
             localStorage.removeItem('Error Code:');
-            localStorage.removeItem('bookId');
+            localStorage.removeItem('id');
+            localStorage.removeItem('name');
+
+            document.getElementById('welcome').innerText = `Welcome ${tokenResponse.data.firstName} ${tokenResponse.data.lastName}!`;
             
             document.getElementById('profile-link').addEventListener('click', (e) => {
                 window.location.href = `../Profile/profile.html?username=${tokenResponse.data.username}`;
@@ -134,7 +137,7 @@ window.onload = async function () {
 
                 case 'publisher':
                     username.innerText = `@${tokenResponse.data.username}`;
-                    // const userDatas = await getUserDetails({ "profileUsername": tokenResponse.data.username });
+                   
                     profilePic.innerHTML = `<img class="rounded-circle" src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;
 
                     // Egy nagy random kártya
@@ -416,7 +419,8 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
     }
 }
 
-function navigateToProfile(username){
+function navigateToProfile(username) {
+    localStorage.setItem("username", username);
     window.location.href = `../Profile/profile.html?username=${username}`;
 }
 

@@ -531,8 +531,12 @@ form {
     margin-top: 20px;
     color: #993b18;
     font-style: italic;
+    margin-bottom: 450px;
 }
 
+#noSearchResult{
+    margin-left: 350px;
+}
 
 /* ---------------- MODAL ---------------------------*/
 .author{

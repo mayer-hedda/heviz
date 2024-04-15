@@ -32,7 +32,8 @@ window.onload = async function () {
         case 302:
             localStorage.removeItem('searchResult');
             localStorage.removeItem('Error Code:');
-            localStorage.removeItem('bookId');
+            localStorage.removeItem('id');
+            localStorage.removeItem('name');
 
             document.getElementById('profile-link').addEventListener('click', (e) => {
                 window.location.href = `../Profile/profile.html?username=${tokenResponse.data.username}`;
@@ -233,6 +234,7 @@ async function LoadPosts(response) {
 }
 
 function navigateToProfile(username) {
+    localStorage.setItem("username", username);
     window.location.href = `../Profile/profile.html?username=${username}`;
 }
 

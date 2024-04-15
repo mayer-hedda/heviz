@@ -539,10 +539,12 @@
                 <div class="modal-header" id="book-modal-header">
                     <!--TODO: klikkre váltson át a teli bookmark-ra  -->
                     <button class="save-btn" id="save-btn"><svg xmlns="http://www.w3.org/2000/svg" width="20"
-                            height="20" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+                            height="20" class="bi bi-bookmark" viewBox="0 0 16 16" id="bookmark">
                             <path
                                 d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
                         </svg></button>
+
+                   
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
                 </div>
@@ -662,7 +664,7 @@
                             <input type="number" class="form-control" aria-describedby="addon-wrapping" id="newPrice">
                             <span class="input-group-text" id="forint">Ft</span>
                         </div>
-                       
+
                     </div>
                     <p class="error" id="newPriceErr" style="font-size: 16px;"></p>
                 </div>

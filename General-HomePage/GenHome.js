@@ -1,9 +1,6 @@
 const username = document.getElementById('userName-p');
 const profilePic = document.getElementById('profile-icon');
-// const defaultP_pic = document.getElementById('default-profile-pic');
-
-//* LOADING DATAS
-const dataURL = './db.json';
+var own_uname;
 
 // Section tags
 const first_section = document.getElementById('first-section');
@@ -59,7 +56,7 @@ const s5_mediumC_btn = document.getElementById('s5-mediumC-btn');
 const s5_first_row = document.getElementById('s5-first-row');
 const s5_second_row = document.getElementById('s5-second-row');
 
-//* MODAL
+// MODAL
 const modal_body = document.getElementById('modal-body');
 const modal_img = document.getElementById('modal-img');
 const modal_title = document.getElementById('modal-title');
@@ -70,6 +67,9 @@ const modal_ranking = document.getElementById('modal-ranking');
 const modal_language = document.getElementById('modal-language');
 const modal_desc = document.getElementById('modal-desc');
 const modal_price = document.getElementById('book-price');
+const save_btn = document.getElementById('save-btn');
+const shopping_btn = document.getElementById('shopping-cart');
+
 
 // Segéd változók
 let resp_imgURL, resp_title, resp_firstName, resp_lastName, resp_description, resp_language, resp_rating, resp_pageNumber;
@@ -79,7 +79,7 @@ let s3 = false;
 let s4 = false;
 let s5 = false;
 
-// Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
+
 window.addEventListener('beforeunload', async function () {
     const tokenResponse = await token();
     console.log(tokenResponse);
@@ -92,9 +92,6 @@ window.addEventListener('beforeunload', async function () {
 // LOADING PAGE
 window.onload = async function () {
     const tokenResponse = await token();
-    console.log(tokenResponse);
-    // username to the navbar
-    // console.log(tokenResponse);
 
     switch (tokenResponse.status) {
         case 401:
@@ -103,16 +100,18 @@ window.onload = async function () {
         case 302:
             localStorage.removeItem('searchResult');
             localStorage.removeItem('Error Code:');
-            localStorage.removeItem('bookId');
+            localStorage.removeItem('id');
+            localStorage.removeItem('name');
 
             document.getElementById('profile-link').addEventListener('click', (e) => {
                 window.location.href = `../Profile/profile.html?username=${tokenResponse.data.username}`;
             });
 
+            own_uname = tokenResponse.data.username;
+
             const userResponse = await getUserDetails({ "profileUsername": tokenResponse.data.username })
 
             username.innerText = `@${tokenResponse.data.username}`;
-            // const userDatas = await getUserDetails({ "profileUsername": tokenResponse.data.username });
             profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;
 
             switch (tokenResponse.data.rank) {
@@ -121,8 +120,6 @@ window.onload = async function () {
 
                     // Egy nagy random kártya
                     const responseRandomBook = await getOneRandomBook();
-                    console.log("Random book response: ", responseRandomBook);
-                    console.log("Random book response length: ", responseRandomBook.data.length);
                     // egy nagy random könyv
                     if (responseRandomBook.data.length != 0) {
                         LoadRandomBook(responseRandomBook);
@@ -134,8 +131,6 @@ window.onload = async function () {
 
                     // A hónap könyve(i)
                     const responseBooksOfMonth = await getMostSavedBooksOfTheMonth();
-                    console.log("Most saved books of month response: ", responseBooksOfMonth);
-                    console.log("Most saved books of month response length: ", responseBooksOfMonth.data.length);
                     // legtöbbet elmentett könyvek a hónapban
                     if (responseBooksOfMonth.data.length != 0) {
                         // 
@@ -149,9 +144,6 @@ window.onload = async function () {
 
                     // ajánlások neked
                     const responseRecommanded = await getRecommandedBooks();
-                    console.log("Recommanded books for you: ", responseRecommanded);
-                    console.log("Recommanded books for you length: ", responseRecommanded.data.length);
-
                     if (responseRecommanded.data.length != 0) {
                         TwoRowAndMediumCard("Recommanded books for you", responseRecommanded, s3_mediumCardPic_div, s3_mediumC_h2, s3_mediumC_author, s3_mediumC_publisher, s3_mediumC_desc, s3_mediumC_btn, s3_first_row, s3_second_row);
                         s3 = true;
@@ -161,8 +153,6 @@ window.onload = async function () {
 
                     // csak kiadósok
                     const responsePublisher = await getPublishedBooks();
-                    console.log("Publisher books: ", responsePublisher);
-                    console.log("Publisher books length: ", responsePublisher.data.length);
 
                     if (responsePublisher.data.length != 0) {
                         TwoRowAndMediumCard("Publisher books", responsePublisher, s4_mediumCardPic_div, s4_mediumC_h2, s4_mediumC_author, s4_mediumC_publisher, s4_mediumC_desc, s4_mediumC_btn, s4_first_row, s4_second_row);
@@ -173,9 +163,6 @@ window.onload = async function () {
 
                     // csak öncélú
                     const responseSelfPublished = await getSelfPublishedBooks();
-                    console.log("Self-published books: ", responseSelfPublished);
-                    console.log("Self-published books length: ", responseSelfPublished.data.length);
-
                     if (responseSelfPublished.data.length != 0) {
 
                         TwoRowAndMediumCard("Self-published books", responseSelfPublished, s5_mediumCardPic_div, s5_mediumC_h2, s5_mediumC_author, s5_mediumC_publisher, s5_mediumC_desc, s5_mediumC_btn, s5_first_row, s5_second_row)
@@ -214,6 +201,7 @@ window.onload = async function () {
 };
 
 function navigateToProfile(username) {
+    localStorage.setItem("username", username);
     window.location.href = `../Profile/profile.html?username=${username}`;
 }
 
@@ -228,8 +216,6 @@ function LoadRandomBook(response) {
             
         `;
     } else {
-        // Ide majd az elési utat kell megadni az scr-be, de mivel a db-ben nincs fent a tényleges kép 
-        // ezért a szemléltetés miatt mindenhol a standard-et töltöm be 
         console.log("Cover book path: ", coverImage);
         s1_bigCard_div.innerHTML = `
             
@@ -249,35 +235,7 @@ function LoadRandomBook(response) {
     random_book_btn.addEventListener('click', (e) => {
         e.preventDefault();
 
-        if (response.data[0].coverImage != "Ez a kép elérési útja") {
-
-            console.log("Kép elérési útja: " + response.data[0].coverImage);
-            modal_img.src = `../${response.data[0].coverImage}.jpg`;
-        } else {
-            modal_img.src = "../pictures/standard-book-cover.jpg";
-
-        }
-
-        modal_title.innerText = `${response.data[0].title}`;
-        // modal_title.innerText = "`${response.data[0].title}`";
-        // console.error("Cím: ", response.data[0].title);
-        modal_author.innerText = `${response.data[0].firstName} ${response.data[0].lastName}`;
-        modal_pages.innerText = `${response.data[0].pagesNumber}`;
-
-        console.log(response.data[0].title + " rating: " + response.data[0].rating);
-        if (response.data[0].rating != undefined) {
-            modal_ranking.innerText = `${response.data[0].rating}`;
-        } else {
-            modal_ranking.innerText = "-";
-        }
-
-        modal_language.innerText = `${response.data[0].language}`;
-        modal_desc.innerText = `${response.data[0].description}`;
-        modal_price.innerText = `${response.data[0].price} Ft`;
-
-        modal_author.addEventListener('click', (e) => {
-            window.location.href = `../Profile/profile.html?username=${response.data[0].username}`;
-        });
+        loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].price, response.data[0].username , response.data[0].publisher, response.data[0].id, response.data[0].saved);
     })
 }
 
@@ -305,9 +263,6 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
             <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
         `;
     } else {
-        // Ide majd az elési utat kell megadni az scr-be, de mivel a db-ben nincs fent a tényleges kép 
-        // ezért a szemléltetés miatt mindenhol a standard-et töltöm be 
-        console.log(sectionName, " Medium Card Cover book path: ", mediumCover);
 
         mediumC_PicDiv.innerHTML = `
 
@@ -326,45 +281,12 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
     mediumC_description.innerText = `${response.data[0].description}`;
 
     mediumC_author.addEventListener('click', (e) => {
-        window.location.href = `../Profile/profile.html?username=${response.data[0].username}`;
+       navigateToProfile(response.data[0].username);
     });
 
     mediumC_btn.addEventListener('click', (e) => {
         e.preventDefault();
-
-        if (response.data[0].coverImage != "Ez a kép elérési útja") {
-
-            console.log("Kép elérési útja: " + response.data[0].coverImage);
-            modal_img.src = `../${response.data[0].coverImage}.jpg`;
-        } else {
-            modal_img.src = "../pictures/standard-book-cover.jpg";
-        }
-
-        if (response.data[0].publisher != undefined) {
-            modal_publisher.innerText = `${response.data[0].publisher}`;
-        } else {
-            modal_publisher.innerText = "";
-        }
-
-
-        modal_title.innerText = `${response.data[0].title}`;
-        modal_author.innerText = `${response.data[0].firstName} ${response.data[0].lastName}`;
-        modal_pages.innerText = `${response.data[0].pagesNumber}`;
-
-        if (response.data[0].rating) {
-            modal_ranking.innerText = `${response.data[0].rating}`;
-        } else {
-            modal_ranking.innerText = "-";
-        }
-
-        modal_language.innerText = `${response.data[0].language}`;
-        modal_desc.innerText = `${response.data[0].description}`;
-        modal_price.innerText = `${response.data[0].price} Ft`;
-
-        modal_author.addEventListener('click', (e) => {
-            window.location.href = `../Profile/profile.html?username=${response.data[0].username}`;
-        });
-
+        loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].price, response.data[0].username , response.data[0].publisher !== undefined ? `'${response.data[0].publisher}'` : null, response.data[0].id, response.data[0].saved);
     })
 
 
@@ -381,7 +303,7 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                             <p class="book-title">${response.data[i].title}</p>
                             <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
                             <p class="author-p author">${response.data[i].publisher || ''}</p>
-                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}',  ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null})">Show Details</button>
+                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}' , ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${response.data[i].id}', '${response.data[i].saved}')">Show Details</button>
                         </div>
                     </div>
                 </div>
@@ -398,7 +320,7 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                             <p class="book-title">${response.data[i].title}</p>
                             <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
                             <p class="author-p author">${response.data[i].publisher || ''}</p>
-                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}',  ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null})">Show Details</button>
+                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}' , ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${response.data[i].id}', '${response.data[i].saved}')">Show Details</button>
                         </div>
                     </div>
                 </div>
@@ -432,8 +354,6 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
         `
     } else {
 
-        console.log(sectionName, " Medium Card Cover book path: ", response.data[0].coverImage);
-
         mediumC_PicDiv.innerHTML = `
             <img class="medium-pic" src="../${response.data[0].coverImage}.jpg" alt="${response.data[0].title} cover">
         `
@@ -450,42 +370,12 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
     mediumC_description.innerText = `${response.data[0].description}`;
 
     mediumC_author.addEventListener('click', (e) => {
-        window.location.href = `../Profile/profile.html?username=${response.data[0].username}`;
+       navigateToProfile(response.data[0].username);
     });
 
     mediumC_btn.addEventListener('click', (e) => {
         e.preventDefault();
-
-        if (response.data[0].coverImage != "Ez a kép elérési útja") {
-            console.log("Kép elérési útja: " + response.data[0].coverImage);
-            modal_img.src = `../${response.data[0].coverImage}.jpg`;
-        } else {
-            modal_img.src = "../pictures/standard-book-cover.jpg";
-        }
-
-        if (response.data[0].publisher != undefined) {
-            modal_publisher.innerText = `${response.data[0].publisher}`;
-        } else {
-            modal_publisher.innerText = "";
-        }
-
-        modal_title.innerText = `${response.data[0].title}`;
-        modal_author.innerText = `${response.data[0].firstName} ${response.data[0].lastName}`;
-        modal_pages.innerText = `${response.data[0].pagesNumber}`;
-
-        if (response.data[0].rating) {
-            modal_ranking.innerText = `${response.data[0].rating}`;
-        } else {
-            modal_ranking.innerText = "-";
-        }
-
-        modal_language.innerText = `${response.data[0].language}`;
-        modal_desc.innerText = `${response.data[0].description}`;
-        modal_price.innerText = `${response.data[0].price} Ft`;
-
-        modal_author.addEventListener('click', (e) => {
-            window.location.href = `../Profile/profile.html?username=${response.data[0].username}`;
-        });
+        loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].price, response.data[0].username, response.data[0].publisher, response.data[0].id, response.data[0].saved);
     })
 
 
@@ -501,7 +391,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                             <p class="book-title">${response.data[i].title}</p>
                             <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
                             <p class="author-p author">${response.data[i].publisher || ''}</p>
-                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}',  ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null})">Show Details</button>
+                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}' , ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${response.data[i].id}', '${response.data[i].saved}')">Show Details</button>
                         </div>
                     </div>
                 </div>
@@ -518,7 +408,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                             <p class="book-title">${response.data[i].title}</p>
                             <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
                             <p class="author-p author">${response.data[i].publisher || ''}</p>
-                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}',  ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null})">Show Details</button>
+                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}' , ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${response.data[i].id}', '${response.data[i].saved}')">Show Details</button>
                         </div>
                     </div>
                 </div>
@@ -540,7 +430,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                             <p class="book-title">${response.data[i].title}</p>
                             <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
                             <p class="author-p author">${response.data[i].publisher || ''}</p>
-                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}',  ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null})">Show Details</button>
+                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}' , ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${response.data[i].id}', '${response.data[i].saved}')">Show Details</button>
                         </div>
                     </div>
                 </div>
@@ -557,7 +447,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                             <p class="book-title">${response.data[i].title}</p>
                             <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
                             <p class="author-p author">${response.data[i].publisher || ''}</p>
-                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}',  ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null})">Show Details</button>
+                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}' , ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${response.data[i].id}', '${response.data[i].saved}')">Show Details</button>
                         </div>
                     </div>
                 </div>
@@ -567,7 +457,31 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
 
 }
 
-function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, publisher) {
+let saveClick = false;
+let savedBookIds = [];
+let deletedSavedBooksIds = [];
+let savedBoolean;
+let bookId;
+
+function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username , publisher, bookIdString, isSaved) {
+    bookId = parseInt(bookIdString);
+    // console.log("own un: "+own_uname);
+    // console.log("book un:"+username);
+    if (own_uname == username) {
+        save_btn.hidden = true;
+        shopping_btn.hidden = true;
+    }else{
+        save_btn.hidden = false;
+        shopping_btn.hidden = false;
+    }
+
+    if (savedBookIds.includes(bookId)) {
+        isSaved = true;
+        savedBoolean = isSaved;
+    } else if (deletedSavedBooksIds.includes(bookId)) {
+        isSaved = false;
+        savedBoolean = isSaved;
+    }
 
     if (url != "Ez a kép elérési útja") {
         modal_img.src = `../${url}.jpg`;
@@ -584,8 +498,8 @@ function loadModalData(url, title, firstName, lastName, description, language, r
     modal_title.innerText = `${title}`;
     modal_author.innerText = `${firstName} ${lastName}`;
     modal_pages.innerText = `${pages}`;
-    console.log(title + " Rating: " + rating);
-    if (rating != 'undefined') {
+
+    if (rating != undefined && rating != "undefined") {
         modal_ranking.innerText = `${rating}`;
     } else {
         modal_ranking.innerText = "-";
@@ -596,8 +510,117 @@ function loadModalData(url, title, firstName, lastName, description, language, r
     modal_price.innerText = `${price} Ft`;
 
     modal_author.addEventListener('click', function () {
-        window.location.href = `../Profile/profile.html?username=${username}`;
+        navigateToProfile(username);
     });
+
+    if (isSaved == "true" || isSaved == true) {
+        savedBoolean = isSaved;
+        if (!savedBookIds.includes(bookId)) {
+            savedBookIds.push(bookId);
+        }
+        console.log(savedBookIds);
+        save_btn.innerHTML = "";
+        save_btn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5m8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
+            </svg>
+        `;
+
+    } else {
+        savedBoolean = isSaved;
+        save_btn.innerHTML = "";
+        save_btn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="bi bi-bookmark" viewBox="0 0 16 16" id="bookmark">
+                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
+            </svg>
+        `;
+    }
+
+
+}
+
+save_btn.addEventListener('click', (e) => {
+    console.log("click");
+    if (savedBoolean != true && savedBoolean != "true") {
+        SavingBook(bookId);
+        savedBoolean = "true";
+        saveClick = true;
+        console.log(savedBoolean);
+    }else{
+        UnsavingBook(bookId);
+        savedBoolean = "false";
+        saveClick = true;
+        console.log(savedBoolean); 
+    }
+
+});
+
+async function SavingBook(bookId) {
+
+    const savedResult = await saveBook({ "id": bookId });
+    switch (savedResult.status) {
+        case 200:
+            saveClick = true;
+            console.log("successfully saved");
+            savedBookIds.push(bookId);
+            console.log(bookId);
+            console.log(savedBookIds);
+            save_btn.innerHTML = "";
+            save_btn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5m8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
+                    </svg>
+                `;
+            break;
+        case 401:
+            window.location.href = '../Log-in/login.html';
+            break;
+        case 422:
+            alert('Something went wrong. Please try again later!');
+            console.log("Error status: " + savedResult.status);
+            break;
+        default:
+            alert('Something went wrong. Please try again later!');
+            console.error("Error status: " + savedResult.status);
+            console.error("Error msg: " + savedResult.error);
+            console.error("Error data: " + savedResult.data);
+            break;
+    }
+
+}
+
+async function UnsavingBook(bookId) {
+
+    const unsavingResult = await deleteSavedBook({ "id": bookId });
+    switch (unsavingResult.status) {
+        case 200:
+            saveClick = true;
+            console.log("Successfully unsaved!");
+            savedBookIds = savedBookIds.filter(id => id !== bookId);
+            deletedSavedBooksIds.push(bookId);
+            console.log(bookId);
+            console.log(savedBookIds);
+            save_btn.innerHTML = "";
+            save_btn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="bi bi-bookmark" viewBox="0 0 16 16" id="bookmark">
+                        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
+                    </svg>
+                `;
+            break;
+        case 401:
+            window.location.href = '../Log-in/login.html';
+            break;
+        case 422:
+            alert('Something went wrong. Please try again later!');
+            console.log("Error status: " + unsavingResult.status);
+            break;
+        default:
+            alert('Something went wrong. Please try again later!');
+            console.error("Error status: " + unsavingResult.status);
+            console.error("Error msg: " + unsavingResult.error);
+            console.error("Error data: " + unsavingResult.data);
+            break;
+    }
 
 }
 

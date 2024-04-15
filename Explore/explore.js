@@ -31,7 +31,9 @@ window.onload = async function () {
         case 302:
             localStorage.removeItem('searchResult');
             localStorage.removeItem('Error Code:');
-            localStorage.removeItem('bookId');
+            localStorage.removeItem('id');
+            localStorage.removeItem('name');
+         
 
             username.innerText = `@${tokenResponse.data.username}`;
             profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;
@@ -109,6 +111,7 @@ function loadCategories(response) {
     }
 
     for (let i = 16; i <= 19; i++) {
+        console.log(response.data[i].name);
         fifth_row_pics.innerHTML += `
             <div class="image-container" id="${response.data[i].id}" onclick="navigateToCategory('${response.data[i].name}', '${response.data[i].id}')">
                 <img class="rowPics default" src="../${response.data[i].image}" alt="${response.data[i].name}" >
@@ -150,15 +153,17 @@ function loadCategories(response) {
 }
 
 function navigateToCategory(categoryName, categoryId) {
-    window.location.href = `./category.html?category=${categoryName}&id=${categoryId}`;
+    localStorage.setItem("name", categoryName);
+    localStorage.setItem("id", categoryId);
+    window.location.href = `./category.html?category=${categoryName}`;
 }
 
 const searchBTN = document.getElementById('searchBTN');
 const search_input = document.getElementById('searchKeyword');
-
+var s_value;
 searchBTN.addEventListener('click', async function (event) {
     event.preventDefault();
-    const s_value = search_input.value.trim();
+    s_value = search_input.value.trim();
 
     if (s_value != "") {
         const searchResult = await getSearchBooks({ "searchText": `${s_value}` });

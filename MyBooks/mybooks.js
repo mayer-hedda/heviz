@@ -275,7 +275,7 @@ function LoadBooks(response, isPurchased) {
                 
                                 <div class="col-9 medium-right-side">
                                     <h2 class="container medium-h2">${response.data[i].title}</h2>
-                                    <p class="username author">${response.data[i].firstName} ${response.data[i].lastName}</p>
+                                    <p class="username author" onclick="navigateToProfile('${response.data[i].username}'>${response.data[i].firstName} ${response.data[i].lastName}</p>
                                     <p class="username author" >${response.data[i].publisher || ''}</p>
                                     <p class="medium-desc">${response.data[i].description}</p>
                                     <div class="bottom-row-medium">
@@ -288,7 +288,6 @@ function LoadBooks(response, isPurchased) {
                 `;
 
         } else {
-            console.log(response.data[i].username);
             book_list.innerHTML += `
                         <div class="medium-card" style="background-color: #EAD7BE;">
                             <div class="row">
@@ -316,6 +315,7 @@ function LoadBooks(response, isPurchased) {
 }
 
 function navigateToProfile(username) {
+    localStorage.setItem("username", username);
     window.location.href = `../Profile/profile.html?username=${username}`;
 }
 
