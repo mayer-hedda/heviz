@@ -2,6 +2,8 @@ const username = document.getElementById('userName-p');
 const profilePic = document.getElementById('profile-icon');
 const SavedBooks = document.getElementById('SavedBooks');
 
+let own_un;
+
 // rows to load categories
 const first_row_pics = document.getElementById('first-row-pics');
 const second_row_pics = document.getElementById('second-row-pics');
@@ -33,13 +35,14 @@ window.onload = async function () {
             localStorage.removeItem('Error Code:');
             localStorage.removeItem('id');
             localStorage.removeItem('name');
-         
 
-            username.innerText = `@${tokenResponse.data.username}`;
-            profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;
+            own_un = tokenResponse.data.username;
+            username.innerText = `@${own_un}`;
+            profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${own_un} profile picture"></img>`;
 
             document.getElementById('profile-link').addEventListener('click', (e) => {
-                window.location.href = `../Profile/profile.html?username=${tokenResponse.data.username}`;
+                localStorage.setItem("username", own_un);
+                window.location.href = `../Profile/profile.html?username=${own_un}`;
             });
 
             const HomePage = document.getElementById('HomePage');

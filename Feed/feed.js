@@ -36,7 +36,7 @@ window.onload = async function () {
             localStorage.removeItem('name');
 
             document.getElementById('profile-link').addEventListener('click', (e) => {
-                window.location.href = `../Profile/profile.html?username=${tokenResponse.data.username}`;
+                navigateToProfile(tokenResponse.data.username);
             });
 
             const HomePage = document.getElementById('HomePage');

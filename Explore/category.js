@@ -41,7 +41,6 @@ window.onload = async function () {
     });
 
     var tokenResponse = await token();
-    // console.log(tokenResponse.data);
     switch (tokenResponse.status) {
         case 401:
             window.location.href = "../Log-in/login.html";
@@ -59,7 +58,8 @@ window.onload = async function () {
             profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;
 
             document.getElementById('profile-link').addEventListener('click', (e) => {
-                window.location.href = `../Profile/profile.html?username=${tokenResponse.data.username}`;
+               navigateToProfile(tokenResponse.data.username);
+                // window.location.href = `../Profile/profile.html?username=${tokenResponse.data.username}`;
             });
 
             const HomePage = document.getElementById('HomePage');

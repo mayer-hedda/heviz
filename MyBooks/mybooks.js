@@ -46,7 +46,7 @@ window.onload = async function () {
             // delete errors and search results from local storage
             localStorage.removeItem('searchResult');
             localStorage.removeItem('Error Code:');
-            // localStorage.removeItem('categoryResult');
+            
 
             // minden radio btn kicsekkolása az oldal betöltésekor
             const radioButtons = document.querySelectorAll('input[type="radio"]');
@@ -58,7 +58,7 @@ window.onload = async function () {
             profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;
 
             document.getElementById('profile-link').addEventListener('click', (e) => {
-                window.location.href = `../Profile/profile.html?username=${tokenResponse.data.username}`;
+               navigateToProfile(tokenResponse.data.username);
             });
 
             const HomePage = document.getElementById('HomePage');

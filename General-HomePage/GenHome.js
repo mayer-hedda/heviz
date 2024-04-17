@@ -70,7 +70,6 @@ const modal_price = document.getElementById('book-price');
 const save_btn = document.getElementById('save-btn');
 const shopping_btn = document.getElementById('shopping-cart');
 
-
 // Segéd változók
 let resp_imgURL, resp_title, resp_firstName, resp_lastName, resp_description, resp_language, resp_rating, resp_pageNumber;
 let s1 = false;
@@ -78,7 +77,6 @@ let s2 = false;
 let s3 = false;
 let s4 = false;
 let s5 = false;
-
 
 window.addEventListener('beforeunload', async function () {
     const tokenResponse = await token();
@@ -104,7 +102,7 @@ window.onload = async function () {
             localStorage.removeItem('name');
 
             document.getElementById('profile-link').addEventListener('click', (e) => {
-                window.location.href = `../Profile/profile.html?username=${tokenResponse.data.username}`;
+               navigateToProfile(own_uname);
             });
 
             own_uname = tokenResponse.data.username;
@@ -118,29 +116,22 @@ window.onload = async function () {
                 case 'general':
                     document.getElementById('welcome').innerText = `Welcome ${userResponse.data.firstName} ${userResponse.data.lastName}!`;
 
-                    // Egy nagy random kártya
                     const responseRandomBook = await getOneRandomBook();
-                    // egy nagy random könyv
                     if (responseRandomBook.data.length != 0) {
                         LoadRandomBook(responseRandomBook);
                         s1 = true;
-
                     } else {
                         first_section.hidden = true;
                     }
 
                     // A hónap könyve(i)
                     const responseBooksOfMonth = await getMostSavedBooksOfTheMonth();
-                    // legtöbbet elmentett könyvek a hónapban
                     if (responseBooksOfMonth.data.length != 0) {
-                        // 
                         OneRowAndMediumCard("Books of the month", responseBooksOfMonth, s2_mediumC_picDiv, s2_mediumC_h2, s2_mediumC_author, s2_mediumC_publisher, s2_mediumC_p, s2_mediumC_btn, s2_first_row);
                         s2 = true;
-
                     } else {
                         second_section.hidden = true;
                     }
-
 
                     // ajánlások neked
                     const responseRecommanded = await getRecommandedBooks();
@@ -153,7 +144,6 @@ window.onload = async function () {
 
                     // csak kiadósok
                     const responsePublisher = await getPublishedBooks();
-
                     if (responsePublisher.data.length != 0) {
                         TwoRowAndMediumCard("Publisher books", responsePublisher, s4_mediumCardPic_div, s4_mediumC_h2, s4_mediumC_author, s4_mediumC_publisher, s4_mediumC_desc, s4_mediumC_btn, s4_first_row, s4_second_row);
                         s4 = true;
@@ -211,16 +201,12 @@ function LoadRandomBook(response) {
 
     if (coverImage == "Ez a kép elérési útja") {
         s1_bigCard_div.innerHTML = `
-            
-             <img src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
-            
+             <img src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">          
         `;
     } else {
         console.log("Cover book path: ", coverImage);
-        s1_bigCard_div.innerHTML = `
-            
-            <img src="../${response.data[0].coverImage}.jpg" alt="${response.data[0].title} cover">
-            
+        s1_bigCard_div.innerHTML = `          
+            <img src="../${response.data[0].coverImage}.jpg" alt="${response.data[0].title} cover">           
         `;
     }
 
@@ -229,12 +215,13 @@ function LoadRandomBook(response) {
     s1_bigCard_author.innerText = `${response.data[0].firstName} ${response.data[0].lastName}`;
 
     s1_bigCard_author.addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.setItem("username", response.data[0].username);
         window.location.href = `../Profile/profile.html?username=${response.data[0].username}`;
     });
 
     random_book_btn.addEventListener('click', (e) => {
         e.preventDefault();
-
         loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].price, response.data[0].username , response.data[0].publisher, response.data[0].id, response.data[0].saved);
     })
 }
@@ -255,17 +242,13 @@ function LoadRandomBook(response) {
  * 
  */
 function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, mediumC_author, mediumC_publisher, mediumC_description, mediumC_btn, firstRow) {
-
     // Medium cards
-
     if (response.data[0].coverImage == "Ez a kép elérési útja") {
         mediumC_PicDiv.innerHTML = `
             <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
         `;
     } else {
-
         mediumC_PicDiv.innerHTML = `
-
             <img class="medium-pic" src="../${response.data[0].coverImage}.jpg" alt="${response.data[0].title} cover">
         `;
     }
@@ -291,7 +274,6 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
 
 
     for (let i = 1; i <= response.data.length - 1; i++) {
-
         if (response.data[i].coverImage != "Ez a kép elérési útja") {
 
             firstRow.innerHTML += `
@@ -350,13 +332,12 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
     // Medium cards
     if (response.data[0].coverImage == "Ez a kép elérési útja") {
         mediumC_PicDiv.innerHTML = `
-        <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
-        `
+            <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
+        `;
     } else {
-
         mediumC_PicDiv.innerHTML = `
             <img class="medium-pic" src="../${response.data[0].coverImage}.jpg" alt="${response.data[0].title} cover">
-        `
+        `;
     }
 
     if (response.data[0].publisher != undefined) {
@@ -418,9 +399,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
     }
 
     for (let i = 5; i < response.data.length; i++) {
-
         if (response.data[i].coverImage != "Ez a kép elérési útja") {
-
             firstRow.innerHTML += `
                 <div class="col-3">
                     <div class="cover-photo">
@@ -434,7 +413,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                         </div>
                     </div>
                 </div>
-                `;
+            `;
 
         } else {
 
@@ -465,8 +444,7 @@ let bookId;
 
 function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username , publisher, bookIdString, isSaved) {
     bookId = parseInt(bookIdString);
-    // console.log("own un: "+own_uname);
-    // console.log("book un:"+username);
+
     if (own_uname == username) {
         save_btn.hidden = true;
         shopping_btn.hidden = true;
@@ -518,7 +496,7 @@ function loadModalData(url, title, firstName, lastName, description, language, r
         if (!savedBookIds.includes(bookId)) {
             savedBookIds.push(bookId);
         }
-        console.log(savedBookIds);
+       
         save_btn.innerHTML = "";
         save_btn.innerHTML = `
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
@@ -535,22 +513,19 @@ function loadModalData(url, title, firstName, lastName, description, language, r
             </svg>
         `;
     }
-
-
 }
 
 save_btn.addEventListener('click', (e) => {
-    console.log("click");
+ 
     if (savedBoolean != true && savedBoolean != "true") {
         SavingBook(bookId);
         savedBoolean = "true";
         saveClick = true;
-        console.log(savedBoolean);
+      
     }else{
         UnsavingBook(bookId);
         savedBoolean = "false";
-        saveClick = true;
-        console.log(savedBoolean); 
+        saveClick = true;    
     }
 
 });
@@ -561,10 +536,7 @@ async function SavingBook(bookId) {
     switch (savedResult.status) {
         case 200:
             saveClick = true;
-            console.log("successfully saved");
             savedBookIds.push(bookId);
-            console.log(bookId);
-            console.log(savedBookIds);
             save_btn.innerHTML = "";
             save_btn.innerHTML = `
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
@@ -595,11 +567,8 @@ async function UnsavingBook(bookId) {
     switch (unsavingResult.status) {
         case 200:
             saveClick = true;
-            console.log("Successfully unsaved!");
             savedBookIds = savedBookIds.filter(id => id !== bookId);
             deletedSavedBooksIds.push(bookId);
-            console.log(bookId);
-            console.log(savedBookIds);
             save_btn.innerHTML = "";
             save_btn.innerHTML = `
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="bi bi-bookmark" viewBox="0 0 16 16" id="bookmark">

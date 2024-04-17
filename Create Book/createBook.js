@@ -91,43 +91,55 @@ let imgSrc; //ebből fogom kiszedni a kép elérési útját
 var pictureName; // ez lesz a végleges fájlnév amit a backend megkap
 
 function uploadImage() {
-    imgLink = URL.createObjectURL(inputPicture.files[0]);
-    console.log(imgLink);
-    /**
-     * ez egy blob lesz, ami nem tartalmazza a fájl nevét viszont
-     * ha a sima value-t használom nem fog a kép betöltődni mert nincs a böngészőnek
-     * hozzáférése a helyi fájlokhoz, így a blob linket kell használni a kép betöltésére.
-     * Amikor adatot küldök a backendnek akkor a value értéket kell küldeni
-    */
-    imgView.style.backgroundImage = `url(${imgLink})`;
-    addPhoto_icon.hidden = true;
-    img_p.hidden = true;
-    img_span.hidden = true;
+    let imgFile = inputPicture.files[0];
+    imgLink = URL.createObjectURL(imgFile);
 
     var img = new Image();
+    img.src = imgLink;
+    let size = imgFile.size;
+    console.log("A fájl mérete byte-ban: " + size);
 
-    img.onload = function () {
-        height = img.naturalHeight;
-        width = img.naturalWidth;
-        console.log("A kép szélessége: " + width);
-        console.log("A kép magassága: " + height);
-    }
-
-    if (imgLink == "") {
-        picPass = false;
-        console.log("pic pass value:" + picPass);
-
+    const maxSize = 2 * 1024 * 1024;
+    if (size > maxSize) {
+        alert('A kép mérete túl nagy. Kérjük, válassz egy kisebb méretű képet (legfeljebb 2MB).');
+        return;
     } else {
-        picPass = true;
-        imgSrc = inputPicture.value;
-        console.log("pic pass value:" + picPass);
-        console.log("img src: " + imgSrc);
+        /**
+        * ez egy blob lesz, ami nem tartalmazza a fájl nevét viszont
+        * ha a sima value-t használom nem fog a kép betöltődni mert nincs a böngészőnek
+        * hozzáférése a helyi fájlokhoz, így a blob linket kell használni a kép betöltésére.
+        * Amikor adatot küldök a backendnek akkor a value értéket kell küldeni
+        */
+        imgView.style.backgroundImage = `url(${imgLink})`;
+        addPhoto_icon.hidden = true;
+        img_p.hidden = true;
+        img_span.hidden = true;
 
-        // Szétvágom a szöveget a "\" karakter alapján
-        var parts = imgSrc.split('\\');
-        pictureName = parts[parts.length - 1];
+        img.onload = function () {
+            height = img.naturalHeight;
+            width = img.naturalWidth;
+            console.log("A kép szélessége: " + width);
+            console.log("A kép magassága: " + height);
 
-        console.log(pictureName);
+            // itt lesz meghívva az endpoint + a hibakezelés
+        }
+
+        if (imgLink == "") {
+            picPass = false;
+            console.log("pic pass value:" + picPass);
+
+        } else {
+            picPass = true;
+            imgSrc = inputPicture.value;
+            console.log("pic pass value:" + picPass);
+            console.log("img src: " + imgSrc);
+
+            // Szétvágom a szöveget a "\" karakter alapján
+            var parts = imgSrc.split('\\');
+            pictureName = parts[parts.length - 1];
+
+            console.log(pictureName);
+        }
     }
 
 }
@@ -194,23 +206,35 @@ inputFile.addEventListener("change", (e) => {
 function uploadFile() {
     console.log(inputFile.value);
 
-    // console.log("Lefutott az uploadfile");
-    if (inputFile.value == "") {
-        filePass = false;
-        console.log("pic pass value:" + filePass);
-    } else {
-        filePass = true;
-        fileName = inputFile.value.split('\\').pop();
 
-        file_p.hidden = true;
-        file_span.hidden = true;
+    const fileSize = inputFile.files[0].size;
+    const maxSize = 5 * 1024 * 1024; // 5MB méretkorlát
 
-        file_result_p.hidden = false;
-        file_result_uploaded.hidden = false;
-        file_result_uploaded.innerText = `${fileName}`;
-        console.log("perjel után: " + fileName);
-        console.log("pic pass value:" + filePass);
+    if (fileSize > maxSize) {
+        alert('A fájl mérete túl nagy. Kérjük, válassz egy kisebb méretű fájlt (legfeljebb 5MB).');
+        inputFile.value = ''; // Töröljük a fájlmező tartalmát
+        return;
+    }else{
+        if (inputFile.value == "") {
+            filePass = false;
+            console.log("pic pass value:" + filePass);
+        } else {
+            filePass = true;
+            fileName = inputFile.value.split('\\').pop();
+    
+            file_p.hidden = true;
+            file_span.hidden = true;
+    
+            file_result_p.hidden = false;
+            file_result_uploaded.hidden = false;
+            file_result_uploaded.innerText = `${fileName}`;
+            console.log("perjel után: " + fileName);
+            console.log("pic pass value:" + filePass);
+        }
     }
+
+    // console.log("Lefutott az uploadfile");
+   
 }
 
 dropAreaFile.addEventListener('dragover', (e) => {

@@ -21,12 +21,10 @@ const buisness_settings = document.getElementById('buisness-settings');
 const isEmail_public = document.getElementById('email-isPublic');
 const isPhone_public = document.getElementById('phone-isPublic');
 
-
 const carousel = document.getElementById('recom-profs');
 const just_two_writer = document.getElementById('just-two-writer');
 
 const followBTN = document.getElementById('follow-btn');
-
 const books_div = document.getElementById('books');
 
 // Modal btn-s
@@ -38,21 +36,19 @@ const book_price = document.getElementById('book-price');
 
 window.addEventListener('beforeunload', async function () {
     const tokenResponse = await token();
-    console.log(tokenResponse);
     if (tokenResponse.status === 401) {
+
         window.location.href = "../Log-in/login.html";
     }
 });
 
 window.onload = async function () {
 
-    var username = localStorage.getItem('username');
+    var username = localStorage.getItem("username");
 
     var tokenResponese = await token();
     switch (tokenResponese.status) {
         case 302:
-
-            localStorage.removeItem('Error Code:');
 
             var responseUser = await getUserDetails({ "profileUsername": username });
 
@@ -68,7 +64,6 @@ window.onload = async function () {
                      *  - Our Posts menü helyett --> My Posts
                      */
                     if (responseUser.data.rank == "general") {
-                        // ourWriters_div.hidden = true;
                         our_books.textContent = "My Books";
                         our_posts.textContent = "My Posts";
                         buisness_settings.hidden = true;
@@ -88,9 +83,7 @@ window.onload = async function () {
                             introText.innerHTML = `${responseUser.data.introDescription}`;
                             isIntroExist = true;
                         }
-
-
-
+                        save_btn.hidden = true;
                         modal_footer_div.hidden = true;
 
                         // load books
@@ -117,11 +110,19 @@ window.onload = async function () {
 
                                 break;
                             case 401:
-
+                                window.location.href = '../Log-in/login.html';
                                 break;
 
                             case 422:
+                                alert("422: Something went wrong. Please try it again later.");
+                                window.history.back();
+                                break;
 
+                            default:
+                                alert("Something went wrong. Please try it again later.");
+                                console.log("Status: " + responseBooks.status);
+                                console.log("Error msg: " + responseBooks.error);
+                                console.log("Data: " + responseBooks.data);
                                 break;
                         }
 
@@ -147,7 +148,6 @@ window.onload = async function () {
                             followed = false;
                         }
 
-
                         Follow(followBTN, responseUser, 9);
 
                         if (responseUser.data.rank == "publisher" && tokenResponese.data.rank == "publisher") {
@@ -166,12 +166,21 @@ window.onload = async function () {
                                     getBooks(responseBooks, responseUser);
                                     break;
                                 case 401:
-                                    // Hibakezelés hiányzik
+                                    window.location.href = '../Log-in/login.html';
                                     break;
 
                                 case 422:
-                                    // hibakezelés hiányzik
+                                    alert("422: Something went wrong. Please try it again later.");
+                                    window.history.back();
                                     break;
+
+                                default:
+                                    alert("Something went wrong. Please try it again later.");
+                                    console.log("Status: " + responseBooks.status);
+                                    console.log("Error msg: " + responseBooks.error);
+                                    console.log("Data: " + responseBooks.data);
+                                    break;
+
                             }
                         } else if (responseUser.data.rank == "general" && tokenResponese.data.rank == "general" || responseUser.data.rank == "publisher" && tokenResponese.data.rank == "general") {
                             publish_btn.hidden = true;
@@ -186,17 +195,23 @@ window.onload = async function () {
                                     getBooks(responseBooks, responseUser);
                                     break;
                                 case 401:
-
+                                    window.location.href = '../Log-in/login.html';
                                     break;
 
                                 case 422:
+                                    alert("422: Something went wrong. Please try it again later.");
+                                    window.history.back();
+                                    break;
 
+                                default:
+                                    alert("Something went wrong. Please try it again later.");
+                                    console.log("Status: " + responseBooks.status);
+                                    console.log("Error msg: " + responseBooks.error);
+                                    console.log("Data: " + responseBooks.data);
                                     break;
                             }
                         }
                     }
-
-
 
                     loadProfilePicture(responseUser);
                     loadCoverColor(responseUser);
@@ -206,8 +221,6 @@ window.onload = async function () {
                     if (responseUser.data.ownProfile == true) {
 
                         var settingsDetails = await getDetails();
-
-
                         addPlaceholder(settingsDetails, "username", input_un);
                         addPlaceholder(settingsDetails, "website", input_website);
                         addPlaceholder(settingsDetails, "email", input_email);
@@ -236,26 +249,30 @@ window.onload = async function () {
                     // load posts
                     const responsePosts = await getUserPosts({ "profileUsername": username });
 
-
                     switch (responsePosts.status) {
                         case 200:
                             getPosts(responsePosts, responseUser);
                             break;
 
                         case 401:
-
+                            window.location.href = '../Log-in/login.html';
                             break;
 
                         case 422:
+                            alert("422: Something went wrong. Please try it again later.");
+                            window.history.back();
+                            break;
 
+                        default:
+                            alert("Something went wrong. Please try it again later.");
+                            console.log("Status: " + responseBooks.status);
+                            console.log("Error msg: " + responseBooks.error);
+                            console.log("Data: " + responseBooks.data);
                             break;
                     }
 
-
-
                     break;
                 case 401:
-
                     window.location.href = "../Log-in/login.html";
                     break;
 
@@ -265,8 +282,9 @@ window.onload = async function () {
                     break;
 
                 default:
-                    localStorage.setItem('Error Code:', `${responseUser.error}`);
-                    window.location.href = "../404/404.html";
+                    console.log("Status: " + responseBooks.status);
+                    console.log("Error msg: " + responseBooks.error);
+                    console.log("Data: " + responseBooks.data);
                     break;
             }
 
@@ -279,10 +297,15 @@ window.onload = async function () {
         case 401:
             window.location.href = "../Log-in/login.html";
             break;
+        default:
+            localStorage.setItem('Error Code:', `${responseUser.error}`);
+            console.log("Status: " + responseBooks.status);
+            console.log("Error msg: " + responseBooks.error);
+            console.log("Data: " + responseBooks.data);
+            break;
+
     }
 }
-
-
 
 // edit introdution
 const editIntro = document.getElementById('edit-intro');
@@ -313,8 +336,6 @@ editIntro.addEventListener('click', (e) => {
         intro_cancelBtn.hidden = false;
         error_and_counter.hidden = false;
     }
-
-
 })
 
 
@@ -467,19 +488,16 @@ function loadUserTextDatas(responseUser) {
     const partners_p = document.getElementById('partners-p');
     const savedBookCount_p = document.getElementById('savedBookCount-p');
 
-
     if (responseUser.data.companyName != undefined) {
         name.innerHTML = `${responseUser.data.companyName}`;
     } else {
         name.innerHTML = `${responseUser.data.firstName} ${responseUser.data.lastName}`;
     }
 
-
     if (responseUser.data.rank == "publisher") {
         if (responseUser.data.writerCount !== undefined) {
             partners_books.textContent = `${responseUser.data.writerCount}`;
         }
-
     } else {
         partners_p.hidden = true;
         savedBookCount_p.hidden = false;
@@ -489,7 +507,6 @@ function loadUserTextDatas(responseUser) {
             userBookNumber = responseUser.data.bookCount;
         }
     }
-
 
     u_name.innerHTML = `@${responseUser.data.username}`;
     membership.textContent = `${responseUser.data.registrationYear}`;
@@ -503,7 +520,6 @@ function checkOwnProfile(response) {
     const edit_intro = document.getElementById('edit-intro');
     const settings = document.getElementById('settings');
     const follow_btn_div = document.getElementById('follow-btn-div');
-
 
     if (response.data.ownProfile == true) {
         editPicture.hidden = false;
@@ -589,10 +605,16 @@ const book_modal_ranking = document.getElementById('modal-ranking');
 const book_modal_language = document.getElementById('modal-language');
 const book_modal_desc = document.getElementById('modal-desc');
 
-// const bookmark = document.getElementById('bookmark');
 let saveClick = false;
+let savedBoolean;
+let bookId;
 
-function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher, bookId, isSaved) {
+let publishClick = false;
+let publishBoolean;
+
+function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher, bookIdString, isSaved) {
+    // ha kész lesz az endpoint akkor ki kell egészíteni a kiadás boolean-jével
+    bookId = parseInt(bookIdString);
 
     if (url != "Ez a kép elérési útja") {
         book_modal_img.src = `../${url}.jpg`;
@@ -627,17 +649,17 @@ function loadModalData(url, title, firstName, lastName, description, language, r
         navigateToProfile(username);
     })
 
-    if (isSaved == "true") {
-
+    if (isSaved == "true" || isSaved == true) {
+        savedBoolean = isSaved;
         save_btn.innerHTML = "";
         save_btn.innerHTML = `
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5m8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
             </svg>
         `;
-        
+
     } else {
-       
+        savedBoolean = isSaved;
         save_btn.innerHTML = "";
         save_btn.innerHTML = `
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="bi bi-bookmark" viewBox="0 0 16 16" id="bookmark">
@@ -646,27 +668,24 @@ function loadModalData(url, title, firstName, lastName, description, language, r
         `;
     }
 
-    save_btn.addEventListener('click', (e)=>{
-        if(isSaved == "true"){
-            UnsavingBook(bookId);
-            isSaved = "false";
-            saveClick = true;
-            console.log(isSaved);
-        }else{
-            SavingBook(bookId);
-            isSaved = "true";
-            saveClick = true;
-            console.log(isSaved);
-        }
-    });
+    // itt kell majd beállítani az alaphelyzetét a btn-nek
+
 }
 
-document.getElementById('bookPopup').addEventListener('hidden.bs.modal', (e)=>{
-    if (saveClick == true) {
-        location.reload();
-    }
-})
+save_btn.addEventListener('click', (e) => {
 
+    if (savedBoolean != true && savedBoolean != "true") {
+        SavingBook(bookId);
+        savedBoolean = "true";
+        saveClick = true;
+
+    } else {
+        UnsavingBook(bookId);
+        savedBoolean = "false";
+        saveClick = true;
+    }
+
+});
 
 async function SavingBook(bookId) {
     const savedResult = await saveBook({ "id": bookId });
@@ -692,7 +711,6 @@ async function SavingBook(bookId) {
             console.error("Error msg: " + savedResult.error);
             console.error("Error data: " + savedResult.data);
             break;
-
     }
 }
 
@@ -700,7 +718,6 @@ async function UnsavingBook(bookId) {
     const unsavingResult = await deleteSavedBook({ "id": bookId });
     switch (unsavingResult.status) {
         case 200:
-            // console.log("Successfully unsaved!");
             save_btn.innerHTML = "";
             save_btn.innerHTML = `
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="bi bi-bookmark" viewBox="0 0 16 16" id="bookmark">
@@ -721,50 +738,45 @@ async function UnsavingBook(bookId) {
             console.error("Error msg: " + unsavingResult.error);
             console.error("Error data: " + unsavingResult.data);
             break;
-
     }
 }
 
-let Published_Books = {};
-async function PublishBtn(button, bookId) {
-    let isPublished_book = Published_Books[bookId];
-
-    if (!isPublished_book) {
-        // ha nincs kiadva akkor meghívjuk a kiadás endpointot
-
-        // beállítani a style-okat ha 200as a kiadás státusz
-        button.textContent = "Publihsed";
-        button.style.backgroundColor = "#649984";
-        button.style.color = "#ffffff";
-
-
-        button.addEventListener('mouseenter', (e) => {
-            button.style.backgroundColor = "#f1b9a0";
-        });
-
-        button.addEventListener('mouseleave', (e) => {
-            button.style.backgroundColor = "#649984";
-        });
-
+publish_btn.addEventListener('click', (e) => {
+    if (publishBoolean != true && publishBoolean != "true") {
+        PublishTheBook(bookId);
+        publishBoolean = "true";
+        publishClick = true;
     } else {
-        // kiadás visszavonása
-
-        button.textContent = "Let's Publish";
-        button.style.backgroundColor = "#f1b9a0";
-        button.style.color = "rgb(51, 47, 49)";
-
-
-        button.addEventListener('mouseenter', (e) => {
-            button.style.backgroundColor = "#649984";
-            button.style.color = "#ffffff";
-        });
-
-        button.addEventListener('mouseleave', (e) => {
-            button.style.backgroundColor = "#f1b9a0";
-            button.style.color = "rgb(51, 47, 49)";
-        });
+        UnPublish(bookId);
+        publishBoolean = "false";
+        publishClick = true;
     }
+});
+
+async function PublishTheBook(bookId) {
+    // endpoint meghívása
+
+    // ez a rész lesz majd benne a 200-as esetben
+    publish_btn.textContent = "Recall";
+    publish_btn.classList.remove("sMoreBtn");
+    publish_btn.classList.add("recall");
+
 }
+
+async function UnPublish(bookId) {
+    // endpoint hívása
+
+    // ez a rész lesz majd a 200-as esetben
+    publish_btn.textContent = "Let's Publish";
+    publish_btn.classList.remove("recall");
+    publish_btn.classList.add("sMoreBtn");
+}
+
+document.getElementById('bookPopup').addEventListener('hidden.bs.modal', (e) => {
+    if (saveClick == true) {
+        location.reload();
+    }
+});
 
 // Upload profile picture
 const dropAreaPicture = document.getElementById('drop-area-picture');
@@ -805,42 +817,43 @@ inputPicture.addEventListener('change', uploadImage);
 function uploadImage() {
     let imgFile = inputPicture.files[0];
     let imgLink = URL.createObjectURL(imgFile);
-    imgView.style.backgroundImage = `url(${imgLink})`;
-    add_photo_icon.hidden = true;
-    upload_p.hidden = true;
-    upload_span.hidden = true;
+
 
     var img = new Image();
     img.src = imgLink;
 
-    img.onload = function () {
-        let height = img.naturalHeight;
-        let width = img.naturalWidth;
+    let size = imgFile.size;
+    let name = imgFile.name;
 
-        let size = imgFile.size;
-        console.log("A fájl mérete byte-ban: " + size);
-        let name = imgFile.name;
-        console.log("Fájl neve: " + name);
-        //    !itt kell még meghatározni a min max képarányt és a méretet byte-ban
+    const maxSize = 2 * 1024 * 1024;
+    if (size > maxSize) {
+        alert('A kép mérete túl nagy. Kérjük, válassz egy kisebb méretű képet (legfeljebb 2MB).');
+        return;
+    } else {
+        imgView.style.backgroundImage = `url(${imgLink})`;
+        add_photo_icon.hidden = true;
+        upload_p.hidden = true;
+        upload_span.hidden = true;
+
+        img.onload = function () {
+            document.getElementById('save-pPic').addEventListener('click', async function () {
+                const imgResponse = await setProfileImage({ "image": `../pictures/user/${name}` });
 
 
-        document.getElementById('save-pPic').addEventListener('click', async function () {
-            const imgResponse = await setProfileImage({ "image": `../pictures/user/${name}` });
+                if (imgResponse.status == 200) {
+                    location.reload();
+                } else if (setPublicPhone_result.status == 401) {
+                    window.location.href = "../Log-in/login.html";
+                } else if (setPublicPhone_result.status == 422) {
+                    alert("422: " + setPublicPhone_result.data.setPublicPhoneError);
+                } else {
+                    alert(setPublicPhone_result.status);
+                }
 
-
-            if (imgResponse.status == 200) {
-                location.reload();
-            } else if (setPublicPhone_result.status == 401) {
-                window.location.href = "../Log-in/login.html";
-            } else if (setPublicPhone_result.status == 422) {
-                alert("422: " + setPublicPhone_result.data.setPublicPhoneError);
-            } else {
-                alert(setPublicPhone_result.status);
-            }
-
-        });
-
+            });
+        }
     }
+
 }
 
 document.getElementById('close').addEventListener('click', (e) => {
@@ -874,7 +887,6 @@ saveButton.addEventListener('click', async function () {
 
 // Follow btn events and functions
 async function Follow(btn, responseUser, id) {
-
 
     if (responseUser.data.following == false) {
 
@@ -920,7 +932,6 @@ async function Follow(btn, responseUser, id) {
                     break;
             }
         });
-
     }
 }
 
@@ -958,7 +969,7 @@ function getPosts(responsePost, responseUser) {
 
     } else {
         for (let i = 0; i <= responsePost.data.myPosts.length - 1; i++) {
-            // elmentem az adott poszt id-t
+
             const postId = responsePost.data.myPosts[i].id;
             let postLiked = responsePost.data.myPosts[i].liked;
             postLikes[postId] = postLiked;
@@ -1001,7 +1012,7 @@ function getPosts(responsePost, responseUser) {
                             <div class="like-and-share">
                                 <div class="d-flex flex-column align-items-center emptyLike">
                                 
-                                    <button class="like-button border-0 bg-transparent" id="like" onclick="Liked(this, ${responsePost.data.myPosts[i].id})"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
+                                    <button class="like-button border-0 bg-transparent" onclick="Liked(this, ${responsePost.data.myPosts[i].id})"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
                                     <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1"/>
                                 </svg></button>
                                 
@@ -1011,7 +1022,6 @@ function getPosts(responsePost, responseUser) {
                         </div>
                     </div>
                 `;
-
 
             } else {
 
@@ -1054,23 +1064,19 @@ function getPosts(responsePost, responseUser) {
                             <div class="like-and-share">
                                 <div class="d-flex flex-column align-items-center emptyLike">
                                   
-                                    <button class="like-button border-0 bg-transparent" id="like" ><svg onclick="Liked(this, ${responsePost.data.myPosts[i].id})" class="liked" xmlns="http://www.w3.org/2000/svg" width="25" height="25" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
+                                    <button class="like-button border-0 bg-transparent" ><svg onclick="Liked(this, ${responsePost.data.myPosts[i].id})" class="liked" xmlns="http://www.w3.org/2000/svg" width="25" height="25" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
                                     <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1"/>
                                     </svg></button>
                                     
-                                </div>
-                                    
-                                </div>
+                                </div>                           
                             </div>
+                        </div>
                     </div>
                  `;
             }
         }
     }
 
-
-
-    // console.log(postId);
     if (responsePost.data.ownPosts === true) {
         const post_editDelete_div = document.querySelectorAll('.edit-delete-div');
         const like_and_share_div = document.querySelectorAll('.like-and-share');
@@ -1097,16 +1103,15 @@ function getPosts(responsePost, responseUser) {
 function editPost(postID, currentText) {
     var editedText;
     editedText = currentText;
-    console.log(postID);
 
-    post_textarea.value = editedText;  //paste current text
+    post_textarea.value = editedText;
     let editPostResult;
 
     document.getElementById('LetsPost-btn').addEventListener('click', async function () {
-        editedText = post_textarea.value; // Frissítem a editedText változót a post_textarea-nél
+        editedText = post_textarea.value;
         editPostResult = await updatePost({ "id": `${postID}`, "description": `${editedText}` });
         if (editPostResult.status == 200) {
-            location.reload();  //reload the page
+            location.reload();
         } else {
             console.error("somethins went wrong: " + editPostResult.status);
         }
@@ -1128,11 +1133,11 @@ async function Liked(button, postID) {
     let postLiked = postLikes[postID];
 
     if (!postLiked) {
-        // Ha a poszt nincs like-olva, akkor like-oljuk
+
         const liked_result = await postLike({ "postId": postID });
         if (liked_result.status == 200) {
             button.style.fill = "#c43700";
-            postLikes[postID] = true; // Frissítjük a like állapotot
+            postLikes[postID] = true;
 
         } else if (liked_result.status == 401) {
             window.location.href = "../Log-in/login.html";
@@ -1140,11 +1145,11 @@ async function Liked(button, postID) {
             alert("Something went wrong. Please try again later.")
         }
     } else {
-        // Ha a poszt like-olva van, akkor dislike-oljuk
+
         const disliked_result = await postDislike({ "postId": postID });
         if (disliked_result.status == 200) {
             button.style.fill = "#2d1810";
-            postLikes[postID] = false; // Frissítjük a like állapotot
+            postLikes[postID] = false;
 
         } else if (disliked_result.status == 401) {
             window.location.href = "../Log-in/login.html";
@@ -1174,7 +1179,6 @@ async function DeleteBookBTN(button, bookID) {
 }
 
 function setBookFunction(bookId, userRank) {
-
     if (userRank == 'general') {
         localStorage.setItem("bookId", bookId);
         window.location.href = "../Create Book/createBook.html";
@@ -1208,7 +1212,6 @@ ourBooks_btn.addEventListener('click', (e) => {
     ourPosts_btn.classList.remove("active-btn");
     ourPosts_btn.classList.add("disabled-btn");
 })
-
 
 function getBooks(responseBook, userResponse) {
     const missing_book_text = document.getElementById('missing-book-text');
@@ -1269,15 +1272,12 @@ function getBooks(responseBook, userResponse) {
                 books_div.innerHTML += `
                         <div class="container medium-card book-card" style="background-color: #EAD7BE;">
                             <div class="row">
-                                <div class="col-3 my-col3" id="s5-mediumCardPic-div">
-                                    <!--? Picture => Alt-nak mehet majd a könyv címe -->
-                                
-                                    <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${responseBook.data.myBooks[i].title}">
-                                    
+                                <div class="col-3 my-col3">
+                                    <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${responseBook.data.myBooks[i].title}"> 
                                 </div>
         
                                 <div class="col-9 medium-right-side">
-                                    <!--? Author + Book Title  -->
+                                  
                                     <h2 class="container medium-h2" >${responseBook.data.myBooks[i].title}</h2>
                                     <p class="username author" onclick="navigateToProfile('${responseBook.data.myBooks[i].username}')">${responseBook.data.myBooks[i].firstName} ${responseBook.data.myBooks[i].lastName}</p>
                                     <p class="username author">${responseBook.data.myBooks[i].companyName || ''}</p>
@@ -1330,8 +1330,6 @@ function getBooks(responseBook, userResponse) {
             button.hidden = true;
         });
     }
-
-
 }
 
 // switch between settiings
@@ -1475,7 +1473,6 @@ const c_error = document.getElementById('c-error');
 function EditIcon(element, buttonsRow) {
     element.removeAttribute('disabled')
     buttonsRow.hidden = false;
-    console.log("Most szerkeszthető az input");
 }
 
 /**
@@ -1510,10 +1507,8 @@ function Cancel(element, buttonsRow) {
  * @param {Variable} errorDiv - Insert the error message into this div.
  * @returns {Boolean}
  */
-
 function upTo3(value, inputName, inputId, errorDiv) {
     if (value.length < 3) {
-
         inputId.style.background = "rgb(255, 214, 220)";
         inputId.style.borderColor = "rgb(243, 82, 93)";
         errorDiv.innerHTML = `<p>It should be at least 3 characters.</p>`;
@@ -1568,7 +1563,6 @@ function upTo3(value, inputName, inputId, errorDiv) {
  * @param {Variable} emailValue - the variable containing the value of the email input field
  * @returns {Boolean}
  */
-
 function validateEmail(emailValue) {
     let allowedChars = /^[a-z1-9@.]+$/;
 
@@ -1581,9 +1575,7 @@ function validateEmail(emailValue) {
         at_symbol = false;
 
     } else if (specReg.test(emailValue) == true) {
-
-        const atCount = (emailValue.match(/@/g) || []).length; // Count @ symbols in emailValue
-
+        const atCount = (emailValue.match(/@/g) || []).length;
         at_symbol = true;
         if (atCount !== 1) {
             e_error.innerHTML = `<p>Email address must contain exactly one "@" symbol.</p>`;
@@ -1592,9 +1584,8 @@ function validateEmail(emailValue) {
             input_email.style.borderColor = "rgb(243, 82, 93)";
             return false;
         } else {
-            //It checks what is in front of the @.
-            const firsPartOfEmail = emailValue.slice(0, emailValue.indexOf('@'));
 
+            const firsPartOfEmail = emailValue.slice(0, emailValue.indexOf('@'));
 
             if (firsPartOfEmail == "") {
                 e_error.innerHTML = `<p>Email address cannot empty before "@" symbol.</p>`;
@@ -1615,31 +1606,20 @@ function validateEmail(emailValue) {
                     } else {
 
                         fp_email = true;
-
                         const lastPartOfEmail = emailValue.slice(emailValue.indexOf('@') + 1);
-                        console.log("Value after @: " + lastPartOfEmail);
-
                         const dotReg = new RegExp("(?=.*[.])");
 
                         if (dotReg.test(lastPartOfEmail) == true) {
-
                             const beforeDot = lastPartOfEmail.slice(0, lastPartOfEmail.indexOf('.'));
-
-
                             if (beforeDot == "" || beforeDot.length < 2) {
-
                                 e_error.innerHTML = `<p>Please ensure you have at least 2 characters before the " . " (dot) symbol.</p>`;
                                 lp_email = false;
                                 input_email.style.background = "rgb(255, 214, 220)";
                                 input_email.style.borderColor = "rgb(243, 82, 93)";
                             } else {
                                 lp_email = true;
-
                             }
-
-
                         } else {
-
                             e_error.innerHTML = `<p>Please include the '.' (dot) symbol in your email address.</p>`;
                             input_email.style.background = "rgb(255, 214, 220)";
                             input_email.style.borderColor = "rgb(243, 82, 93)";
@@ -1662,7 +1642,6 @@ function validateEmail(emailValue) {
         at_symbol = false;
         input_email.style.background = "rgb(255, 214, 220)";
         input_email.style.borderColor = "rgb(243, 82, 93)";
-
     }
 
     if (fp_email == true && lp_email == true && at_symbol == true && chars_email == true) {
@@ -1670,7 +1649,6 @@ function validateEmail(emailValue) {
     } else {
         return false;
     }
-
 }
 
 /**
@@ -1696,23 +1674,19 @@ function validateEmail(emailValue) {
  * @param {HTMLInputElement} inputCompany - the input element whitch contains the company value
  * @returns {Boolean}
  */
-
 function validateCompany(companyValue, companyError, inputCompany) {
     if (companyValue == "") {
         companyError.innerHTML = `<p>Company field cannot be empty</p>`;
         inputCompany.style.background = "rgb(255, 214, 220)";
         inputCompany.style.borderColor = "rgb(243, 82, 93)";
-
         return false;
 
     } else if (companyValue.length < 2) {
         companyError.innerHTML = `<p>Company name must be at least 2 characters long.</p>`;
         inputCompany.style.background = "rgb(255, 214, 220)";
         inputCompany.style.borderColor = "rgb(243, 82, 93)";
-
         return false;
     } else {
-
         return true;
     }
 }
@@ -1745,7 +1719,6 @@ function validateCompany(companyValue, companyError, inputCompany) {
  * @param {Variable} errorField - Its for pasting error messages to the user
  * @returns {Boolean}
  */
-
 function validatePwd(pwdValue, pwdInput, errorField) {
     const upperCaseReg = new RegExp("(?=.*[A-Z])");
     const lowerCaseReg = new RegExp("(?=.*[a-z])");
@@ -1756,7 +1729,6 @@ function validatePwd(pwdValue, pwdInput, errorField) {
         errorField.innerHTML = `<p>Password field cannot be empty</p>`;
         pwdInput.target.style.background = "rgb(255, 214, 220)";
         pwdInput.target.style.borderColor = "rgb(243, 82, 93)";
-
         return false;
 
     } else if (pwdValue.length < 8) {
@@ -1764,13 +1736,11 @@ function validatePwd(pwdValue, pwdInput, errorField) {
         errorField.innerHTML = `<p>Password must be at least 8 characters long.</p>`;
         pwdInput.style.background = "rgb(255, 214, 220)";
         pwdInput.style.borderColor = "rgb(243, 82, 93)";
-
         return false;
 
     } else {
         // It checks for uppercase, lowercase, numbers and special characters.
         if (upperCaseReg.test(pwdValue) == true && lowerCaseReg.test(pwdValue) == true && numReg.test(pwdValue) == true && specReg.test(pwdValue) == true) {
-
             return true;
 
         } else {
@@ -1798,8 +1768,6 @@ function validatePwd(pwdValue, pwdInput, errorField) {
 function validatePhone(phoneValue, inputPhone, errorPhone) {
 
     var pattern = /^[0-9]+$/;
-
-
     if (phoneValue.length != 0) {
         if (pattern.test(phoneValue) == true) {
             inputPhone.style.background = "";
@@ -1815,8 +1783,6 @@ function validatePhone(phoneValue, inputPhone, errorPhone) {
     } else {
         errorPhone.innerHTML = `<p>This field cannot be empty.</p>`;
     }
-
-
 }
 
 function checkPhoneLenght(value, input, errorDiv) {
@@ -1833,7 +1799,6 @@ function checkPhoneLenght(value, input, errorDiv) {
 }
 
 function checkUserCharacters(value, input, errorDiv) {
-
     const disallowedCharacters = /[^a-z0-9._]/;
     let abc_boolean = false;
 
@@ -1866,17 +1831,12 @@ un_cancel.addEventListener('click', (e) => {
 })
 
 un_save.addEventListener('click', async function () {
-
     let un_boolean = upTo3(input_un.value, "username", input_un, un_error);
-
-
     if (un_boolean == true) {
         let inputUn_value = input_un.value;
 
         const setUnResponse = await setUsername({ "username": inputUn_value });
         if (setUnResponse.status == 200) {
-
-
             window.location.href = `../Profile/profile.html?username=${inputUn_value}`;
 
         } else if (setUnResponse.status == 401) {
@@ -1891,7 +1851,6 @@ un_save.addEventListener('click', async function () {
 
 input_un.addEventListener('input', (e) => {
     const checkResult = checkUserCharacters(input_un.value, input_un, un_error);
-
     if (checkResult == false) {
         un_save.disabled = true;
     } else {
@@ -1907,7 +1866,6 @@ input_un.addEventListener('focusin', (e) => {
 
 // email 
 edit_email.addEventListener('click', (e) => {
-
     EditIcon(input_email, email_saveCancel);
 })
 
@@ -1920,7 +1878,6 @@ e_cancel.addEventListener('click', (e) => {
 
 e_save.addEventListener('click', async function () {
     let e_boolean = validateEmail(input_email.value);
-
     if (e_boolean == true) {
         let inputEmail_value = input_email.value;
         const setEmailResponse = await setEmail({ "email": `${inputEmail_value}` });
@@ -1938,30 +1895,30 @@ e_save.addEventListener('click', async function () {
             alert("Something went wrong.");
         }
     }
-})
+});
 
 input_email.addEventListener('focusin', (e) => {
     e.target.style.background = "";
     e.target.style.border = "";
     e_error.innerHTML = "";
-})
+});
 
 input_website.addEventListener('focusin', (e) => {
     e.target.style.background = "";
     e.target.style.border = "";
     w_error.innerHTML = "";
-})
+});
 
 edit_website.addEventListener('click', (e) => {
     EditIcon(input_website, web_saveCancel);
-})
+});
 
 w_cancel.addEventListener('click', (e) => {
     Cancel(input_website, web_saveCancel);
     input_website.style.background = "";
     input_website.style.borderColor = "";
     w_error.innerHTML = "";
-})
+});
 
 w_save.addEventListener('click', async function () {
     if (input_website.value != "") {
@@ -1988,29 +1945,26 @@ w_save.addEventListener('click', async function () {
             w_error.innerHTML = "This value has to be between 4 and 100 characters.";
         }
     }
-})
+});
 
 // password
 edit_pwd.addEventListener('click', (e) => {
     EditIcon(input_pwd, pwd_saveCancel);
-})
+});
 
 pwd_cancel.addEventListener('click', (e) => {
     Cancel(input_pwd, pwd_saveCancel);
     input_pwd.style.background = "";
     input_pwd.style.borderColor = "";
     pwd_error.innerHTML = "";
-})
+});
 
 pwd_save.addEventListener('click', async function () {
-
     let pwd_boolean = validatePwd(input_pwd.value, input_pwd, pwd_error);
-
     if (pwd_boolean == true) {
         let pwd_value = input_pwd.value;
         const setPwdResponse = await setPassword({ "password": `${pwd_value}` });
         if (setPwdResponse.status == 200) {
-
             window.location.href = "../Log-in/login.html";
             localStorage.removeItem("Token");
 
@@ -2022,44 +1976,45 @@ pwd_save.addEventListener('click', async function () {
             alert("Something went wrong.");
         }
     }
-})
+});
 
 input_pwd.addEventListener('focusin', (e) => {
     e.target.style.background = "";
     e.target.style.border = "";
     pwd_error.innerHTML = "";
-})
+});
 
 // phone number
 edit_phone.addEventListener('click', (e) => {
     EditIcon(input_phoneNumber, phone_saveCancel);
-})
+});
 
 p_cancel.addEventListener('click', (e) => {
     Cancel(input_phoneNumber, phone_saveCancel);
     input_phoneNumber.style.background = "";
     input_phoneNumber.style.borderColor = "";
     phone_error.innerHTML = "";
-})
+});
 
 let phone_boolean;
 
 input_phoneNumber.addEventListener('input', (e) => {
     phone_boolean = validatePhone(input_phoneNumber.value, input_phoneNumber, phone_error);
-})
+});
 
 p_save.addEventListener('click', async function () {
-
     let phone_lenght = checkPhoneLenght(input_phoneNumber.value, input_phoneNumber, phone_error);
-
-
     if (phone_boolean == true && phone_lenght == true) {
-
         let phone_value = input_phoneNumber.value;
         const setPhoneResponse = await setPhoneNumber({ "phoneNumber": `${phone_value}` });
         if (setPhoneResponse.status == 200) {
 
-            location.reload();
+            input_phoneNumber.style.background = "";
+            input_phoneNumber.style.borderColor = "";
+            phone_error.innerHTML = "";
+            const settingCall = await getDetails();
+            addPlaceholder(settingCall, "phoneNumber", input_phoneNumber);
+            Cancel(input_phoneNumber, phone_saveCancel);
 
         } else if (setEmailResponse.status == 401) {
             window.location.href = "../Log-in/login.html";
@@ -2070,31 +2025,28 @@ p_save.addEventListener('click', async function () {
         }
 
     }
-})
+});
 
 input_phoneNumber.addEventListener('focusin', (e) => {
     e.target.style.background = "";
     e.target.style.border = "";
     phone_error.innerHTML = "";
-})
+});
 
 // first name
 edit_fName.addEventListener('click', (e) => {
     EditIcon(input_fName, fName_saveCancel);
-})
+});
 
 fn_cancel.addEventListener('click', (e) => {
     Cancel(input_fName, fName_saveCancel);
     input_fName.style.background = "";
     input_fName.style.borderColor = "";
     fn_error.innerHTML = "";
-})
+});
 
 fn_save.addEventListener('click', async function () {
-
     let fn_boolean = upTo3(input_fName.value, "first name", input_fName, fn_error);
-
-
     if (fn_boolean == true) {
         let firstname_value = input_fName.value;
         const setFirstResponse = await setFirstName({ "firstName": `${firstname_value}` });
@@ -2112,31 +2064,28 @@ fn_save.addEventListener('click', async function () {
             alert("Something went wrong.");
         }
     }
-})
+});
 
 input_fName.addEventListener('focusin', (e) => {
     fn_error.innerHTML = "";
     e.target.style.background = "";
     e.target.style.border = "";
-})
+});
 
 // last name
 edit_lName.addEventListener('click', (e) => {
     EditIcon(input_lName, lName_saveCancel);
-})
+});
 
 ln_cancel.addEventListener('click', (e) => {
     Cancel(input_lName, lName_saveCancel);
     input_lName.style.background = "";
     input_lName.style.borderColor = "";
     ln_error.innerHTML = "";
-})
+});
 
 ln_save.addEventListener('click', async function () {
-
     let ln_boolean = upTo3(input_lName.value, "last name", input_lName, ln_error);
-
-
     if (ln_boolean == true) {
         let lastname_value = input_lName.value;
         const setLastResponse = await setLastName({ "lastName": `${lastname_value}` });
@@ -2154,32 +2103,28 @@ ln_save.addEventListener('click', async function () {
             alert("Something went wrong.");
         }
     }
-})
+});
 
 input_lName.addEventListener('focusin', (e) => {
     ln_error.innerHTML = "";
     e.target.style.background = "";
     e.target.style.border = "";
-})
+});
 
 // company
 edit_company.addEventListener('click', (e) => {
     EditIcon(input_company, company_saveCancel);
-})
+});
 
 c_cancel.addEventListener('click', (e) => {
     Cancel(input_company, company_saveCancel);
     input_company.style.background = "";
     input_company.style.borderColor = "";
     c_error.innerHTML = "";
-})
-
+});
 
 c_save.addEventListener('click', async function () {
-
     let c_boolean = validateCompany(input_company.value, c_error, input_company);
-
-
     if (c_boolean == true) {
         let company_value = input_company.value;
         const setCompanyResponse = await setCompanyName({ "companyName": `${company_value}` });
@@ -2199,13 +2144,13 @@ c_save.addEventListener('click', async function () {
             alert("Something went wrong.");
         }
     }
-})
+});
 
 input_company.addEventListener('focusin', (e) => {
     c_error.innerHTML = "";
     e.target.style.background = "";
     e.target.style.border = "";
-})
+});
 
 // set public datas
 function isChecked(elementID) {
@@ -2220,9 +2165,7 @@ function isChecked(elementID) {
 
 isEmail_public.addEventListener('change', async function () {
     let ischecked = isChecked(isEmail_public);
-
     const setPublicEmail_result = await setPublicEmail();
-
 
     if (setPublicEmail_result.status == 200) {
         if (ischecked == true) {
@@ -2237,19 +2180,15 @@ isEmail_public.addEventListener('change', async function () {
     } else {
         alert(setPublicEmail_result.status);
     }
-})
+});
 
 isPhone_public.addEventListener('change', async function () {
     let ischecked = isChecked(isPhone_public);
     const setPublicPhone_result = await setPublicPhoneNumber();
-
-
     if (setPublicPhone_result.status == 200) {
         if (ischecked == true) {
-
             console.log("A következőre változott az érték: true");
         } else {
-
             console.log("A következőre változott az érték: false");
         }
     } else if (setPublicPhone_result.status == 401) {
@@ -2259,7 +2198,7 @@ isPhone_public.addEventListener('change', async function () {
     } else {
         alert(setPublicPhone_result.status);
     }
-})
+});
 
 const settings_modal = document.getElementById('settings-modal');
 settings_modal.addEventListener('hidden.bs.modal', function () {
