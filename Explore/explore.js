@@ -15,7 +15,6 @@ const seventh_row_pics = document.getElementById('seventh-row-pics');
 const eighth_row_pics = document.getElementById('eighth-row-pics');
 const nineth_row_pics = document.getElementById('nineth-row-pics');
 
-// Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
 window.addEventListener('beforeunload', async function () {
     const tokenResponse = await token();
 
@@ -63,7 +62,6 @@ window.onload = async function () {
             }
 
             const getCategory_response = await getAllCategory();
-            console.log(getCategory_response);
             loadCategories(getCategory_response);
 
             break;
@@ -114,7 +112,6 @@ function loadCategories(response) {
     }
 
     for (let i = 16; i <= 19; i++) {
-        console.log(response.data[i].name);
         fifth_row_pics.innerHTML += `
             <div class="image-container" id="${response.data[i].id}" onclick="navigateToCategory('${response.data[i].name}', '${response.data[i].id}')">
                 <img class="rowPics default" src="../${response.data[i].image}" alt="${response.data[i].name}" >

@@ -72,7 +72,7 @@ const s6_second_row = document.getElementById('s6-second-row');
 
 const zero_dataContainer = document.getElementById('zero-dataContainer');
 
-//* MODAL
+// MODAL
 const modal_body = document.getElementById('modal-body');
 const modal_img = document.getElementById('modal-img');
 const modal_title = document.getElementById('modal-title');
@@ -84,7 +84,6 @@ const modal_desc = document.getElementById('modal-desc');
 const modal_price = document.getElementById('book-price');
 const save_btn = document.getElementById('save-btn');
 
-
 // segéd változók
 let s1 = false;
 let s2 = false;
@@ -93,10 +92,8 @@ let s4 = false;
 let s5 = false;
 let s6 = false;
 
-// Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
 window.addEventListener('beforeunload', async function () {
     const tokenResponse = await token();
-    console.log(tokenResponse);
 
     if (tokenResponse.status === 401) {
         window.location.href = "../Log-in/login.html";
@@ -105,7 +102,6 @@ window.addEventListener('beforeunload', async function () {
 
 window.onload = async function () {
     const tokenResponse = await token();
-    console.log(tokenResponse);
 
     switch (tokenResponse.status) {
         case 401:
@@ -161,20 +157,14 @@ window.onload = async function () {
                     console.log(booksByCategory_response.data);
 
                     if (booksByCategory_response.data.length != 0) {
-                        console.log("itt kezdődik");
                         const separetedCategories_obj = separateCategories(booksByCategory_response);
-                        console.log(separetedCategories_obj[0]);
 
-                        // vizsgálatok hogy az egyes kapott kategóriákban vannak-e adatok és ha nincsenek akkor azok a szekciók rejtve lesznek
                         if (separetedCategories_obj[0].data.length != 0) {
-                            // console.log("van benne adat");
                             loadRandoms(separetedCategories_obj, 0, s3_subtitle, s3_mediumCardPic_div, s3_mediumC_h2, s3_mediumC_author, s3_mediumC_desc, s3_mediumC_btn, s3_first_row, s3_second_row);
                             s3 = true;
                         } else {
                             third_section.hidden = true;
                         }
-
-                        console.log("----------------------------------------------------------------");
 
                         if (separetedCategories_obj[1].data.length != 0) {
                             loadRandoms(separetedCategories_obj, 1, s4_subtitle, s4_mediumCardPic_div, s4_mediumC_h2, s4_mediumC_author, s4_mediumC_desc, s4_mediumC_btn, s4_first_row, s4_second_row);
@@ -183,16 +173,12 @@ window.onload = async function () {
                             fourth_section.hidden = true;
                         }
 
-                        console.log("----------------------------------------------------------------");
-
                         if (separetedCategories_obj[2].data.length != 0) {
                             loadRandoms(separetedCategories_obj, 2, s5_subtitle, s5_mediumCardPic_div, s5_mediumC_h2, s5_mediumC_author, s5_mediumC_desc, s5_mediumC_btn, s5_first_row, s5_second_row);
                             s5 = true;
                         } else {
                             fifth_section.hidden = true;
                         }
-
-                        console.log("----------------------------------------------------------------");
 
                         if (separetedCategories_obj[3].data.length != 0) {
                             loadRandoms(separetedCategories_obj, 3, s6_subtitle, s6_mediumCardPic_div, s6_mediumC_h2, s6_mediumC_author, s6_mediumC_desc, s6_mediumC_btn, s6_first_row, s6_second_row);
@@ -225,7 +211,6 @@ window.onload = async function () {
     }
 }
 
-
 // Loading datas
 function LoadRandomBook(response) {
     const coverImage = response.data[0].coverImage;
@@ -251,7 +236,6 @@ function LoadRandomBook(response) {
 
     s1_bigCard_author.addEventListener('click', (e) => {
         navigateToProfile(response.data[0].username);
-        // window.location.href = `../Profile/profile.html?username=${response.data[0].username}`;
     });
 
     random_book_btn.addEventListener('click', (e) => {
@@ -279,15 +263,13 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
     // Medium cards
     if (response.data[0].coverImage == "Ez a kép elérési útja") {
         mediumC_PicDiv.innerHTML = `
-        <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
-        `
+             <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
+        `;
     } else {
-
-        console.log(sectionName, " Medium Card Cover book path: ", response.data[0].coverImage);
 
         mediumC_PicDiv.innerHTML = `
             <img class="medium-pic" src="../${response.data[0].coverImage}.jpg" alt="${response.data[0].title} cover">
-        `
+        `;
     }
 
     mediumC_h2.innerText = `${response.data[0].title}`;
@@ -301,42 +283,40 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
 
     mediumC_btn.addEventListener('click', (e) => {
         e.preventDefault();
-
         loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].price, response.data[0].username, response.data[0].id, response.data[0].saved);
     })
-
 
     for (let i = 1; i <= 4; i++) {
         if (response.data[i].coverImage != "Ez a kép elérési útja") {
             firstRow.innerHTML += `
-                    <div class="col-3">
-                        <div class="cover-photo">
-                            <img src="../${response.data[i].coverImage}.jpg" alt="${response.data[i].title}" class="cover">
-                            <div class="overlay">
-                                <p class="category-overlay">Category</p>
-                                <p class="book-title">${response.data[i].title}</p>
-                                <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                                <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', '${response.data[i].id}', '${response.data[i].saved}')">Show Details</button>
-                            </div>
+                <div class="col-3">
+                    <div class="cover-photo">
+                        <img src="../${response.data[i].coverImage}.jpg" alt="${response.data[i].title}" class="cover">
+                        <div class="overlay">
+                            <p class="category-overlay">Category</p>
+                            <p class="book-title">${response.data[i].title}</p>
+                            <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
+                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', '${response.data[i].id}', '${response.data[i].saved}')">Show Details</button>
                         </div>
                     </div>
-                `;
+                </div>
+            `;
 
 
         } else {
             firstRow.innerHTML += `
-                    <div class="col-3">
-                        <div class="cover-photo">
-                            <img src="../pictures/standard-book-cover.jpg" alt="${response.data[i].title}" class="cover">
-                            <div class="overlay">
-                                <p class="category-overlay">Category</p>
-                                <p class="book-title">${response.data[i].title}</p>
-                                <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                                <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', '${response.data[i].id}', '${response.data[i].saved}')">Show Details</button>
-                            </div>
+                <div class="col-3">
+                    <div class="cover-photo">
+                        <img src="../pictures/standard-book-cover.jpg" alt="${response.data[i].title}" class="cover">
+                        <div class="overlay">
+                            <p class="category-overlay">Category</p>
+                            <p class="book-title">${response.data[i].title}</p>
+                            <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
+                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', '${response.data[i].id}', '${response.data[i].saved}')">Show Details</button>
                         </div>
                     </div>
-                `
+                </div>
+            `;
         }
     }
 
@@ -368,7 +348,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                             </div>
                         </div>
                     </div>
-                `
+                `;
         }
     }
 }
@@ -408,19 +388,16 @@ function separateCategories(response) {
  */
 function loadRandoms(separetedObj, separeted_number, subtitle, mediumC_PicDiv, mediumC_h2, mediumC_author, mediumC_description, mediumC_btn, firstRow, secondRow) {
     subtitle.innerText = `Books from the ${separetedObj[separeted_number].category} category:`
-    console.log(separetedObj[separeted_number].data[0].category);
-    // Medium cards
-    console.log("title: " + separetedObj[separeted_number].data[0].title + " | img: " + separetedObj[separeted_number].data[0].coverImage);
-   
+    // Medium cards 
     if (separetedObj[separeted_number].data[0].coverImage == "Ez a kép elérési útja") {
         mediumC_PicDiv.innerHTML = `
-        <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${separetedObj[separeted_number].data[0].title} cover">
-        `
+            <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${separetedObj[separeted_number].data[0].title} cover">
+        `;
     } else {
 
         mediumC_PicDiv.innerHTML = `
             <img class="medium-pic" src="../${separetedObj[separeted_number].data[0].coverImage}.jpg" alt="${separetedObj[separeted_number].data[0].title} cover">
-        `
+        `;
     }
 
     mediumC_h2.innerText = `${separetedObj[separeted_number].data[0].title}`;
@@ -471,7 +448,6 @@ function loadRandoms(separetedObj, separeted_number, subtitle, mediumC_PicDiv, m
         }
 
         for (let i = 5; i < separetedObj[separeted_number].data.length; i++) {
-            console.log("title: " + separetedObj[separeted_number].data[i].title + " | img: " + separetedObj[separeted_number].data[i].coverImage);
             if (separetedObj[separeted_number].data[i].coverImage != "Ez a kép elérési útja") {
                 secondRow.innerHTML += `
                         <div class="col-3">
@@ -485,7 +461,7 @@ function loadRandoms(separetedObj, separeted_number, subtitle, mediumC_PicDiv, m
                                 </div>
                             </div>
                         </div>
-                    `
+                    `;
             } else {
                 secondRow.innerHTML += `
                         <div class="col-3">
@@ -499,12 +475,11 @@ function loadRandoms(separetedObj, separeted_number, subtitle, mediumC_PicDiv, m
                                 </div>
                             </div>
                         </div>
-                    `
+                    `;
             }
         }
     } else {
         for (let i = 1; i < separetedObj[separeted_number].data.length; i++) {
-            console.log("title: " + separetedObj[separeted_number].data[i].title + " | img: " + separetedObj[separeted_number].data[i].coverImage);
             if (separetedObj[separeted_number].data[i].coverImage != "Ez a kép elérési útja") {
                 firstRow.innerHTML += `
                         <div class="col-3">
@@ -518,7 +493,7 @@ function loadRandoms(separetedObj, separeted_number, subtitle, mediumC_PicDiv, m
                                 </div>
                             </div>
                         </div>
-                    `
+                    `;
             } else {
                 firstRow.innerHTML += `
                         <div class="col-3">
@@ -532,7 +507,7 @@ function loadRandoms(separetedObj, separeted_number, subtitle, mediumC_PicDiv, m
                                 </div>
                             </div>
                         </div>
-                    `
+                    `;
             }
         }
     }
@@ -547,14 +522,11 @@ let bookId;
 
 function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, bookIdString, isSaved) {
     bookId = parseInt(bookIdString);
-    console.log(bookId);
 
     if (own_uname == username) {
         save_btn.hidden = true;
-
     } else {
         save_btn.hidden = false;
-
     }
 
     if (savedBookIds.includes(bookId)) {
@@ -565,7 +537,6 @@ function loadModalData(url, title, firstName, lastName, description, language, r
         savedBoolean = isSaved;
     }
 
-    console.log(url);
     if (url != "Ez a kép elérési útja") {
         modal_img.src = `../${url}.jpg`;
     } else {
@@ -575,7 +546,6 @@ function loadModalData(url, title, firstName, lastName, description, language, r
     modal_title.innerText = `${title}`;
     modal_author.innerText = `${firstName} ${lastName}`;
     modal_pages.innerText = `${pages}`;
-    console.log(title + " Rating: " + rating);
     if (rating != "undefined" && rating != undefined) {
         modal_ranking.innerText = `${rating}`;
     } else {
@@ -595,7 +565,6 @@ function loadModalData(url, title, firstName, lastName, description, language, r
         if (!savedBookIds.includes(bookId)) {
             savedBookIds.push(bookId);
         }
-        console.log(savedBookIds);
         save_btn.innerHTML = "";
         save_btn.innerHTML = `
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
@@ -616,17 +585,14 @@ function loadModalData(url, title, firstName, lastName, description, language, r
 }
 
 save_btn.addEventListener('click', (e) => {
-    console.log("click");
     if (savedBoolean != true && savedBoolean != "true") {
         SavingBook(bookId);
         savedBoolean = "true";
         saveClick = true;
-        console.log(savedBoolean);
     } else {
         UnsavingBook(bookId);
         savedBoolean = "false";
         saveClick = true;
-        console.log(savedBoolean);
     }
 
 });
@@ -637,10 +603,7 @@ async function SavingBook(bookId) {
     switch (savedResult.status) {
         case 200:
             saveClick = true;
-            console.log("successfully saved");
             savedBookIds.push(bookId);
-            console.log(bookId);
-            console.log(savedBookIds);
             save_btn.innerHTML = "";
             save_btn.innerHTML = `
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
@@ -653,7 +616,6 @@ async function SavingBook(bookId) {
             break;
         case 422:
             alert('422: Something went wrong. Please try again later!');
-            console.log("Error status: " + savedResult.status);
             break;
         default:
             alert('Something went wrong. Please try again later!');
@@ -671,11 +633,8 @@ async function UnsavingBook(bookId) {
     switch (unsavingResult.status) {
         case 200:
             saveClick = true;
-            console.log("Successfully unsaved!");
             savedBookIds = savedBookIds.filter(id => id !== bookId);
             deletedSavedBooksIds.push(bookId);
-            console.log(bookId);
-            console.log(savedBookIds);
             save_btn.innerHTML = "";
             save_btn.innerHTML = `
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="bi bi-bookmark" viewBox="0 0 16 16" id="bookmark">

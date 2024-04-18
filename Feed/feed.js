@@ -1,6 +1,3 @@
-// change the like icon when hovering over or clicked on the like
-// minden poszt kártyát itt hozunk létre, nem pedig html-ben
-const dataUrl = './db.json';
 const pcGroup = document.getElementById("kulsoPostCard");
 
 const SavedBooks = document.getElementById('SavedBooks');
@@ -12,7 +9,6 @@ const charCounterDes = document.getElementById('characterCounter');
 const textError = document.getElementById('textError');
 const LetsPost_btn = document.getElementById('LetsPost-btn');
 
-// Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
 window.addEventListener('beforeunload', async function () {
     const tokenResponse = await token();
 
@@ -23,7 +19,7 @@ window.addEventListener('beforeunload', async function () {
 
 window.onload = async function () {
     const tokenResponse = await token();
-    console.log(tokenResponse);
+   
 
     switch (tokenResponse.status) {
         case 401:
@@ -58,21 +54,24 @@ window.onload = async function () {
             LoadUserDatas(userDatas);
 
             const RecommandedUsers_response = await getRecommandedUsers();
-            console.log(RecommandedUsers_response);
             LoadRecommandedUsers(RecommandedUsers_response);
 
             const feedpost_response = await getFeedPosts();
-            console.log(feedpost_response);
             LoadPosts(feedpost_response);
+            break;
 
-
+        default:
+            alert("Something went wrong. Please try again later.");
+            console.error(tokenResponse.status);
+            console.error(tokenResponse.data);
+            console.error(tokenResponse.error);
             break;
     }
 }
 
-modal_textarea.addEventListener('focusin', (e)=>{
+modal_textarea.addEventListener('focusin', (e) => {
     modal_textarea.classList.remove('inputError');
-    textError.innerHTML = "";   
+    textError.innerHTML = "";
 });
 
 let count = 0;
@@ -83,15 +82,14 @@ modal_textarea.addEventListener('input', (e) => {
     count = currentText.length;
     characterCounterText.textContent = `${count}/1000`;
 
-    if(count == 0){
-      
+    if (count == 0) {
+
         LetsPost_btn.removeAttribute('data-bs-dismiss', 'modal');
-    }else{
+    } else {
         LetsPost_btn.setAttribute('data-bs-dismiss', 'modal');
     }
 
     if (count >= 950) {
-        console.log("bemegy az ifbe");
         charCounterDes.classList.remove('counter');
         charCounterDes.classList.add('counterErrorLight');
 
@@ -109,9 +107,7 @@ modal_textarea.addEventListener('input', (e) => {
 });
 
 LetsPost_btn.addEventListener('click', async function (e) {
-    // Megakadályozzuk az alapértelmezett eseményt (modális ablak bezárását)
     e.preventDefault();
-    
 
     const currentData = modal_textarea.value;
     if (currentData == "") {
@@ -143,7 +139,6 @@ let likeButtons = document.querySelectorAll(".like-button");
 let postLikes = {};
 async function LoadPosts(response) {
 
-    // dátum szerin rendezzük a response-t így később a rendezett sorrendben tölti majd be az adatokat a kártyába
     response.data.sort((a, b) => new Date(b.postTime) - new Date(a.postTime));
 
     if (response.data.length == 0) {
@@ -179,7 +174,7 @@ async function LoadPosts(response) {
                             <div class="like-and-share">
                                 <div class="d-flex flex-column align-items-center emptyLike">
                                 
-                                    <button class="like-button border-0 bg-transparent" id="like" onclick="Liked(this, ${response.data[i].id})"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
+                                    <button class="like-button border-0 bg-transparent" onclick="Liked(this, ${response.data[i].id})"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
                                     <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1"/>
                                 </svg></button>
                                 
@@ -215,7 +210,7 @@ async function LoadPosts(response) {
                             <div class="like-and-share">
                                 <div class="d-flex flex-column align-items-center emptyLike">
                                   
-                                    <button class="like-button border-0 bg-transparent" id="like" ><svg onclick="Liked(this, ${response.data[i].id})" class="liked" xmlns="http://www.w3.org/2000/svg" width="25" height="25" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
+                                    <button class="like-button border-0 bg-transparent" ><svg onclick="Liked(this, ${response.data[i].id})" class="liked" xmlns="http://www.w3.org/2000/svg" width="25" height="25" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
                                     <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1"/>
                                     </svg></button>
                                     
@@ -241,26 +236,24 @@ function navigateToProfile(username) {
 async function Liked(button, postID) {
     let postLiked = postLikes[postID];
 
-
     if (!postLiked) {
-        // Ha a poszt nincs like-olva, akkor like-oljuk
         const liked_result = await postLike({ "postId": postID });
         if (liked_result.status == 200) {
             button.style.fill = "#c43700";
-            postLikes[postID] = true; // Frissítjük a like állapotot
-            console.log("Sikeres kedvelés. Post id: " + postID);
+            postLikes[postID] = true;
+
         } else if (liked_result.status == 401) {
             window.location.href = "../Log-in/login.html";
         } else if (liked_result.status == 422) {
             alert("Something went wrong. Please try again later.")
         }
     } else {
-        // Ha a poszt like-olva van, akkor dislike-oljuk
+     
         const disliked_result = await postDislike({ "postId": postID });
         if (disliked_result.status == 200) {
             button.style.fill = "#2d1810";
-            postLikes[postID] = false; // Frissítjük a like állapotot
-            console.log("Sikeres dislike. Post id: " + postID);
+            postLikes[postID] = false;
+            
         } else if (disliked_result.status == 401) {
             window.location.href = "../Log-in/login.html";
         } else if (disliked_result.status == 422) {

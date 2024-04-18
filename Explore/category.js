@@ -371,11 +371,12 @@ const book_modal_language = document.getElementById('modal-language');
 const book_modal_desc = document.getElementById('modal-desc');
 
 let saveClick = false;
+let bookId;
+let savedBoolean;
 
-function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher, bookId, isSaved) {
+function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher, bookIdString, isSaved) {
+    bookId = parseInt(bookIdString);
 
-    console.log("own un.: " + own_username);
-    console.log("book un: " + username);
     if (own_username == username) {
         save_btn.hidden = true;
         shopping_btn.hidden = true;
@@ -436,21 +437,22 @@ function loadModalData(url, title, firstName, lastName, description, language, r
         `;
     }
 
-    save_btn.addEventListener('click', (e) => {
-        if (isSaved == "true") {
-            UnsavingBook(bookId);
-            isSaved = "false";
-            saveClick = true;
-            console.log(isSaved);
-        } else {
-            SavingBook(bookId);
-            isSaved = "true";
-            saveClick = true;
-            console.log(isSaved);
-        }
-    });
-
 }
+
+save_btn.addEventListener('click', (e) => {
+ 
+    if (savedBoolean != true && savedBoolean != "true") {
+        SavingBook(bookId);
+        savedBoolean = "true";
+        saveClick = true;
+      
+    }else{
+        UnsavingBook(bookId);
+        savedBoolean = "false";
+        saveClick = true;    
+    }
+
+});
 
 document.getElementById('bookPopup').addEventListener('hidden.bs.modal', (e) => {
     if (saveClick == true) {

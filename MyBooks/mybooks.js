@@ -22,12 +22,12 @@ const shopping_btn = document.getElementById('shopping-cart');
 const publish_btn = document.getElementById('publish-btn');
 const book_price = document.getElementById('book-price');
 const read_btn = document.getElementById('read-btn');
+const save_btn = document.getElementById('save-btn');
 
 // Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
 window.addEventListener('beforeunload', async function () {
-    const tokenResponse = await token();
-
-    if (tokenResponse.status === 401) {
+    const tokenResponseBefore = await token();
+    if (tokenResponseBefore.status === 401) {
         window.location.href = "../Log-in/login.html";
     }
 });
@@ -46,7 +46,7 @@ window.onload = async function () {
             // delete errors and search results from local storage
             localStorage.removeItem('searchResult');
             localStorage.removeItem('Error Code:');
-            
+
 
             // minden radio btn kicsekkolása az oldal betöltésekor
             const radioButtons = document.querySelectorAll('input[type="radio"]');
@@ -58,13 +58,14 @@ window.onload = async function () {
             profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;
 
             document.getElementById('profile-link').addEventListener('click', (e) => {
-               navigateToProfile(tokenResponse.data.username);
+                navigateToProfile(tokenResponse.data.username);
             });
 
             const HomePage = document.getElementById('HomePage');
 
             if (tokenResponse.data.rank == "publisher") {
-                shopping_btn.hidden = true;
+                console.log("Publisher");
+                shopping_btn.style.display = "none";
                 publish_btn.hidden = false;
                 book_price.hidden = true;
                 read_btn.hidden = true;
@@ -126,6 +127,8 @@ window.onload = async function () {
                             radioButton.disabled = true;
                         });
 
+                        LoadBooks(savedBookResponse, false);
+
                     } else {
                         missing_saved.hidden = true;
                         LoadBooks(savedBookResponse, false);
@@ -138,8 +141,6 @@ window.onload = async function () {
                     alert("Something went wrong, please try it later. Status: " + savedBookResponse.status);
                     break;
             }
-
-
             break;
 
         default:
@@ -161,7 +162,7 @@ let isPurchased = false;
 purchased_books.addEventListener('click', async function (event) {
     event.preventDefault();
     isPurchased = true;
-    // minden radio btn kicsekkolása az oldal betöltésekor
+
     const radioButtons = document.querySelectorAll('input[type="radio"]');
     radioButtons.forEach(radioButton => {
         radioButton.checked = false;
@@ -175,34 +176,55 @@ purchased_books.addEventListener('click', async function (event) {
 
     book_list.innerHTML = "";
 
-    // ITT KELL MAJD MEGHÍVNI A MEGVETT KÖNYVEK ENDPOINTOT --> írd át const-ra
+
     const purchasedResult = await getPayedBooksByUserId();
-    console.log(purchasedResult.data);
-    // Hiba kezelés
 
-    if (purchasedResult.data.length == 0) {
-        book_list.innerHTML = `
-            <div id="zero-purchased" class="text-center">
-                <p id="missing-purchased" class="missing-data-text text-center">You haven't bought any books yet.</p>
-                <button class="btn clear-filter rounded-5" id="go-to-explore" onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
-            </div>
-        `;
+    switch (purchasedResult.status) {
+        case 200:
+            if (purchasedResult.data.length == 0) {
+                book_list.innerHTML = `
+                    <div id="zero-purchased" class="text-center">
+                        <p id="missing-purchased" class="missing-data-text text-center">You haven't bought any books yet.</p>
+                        <button class="btn clear-filter rounded-5" id="go-to-explore" onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+                    </div>
+                `;
 
-    } else if (purchasedResult.data.length == 1) {
-        const radioButtons = document.querySelectorAll('input[type="radio"]');
-        radioButtons.forEach(radioButton => {
-            radioButton.disabled = true;
-        });
+            } else if (purchasedResult.data.length == 1) {
+                const radioButtons = document.querySelectorAll('input[type="radio"]');
+                radioButtons.forEach(radioButton => {
+                    radioButton.disabled = true;
+                });
 
-        LoadBooks(purchasedResult, true);
+                LoadBooks(purchasedResult, true);
 
-    } else {
-        const radioButtons = document.querySelectorAll('input[type="radio"]');
-        radioButtons.forEach(radioButton => {
-            radioButton.disabled = false;
-        });
-        LoadBooks(purchasedResult, true);
+            } else {
+                const radioButtons = document.querySelectorAll('input[type="radio"]');
+                radioButtons.forEach(radioButton => {
+                    radioButton.disabled = false;
+                });
+                LoadBooks(purchasedResult, true);
+            }
+            break;
+
+        case 401:
+            window.location.href = '../Log-in/login.html';
+            break;
+
+        case 403:
+            alert('403: Purchased books are only available for general users. You cannot buy books.');
+            break;
+
+        default:
+            alert('Something went wrong. Please try it again later.');
+            console.error(purchasedResult.status);
+            console.error(purchasedResult.data);
+            console.error(purchasedResult.error);
+            break;
+
     }
+
+
+
 
 });
 
@@ -235,13 +257,13 @@ saved_books.addEventListener('click', async function (event) {
                     </div>
                 `;
 
-            } else if(savedResult.data.length == 1){
+            } else if (savedResult.data.length == 1) {
                 const radioButtons = document.querySelectorAll('input[type="radio"]');
                 radioButtons.forEach(radioButton => {
                     radioButton.disabled = true;
                 });
                 LoadBooks(savedResult, false);
-            }else {
+            } else {
                 const radioButtons = document.querySelectorAll('input[type="radio"]');
                 radioButtons.forEach(radioButton => {
                     radioButton.disabled = false;
@@ -264,50 +286,52 @@ function LoadBooks(response, isPurchased) {
     book_list.innerHTML = "";
 
     for (let i = 0; i <= response.data.length - 1; i++) {
-        if (response.data[i].coverImage == "Ez a kép elérési útja") {
+        if (response.data[i].coverImage != "Ez a kép elérési útja") {
 
             book_list.innerHTML += `
-                        <div class="medium-card" style="background-color: #EAD7BE;">
-                            <div class="row">
-                                <div class="col-3 my-col3" id="s5-mediumCardPic-div">
-                                    <img class="medium-pic" src="../pictures/standard-book-cover.jpg">
-                                </div>
+                <div class="medium-card" style="background-color: #EAD7BE;">
+                    <div class="row">
+                        <div class="col-3 my-col3" id="s5-mediumCardPic-div">
+                            <img class="medium-pic" src="../${response.data[i].coverImage}.jpg">
+                        </div>
                 
-                                <div class="col-9 medium-right-side">
-                                    <h2 class="container medium-h2">${response.data[i].title}</h2>
-                                    <p class="username author" onclick="navigateToProfile('${response.data[i].username}'>${response.data[i].firstName} ${response.data[i].lastName}</p>
-                                    <p class="username author" >${response.data[i].publisher || ''}</p>
-                                    <p class="medium-desc">${response.data[i].description}</p>
-                                    <div class="bottom-row-medium">
-                                        <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${isPurchased}')">Show Details</button>
-                                        <p class="category" id="s2-mediumC-category">Comedy</p>
-                                    </div>
-                                </div>
+                        <div class="col-9 medium-right-side">
+                            <h2 class="container medium-h2">${response.data[i].title}</h2>
+                            <p class="username author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
+                            <p class="username author" >${response.data[i].publisher || ''}</p>
+                            <p class="medium-desc">${response.data[i].description}</p>
+                           <div class="bottom-row-medium">
+                           <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${isPurchased}', '${response.data[i].id}', ${isPurchased == true ? `${false}` : `${true}`})">Show Details</button>
+                                <p class="category" id="s2-mediumC-category">Comedy</p>
                             </div>
                         </div>
-                `;
+                    </div>
+                </div>
+            `;
+
 
         } else {
+
             book_list.innerHTML += `
-                        <div class="medium-card" style="background-color: #EAD7BE;">
-                            <div class="row">
-                                <div class="col-3 my-col3" id="s5-mediumCardPic-div">
-                                    <img class="medium-pic" src="../${response.data[i].coverImage}.jpg">
-                                </div>
-                
-                                <div class="col-9 medium-right-side">
-                                    <h2 class="container medium-h2">${response.data[i].title}</h2>
-                                    <p class="username author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                                    <p class="username author" >${response.data[i].publisher || ''}</p>
-                                    <p class="medium-desc">${response.data[i].description}</p>
-                                    <div class="bottom-row-medium">
-                                        <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${isPurchased}')">Show Details</button>
-                                        <p class="category" id="s2-mediumC-category">Comedy</p>
-                                    </div>
-                                </div>
+                <div class="medium-card" style="background-color: #EAD7BE;">
+                    <div class="row">
+                        <div class="col-3 my-col3" id="s5-mediumCardPic-div">
+                            <img class="medium-pic" src="../pictures/standard-book-cover.jpg">
+                        </div>
+        
+                        <div class="col-9 medium-right-side">
+                            <h2 class="container medium-h2">${response.data[i].title}</h2>
+                            <p class="username author" onclick="navigateToProfile('${response.data[i].username}')"> ${response.data[i].firstName} ${response.data[i].lastName}</p>
+                            <p class="username author" >${response.data[i].publisher || ''}</p>
+                            <p class="medium-desc">${response.data[i].description}</p>
+                            <div class="bottom-row-medium">
+                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${isPurchased}', '${response.data[i].id}', ${isPurchased == true ? `${false}` : `${true}`})">Show Details</button>
+                                <p class="category" id="s2-mediumC-category">Comedy</p>
                             </div>
                         </div>
-                `;
+                    </div>
+                </div>
+            `;
         }
     }
 
@@ -329,7 +353,13 @@ const book_modal_ranking = document.getElementById('modal-ranking');
 const book_modal_language = document.getElementById('modal-language');
 const book_modal_desc = document.getElementById('modal-desc');
 
-function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher, isPurchased) {
+let savedBoolean;
+let bookId;
+let saveClick = false;
+
+function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher, isPurchased, bookIdString, isSaved) {
+    bookId = parseInt(bookIdString);
+    console.log(isSaved);
 
     if (url != "Ez a kép elérési útja") {
         book_modal_img.src = `../${url}.jpg`;
@@ -364,18 +394,63 @@ function loadModalData(url, title, firstName, lastName, description, language, r
         navigateToProfile(username);
     })
 
-    if (isPurchased == true) {
+    if (isPurchased == true || isPurchased == "true") {
         read_btn.hidden = false;
         shopping_btn.hidden = true;
-        book_price.hidden = false;
+        book_price.style.display = "none";
+        save_btn.hidden = true;
     } else {
         read_btn.hidden = true;
         shopping_btn.hidden = false;
         book_price.hidden = false;
+        save_btn.hidden = false;
     }
 
 }
 
+save_btn.addEventListener('click', (e) => {
+
+    UnsavingBook(bookId);
+    savedBoolean = "false";
+    saveClick = true;
+
+});
+
+async function UnsavingBook(bookId) {
+
+    const unsavingResult = await deleteSavedBook({ "id": bookId });
+    switch (unsavingResult.status) {
+        case 200:
+            saveClick = true;
+            save_btn.innerHTML = "";
+            save_btn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="bi bi-bookmark" viewBox="0 0 16 16" id="bookmark">
+                        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
+                    </svg>
+                `;
+            break;
+        case 401:
+            window.location.href = '../Log-in/login.html';
+            break;
+        case 422:
+            alert('Something went wrong. Please try again later!');
+            console.log("Error status: " + unsavingResult.status);
+            break;
+        default:
+            alert('Something went wrong. Please try again later!');
+            console.error("Error status: " + unsavingResult.status);
+            console.error("Error msg: " + unsavingResult.error);
+            console.error("Error data: " + unsavingResult.data);
+            break;
+    }
+
+}
+
+document.getElementById('bookPopup').addEventListener('hidden.bs.modal', (e) => {
+    if (saveClick == true) {
+        location.reload();
+    }
+});
 
 // Filterek
 // Most saved books
@@ -673,28 +748,102 @@ byDate.forEach(function (radioButton) {
 });
 
 document.getElementById('clear-filter').addEventListener('click', async function () {
-    //    window.location.reload();
+
 
     const radioButtons = document.querySelectorAll('input[type="radio"]');
     radioButtons.forEach(radioButton => {
         radioButton.checked = false;
     });
 
-    const checkBoxes = document.querySelectorAll('input[type="checkbox"]');
-    checkBoxes.forEach(checkBox => {
-        checkBox.checked = false;
-    });
+    if (isPurchased == true) {
 
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('category')) {
 
-        var categoryId = urlParams.get('id');
-        const getCategoryAgain = await getAllBooksByCategory({ "id": categoryId });
+        const getPaidAgain = await getPayedBooksByUserId();
+        switch (getPaidAgain.status) {
+            case 200:
+                if (getPaidAgain.data.length == 0) {
+                    book_list.innerHTML = `
+                        <div id="zero-purchased" class="text-center">
+                            <p id="missing-purchased" class="missing-data-text text-center">You haven't bought any books yet.</p>
+                            <button class="btn clear-filter rounded-5" id="go-to-explore" onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+                        </div>
+                    `;
 
-        books_side.innerHTML = '';
-        LoadCategoryResult(getCategoryAgain);
-    } else if (urlParams.has('search')) {
-        books_side.innerHTML = '';
-        LoadSearchResult()
+                } else if (getPaidAgain.data.length == 1) {
+                    const radioButtons = document.querySelectorAll('input[type="radio"]');
+                    radioButtons.forEach(radioButton => {
+                        radioButton.disabled = true;
+                    });
+
+                    LoadBooks(getPaidAgain, true);
+
+                } else {
+                    const radioButtons = document.querySelectorAll('input[type="radio"]');
+                    radioButtons.forEach(radioButton => {
+                        radioButton.disabled = false;
+                    });
+                    LoadBooks(getPaidAgain, true);
+                }
+                break;
+
+            case 401:
+                window.location.href = '../Log-in/login.html';
+                break;
+
+            case 403:
+                alert('403: Purchased books are only available for general users. You cannot buy books.');
+                break;
+
+            default:
+                alert('Something went wrong. Please try it again later.');
+                console.error(getPaidAgain.status);
+                console.error(getPaidAgain.data);
+                console.error(getPaidAgain.error);
+                break;
+        }
+
+    } else {
+
+        const getSavedAgain = await getSavedBooksByUserId();
+        switch (getSavedAgain.status) {
+            case 200:
+                if (getSavedAgain.data.length == 0) {
+                    book_list.innerHTML = `
+                        <div id="zero-saved" class="text-center" >
+                            <p id="missing-saved" class="missing-data-text text-center">You haven't saved any books yet.</p>
+                            <button class="btn clear-filter rounded-5" id="go-to-explore" onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+                        </div>
+                    `;
+
+                    const radioButtons = document.querySelectorAll('input[type="radio"]');
+                    radioButtons.forEach(radioButton => {
+                        radioButton.disabled = true;
+                    });
+                } else if (getSavedAgain.data.length == 1) {
+
+                    const radioButtons = document.querySelectorAll('input[type="radio"]');
+                    radioButtons.forEach(radioButton => {
+                        radioButton.disabled = true;
+                    });
+
+                    LoadBooks(getSavedAgain, false);
+
+                } else {
+                    missing_saved.hidden = true;
+                    LoadBooks(getSavedAgain, false);
+                }
+                break;
+
+            case 401:
+                window.location.href = '../Log-in/login.html';
+                break;
+            default:
+                alert("Something went wrong, please try it later. Status: " + getSavedAgain.status);
+                console.error(getSavedAgain.error);
+                console.error(getSavedAgain.data);
+                break;
+        }
+
     }
+
 });
