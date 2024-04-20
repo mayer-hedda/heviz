@@ -110,7 +110,7 @@ window.onload = async function () {
             const userResponse = await getUserDetails({ "profileUsername": tokenResponse.data.username })
 
             username.innerText = `@${tokenResponse.data.username}`;
-            profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;
+            profilePic.innerHTML = `<img class="rounded-circle" src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;
 
             switch (tokenResponse.data.rank) {
                 case 'general':
@@ -213,6 +213,7 @@ function LoadRandomBook(response) {
     s1_bigCard_h2.innerText = `${response.data[0].title}`;
     s1_bigCard_p.innerText = `${response.data[0].description}`;
     s1_bigCard_author.innerText = `${response.data[0].firstName} ${response.data[0].lastName}`;
+    s1_bigCard_publisher.innerText = `${response.data[0].publisher || ''}`;
 
     s1_bigCard_author.addEventListener('click', (e) => {
         e.preventDefault();
@@ -294,7 +295,7 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
         } else {
 
             firstRow.innerHTML += `
-                <div class="col-3">
+                <div class="col-3 ">
                     <div class="cover-photo">
                         <img src="../pictures/standard-book-cover.jpg" alt="${response.data[i].title}" class="cover">
                         <div class="overlay">

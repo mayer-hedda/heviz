@@ -4,6 +4,18 @@
         width: 100px;
     }
 
+    .navbar-toggler {
+        width: 30px;
+        height: 30px;
+    }
+
+    .navbar-toggler-icon {
+        width: 20px;
+        position: relative;
+        right: 7.5px;
+        bottom: 4px;
+    }
+
     #usernamePicture {
         display: flex;
         flex-direction: column;
@@ -23,7 +35,35 @@
 
     #writingBtn {
         margin-top: 20px;
+        margin-right: auto !important;
+        margin-bottom: 30px;
+        font-size: 10px !important;
+        padding: 2px 7px;
         margin-right: 0px !important;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #profile-icon img.rounded-circle {
+        width: 40px;
+        height: 40px;
+        margin-right: 50px;
+        margin-top: 30px;
+    }
+
+    #userName-p {
+        font-size: 12px !important;
+    }
+
+    .dropdown-toggle {
+        margin-right: 20px;
+    }
+
+    .dropdown-menu {
+        padding-top: 0px !important;
     }
 
     .col-8,
@@ -178,7 +218,7 @@
     }
 }
 
-@media (min-width: 310px) and (max-width:375px) {
+@media (min-width: 309px) and (max-width:376px) {
     #logo {
         width: 80px;
     }
@@ -1499,6 +1539,7 @@ nav {
 }
 
 .nav-link:hover {
+    cursor: pointer;
     color: var(--navbar-a-hover-color) !important;
     text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
     text-underline-offset: 0.281rem;
@@ -1513,16 +1554,6 @@ nav {
 .active:hover {
     color: var(--current-page-hover-color) !important;
     cursor: pointer;
-}
-
-#Feed {
-    color: var(--current-page-color) !important;
-    text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
-    text-underline-offset: 0.281rem;
-}
-
-#Feed:hover {
-    color: var(--current-page-hover-color) !important;
 }
 
 #profile-icon img,

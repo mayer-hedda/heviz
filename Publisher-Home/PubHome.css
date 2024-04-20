@@ -76,6 +76,1905 @@
     font-weight: 300;
     font-style: normal;
 }
+/* -------- Media Query --------- */
+@media (min-width: 250px) and (max-width:309px) {
+    #logo {
+        width: 100px;
+    }
+
+    .navbar-toggler {
+        width: 30px;
+        height: 30px;
+    }
+
+    .navbar-toggler-icon {
+        width: 20px;
+        position: relative;
+        right: 7.5px;
+        bottom: 4px;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #navbarNav {
+        margin-left: 40px !important;
+    }
+
+    #navbar a {
+        font-size: 15px !important;
+        padding-top: 15px !important;
+        padding-bottom: 0px !important;
+        display: flex !important;
+        justify-content: right;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #profile-icon img.rounded-circle {
+        width: 40px;
+        height: 40px;
+        margin-right: 50px;
+        margin-top: 10px;
+    }
+
+    #userName-p {
+        font-size: 12px !important;
+    }
+
+    .dropdown-toggle {
+        margin-right: 40px;
+    }
+
+    .dropdown-menu {
+        padding-top: 0px !important;
+    }
+
+    /* first sec. */
+    #welcome {
+        font-size: 20px !important;
+        text-align: center;
+    }
+
+    #first-section {
+        height: fit-content !important;
+    }
+
+    #first-s-card {
+        margin-top: 0px;
+    }
+
+    .full-card {
+        width: 220px !important;
+    }
+
+    .col-8,
+    .col-4 {
+        width: 100% !important;
+    }
+
+    .picSide img {
+        margin-left: 40px !important;
+        height: 200px !important;
+        width: 110px !important;
+        border-radius: 5px !important;
+        top: 10px !important;
+        left: 0px !important;
+        box-shadow: none !important;
+    }
+
+    .textSide {
+        text-align: center;
+        padding-left: 25px !important;
+        padding-right: 25px !important;
+    }
+
+    .textH2 {
+        font-size: 15px !important;
+    }
+
+    .bigUsername,
+    .username {
+        font-size: 10px !important;
+        margin-bottom: 0px;
+    }
+
+    .description,
+    .medium-desc {
+        font-size: 10px !important;
+        margin-top: 8px !important;
+        margin-bottom: 20pxpx;
+        padding-right: 0px !important;
+    }
+
+    .bottom-row,
+    .bottom-row-medium {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px !important;
+        position: relative !important;
+    }
+
+    #randomBook-btn {
+        margin-left: 40px;
+        font-size: 10px !important;
+        margin-bottom: 0px;
+        padding: 5px 10px;
+    }
+
+    .category {
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+        font-size: 10px !important;
+        width: fit-content;
+    }
+
+    /* medium cards */
+    .sub-sections {
+        margin-top: 50px !important;
+    }
+
+    .subtitle {
+        font-size: 18px;
+        text-align: center;
+        margin-left: 0px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .medium-card {
+        width: 220px !important;
+        height: fit-content !important;
+        padding-top: 15px;
+        padding-bottom: 30px;
+    }
+
+    .col-3,
+    .col-9 {
+        width: 100%;
+    }
+
+    .medium-pic {
+        height: 200px !important;
+        width: 120px !important;
+        border-radius: 5px !important;
+        margin-left: 50px;
+    }
+
+    .medium-right-side {
+        justify-content: center !important;
+        align-items: center;
+    }
+
+    .medium-h2 {
+        display: flex;
+        margin-left: 0px !important;
+        text-align: center;
+        justify-content: center;
+        font-size: 15px !important;
+        margin-top: 20px !important;
+    }
+
+    .username {
+        width: fit-content;
+        justify-content: center;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+    }
+
+    .medium-desc {
+        width: 170px !important;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+    }
+
+    .moreBtn-medium {
+        font-size: 10px !important;
+        margin-right: 30px;
+        margin-bottom: 10px !important;
+    }
+
+    /* covers */
+    .cover {
+        width: 130px !important;
+        height: 220px !important;
+    }
+
+    .category-overlay {
+        font-size: 15px !important;
+        top: 20px;
+    }
+
+    .book-title {
+        font-size: 15px !important;
+    }
+
+    .author-p {
+        font-size: 12px !important;
+    }
+
+    .cover-btn {
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+    }
+
+    footer {
+        padding-top: 20px !important;
+    }
+
+    #footer-logo-div {
+        width: 150px !important;
+    }
+
+    #footer-logo {
+        width: 120px;
+        margin-left: 45px;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    #useful-links {
+        padding: 0px;
+    }
+
+    #footer-ul {
+        margin-top: 0.938rem;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email {
+        font-size: 12px !important;
+    }
+}
+
+@media (min-width: 309px) and (max-width:376px) {
+    #logo {
+        width: 100px;
+    }
+
+    .navbar-toggler {
+        width: 30px;
+        height: 30px;
+    }
+
+    .navbar-toggler-icon {
+        width: 20px;
+        position: relative;
+        right: 7.5px;
+        bottom: 4px;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #navbarNav {
+        margin-left: 40px !important;
+    }
+
+    #navbar a {
+        font-size: 15px !important;
+        padding-top: 15px !important;
+        padding-bottom: 0px !important;
+        display: flex !important;
+        justify-content: right;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #profile-icon img.rounded-circle {
+        width: 40px;
+        height: 40px;
+        margin-right: 50px;
+        margin-top: 10px;
+    }
+
+    #userName-p {
+        font-size: 12px !important;
+    }
+
+    .dropdown-toggle {
+        margin-right: 40px;
+    }
+
+    .dropdown-menu {
+        padding-top: 0px !important;
+    }
+
+    /* first sec. */
+    #welcome {
+        font-size: 22px !important;
+        text-align: center;
+    }
+
+    #first-section {
+        height: fit-content !important;
+    }
+
+    #first-s-card {
+        margin-top: 0px;
+        position: static;
+
+    }
+
+    .full-card {
+        width: 280px !important;
+    }
+
+    .col-8,
+    .col-4 {
+        width: 100% !important;
+    }
+
+    .picSide img {
+        margin-left: 50px;
+        height: 260px !important;
+        width: 160px !important;
+        border-radius: 5px !important;
+        top: 30px !important;
+        left: 0px !important;
+        box-shadow: none !important;
+    }
+
+    .textSide {
+        text-align: center;
+        padding-left: 25px !important;
+        padding-right: 25px !important;
+        margin-top: 15px;
+    }
+
+    .textH2 {
+        font-size: 17px !important;
+    }
+
+    .bigUsername,
+    .username {
+        font-size: 13px !important;
+        margin-bottom: 0px;
+    }
+
+    .description,
+    .medium-desc {
+        font-size: 12px !important;
+        margin-top: 8px !important;
+        margin-bottom: 20pxpx;
+        padding-right: 0px !important;
+    }
+
+    .bottom-row,
+    .bottom-row-medium {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px !important;
+        position: static !important;
+    }
+
+    .bottom-row {
+        margin-bottom: 20px;
+    }
+
+    #randomBook-btn {
+        margin-left: 60px;
+        font-size: 14px !important;
+        margin-bottom: 0px;
+        padding: 5px 10px;
+    }
+
+    .category {
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+        font-size: 13px !important;
+        width: fit-content;
+    }
+
+    /* medium cards */
+    .sub-sections {
+        margin-top: 50px !important;
+    }
+
+    .subtitle {
+        font-size: 20px;
+        text-align: center;
+        margin-left: 0px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .medium-card {
+        width: 280px !important;
+        height: fit-content !important;
+        padding-top: 15px;
+        padding-bottom: 30px;
+    }
+
+    .col-3,
+    .col-9 {
+        width: 100%;
+    }
+
+    .medium-pic {
+        height: 260px !important;
+        width: 160px !important;
+        border-radius: 5px !important;
+        margin-left: 60px;
+        margin-top: 10px;
+    }
+
+    .medium-right-side {
+        justify-content: center !important;
+        align-items: center;
+    }
+
+    .medium-h2 {
+        display: flex;
+        margin-left: 0px !important;
+        text-align: center;
+        justify-content: center;
+        font-size: 15px !important;
+        margin-top: 20px !important;
+    }
+
+    .username {
+        width: fit-content;
+        justify-content: center;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+    }
+
+    .medium-desc {
+        width: 230px !important;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+        margin-top: 40px !important;
+    }
+
+    .bottom-row-medium {
+        margin-top: 30px;
+    }
+
+    .moreBtn-medium {
+        font-size: 14px !important;
+        margin-right: 30px;
+        margin-bottom: 10px !important;
+    }
+
+    /* covers */
+    .cover {
+        width: 200px !important;
+        height: 340px !important;
+    }
+
+    .category-overlay {
+        font-size: 15px !important;
+        top: 20px;
+    }
+
+    .book-title {
+        font-size: 18px !important;
+    }
+
+    .author-p {
+        font-size: 14px !important;
+        width: 170px;
+    }
+
+    .cover-btn {
+        font-size: 14px !important;
+        padding: 5px 10px !important;
+    }
+
+    footer {
+        padding-top: 20px !important;
+    }
+
+    #footer-logo-div {
+        width: 150px !important;
+    }
+
+    #footer-logo {
+        width: 120px;
+        margin-left: 80px;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    #useful-links {
+        padding: 0px;
+    }
+
+    #footer-ul {
+        margin-top: 0.938rem;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email {
+        font-size: 12px !important;
+    }
+}
+
+@media (min-width: 376px) and (max-width:425px) {
+    #logo {
+        width: 100px;
+    }
+
+    .navbar-toggler {
+        width: 30px;
+        height: 30px;
+    }
+
+    .navbar-toggler-icon {
+        width: 20px;
+        position: relative;
+        right: 7.5px;
+        bottom: 4px;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #navbarNav {
+        margin-left: 40px !important;
+    }
+
+    #navbar a {
+        font-size: 15px !important;
+        padding-top: 15px !important;
+        padding-bottom: 0px !important;
+        display: flex !important;
+        justify-content: right;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #profile-icon img.rounded-circle {
+        width: 40px;
+        height: 40px;
+        margin-right: 50px;
+        margin-top: 10px;
+    }
+
+    #userName-p {
+        font-size: 12px !important;
+    }
+
+    .dropdown-toggle {
+        margin-right: 40px;
+    }
+
+    .dropdown-menu {
+        padding-top: 0px !important;
+    }
+
+    /* first sec. */
+    #welcome {
+        font-size: 22px !important;
+        text-align: center;
+    }
+
+    #first-section {
+        height: fit-content !important;
+    }
+
+    #first-s-card {
+        margin-top: 0px;
+        position: static;
+
+    }
+
+    .full-card {
+        width: 280px !important;
+    }
+
+    .col-8,
+    .col-4 {
+        width: 100% !important;
+    }
+
+    .picSide img {
+        margin-left: 50px;
+        height: 260px !important;
+        width: 160px !important;
+        border-radius: 5px !important;
+        top: 30px !important;
+        left: 0px !important;
+        box-shadow: none !important;
+    }
+
+    .textSide {
+        text-align: center;
+        padding-left: 25px !important;
+        padding-right: 25px !important;
+        margin-top: 15px;
+    }
+
+    .textH2 {
+        font-size: 17px !important;
+    }
+
+    .bigUsername,
+    .username {
+        font-size: 13px !important;
+        margin-bottom: 0px;
+    }
+
+    .description,
+    .medium-desc {
+        font-size: 12px !important;
+        margin-top: 8px !important;
+        margin-bottom: 20pxpx;
+        padding-right: 0px !important;
+    }
+
+    .bottom-row,
+    .bottom-row-medium {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px !important;
+        position: static !important;
+    }
+
+    .bottom-row {
+        margin-bottom: 20px;
+    }
+
+    #randomBook-btn {
+        margin-left: 60px;
+        font-size: 14px !important;
+        margin-bottom: 0px;
+        padding: 5px 10px;
+    }
+
+    .category {
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+        font-size: 13px !important;
+        width: fit-content;
+    }
+
+    /* medium cards */
+    .sub-sections {
+        margin-top: 50px !important;
+    }
+
+    .subtitle {
+        font-size: 20px;
+        text-align: center;
+        margin-left: 0px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .medium-card {
+        width: 280px !important;
+        height: fit-content !important;
+        padding-top: 15px;
+        padding-bottom: 30px;
+    }
+
+    #s2-mediumC-pic,
+    #s3-mediumCardPic-div,
+    #s4-mediumCardPic-div,
+    #s5-mediumCardPic-div,
+    .col-9 {
+        width: 100% !important;
+    }
+
+    .col-3 {
+        width: 50%;
+    }
+
+    .medium-pic {
+        height: 260px !important;
+        width: 160px !important;
+        border-radius: 5px !important;
+        margin-left: 60px;
+        margin-top: 10px;
+    }
+
+    .medium-right-side {
+        justify-content: center !important;
+        align-items: center;
+    }
+
+    .medium-h2 {
+        display: flex;
+        margin-left: 0px !important;
+        text-align: center;
+        justify-content: center;
+        font-size: 15px !important;
+        margin-top: 20px !important;
+    }
+
+    .username {
+        width: fit-content;
+        justify-content: center;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+    }
+
+    .medium-desc {
+        width: 230px !important;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+        margin-top: 40px !important;
+    }
+
+    .bottom-row-medium {
+        margin-top: 30px;
+    }
+
+    .moreBtn-medium {
+        font-size: 14px !important;
+        margin-right: 30px;
+        margin-bottom: 10px !important;
+    }
+
+    /* covers */
+    .cover {
+        width: 160px !important;
+        height: 270px !important;
+    }
+
+    .category-overlay {
+        font-size: 12px !important;
+        top: 20px;
+    }
+
+    .book-title {
+        font-size: 15px !important;
+    }
+
+    .author-p {
+        font-size: 12px !important;
+        width: 170px;
+    }
+
+    .cover-btn {
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+    }
+
+    footer {
+        padding-top: 20px !important;
+    }
+
+    #footer-logo-div {
+        width: 130px !important;
+    }
+
+    #footer-logo {
+        width: 160px;
+        margin-left: 100px;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    #useful-links {
+        padding: 0px;
+    }
+
+    #footer-ul {
+        margin-top: 0.938rem;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email {
+        font-size: 12px !important;
+    }
+
+    #copy-right {
+        margin-bottom: 0px;
+    }
+}
+
+@media (min-width: 426px) and (max-width: 500px) {
+    #logo {
+        width: 100px;
+    }
+
+    .navbar-toggler {
+        width: 30px;
+        height: 30px;
+    }
+
+    .navbar-toggler-icon {
+        width: 20px;
+        position: relative;
+        right: 7.5px;
+        bottom: 4px;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #navbarNav {
+        margin-left: 40px !important;
+    }
+
+    #navbar a {
+        font-size: 15px !important;
+        padding-top: 15px !important;
+        padding-bottom: 0px !important;
+        display: flex !important;
+        justify-content: right;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #profile-icon img.rounded-circle {
+        width: 40px;
+        height: 40px;
+        margin-right: 50px;
+        margin-top: 10px;
+    }
+
+    #userName-p {
+        font-size: 12px !important;
+    }
+
+    .dropdown-toggle {
+        margin-right: 40px;
+    }
+
+    .dropdown-menu {
+        padding-top: 0px !important;
+    }
+
+    /* first sec. */
+    #welcome {
+        font-size: 22px !important;
+        text-align: center;
+    }
+
+    #first-section {
+        height: fit-content !important;
+    }
+
+    #first-s-card {
+        margin-top: 0px;
+        position: static;
+
+    }
+
+    .full-card {
+        width: 280px !important;
+    }
+
+    .col-8,
+    .col-4 {
+        width: 100% !important;
+    }
+
+    .picSide img {
+        margin-left: 50px;
+        height: 260px !important;
+        width: 160px !important;
+        border-radius: 5px !important;
+        top: 30px !important;
+        left: 0px !important;
+        box-shadow: none !important;
+    }
+
+    .textSide {
+        text-align: center;
+        padding-left: 25px !important;
+        padding-right: 25px !important;
+        margin-top: 15px;
+    }
+
+    .textH2 {
+        font-size: 17px !important;
+    }
+
+    .bigUsername,
+    .username {
+        font-size: 13px !important;
+        margin-bottom: 0px;
+    }
+
+    .description,
+    .medium-desc {
+        font-size: 12px !important;
+        margin-top: 8px !important;
+        margin-bottom: 20pxpx;
+        padding-right: 0px !important;
+    }
+
+    .bottom-row,
+    .bottom-row-medium {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px !important;
+        position: static !important;
+    }
+
+    .bottom-row {
+        margin-bottom: 20px;
+    }
+
+    #randomBook-btn {
+        margin-left: 60px;
+        font-size: 14px !important;
+        margin-bottom: 0px;
+        padding: 5px 10px;
+    }
+
+    .category {
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+        font-size: 13px !important;
+        width: fit-content;
+    }
+
+    /* medium cards */
+    .sub-sections {
+        margin-top: 50px !important;
+    }
+
+    .subtitle {
+        font-size: 20px;
+        text-align: center;
+        margin-left: 0px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .medium-card {
+        width: 280px !important;
+        height: fit-content !important;
+        padding-top: 15px;
+        padding-bottom: 30px;
+    }
+
+    #s2-mediumC-pic,
+    #s3-mediumCardPic-div,
+    #s4-mediumCardPic-div,
+    #s5-mediumCardPic-div,
+    .col-9 {
+        width: 100% !important;
+    }
+
+    .col-3 {
+        width: 50%;
+    }
+
+    .medium-pic {
+        height: 260px !important;
+        width: 160px !important;
+        border-radius: 5px !important;
+        margin-left: 60px;
+        margin-top: 10px;
+    }
+
+    .medium-right-side {
+        justify-content: center !important;
+        align-items: center;
+    }
+
+    .medium-h2 {
+        display: flex;
+        margin-left: 0px !important;
+        text-align: center;
+        justify-content: center;
+        font-size: 15px !important;
+        margin-top: 20px !important;
+    }
+
+    .username {
+        width: fit-content;
+        justify-content: center;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+    }
+
+    .medium-desc {
+        width: 230px !important;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+        margin-top: 40px !important;
+    }
+
+    .bottom-row-medium {
+        margin-top: 30px;
+    }
+
+    .moreBtn-medium {
+        font-size: 14px !important;
+        margin-right: 30px;
+        margin-bottom: 10px !important;
+    }
+
+    /* covers */
+    .cover {
+        width: 160px !important;
+        height: 270px !important;
+    }
+
+    .category-overlay {
+        font-size: 12px !important;
+        top: 20px;
+    }
+
+    .book-title {
+        font-size: 15px !important;
+    }
+
+    .author-p {
+        font-size: 12px !important;
+        width: 170px;
+    }
+
+    .cover-btn {
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+    }
+
+    footer {
+        padding-top: 20px !important;
+    }
+
+    #footer-logo-div {
+        width: 130px !important;
+    }
+
+    #footer-logo {
+        width: 160px;
+        margin-left: 100px;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    #useful-links {
+        padding: 0px;
+    }
+
+    #footer-ul {
+        margin-top: 0.938rem;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email {
+        font-size: 12px !important;
+    }
+
+    #copy-right {
+        margin-bottom: 0px;
+    }
+}
+
+@media (min-width: 501px) and (max-width: 630px) {
+    #logo {
+        width: 100px;
+    }
+
+    .navbar-toggler {
+        width: 30px;
+        height: 30px;
+    }
+
+    .navbar-toggler-icon {
+        width: 20px;
+        position: relative;
+        right: 7.5px;
+        bottom: 4px;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #navbarNav {
+        margin-left: 40px !important;
+    }
+
+    #navbar a {
+        font-size: 15px !important;
+        padding-top: 15px !important;
+        padding-bottom: 0px !important;
+        display: flex !important;
+        justify-content: right;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #profile-icon img.rounded-circle {
+        width: 40px;
+        height: 40px;
+        margin-right: 50px;
+        margin-top: 10px;
+    }
+
+    #userName-p {
+        font-size: 12px !important;
+    }
+
+    .dropdown-toggle {
+        margin-right: 40px;
+    }
+
+    .dropdown-menu {
+        padding-top: 0px !important;
+    }
+
+    /* first sec. */
+    #welcome {
+        font-size: 25px !important;
+        text-align: center;
+    }
+
+    #first-section {
+        height: fit-content !important;
+    }
+
+    #first-s-card {
+        margin-top: 0px;
+        position: static;
+
+    }
+
+    .full-card {
+        width: 340px !important;
+    }
+
+    .col-8,
+    .col-4 {
+        width: 100% !important;
+    }
+
+    .picSide img {
+        margin-left: 50px;
+        height: 360px !important;
+        width: 220px !important;
+        border-radius: 5px !important;
+        top: 30px !important;
+        left: 0px !important;
+        box-shadow: none !important;
+    }
+
+    .textSide {
+        text-align: center;
+        padding-left: 45px !important;
+        padding-right: 45px !important;
+        margin-top: 15px;
+    }
+
+    .textH2 {
+        font-size: 20px !important;
+    }
+
+    .bigUsername,
+    .username {
+        font-size: 15px !important;
+        margin-bottom: 0px;
+    }
+
+    .description,
+    .medium-desc {
+        font-size: 15px !important;
+        margin-top: 8px !important;
+        margin-bottom: 20pxpx;
+        padding-right: 0px !important;
+    }
+
+    .bottom-row,
+    .bottom-row-medium {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px !important;
+        position: static !important;
+    }
+
+    .bottom-row {
+        margin-bottom: 20px;
+    }
+
+    #randomBook-btn {
+        margin-left: 60px;
+        font-size: 16px !important;
+        margin-bottom: 0px;
+        padding: 5px 15px;
+    }
+
+    .category {
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+        font-size: 13px !important;
+        width: fit-content;
+    }
+
+    /* medium cards */
+    .sub-sections {
+        margin-top: 50px !important;
+    }
+
+    .subtitle {
+        font-size: 20px;
+        text-align: center;
+        margin-left: 0px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .medium-card {
+        width: 340px !important;
+        height: fit-content !important;
+        padding-top: 15px;
+        padding-bottom: 30px;
+    }
+
+    #s2-mediumC-pic,
+    #s3-mediumCardPic-div,
+    #s4-mediumCardPic-div,
+    #s5-mediumCardPic-div,
+    .col-9 {
+        width: 100% !important;
+    }
+
+    .col-3 {
+        width: 30%;
+    }
+
+    .medium-pic {
+        height: 360px !important;
+        width: 220px !important;
+        border-radius: 5px !important;
+        margin-left: 60px;
+        margin-top: 10px;
+    }
+
+    .medium-right-side {
+        justify-content: center !important;
+        align-items: center;
+    }
+
+    .medium-h2 {
+        display: flex;
+        margin-left: 0px !important;
+        text-align: center;
+        justify-content: center;
+        font-size: 20px !important;
+        margin-top: 20px !important;
+    }
+
+    .username {
+        width: fit-content;
+        justify-content: center;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+    }
+
+    .medium-desc {
+        width: 230px !important;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+        margin-top: 40px !important;
+    }
+
+    .bottom-row-medium {
+        margin-top: 30px;
+    }
+
+    .moreBtn-medium {
+        font-size: 15px !important;
+        margin-right: 30px;
+        margin-bottom: 10px !important;
+    }
+
+    /* covers */
+    .cover {
+        width: 140px !important;
+        height: 250px !important;
+    }
+
+    .row {
+        gap: 10px;
+    }
+
+    .book-row {
+        width: fit-content;
+        padding-left: 20px;
+    }
+
+    .category-overlay {
+        font-size: 12px !important;
+        top: 20px;
+    }
+
+    .book-title {
+        font-size: 15px !important;
+    }
+
+    .author-p {
+        font-size: 12px !important;
+        width: 170px;
+    }
+
+    .cover-btn {
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+    }
+
+    footer {
+        padding-top: 20px !important;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email {
+        font-size: 15px !important;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    #footer-ul {
+        margin-top: 5px;
+    }
+
+    #footer-logo-div {
+        width: 150px !important;
+    }
+
+    #footer-logo {
+        width: 120px;
+        margin-left: 155px;
+    }
+
+    #copy-right {
+        margin-bottom: 0px;
+    }
+}
+
+@media (min-width: 631px) and (max-width: 767px) {
+    #logo {
+        width: 100px;
+    }
+
+    .navbar-toggler {
+        width: 30px;
+        height: 30px;
+    }
+
+    .navbar-toggler-icon {
+        width: 20px;
+        position: relative;
+        right: 7.5px;
+        bottom: 4px;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #navbarNav {
+        margin-left: 40px !important;
+    }
+
+    #navbar a {
+        font-size: 15px !important;
+        padding-top: 15px !important;
+        padding-bottom: 0px !important;
+        display: flex !important;
+        justify-content: right;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #profile-icon img.rounded-circle {
+        width: 40px;
+        height: 40px;
+        margin-right: 50px;
+        margin-top: 10px;
+    }
+
+    #userName-p {
+        font-size: 12px !important;
+    }
+
+    .dropdown-toggle {
+        margin-right: 40px;
+    }
+
+    .dropdown-menu {
+        padding-top: 0px !important;
+    }
+
+    /* first sec. */
+    #welcome {
+        font-size: 25px !important;
+        text-align: center;
+    }
+
+    #first-section {
+        height: fit-content !important;
+    }
+
+    #first-s-card {
+        margin-top: 0px;
+        position: static;
+
+    }
+
+    .full-card {
+        width: 340px !important;
+    }
+
+    .col-8,
+    .col-4 {
+        width: 100% !important;
+    }
+
+    .picSide img {
+        margin-left: 50px;
+        height: 360px !important;
+        width: 220px !important;
+        border-radius: 5px !important;
+        top: 30px !important;
+        left: 0px !important;
+        box-shadow: none !important;
+    }
+
+    .textSide {
+        text-align: center;
+        padding-left: 45px !important;
+        padding-right: 45px !important;
+        margin-top: 15px;
+    }
+
+    .textH2 {
+        font-size: 20px !important;
+    }
+
+    .bigUsername,
+    .username {
+        font-size: 15px !important;
+        margin-bottom: 0px;
+    }
+
+    .description,
+    .medium-desc {
+        font-size: 15px !important;
+        margin-top: 8px !important;
+        margin-bottom: 20pxpx;
+        padding-right: 0px !important;
+    }
+
+    .bottom-row,
+    .bottom-row-medium {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px !important;
+        position: static !important;
+    }
+
+    .bottom-row {
+        margin-bottom: 20px;
+    }
+
+    #randomBook-btn {
+        margin-left: 60px;
+        font-size: 16px !important;
+        margin-bottom: 0px;
+        padding: 5px 15px;
+    }
+
+    .category {
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+        font-size: 13px !important;
+        width: fit-content;
+    }
+
+    /* medium cards */
+    .sub-sections {
+        margin-top: 50px !important;
+    }
+
+    .subtitle {
+        font-size: 20px;
+        text-align: center;
+        margin-left: 0px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .medium-card {
+        width: 340px !important;
+        height: fit-content !important;
+        padding-top: 15px;
+        padding-bottom: 30px;
+    }
+
+    #s2-mediumC-pic,
+    #s3-mediumCardPic-div,
+    #s4-mediumCardPic-div,
+    #s5-mediumCardPic-div,
+    .col-9 {
+        width: 100% !important;
+    }
+
+    .col-3 {
+        width: 30%;
+    }
+
+    .medium-pic {
+        height: 360px !important;
+        width: 220px !important;
+        border-radius: 5px !important;
+        margin-left: 60px;
+        margin-top: 10px;
+    }
+
+    .medium-right-side {
+        justify-content: center !important;
+        align-items: center;
+    }
+
+    .medium-h2 {
+        display: flex;
+        margin-left: 0px !important;
+        text-align: center;
+        justify-content: center;
+        font-size: 20px !important;
+        margin-top: 20px !important;
+    }
+
+    .username {
+        width: fit-content;
+        justify-content: center;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+    }
+
+    .medium-desc {
+        width: 230px !important;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+        margin-top: 40px !important;
+    }
+
+    .bottom-row-medium {
+        margin-top: 30px;
+    }
+
+    .moreBtn-medium {
+        font-size: 15px !important;
+        margin-right: 30px;
+        margin-bottom: 10px !important;
+    }
+
+    /* covers */
+    .cover {
+        width: 140px !important;
+        height: 250px !important;
+    }
+
+    .row {
+        gap: 10px;
+    }
+
+    .book-row {
+        width: fit-content;
+        padding-left: 20px;
+    }
+
+    .category-overlay {
+        font-size: 12px !important;
+        top: 20px;
+    }
+
+    .book-title {
+        font-size: 15px !important;
+    }
+
+    .author-p {
+        font-size: 12px !important;
+        width: 170px;
+    }
+
+    .cover-btn {
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+    }
+
+    footer {
+        padding-top: 20px !important;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email {
+        font-size: 15px !important;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    #footer-ul {
+        margin-top: 5px;
+    }
+
+    #footer-logo-div {
+        width: 150px !important;
+    }
+
+    #footer-logo {
+        width: 120px;
+        margin-left: 155px;
+    }
+
+    #copy-right {
+        margin-bottom: 0px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px){
+    .navbar-toggler {
+        width: 40px;
+        height: 40px;
+    }
+
+    .navbar-toggler-icon {
+        width: 25px;
+        position: relative;
+        right: 5.5px;
+        bottom: 0px;
+    }
+
+    #navbar a {
+        font-size: 20px !important;
+        padding-top: 15px !important;
+        padding-bottom: 0px !important;
+        display: flex !important;
+        justify-content: right;
+    }
+
+    #userName-p {
+        font-size: 20px !important;
+    }
+
+    #profile-icon img.rounded-circle {
+        margin-right: 220px;
+        margin-bottom: 10px;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .dropdown-toggle {
+        margin-right: 220px;
+    }
+
+    .dropdown-item {
+        display: flex !important;
+        justify-content: center !important;
+    }
+
+    /* big card */
+    .picSide img {
+        height: 340px !important;
+        width: 200px !important;
+        left: 10px!important;
+        top: -30px!important;
+    }
+
+    .textH2{
+        font-size: 24px!important;
+    }
+
+    .bigUsername{
+        font-size: 16px;
+        margin-bottom: 0px!important;
+    }
+
+    .description{
+        font-size: 15px!important;
+        margin-top: 10px!important;
+    }
+
+    .bottom-row{
+        display: flex;
+        align-items: center;
+        gap: 150px !important;
+        bottom: 0px!important;
+    }
+
+    .category{
+        margin-bottom: 30px;
+    }
+
+    /* medium cards */
+    .medium-h2{
+        font-size: 20px!important;
+    }
+
+    .username{
+        font-size: 16px!important;
+    }
+
+    .medium-desc{
+        font-size: 14px!important;
+    }
+
+    /* covers */
+    .subtitle{
+        margin-bottom: 40px!important;
+    }
+
+    .cover{
+        width: 140px !important;
+        height: 250px !important;
+    }
+
+    .category-overlay {
+        font-size: 12px !important;
+        top: 20px;
+    }
+
+    .book-title {
+        font-size: 15px !important;
+    }
+
+    .author-p {
+        font-size: 12px !important;
+        width: 170px;
+    }
+
+    .cover-btn {
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1024px){
+    #navbarNav{
+        margin-left: 50px!important;
+    }
+
+    .nav-link{
+        font-size: 16px!important;
+    }
+
+    #profile-icon img.rounded-circle {
+        width: 40px;
+        height: 40px;
+    }
+
+    #userName-p {
+        font-size: 16px !important;
+        padding: 8px!important;
+    }
+    
+    /* big card */
+    .full-card{
+        width: 900px!important;
+    }
+
+    /* medium cards */
+    .medium-h2{
+        font-size: 20px!important;
+    }
+
+    .username{
+        font-size: 16px!important;
+    }
+
+    .medium-desc{
+        font-size: 14px!important;
+    }
+
+    /* covers */
+    .subtitle{
+        margin-bottom: 40px!important;
+    }
+
+    .cover{
+        width: 200px !important;
+        height: 350px !important;
+    }
+
+    .category-overlay {
+        font-size: 12px !important;
+        top: 20px;
+    }
+
+    .book-title {
+        font-size: 15px !important;
+    }
+
+    .author-p {
+        font-size: 12px !important;
+        width: 170px;
+    }
+
+    .cover-btn {
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+    }
+}
+
+@media (min-width: 1025px) and (max-width: 1307px){
+    #navbarNav{
+        margin-left: 90px !important;
+    }
+
+    .nav-link{
+        font-size: 16px!important;
+    }
+
+    #profile-icon img.rounded-circle {
+        width: 40px;
+        height: 40px;
+    }
+
+    #userName-p {
+        font-size: 16px !important;
+        padding: 8px!important;
+    }
+
+    .cover{
+        width: 200px !important;
+        height: 350px !important;
+    }
+
+}
 
 /* ------- Scrollbar ------- */
 /* scrollbar width */
@@ -104,6 +2003,13 @@ nav {
     background-color: var(--page-bg-color);
 }
 
+#usernamePicture {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+}
+
 #navbar {
     padding-right: 5%;
     padding-left: 5%;
@@ -127,7 +2033,8 @@ nav {
 }
 
 .nav-link:hover {
-    color: var(--navbar-a-hover-color)!important;
+    cursor: pointer !important;
+    color: var(--navbar-a-hover-color) !important;
     text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
     text-underline-offset: 0.281rem;
 }
@@ -143,49 +2050,28 @@ nav {
     cursor: pointer;
 }
 
-#profile-icon img{
+#profile-icon img,
+.smaller-user-profile-pic {
     width: 50px;
+    height: 50px;
     background-size: cover;
     background-position: center;
     cursor: pointer;
 }
 
-#navbarNav{
+#navbarNav {
     margin-left: 90px;
 }
 
-#writingBtn, #writingBtn-zeroData{
-    font-size: medium;
-    font-family: 'Inter', sans-serif;
-    color: var(--btn-text-color);
-    border: 1px solid var(--primary-BTN-Bg-color);
-    border-radius: 1.5rem;
-    background-color: var(--primary-BTN-Bg-color);
-    padding: 0.625rem 1.25rem;
-    transition: color 0.8s ease;
-    transition: background-color 0.3s ease;
-    line-height: 1.125rem;
-    box-sizing: border-box;
-    margin-right: 50px;
-}
-
-#writingBtn:hover, #writingBtn-zeroData:hover{
-    transition: color 0.8s ease;
-    transition: background-color 0.3s ease;
-    background-color: rgb(247, 245, 236);
-    color: var(--mostUsed-text-color);
-    border: dashed 0.094rem var(--dash-color);
-}
-
-.dropdown-menu li{
+.dropdown-menu li {
     padding: 5px;
     margin-bottom: 5px;
 }
 
-.dropdown-menu a:hover{
+.dropdown-menu a:hover {
     background-color: transparent;
     cursor: pointer;
-    color: var(--navbar-a-hover-color)!important;
+    color: var(--navbar-a-hover-color) !important;
 }
 
 /* --------------- TITLES AND ROWS NAD GENERAL STUFF ---------------*/
@@ -324,7 +2210,7 @@ section{
     background-color: #EAD7BE;
     margin-top: 85px;
     border-radius: 20px !important;
-    width: 950px !important;
+    width: 950px;
     height: fit-content;
     border-radius: 15px !important;
     box-shadow: 8px 8px 4px #3a3a3a2c;
@@ -375,7 +2261,7 @@ section{
     padding-bottom: 0 !important;
     padding-right: 40px;
     font-family: 'Poppins-Regular', sans-serif;
-    font-size: 18px !important;
+    font-size: 18px;
     margin-top: 4%;
 }
 
@@ -386,7 +2272,7 @@ section{
     border: 3px solid #895372;
     border-radius: 20px !important;
     font-family: 'PTsans-Regular', sans-serif !important;
-    font-size: 18px !important;
+    font-size: 18px;
     letter-spacing: 0.7px;
     background: linear-gradient(145deg, #713D5A, #995D7F) !important;
     padding: 5px 20px 5px;

@@ -17,7 +17,7 @@
 
 <body style="background-color: rgb(247, 245, 236)">
     <!-- NAVBAR -->
-    <nav class="navbar fixed-top navbar-expand-lg" id="navbar">
+    <nav class="navbar fixed-top navbar-expand-lg" id="navbar" style="background-color: rgb(247, 245, 236);">
         <div class="container-fluid">
             <img src="../pictures/LOGO.svg" alt="Logo" width="125" height="40" class="d-inline-block align-text-top"
                 id="logo" />
@@ -27,30 +27,31 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse  justify-content-center" id="navbarNav">
-                <div class="navbar-nav text-center">
-                    <a class="nav-link active" aria-current="page" id="HomePage" onclick="window.location.reload()">Home
-                        Page</a>
+            <div class="collapse navbar-collapse " id="navbarNav" style="margin-left: 195px;">
+                <div class="navbar-nav text-center justify-content-center">
+                    <a class="nav-link active" aria-current="page" id="HomePage" onclick="window.location.reload()">Home Page</a>
                     <a class="nav-link" id="Feed" href="../Feed/feed.html">Feed</a>
                     <a class="nav-link" id="Explore" href="../Explore/explore.html">Explore</a>
                     <a class="nav-link" id="SavedBooks" href="../MyBooks/mybooks.html">Saved Books</a>
                 </div>
 
-            </div>
-            <div id="profile-icon">
-                <img class="rounded-circle" src="../pictures/default-profile-pic-man.png" alt="profile picture"></img>
-            </div>
-            <div id="user-name">
-                <div class="dropdown">
-                    <button class="bg-transparent border-0 dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        <p id="userName-p"></p>
-                    </button>
+                <div id="usernamePicture">
+                    <div id="profile-icon" class="rounded-circle"></div>
 
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" id="Logout">Log Out</a></li>
-                        <li id="profile-link"><a class="dropdown-item">Profile</a></li>
-                    </ul>
+                    <div id="user-name">
+                        <div class="dropdown">
+                            <button class="bg-transparent border-0 dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <p id="userName-p"></p>
+                            </button>
+
+                            <ul class="dropdown-menu">
+                                <li id="profile-link"><a class="dropdown-item">Profile</a></li>
+                                <li><a class="dropdown-item" id="Logout">Log Out</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
