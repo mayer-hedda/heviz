@@ -267,6 +267,7 @@ form{
     position: relative;
     margin-bottom: 50px;
     cursor: pointer;
+    padding: 0px;
 }
 
 #title-h2 {
@@ -282,13 +283,6 @@ form{
     column-gap: 40px;
 }
 
-.image-container {
-    position: relative;
-    margin-bottom: 50px;
-    cursor: pointer;
-    text-align: center;
-}
-
 .default {
     border-radius: 30px;
     outline: 3.5px solid var(--primary);
@@ -302,7 +296,7 @@ form{
 }
 
 #nineth-row-pics{
-    margin-right: 775px;
+    margin-right: 100px;
 }
 
 /* --------------- FOOTER ---------------*/
