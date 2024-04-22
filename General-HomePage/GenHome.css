@@ -350,8 +350,16 @@
 
     footer ul li a,
     #phone-num,
-    #email {
+    #email,
+    #facebook,
+    #instagram,
+    #help-center {
         font-size: 12px !important;
+    }
+
+    #aboutus img {
+        width: 20px !important;
+        height: 20px !important;
     }
 }
 
@@ -634,12 +642,20 @@
 
     footer ul li a,
     #phone-num,
-    #email {
+    #email,
+    #facebook,
+    #instagram,
+    #help-center {
         font-size: 12px !important;
+    }
+
+    #aboutus img {
+        width: 20px !important;
+        height: 20px !important;
     }
 }
 
-@media (min-width: 376px) and (max-width:425px) {
+@media (min-width: 377px) and (max-width:425px) {
     #logo {
         width: 100px;
     }
@@ -925,8 +941,16 @@
 
     footer ul li a,
     #phone-num,
-    #email {
+    #email,
+    #facebook,
+    #instagram,
+    #help-center {
         font-size: 12px !important;
+    }
+
+    #aboutus img {
+        width: 20px !important;
+        height: 20px !important;
     }
 
     #copy-right {
@@ -1220,8 +1244,16 @@
 
     footer ul li a,
     #phone-num,
-    #email {
+    #email,
+    #facebook,
+    #instagram,
+    #help-center {
         font-size: 12px !important;
+    }
+
+    #aboutus img {
+        width: 20px !important;
+        height: 20px !important;
     }
 
     #copy-right {
@@ -1501,8 +1533,16 @@
 
     footer ul li a,
     #phone-num,
-    #email {
+    #email,
+    #facebook,
+    #instagram,
+    #help-center {
         font-size: 15px !important;
+    }
+
+    #aboutus img {
+        width: 25px !important;
+        height: 25px !important;
     }
 
     footer h3 {
@@ -1802,8 +1842,16 @@
 
     footer ul li a,
     #phone-num,
-    #email {
+    #email,
+    #facebook,
+    #instagram,
+    #help-center {
         font-size: 15px !important;
+    }
+
+    #aboutus img {
+        width: 25px !important;
+        height: 25px !important;
     }
 
     footer h3 {
@@ -1831,7 +1879,7 @@
     }
 }
 
-@media (min-width: 768px) and (max-width: 991px){
+@media (min-width: 768px) and (max-width: 991px) {
     .navbar-toggler {
         width: 40px;
         height: 40px;
@@ -1888,54 +1936,54 @@
     .picSide img {
         height: 340px !important;
         width: 200px !important;
-        left: 10px!important;
-        top: -30px!important;
+        left: 10px !important;
+        top: -30px !important;
     }
 
-    .textH2{
-        font-size: 24px!important;
+    .textH2 {
+        font-size: 24px !important;
     }
 
-    .bigUsername{
+    .bigUsername {
         font-size: 16px;
-        margin-bottom: 0px!important;
+        margin-bottom: 0px !important;
     }
 
-    .description{
-        font-size: 15px!important;
-        margin-top: 10px!important;
+    .description {
+        font-size: 15px !important;
+        margin-top: 10px !important;
     }
 
-    .bottom-row{
+    .bottom-row {
         display: flex;
         align-items: center;
         gap: 150px !important;
-        bottom: 0px!important;
+        bottom: 0px !important;
     }
 
-    .category{
+    .category {
         margin-bottom: 30px;
     }
 
     /* medium cards */
-    .medium-h2{
-        font-size: 20px!important;
+    .medium-h2 {
+        font-size: 20px !important;
     }
 
-    .username{
-        font-size: 16px!important;
+    .username {
+        font-size: 16px !important;
     }
 
-    .medium-desc{
-        font-size: 14px!important;
+    .medium-desc {
+        font-size: 14px !important;
     }
 
     /* covers */
-    .subtitle{
-        margin-bottom: 40px!important;
+    .subtitle {
+        margin-bottom: 40px !important;
     }
 
-    .cover{
+    .cover {
         width: 140px !important;
         height: 250px !important;
     }
@@ -1960,19 +2008,19 @@
     }
 }
 
-@media (min-width: 992px) and (max-width: 1024px){
-    #navbarNav{
-        margin-left: 50px!important;
+@media (min-width: 992px) and (max-width: 1024px) {
+    #navbarNav {
+        margin-left: 50px !important;
     }
 
-    .nav-link{
-        font-size: 16px!important;
+    .nav-link {
+        font-size: 16px !important;
     }
 
     #writingBtn {
         font-size: 13px !important;
-        padding: 5px 10px!important;
-        margin-right: 20px!important;
+        padding: 5px 10px !important;
+        margin-right: 20px !important;
     }
 
     #profile-icon img.rounded-circle {
@@ -1982,33 +2030,33 @@
 
     #userName-p {
         font-size: 16px !important;
-        padding: 8px!important;
+        padding: 8px !important;
     }
-    
+
     /* big card */
-    .full-card{
-        width: 900px!important;
+    .full-card {
+        width: 900px !important;
     }
 
     /* medium cards */
-    .medium-h2{
-        font-size: 20px!important;
+    .medium-h2 {
+        font-size: 20px !important;
     }
 
-    .username{
-        font-size: 16px!important;
+    .username {
+        font-size: 16px !important;
     }
 
-    .medium-desc{
-        font-size: 14px!important;
+    .medium-desc {
+        font-size: 14px !important;
     }
 
     /* covers */
-    .subtitle{
-        margin-bottom: 40px!important;
+    .subtitle {
+        margin-bottom: 40px !important;
     }
 
-    .cover{
+    .cover {
         width: 200px !important;
         height: 350px !important;
     }
@@ -2033,19 +2081,19 @@
     }
 }
 
-@media (min-width: 1025px) and (max-width: 1307px){
-    #navbarNav{
+@media (min-width: 1025px) and (max-width: 1307px) {
+    #navbarNav {
         margin-left: 90px !important;
     }
 
-    .nav-link{
-        font-size: 16px!important;
+    .nav-link {
+        font-size: 16px !important;
     }
 
     #writingBtn {
         font-size: 13px !important;
-        padding: 5px 10px!important;
-        margin-right: 20px!important;
+        padding: 5px 10px !important;
+        margin-right: 20px !important;
     }
 
     #profile-icon img.rounded-circle {
@@ -2055,10 +2103,10 @@
 
     #userName-p {
         font-size: 16px !important;
-        padding: 8px!important;
+        padding: 8px !important;
     }
 
-    .cover{
+    .cover {
         width: 200px !important;
         height: 350px !important;
     }

@@ -55,11 +55,10 @@ window.onload = async function () {
             own_username = tokenResponse.data.username;
 
             username.innerText = `@${tokenResponse.data.username}`;
-            profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;
+            profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture" class="rounded-circle"></img>`;
 
             document.getElementById('profile-link').addEventListener('click', (e) => {
                navigateToProfile(tokenResponse.data.username);
-                // window.location.href = `../Profile/profile.html?username=${tokenResponse.data.username}`;
             });
 
             const HomePage = document.getElementById('HomePage');

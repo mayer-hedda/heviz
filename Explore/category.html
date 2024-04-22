@@ -28,8 +28,8 @@
 
 <body style="background-color: rgb(247, 245, 236)">
 
-    <!-- Navbar -->
-    <nav class="navbar fixed-top navbar-expand-lg" id="navbar">
+    <!-- NAVBAR -->
+    <nav class="navbar fixed-top navbar-expand-lg" id="navbar" style="background-color: rgb(247, 245, 236);">
         <div class="container-fluid">
             <img src="../pictures/LOGO.svg" alt="Logo" width="125" height="40" class="d-inline-block align-text-top"
                 id="logo" />
@@ -39,37 +39,36 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse  justify-content-center" id="navbarNav">
-                <div class="navbar-nav text-center">
-                    <a class="nav-link" aria-current="page" id="HomePage">Home Page</a>
+            <div class="collapse navbar-collapse " id="navbarNav" style="margin-left: 195px;">
+                <div class="navbar-nav text-center justify-content-center">
+                    <a class="nav-link" aria-current="page" id="HomePage" onclick="window.location.reload()">Home Page</a>
                     <a class="nav-link" id="Feed" href="../Feed/feed.html">Feed</a>
-                    <a class="nav-link  active" id="Explore" href="./explore.html">Explore</a>
-                    <a class="nav-link" id="SavedBooks" href="../MyBooks/mybooks.html"></a>
+                    <a class="nav-link active" id="Explore" href="../Explore/explore.html">Explore</a>
+                    <a class="nav-link" id="SavedBooks" href="../MyBooks/mybooks.html">My Books</a>
                 </div>
 
-            </div>
-
-            <button role="button" type="submit" class="btn align-content-center" id="writingBtn"
-                onclick="window.location.href='../Create Book/createBook.html'">
-                Start Writing
-            </button>
-
-            <!--? Profilkép helye -->
-            <div id="profile-icon">
-                <!--* be kell szúrnom egy img taget  -->
-            </div>
-            <!--? User nevének helye -->
-            <div id="user-name">
-                <div class="dropdown">
-                    <button class="bg-transparent border-0 dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        <p id="userName-p">Username</p>
+                <div id="usernamePicture">
+                    <button role="button" type="submit" class="btn align-content-center" id="writingBtn"
+                        onclick="window.location.href='../Create Book/createBook.html'">
+                        Start Witing
                     </button>
 
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" id="profile-link">Profile</a></li>
-                        <li><a class="dropdown-item" id="Logout">Log Out</a></li>
-                    </ul>
+                    <div id="profile-icon" class="rounded-circle"></div>
+
+                    <div id="user-name">
+                        <div class="dropdown">
+                            <button class="bg-transparent border-0 dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <p id="userName-p"></p>
+                            </button>
+
+                            <ul class="dropdown-menu">
+                                <li id="profile-link"><a class="dropdown-item">Profile</a></li>
+                                <li><a class="dropdown-item" id="Logout">Log Out</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

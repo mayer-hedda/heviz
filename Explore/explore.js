@@ -37,7 +37,7 @@ window.onload = async function () {
 
             own_un = tokenResponse.data.username;
             username.innerText = `@${own_un}`;
-            profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${own_un} profile picture"></img>`;
+            profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${own_un} profile picture" class="rounded-circle"></img>`;
 
             document.getElementById('profile-link').addEventListener('click', (e) => {
                 localStorage.setItem("username", own_un);
