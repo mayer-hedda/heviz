@@ -241,6 +241,8 @@ async function token() {
             * language
             * saved
             * price
+            * category
+            * purchased
     * 
     * 401: 
         * User hasn't token
@@ -302,6 +304,8 @@ async function getMostSavedBooksOfTheMonth() {
             * language
             * saved
             * price
+            * category
+            * purchased
     * 
     * 401: 
         * User hasn't token
@@ -363,6 +367,8 @@ async function getPublishedBooks() {
             * language
             * saved
             * price
+            * category
+            * purchased
     * 
     * 401: 
         * User hasn't token
@@ -424,6 +430,8 @@ async function getSelfPublishedBooks() {
             * language
             * saved
             * price
+            * category
+            * purchased
     * 
     * 401:
         * User hasn't token
@@ -485,6 +493,8 @@ async function getOneRandomBook() {
             * language
             * saved
             * price
+            * category
+            * purchased
     * 
     * 401:
         * User hasn't token
@@ -1228,6 +1238,7 @@ async function getAllCategory() {
         * language
         * saved
         * price
+        * category
     * 
     * 401:
         * User hasn't token
@@ -1287,6 +1298,7 @@ async function getOneRandomLookingForPublisherBook() {
         * language
         * saved
         * price
+        * category
     * 
     * 401:
         * User hasn't token
@@ -1502,6 +1514,8 @@ async function getUserDetails(raw) {
             * language
             * saved
             * price
+            * category
+            * purchased (if the user is general user)
         * own books
     * 
     * 401:
@@ -1509,7 +1523,9 @@ async function getUserDetails(raw) {
         * Invalid token
         * The token has expired
     * 
-    * 422: prifileUsernameError
+    * 422: 
+        * profileUsernameError
+        * eligibilityError
  */
 async function getUserBooks(raw) {
     var myHeaders = new Headers();
@@ -2102,6 +2118,8 @@ async function getActiveHelpCenter() {
             * saved
             * price
             * username
+            * category
+            * purchased
     * 401:
         * User hasn't token
         * Invalid token
@@ -2176,6 +2194,8 @@ async function getAllBooksByCategory(raw) {
             * saved
             * price
             * username
+            * category
+            * purchased
     * 401:
         * User hasn't token
         * Invalid token
@@ -2246,6 +2266,8 @@ async function getFilteredBooks(raw) {
             * saved
             * price
             * username
+            * category
+            * purchased
     * 401:
         * User hasn't token
         * Invalid token
@@ -2312,6 +2334,8 @@ async function getSearchBooks(raw) {
             * language
             * price
             * username
+            * category
+            * purchased
     * 401:
         * User hasn't token
         * Invalid token
@@ -2370,6 +2394,7 @@ async function getSavedBooksByUserId() {
             * book rating
             * language
             * username
+            * category
     * 401:
         * User hasn't token
         * Invalid token
@@ -2495,6 +2520,8 @@ async function getPublishedBooksByUserId() {
             * saved
             * price
             * username
+            * category
+            * purchased
     * 401:
         * User hasn't token
         * Invalid token
