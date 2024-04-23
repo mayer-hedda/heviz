@@ -243,6 +243,7 @@ async function token() {
             * price
             * category
             * purchased
+            * publisher username
     * 
     * 401: 
         * User hasn't token
@@ -306,6 +307,7 @@ async function getMostSavedBooksOfTheMonth() {
             * price
             * category
             * purchased
+            * publisher username
     * 
     * 401: 
         * User hasn't token
@@ -432,6 +434,7 @@ async function getSelfPublishedBooks() {
             * price
             * category
             * purchased
+            * publisher username
     * 
     * 401:
         * User hasn't token
@@ -495,6 +498,7 @@ async function getOneRandomBook() {
             * price
             * category
             * purchased
+            * publisher username
     * 
     * 401:
         * User hasn't token
@@ -701,6 +705,7 @@ async function addBook(raw) {
             * cover image
             * file
             * bank account number
+            * chapter number
     * 
     * 401: 
         * User hasn't token
@@ -2120,6 +2125,7 @@ async function getActiveHelpCenter() {
             * username
             * category
             * purchased
+            * publisher username
     * 401:
         * User hasn't token
         * Invalid token
@@ -2196,6 +2202,7 @@ async function getAllBooksByCategory(raw) {
             * username
             * category
             * purchased
+            * publisher username
     * 401:
         * User hasn't token
         * Invalid token
@@ -2268,6 +2275,7 @@ async function getFilteredBooks(raw) {
             * username
             * category
             * purchased
+            * publisher username
     * 401:
         * User hasn't token
         * Invalid token
@@ -2336,6 +2344,7 @@ async function getSearchBooks(raw) {
             * username
             * category
             * purchased
+            * publisher username
     * 401:
         * User hasn't token
         * Invalid token
@@ -2395,6 +2404,7 @@ async function getSavedBooksByUserId() {
             * language
             * username
             * category
+            * publisher username
     * 401:
         * User hasn't token
         * Invalid token
@@ -2522,6 +2532,7 @@ async function getPublishedBooksByUserId() {
             * username
             * category
             * purchased
+            * publisher username
     * 401:
         * User hasn't token
         * Invalid token
