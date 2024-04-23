@@ -91,6 +91,14 @@ form {
     align-self: center;
     margin-top: 0;
     margin-bottom: 0;
+
+    position: relative;
+}
+
+.landing {
+    position: absolute;
+    top: 80px;
+    left: 370px;
 }
 
 h1 {
