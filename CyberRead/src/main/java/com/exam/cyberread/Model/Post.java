@@ -182,6 +182,7 @@ public class Post implements Serializable {
             * post time
             * post description
             * liked
+            * like number
      * 
      * @throws PostException: Something wrong
      */
