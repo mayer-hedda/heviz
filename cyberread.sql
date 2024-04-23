@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Ápr 23. 17:23
+-- Létrehozás ideje: 2024. Ápr 23. 19:22
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -193,9 +193,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllBooksByCategory` (IN `userIdI
                 `book`.`price`,
                 `writer`.`username`,
                 `category`.`name`,
-                IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+                IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+                `publish`.`username` AS "publisher username"
             FROM `book`
             INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+            LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
             LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
             LEFT JOIN (
                 SELECT `bookrating`.`bookId`,
@@ -268,7 +270,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getBookDetails` (IN `bookIdIN` INT)
     `book`.`price`,
     `book`.`coverImage`,
     `book`.`file`,
-    `book`.`bankAccountNumber`
+    `book`.`bankAccountNumber`,
+    `book`.`chapterNumber`
 FROM `book`
 WHERE `book`.`id` = bookIdIN$$
 
@@ -369,9 +372,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     `book`.`price`,
                     `writer`.`username`,
                     `category`.`name`,
-                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+                    `publish`.`username` AS "publisher username"
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
                 LEFT JOIN (
                     SELECT `bookrating`.`bookId`,
@@ -433,9 +438,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     `book`.`price`,
                     `writer`.`username`,
                     `category`.`name`,
-                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+                    `publish`.`username` AS "publisher username"
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
                 LEFT JOIN (
                     SELECT `bookrating`.`bookId`,
@@ -497,9 +504,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     `book`.`price`,
                     `writer`.`username`,
                     `category`.`name`,
-                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+                    `publish`.`username` AS "publisher username"
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
                 LEFT JOIN (
                     SELECT `bookrating`.`bookId`,
@@ -561,9 +570,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     `book`.`price`,
                     `writer`.`username`,
                     `category`.`name`,
-                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+                    `publish`.`username` AS "publisher username"
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
                 LEFT JOIN (
                     SELECT `bookrating`.`bookId`,
@@ -626,9 +637,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                         `book`.`price`,
                         `writer`.`username`,
                         `category`.`name`,
-                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+                        `publish`.`username` AS "publisher username"
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
                     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
@@ -658,9 +671,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                         `book`.`price`,
                         `writer`.`username`,
                         `category`.`name`,
-                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+                        `publish`.`username` AS "publisher username"
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
                     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
@@ -690,9 +705,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                         `book`.`price`,
                         `writer`.`username`,
                         `category`.`name`,
-                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+                        `publish`.`username` AS "publisher username"
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
                     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
@@ -726,9 +743,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                         `book`.`price`,
                         `writer`.`username`,
                         `category`.`name`,
-                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+                        `publish`.`username` AS "publisher username"
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
                     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
@@ -758,9 +777,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                         `book`.`price`,
                         `writer`.`username`,
                         `category`.`name`,
-                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+                        `publish`.`username` AS "publisher username"
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
                     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
@@ -790,9 +811,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                         `book`.`price`,
                         `writer`.`username`,
                         `category`.`name`,
-                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+                        `publish`.`username` AS "publisher username"
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
                     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
@@ -846,9 +869,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     `book`.`price`,
                     `writer`.`username`,
                     `category`.`name`,
-                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+                    `publish`.`username` AS "publisher username"
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
                 LEFT JOIN (
                     SELECT `bookrating`.`bookId`,
@@ -859,6 +884,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
                 INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
                 WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
                 ORDER BY `book`.`title` ASC;
             ELSEIF rank = "publisher" THEN
@@ -909,9 +935,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     `book`.`price`,
                     `writer`.`username`,
                     `category`.`name`,
-                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+                    `publish`.`username` AS "publisher username"
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
                 LEFT JOIN (
                     SELECT `bookrating`.`bookId`,
@@ -973,9 +1001,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     `book`.`price`,
                     `writer`.`username`,
                     `category`.`name`,
-                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+                    `publish`.`username` AS "publisher username"
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
                 LEFT JOIN (
                     SELECT `bookrating`.`bookId`,
@@ -1037,9 +1067,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     `book`.`price`,
                     `writer`.`username`,
                     `category`.`name`,
-                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+                    `publish`.`username` AS "publisher username"
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
                 LEFT JOIN (
                     SELECT `bookrating`.`bookId`,
@@ -1102,9 +1134,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                         `book`.`price`,
                         `writer`.`username`,
                         `category`.`name`,
-                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+                        `publish`.`username` AS "publisher username"
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
                     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
@@ -1134,9 +1168,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                         `book`.`price`,
                         `writer`.`username`,
                         `category`.`name`,
-                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+                        `publish`.`username` AS "publisher username"
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
                     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
@@ -1166,9 +1202,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                         `book`.`price`,
                         `writer`.`username`,
                         `category`.`name`,
-                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+                        `publish`.`username` AS "publisher username"
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
                     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
@@ -1202,9 +1240,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                         `book`.`price`,
                         `writer`.`username`,
                         `category`.`name`,
-                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+                        `publish`.`username` AS "publisher username"
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
                     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
@@ -1234,9 +1274,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                         `book`.`price`,
                         `writer`.`username`,
                         `category`.`name`,
-                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+                        `publish`.`username` AS "publisher username"
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
                     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
@@ -1266,9 +1308,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                         `book`.`price`,
                         `writer`.`username`,
                         `category`.`name`,
-                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+                        `publish`.`username` AS "publisher username"
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
                     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
@@ -1307,7 +1351,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getMostSavedBooksOfTheMonth` (IN `u
     IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
     `book`.`price`,
     `category`.`name`,
-    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+    `publish`.`username` AS "publisher username"
 FROM `book`
 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
 LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
@@ -1353,7 +1398,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getOneRandomBook` (IN `userIdIN` IN
     IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
     `book`.`price`, 
     `category`.`name`,
-    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+    `publish`.`username` AS "publisher username"
 FROM `book`
 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
 LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
@@ -1425,9 +1471,11 @@ IF rank = "general" THEN
         `bookrat`.`rat`,
         `language`.`code`,
         `writer`.`username`,
-        `category`.`name`
+        `category`.`name`,
+        `publish`.`username` AS "publisher username"
     FROM `book`
     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
     LEFT JOIN (
         SELECT `bookrating`.`bookId`,
@@ -1460,7 +1508,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getPublishedBooks` (IN `userIdIN` I
     IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
     `book`.`price`,
     `category`.`name`,
-    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+    `publish`.`username` AS "publisher username"
 FROM `book`
 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
 LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
@@ -1627,7 +1676,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getRecommandedBooks` (IN `userIdIN`
     IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
     `book`.`price`, 
     `category`.`name`,
-    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+    `publish`.`username` AS "publisher username"
 FROM `book`
 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
 LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
@@ -1785,9 +1835,11 @@ IF rank = "general" THEN
         `book`.`price`,
         `writer`.`username`,
         `category`.`name`,
-        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+        `publish`.`username` AS "publisher username"
     FROM `book`
     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
     LEFT JOIN (
         SELECT `bookrating`.`bookId`,
@@ -1891,9 +1943,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getSearchBooks` (IN `userIdIN` INT,
             `book`.`price`,
             `writer`.`username`,
             `category`.`name`,
-            IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+            IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
+            `publish`.`username` AS "publisher username"
         FROM `book`
         INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+        LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
         LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
         LEFT JOIN (
             SELECT `bookrating`.`bookId`,
