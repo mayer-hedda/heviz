@@ -24,7 +24,8 @@ const book_price = document.getElementById('book-price');
 const read_btn = document.getElementById('read-btn');
 const save_btn = document.getElementById('save-btn');
 
-// Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
+let isPurchased = false;
+
 window.addEventListener('beforeunload', async function () {
     const tokenResponseBefore = await token();
     if (tokenResponseBefore.status === 401) {
@@ -43,12 +44,10 @@ window.onload = async function () {
             console.error("Error: " + responseUser);
             break;
         case 302:
-            // delete errors and search results from local storage
+            
             localStorage.removeItem('searchResult');
             localStorage.removeItem('Error Code:');
 
-
-            // minden radio btn kicsekkolása az oldal betöltésekor
             const radioButtons = document.querySelectorAll('input[type="radio"]');
             radioButtons.forEach(radioButton => {
                 radioButton.checked = false;
@@ -157,12 +156,13 @@ logout_btn.addEventListener('click', (e) => {
 
 const purchased_books = document.getElementById('purchased-books');
 const saved_books = document.getElementById('saved-books');
-let isPurchased = false;
+
 
 purchased_books.addEventListener('click', async function (event) {
     event.preventDefault();
     isPurchased = true;
-
+    document.getElementById('left-side-content').hidden = true;
+    document.getElementById('left-side').style.backgroundColor = "rgb(247, 245, 236)";
     const radioButtons = document.querySelectorAll('input[type="radio"]');
     radioButtons.forEach(radioButton => {
         radioButton.checked = false;
@@ -222,16 +222,13 @@ purchased_books.addEventListener('click', async function (event) {
             break;
 
     }
-
-
-
-
 });
 
 saved_books.addEventListener('click', async function (event) {
     event.preventDefault();
     isPurchased = false;
-    // minden radio btn kicsekkolása az oldal betöltésekor
+    document.getElementById('left-side-content').hidden = false;
+    document.getElementById('left-side').style.backgroundColor = "#F5EADC";
     const radioButtons = document.querySelectorAll('input[type="radio"]');
     radioButtons.forEach(radioButton => {
         radioButton.checked = false;
@@ -278,8 +275,6 @@ saved_books.addEventListener('click', async function (event) {
             alert("Something went wrong. Please try again later. Status: " + savedResult.status);
             break;
     }
-
-
 });
 
 function LoadBooks(response, isPurchased) {
@@ -477,9 +472,7 @@ mostSaved.addEventListener('change', async function () {
             alert('Please try again later. Status: ' + mostSaved_result.status);
         }
 
-    } else if (this.checked && isPurchased == true) {
-        console.log("Itt fogjuk sorba rendezni a megvett könyveket");
-    }
+    } 
 });
 
 // top rated
@@ -509,9 +502,7 @@ topRated.addEventListener('change', async function () {
             console.log("Status: " + mostRated_result.status);
             console.error("Error: " + mostRated_result.error);
         }
-    } else if (this.checked && isPurchased == true) {
-        console.log("Itt fogjuk sorba rendezni a megvett könyveket");
-    }
+    } 
 });
 
 const selfBooks = document.getElementById('self-published-books-radio');
@@ -522,7 +513,6 @@ selfBooks.addEventListener('change', async function () {
 
         if (self_result.status == 200) {
             if (self_result.data.length == 0) {
-                // console.log(self_result.data.length);
                 book_list.innerHTML = `
                     <div id="zero-purchased" class="text-center">
                         <p class="missing-data-text text-center">You haven't saved any self published books yet.</p>
@@ -539,9 +529,7 @@ selfBooks.addEventListener('change', async function () {
         } else {
             alert('Please try again later. Status: ' + self_result.status);
         }
-    } else if (this.checked && isPurchased == true) {
-        console.log("Itt fogjuk sorba rendezni a megvett könyveket");
-    }
+    } 
 });
 
 
@@ -571,9 +559,7 @@ byPublisher.addEventListener('change', async function () {
         } else {
             alert('Please try again later. Status: ' + publisher_result.status);
         }
-    } else if (this.checked && isPurchased == true) {
-        console.log("Itt fogjuk sorba rendezni a megvett könyveket");
-    }
+    } 
 })
 
 const abc_check = document.querySelectorAll('.ABC-radio');
@@ -628,9 +614,7 @@ abc_check.forEach(function (radioButton) {
                 }
 
             }
-        } else if (this.checked && isPurchased == true) {
-            console.log("Itt fogjuk sorba rendezni a megvett könyveket");
-        }
+        } 
     })
 });
 
@@ -686,9 +670,7 @@ byPrice.forEach(function (radioButton) {
                 }
 
             }
-        } else if (this.checked && isPurchased == true) {
-            console.log("Itt fogjuk sorba rendezni a megvett könyveket");
-        }
+        } 
     });
 });
 
@@ -741,9 +723,7 @@ byDate.forEach(function (radioButton) {
                     alert('Please try again later. Status: ' + date_highToLow.status);
                 }
             }
-        } else if (this.checked && isPurchased == true) {
-            console.log("Itt fogjuk sorba rendezni a megvett könyveket");
-        }
+        } 
     });
 });
 

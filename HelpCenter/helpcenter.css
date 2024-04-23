@@ -415,7 +415,6 @@
 
 }
 
-
 @font-face {
 
     font-family: 'Montserrat-Regular';
@@ -425,21 +424,17 @@
 }
 
 @font-face {
-
     font-family: 'Montserrat-Medium';
     src: url('../fonts/Montserrat/static/Montserrat-Medium.ttf') format('truetype');
     font-weight: 500;
     font-style: normal;
-
 }
 
 @font-face {
-
     font-family: 'Montserrat-Light';
     src: url('../fonts/Montserrat/static/Montserrat-Light.ttf') format('truetype');
     font-weight: 300;
     font-style: normal;
-
 }
 
 @font-face {
@@ -616,7 +611,6 @@ footer ul {
 
 footer ul li {
     font-size: 1.25rem;
-    font-family: 'Montserrat', sans-serif;
 }
 
 footer a {

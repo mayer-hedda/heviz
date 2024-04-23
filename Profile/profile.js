@@ -222,7 +222,6 @@ window.onload = async function () {
 
                         var settingsDetails = await getDetails();
                         addPlaceholder(settingsDetails, "username", input_un);
-                        addPlaceholder(settingsDetails, "website", input_website);
                         addPlaceholder(settingsDetails, "email", input_email);
                         addPlaceholder(settingsDetails, "phoneNumber", input_phoneNumber);
                         addPlaceholder(settingsDetails, "firstName", input_fName);
@@ -243,6 +242,10 @@ window.onload = async function () {
 
                         if (settingsDetails.data.companyName != undefined) {
                             addPlaceholder(settingsDetails, "companyName", input_company);
+                        }
+
+                        if (settingsDetails.data.website != undefined) {
+                            addPlaceholder(settingsDetails, "website", input_website);
                         }
                     }
 

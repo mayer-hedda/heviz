@@ -1,0 +1,118 @@
+:root{
+    --footer-bg-color: rgb(246, 227, 205);
+    --dash-color: rgb(129, 105, 117);
+    --mostUsed-text-color: rgb(65, 61, 63);
+}
+
+/* fonts */
+@font-face {
+    font-family: 'Montserrat-Regular';
+    src: url("../fonts/Montserrat/static/Montserrat-Regular.ttf") format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins-Regular';
+    src: url('../fonts/Poppins/Poppins-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat-SemiBold';
+    src: url("../fonts/Montserrat/static/Montserrat-SemiBold.ttf") format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+/* ------- Scrollbar ------- */
+/* scrollbar width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* scrollbar Track */
+::-webkit-scrollbar-track {
+    background: rgb(235, 233, 224);
+
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #92827a;
+    border-radius: 20px;
+
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #ACA09A;
+}
+
+/* nav */
+nav {
+    background-color: var(--page-bg-color);
+}
+
+#navbar {
+    padding-top: 10px;
+    padding-right: 5%;
+    padding-left: 5%;
+    height: 76px;
+}
+
+#logo{
+    display: flex;
+    justify-content: right;
+}
+
+/* section 1 */
+#s1{
+    margin-top: 150px;
+}
+
+/* ------- FOOTER ---------*/
+
+#footer-logo {
+    display: flex;
+}
+
+footer {
+    border-top: 0.094rem solid var(--dash-color);
+    background-color: var(--footer-bg-color);
+    padding-top: 50px;
+    padding-right: 5%;
+    padding-left: 5%;
+    height: 300px;
+}
+
+footer h3 {
+    font-size: 1.75rem;
+    margin-bottom: 10px;
+}
+
+footer ul {
+    list-style-type: none;
+}
+
+footer ul li {
+    font-size: 1.25rem;
+}
+
+footer a {
+    color: var(--mostUsed-text-color);
+}
+
+footer a:hover {
+    color: #B43C82;
+}
+
+#copy-right-div {
+    float: right !important;
+}
+
+#copy-right {
+    font-size: small;
+    font-family: 'Poppins-Regular', sans-serif;
+}

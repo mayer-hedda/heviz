@@ -41,7 +41,8 @@
 
             <div class="collapse navbar-collapse " id="navbarNav" style="margin-left: 195px;">
                 <div class="navbar-nav text-center justify-content-center">
-                    <a class="nav-link" aria-current="page" id="HomePage" onclick="window.location.reload()">Home Page</a>
+                    <a class="nav-link" aria-current="page" id="HomePage" onclick="window.location.reload()">Home
+                        Page</a>
                     <a class="nav-link" id="Feed" href="../Feed/feed.html">Feed</a>
                     <a class="nav-link active" id="Explore" href="../Explore/explore.html">Explore</a>
                     <a class="nav-link" id="SavedBooks" href="../MyBooks/mybooks.html">My Books</a>
@@ -113,13 +114,11 @@
             </div>
 
         </div>
-
-
     </section>
 
     <!-- Section 2 -->
     <section id="s2" class="container-fluid">
-        <div class="row">
+        <div class="row" id="second-row">
             <div class="col-3" id="left-side">
                 <!-- fixed side section -->
                 <div class="container" id="left-side-content">
@@ -259,17 +258,19 @@
 
             <div class="col-9" id="right-side">
                 <div id="books-div">
-                     <!-- books -->
+                    <!-- books -->
                 </div>
-               
+
                 <div class="noResult">
                     <p class="text-center missing-data-text" id="noSearchResult" hidden>Sorry, your search has no
                         results.</p>
                     <p class="text-center missing-data-text" id="noCategoryResult" hidden>Sorry, there are no books in
                         this category.</p>
-                    <p class="text-center missing-data-text" id="noSelfInCategory" hidden>Sorry, there are no self published books in
+                    <p class="text-center missing-data-text" id="noSelfInCategory" hidden>Sorry, there are no self
+                        published books in
                         this category.</p>
-                    <p class="text-center missing-data-text" id="noPublihserInCategory" hidden>Sorry, there are no books published by publisher in
+                    <p class="text-center missing-data-text" id="noPublihserInCategory" hidden>Sorry, there are no books
+                        published by publisher in
                         this category.</p>
                     <p class="text-center missing-data-text" id="500Result" hidden>Something went wrong. Please try it
                         later!</p>
@@ -288,7 +289,7 @@
             <!-- Modal content-->
             <div class="modal-content" id="book-modal-content">
                 <div class="modal-header" id="book-modal-header">
-                   
+
                     <button class="save-btn" id="save-btn"><svg xmlns="http://www.w3.org/2000/svg" width="20"
                             height="20" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
                             <path

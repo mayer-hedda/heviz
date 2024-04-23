@@ -321,6 +321,52 @@
         padding: 5px 10px !important;
     }
 
+    /* könyv modal */
+    .save-btn {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .save-btn svg {
+        width: 15px;
+        height: 20px;
+    }
+
+    #modal-img {
+        width: 183px !important;
+        height: 320px !important;
+    }
+
+    .modal-h3 {
+        font-size: 20px;
+    }
+
+    .modal-p {
+        font-size: 18px !important;
+    }
+
+    .babszem {
+        column-gap: 15px !important;
+        padding: 10px 15px 10px 15px !important;
+    }
+
+    .colDiv {
+        width: fit-content !important;
+    }
+
+    .colDiv h4 {
+        font-size: 14px;
+    }
+
+    .colDiv p {
+        font-size: 10px;
+    }
+
+    #modal-desc {
+        font-size: 12px;
+    }
+
+    /* footer */
     footer {
         padding-top: 20px !important;
     }
@@ -613,6 +659,42 @@
         padding: 5px 10px !important;
     }
 
+    /* könyv modal */
+    #modal-img {
+        width: 203px !important;
+        height: 350px !important;
+    }
+
+    .modal-h3 {
+        font-size: 20px;
+    }
+
+    .modal-p {
+        font-size: 18px !important;
+    }
+
+    .colDiv {
+        width: fit-content !important;
+    }
+
+    .colDiv h4 {
+        font-size: 18px;
+    }
+
+    .colDiv p {
+        font-size: 14px;
+    }
+
+    #modal-desc {
+        font-size: 14px;
+    }
+
+    .sMoreBtn{
+        font-size: 14px!important;
+        padding: 10px 15px 10px 15px !important;
+    }
+
+    /* footer */
     footer {
         padding-top: 20px !important;
     }
@@ -912,6 +994,37 @@
         padding: 5px 10px !important;
     }
 
+    /* könyv modal */
+    #modal-img {
+        width: 203px !important;
+        height: 350px !important;
+    }
+
+    .modal-h3 {
+        font-size: 20px;
+    }
+
+    .modal-p {
+        font-size: 18px !important;
+    }
+
+    .colDiv {
+        width: fit-content !important;
+    }
+
+    .colDiv h4 {
+        font-size: 18px;
+    }
+
+    .colDiv p {
+        font-size: 14px;
+    }
+
+    #modal-desc {
+        font-size: 14px;
+    }
+
+    /* footer */
     footer {
         padding-top: 20px !important;
     }
@@ -2778,7 +2891,6 @@ footer ul {
 
 footer ul li {
     font-size: 1.25rem;
-    font-family: 'Montserrat', sans-serif;
 }
 
 footer a {
