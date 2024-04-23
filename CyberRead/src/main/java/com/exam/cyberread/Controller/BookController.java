@@ -79,6 +79,7 @@ public class BookController {
             * price
             * category
             * purchased
+            * publisher username
         * 401: 
             * User hasn't token
             * Invalid token
@@ -136,6 +137,7 @@ public class BookController {
             * price 
             * category
             * purchased
+            * publisher username
         * 401: 
             * User hasn't token
             * Invalid token
@@ -249,6 +251,7 @@ public class BookController {
             * price 
             * category
             * purchased
+            * publisher username
         * 401: 
             * User hasn't token
             * Invalid token
@@ -306,6 +309,7 @@ public class BookController {
             * price 
             * category
             * purchased
+            * publisher username
         * 401: 
             * User hasn't token
             * Invalid token
@@ -468,6 +472,7 @@ public class BookController {
             * cover image
             * file
             * bank account number
+            * chapter number
         * 401:
             * User hasn't token
             * Invalid token
@@ -941,6 +946,7 @@ public class BookController {
                 * username
                 * category
                 * purchased
+                * publisher username
         * 401:
             * User hasn't token
             * Invalid token
@@ -998,6 +1004,7 @@ public class BookController {
                 * username
                 * category
                 * purchased
+                * publisher username
         * 401:
             * User hasn't token
             * Invalid token
@@ -1064,6 +1071,7 @@ public class BookController {
                 * username
                 * category
                 * purchased
+                * publisher username
         * 401:
             * User hasn't token
             * Invalid token
@@ -1119,6 +1127,7 @@ public class BookController {
                 * username
                 * category
                 * purchased
+                * publisher username
         * 401:
             * User hasn't token
             * Invalid token
@@ -1168,6 +1177,7 @@ public class BookController {
                 * language
                 * username
                 * category
+                * publisher username
         * 401:
             * User hasn't token
             * Invalid token
@@ -1341,6 +1351,7 @@ public class BookController {
                 * username
                 * category
                 * purchased
+                * publisher username
         * 401:
             * User hasn't token
             * Invalid token

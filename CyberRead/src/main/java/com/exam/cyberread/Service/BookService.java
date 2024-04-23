@@ -32,6 +32,7 @@ public class BookService {
         * price
         * category
         * purchased
+        * publisher username
      * 
      * @throws BookException: Something wrong
      */
@@ -64,6 +65,7 @@ public class BookService {
         * price
         * category
         * purchased
+        * publisher username
      * 
      * @throws BookException: Something wrong
      */
@@ -127,6 +129,7 @@ public class BookService {
         * price
         * category
         * purchased
+        * publisher username
      * 
      * @throws BookException: Something wrong
      */
@@ -159,6 +162,7 @@ public class BookService {
         * price
         * category
         * purchased
+        * publisher username
      * 
      * @throws BookException: Something wrong
      */
@@ -287,6 +291,7 @@ public class BookService {
         * cover image
         * file
         * bank account number
+        * chapter number
      * 
      * @throws BookException: Something wrong
      */
@@ -701,6 +706,7 @@ public class BookService {
             * username
             * category
             * purchased
+            * publisher username
      * 
      * @throws BookException: Something wrong!
      * @throws MissingCategoryException: The name of the category id is not the same as the category name!
@@ -739,6 +745,7 @@ public class BookService {
             * username
             * category
             * purchased
+            * publisher username
      *
      * @throws BookException: Something wrong!
      * @throws MissingCategoryException: This category does not exist!
@@ -777,6 +784,7 @@ public class BookService {
             * username
             * category
             * purchased
+            * publisher username
      * 
      * @throws BookException: Something wrong!
      */
@@ -823,6 +831,7 @@ public class BookService {
             * username
             * category
             * purchased
+            * publisher username
      * 
      * @throws BookException: Something wrong!
      */
@@ -853,6 +862,7 @@ public class BookService {
             * language
             * username
             * category
+            * publisher username
      * 
      * @throws BookException: Something wrong!
      */
@@ -951,6 +961,7 @@ public class BookService {
             * username
             * category
             * purchased
+            * publisher username
      *
      * @throws BookException: Something wrong!
      * @throws MissingFilterException: This filter number does not exist!

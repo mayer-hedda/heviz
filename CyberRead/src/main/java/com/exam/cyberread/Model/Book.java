@@ -402,6 +402,7 @@ public class Book implements Serializable {
         * price
         * category
         * purchased
+        * publisher username
      * 
      * @throws BookException: Something wrong
      */
@@ -445,6 +446,7 @@ public class Book implements Serializable {
                 } else {
                     book.put("purchased", true);
                 }
+                book.put("publisherUsername", (String) result[15]);
                 
                 books.put(book);
             }
@@ -480,6 +482,7 @@ public class Book implements Serializable {
         * price
         * category
         * purchased
+        * publisher username
      * 
      * @throws BookException: Something wrong
      */
@@ -523,6 +526,7 @@ public class Book implements Serializable {
                 } else {
                     book.put("purchased", true);
                 }
+                book.put("publisherUsername", (String) result[15]);
                 
                 books.put(book);
             }
@@ -634,6 +638,7 @@ public class Book implements Serializable {
         * price
         * category
         * purchased
+        * publisher username
      * 
      * @throws BookException: Something wrong
      */
@@ -677,6 +682,7 @@ public class Book implements Serializable {
                 } else {
                     book.put("purchased", true);
                 }
+                book.put("publisherUsername", (String) result[15]);
                 
                 books.put(book);
             }
@@ -712,6 +718,7 @@ public class Book implements Serializable {
         * price
         * category
         * purchased
+        * publisher username
      * 
      * @throws BookException: Something wrong
      */
@@ -755,6 +762,7 @@ public class Book implements Serializable {
                 } else {
                     book.put("purchased", true);
                 }
+                book.put("publisherUsername", (String) result[15]);
                 
                 books.put(book);
             }
@@ -871,6 +879,7 @@ public class Book implements Serializable {
         * cover image
         * file
         * bank account number
+        * chapter number
      * 
      * @throws BookException: Something wrong
      */
@@ -902,6 +911,7 @@ public class Book implements Serializable {
                 bookDetails.put("coverImage", (String) result[9]);
                 bookDetails.put("file", (String) result[10]);
                 bookDetails.put("bankAccountNumber", (String) result[11]);
+                bookDetails.put("chapterNumber", (Integer) result[12]);
             }
             
             return bookDetails;
@@ -1513,6 +1523,7 @@ public class Book implements Serializable {
             * username
             * category
             * purchased
+            * publisher username
      * 
      * @throws BookException: Something wrong!
      * @throws MissingCategoryException: The name of the category id is not the same as the category name!
@@ -1594,6 +1605,7 @@ public class Book implements Serializable {
                             } else {
                                 book.put("purchased", true);
                             }
+                            book.put("publisherUsername", (String) result[15]);
 
                             books.put(book);
                         }
@@ -1641,6 +1653,7 @@ public class Book implements Serializable {
             * username
             * category
             * purchased
+            * publisher username
      * 
      * @throws BookException: Something wrong
      * @throws MissingCategoryException: This category does not exist!
@@ -1699,6 +1712,7 @@ public class Book implements Serializable {
                             } else {
                                 book.put("purchased", true);
                             }
+                            book.put("publisherUsername", (String) result[15]);
 
                             books.put(book);
                         }
@@ -1771,6 +1785,7 @@ public class Book implements Serializable {
             * username
             * category
             * purchased
+            * publisher username
      * 
      * @throws BookException: Something wrong
      */
@@ -1821,6 +1836,7 @@ public class Book implements Serializable {
                     } else {
                         book.put("purchased", true);
                     }
+                    book.put("publisherUsername", (String) result[15]);
 
                     books.put(book);
                 }
@@ -1886,6 +1902,7 @@ public class Book implements Serializable {
             * username
             * category
             * purchased
+            * publisher username
      * 
      * @throws BookException: Something wrong!
      */
@@ -1929,6 +1946,7 @@ public class Book implements Serializable {
                     } else {
                         book.put("purchased", true);
                     }
+                    book.put("publisherUsername", (String) result[14]);
 
                     books.put(book);
                 }
@@ -1983,6 +2001,7 @@ public class Book implements Serializable {
             * language
             * username
             * category
+            * publisher username
      * 
      * @throws BookException: Something wrong!
      */
@@ -2016,6 +2035,7 @@ public class Book implements Serializable {
                 book.put("language", (String) result[9]);
                 book.put("username", (String) result[10]);
                 book.put("category", (String) result[11]);
+                book.put("publisherUsername", (String) result[12]);
                 
                 books.put(book);
             }
@@ -2201,6 +2221,7 @@ public class Book implements Serializable {
             * username
             * category
             * purchased
+            * publisher username
      * 
      * @throws BookException: Something wrong
      * @throws MissingFilterException: This filter number does not exist!
@@ -2256,6 +2277,7 @@ public class Book implements Serializable {
                             } else {
                                 book.put("purchased", true);
                             }
+                            book.put("publisherUsername", (String) result[15]);
 
                             books.put(book);
                         }
