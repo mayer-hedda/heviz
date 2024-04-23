@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Ápr 13. 09:27
+-- Létrehozás ideje: 2024. Ápr 23. 17:23
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -164,7 +164,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getActiveHelpCenter` ()   SELECT `h
 FROM `helpcenter`
 WHERE `helpcenter`.`active` = 1$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllBooksByCategory` (IN `userIdIN` INT, IN `categoryIdIN` INT, IN `categoryNameIN` VARCHAR(50), OUT `result` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllBooksByCategory` (IN `userIdIN` INT, IN `categoryIdIN` INT, IN `categoryNameIN` VARCHAR(50), OUT `result` INT, OUT `userRank` VARCHAR(20))   BEGIN
 
 	DECLARE rank VARCHAR(20);
 
@@ -175,6 +175,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllBooksByCategory` (IN `userIdI
     ELSE
     
     	SELECT `user`.`rank` INTO rank FROM `user` WHERE `user`.`id` = userIdIN;
+        SET userRank = rank;
 
 		IF rank = "general" THEN
             SELECT
@@ -190,7 +191,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllBooksByCategory` (IN `userIdI
                 `language`.`code`,
                 IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                 `book`.`price`,
-                `writer`.`username`
+                `writer`.`username`,
+                `category`.`name`,
+                IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
             FROM `book`
             INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
             LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -202,6 +205,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllBooksByCategory` (IN `userIdI
             ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
             INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
             LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+            INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+            LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
             WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
             ORDER BY RAND();
         ELSEIF rank = "publisher" THEN
@@ -218,7 +223,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllBooksByCategory` (IN `userIdI
                 `language`.`code`,
                 IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                 `book`.`price`,
-                `writer`.`username`
+                `writer`.`username`,
+                `category`.`name`
             FROM `book`
             INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
             LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -230,6 +236,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllBooksByCategory` (IN `userIdI
             ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
             INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
             LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+            INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
             WHERE `book`.`categoryId` = categoryIdIN AND `book`.`status` = "looking for a publisher"
             ORDER BY RAND();
         END IF;
@@ -330,7 +337,7 @@ WHERE
     `follow`.`followerId` = userIdIN
 ORDER BY `post`.`postTime` DESC$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` INT, IN `filter` INT, IN `categoryIdIN` INT, OUT `result` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` INT, IN `filter` INT, IN `categoryIdIN` INT, OUT `result` INT, OUT `userRank` VARCHAR(20))   BEGIN
 
 	DECLARE rank VARCHAR(20);
 
@@ -343,6 +350,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
         SELECT `user`.`rank` INTO rank 
         FROM `user`
         WHERE `user`.`id` = userIdIN;
+        SET userRank = rank;
 
         IF filter = 1 THEN
         	IF rank = "general" THEN
@@ -359,7 +367,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     `language`.`code`,
                     IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                     `book`.`price`,
-                    `writer`.`username`
+                    `writer`.`username`,
+                    `category`.`name`,
+                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -371,6 +381,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                 ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
                 WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
                 ORDER BY `book`.`title` ASC;
             ELSEIF rank = "publisher" THEN
@@ -387,7 +399,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     `language`.`code`,
                     IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                     `book`.`price`,
-                    `writer`.`username`
+                    `writer`.`username`,
+                    `category`.`name`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -399,6 +412,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                 ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                 WHERE `book`.`categoryId` = categoryIdIN AND `book`.`status` = "looking for a publisher"
                 ORDER BY `book`.`title` ASC;
             END IF;
@@ -417,7 +431,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     `language`.`code`,
                     IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                     `book`.`price`,
-                    `writer`.`username`
+                    `writer`.`username`,
+                    `category`.`name`,
+                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -429,6 +445,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                 ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
                 WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
                 ORDER BY `book`.`title` DESC;
             ELSEIF rank = "publisher" THEN
@@ -445,7 +463,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     `language`.`code`,
                     IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                     `book`.`price`,
-                    `writer`.`username`
+                    `writer`.`username`,
+                    `category`.`name`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -457,6 +476,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                 ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                 WHERE `book`.`categoryId` = categoryIdIN AND `book`.`status` = "looking for a publisher"
                 ORDER BY `book`.`title` DESC;
             END IF;
@@ -475,7 +495,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     `language`.`code`,
                     IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                     `book`.`price`,
-                    `writer`.`username`
+                    `writer`.`username`,
+                    `category`.`name`,
+                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -487,6 +509,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                 ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
                 WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
                 ORDER BY `book`.`publishedTime` ASC;
             ELSEIF rank = "publisher" THEN
@@ -503,7 +527,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     `language`.`code`,
                     IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                     `book`.`price`,
-                    `writer`.`username`
+                    `writer`.`username`,
+                    `category`.`name`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -515,6 +540,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                 ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                 WHERE `book`.`categoryId` = categoryIdIN AND `book`.`status` = "looking for a publisher"
                 ORDER BY `book`.`publishedTime` ASC;
             END IF;
@@ -533,7 +559,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     `language`.`code`,
                     IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                     `book`.`price`,
-                    `writer`.`username`
+                    `writer`.`username`,
+                    `category`.`name`,
+                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -545,6 +573,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                 ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
                 WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
                 ORDER BY `book`.`publishedTime` DESC;
             ELSEIF rank = "publisher" THEN
@@ -561,7 +591,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     `language`.`code`,
                     IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                     `book`.`price`,
-                    `writer`.`username`
+                    `writer`.`username`,
+                    `category`.`name`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -573,6 +604,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                 ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                 WHERE `book`.`categoryId` = categoryIdIN AND `book`.`status` = "looking for a publisher"
                 ORDER BY `book`.`publishedTime` DESC;
             END IF;
@@ -592,7 +624,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                         `language`.`code`,
                         IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                         `book`.`price`,
-                        `writer`.`username`
+                        `writer`.`username`,
+                        `category`.`name`,
+                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -604,6 +638,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
                     WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
                     ORDER BY `book`.`price` ASC;
                 ELSEIF filter = 6 THEN
@@ -620,7 +656,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                         `language`.`code`,
                         IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                         `book`.`price`,
-                        `writer`.`username`
+                        `writer`.`username`,
+                        `category`.`name`,
+                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -632,6 +670,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
                     WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
                     ORDER BY `book`.`price` DESC;
                 ELSEIF filter = 7 THEN
@@ -648,7 +688,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                         `language`.`code`,
                         IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                         `book`.`price`,
-                        `writer`.`username`
+                        `writer`.`username`,
+                        `category`.`name`,
+                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -660,6 +702,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
                     WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
                     ORDER BY (
                         SELECT COUNT(*)
@@ -680,7 +724,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                         `language`.`code`,
                         IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                         `book`.`price`,
-                        `writer`.`username`
+                        `writer`.`username`,
+                        `category`.`name`,
+                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -692,6 +738,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
                     WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
                     ORDER BY `bookrat`.`rat` ASC;
                 ELSEIF filter = 9 THEN
@@ -708,7 +756,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                         `language`.`code`,
                         IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                         `book`.`price`,
-                        `writer`.`username`
+                        `writer`.`username`,
+                        `category`.`name`,
+                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -720,6 +770,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
                     WHERE `book`.`categoryId` = categoryIdIN AND
                     `book`.`status` = "self-published";
                 ELSEIF filter = 10 THEN
@@ -736,7 +788,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                         `language`.`code`,
                         IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                         `book`.`price`,
-                        `writer`.`username`
+                        `writer`.`username`,
+                        `category`.`name`,
+                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -748,6 +802,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
                     WHERE `book`.`categoryId` = categoryIdIN AND
                     `book`.`status` = "published by";
                 END IF;
@@ -760,7 +816,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdIN` INT, IN `filter` INT, OUT `result` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdIN` INT, IN `filter` INT, OUT `result` INT, OUT `userRank` VARCHAR(20))   BEGIN
 
 	DECLARE rank VARCHAR(20);
 
@@ -771,6 +827,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
         SELECT `user`.`rank` INTO rank 
         FROM `user`
         WHERE `user`.`id` = userIdIN;
+        SET userRank = rank;
 
         IF filter = 1 THEN
         	IF rank = "general" THEN
@@ -787,7 +844,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     `language`.`code`,
                     IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                     `book`.`price`,
-                    `writer`.`username`
+                    `writer`.`username`,
+                    `category`.`name`,
+                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -799,6 +858,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                 ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                 WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
                 ORDER BY `book`.`title` ASC;
             ELSEIF rank = "publisher" THEN
@@ -815,7 +875,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     `language`.`code`,
                     IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                     `book`.`price`,
-                    `writer`.`username`
+                    `writer`.`username`,
+                    `category`.`name`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -827,6 +888,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                 ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                 WHERE `saved`.`userId` = userIdIN AND `book`.`status` = "looking for a publisher"
                 ORDER BY `book`.`title` ASC;
             END IF;
@@ -845,7 +907,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     `language`.`code`,
                     IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                     `book`.`price`,
-                    `writer`.`username`
+                    `writer`.`username`,
+                    `category`.`name`,
+                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -857,6 +921,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                 ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
                 WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
                 ORDER BY `book`.`title` DESC;
             ELSEIF rank = "publisher" THEN
@@ -873,7 +939,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     `language`.`code`,
                     IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                     `book`.`price`,
-                    `writer`.`username`
+                    `writer`.`username`,
+                    `category`.`name`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -885,6 +952,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                 ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                 WHERE `saved`.`userId` = userIdIN AND `book`.`status` = "looking for a publisher"
                 ORDER BY `book`.`title` DESC;
             END IF;
@@ -903,7 +971,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     `language`.`code`,
                     IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                     `book`.`price`,
-                    `writer`.`username`
+                    `writer`.`username`,
+                    `category`.`name`,
+                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -915,6 +985,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                 ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
                 WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
                 ORDER BY `book`.`publishedTime` ASC;
             ELSEIF rank = "publisher" THEN
@@ -931,7 +1003,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     `language`.`code`,
                     IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                     `book`.`price`,
-                    `writer`.`username`
+                    `writer`.`username`,
+                    `category`.`name`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -943,6 +1016,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                 ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                 WHERE `saved`.`userId` = userIdIN AND `book`.`status` = "looking for a publisher"
                 ORDER BY `book`.`publishedTime` ASC;
             END IF;
@@ -961,7 +1035,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     `language`.`code`,
                     IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                     `book`.`price`,
-                    `writer`.`username`
+                    `writer`.`username`,
+                    `category`.`name`,
+                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -973,6 +1049,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                 ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
                 WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
                 ORDER BY `book`.`publishedTime` DESC;
             ELSEIF rank = "publisher" THEN
@@ -989,7 +1067,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     `language`.`code`,
                     IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                     `book`.`price`,
-                    `writer`.`username`
+                    `writer`.`username`,
+                    `category`.`name`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -1001,6 +1080,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                 ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                 WHERE `saved`.`userId` = userIdIN AND `book`.`status` = "looking for a publisher"
                 ORDER BY `book`.`publishedTime` DESC;
             END IF;
@@ -1020,7 +1100,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                         `language`.`code`,
                         IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                         `book`.`price`,
-                        `writer`.`username`
+                        `writer`.`username`,
+                        `category`.`name`,
+                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -1032,6 +1114,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
                     WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
                     ORDER BY `book`.`price` ASC;
                 ELSEIF filter = 6 THEN
@@ -1048,7 +1132,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                         `language`.`code`,
                         IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                         `book`.`price`,
-                        `writer`.`username`
+                        `writer`.`username`,
+                        `category`.`name`,
+                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -1060,6 +1146,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
                     WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
                     ORDER BY `book`.`price` DESC;
                 ELSEIF filter = 7 THEN
@@ -1076,7 +1164,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                         `language`.`code`,
                         IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                         `book`.`price`,
-                        `writer`.`username`
+                        `writer`.`username`,
+                        `category`.`name`,
+                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -1088,6 +1178,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
                     WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
                     ORDER BY (
                         SELECT COUNT(*)
@@ -1108,7 +1200,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                         `language`.`code`,
                         IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                         `book`.`price`,
-                        `writer`.`username`
+                        `writer`.`username`,
+                        `category`.`name`,
+                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -1120,6 +1214,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
                     WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
                     ORDER BY `bookrat`.`rat` ASC;
                 ELSEIF filter = 9 THEN
@@ -1136,7 +1232,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                         `language`.`code`,
                         IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                         `book`.`price`,
-                        `writer`.`username`
+                        `writer`.`username`,
+                        `category`.`name`,
+                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -1148,6 +1246,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
                     WHERE `saved`.`userId` = userIdIN AND
                     `book`.`status` = "self-published";
                 ELSEIF filter = 10 THEN
@@ -1164,7 +1264,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                         `language`.`code`,
                         IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                         `book`.`price`,
-                        `writer`.`username`
+                        `writer`.`username`,
+                        `category`.`name`,
+                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -1176,6 +1278,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
                     WHERE `saved`.`userId` = userIdIN AND
                     `book`.`status` = "published by";
                 END IF;
@@ -1201,7 +1305,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getMostSavedBooksOfTheMonth` (IN `u
     `bookrat`.`rat`,
     `language`.`code`,
     IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
-    `book`.`price`
+    `book`.`price`,
+    `category`.`name`,
+    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
 FROM `book`
 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
 LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
@@ -1223,8 +1329,12 @@ INNER JOIN (
     FROM `saved`
     GROUP BY `saved`.`bookId`
 ) AS `save` ON `book`.`id` = `save`.`bookId`
+INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
 WHERE 
-	`saved`.`savedTime` >= NOW() - INTERVAL 30 DAY
+	`saved`.`savedTime` >= NOW() - INTERVAL 30 DAY AND
+    `book`.`writerId` != userIdIN AND
+    `book`.`status` != "looking for a publisher"
 ORDER BY `save`.`count` DESC
 LIMIT 5$$
 
@@ -1241,7 +1351,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getOneRandomBook` (IN `userIdIN` IN
     `bookrat`.`rat`,
     `language`.`code`, 
     IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
-    `book`.`price`
+    `book`.`price`, 
+    `category`.`name`,
+    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
 FROM `book`
 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
 LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
@@ -1254,6 +1366,10 @@ LEFT JOIN (
 ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
+WHERE `book`.`writerId` != userIdIN AND
+`book`.`status` != "looking for a publisher"
 ORDER BY RAND()
 LIMIT 1$$
 
@@ -1269,7 +1385,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getOneRandomLookingForPublisherBook
     `bookrat`.`rat`,
     `language`.`code`, 
     IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
-    `book`.`price`
+    `book`.`price`,
+    `category`.`name`
 FROM `book`
 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
 LEFT JOIN (
@@ -1280,6 +1397,7 @@ LEFT JOIN (
 ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
 WHERE `book`.`status` = "looking for a publisher"
 ORDER BY RAND()
 LIMIT 1$$
@@ -1306,7 +1424,8 @@ IF rank = "general" THEN
         `book`.`pagesNumber`,
         `bookrat`.`rat`,
         `language`.`code`,
-        `writer`.`username`
+        `writer`.`username`,
+        `category`.`name`
     FROM `book`
     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -1318,6 +1437,7 @@ IF rank = "general" THEN
     ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
     LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id`
+    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
     WHERE `bookShopping`.`userId` = userIdIN;
     
 END IF;
@@ -1338,7 +1458,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getPublishedBooks` (IN `userIdIN` I
     `bookrat`.`rat`, 
     `language`.`code`, 
     IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
-    `book`.`price`
+    `book`.`price`,
+    `category`.`name`,
+    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
 FROM `book`
 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
 LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
@@ -1351,7 +1473,10 @@ LEFT JOIN (
 ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-WHERE `book`.`status` = "published by"
+INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
+WHERE `book`.`status` = "published by" AND
+`book`.`writerId` != userIdIN
 ORDER BY RAND()
 LIMIT 9$$
 
@@ -1500,7 +1625,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getRecommandedBooks` (IN `userIdIN`
     `bookrat`.`rat`,
     `language`.`code`,
     IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
-    `book`.`price`
+    `book`.`price`, 
+    `category`.`name`,
+    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
 FROM `book`
 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
 LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
@@ -1513,7 +1640,9 @@ LEFT JOIN (
 ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-WHERE `book`.`categoryId` IN (
+INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
+WHERE (`book`.`categoryId` IN (
     SELECT `category`.`id`
 	FROM `saved`
 	INNER JOIN `book` ON `book`.`id` = `saved`.`bookId`
@@ -1525,7 +1654,9 @@ OR
 	SELECT `categoryinterest`.`categoryId`
     FROM `categoryinterest`
     WHERE `categoryinterest`.`userId` = userIdIN
-)
+)) AND
+`book`.`writerId` != userIdIN AND
+`book`.`status` != "looking for a publisher"
 ORDER BY 
     RAND()
 LIMIT 9$$
@@ -1542,7 +1673,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getRecommandedBooksForPublisher` (I
     `bookrat`.`rat`,
     `language`.`code`,
     IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
-    `book`.`price`
+    `book`.`price`,
+    `category`.`name`
 FROM `book`
 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
 LEFT JOIN (
@@ -1553,6 +1685,7 @@ LEFT JOIN (
 ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
 WHERE (`book`.`categoryId` IN (
     SELECT `category`.`id`
 	FROM `saved`
@@ -1629,12 +1762,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getSavedBooksByCategoryId` (IN `use
     
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getSavedBooksByUserId` (IN `userIdIN` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getSavedBooksByUserId` (IN `userIdIN` INT, OUT `userRank` VARCHAR(20))   BEGIN
 
 
 DECLARE rank VARCHAR(20);
 
 SELECT `user`.`rank` INTO rank FROM `user` WHERE `user`.`id` = userIdIN;
+SET userRank = rank;
 
 IF rank = "general" THEN
     SELECT
@@ -1649,7 +1783,9 @@ IF rank = "general" THEN
         `bookrat`.`rat`,
         `language`.`code`,
         `book`.`price`,
-        `writer`.`username`
+        `writer`.`username`,
+        `category`.`name`,
+        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
     FROM `book`
     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -1661,6 +1797,8 @@ IF rank = "general" THEN
     ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id`
+    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
     WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by");
     
 ELSEIF rank = "publisher" THEN
@@ -1677,7 +1815,8 @@ ELSEIF rank = "publisher" THEN
         `bookrat`.`rat`,
         `language`.`code`,
         `book`.`price`,
-        `writer`.`username`
+        `writer`.`username`,
+        `category`.`name`
     FROM `book`
     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
     LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -1689,6 +1828,7 @@ ELSEIF rank = "publisher" THEN
     ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id`
+    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
     WHERE `saved`.`userId` = userIdIN AND `book`.`status` = "looking for a publisher";
 
 END IF;
@@ -1696,13 +1836,15 @@ END IF;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getSearchBooks` (IN `userIdIN` INT, IN `searchTextIN` VARCHAR(50))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getSearchBooks` (IN `userIdIN` INT, IN `searchTextIN` VARCHAR(50), OUT `rank` VARCHAR(20))   BEGIN
 
 	DECLARE userRank VARCHAR(50);
     
     SELECT `user`.`rank` INTO userRank
     FROM `user`
     WHERE `user`.`id` = userIdIN;
+    
+    SET rank = userRank;
     
     IF userRank = "publisher" THEN
     	SELECT
@@ -1718,7 +1860,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getSearchBooks` (IN `userIdIN` INT,
             `language`.`code`,
             IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
             `book`.`price`,
-            `writer`.`username`
+            `writer`.`username`,
+            `category`.`name`
         FROM `book`
         INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
         LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -1730,6 +1873,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getSearchBooks` (IN `userIdIN` INT,
         ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
         INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
         LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+        INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
         WHERE (`book`.`title` LIKE CONCAT(searchTextIN, "%") OR `writer`.`firstName` LIKE CONCAT(searchTextIN, "%") OR `writer`.`lastName` LIKE CONCAT(searchTextIN, "%") OR `publisher`.`companyName` LIKE CONCAT(searchTextIN, "%")) AND `book`.`status` = "looking for a publisher";
     ELSEIF userRank = "general" THEN
     	SELECT
@@ -1745,7 +1889,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getSearchBooks` (IN `userIdIN` INT,
             `language`.`code`,
             IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
             `book`.`price`,
-            `writer`.`username`
+            `writer`.`username`,
+            `category`.`name`,
+            IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
         FROM `book`
         INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
         LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
@@ -1757,6 +1903,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getSearchBooks` (IN `userIdIN` INT,
         ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
         INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
         LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+        INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+        LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
         WHERE (`book`.`title` LIKE CONCAT(searchTextIN, "%") OR `writer`.`firstName` LIKE CONCAT(searchTextIN, "%") OR `writer`.`lastName` LIKE CONCAT(searchTextIN, "%") OR `publisher`.`companyName` LIKE CONCAT(searchTextIN, "%")) AND (`book`.`status` = "self-published" OR `book`.`status`= "published by");
     END IF;
 
@@ -1774,7 +1922,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getSelfPublishedBooks` (IN `userIdI
    	`bookrat`.`rat`, 
     `language`.`code`,
     IF (`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
-    `book`.`price`
+    `book`.`price`,
+    `category`.`name`,
+    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
 FROM `book`
 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
 LEFT JOIN (
@@ -1785,14 +1935,24 @@ LEFT JOIN (
 ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-WHERE `book`.`status` = "self-published"
+INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
+WHERE `book`.`status` = "self-published" AND
+`book`.`writerId` != userIdIN
 ORDER BY RAND()
 LIMIT 9$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserBooks` (IN `userIdIN` INT, IN `profileUsernameIN` VARCHAR(50), OUT `result` INT, OUT `ownBooks` BOOLEAN)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserBooks` (IN `userIdIN` INT, IN `profileUsernameIN` VARCHAR(50), OUT `result` INT, OUT `ownBooks` BOOLEAN, OUT `userRank` VARCHAR(20))   BEGIN
 
 	DECLARE profileUserId INT;
     DECLARE profileUserRank VARCHAR(20);
+    DECLARE rank VARCHAR(20);
+    
+    SELECT `user`.`rank` INTO rank
+    FROM `user`
+    WHERE `user`.`id` = userIdIN;
+    
+    SET userRank = rank;
     
     IF EXISTS (SELECT * FROM `user` WHERE `user`.`username` = profileUsernameIN) THEN
         SELECT `user`.`id` INTO profileUserId
@@ -1805,65 +1965,178 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserBooks` (IN `userIdIN` INT, I
         
         SET ownBooks = (profileUserId = userIdIN);
         
-        IF profileUserRank = "general" THEN
-            SELECT
-                `book`.`id`,
-                `book`.`coverImage`,
-                `book`.`title`,
-                `user`.`username`,
-                `user`.`firstName`,
-                `user`.`lastName`,
-                `publisher`.`companyName`,
-                `book`.`description`,
-                `book`.`pagesNumber`,
-                `bookrat`.`rat`,
-                `language`.`code`,
-                IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
-                `book`.`price`
-            FROM `book`
-            INNER JOIN `user` ON `user`.`id` = `book`.`writerId`
-            LEFT JOIN `publisher` ON `publisher`.`id` = `book`.`publisherId`
-            INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
-            LEFT JOIN (
-                SELECT `bookrating`.`bookId`,
-                AVG(`bookrating`.`rating`) AS `rat`
-                FROM `bookrating`
-                GROUP BY `bookrating`.`bookId`
-            ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
-            LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-            WHERE `book`.`writerId` = profileUserId
-        ORDER BY `book`.`publishedTime` DESC;
-        ELSEIF profileUserRank = "publisher" THEN
-        	SELECT
-                `book`.`id`,
-                `book`.`coverImage`,
-                `book`.`title`,
-                `user`.`username`,
-                `user`.`firstName`,
-                `user`.`lastName`,
-                `publisher`.`companyName`,
-                `book`.`description`,
-                `book`.`pagesNumber`,
-                `bookrat`.`rat`,
-                `language`.`code`,
-                IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
-                `book`.`price`
-            FROM `book`
-            INNER JOIN `user` ON `user`.`id` = `book`.`writerId`
-            LEFT JOIN `publisher` ON `publisher`.`id` = `book`.`publisherId`
-            INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
-            LEFT JOIN (
-                SELECT `bookrating`.`bookId`,
-                AVG(`bookrating`.`rating`) AS `rat`
-                FROM `bookrating`
-                GROUP BY `bookrating`.`bookId`
-            ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
-            LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-            WHERE `book`.`publisherId` = profileUserId
-        ORDER BY `book`.`publishedTime` DESC;
+        SET result = 1;
+        
+        IF ownBooks = TRUE THEN
+        
+        	IF profileUserRank = "general" THEN
+                SELECT
+                    `book`.`id`,
+                    `book`.`coverImage`,
+                    `book`.`title`,
+                    `user`.`username`,
+                    `user`.`firstName`,
+                    `user`.`lastName`,
+                    `publisher`.`companyName`,
+                    `book`.`description`,
+                    `book`.`pagesNumber`,
+                    `bookrat`.`rat`,
+                    `language`.`code`,
+                    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+                    `book`.`price`,
+                    `category`.`name`
+                FROM `book`
+                INNER JOIN `user` ON `user`.`id` = `book`.`writerId`
+                LEFT JOIN `publisher` ON `publisher`.`id` = `book`.`publisherId`
+                INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                LEFT JOIN (
+                    SELECT `bookrating`.`bookId`,
+                    AVG(`bookrating`.`rating`) AS `rat`
+                    FROM `bookrating`
+                    GROUP BY `bookrating`.`bookId`
+                ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                WHERE `book`.`writerId` = profileUserId
+                ORDER BY `book`.`publishedTime` DESC;
+            ELSEIF profileUserRank = "publisher" THEN
+                SELECT
+                    `book`.`id`,
+                    `book`.`coverImage`,
+                    `book`.`title`,
+                    `user`.`username`,
+                    `user`.`firstName`,
+                    `user`.`lastName`,
+                    `publisher`.`companyName`,
+                    `book`.`description`,
+                    `book`.`pagesNumber`,
+                    `bookrat`.`rat`,
+                    `language`.`code`,
+                    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+                    `book`.`price`,
+                    `category`.`name`
+                FROM `book`
+                INNER JOIN `user` ON `user`.`id` = `book`.`writerId`
+                LEFT JOIN `publisher` ON `publisher`.`id` = `book`.`publisherId`
+                INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                LEFT JOIN (
+                    SELECT `bookrating`.`bookId`,
+                    AVG(`bookrating`.`rating`) AS `rat`
+                    FROM `bookrating`
+                    GROUP BY `bookrating`.`bookId`
+                ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                WHERE `book`.`publisherId` = profileUserId
+            	ORDER BY `book`.`publishedTime` DESC;
+            END IF;
+        
+        ELSE
+        
+            IF profileUserRank = "general" THEN
+            	IF rank = "general" THEN
+                    SELECT
+                        `book`.`id`,
+                        `book`.`coverImage`,
+                        `book`.`title`,
+                        `user`.`username`,
+                        `user`.`firstName`,
+                        `user`.`lastName`,
+                        `publisher`.`companyName`,
+                        `book`.`description`,
+                        `book`.`pagesNumber`,
+                        `bookrat`.`rat`,
+                        `language`.`code`,
+                        IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+                        `book`.`price`,
+                        `category`.`name`,
+                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+                    FROM `book`
+                    INNER JOIN `user` ON `user`.`id` = `book`.`writerId`
+                    LEFT JOIN `publisher` ON `publisher`.`id` = `book`.`publisherId`
+                    INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                    LEFT JOIN (
+                        SELECT `bookrating`.`bookId`,
+                        AVG(`bookrating`.`rating`) AS `rat`
+                        FROM `bookrating`
+                        GROUP BY `bookrating`.`bookId`
+                    ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                    LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
+                    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                    WHERE `book`.`writerId` = profileUserId AND `book`.`status` != "looking for a publisher"
+                    ORDER BY `book`.`publishedTime` DESC;
+                ELSEIF rank = "publisher" THEN
+                	SELECT
+                        `book`.`id`,
+                        `book`.`coverImage`,
+                        `book`.`title`,
+                        `user`.`username`,
+                        `user`.`firstName`,
+                        `user`.`lastName`,
+                        `publisher`.`companyName`,
+                        `book`.`description`,
+                        `book`.`pagesNumber`,
+                        `bookrat`.`rat`,
+                        `language`.`code`,
+                        IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+                        `book`.`price`,
+                        `category`.`name`
+                    FROM `book`
+                    INNER JOIN `user` ON `user`.`id` = `book`.`writerId`
+                    LEFT JOIN `publisher` ON `publisher`.`id` = `book`.`publisherId`
+                    INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                    LEFT JOIN (
+                        SELECT `bookrating`.`bookId`,
+                        AVG(`bookrating`.`rating`) AS `rat`
+                        FROM `bookrating`
+                        GROUP BY `bookrating`.`bookId`
+                    ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                    LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                    WHERE `book`.`writerId` = profileUserId AND `book`.`status` = "looking for a publisher"
+                    ORDER BY `book`.`publishedTime` DESC;
+                END IF;
+            ELSEIF profileUserRank = "publisher" THEN
+            	IF rank = "general" THEN
+                    SELECT
+                        `book`.`id`,
+                        `book`.`coverImage`,
+                        `book`.`title`,
+                        `user`.`username`,
+                        `user`.`firstName`,
+                        `user`.`lastName`,
+                        `publisher`.`companyName`,
+                        `book`.`description`,
+                        `book`.`pagesNumber`,
+                        `bookrat`.`rat`,
+                        `language`.`code`,
+                        IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+                        `book`.`price`,
+                        `category`.`name`,
+                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+                    FROM `book`
+                    INNER JOIN `user` ON `user`.`id` = `book`.`writerId`
+                    LEFT JOIN `publisher` ON `publisher`.`id` = `book`.`publisherId`
+                    INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                    LEFT JOIN (
+                        SELECT `bookrating`.`bookId`,
+                        AVG(`bookrating`.`rating`) AS `rat`
+                        FROM `bookrating`
+                        GROUP BY `bookrating`.`bookId`
+                    ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                    LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
+                    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                    WHERE `book`.`publisherId` = profileUserId
+                    ORDER BY `book`.`publishedTime` DESC;
+                ELSEIF rank = "publisher" THEN
+                	SET result = 3;
+                END IF;
+            END IF;
+            
         END IF;
         
-        SET result = 1;
     ELSE
     	SET result = 2;
     END IF;
@@ -2338,7 +2611,6 @@ CREATE TABLE `book` (
   `writerId` int(11) NOT NULL,
   `publisherId` int(11) DEFAULT NULL,
   `publishedTime` timestamp NOT NULL DEFAULT current_timestamp(),
-  `rating` double UNSIGNED DEFAULT NULL,
   `description` varchar(1000) NOT NULL,
   `price` int(10) UNSIGNED DEFAULT NULL,
   `coverImage` varchar(100) NOT NULL,
@@ -2357,57 +2629,57 @@ CREATE TABLE `book` (
 -- A tábla adatainak kiíratása `book`
 --
 
-INSERT INTO `book` (`id`, `title`, `status`, `writerId`, `publisherId`, `publishedTime`, `rating`, `description`, `price`, `coverImage`, `file`, `chapterNumber`, `freeChapterNumber`, `pagesNumber`, `adultFiction`, `bankAccountNumber`, `languageId`, `targetAudienceId`, `categoryId`) VALUES
-(1, 'A!!!!!!!!!!!!!!!!', 'looking for a publisher', 3, 9, '2023-12-17 17:58:06', NULL, '$$$$$$$$$$^^^^^^^^^^^^^\'\'\'\'\'a\'\'\'\'\'\'\'\'\'!!!!!!!', 1600, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 20, 4, 200, 1, '1234567890', 1, 1, 1),
-(2, 'Echoes of Eternity', 'published by', 5, 7, '2023-12-17 17:58:06', NULL, 'An epic fantasy saga spanning across realms and generations.', 2500, 'pictures/book/Echoes-of-Eternity', '', 40, 8, 350, 0, '0987654321', 2, 5, 18),
-(3, 'Beyond the Horizon', 'self-published', 8, NULL, '2023-12-17 17:58:06', NULL, 'A journey of self-discovery and adventure in the heart of the unknown.', 1800, 'pictures/book/Beyond-the-Horizon', '', 25, 5, 180, 0, '1357902468', 3, 3, 9),
-(4, 'The Enigma Code', 'self-published', 3, NULL, '2023-12-17 17:58:38', NULL, 'A gripping thriller revealing the secrets of an encrypted message.', 2200, 'pictures/book/The-Enigma-Code', '', 35, 7, 280, 1, '2468135790', 4, 2, 7),
-(5, 'Szerkesztett', 'self-published', 14, NULL, '2023-12-17 17:58:38', NULL, 'Szerkesztett leírás', 1000, 'Cover image', 'file', 12, 1, 220, 0, '9876543210', 1, 1, 1),
-(6, 'Skyward Odyssey', 'published by', 3, 5, '2023-12-17 17:58:38', NULL, 'Space adventure exploring uncharted galaxies and alien civilizations.', 2800, 'pictures/book/Skyward-Odyssey', '', 45, 9, 400, 0, '0123456789', 3, 4, 21),
-(7, 'The Silent Observer', 'self-published', 20, NULL, '2023-12-17 17:58:38', NULL, 'A psychological thriller about an observer amidst a series of eerie events.', 1900, 'pictures/book/The-Silent-Observer', '', 32, 6, 250, 1, '5432109876', 5, 1, 10),
-(8, 'Legacy of Shadows', 'looking for a publisher', 23, NULL, '2023-12-17 17:58:38', NULL, 'A tale of inheritance, betrayal, and the secrets that haunt a family.', 2000, 'pictures/book/Legacy-of-Shadows', '', 33, 6, 260, 0, '6547893210', 1, 5, 17),
-(9, 'The Elemental Codex', 'published by', 22, 8, '2023-12-17 17:58:38', NULL, 'Discovering the ancient secrets of the elements in a world on the brink of chaos.', 2600, 'pictures/book/The-Elemental-Codex', '', 38, 7, 320, 0, '7894561230', 4, 3, 11),
-(10, 'Beyond the Veil', 'self-published', 3, NULL, '2023-12-17 17:58:38', NULL, 'A journey through realms beyond imagination and the cost of unlocking their secrets.', 2100, 'pictures/book/Beyond-the-Veil', '', 29, 6, 240, 0, '0123789456', 2, 2, 8),
-(11, 'Threads of Fate', 'looking for a publisher', 31, NULL, '2023-12-17 17:58:38', NULL, 'Interwoven destinies collide in a tale of destiny, love, and sacrifice.', 2400, 'pictures/book/Threads-of-Fate', '', 36, 7, 290, 0, '9876321045', 5, 6, 24),
-(12, 'Midnight Whispers', 'published by', 35, 6, '2023-12-17 17:58:38', NULL, 'A chilling collection of eerie stories that whisper the secrets of the night.', 2300, 'pictures/book/Midnight-Whispers', '', 31, 6, 260, 1, '7418529630', 3, 1, 13),
-(13, 'Eternal Echoes', 'self-published', 38, NULL, '2023-12-17 17:58:38', NULL, 'An exploration of time, eternity, and the echoes that reverberate through centuries.', 2000, 'pictures/book/Eternal-Echoes', '', 30, 6, 250, 0, '3698521470', 1, 4, 19),
-(14, 'Rogue Chronicles', 'looking for a publisher', 4, NULL, '2023-12-17 17:58:48', NULL, 'Action-packed adventures of a charismatic rogue navigating political intrigue.', 1900, 'pictures/book/Rogue-Chronicles', '', 28, 5, 220, 0, '0987654321', 2, 5, 18),
-(15, 'Shadows of Destiny', 'published by', 6, 7, '2023-12-17 17:58:48', NULL, 'A gripping tale where destinies intertwine amidst dark shadows of the past.', 2500, 'pictures/book/Shadows-of-Destiny', '', 35, 7, 300, 0, '1234567890', 3, 3, 9),
-(16, 'Forgotten Realms', 'self-published', 3, NULL, '2023-12-17 17:58:48', NULL, 'Exploring the forgotten realms where myths and legends come to life.', 2200, 'pictures/book/Forgotten-Realms', '', 32, 6, 260, 0, '2468135790', 4, 2, 7),
-(17, 'Whispering Winds', 'looking for a publisher', 3, NULL, '2023-12-17 17:58:48', NULL, 'Whispers on the winds reveal secrets in a world teetering on the edge.', 2000, 'pictures/book/Whispering-Winds', '', 30, 6, 250, 1, '1357902468', 1, 4, 19),
-(18, 'Infinite Odyssey', 'published by', 16, 5, '2023-12-17 17:58:48', NULL, 'An epic odyssey across infinite realms filled with wonder and danger.', 2700, 'pictures/book/Infinite-Odyssey', '', 40, 8, 380, 0, '9876543210', 5, 1, 13),
-(19, 'Tales of Tomorrow', 'self-published', 19, NULL, '2023-12-17 17:58:48', NULL, 'Tales from the future revealing visions and warnings of what lies ahead.', 2100, 'pictures/book/Tales-of-Tomorrow', '', 29, 6, 240, 0, '3698521470', 2, 2, 8),
-(20, 'Dreams of Destiny', 'looking for a publisher', 22, NULL, '2023-12-17 17:58:48', NULL, 'Visions in dreams foretell the threads of destiny intertwining.', 2400, 'pictures/book/Dreams-of-Destiny', '', 34, 6, 280, 0, '7418529630', 3, 6, 14),
-(21, 'Chasing Echoes', 'published by', 22, 6, '2023-12-17 17:58:48', NULL, 'Chasing echoes across time in a quest to unlock forgotten mysteries.', 2600, 'pictures/book/Chasing-Echoes', '', 36, 7, 310, 1, '9876321045', 4, 4, 21),
-(22, 'Elysium Chronicles', 'self-published', 22, NULL, '2023-12-17 17:58:48', NULL, 'Chronicles of an otherworldly paradise and the trials to reach its gates.', 2300, 'pictures/book/Elysium-Chronicles', '', 32, 6, 270, 0, '0123789456', 1, 5, 17),
-(23, 'Chronicles of Chaos', 'looking for a publisher', 22, NULL, '2023-12-17 17:58:48', NULL, 'Chronicles foretelling the chaos that ensues when worlds collide.', 2600, 'pictures/book/Chronicles-of-Chaos', '', 38, 7, 320, 1, '6547893210', 5, 2, 24),
-(24, 'The Quantum Paradox', 'looking for a publisher', 36, NULL, '2023-12-17 17:59:30', NULL, 'A mind-bending journey through the paradoxes of quantum reality.', 2100, 'pictures/book/The-Quantum-Paradox', '', 32, 6, 280, 0, '7418529630', 2, 6, 14),
-(25, 'Lost in Translation', 'published by', 40, 9, '2023-12-17 17:59:30', NULL, 'A tale of lost languages and the secrets they hold across continents.', 2700, 'pictures/book/Lost-in-Translation', '', 40, 8, 360, 0, '9876321045', 3, 1, 13),
-(26, 'Fires of Revolution', 'self-published', 43, NULL, '2023-12-17 17:59:30', NULL, 'Revolution ignites when forgotten history resurfaces to rewrite the future.', 2300, 'pictures/book/Fires-of-Revolution', '', 33, 6, 270, 0, '0123789456', 1, 5, 17),
-(27, 'Dreamweaver Chronicles', 'looking for a publisher', 45, NULL, '2023-12-17 17:59:30', NULL, 'Chronicles of a dreamweaver unveiling prophecies in the fabric of dreams.', 2600, 'pictures/book/Dreamweaver-Chronicles', '', 38, 7, 310, 1, '6547893210', 5, 2, 24),
-(28, 'Eternal Struggle', 'published by', 48, 10, '2023-12-17 17:59:30', NULL, 'The eternal struggle between light and darkness, where fate hangs in the balance.', 2800, 'pictures/book/Eternal-Struggle', '', 42, 8, 380, 1, '1234567890', 4, 3, 9),
-(29, 'Whispers of Fate', 'self-published', 50, NULL, '2023-12-17 17:59:30', NULL, 'Whispers of fate weave a tapestry that shapes the destinies of all.', 2400, 'pictures/book/Whispers-of-Fate', '', 35, 7, 290, 0, '3698521470', 2, 2, 8),
-(30, 'The Seventh Key', 'looking for a publisher', 54, NULL, '2023-12-17 17:59:30', NULL, 'Unveiling the mysteries hidden behind the seventh key to the unknown.', 2000, 'pictures/book/The-Seventh-Key', '', 30, 6, 250, 1, '1357902468', 1, 4, 19),
-(31, 'Sands of Time', 'published by', 58, 8, '2023-12-17 17:59:30', NULL, 'Time-traveling across epochs to protect the sands that control the flow of time.', 2500, 'pictures/book/Sands-of-Time', '', 37, 7, 320, 0, '9876543210', 5, 1, 13),
-(32, 'The Forgotten Scroll', 'self-published', 61, NULL, '2023-12-17 17:59:30', NULL, 'The secrets etched within the forgotten scroll hold the key to the unknown.', 2200, 'pictures/book/The-Forgotten-Scroll', '', 34, 6, 270, 0, '2468135790', 4, 2, 7),
-(33, 'Echoes of Destiny', 'looking for a publisher', 65, NULL, '2023-12-17 17:59:30', NULL, 'Echoes reverberate through time, revealing the threads of destiny.', 2300, 'pictures/book/Echoes-of-Destiny', '', 36, 7, 300, 1, '0987654321', 3, 3, 9),
-(34, 'Harry Potter és a titkok kamrája', 'published by', 22, 32, '2023-12-18 21:03:13', NULL, 'A \"Harry Potter és a Titkok Kamrája\" az ifjúsági fantasy író, J.K. Rowling által írt második kötet a híres Harry Potter sorozatban. A történet továbbviszi Harry, Ron és Hermione kalandjait a Roxfort Boszorkány- és Varázslóképző Szakiskolában.\r\n\r\nEbben a könyvben Harry visszatér Roxfortba, ahol rejtélyes események kezdődnek. Egy titokzatos erő elkezdi fenyegetni a diákokat, ráadásul furcsa dolgok történnek a varázslóiskolában. Harrynek és barátainak fel kell fedezniük a titokzatos Kamrát, hogy megmentsék a diákokat és Roxfortot a veszélytől.\r\n\r\nA regény tele van izgalommal, fordulatokkal és varázslattal, miközben Harry és társai küzdenek az iskolát fenyegető rejtélyes erővel, miközben az ifjú varázsló egyre többet tud meg saját múltjáról és a Roxfortot fenyegető sötét erőkről. Ez a történet tele van kalanddal és izgalommal, amelyeket minden varázslat iránt érdeklődő olvasó élvezni fog.', 5200, 'pictures/book/harry-potter-es-a-titkok-kamraja', '', 18, 4, 294, 0, 'HU1234562935687', 1, 3, 5),
-(35, 'Negyedik könyv', 'looking for a publisher', 1, NULL, '2023-12-20 00:11:25', NULL, 'Ez a negyedik könyv leírása.', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 10, 2, 0, 1, NULL, 1, 1, 1),
-(36, 'Negyedik könyv', 'looking for a publisher', 1, NULL, '2023-12-20 00:11:40', NULL, 'Ez a negyedik könyv leírása.', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, NULL, 1, 1, 1),
-(37, 'Negyedik könyv', 'looking for a publisher', 1, NULL, '2023-12-20 00:11:48', NULL, 'Ez a negyedik könyv leírása.', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, NULL, 1, 1, 1),
-(38, 'Negyedik könyv', 'looking for a publisher', 1, NULL, '2023-12-20 00:12:19', NULL, 'Ez a negyedik könyv leírása.', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, NULL, 1, 1, 1),
-(39, 'Negyedik könyv', 'looking for a publisher', 1, NULL, '2023-12-20 00:13:57', NULL, 'Ez a negyedik könyv leírása.', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, NULL, 1, 1, 1),
-(40, 'Negyedik könyv', 'looking for a publisher', 1, NULL, '2023-12-20 00:13:59', NULL, 'Ez a negyedik könyv leírása.', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, NULL, 1, 1, 1),
-(41, 'Negyedik könyv', 'looking for a publisher', 1, NULL, '2023-12-20 00:14:50', NULL, 'Ez a negyedik könyv leírása.', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 100, 20, 0, 1, NULL, 1, 1, 1),
-(42, 'Negyedik könyv', 'looking for a publisher', 1, NULL, '2023-12-20 08:08:20', NULL, 'Ez a negyedik könyv leírása.', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, NULL, 1, 1, 1),
-(43, 'Negyedik könyv', 'looking for a publisher', 1, NULL, '2023-12-20 08:09:22', NULL, 'Ez a negyedik könyv leírása.', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, NULL, 1, 1, 1),
-(45, 'Negyedik könyv', 'published by', 3, 9, '2023-12-20 08:18:09', NULL, 'Ez a negyedik könyv leírása.', 1250, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, '12345678', 1, 1, 1),
-(46, 'A!!!!!!!', 'self-published', 1, NULL, '2024-02-21 09:26:45', NULL, 'Ez a negyedik könyv leírása.', 1000, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, '12345678', 1, 1, 1),
-(47, 'A!!!!!!!', 'self-published', 1, NULL, '2024-02-21 09:29:48', NULL, '$$$$$$$$$$$!!a!!!!!!!!!!!!$', 1000, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, '12345678', 1, 1, 1),
-(48, 'A!!!ASDFsdfs!!!!', 'self-published', 1, NULL, '2024-03-08 08:48:55', NULL, 'ASFDSFSDGJKFEGJFDKGjfdslkghfdsgfdsglkhfdkgdfk', 2000, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 30, 6, 0, 1, '12345678', 1, 1, 1),
-(49, 'A!!!ASDFsdfs!!!!', 'looking for a publisher', 1, NULL, '2024-03-08 08:58:37', NULL, 'ASFDSFSDGJKFEGJFDKGjfdslkghfdsgfdsglkhfdkgdfk', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 30, 6, 0, 1, NULL, 1, 1, 1),
-(50, 'A!!!ASDFsdfs!!!!', 'looking for a publisher', 1, NULL, '2024-03-08 08:58:56', NULL, 'ASFDSFSDGJKFEGJFDKGjfdslkghfdsgfdsglkhfdkgdfk', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 30, 6, 0, 1, NULL, 1, 1, 1),
-(51, 'A!!!ASDFsdfs!!!!', 'looking for a publisher', 1, NULL, '2024-03-08 09:07:38', NULL, 'ASFDSFSDGJKFEGJFDKGjfdslkghfdsgfdsglkhfdkgdfk', NULL, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 30, 6, 0, 1, NULL, 1, 1, 1);
+INSERT INTO `book` (`id`, `title`, `status`, `writerId`, `publisherId`, `publishedTime`, `description`, `price`, `coverImage`, `file`, `chapterNumber`, `freeChapterNumber`, `pagesNumber`, `adultFiction`, `bankAccountNumber`, `languageId`, `targetAudienceId`, `categoryId`) VALUES
+(1, 'Címszerű izé', 'looking for a publisher', 3, 9, '2023-12-17 17:58:06', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 1600, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 20, 4, 200, 1, '1234567890', 1, 1, 1),
+(2, 'Echoes of Eternity', 'published by', 5, 7, '2023-12-17 17:58:06', 'An epic fantasy saga spanning across realms and generations.', 2500, 'pictures/book/Echoes-of-Eternity', '', 40, 8, 350, 0, '0987654321', 2, 5, 18),
+(3, 'Beyond the Horizon', 'self-published', 8, NULL, '2023-12-17 17:58:06', 'A journey of self-discovery and adventure in the heart of the unknown.', 1800, 'pictures/book/Beyond-the-Horizon', '', 25, 5, 180, 0, '1357902468', 3, 3, 9),
+(4, 'The Enigma Code', 'self-published', 3, NULL, '2023-12-17 17:58:38', 'A gripping thriller revealing the secrets of an encrypted message.', 2200, 'pictures/book/The-Enigma-Code', '', 35, 7, 280, 1, '2468135790', 4, 2, 7),
+(5, 'Szerkesztett', 'self-published', 14, NULL, '2023-12-17 17:58:38', 'Szerkesztett leírás', 1000, 'Cover image', 'file', 12, 1, 220, 0, '9876543210', 1, 1, 1),
+(6, 'Skyward Odyssey', 'published by', 3, 5, '2023-12-17 17:58:38', 'Space adventure exploring uncharted galaxies and alien civilizations.', 2800, 'pictures/book/Skyward-Odyssey', '', 45, 9, 400, 0, '0123456789', 3, 4, 21),
+(7, 'The Silent Observer', 'self-published', 20, NULL, '2023-12-17 17:58:38', 'A psychological thriller about an observer amidst a series of eerie events.', 1900, 'pictures/book/The-Silent-Observer', '', 32, 6, 250, 1, '5432109876', 5, 1, 10),
+(8, 'Legacy of Shadows', 'looking for a publisher', 23, NULL, '2023-12-17 17:58:38', 'A tale of inheritance, betrayal, and the secrets that haunt a family.', 2000, 'pictures/book/Legacy-of-Shadows', '', 33, 6, 260, 0, '6547893210', 1, 5, 17),
+(9, 'The Elemental Codex', 'published by', 22, 8, '2023-12-17 17:58:38', 'Discovering the ancient secrets of the elements in a world on the brink of chaos.', 2600, 'pictures/book/The-Elemental-Codex', '', 38, 7, 320, 0, '7894561230', 4, 3, 11),
+(10, 'Beyond the Veil', 'self-published', 3, NULL, '2023-12-17 17:58:38', 'A journey through realms beyond imagination and the cost of unlocking their secrets.', 2100, 'pictures/book/Beyond-the-Veil', '', 29, 6, 240, 0, '0123789456', 2, 2, 8),
+(11, 'Threads of Fate', 'looking for a publisher', 31, NULL, '2023-12-17 17:58:38', 'Interwoven destinies collide in a tale of destiny, love, and sacrifice.', 2400, 'pictures/book/Threads-of-Fate', '', 36, 7, 290, 0, '9876321045', 5, 6, 24),
+(12, 'Midnight Whispers', 'published by', 35, 6, '2023-12-17 17:58:38', 'A chilling collection of eerie stories that whisper the secrets of the night.', 2300, 'pictures/book/Midnight-Whispers', '', 31, 6, 260, 1, '7418529630', 3, 1, 13),
+(13, 'Eternal Echoes', 'self-published', 38, NULL, '2023-12-17 17:58:38', 'An exploration of time, eternity, and the echoes that reverberate through centuries.', 2000, 'pictures/book/Eternal-Echoes', '', 30, 6, 250, 0, '3698521470', 1, 4, 19),
+(14, 'Rogue Chronicles', 'looking for a publisher', 4, NULL, '2023-12-17 17:58:48', 'Action-packed adventures of a charismatic rogue navigating political intrigue.', 1900, 'pictures/book/Rogue-Chronicles', '', 28, 5, 220, 0, '0987654321', 2, 5, 18),
+(15, 'Shadows of Destiny', 'published by', 6, 7, '2023-12-17 17:58:48', 'A gripping tale where destinies intertwine amidst dark shadows of the past.', 2500, 'pictures/book/Shadows-of-Destiny', '', 35, 7, 300, 0, '1234567890', 3, 3, 9),
+(16, 'Forgotten Realms', 'self-published', 3, NULL, '2023-12-17 17:58:48', 'Exploring the forgotten realms where myths and legends come to life.', 2200, 'pictures/book/Forgotten-Realms', '', 32, 6, 260, 0, '2468135790', 4, 2, 7),
+(17, 'Whispering Winds', 'looking for a publisher', 3, NULL, '2023-12-17 17:58:48', 'Whispers on the winds reveal secrets in a world teetering on the edge.', 2000, 'pictures/book/Whispering-Winds', '', 30, 6, 250, 1, '1357902468', 1, 4, 19),
+(18, 'Infinite Odyssey', 'published by', 16, 5, '2023-12-17 17:58:48', 'An epic odyssey across infinite realms filled with wonder and danger.', 2700, 'pictures/book/Infinite-Odyssey', '', 40, 8, 380, 0, '9876543210', 5, 1, 13),
+(19, 'Tales of Tomorrow', 'self-published', 19, NULL, '2023-12-17 17:58:48', 'Tales from the future revealing visions and warnings of what lies ahead.', 2100, 'pictures/book/Tales-of-Tomorrow', '', 29, 6, 240, 0, '3698521470', 2, 2, 8),
+(20, 'Dreams of Destiny', 'looking for a publisher', 22, NULL, '2023-12-17 17:58:48', 'Visions in dreams foretell the threads of destiny intertwining.', 2400, 'pictures/book/Dreams-of-Destiny', '', 34, 6, 280, 0, '7418529630', 3, 6, 14),
+(21, 'Chasing Echoes', 'published by', 22, 6, '2023-12-17 17:58:48', 'Chasing echoes across time in a quest to unlock forgotten mysteries.', 2600, 'pictures/book/Chasing-Echoes', '', 36, 7, 310, 1, '9876321045', 4, 4, 21),
+(22, 'Elysium Chronicles', 'self-published', 22, NULL, '2023-12-17 17:58:48', 'Chronicles of an otherworldly paradise and the trials to reach its gates.', 2300, 'pictures/book/Elysium-Chronicles', '', 32, 6, 270, 0, '0123789456', 1, 5, 17),
+(23, 'Chronicles of Chaos', 'looking for a publisher', 22, NULL, '2023-12-17 17:58:48', 'Chronicles foretelling the chaos that ensues when worlds collide.', 2600, 'pictures/book/Chronicles-of-Chaos', '', 38, 7, 320, 1, '6547893210', 5, 2, 24),
+(24, 'The Quantum Paradox', 'looking for a publisher', 36, NULL, '2023-12-17 17:59:30', 'A mind-bending journey through the paradoxes of quantum reality.', 2100, 'pictures/book/The-Quantum-Paradox', '', 32, 6, 280, 0, '7418529630', 2, 6, 14),
+(25, 'Lost in Translation', 'published by', 40, 9, '2023-12-17 17:59:30', 'A tale of lost languages and the secrets they hold across continents.', 2700, 'pictures/book/Lost-in-Translation', '', 40, 8, 360, 0, '9876321045', 3, 1, 13),
+(26, 'Fires of Revolution', 'self-published', 43, NULL, '2023-12-17 17:59:30', 'Revolution ignites when forgotten history resurfaces to rewrite the future.', 2300, 'pictures/book/Fires-of-Revolution', '', 33, 6, 270, 0, '0123789456', 1, 5, 17),
+(27, 'Dreamweaver Chronicles', 'looking for a publisher', 45, NULL, '2023-12-17 17:59:30', 'Chronicles of a dreamweaver unveiling prophecies in the fabric of dreams.', 2600, 'pictures/book/Dreamweaver-Chronicles', '', 38, 7, 310, 1, '6547893210', 5, 2, 24),
+(28, 'Eternal Struggle', 'published by', 48, 10, '2023-12-17 17:59:30', 'The eternal struggle between light and darkness, where fate hangs in the balance.', 2800, 'pictures/book/Eternal-Struggle', '', 42, 8, 380, 1, '1234567890', 4, 3, 9),
+(29, 'Whispers of Fate', 'self-published', 50, NULL, '2023-12-17 17:59:30', 'Whispers of fate weave a tapestry that shapes the destinies of all.', 2400, 'pictures/book/Whispers-of-Fate', '', 35, 7, 290, 0, '3698521470', 2, 2, 8),
+(30, 'The Seventh Key', 'looking for a publisher', 54, NULL, '2023-12-17 17:59:30', 'Unveiling the mysteries hidden behind the seventh key to the unknown.', 2000, 'pictures/book/The-Seventh-Key', '', 30, 6, 250, 1, '1357902468', 1, 4, 19),
+(31, 'Sands of Time', 'published by', 58, 8, '2023-12-17 17:59:30', 'Time-traveling across epochs to protect the sands that control the flow of time.', 2500, 'pictures/book/Sands-of-Time', '', 37, 7, 320, 0, '9876543210', 5, 1, 13),
+(32, 'The Forgotten Scroll', 'self-published', 61, NULL, '2023-12-17 17:59:30', 'The secrets etched within the forgotten scroll hold the key to the unknown.', 2200, 'pictures/book/The-Forgotten-Scroll', '', 34, 6, 270, 0, '2468135790', 4, 2, 7),
+(33, 'Echoes of Destiny', 'looking for a publisher', 65, NULL, '2023-12-17 17:59:30', 'Echoes reverberate through time, revealing the threads of destiny.', 2300, 'pictures/book/Echoes-of-Destiny', '', 36, 7, 300, 1, '0987654321', 3, 3, 9),
+(34, 'Harry Potter és a titkok kamrája', 'published by', 22, 32, '2023-12-18 21:03:13', 'A \"Harry Potter és a Titkok Kamrája\" az ifjúsági fantasy író, J.K. Rowling által írt második kötet a híres Harry Potter sorozatban. A történet továbbviszi Harry, Ron és Hermione kalandjait a Roxfort Boszorkány- és Varázslóképző Szakiskolában.\r\n\r\nEbben a könyvben Harry visszatér Roxfortba, ahol rejtélyes események kezdődnek. Egy titokzatos erő elkezdi fenyegetni a diákokat, ráadásul furcsa dolgok történnek a varázslóiskolában. Harrynek és barátainak fel kell fedezniük a titokzatos Kamrát, hogy megmentsék a diákokat és Roxfortot a veszélytől.\r\n\r\nA regény tele van izgalommal, fordulatokkal és varázslattal, miközben Harry és társai küzdenek az iskolát fenyegető rejtélyes erővel, miközben az ifjú varázsló egyre többet tud meg saját múltjáról és a Roxfortot fenyegető sötét erőkről. Ez a történet tele van kalanddal és izgalommal, amelyeket minden varázslat iránt érdeklődő olvasó élvezni fog.', 5200, 'pictures/book/harry-potter-es-a-titkok-kamraja', '', 18, 4, 294, 0, 'HU1234562935687', 1, 3, 5),
+(35, 'Titkok szigete', 'looking for a publisher', 1, NULL, '2023-12-20 00:11:25', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 10, 2, 0, 1, NULL, 1, 1, 1),
+(36, 'Könyvek titka', 'looking for a publisher', 1, NULL, '2023-12-20 00:11:40', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, NULL, 1, 1, 1),
+(37, 'Áramvonalas esés', 'looking for a publisher', 1, NULL, '2023-12-20 00:11:48', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, NULL, 1, 1, 1),
+(38, 'Föld indulás', 'looking for a publisher', 1, NULL, '2023-12-20 00:12:19', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, NULL, 1, 1, 1),
+(39, 'Elfelejtett hurrikán', 'looking for a publisher', 1, NULL, '2023-12-20 00:13:57', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, NULL, 1, 1, 1),
+(40, 'Elveszett', 'looking for a publisher', 1, NULL, '2023-12-20 00:13:59', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, NULL, 1, 1, 1),
+(41, 'Megtalált', 'looking for a publisher', 1, NULL, '2023-12-20 00:14:50', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 100, 20, 0, 1, NULL, 1, 1, 1),
+(42, 'Kutya macska', 'looking for a publisher', 1, NULL, '2023-12-20 08:08:20', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, NULL, 1, 1, 1),
+(43, 'Tizenhetedik század', 'looking for a publisher', 1, NULL, '2023-12-20 08:09:22', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, NULL, 1, 1, 1),
+(45, 'Ókori festők titkainak titkai', 'published by', 3, 9, '2023-12-20 08:18:09', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 1250, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, '12345678', 1, 1, 1),
+(46, 'Almafán ülvén', 'self-published', 1, NULL, '2024-02-21 09:26:45', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 1000, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, '12345678', 1, 1, 1),
+(47, 'Rossz ötletek', 'self-published', 1, NULL, '2024-02-21 09:29:48', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 1000, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, '12345678', 1, 1, 1),
+(48, 'Miért szar a xampp', 'self-published', 1, NULL, '2024-03-08 08:48:55', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 2000, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 30, 6, 0, 1, '12345678', 1, 1, 1),
+(49, 'Sokadjára beimportált db', 'looking for a publisher', 1, NULL, '2024-03-08 08:58:37', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 30, 6, 0, 1, NULL, 1, 1, 1),
+(50, 'Utálom átirogatni a címeket', 'looking for a publisher', 1, NULL, '2024-03-08 08:58:56', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 30, 6, 0, 1, NULL, 1, 1, 1),
+(51, 'Miért nincs normális cím', 'looking for a publisher', 1, NULL, '2024-03-08 09:07:38', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', NULL, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 30, 6, 0, 1, NULL, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -2750,6 +3022,22 @@ CREATE TABLE `forgotpassword` (
   `sendTime` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- A tábla adatainak kiíratása `forgotpassword`
+--
+
+INSERT INTO `forgotpassword` (`id`, `userId`, `code`, `sendTime`) VALUES
+(1, 1, 'ASSDFG', '2024-04-18 10:22:05'),
+(2, 1, 'WERTGF', '2024-04-01 10:23:03'),
+(3, 3, 'ASSDFG', '2024-02-18 11:23:52'),
+(4, 2, 'HJKSDE', '2024-01-18 11:23:52'),
+(5, 1, 'LEJDOR', '2023-11-18 11:23:52'),
+(6, 7, 'ALEGRP', '2023-11-18 11:23:52'),
+(7, 1, 'LEJDOR', '2024-03-18 11:23:52'),
+(8, 7, 'ALEGRP', '2024-03-18 11:23:52'),
+(9, 1, 'LEJDOR', '2024-03-20 11:23:52'),
+(10, 7, 'ALEGRP', '2024-03-12 11:23:52');
+
 -- --------------------------------------------------------
 
 --
@@ -2758,71 +3046,69 @@ CREATE TABLE `forgotpassword` (
 
 CREATE TABLE `general` (
   `id` int(11) NOT NULL,
-  `birthdate` date NOT NULL,
-  `publishedBookCount` int(10) UNSIGNED NOT NULL DEFAULT 0,
-  `selfPublishedBookCount` int(10) UNSIGNED NOT NULL DEFAULT 0
+  `birthdate` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- A tábla adatainak kiíratása `general`
 --
 
-INSERT INTO `general` (`id`, `birthdate`, `publishedBookCount`, `selfPublishedBookCount`) VALUES
-(1, '2000-11-12', 0, 0),
-(2, '2004-01-02', 0, 0),
-(3, '2002-10-22', 0, 0),
-(4, '2002-04-21', 0, 0),
-(5, '2002-07-13', 0, 0),
-(6, '2002-07-13', 0, 0),
-(7, '2002-12-24', 0, 0),
-(8, '2005-03-04', 0, 0),
-(9, '2005-03-04', 0, 0),
-(10, '2005-03-04', 0, 0),
-(11, '2005-03-04', 0, 0),
-(12, '2005-03-04', 0, 0),
-(13, '2005-03-04', 0, 0),
-(14, '2005-03-04', 0, 0),
-(15, '2005-03-04', 0, 0),
-(16, '2005-03-04', 0, 0),
-(17, '2005-03-04', 0, 0),
-(18, '2005-03-04', 0, 0),
-(19, '2005-03-04', 0, 0),
-(20, '2006-09-24', 0, 0),
-(21, '2007-12-17', 0, 0),
-(22, '2007-12-17', 0, 0),
-(23, '2002-10-07', 0, 0),
-(24, '2003-10-07', 0, 0),
-(25, '1992-04-19', 0, 0),
-(26, '1992-04-19', 0, 0),
-(27, '1992-04-19', 0, 0),
-(28, '1992-04-19', 0, 0),
-(29, '1990-05-29', 0, 0),
-(30, '1990-05-29', 0, 0),
-(31, '2000-11-10', 0, 0),
-(32, '2002-02-10', 0, 0),
-(33, '2002-11-14', 0, 0),
-(34, '2002-11-14', 0, 0),
-(35, '2002-11-14', 0, 0),
-(36, '2002-12-12', 0, 0),
-(37, '1121-12-12', 0, 0),
-(38, '1999-12-12', 0, 0),
-(39, '1212-12-12', 0, 0),
-(40, '2002-11-11', 0, 0),
-(41, '2009-03-12', 0, 0),
-(42, '2002-02-02', 0, 0),
-(43, '2009-03-04', 0, 0),
-(44, '2009-03-02', 0, 0),
-(45, '2009-03-17', 0, 0),
-(46, '2005-06-18', 0, 0),
-(47, '2005-06-18', 0, 0),
-(48, '2005-06-18', 0, 0),
-(49, '2005-06-18', 0, 0),
-(50, '2005-06-18', 0, 0),
-(51, '2005-06-18', 0, 0),
-(52, '2005-06-18', 0, 0),
-(53, '2002-12-12', 0, 0),
-(54, '2009-04-01', 0, 0),
-(55, '2009-03-31', 0, 0);
+INSERT INTO `general` (`id`, `birthdate`) VALUES
+(1, '2000-11-12'),
+(2, '2004-01-02'),
+(3, '2002-10-22'),
+(4, '2002-04-21'),
+(5, '2002-07-13'),
+(6, '2002-07-13'),
+(7, '2002-12-24'),
+(8, '2005-03-04'),
+(9, '2005-03-04'),
+(10, '2005-03-04'),
+(11, '2005-03-04'),
+(12, '2005-03-04'),
+(13, '2005-03-04'),
+(14, '2005-03-04'),
+(15, '2005-03-04'),
+(16, '2005-03-04'),
+(17, '2005-03-04'),
+(18, '2005-03-04'),
+(19, '2005-03-04'),
+(20, '2006-09-24'),
+(21, '2007-12-17'),
+(22, '2007-12-17'),
+(23, '2002-10-07'),
+(24, '2003-10-07'),
+(25, '1992-04-19'),
+(26, '1992-04-19'),
+(27, '1992-04-19'),
+(28, '1992-04-19'),
+(29, '1990-05-29'),
+(30, '1990-05-29'),
+(31, '2000-11-10'),
+(32, '2002-02-10'),
+(33, '2002-11-14'),
+(34, '2002-11-14'),
+(35, '2002-11-14'),
+(36, '2002-12-12'),
+(37, '1121-12-12'),
+(38, '1999-12-12'),
+(39, '1212-12-12'),
+(40, '2002-11-11'),
+(41, '2009-03-12'),
+(42, '2002-02-02'),
+(43, '2009-03-04'),
+(44, '2009-03-02'),
+(45, '2009-03-17'),
+(46, '2005-06-18'),
+(47, '2005-06-18'),
+(48, '2005-06-18'),
+(49, '2005-06-18'),
+(50, '2005-06-18'),
+(51, '2005-06-18'),
+(52, '2005-06-18'),
+(53, '2002-12-12'),
+(54, '2009-04-01'),
+(55, '2009-03-31');
 
 -- --------------------------------------------------------
 
@@ -3008,28 +3294,26 @@ INSERT INTO `postlike` (`id`, `userId`, `postId`, `likeTime`) VALUES
 
 CREATE TABLE `publisher` (
   `id` int(11) NOT NULL,
-  `companyName` varchar(50) DEFAULT NULL,
-  `publishedBookCount` int(10) UNSIGNED NOT NULL,
-  `publishedBookCountOnPage` int(10) UNSIGNED NOT NULL
+  `companyName` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- A tábla adatainak kiíratása `publisher`
 --
 
-INSERT INTO `publisher` (`id`, `companyName`, `publishedBookCount`, `publishedBookCountOnPage`) VALUES
-(1, 'Mesék Kiadója Kft.', 20, 0),
-(2, 'Tündérmese Kiadások', 19, 0),
-(3, 'Kalandvilág Könyvkiadó', 12, 0),
-(4, 'Varázslatos Olvasmányok', 7, 0),
-(5, 'Varázslatos Olvasmányok', 0, 0),
-(6, 'Fantáziavilág Kiadóház', 9, 0),
-(7, 'Kreatív Könyvműhely', 0, 0),
-(8, 'Történetek Tárháza Kiadó', 2, 0),
-(9, 'Mesevilág Kiadóház', 3, 0),
-(10, 'Mesekönyv Birodalom', 1, 0),
-(11, 'IFJ regények', 34, 0),
-(12, 'AlbertDezso', 0, 0);
+INSERT INTO `publisher` (`id`, `companyName`) VALUES
+(1, 'Mesék Kiadója Kft.'),
+(2, 'Tündérmese Kiadások'),
+(3, 'Kalandvilág Könyvkiadó'),
+(4, 'Varázslatos Olvasmányok'),
+(5, 'Varázslatos Olvasmányok'),
+(6, 'Fantáziavilág Kiadóház'),
+(7, 'Kreatív Könyvműhely'),
+(8, 'Történetek Tárháza Kiadó'),
+(9, 'Mesevilág Kiadóház'),
+(10, 'Mesekönyv Birodalom'),
+(11, 'IFJ regények'),
+(12, 'AlbertDezso');
 
 -- --------------------------------------------------------
 
@@ -3049,8 +3333,6 @@ CREATE TABLE `saved` (
 --
 
 INSERT INTO `saved` (`id`, `userId`, `bookId`, `savedTime`) VALUES
-(1, 1, 4, '2023-12-19 21:32:03'),
-(2, 1, 10, '2023-12-19 21:32:03'),
 (3, 2, 10, '2023-12-19 21:39:24'),
 (4, 12, 21, '2023-12-19 21:39:24'),
 (5, 1, 21, '2023-12-19 21:39:24'),
@@ -3061,9 +3343,23 @@ INSERT INTO `saved` (`id`, `userId`, `bookId`, `savedTime`) VALUES
 (10, 3, 10, '2023-12-19 21:39:24'),
 (11, 17, 10, '2023-12-19 21:39:24'),
 (12, 1, 19, '2023-12-19 21:39:24'),
-(13, 1, 38, '2023-12-21 01:38:36'),
 (15, 11, 1, '2024-02-21 10:50:26'),
-(16, 1, 1, '2024-02-22 11:22:46');
+(16, 1, 1, '2024-02-22 11:22:46'),
+(43, 9, 42, '2024-04-15 10:08:06'),
+(44, 9, 40, '2024-04-15 10:12:04'),
+(45, 9, 39, '2024-04-15 10:12:20'),
+(46, 9, 49, '2024-04-15 10:12:20'),
+(47, 9, 38, '2024-04-15 10:12:20'),
+(48, 9, 37, '2024-04-15 10:12:20'),
+(49, 9, 43, '2024-04-15 10:12:20'),
+(87, 1, 33, '2024-04-15 14:28:31'),
+(89, 1, 40, '2024-04-15 14:40:10'),
+(95, 1, 35, '2024-04-15 14:53:05'),
+(96, 1, 29, '2024-04-15 14:53:16'),
+(97, 1, 25, '2024-04-15 14:53:21'),
+(98, 1, 15, '2024-04-15 14:54:19'),
+(99, 1, 28, '2024-04-15 14:54:42'),
+(100, 1, 10, '2024-04-15 15:14:48');
 
 -- --------------------------------------------------------
 
@@ -3377,7 +3673,7 @@ ALTER TABLE `follow`
 -- AUTO_INCREMENT a táblához `forgotpassword`
 --
 ALTER TABLE `forgotpassword`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT a táblához `general`
@@ -3425,7 +3721,7 @@ ALTER TABLE `publisher`
 -- AUTO_INCREMENT a táblához `saved`
 --
 ALTER TABLE `saved`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- AUTO_INCREMENT a táblához `targetaudience`
