@@ -30,6 +30,8 @@ public class BookService {
         * language
         * saved
         * price
+        * category
+        * purchased
      * 
      * @throws BookException: Something wrong
      */
@@ -60,6 +62,8 @@ public class BookService {
         * language
         * saved
         * price
+        * category
+        * purchased
      * 
      * @throws BookException: Something wrong
      */
@@ -89,6 +93,8 @@ public class BookService {
         * language
         * saved
         * price
+        * category
+        * purchased
      * 
      * @throws BookException: Something wrong
      */
@@ -119,6 +125,8 @@ public class BookService {
         * language
         * saved
         * price
+        * category
+        * purchased
      * 
      * @throws BookException: Something wrong
      */
@@ -149,6 +157,8 @@ public class BookService {
         * language
         * saved
         * price
+        * category
+        * purchased
      * 
      * @throws BookException: Something wrong
      */
@@ -484,6 +494,7 @@ public class BookService {
         * language
         * saved
         * price
+        * category
      * 
      * @throws BookException: Something wrong
      */
@@ -513,6 +524,7 @@ public class BookService {
         * language
         * saved
         * price
+        * category
      * 
      * @throws BookException 
      */
@@ -594,6 +606,8 @@ public class BookService {
             * language
             * saved
             * price
+            * category
+            * purchased (if the user is general user)
         * own books
      * 
      * @throws BookException: Something wrong
@@ -685,6 +699,8 @@ public class BookService {
             * saved
             * price
             * username
+            * category
+            * purchased
      * 
      * @throws BookException: Something wrong!
      * @throws MissingCategoryException: The name of the category id is not the same as the category name!
@@ -721,6 +737,8 @@ public class BookService {
             * saved
             * price
             * username
+            * category
+            * purchased
      *
      * @throws BookException: Something wrong!
      * @throws MissingCategoryException: This category does not exist!
@@ -757,6 +775,8 @@ public class BookService {
             * saved
             * price
             * username
+            * category
+            * purchased
      * 
      * @throws BookException: Something wrong!
      */
@@ -801,6 +821,8 @@ public class BookService {
             * language
             * price
             * username
+            * category
+            * purchased
      * 
      * @throws BookException: Something wrong!
      */
@@ -830,6 +852,7 @@ public class BookService {
             * book rating
             * language
             * username
+            * category
      * 
      * @throws BookException: Something wrong!
      */
@@ -926,6 +949,8 @@ public class BookService {
             * saved
             * price
             * username
+            * category
+            * purchased
      *
      * @throws BookException: Something wrong!
      * @throws MissingFilterException: This filter number does not exist!

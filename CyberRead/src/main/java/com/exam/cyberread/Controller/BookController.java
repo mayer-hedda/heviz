@@ -77,6 +77,8 @@ public class BookController {
             * language
             * saved
             * price
+            * category
+            * purchased
         * 401: 
             * User hasn't token
             * Invalid token
@@ -132,6 +134,8 @@ public class BookController {
             * language
             * saved
             * price 
+            * category
+            * purchased
         * 401: 
             * User hasn't token
             * Invalid token
@@ -186,6 +190,8 @@ public class BookController {
             * language
             * saved
             * price 
+            * category
+            * purchased
         * 401: 
             * User hasn't token
             * Invalid token
@@ -241,6 +247,8 @@ public class BookController {
             * language
             * saved
             * price 
+            * category
+            * purchased
         * 401: 
             * User hasn't token
             * Invalid token
@@ -296,6 +304,8 @@ public class BookController {
             * language
             * saved
             * price 
+            * category
+            * purchased
         * 401: 
             * User hasn't token
             * Invalid token
@@ -574,6 +584,7 @@ public class BookController {
             * language
             * saved
             * price
+            * category
         * 401:
             * User hasn't token
             * Invalid token
@@ -628,6 +639,7 @@ public class BookController {
             * language
             * saved
             * price
+            * category
         * 401:
             * User hasn't token
             * Invalid token
@@ -740,12 +752,16 @@ public class BookController {
                 * language
                 * saved
                 * price
+                * category
+                * purchased (if the user is general user)
             * own books
         * 401:
             * User hasn't token
             * Invalid token
             * The token has expired
-        * 422: profilUsernameError
+        * 422: 
+            * profilUsernameError
+            * eligibilityError
      * 
      * @throws BookException: Something wrong
      */
@@ -923,6 +939,8 @@ public class BookController {
                 * saved
                 * price
                 * username
+                * category
+                * purchased
         * 401:
             * User hasn't token
             * Invalid token
@@ -978,6 +996,8 @@ public class BookController {
                 * saved
                 * price
                 * username
+                * category
+                * purchased
         * 401:
             * User hasn't token
             * Invalid token
@@ -1042,6 +1062,8 @@ public class BookController {
                 * saved
                 * price
                 * username
+                * category
+                * purchased
         * 401:
             * User hasn't token
             * Invalid token
@@ -1095,6 +1117,8 @@ public class BookController {
                 * language
                 * price
                 * username
+                * category
+                * purchased
         * 401:
             * User hasn't token
             * Invalid token
@@ -1143,6 +1167,7 @@ public class BookController {
                 * book rating
                 * language
                 * username
+                * category
         * 401:
             * User hasn't token
             * Invalid token
@@ -1314,10 +1339,13 @@ public class BookController {
                 * saved
                 * price
                 * username
+                * category
+                * purchased
         * 401:
             * User hasn't token
             * Invalid token
             * The token has expired
+        * 422: filterError
      * 
      * @throws BookException: Something wrong!
      * @throws MissingFilterException: This filter number does not exist!

@@ -400,6 +400,8 @@ public class Book implements Serializable {
         * language
         * saved
         * price
+        * category
+        * purchased
      * 
      * @throws BookException: Something wrong
      */
@@ -437,6 +439,12 @@ public class Book implements Serializable {
                     book.put("saved", true);
                 }
                 book.put("price", (Integer) result[12]);
+                book.put("category", (String) result[13]);
+                if((Integer) result[14] == 0) {
+                    book.put("purchased", false);
+                } else {
+                    book.put("purchased", true);
+                }
                 
                 books.put(book);
             }
@@ -470,6 +478,8 @@ public class Book implements Serializable {
         * language
         * saved
         * price
+        * category
+        * purchased
      * 
      * @throws BookException: Something wrong
      */
@@ -507,6 +517,12 @@ public class Book implements Serializable {
                     book.put("saved", true);
                 }
                 book.put("price", (Integer) result[12]);
+                book.put("category", (String) result[13]);
+                if((Integer) result[14] == 0) {
+                    book.put("purchased", false);
+                } else {
+                    book.put("purchased", true);
+                }
                 
                 books.put(book);
             }
@@ -539,6 +555,8 @@ public class Book implements Serializable {
         * language
         * saved
         * price
+        * category
+        * purchased
      * 
      * @throws BookException: Something wrong
      */
@@ -575,6 +593,12 @@ public class Book implements Serializable {
                     book.put("saved", true);
                 }
                 book.put("price", (Integer) result[11]);
+                book.put("category", (String) result[12]);
+                if((Integer) result[13] == 0) {
+                    book.put("purchased", false);
+                } else {
+                    book.put("purchased", true);
+                }
                 
                 books.put(book);
             }
@@ -608,6 +632,8 @@ public class Book implements Serializable {
         * language
         * saved
         * price
+        * category
+        * purchased
      * 
      * @throws BookException: Something wrong
      */
@@ -645,6 +671,12 @@ public class Book implements Serializable {
                     book.put("saved", true);
                 }
                 book.put("price", (Integer) result[12]);
+                book.put("category", (String) result[13]);
+                if((Integer) result[14] == 0) {
+                    book.put("purchased", false);
+                } else {
+                    book.put("purchased", true);
+                }
                 
                 books.put(book);
             }
@@ -678,6 +710,8 @@ public class Book implements Serializable {
         * language
         * saved
         * price
+        * category
+        * purchased
      * 
      * @throws BookException: Something wrong
      */
@@ -715,6 +749,12 @@ public class Book implements Serializable {
                     book.put("saved", true);
                 }
                 book.put("price", (Integer) result[12]);
+                book.put("category", (String) result[13]);
+                if((Integer) result[14] == 0) {
+                    book.put("purchased", false);
+                } else {
+                    book.put("purchased", true);
+                }
                 
                 books.put(book);
             }
@@ -976,6 +1016,7 @@ public class Book implements Serializable {
         * language
         * saved
         * price
+        * category
      * 
      * @throws BookException: Something wrong
      */
@@ -1012,6 +1053,7 @@ public class Book implements Serializable {
                     book.put("saved", true);
                 }
                 book.put("price", (Integer) result[11]);
+                book.put("category", (String) result[12]);
                 
                 books.put(book);
             }
@@ -1044,6 +1086,7 @@ public class Book implements Serializable {
         * language
         * saved
         * price
+        * category
      * 
      * @throws BookException: Something wrong
      */
@@ -1080,6 +1123,7 @@ public class Book implements Serializable {
                     book.put("saved", true);
                 }
                 book.put("price", (Integer) result[11]);
+                book.put("category", (String) result[12]);
                 
                 books.put(book);
             }
@@ -1182,6 +1226,8 @@ public class Book implements Serializable {
             * language
             * saved
             * price
+            * category
+            * purchased (if the user is general user)
         * ownBooks
      * 
      * @throws BookException: Something wrong
@@ -1197,45 +1243,114 @@ public class Book implements Serializable {
             spq.registerStoredProcedureParameter("profileUsernameIN", String.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
             spq.registerStoredProcedureParameter("ownBooks", Boolean.class, ParameterMode.OUT);
+            spq.registerStoredProcedureParameter("userRank", String.class, ParameterMode.OUT);
             
             spq.setParameter("userIdIN", userId);
             spq.setParameter("profileUsernameIN", profileUsername);
 
             spq.execute();
             
-            if((Integer) spq.getOutputParameterValue("result") == 1) {
-                List<Object[]> resultList = spq.getResultList();
-                JSONArray books = new JSONArray();
+            switch ((Integer) spq.getOutputParameterValue("result")) {
+                case 1:
+                    List<Object[]> resultList = spq.getResultList();
+                    JSONArray books = new JSONArray();
+                    
+                    if("publisher".equals((String) spq.getOutputParameterValue("userRank"))) {
+                        for(Object[] result : resultList) {
+                            JSONObject book = new JSONObject();
+                            book.put("id", (Integer) result[0]);
+                            book.put("coverImage", (String) result[1]);
+                            book.put("title", (String) result[2]);
+                            book.put("username", (String) result[3]);
+                            book.put("firstName", (String) result[4]);
+                            book.put("lastName", (String) result[5]);
+                            book.put("companyName", (String) result[6]);
+                            book.put("description", (String) result[7]);
+                            book.put("pagesNumber", (Integer) result[8]);
+                            book.put("rating", (BigDecimal) result[9]);
+                            book.put("language", (String) result[10]);
+                            if((Integer) result[11] == 0) {
+                                book.put("saved", false);
+                            } else {
+                                book.put("saved", true);
+                            }
+                            book.put("price", (Integer) result[12]);
+                            book.put("category", (String) result[13]);
+                            
+                            books.put(book);
+                        }
+                    } else if("general".equals((String) spq.getOutputParameterValue("userRank"))) {
+                        if((Boolean) spq.getOutputParameterValue("ownBooks")) {
+                            for(Object[] result : resultList) {
+                                JSONObject book = new JSONObject();
+                                book.put("id", (Integer) result[0]);
+                                book.put("coverImage", (String) result[1]);
+                                book.put("title", (String) result[2]);
+                                book.put("username", (String) result[3]);
+                                book.put("firstName", (String) result[4]);
+                                book.put("lastName", (String) result[5]);
+                                book.put("companyName", (String) result[6]);
+                                book.put("description", (String) result[7]);
+                                book.put("pagesNumber", (Integer) result[8]);
+                                book.put("rating", (BigDecimal) result[9]);
+                                book.put("language", (String) result[10]);
+                                if((Integer) result[11] == 0) {
+                                    book.put("saved", false);
+                                } else {
+                                    book.put("saved", true);
+                                }
+                                book.put("price", (Integer) result[12]);
+                                book.put("category", (String) result[13]);
 
-                for(Object[] result : resultList) { 
-                    JSONObject book = new JSONObject();
-                    book.put("id", (Integer) result[0]);
-                    book.put("coverImage", (String) result[1]);
-                    book.put("title", (String) result[2]);
-                    book.put("username", (String) result[3]);
-                    book.put("firstName", (String) result[4]);
-                    book.put("lastName", (String) result[5]);
-                    book.put("companyName", (String) result[6]);
-                    book.put("description", (String) result[7]);
-                    book.put("pagesNumber", (Integer) result[8]);
-                    book.put("rating", (BigDecimal) result[9]);
-                    book.put("language", (String) result[10]);
-                    if((Integer) result[11] == 0) {
-                        book.put("saved", false);
-                    } else {
-                        book.put("saved", true);
+                                books.put(book);
+                            }
+                        } else {
+                            for(Object[] result : resultList) {
+                                JSONObject book = new JSONObject();
+                                book.put("id", (Integer) result[0]);
+                                book.put("coverImage", (String) result[1]);
+                                book.put("title", (String) result[2]);
+                                book.put("username", (String) result[3]);
+                                book.put("firstName", (String) result[4]);
+                                book.put("lastName", (String) result[5]);
+                                book.put("companyName", (String) result[6]);
+                                book.put("description", (String) result[7]);
+                                book.put("pagesNumber", (Integer) result[8]);
+                                book.put("rating", (BigDecimal) result[9]);
+                                book.put("language", (String) result[10]);
+                                if((Integer) result[11] == 0) {
+                                    book.put("saved", false);
+                                } else {
+                                    book.put("saved", true);
+                                }
+                                book.put("price", (Integer) result[12]);
+                                book.put("category", (String) result[13]);
+                                if((Integer) result[14] == 0) {
+                                    book.put("purchased", false);
+                                } else {
+                                    book.put("purchased", true);
+                                }
+
+                                books.put(book);
+                            }
+                        }
                     }
-                    book.put("price", (Integer) result[12]);
-
-                    books.put(book);
+                    
+                    return new JSONObject().put("myBooks", books).put("ownBooks", (Boolean) spq.getOutputParameterValue("ownBooks"));
+                case 2:
+                {
+                    JSONObject error = new JSONObject();
+                    error.put("profileUsernameError", "This user dosn't exists!");
+                    
+                    return error;
                 }
-
-                return new JSONObject().put("myBooks", books).put("ownBooks", (Boolean) spq.getOutputParameterValue("ownBooks"));
-            } else {
-                JSONObject error = new JSONObject();
-                error.put("profileUsernameError", "This user dosn't exists!");
-                
-                return error;
+                default:
+                {
+                    JSONObject error = new JSONObject();
+                    error.put("eligibilityError", "You are not entitled to view books published by other publishers!");
+                    
+                    return error;
+                }
             }
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
@@ -1396,6 +1511,8 @@ public class Book implements Serializable {
             * saved
             * price
             * username
+            * category
+            * purchased
      * 
      * @throws BookException: Something wrong!
      * @throws MissingCategoryException: The name of the category id is not the same as the category name!
@@ -1411,6 +1528,7 @@ public class Book implements Serializable {
             spq.registerStoredProcedureParameter("categoryIdIN", Integer.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("categoryNameIN", String.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
+            spq.registerStoredProcedureParameter("userRank", String.class, ParameterMode.OUT);
             
             spq.setParameter("userIdIN", userId);
             spq.setParameter("categoryIdIN", categoryId);
@@ -1419,34 +1537,68 @@ public class Book implements Serializable {
             spq.execute();
             
             Integer resultOUT = (Integer) spq.getOutputParameterValue("result");
+            String rank = (String) spq.getOutputParameterValue("userRank");
             
             switch (resultOUT) {
                 case 1:
                     List<Object[]> resultList = spq.getResultList();
                     JSONArray books = new JSONArray();
                     
-                    for(Object[] result : resultList) {
-                        JSONObject book = new JSONObject();
-                        book.put("id", (Integer) result[0]);
-                        book.put("coverImage", (String) result[1]);
-                        book.put("title", (String) result[2]);
-                        book.put("firstName", (String) result[3]);
-                        book.put("lastName", (String) result[4]);
-                        book.put("publisher", (String) result[5]);
-                        book.put("description", (String) result[6]);
-                        book.put("pagesNumber", (Integer) result[7]);
-                        book.put("rating", (BigDecimal) result[8]);
-                        book.put("language", (String) result[9]);
-                        if((Integer) result[10] == 0) {
-                            book.put("saved", false);
-                        } else {
-                            book.put("saved", true);
+                    if(rank.equals("publisher")) {
+                        for(Object[] result : resultList) {
+                            JSONObject book = new JSONObject();
+                            book.put("id", (Integer) result[0]);
+                            book.put("coverImage", (String) result[1]);
+                            book.put("title", (String) result[2]);
+                            book.put("firstName", (String) result[3]);
+                            book.put("lastName", (String) result[4]);
+                            book.put("publisher", (String) result[5]);
+                            book.put("description", (String) result[6]);
+                            book.put("pagesNumber", (Integer) result[7]);
+                            book.put("rating", (BigDecimal) result[8]);
+                            book.put("language", (String) result[9]);
+                            if((Integer) result[10] == 0) {
+                                book.put("saved", false);
+                            } else {
+                                book.put("saved", true);
+                            }
+                            book.put("price", (Integer) result[11]);
+                            book.put("username", (String) result[12]);
+                            book.put("category", (String) result[13]);
+
+                            books.put(book);
                         }
-                        book.put("price", (Integer) result[11]);
-                        book.put("username", (String) result[12]);
-                        
-                        books.put(book);
+                    } else if(rank.equals("general")) {
+                        for(Object[] result : resultList) {
+                            JSONObject book = new JSONObject();
+                            book.put("id", (Integer) result[0]);
+                            book.put("coverImage", (String) result[1]);
+                            book.put("title", (String) result[2]);
+                            book.put("firstName", (String) result[3]);
+                            book.put("lastName", (String) result[4]);
+                            book.put("publisher", (String) result[5]);
+                            book.put("description", (String) result[6]);
+                            book.put("pagesNumber", (Integer) result[7]);
+                            book.put("rating", (BigDecimal) result[8]);
+                            book.put("language", (String) result[9]);
+                            if((Integer) result[10] == 0) {
+                                book.put("saved", false);
+                            } else {
+                                book.put("saved", true);
+                            }
+                            book.put("price", (Integer) result[11]);
+                            book.put("username", (String) result[12]);
+                            book.put("category", (String) result[13]);
+                            if((Integer) result[14] == 0) {
+                                book.put("purchased", false);
+                            } else {
+                                book.put("purchased", true);
+                            }
+
+                            books.put(book);
+                        }
                     }
+                    
                     
                     return books;
                 case 2:
@@ -1487,6 +1639,8 @@ public class Book implements Serializable {
             * saved
             * price
             * username
+            * category
+            * purchased
      * 
      * @throws BookException: Something wrong
      * @throws MissingCategoryException: This category does not exist!
@@ -1503,6 +1657,7 @@ public class Book implements Serializable {
             spq.registerStoredProcedureParameter("filter", Integer.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("categoryIdIN", Integer.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
+            spq.registerStoredProcedureParameter("userRank", String.class, ParameterMode.OUT);
             
             spq.setParameter("userIdIN", userId);
             spq.setParameter("filter", filter);
@@ -1510,6 +1665,7 @@ public class Book implements Serializable {
 
             spq.execute();
             
+            String rank = (String) spq.getOutputParameterValue("userRank");
             Integer resultOUT = (Integer) spq.getOutputParameterValue("result");
             
             switch (resultOUT) {
@@ -1517,28 +1673,61 @@ public class Book implements Serializable {
                     List<Object[]> resultList = spq.getResultList();
                     JSONArray books = new JSONArray();
                     
-                    for(Object[] result : resultList) {
-                        JSONObject book = new JSONObject();
-                        book.put("id", (Integer) result[0]);
-                        book.put("coverImage", (String) result[1]);
-                        book.put("title", (String) result[2]);
-                        book.put("firstName", (String) result[3]);
-                        book.put("lastName", (String) result[4]);
-                        book.put("publisher", (String) result[5]);
-                        book.put("description", (String) result[6]);
-                        book.put("pagesNumber", (Integer) result[7]);
-                        book.put("rating", (BigDecimal) result[8]);
-                        book.put("language", (String) result[9]);
-                        if((Integer) result[10] == 0) {
-                            book.put("saved", false);
-                        } else {
-                            book.put("saved", true);
+                    if(rank.equals("general")) {
+                        for(Object[] result : resultList) {
+                            JSONObject book = new JSONObject();
+                            book.put("id", (Integer) result[0]);
+                            book.put("coverImage", (String) result[1]);
+                            book.put("title", (String) result[2]);
+                            book.put("firstName", (String) result[3]);
+                            book.put("lastName", (String) result[4]);
+                            book.put("publisher", (String) result[5]);
+                            book.put("description", (String) result[6]);
+                            book.put("pagesNumber", (Integer) result[7]);
+                            book.put("rating", (BigDecimal) result[8]);
+                            book.put("language", (String) result[9]);
+                            if((Integer) result[10] == 0) {
+                                book.put("saved", false);
+                            } else {
+                                book.put("saved", true);
+                            }
+                            book.put("price", (Integer) result[11]);
+                            book.put("username", (String) result[12]);
+                            book.put("category", (String) result[13]);
+                            if((Integer) result[14] == 0) {
+                                book.put("purchased", false);
+                            } else {
+                                book.put("purchased", true);
+                            }
+
+                            books.put(book);
                         }
-                        book.put("price", (Integer) result[11]);
-                        book.put("username", (String) result[12]);
-                        
-                        books.put(book);
+                    } else if(rank.equals("publisher")) {
+                        for(Object[] result : resultList) {
+                            JSONObject book = new JSONObject();
+                            book.put("id", (Integer) result[0]);
+                            book.put("coverImage", (String) result[1]);
+                            book.put("title", (String) result[2]);
+                            book.put("firstName", (String) result[3]);
+                            book.put("lastName", (String) result[4]);
+                            book.put("publisher", (String) result[5]);
+                            book.put("description", (String) result[6]);
+                            book.put("pagesNumber", (Integer) result[7]);
+                            book.put("rating", (BigDecimal) result[8]);
+                            book.put("language", (String) result[9]);
+                            if((Integer) result[10] == 0) {
+                                book.put("saved", false);
+                            } else {
+                                book.put("saved", true);
+                            }
+                            book.put("price", (Integer) result[11]);
+                            book.put("username", (String) result[12]);
+                            book.put("category", (String) result[13]);
+
+                            books.put(book);
+                        }
                     }
+                    
                     
                     return books;
                 case 2:
@@ -1580,6 +1769,8 @@ public class Book implements Serializable {
             * saved
             * price
             * username
+            * category
+            * purchased
      * 
      * @throws BookException: Something wrong
      */
@@ -1592,37 +1783,73 @@ public class Book implements Serializable {
             
             spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("searchTextIN", String.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("rank", String.class, ParameterMode.OUT);
             
             spq.setParameter("userIdIN", userId);
             spq.setParameter("searchTextIN", searchText);
 
             spq.execute();
             
+            String rank = (String) spq.getOutputParameterValue("rank");
+            
             List<Object[]> resultList = spq.getResultList();
             JSONArray books = new JSONArray();
             
-            for(Object[] result : resultList) { 
-                JSONObject book = new JSONObject();
-                book.put("id", (Integer) result[0]);
-                book.put("coverImage", (String) result[1]);
-                book.put("title", (String) result[2]);
-                book.put("firstName", (String) result[3]);
-                book.put("lastName", (String) result[4]);
-                book.put("publisher", (String) result[5]);
-                book.put("description", (String) result[6]);
-                book.put("pagesNumber", (Integer) result[7]);
-                book.put("rating", (BigDecimal) result[8]);
-                book.put("language", (String) result[9]);
-                if((Integer) result[10] == 0) {
-                    book.put("saved", false);
-                } else {
-                    book.put("saved", true);
+            if("general".equals(rank)) {
+                for(Object[] result : resultList) { 
+                    JSONObject book = new JSONObject();
+                    book.put("id", (Integer) result[0]);
+                    book.put("coverImage", (String) result[1]);
+                    book.put("title", (String) result[2]);
+                    book.put("firstName", (String) result[3]);
+                    book.put("lastName", (String) result[4]);
+                    book.put("publisher", (String) result[5]);
+                    book.put("description", (String) result[6]);
+                    book.put("pagesNumber", (Integer) result[7]);
+                    book.put("rating", (BigDecimal) result[8]);
+                    book.put("language", (String) result[9]);
+                    if((Integer) result[10] == 0) {
+                        book.put("saved", false);
+                    } else {
+                        book.put("saved", true);
+                    }
+                    book.put("price", (Integer) result[11]);
+                    book.put("username", (String) result[12]);
+                    book.put("category", (String) result[13]);
+                    if((Integer) result[14] == 0) {
+                        book.put("purchased", false);
+                    } else {
+                        book.put("purchased", true);
+                    }
+
+                    books.put(book);
                 }
-                book.put("price", (Integer) result[11]);
-                book.put("username", (String) result[12]);
-                
-                books.put(book);
+            } else if("publisher".equals(rank)) {
+                for(Object[] result : resultList) { 
+                    JSONObject book = new JSONObject();
+                    book.put("id", (Integer) result[0]);
+                    book.put("coverImage", (String) result[1]);
+                    book.put("title", (String) result[2]);
+                    book.put("firstName", (String) result[3]);
+                    book.put("lastName", (String) result[4]);
+                    book.put("publisher", (String) result[5]);
+                    book.put("description", (String) result[6]);
+                    book.put("pagesNumber", (Integer) result[7]);
+                    book.put("rating", (BigDecimal) result[8]);
+                    book.put("language", (String) result[9]);
+                    if((Integer) result[10] == 0) {
+                        book.put("saved", false);
+                    } else {
+                        book.put("saved", true);
+                    }
+                    book.put("price", (Integer) result[11]);
+                    book.put("username", (String) result[12]);
+                    book.put("category", (String) result[13]);
+
+                    books.put(book);
+                }
             }
+            
             
             JSONObject returnBooks = new JSONObject();
             
@@ -1657,6 +1884,8 @@ public class Book implements Serializable {
             * language
             * price
             * username
+            * category
+            * purchased
      * 
      * @throws BookException: Something wrong!
      */
@@ -1668,31 +1897,62 @@ public class Book implements Serializable {
             StoredProcedureQuery spq = em.createStoredProcedureQuery("getSavedBooksByUserId");
             
             spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("userRank", String.class, ParameterMode.OUT);
             
             spq.setParameter("userIdIN", userId);
 
             spq.execute();
             
+            String rank = (String) spq.getOutputParameterValue("userRank");
+            
             List<Object[]> resultList = spq.getResultList();
             JSONArray books = new JSONArray();
             
-            for(Object[] result : resultList) { 
-                JSONObject book = new JSONObject();
-                book.put("id", (Integer) result[0]);
-                book.put("coverImage", (String) result[1]);
-                book.put("title", (String) result[2]);
-                book.put("firstName", (String) result[3]);
-                book.put("lastName", (String) result[4]);
-                book.put("publisher", (String) result[5]);
-                book.put("description", (String) result[6]);
-                book.put("pagesNumber", (Integer) result[7]);
-                book.put("rating", (BigDecimal) result[8]);
-                book.put("language", (String) result[9]);
-                book.put("price", (Integer) result[10]);
-                book.put("username", (String) result[11]);
-                
-                books.put(book);
+            if(rank.equals("general")) {
+                for(Object[] result : resultList) { 
+                    JSONObject book = new JSONObject();
+                    book.put("id", (Integer) result[0]);
+                    book.put("coverImage", (String) result[1]);
+                    book.put("title", (String) result[2]);
+                    book.put("firstName", (String) result[3]);
+                    book.put("lastName", (String) result[4]);
+                    book.put("publisher", (String) result[5]);
+                    book.put("description", (String) result[6]);
+                    book.put("pagesNumber", (Integer) result[7]);
+                    book.put("rating", (BigDecimal) result[8]);
+                    book.put("language", (String) result[9]);
+                    book.put("price", (Integer) result[10]);
+                    book.put("username", (String) result[11]);
+                    book.put("category", (String) result[12]);
+                    if((Integer) result[13] == 0) {
+                        book.put("purchased", false);
+                    } else {
+                        book.put("purchased", true);
+                    }
+
+                    books.put(book);
+                }
+            } else if(rank.equals("publisher")) {
+                for(Object[] result : resultList) { 
+                    JSONObject book = new JSONObject();
+                    book.put("id", (Integer) result[0]);
+                    book.put("coverImage", (String) result[1]);
+                    book.put("title", (String) result[2]);
+                    book.put("firstName", (String) result[3]);
+                    book.put("lastName", (String) result[4]);
+                    book.put("publisher", (String) result[5]);
+                    book.put("description", (String) result[6]);
+                    book.put("pagesNumber", (Integer) result[7]);
+                    book.put("rating", (BigDecimal) result[8]);
+                    book.put("language", (String) result[9]);
+                    book.put("price", (Integer) result[10]);
+                    book.put("username", (String) result[11]);
+                    book.put("category", (String) result[12]);
+
+                    books.put(book);
+                }
             }
+            
             
             return books;
         } catch(Exception ex) {
@@ -1722,6 +1982,7 @@ public class Book implements Serializable {
             * book rating
             * language
             * username
+            * category
      * 
      * @throws BookException: Something wrong!
      */
@@ -1754,6 +2015,7 @@ public class Book implements Serializable {
                 book.put("rating", (BigDecimal) result[8]);
                 book.put("language", (String) result[9]);
                 book.put("username", (String) result[10]);
+                book.put("category", (String) result[11]);
                 
                 books.put(book);
             }
@@ -1937,6 +2199,8 @@ public class Book implements Serializable {
             * saved
             * price
             * username
+            * category
+            * purchased
      * 
      * @throws BookException: Something wrong
      * @throws MissingFilterException: This filter number does not exist!
@@ -1951,12 +2215,14 @@ public class Book implements Serializable {
             spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("filter", Integer.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
+            spq.registerStoredProcedureParameter("userRank", String.class, ParameterMode.OUT);
             
             spq.setParameter("userIdIN", userId);
             spq.setParameter("filter", filter);
 
             spq.execute();
             
+            String rank = (String) spq.getOutputParameterValue("userRank");
             Integer resultOUT = (Integer) spq.getOutputParameterValue("result");
             
             switch (resultOUT) {
@@ -1964,27 +2230,59 @@ public class Book implements Serializable {
                     List<Object[]> resultList = spq.getResultList();
                     JSONArray books = new JSONArray();
                     
-                    for(Object[] result : resultList) {
-                        JSONObject book = new JSONObject();
-                        book.put("id", (Integer) result[0]);
-                        book.put("coverImage", (String) result[1]);
-                        book.put("title", (String) result[2]);
-                        book.put("firstName", (String) result[3]);
-                        book.put("lastName", (String) result[4]);
-                        book.put("publisher", (String) result[5]);
-                        book.put("description", (String) result[6]);
-                        book.put("pagesNumber", (Integer) result[7]);
-                        book.put("rating", (BigDecimal) result[8]);
-                        book.put("language", (String) result[9]);
-                        if((Integer) result[10] == 0) {
-                            book.put("saved", false);
-                        } else {
-                            book.put("saved", true);
+                    if(rank .equals("general")) {
+                        for(Object[] result : resultList) {
+                            JSONObject book = new JSONObject();
+                            book.put("id", (Integer) result[0]);
+                            book.put("coverImage", (String) result[1]);
+                            book.put("title", (String) result[2]);
+                            book.put("firstName", (String) result[3]);
+                            book.put("lastName", (String) result[4]);
+                            book.put("publisher", (String) result[5]);
+                            book.put("description", (String) result[6]);
+                            book.put("pagesNumber", (Integer) result[7]);
+                            book.put("rating", (BigDecimal) result[8]);
+                            book.put("language", (String) result[9]);
+                            if((Integer) result[10] == 0) {
+                                book.put("saved", false);
+                            } else {
+                                book.put("saved", true);
+                            }
+                            book.put("price", (Integer) result[11]);
+                            book.put("username", (String) result[12]);
+                            book.put("category", (String) result[13]);
+                            if((Integer) result[14] == 0) {
+                                book.put("purchased", false);
+                            } else {
+                                book.put("purchased", true);
+                            }
+
+                            books.put(book);
                         }
-                        book.put("price", (Integer) result[11]);
-                        book.put("username", (String) result[12]);
-                        
-                        books.put(book);
+                    } else if(rank.equals("publisher")) {
+                        for(Object[] result : resultList) {
+                            JSONObject book = new JSONObject();
+                            book.put("id", (Integer) result[0]);
+                            book.put("coverImage", (String) result[1]);
+                            book.put("title", (String) result[2]);
+                            book.put("firstName", (String) result[3]);
+                            book.put("lastName", (String) result[4]);
+                            book.put("publisher", (String) result[5]);
+                            book.put("description", (String) result[6]);
+                            book.put("pagesNumber", (Integer) result[7]);
+                            book.put("rating", (BigDecimal) result[8]);
+                            book.put("language", (String) result[9]);
+                            if((Integer) result[10] == 0) {
+                                book.put("saved", false);
+                            } else {
+                                book.put("saved", true);
+                            }
+                            book.put("price", (Integer) result[11]);
+                            book.put("username", (String) result[12]);
+                            book.put("category", (String) result[13]);
+
+                            books.put(book);
+                        }
                     }
                     
                     return books;
