@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Ápr 23. 19:22
+-- Létrehozás ideje: 2024. Ápr 23. 21:29
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -2875,6 +2875,20 @@ CREATE TABLE `helpcenter` (
   `active` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- A tábla adatainak kiíratása `helpcenter`
+--
+
+INSERT INTO `helpcenter` (`id`, `question`, `answer`, `active`) VALUES
+(1, 'What format should I use to upload an image? How can I convert it if the format is incorrect?', 'Our site only accepts images in the .jpg format. To convert your file, please visit Cloudconvert (link) and select the file you want to convert by clicking on the \'Select file\' button. Then, in the box that appears after the text \'convert to\', please select the .jpg format under \'images\' and press the \'Convert\' button.\r\nPlease note that our site only allows image uploads that are 2MB or smaller.', 1),
+(2, 'What format  should I use to upload a file? How can I convert it if the format is incorrect?', 'Our site only accepts files in the .pdf format. To convert your file, please visit Cloudconvert (link) and select the file you want to convert by clicking on the \'Select file\' button. Then, in the box that appears after the text \'convert to\', please select the .pdf format under \'document\' and press the \'Convert\' button.\r\nPlease note that our site only allows file uploads that are 5MB or smaller.', 1),
+(3, 'What are the differences between self-publishing and finding a publisher to publish my book?', 'When a user seeks a publisher for their book, it will only be visible to publisher profiles until a publisher decides to publish the work. The platform will notify the author by email if a publisher decides to publish the book. In this case, the price will be set by the publisher and the author\'s fees will be discussed with the publisher. Once published, both the author\'s and publisher\'s names will be displayed, and the books will only be visible to \'general\' users. From then on, the publisher owns your work.\r\nIf you decide to publish the book yourself, you must set the price of the book. In order to transfer the profits from the book to the author, we also need a bank account number. In this case, the book will only be visible to \'general\' profiles.\r\nNo matter which publishing method is chosen, the author will be able to change it at any time in the future.', 1),
+(4, 'What is the difference between the \'General\' profile and the \'Publisher\' profile?', 'General profiles can view both published and self-published books. They can also view any user profile. During registration, we require your date of birth to ensure that you are over 15 years old, which is the minimum age limit on our site. Additionally, we have to know if you under 18 years of age, as our site allows the publication of books that may contain adult content.\r\nTo register a publisher profile, please provide the name of your company. Our system will only display books that have not yet been published and are marked for publisher search. Publisher profiles are restricted to viewing general user profiles.', 1),
+(5, 'How do I buy a book on our site and what payment options are available?', 'Our site accepts credit card payments. Additionally, you have the option to purchase individual books. This means that if you find a book you like, you can pay for it immediately without having to add it to your shopping cart. Once the transaction is complete, you can continue browsing and exploring other books, or view the purchased book in the \'Purchased Books\' section of \'My Books\'.', 1),
+(6, 'If I delete my profile, what will happen to my account and books?', 'Clicking on the \'Delete Profile\' button will make your profile inactive, but it cannot be completely deleted. However, you cannot undo this move.\r\nPlease note that once your profile is inactive, you will no longer be able to access the books you have purchased on our site.\r\nIf you have self-published on our site, your books will be removed, but if you have published through a publisher, they will still be available to other users. This is because the publisher owns your work after publication.\r\nIf a publisher profile is deleted and a book has already been published through our site, those books will automatically be given publisher lookup book status.', 1),
+(7, 'How do I access the books I\'ve purchased?', 'To view all the books you have purchased, navigate to \'My Books\' and select \'Purchased Books\'. To start reading a book, click on the \'Start Reading\' button located in the \'Show Details\' window of the book card.\r\nPlease note that the books you have purchased are only accessible through our site.', 1),
+(8, 'Are there any fees or costs associated with publishing my book?', 'Our pricing policy is as follows: The actual price of the book is determined by adding 20% to the publisher/author\'s price. Customers will pay this amount, but the publisher/author will receive the amount they specified. Publishing on our platform is basically free to the author or publisher. The 20% we add is used to maintain and develop our platform.', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -3177,13 +3191,13 @@ ALTER TABLE `aszf`
 -- AUTO_INCREMENT a táblához `book`
 --
 ALTER TABLE `book`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `bookrating`
 --
 ALTER TABLE `bookrating`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `bookreport`
@@ -3195,7 +3209,7 @@ ALTER TABLE `bookreport`
 -- AUTO_INCREMENT a táblához `bookshopping`
 --
 ALTER TABLE `bookshopping`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `category`
@@ -3207,7 +3221,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT a táblához `categoryinterest`
 --
 ALTER TABLE `categoryinterest`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `color`
@@ -3219,25 +3233,25 @@ ALTER TABLE `color`
 -- AUTO_INCREMENT a táblához `follow`
 --
 ALTER TABLE `follow`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `forgotpassword`
 --
 ALTER TABLE `forgotpassword`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `general`
 --
 ALTER TABLE `general`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `helpcenter`
 --
 ALTER TABLE `helpcenter`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT a táblához `language`
@@ -3255,25 +3269,25 @@ ALTER TABLE `payment`
 -- AUTO_INCREMENT a táblához `post`
 --
 ALTER TABLE `post`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `postlike`
 --
 ALTER TABLE `postlike`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `publisher`
 --
 ALTER TABLE `publisher`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `saved`
 --
 ALTER TABLE `saved`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `targetaudience`
@@ -3285,7 +3299,7 @@ ALTER TABLE `targetaudience`
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
