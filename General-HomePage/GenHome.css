@@ -2913,7 +2913,7 @@ footer {
     padding-top: 50px;
     padding-right: 5%;
     padding-left: 5%;
-    height: 300px;
+    height: fit-content;
 }
 
 footer h3 {

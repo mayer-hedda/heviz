@@ -5,20 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
-
-    <!--? Bootstrap  -->
+    <!-- Bootstrap  -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
-    <!--? bootstrap icons -->
+    <!-- bootstrap icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
 
     <link rel="stylesheet" href="feed.css">
 
     <title>Feed</title>
 
-    <!--? Icon a tabba -->
+    <!-- Icon a tabba -->
     <!-- fehér -->
     <link rel="icon" href="../icons/C-logo-white.svg" type="image/svg+xml">
     <!-- fekete -->
@@ -26,7 +24,7 @@
 </head>
 
 <body style="background-color: rgb(247, 245, 236)">
-    <!-- TODO: NAVBAR -->
+    <!-- NAVBAR -->
 
     <nav class="navbar fixed-top navbar-expand-lg" id="navbar" style="background-color: rgb(247, 245, 236);">
         <div class="container-fluid">
@@ -40,13 +38,11 @@
 
             <div class="collapse navbar-collapse " id="navbarNav" style="margin-left: 195px;">
                 <div class="navbar-nav text-center justify-content-center">
-                    <a class="nav-link" aria-current="page" id="HomePage">Home Page</a>
-                    <a class="nav-link active" id="Feed" onclick="window.location.reload()">Feed</a>
+                    <a class="nav-link" id="HomePage">Home Page</a>
+                    <a class="nav-link active" id="Feed" aria-current="page" onclick="window.location.reload()">Feed</a>
                     <a class="nav-link" id="Explore" href="../Explore/explore.html">Explore</a>
                     <a class="nav-link" id="SavedBooks" href="../MyBooks/mybooks.html"></a>
                 </div>
-
-
 
                 <div id="usernamePicture">
                     <button role="button" type="submit" class="btn align-content-center" id="writingBtn"
@@ -54,11 +50,8 @@
                         Start Witing
                     </button>
 
-                    <!-- <div id="user"> -->
-                    <!--? Profilkép helye -->
                     <div id="profile-icon" class="rounded-circle"></div>
 
-                    <!--? User nevének helye -->
                     <div id="user-name">
                         <div class="dropdown">
                             <button class="bg-transparent border-0 dropdown-toggle" type="button"
@@ -67,16 +60,13 @@
                             </button>
 
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" id="Logout">Log Out</a></li>
                                 <li id="profile-link"><a class="dropdown-item">Profile</a></li>
+                                <li><a class="dropdown-item" id="Logout">Log Out</a></li>
                             </ul>
                         </div>
                     </div>
-                    <!-- </div> -->
-
 
                 </div>
-
             </div>
         </div>
     </nav>
@@ -87,7 +77,6 @@
         <div class="container-fluid">
             <div id="row-div">
                 <div class="col-8 left-side">
-                    <!-- TODO: POST SECTION -->
                     <div id="kulsoPostCard">
                         <div class="container" id="no-Post" hidden>
                             <p class="missing-data-text text-center">Unfortunately, we are unable to display any posts.
@@ -98,13 +87,11 @@
                 </div>
 
                 <div class="col-4 right-side">
-                    <!-- TODO: SIDE SECTION -->
                     <div class="suggestions">
                         <h3 id="suggestion-h2">Suggestions for You:</h3>
                         <div id="suggestion-div">
-                            <!-- suggested profiles -->
-                        </div>
 
+                        </div>
                     </div>
                 </div>
             </div>
@@ -121,7 +108,6 @@
             </div>
         </div>
 
-        <!--  POSZT ÍRÁSA GOMB A POPUPHOZ -->
         <div class="modal fade" tabindex="-1" id="postModal" tabindex="-1" aria-labelledby="postModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -161,17 +147,15 @@
 
     </section>
 
-    <!-- TODO: FOOTER -->
+    <!-- FOOTER -->
     <footer class="footer">
         <div class="container-fluid align-content-center">
 
             <div class="row">
                 <div class=" col-12 col-sm-6 d-flex align-items-center mx-auto" id="footer-logo-div">
-                    <!-- capterX logo -->
                     <img src="../pictures/LOGO.svg" id="footer-logo">
                 </div>
                 <div class=" col-12 col-sm-6 text-lg-start text-xl-start" id="useful-links">
-                    <!-- hasznos linkek -->
                     <h3 id="footer-h3" class="textCentered">Useful Links</h3>
                     <ul id="footer-ul">
                         <li id="email"><i class="icon bi bi-google"
@@ -184,14 +168,17 @@
                         </li>
                         <li id="help-center"><i class="bi bi-info-circle-fill" style="margin-right: 0.625rem;"></i><a
                                 href="../HelpCenter/helpcenter.html">Help Center</a></li>
+
+                        <li id="terms"><i class="bi bi-info-circle-fill" style="margin-right: 0.625rem;"></i><a
+                                href="../TermsAndConditions/TermsAndConditions.html">Terms &
+                                Conditions</a></li>
+
                         <li id="help-center"><img src="../icons/C-logo.svg"
                                 style="width: 25px; margin-right: 0.313rem;"><a href="../About Us/aboutus.html">About
                                 Us</a></li>
                     </ul>
                 </div>
                 <div id="copy-right-div" class="text-end">
-                    <!--? copyright logo -->
-                    <!--? Minden jog fentartva -->
                     <p id="copy-right" class=""><img src="../icons/copyright.svg" style="margin-right: 0.313rem;">2023
                         All rights reserved.</p>
                 </div>
@@ -201,9 +188,7 @@
     </footer>
 
 
-
-
-    <!--? Bootstrap  -->
+    <!-- Bootstrap  -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
