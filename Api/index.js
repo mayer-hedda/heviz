@@ -241,6 +241,9 @@ async function token() {
             * language
             * saved
             * price
+            * category
+            * purchased
+            * publisher username
     * 
     * 401: 
         * User hasn't token
@@ -302,6 +305,9 @@ async function getMostSavedBooksOfTheMonth() {
             * language
             * saved
             * price
+            * category
+            * purchased
+            * publisher username
     * 
     * 401: 
         * User hasn't token
@@ -363,6 +369,8 @@ async function getPublishedBooks() {
             * language
             * saved
             * price
+            * category
+            * purchased
     * 
     * 401: 
         * User hasn't token
@@ -424,6 +432,9 @@ async function getSelfPublishedBooks() {
             * language
             * saved
             * price
+            * category
+            * purchased
+            * publisher username
     * 
     * 401:
         * User hasn't token
@@ -485,6 +496,9 @@ async function getOneRandomBook() {
             * language
             * saved
             * price
+            * category
+            * purchased
+            * publisher username
     * 
     * 401:
         * User hasn't token
@@ -691,6 +705,7 @@ async function addBook(raw) {
             * cover image
             * file
             * bank account number
+            * chapter number
     * 
     * 401: 
         * User hasn't token
@@ -1228,6 +1243,7 @@ async function getAllCategory() {
         * language
         * saved
         * price
+        * category
     * 
     * 401:
         * User hasn't token
@@ -1287,6 +1303,7 @@ async function getOneRandomLookingForPublisherBook() {
         * language
         * saved
         * price
+        * category
     * 
     * 401:
         * User hasn't token
@@ -1502,6 +1519,8 @@ async function getUserDetails(raw) {
             * language
             * saved
             * price
+            * category
+            * purchased (if the user is general user)
         * own books
     * 
     * 401:
@@ -1509,7 +1528,9 @@ async function getUserDetails(raw) {
         * Invalid token
         * The token has expired
     * 
-    * 422: prifileUsernameError
+    * 422: 
+        * profileUsernameError
+        * eligibilityError
  */
 async function getUserBooks(raw) {
     var myHeaders = new Headers();
@@ -2102,6 +2123,9 @@ async function getActiveHelpCenter() {
             * saved
             * price
             * username
+            * category
+            * purchased
+            * publisher username
     * 401:
         * User hasn't token
         * Invalid token
@@ -2176,6 +2200,9 @@ async function getAllBooksByCategory(raw) {
             * saved
             * price
             * username
+            * category
+            * purchased
+            * publisher username
     * 401:
         * User hasn't token
         * Invalid token
@@ -2246,6 +2273,9 @@ async function getFilteredBooks(raw) {
             * saved
             * price
             * username
+            * category
+            * purchased
+            * publisher username
     * 401:
         * User hasn't token
         * Invalid token
@@ -2312,6 +2342,9 @@ async function getSearchBooks(raw) {
             * language
             * price
             * username
+            * category
+            * purchased
+            * publisher username
     * 401:
         * User hasn't token
         * Invalid token
@@ -2370,6 +2403,8 @@ async function getSavedBooksByUserId() {
             * book rating
             * language
             * username
+            * category
+            * publisher username
     * 401:
         * User hasn't token
         * Invalid token
@@ -2400,47 +2435,6 @@ async function getPayedBooksByUserId() {
                 data: await response.json()
             }
         }
-        if (response.status == 401) {
-            return {
-                status: response.status,
-                data: await response.text()
-            }
-        }
-
-        return { status: response.status }
-    } catch (error) {
-        return { error: error }
-    }
-}
-
-async function getFilteredSavedBooks(raw) {
-    var myHeaders = new Headers();
-
-    myHeaders.append("Content-Type", "application/json");
-    var storedToken = localStorage.getItem("Token");
-    if (storedToken) {
-        myHeaders.append("Token", storedToken);
-    }
-
-    var postData = JSON.stringify(raw);
-
-    var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: postData,
-        redirect: 'follow'
-    };
-
-    try {
-        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getFilteredSavedBooks", requestOptions);
-
-        if (response.status == 200) {
-            return {
-                status: response.status,
-                data: await response.json()
-            }
-        }
-
         if (response.status == 401) {
             return {
                 status: response.status,
@@ -2496,6 +2490,77 @@ async function getPublishedBooksByUserId() {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getPublishedBooksByUserId", requestOptions);
 
         if (response.status == 200) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
+        }
+        if (response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        }
+
+        return { status: response.status }
+    } catch (error) {
+        return { error: error }
+    }
+}
+
+
+/**
+ * @param {JSON} raw = {
+ *      "filter": 1
+ *  }
+ * 
+ * @return
+    * 200:
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+            * saved
+            * price
+            * username
+            * category
+            * purchased
+            * publisher username
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 422: filterError
+ */
+async function getFilteredSavedBooks(raw) {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getFilteredSavedBooks", requestOptions);
+
+        if (response.status == 200 || response.status == 422) {
             return {
                 status: response.status,
                 data: await response.json()

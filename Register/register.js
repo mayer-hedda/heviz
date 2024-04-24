@@ -368,6 +368,7 @@ companyName.addEventListener("focusout", () => {
 // birthdate
 var minDate = new Date();
 minDate.setFullYear(minDate.getFullYear() - 100);
+minDate.setDate(minDate.getDate() + 1);
 var minDateString = minDate.toISOString().slice(0, 10);
 
 birthdate.setAttribute('min', minDateString);
@@ -401,6 +402,8 @@ function checkBirthdate(birthdate) {
 
                 if (ageDiff < 15) {
                     return "You are too young!";
+                } else if(ageDiff >= 100) {
+                    return "Invalid date!";
                 } else {
                     return true;
                 }
@@ -453,16 +456,28 @@ function checkDetails() {
                     registerError.innerHTML = "<p>This email address or username is already taken!</p>";
                 } else if(response.status == 422) {
                     if (response.data.hasOwnProperty("firstNameError")) {
+                        firstName.classList.add("bad");
+                        firstName.classList.remove("correct");
                         firstNameError.innerHTML = `<p>${response.data.firstNameError}</p>`;
                     } else if(response.data.hasOwnProperty("lastNameError")) {
+                        lastName.classList.add("bad");
+                        lastName.classList.remove("correct");
                         lastNameError.innerHTML = `<p>${response.data.lastNameError}</p>`;
                     } else if(response.data.hasOwnProperty("usernameError")) {
+                        username.classList.add("bad");
+                        username.classList.remove("correct");
                         usernameError.innerHTML = `<p>${response.data.usernameError}</p>`;
                     } else if(response.data.hasOwnProperty("emailError")) {
+                        email.classList.add("bad");
+                        email.classList.remove("correct");
                         emailError.innerHTML = `<p>${response.data.emailError}</p>`;
                     } else if(response.data.hasOwnProperty("birthdateError")) {
+                        birthdate.classList.add("bad");
+                        birthdate.classList.remove("correct");
                         birthdateError.innerHTML = `<p>${response.data.birthdateError}</p>`;
                     } else if(response.data.hasOwnProperty("passwordError")) {
+                        password.classList.add("bad");
+                        password.classList.remove("correct");
                         firstPwdError.innerHTML = `<p>${response.data.passwordError}</p>`;
                     } else if(response.data.hasOwnProperty("aszfError")) {
                         aszfError.innerHTML = `<p>${response.data.aszfError}</p>`;
@@ -499,16 +514,28 @@ function checkDetails() {
                     registerError.innerHTML = "<p>This email address or username is already taken!</p>";
                 } else if(response.status == 422) {
                     if (response.data.hasOwnProperty("firstNameError")) {
+                        firstName.classList.add("bad");
+                        firstName.classList.remove("correct");
                         firstNameError.innerHTML = `<p>${response.data.firstNameError}</p>`;
                     } else if(response.data.hasOwnProperty("lastNameError")) {
+                        lastName.classList.add("bad");
+                        lastName.classList.remove("correct");
                         lastNameError.innerHTML = `<p>${response.data.lastNameError}</p>`;
                     } else if(response.data.hasOwnProperty("usernameError")) {
+                        username.classList.add("bad");
+                        username.classList.remove("correct");
                         usernameError.innerHTML = `<p>${response.data.usernameError}</p>`;
                     } else if(response.data.hasOwnProperty("emailError")) {
+                        email.classList.add("bad");
+                        email.classList.remove("correct");
                         emailError.innerHTML = `<p>${response.data.emailError}</p>`;
                     } else if(response.data.hasOwnProperty("companyNameError")) {
+                        companyName.classList.add("bad");
+                        companyName.classList.remove("correct");
                         companyNameError.innerHTML = `<p>${response.data.companyNameError}</p>`;
                     } else if(response.data.hasOwnProperty("passwordError")) {
+                        password.classList.add("bad");
+                        password.classList.remove("correct");
                         firstPwdError.innerHTML = `<p>${response.data.passwordError}</p>`;
                     } else if(response.data.hasOwnProperty("aszfError")) {
                         aszfError.innerHTML = `<p>${response.data.aszfError}</p>`;
