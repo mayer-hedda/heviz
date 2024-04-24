@@ -1,4 +1,4 @@
-/** ----------- MEDIA QUERY */
+/* MEDIA QUERY */
 @media (max-width:400px) {
     h1 {
         max-width: 80%;
@@ -487,19 +487,11 @@
     }
 }
 
-/** ----------- VÁLTOZÓK DEFINIÁLÁSA */
 :root {
     --primary-BTN-Bg-color: rgb(232, 181, 160);
     --btn-text-color: rgb(51, 47, 49);
-    /*text color for:
-        -loginBTN text
-        - signupBTN text
-        - first section btn text
-        - fourth section btn text */
     --mostUsed-text-color: rgb(65, 61, 63);
-    /* its for text colors*/
     --dash-color: rgb(129, 105, 117);
-    /* its for btn dashes*/
     --page-bg-color: rgb(247, 245, 236);
     --footer-bg-color: rgb(246, 227, 205);
     --navbar-a-color: rgb(151, 121, 110);
@@ -510,7 +502,7 @@
     --brown-p-color: rgb(108, 78, 66);
 }
 
-/**--------------- FONTS ---------------*/
+/*--------------- FONTS ---------------*/
 @font-face {
     font-family: 'Inter';
     src: url('../fonts/Inter/static/Inter-Medium.ttf') format('truetype');
@@ -561,7 +553,7 @@
     background: #ACA09A;
 }
 
-/** --------------- TAG ALAPJÁN ---------------*/
+/* --------------- TAGS ---------------*/
 
 nav {
     background-color: var(--page-bg-color);
@@ -598,7 +590,7 @@ footer a:hover {
     color: #B43C82;
 }
 
-/** --------------- ID ALAPJÁN ---------------*/
+/* --------------- IDs---------------*/
 
 #navbar {
     padding-right: 5%;
@@ -610,7 +602,6 @@ footer a:hover {
 }
 
 #loginBtn {
-    /* navbar login btn-ja */
     border-width: 0rem;
     background-color: transparent;
     font-size: larger;
@@ -619,18 +610,15 @@ footer a:hover {
     margin-right: 0.9rem;
     padding: 0.625rem 1.25rem;
     transition: color 0.5s ease;
-    /*átmenet a hover és a rendes állapot között*/
     line-height: 1.125rem;
     box-sizing: border-box;
 }
 
 #loginBtn:hover {
-    /* navbar login btn hover */
     color: rgb(146, 104, 74);
 }
 
 #signUpBtn {
-    /* navbar signup btn-ja */
     font-size: larger;
     font-family: 'Inter', sans-serif;
     color: var(--btn-text-color);
@@ -640,32 +628,25 @@ footer a:hover {
     border: 1px solid var(--primary-BTN-Bg-color);
     padding: 0.625rem 1.25rem;
     transition: color 0.8s ease;
-    /*átmenet a hover és a rendes állapot között*/
     transition: background-color 0.8s ease;
-    /*átmenet a hover és a rendes állapot között*/
     line-height: 1.125rem;
     box-sizing: border-box;
 }
 
 #signUpBtn:hover {
-    /* navbar login btn hover */
     transition: color 0.8s ease;
-    /*átmenet a hover és a rendes állapot között*/
     transition: background-color 0.8s ease;
-    /*átmenet a hover és a rendes állapot között*/
     background-color: rgb(247, 245, 236);
     color: var(--mostUsed-text-color);
     border: dashed 0.094rem var(--dash-color);
 }
 
 #opening-text {
-    /* first section id-ja */
     padding-top: 11rem;
     padding-bottom: 4.375rem;
 }
 
 #FirstSectionBtn {
-    /* az első section-ben található button id-ja */
     background-color: var(--primary-BTN-Bg-color);
     color: var(--btn-text-color);
     border-width: 0rem;
@@ -685,7 +666,6 @@ footer a:hover {
 }
 
 #FirstSectionBtn:hover {
-    /* az első section-ben található button hover*/
     transition: color 0.8s ease;
     transition: background-color 0.8s ease;
     color: var(--mostUsed-text-color);
@@ -697,7 +677,6 @@ footer a:hover {
 }
 
 #second-section {
-    /* 2. section külső tag-je */
     margin-right: 6%;
     margin-left: 6%;
     margin-top: 3%;
@@ -710,19 +689,16 @@ footer a:hover {
 }
 
 #second-section-pic {
-    /* A képet tartalmazó bal div id-ja */
     display: flex;
 }
 
 #s2-pic1 {
-    /* az img tag id-ja */
     width: 24.375rem;
     height: 17.844rem;
     border-radius: 0.625rem;
 }
 
 #second-h2 {
-    /* h2 tag */
     font-size: 2.375rem;
     font-family: 'Montserrat';
     font-weight: 700;
@@ -730,7 +706,6 @@ footer a:hover {
 }
 
 #second-p {
-    /*? p tag */
     margin-top: 2.063rem;
     font-size: 1.375rem;
     font-family: 'Montserrat', sans-serif;
@@ -748,7 +723,6 @@ footer a:hover {
 }
 
 #third-h2 {
-    /*? h2 tag */
     font-size: 2.375rem;
     font-family: 'Montserrat';
     font-weight: 700;
@@ -763,7 +737,6 @@ footer a:hover {
 }
 
 #s2-pic2 {
-    /*? az img tag id-ja */
     width: 24.375rem;
     height: 17.844rem;
     border-radius: 0.625rem;
@@ -813,9 +786,7 @@ footer a:hover {
 
 #s4-btn1:hover {
     transition: color 0.8s ease;
-    /*átmenet a hover és a rendes állapot között*/
     transition: background-color 0.8s ease;
-    /*átmenet a hover és a rendes állapot között*/
     background-color: transparent;
     color: var(--white-col-btnBG-Text);
     border: dashed 0.094rem var(--white-col-btnBG-Text);
@@ -844,14 +815,12 @@ footer a:hover {
 }
 
 #footer-logo {
-    /* padding-left: 6%; */
     display: flex;
 }
 
-/** --------------- CLASS ALAPJÁN ---------------*/
+/* --------------- CLASSES---------------*/
 
 .bigtext {
-    /*? nyitó szöveg h1 class */
     letter-spacing: -0.063rem;
     font-size: 4.063rem;
     line-height: 5rem;
@@ -862,7 +831,6 @@ footer a:hover {
 }
 
 .above-big-text {
-    /*? nyitó szöveg p class */
     font-size: 1.563rem;
     font-family: 'Montserrat', sans-serif;
     font-weight: 500;
@@ -875,7 +843,6 @@ footer a:hover {
 }
 
 .btn-secondary {
-    /*? a 2. és 3. section-ben található gombokhoz class */
     background-color: rgb(64, 90, 26);
     border: 1px solid rgb(64, 90, 26);
     color: var(--white-col-btnBG-Text);
