@@ -2508,7 +2508,7 @@ form {
 
 /* Books */
 .medium-card {
-    width: 600px;
+    width: 650px;
     height: 300px;
     margin-bottom: 50px;
     display: flexbox;
@@ -2526,7 +2526,7 @@ form {
 .category {
     margin-top: 20px;
     height: fit-content;
-    font-size: 18px;
+    font-size: 16px;
     font-family: 'Poppins-Regular';
     background-color: #91796d;
     padding: 5px 10px;
@@ -2538,7 +2538,7 @@ form {
     display: flex;
     position: absolute;
     bottom: -5px;
-    gap: 100px;
+    gap: 50px;
 }
 
 .medium-pic {
@@ -2808,7 +2808,7 @@ footer {
     padding-top: 20px;
     padding-right: 5%;
     padding-left: 5%;
-    height: 300px;
+    height: fit-content;
 }
 
 footer h3 {

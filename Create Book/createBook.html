@@ -4,21 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--? CSS  -->
+    <!-- CSS  -->
     <link rel="stylesheet" href="createBook.css">
 
-    <!--? BOOTSTRAP  -->
+    <!-- BOOTSTRAP  -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-    <!--? bootstrap icons -->
+    <!--bootstrap icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
-    <!-- <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-thin-rounded/css/uicons-thin-rounded.css'> -->
-    <!-- <script src="https://kit.fontawesome.com/59b3debb91.js" crossorigin="anonymous"></script> -->
 
     <title>Create Book</title>
 
-    <!--? Icon a tabba -->
+    <!-- Icon a tabba -->
     <!-- fehér -->
     <link rel="icon" href="../icons/C-logo-white.svg" type="image/svg+xml">
     <!-- fekete -->
@@ -28,7 +26,6 @@
 
 <body style="background-color: #F7F5EC">
 
-    <!--? FELSŐ SÁV -->
     <nav class="nav fixed-top" id="editControls">
         <div class="container-fluid">
 
@@ -53,8 +50,7 @@
         <div class="container-fluid mx-auto" id="outsideDiv">
             <div class="row">
                 <div class="col-5" id="upload">
-                    <!-- TODO: KELLENEK AZ INFO IKONOK -->
-                    <!--? KÉP FELTÖLTÉSE | DRAG & DROP  -->
+
                     <div class="upload-and-delete">
                         <div id="drop-image" class="text-center align-content-center">
                             <label for="inputPicture" id="dropAreaPicture">
@@ -62,7 +58,8 @@
                                 <div id="imgView" class="align-middle">
                                     <img class="addPhoto" src="../icons/createBook/upload-image.png" id="addPhoto">
                                     <p class="uploadP" id="img-p">Drag and drop or click here <br>to upload image</p>
-                                    <span class="uploadSpan" id="img-span">Upload any image in <br> jpg format from desktop</span>
+                                    <span class="uploadSpan" id="img-span">Upload any image in <br> jpg format from
+                                        desktop</span>
                                 </div>
                             </label>
                             <div class="errorMessage mt-3" id="PicError"></div>
@@ -82,7 +79,6 @@
                     </div>
 
 
-                    <!--? FÁJL FELTÖLTÉSE | DRAG AND DROP -->
                     <div class="upload-and-delete mt-5">
                         <div id="drop-file" class="text-center">
                             <label for="inputFile" id="dropAreaFile">
@@ -114,10 +110,10 @@
                 </div>
 
                 <div class="col-7" id="inputs">
-                    <!--? INPUT MEZŐK  -->
+
                     <form id="form">
                         <div class="form-group container">
-                            <!--? STORY TITLE  -->
+
                             <div id="storyTitle-div" class="container">
                                 <label id="storyTitle" class="formLabel" for="inputStoryTitle">Story Title:
                                 </label>
@@ -136,7 +132,7 @@
 
                             </div>
 
-                            <!--? STORY DESCRIPTION  -->
+
                             <div id="description-div" class="container ">
                                 <label id="description" class="formLabel" for="inputDescription">Description:</label>
                                 <i class="bi bi-info-circle info" tabindex="0" data-bs-toggle="popover"
@@ -155,7 +151,7 @@
 
                             </div>
 
-                            <!--? TARGET AUDIENCE - dropdown -->
+
 
                             <div id="targetAudience-div" class="container input-div">
 
@@ -174,7 +170,7 @@
                             <div class="container errorMessage" id="audienceErr"></div>
 
 
-                            <!--? LANGUAGE - dropdown -->
+
                             <div id="language-div" class="container input-div">
                                 <label id="language" for="selectLanguage">Language: <i
                                         class="bi bi-info-circle infoalter" tabindex="0" data-bs-toggle="popover"
@@ -187,7 +183,7 @@
                             </div>
                             <div class="container errorMessage" id="languageErr"></div>
 
-                            <!--? CATEGORY - dropdown  -->
+
                             <div id="category-div" class="container input-div">
                                 <label id="category" for="selectCategory">Category: <i
                                         class="bi bi-info-circle infoalter" tabindex="0" data-bs-toggle="popover"
@@ -201,7 +197,7 @@
                             </div>
                             <div class="container errorMessage" id="categoryErr"></div>
 
-                            <!--? COPY RIGHT  -->
+
                             <div id="CopyRight-div" class="container input-div">
                                 <label id="copyright" for="copyrightP">CopyRight:</label>
                                 <p id="copyrightP">Please read the relevant article of the <a class="link" href="#"
@@ -209,7 +205,7 @@
                                         Conditions</a>.</p>
                             </div>
 
-                            <!--? ADULT LITERATURE  -->
+
                             <div id="adult-div" class="container input-div">
                                 <label id="adult" for="adultCheck">Adult Literature:</label>
                                 <input type="checkbox" class="form-check-input align-middle" id="adultCheck">
@@ -218,7 +214,7 @@
 
                             </div>
 
-                            <!--? CHAPTER NUMBER  -->
+
                             <div id="chapter-div" class="container input-div">
                                 <label for="" class="formLabel" id="chapterLabel">Chapter number:</label>
                                 <i class="bi bi-info-circle info" tabindex="0" data-bs-toggle="popover"
@@ -229,7 +225,7 @@
                                 <div class="container errorMessage" id="chapterError"></div>
                             </div>
 
-                            <!--? CHECKBOX - PUBLISHER - NOT PUBLISHER  -->
+
                             <div id="publishing-div" class="container input-div">
                                 <label id="publishing" for="selecter">Select one: <i class="bi bi-info-circle infoalter"
                                         tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
@@ -256,7 +252,7 @@
 
 
                             <div id="activate-self" hidden>
-                                <!--? BANK ACC NUMBER  -->
+
                                 <div id="bankAcc-div" class="container ">
                                     <label id="bankAcc" class="formLabel" for="inputBankNum">Bank Account Number:
                                     </label>
@@ -269,7 +265,6 @@
                                     <div class="errorMessage align-middle" id="BankNumError"></div>
                                 </div>
 
-                                <!--? BOOK PRICE -->
 
                                 <div id="bookPrice-outsideDiv">
                                     <div id="BookPrice-div" class="container input-div">
@@ -283,7 +278,7 @@
                                                 aria-describedby="basic-addon1" min="0">
                                             <span class="input-group-text" id="Currency">FT</span>
                                         </div>
-                                        <!-- <input class="form-control" type="number" id="inputBookPrice"> -->
+
 
                                     </div>
                                     <div class="container errorMessage" id="PriceError"></div>
@@ -293,26 +288,16 @@
                                             in
                                             the <a class="link" href="#"> Terms and Conditions</a>.</p>
                                     </div>
-
-
                                 </div>
-
                             </div>
-
-
                         </div>
-
+                    </form>
                 </div>
-
-                </form>
             </div>
         </div>
-        </div>
-
     </section>
 
     <!-- Error modal -->
-    <!-- Modal -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -321,7 +306,8 @@
                     <h1 class="modal-title fs-5 text-danger" id="staticBackdropLabel">Error</h1>
                 </div>
                 <div class="modal-body">
-                    <p class="modal-p text-center" id="errorModal-p">Please be sure, that you filled all field correctly.</p>
+                    <p class="modal-p text-center" id="errorModal-p">Please be sure, that you filled all field
+                        correctly.</p>
                 </div>
                 <div class="modal-footer border-0">
                     <button type="button" class="btn modalBtn btn-danger" data-bs-dismiss="modal">Understood</button>
@@ -331,11 +317,11 @@
     </div>
 
 
-    <!--? BOOTSTRAP  -->
+    <!-- BOOTSTRAP  -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>   
-    <!--? JAVASCRIPT  -->
+        crossorigin="anonymous"></script>
+    <!-- JAVASCRIPT  -->
     <script src="createBook.js"></script>
     <script src="../Api/index.js"></script>
 

@@ -8,7 +8,7 @@ const bankAccNumber = document.getElementById('inputBankNum');
 const bookPrice = document.getElementById('inputBookPrice');
 const adultCheckbox = document.getElementById('adultCheck');
 
-//* DRAG AND DROP IMAGE TO COVER PHOTO + UPLOAD FILE
+// DRAG AND DROP IMAGE TO COVER PHOTO + UPLOAD FILE
 const dropAreaPicture = document.getElementById('dropAreaPicture');
 const inputPicture = document.getElementById('inputPicture');
 const imgView = document.getElementById('imgView');
@@ -17,7 +17,7 @@ const dropAreaFile = document.getElementById('dropAreaFile');
 const inputFile = document.getElementById('inputFile');
 const fileView = document.getElementById('fileView');
 
-//* VARIABLES FOR ACTIVATE BUTTON
+// VARIABLES FOR ACTIVATE BUTTON
 var filePass = false;
 var picPass = false;
 var titlePass = false;
@@ -26,13 +26,12 @@ var audiencePass = false;
 var languagePass = false;
 var categoryPass = false;
 var chapterPass = false;
-var bankPass = false; //! csak akkor kell ha selfpublish
-var pricePass = false; //! csak akkor kell ha selfpublish
+var bankPass = false; 
+var pricePass = false; 
 var publishingStatus = 0;
 
 let isAdultLiterature = false;
 
-// Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
 window.addEventListener('beforeunload', async function () {
     const tokenResponse = await token();
 
@@ -43,8 +42,7 @@ window.addEventListener('beforeunload', async function () {
 
 window.onload = async function () {
     const tokenResponese = await token();
-    // console.log(tokenResponese);
-
+   
     switch (tokenResponese.status) {
         case 302:
             localStorage.removeItem('searchResult');
@@ -59,7 +57,6 @@ window.onload = async function () {
 
             var bookId = localStorage.getItem("bookId");
             if (bookId !== null) {
-                // console.log("A 'bookId' kulcs értéke:", bookId);
                 const detailResponse = await getBookDetails({ "id": bookId });
                 LoadBookDetails(detailResponse);
             }
@@ -291,6 +288,8 @@ function LoadBookDetails(response) {
     languagePass = true;
     category_dropdown.value = response.data.categoryId;
     categoryPass = true;
+    chapter_number.value = response.data.chapterNumber;
+    chapterPass = true;
 
     if (response.data.adultFiction == true) {
         adultCheckbox.checked = true;
@@ -1030,6 +1029,7 @@ nextBtn.addEventListener('click', async (e) => {
                     });
 
                     console.log(setBook_self.status);
+                    console.log(setBook_self.error);
                     switch (setBook_self.status) {
                         case 200:
                             window.location.href = "../General-HomePage/GenHome.html";
