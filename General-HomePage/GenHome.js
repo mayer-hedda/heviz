@@ -16,6 +16,7 @@ const s1_bigCard_author = document.getElementById('s1-bigCard-author');
 const s1_bigCard_publisher = document.getElementById('s1-bigCard-publisher');
 const s1_bigCard_p = document.getElementById('s1-bigCard-p');
 const random_book_btn = document.getElementById('randomBook-btn');
+const s1_bigCard_category = document.getElementById('s1-bigCard-category');
 
 const s2_mediumC_picDiv = document.getElementById('s2-mediumC-pic');
 const s2_mediumC_h2 = document.getElementById('s2-mediumC-h2');
@@ -23,6 +24,7 @@ const s2_mediumC_author = document.getElementById('s2-mediumC-author');
 const s2_mediumC_publisher = document.getElementById('s2-mediumC-publisher');
 const s2_mediumC_p = document.getElementById('s2-mediumC-p');
 const s2_mediumC_btn = document.getElementById('s2-mediumC-btn');
+const s2_mediumC_category = document.getElementById('s2-mediumC-category');
 
 const s2_first_row = document.getElementById('s2-first-row');
 
@@ -32,6 +34,7 @@ const s3_mediumC_author = document.getElementById('s3-mediumC-author');
 const s3_mediumC_publisher = document.getElementById('s3-mediumC-publisher');
 const s3_mediumC_desc = document.getElementById('s3-mediumC-desc');
 const s3_mediumC_btn = document.getElementById('s3-mediumC-btn');
+const s3_mediumC_category = document.getElementById('s3-mediumC-category');
 
 const s3_first_row = document.getElementById('s3-first-row');
 const s3_second_row = document.getElementById('s3-second-row');
@@ -42,6 +45,7 @@ const s4_mediumC_author = document.getElementById('s4-mediumC-author');
 const s4_mediumC_publisher = document.getElementById('s4-mediumC-publisher');
 const s4_mediumC_desc = document.getElementById('s4-mediumC-desc');
 const s4_mediumC_btn = document.getElementById('s4-mediumC-btn');
+const s4_mediumC_category = document.getElementById('s4-mediumC-category');
 
 const s4_first_row = document.getElementById('s4-first-row');
 const s4_second_row = document.getElementById('s4-second-row');
@@ -52,6 +56,7 @@ const s5_mediumC_author = document.getElementById('s5-mediumC-author');
 const s5_mediumC_publisher = document.getElementById('s5-mediumC-publisher');
 const s5_mediumC_desc = document.getElementById('s5-mediumC-desc');
 const s5_mediumC_btn = document.getElementById('s5-mediumC-btn');
+const s5_mediumC_category = document.getElementById('s5-mediumC-category');
 
 const s5_first_row = document.getElementById('s5-first-row');
 const s5_second_row = document.getElementById('s5-second-row');
@@ -102,7 +107,7 @@ window.onload = async function () {
             localStorage.removeItem('name');
 
             document.getElementById('profile-link').addEventListener('click', (e) => {
-               navigateToProfile(own_uname);
+                navigateToProfile(own_uname);
             });
 
             own_uname = tokenResponse.data.username;
@@ -127,7 +132,7 @@ window.onload = async function () {
                     // A hónap könyve(i)
                     const responseBooksOfMonth = await getMostSavedBooksOfTheMonth();
                     if (responseBooksOfMonth.data.length != 0) {
-                        OneRowAndMediumCard("Books of the month", responseBooksOfMonth, s2_mediumC_picDiv, s2_mediumC_h2, s2_mediumC_author, s2_mediumC_publisher, s2_mediumC_p, s2_mediumC_btn, s2_first_row);
+                        OneRowAndMediumCard("Books of the month", responseBooksOfMonth, s2_mediumC_picDiv, s2_mediumC_h2, s2_mediumC_author, s2_mediumC_publisher, s2_mediumC_p, s2_mediumC_btn, s2_first_row, s2_mediumC_category);
                         s2 = true;
                     } else {
                         second_section.hidden = true;
@@ -136,7 +141,7 @@ window.onload = async function () {
                     // ajánlások neked
                     const responseRecommanded = await getRecommandedBooks();
                     if (responseRecommanded.data.length != 0) {
-                        TwoRowAndMediumCard("Recommanded books for you", responseRecommanded, s3_mediumCardPic_div, s3_mediumC_h2, s3_mediumC_author, s3_mediumC_publisher, s3_mediumC_desc, s3_mediumC_btn, s3_first_row, s3_second_row);
+                        TwoRowAndMediumCard("Recommanded books for you", responseRecommanded, s3_mediumCardPic_div, s3_mediumC_h2, s3_mediumC_author, s3_mediumC_publisher, s3_mediumC_desc, s3_mediumC_btn, s3_first_row, s3_second_row, s3_mediumC_category);
                         s3 = true;
                     } else {
                         third_section.hidden = true;
@@ -145,7 +150,7 @@ window.onload = async function () {
                     // csak kiadósok
                     const responsePublisher = await getPublishedBooks();
                     if (responsePublisher.data.length != 0) {
-                        TwoRowAndMediumCard("Publisher books", responsePublisher, s4_mediumCardPic_div, s4_mediumC_h2, s4_mediumC_author, s4_mediumC_publisher, s4_mediumC_desc, s4_mediumC_btn, s4_first_row, s4_second_row);
+                        TwoRowAndMediumCard("Publisher books", responsePublisher, s4_mediumCardPic_div, s4_mediumC_h2, s4_mediumC_author, s4_mediumC_publisher, s4_mediumC_desc, s4_mediumC_btn, s4_first_row, s4_second_row, s4_mediumC_category);
                         s4 = true;
                     } else {
                         fourth_section.hidden = true;
@@ -155,7 +160,7 @@ window.onload = async function () {
                     const responseSelfPublished = await getSelfPublishedBooks();
                     if (responseSelfPublished.data.length != 0) {
 
-                        TwoRowAndMediumCard("Self-published books", responseSelfPublished, s5_mediumCardPic_div, s5_mediumC_h2, s5_mediumC_author, s5_mediumC_publisher, s5_mediumC_desc, s5_mediumC_btn, s5_first_row, s5_second_row)
+                        TwoRowAndMediumCard("Self-published books", responseSelfPublished, s5_mediumCardPic_div, s5_mediumC_h2, s5_mediumC_author, s5_mediumC_publisher, s5_mediumC_desc, s5_mediumC_btn, s5_first_row, s5_second_row, s5_mediumC_category)
                         s5 = true;
                     } else {
                         fifth_section.hidden = true;
@@ -214,6 +219,9 @@ function LoadRandomBook(response) {
     s1_bigCard_p.innerText = `${response.data[0].description}`;
     s1_bigCard_author.innerText = `${response.data[0].firstName} ${response.data[0].lastName}`;
     s1_bigCard_publisher.innerText = `${response.data[0].publisher || ''}`;
+    s1_bigCard_publisher.addEventListener('click', (e)=>{
+        navigateToProfile(response.data[0].publisherUsername);
+    });
 
     s1_bigCard_author.addEventListener('click', (e) => {
         e.preventDefault();
@@ -221,9 +229,11 @@ function LoadRandomBook(response) {
         window.location.href = `../Profile/profile.html?username=${response.data[0].username}`;
     });
 
+    s1_bigCard_category.innerText = `${response.data[0].category}`;
+
     random_book_btn.addEventListener('click', (e) => {
         e.preventDefault();
-        loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].price, response.data[0].username , response.data[0].publisher, response.data[0].id, response.data[0].saved);
+        loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].price, response.data[0].username, response.data[0].publisher, response.data[0].id, response.data[0].saved, response.data[0].publisherUsername !== undefined ? `${response.data[0].publisherUsername}` : null);
     })
 }
 
@@ -242,7 +252,7 @@ function LoadRandomBook(response) {
  * @param {HTMLDivElement} firstRow - The id of the first row's div
  * 
  */
-function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, mediumC_author, mediumC_publisher, mediumC_description, mediumC_btn, firstRow) {
+function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, mediumC_author, mediumC_publisher, mediumC_description, mediumC_btn, firstRow, mediumC_category) {
     // Medium cards
     if (response.data[0].coverImage == "Ez a kép elérési útja") {
         mediumC_PicDiv.innerHTML = `
@@ -265,12 +275,14 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
     mediumC_description.innerText = `${response.data[0].description}`;
 
     mediumC_author.addEventListener('click', (e) => {
-       navigateToProfile(response.data[0].username);
+        navigateToProfile(response.data[0].username);
     });
+
+    mediumC_category.innerText = `${response.data[0].category}`;
 
     mediumC_btn.addEventListener('click', (e) => {
         e.preventDefault();
-        loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].price, response.data[0].username , response.data[0].publisher !== undefined ? `'${response.data[0].publisher}'` : null, response.data[0].id, response.data[0].saved);
+        loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].price, response.data[0].username, response.data[0].publisher !== undefined ? `'${response.data[0].publisher}'` : null, response.data[0].id, response.data[0].saved, response.data[0].publisherUsername !== undefined ? `${response.data[0].publisherUsername}` : null);
     })
 
 
@@ -282,11 +294,11 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                     <div class="cover-photo">
                         <img src="../${response.data[i].coverImage}.jpg" alt="${response.data[i].title}" class="cover">
                         <div class="overlay">
-                            <p class="category-overlay">Category</p>
+                            <p class="category-overlay">${response.data[i].category}</p>
                             <p class="book-title">${response.data[i].title}</p>
                             <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                            <p class="author-p author">${response.data[i].publisher || ''}</p>
-                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}' , ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${response.data[i].id}', '${response.data[i].saved}')">Show Details</button>
+                            <p class="author-p author" onclick="navigateToProfile('${response.data[i].publisherUsername}')">${response.data[i].publisher || ''}</p>
+                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}' , ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${response.data[i].id}', '${response.data[i].saved}',  ${response.data[i].publisherUsername !== undefined ? `'${response.data[i].publisherUsername}'` : null})">Show Details</button>
                         </div>
                     </div>
                 </div>
@@ -299,11 +311,11 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                     <div class="cover-photo">
                         <img src="../pictures/standard-book-cover.jpg" alt="${response.data[i].title}" class="cover">
                         <div class="overlay">
-                            <p class="category-overlay">Category</p>
+                            <p class="category-overlay">${response.data[i].category}</p>
                             <p class="book-title">${response.data[i].title}</p>
                             <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                            <p class="author-p author">${response.data[i].publisher || ''}</p>
-                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}' , ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${response.data[i].id}', '${response.data[i].saved}')">Show Details</button>
+                            <p class="author-p author" onclick="navigateToProfile('${response.data[i].publisherUsername}')">${response.data[i].publisher || ''}</p>
+                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}' , ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${response.data[i].id}', '${response.data[i].saved}',  ${response.data[i].publisherUsername !== undefined ? `'${response.data[i].publisherUsername}'` : null})">Show Details</button>
                         </div>
                     </div>
                 </div>
@@ -328,7 +340,7 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
  * @param {HTMLDivElement} secondRow - The id of the second row's div
  * 
  */
-function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, mediumC_author, mediumC_publisher, mediumC_description, mediumC_btn, firstRow, secondRow) {
+function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, mediumC_author, mediumC_publisher, mediumC_description, mediumC_btn, firstRow, secondRow, mediumC_category) {
 
     // Medium cards
     if (response.data[0].coverImage == "Ez a kép elérési útja") {
@@ -343,6 +355,9 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
 
     if (response.data[0].publisher != undefined) {
         mediumC_publisher.innerText = `${response.data[0].publisher}`;
+        mediumC_publisher.addEventListener('click', (e) => {
+            navigateToProfile(response.data[0].publisherUsername);
+        });
     } else {
         mediumC_publisher.innerText = "";
     }
@@ -350,14 +365,15 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
     mediumC_h2.innerText = `${response.data[0].title}`;
     mediumC_author.innerText = `${response.data[0].firstName} ${response.data[0].lastName}`;
     mediumC_description.innerText = `${response.data[0].description}`;
+    mediumC_category.innerText = `${response.data[0].category}`;
 
     mediumC_author.addEventListener('click', (e) => {
-       navigateToProfile(response.data[0].username);
+        navigateToProfile(response.data[0].username);
     });
 
     mediumC_btn.addEventListener('click', (e) => {
         e.preventDefault();
-        loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].price, response.data[0].username, response.data[0].publisher, response.data[0].id, response.data[0].saved);
+        loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].price, response.data[0].username, response.data[0].publisher !== undefined ? `${response.data[0].publisher}` : null, response.data[0].id, response.data[0].saved,  response.data[0].publisherUsername !== undefined ? `${response.data[0].publisherUsername}` : null);
     })
 
 
@@ -369,11 +385,11 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                     <div class="cover-photo">
                         <img src="../${response.data[i].coverImage}.jpg" alt="${response.data[i].title}" class="cover">
                         <div class="overlay">
-                            <p class="category-overlay">Category</p>
+                            <p class="category-overlay">${response.data[i].category}</p>
                             <p class="book-title">${response.data[i].title}</p>
                             <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                            <p class="author-p author">${response.data[i].publisher || ''}</p>
-                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}' , ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${response.data[i].id}', '${response.data[i].saved}')">Show Details</button>
+                            <p class="author-p author" onclick="navigateToProfile('${response.data[i].publisherUsername}')">${response.data[i].publisher || ''}</p>
+                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}' , ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${response.data[i].id}', '${response.data[i].saved}', ${response.data[i].publisherUsername !== undefined ? `'${response.data[i].publisherUsername}'` : null})">Show Details</button>
                         </div>
                     </div>
                 </div>
@@ -386,11 +402,11 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                     <div class="cover-photo">
                         <img src="../pictures/standard-book-cover.jpg" alt="${response.data[i].title}" class="cover">
                         <div class="overlay">
-                            <p class="category-overlay">Category</p>
+                            <p class="category-overlay">${response.data[i].category}</p>
                             <p class="book-title">${response.data[i].title}</p>
                             <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                            <p class="author-p author">${response.data[i].publisher || ''}</p>
-                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}' , ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${response.data[i].id}', '${response.data[i].saved}')">Show Details</button>
+                            <p class="author-p author" onclick="navigateToProfile('${response.data[i].publisherUsername}')">${response.data[i].publisher || ''}</p>
+                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}' , ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${response.data[i].id}', '${response.data[i].saved}', ${response.data[i].publisherUsername !== undefined ? `'${response.data[i].publisherUsername}'` : null})">Show Details</button>
                         </div>
                     </div>
                 </div>
@@ -406,11 +422,11 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                     <div class="cover-photo">
                         <img src="../${response.data[i].coverImage}.jpg" alt="${response.data[i].title}" class="cover">
                         <div class="overlay">
-                            <p class="category-overlay">Category</p>
+                            <p class="category-overlay">${response.data[i].category}</p>
                             <p class="book-title">${response.data[i].title}</p>
                             <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                            <p class="author-p author">${response.data[i].publisher || ''}</p>
-                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}' , ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${response.data[i].id}', '${response.data[i].saved}')">Show Details</button>
+                            <p class="author-p author" onclick="navigateToProfile('${response.data[i].publisherUsername}')">${response.data[i].publisher || ''}</p>
+                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}' , ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${response.data[i].id}', '${response.data[i].saved}', ${response.data[i].publisherUsername !== undefined ? `'${response.data[i].publisherUsername}'` : null})">Show Details</button>
                         </div>
                     </div>
                 </div>
@@ -423,11 +439,11 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                     <div class="cover-photo">
                         <img src="../pictures/standard-book-cover.jpg" alt="${response.data[i].title}" class="cover">
                         <div class="overlay">
-                            <p class="category-overlay">Category</p>
+                            <p class="category-overlay">${response.data[i].category}</p>
                             <p class="book-title">${response.data[i].title}</p>
                             <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                            <p class="author-p author">${response.data[i].publisher || ''}</p>
-                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}' , ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${response.data[i].id}', '${response.data[i].saved}')">Show Details</button>
+                            <p class="author-p author" onclick="navigateToProfile('${response.data[i].publisherUsername}')">${response.data[i].publisher || ''}</p>
+                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}' , ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${response.data[i].id}', '${response.data[i].saved}', ${response.data[i].publisherUsername !== undefined ? `'${response.data[i].publisherUsername}'` : null})">Show Details</button>
                         </div>
                     </div>
                 </div>
@@ -443,13 +459,13 @@ let deletedSavedBooksIds = [];
 let savedBoolean;
 let bookId;
 
-function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username , publisher, bookIdString, isSaved) {
+function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher, bookIdString, isSaved, publisherUsername) {
     bookId = parseInt(bookIdString);
 
     if (own_uname == username) {
         save_btn.hidden = true;
         shopping_btn.hidden = true;
-    }else{
+    } else {
         save_btn.hidden = false;
         shopping_btn.hidden = false;
     }
@@ -470,6 +486,10 @@ function loadModalData(url, title, firstName, lastName, description, language, r
 
     if (publisher != null) {
         modal_publisher.innerText = `${publisher}`;
+        modal_publisher.addEventListener('click', (e) => {
+            navigateToProfile(publisherUsername);
+        });
+
     } else {
         modal_publisher.innerText = "";
     }
@@ -497,7 +517,7 @@ function loadModalData(url, title, firstName, lastName, description, language, r
         if (!savedBookIds.includes(bookId)) {
             savedBookIds.push(bookId);
         }
-       
+
         save_btn.innerHTML = "";
         save_btn.innerHTML = `
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
@@ -517,16 +537,16 @@ function loadModalData(url, title, firstName, lastName, description, language, r
 }
 
 save_btn.addEventListener('click', (e) => {
- 
+
     if (savedBoolean != true && savedBoolean != "true") {
         SavingBook(bookId);
         savedBoolean = "true";
         saveClick = true;
-      
-    }else{
+
+    } else {
         UnsavingBook(bookId);
         savedBoolean = "false";
-        saveClick = true;    
+        saveClick = true;
     }
 
 });

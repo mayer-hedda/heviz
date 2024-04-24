@@ -226,11 +226,12 @@
         padding: 5px 10px;
     }
 
-    .category {
+    .category-big {
         margin-top: 0px !important;
         margin-bottom: 0px !important;
         font-size: 10px !important;
         width: fit-content;
+        margin-left: 0px !important;
     }
 
     /* medium cards */
@@ -304,12 +305,13 @@
     }
 
     .category-overlay {
-        font-size: 15px !important;
-        top: 20px;
+        font-size: 10px !important;
+        top: 5px !important;
     }
 
     .book-title {
-        font-size: 15px !important;
+        font-size: 12px !important;
+        padding: 0px 3px 0px 3px !important;
     }
 
     .author-p {
@@ -369,6 +371,7 @@
     /* footer */
     footer {
         padding-top: 20px !important;
+        height: fit-content!important;
     }
 
     #footer-logo-div {
@@ -399,7 +402,8 @@
     #email,
     #facebook,
     #instagram,
-    #help-center {
+    #help-center,
+    #terms {
         font-size: 12px !important;
     }
 
@@ -557,11 +561,12 @@
         padding: 5px 10px;
     }
 
-    .category {
+    .category-big {
         margin-top: 0px !important;
         margin-bottom: 0px !important;
         font-size: 13px !important;
         width: fit-content;
+        margin-left: 0px !important;
     }
 
     /* medium cards */
@@ -689,14 +694,15 @@
         font-size: 14px;
     }
 
-    .sMoreBtn{
-        font-size: 14px!important;
+    .sMoreBtn {
+        font-size: 14px !important;
         padding: 10px 15px 10px 15px !important;
     }
 
     /* footer */
     footer {
         padding-top: 20px !important;
+        height: fit-content!important;
     }
 
     #footer-logo-div {
@@ -727,7 +733,8 @@
     #email,
     #facebook,
     #instagram,
-    #help-center {
+    #help-center,
+    #terms {
         font-size: 12px !important;
     }
 
@@ -885,11 +892,12 @@
         padding: 5px 10px;
     }
 
-    .category {
+    .category-big {
         margin-top: 0px !important;
         margin-bottom: 0px !important;
         font-size: 13px !important;
         width: fit-content;
+        margin-left: 0px !important;
     }
 
     /* medium cards */
@@ -977,7 +985,7 @@
 
     .category-overlay {
         font-size: 12px !important;
-        top: 20px;
+        top: 20px !important;
     }
 
     .book-title {
@@ -1027,6 +1035,7 @@
     /* footer */
     footer {
         padding-top: 20px !important;
+        height: fit-content!important;
     }
 
     #footer-logo-div {
@@ -1057,7 +1066,8 @@
     #email,
     #facebook,
     #instagram,
-    #help-center {
+    #help-center,
+    #terms {
         font-size: 12px !important;
     }
 
@@ -1219,11 +1229,12 @@
         padding: 5px 10px;
     }
 
-    .category {
+    .category-big {
         margin-top: 0px !important;
         margin-bottom: 0px !important;
         font-size: 13px !important;
         width: fit-content;
+        margin-left: 0px !important;
     }
 
     /* medium cards */
@@ -1311,7 +1322,7 @@
 
     .category-overlay {
         font-size: 12px !important;
-        top: 20px;
+        top: 20px !important;
     }
 
     .book-title {
@@ -1330,6 +1341,7 @@
 
     footer {
         padding-top: 20px !important;
+        height: fit-content!important;
     }
 
     #footer-logo-div {
@@ -1360,7 +1372,8 @@
     #email,
     #facebook,
     #instagram,
-    #help-center {
+    #help-center,
+    #terms {
         font-size: 12px !important;
     }
 
@@ -1522,11 +1535,12 @@
         padding: 5px 15px;
     }
 
-    .category {
+    .category-big {
         margin-top: 0px !important;
         margin-bottom: 0px !important;
         font-size: 13px !important;
         width: fit-content;
+        margin-left: 0px !important;
     }
 
     /* medium cards */
@@ -1623,7 +1637,7 @@
 
     .category-overlay {
         font-size: 12px !important;
-        top: 20px;
+        top: 5px !important;
     }
 
     .book-title {
@@ -1642,6 +1656,7 @@
 
     footer {
         padding-top: 20px !important;
+        height: fit-content!important;
     }
 
     footer ul li a,
@@ -1649,7 +1664,8 @@
     #email,
     #facebook,
     #instagram,
-    #help-center {
+    #help-center,
+    #terms {
         font-size: 15px !important;
     }
 
@@ -1831,11 +1847,12 @@
         padding: 5px 15px;
     }
 
-    .category {
+    .category-big {
         margin-top: 0px !important;
         margin-bottom: 0px !important;
         font-size: 13px !important;
         width: fit-content;
+        margin-left: 0px !important;
     }
 
     /* medium cards */
@@ -1932,7 +1949,7 @@
 
     .category-overlay {
         font-size: 12px !important;
-        top: 20px;
+        top: 5px !important;
     }
 
     .book-title {
@@ -1951,6 +1968,7 @@
 
     footer {
         padding-top: 20px !important;
+        height: fit-content;
     }
 
     footer ul li a,
@@ -1958,7 +1976,8 @@
     #email,
     #facebook,
     #instagram,
-    #help-center {
+    #help-center,
+    #terms {
         font-size: 15px !important;
     }
 
@@ -2070,12 +2089,14 @@
     .bottom-row {
         display: flex;
         align-items: center;
-        gap: 150px !important;
+        gap: 50px !important;
         bottom: 0px !important;
     }
 
-    .category {
-        margin-bottom: 30px;
+
+    .category-big {
+        margin-left: 0px !important;
+        margin-top: 5px !important;
     }
 
     /* medium cards */
@@ -2103,7 +2124,7 @@
 
     .category-overlay {
         font-size: 12px !important;
-        top: 20px;
+        top: 5px !important;
     }
 
     .book-title {
@@ -2222,6 +2243,10 @@
     .cover {
         width: 200px !important;
         height: 350px !important;
+    }
+
+    .category-overlay {
+        top: 10px !important;
     }
 
 }
@@ -2375,7 +2400,7 @@ nav {
 }
 
 .medium-card {
-    width: 600px;
+    width: 650px;
     height: 300px;
     margin-bottom: 50px;
     display: flexbox;
@@ -2454,13 +2479,14 @@ nav {
     display: flex;
     position: absolute;
     bottom: 20px;
-    gap: 300px;
 }
 
-.category {
+.category-big,
+.category-medium {
     margin-top: 20px;
     height: fit-content;
-    font-size: 18px;
+    width: fit-content;
+    font-size: 16px;
     font-family: 'Poppins-Regular';
     background-color: #91796d;
     padding: 5px 10px;
@@ -2468,11 +2494,15 @@ nav {
     border-radius: 10px;
 }
 
+.category-big {
+    margin-left: 240px;
+}
+
 .bottom-row-medium {
     display: flex;
     position: absolute;
     bottom: -5px;
-    gap: 100px;
+    gap: 50px;
 }
 
 /* --------------- FIRST-SECTION ---------------*/
@@ -2543,6 +2573,13 @@ nav {
     margin-top: 20px;
 }
 
+.moreBtn {
+    font-size: 18px;
+}
+
+.moreBtn-medium {
+    font-size: 16px;
+}
 
 .moreBtn,
 .moreBtn-medium {
@@ -2551,7 +2588,6 @@ nav {
     border: 3px solid #895372;
     border-radius: 20px !important;
     font-family: 'PTsans-Regular', sans-serif !important;
-    font-size: 18px;
     letter-spacing: 0.7px;
     background: linear-gradient(145deg, #713D5A, #995D7F) !important;
     padding: 5px 20px 5px;

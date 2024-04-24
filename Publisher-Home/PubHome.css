@@ -209,11 +209,12 @@
         padding: 5px 10px;
     }
 
-    .category {
+    .category-big {
         margin-top: 0px !important;
         margin-bottom: 0px !important;
         font-size: 10px !important;
         width: fit-content;
+        margin-left: 0px !important;
     }
 
     /* medium cards */
@@ -288,11 +289,12 @@
 
     .category-overlay {
         font-size: 15px !important;
-        top: 20px;
+        top: 5px !important;
     }
 
     .book-title {
-        font-size: 15px !important;
+        font-size: 12px !important;
+        padding: 0px 3px 0px 3px !important;
     }
 
     .author-p {
@@ -357,6 +359,7 @@
     /* footer */
     footer {
         padding-top: 20px !important;
+        height: fit-content!important;
     }
 
     #footer-logo-div {
@@ -527,11 +530,12 @@
         padding: 5px 10px;
     }
 
-    .category {
+    .category-big {
         margin-top: 0px !important;
         margin-bottom: 0px !important;
         font-size: 13px !important;
         width: fit-content;
+        margin-left: 0px !important;
     }
 
     /* medium cards */
@@ -667,6 +671,7 @@
     /* footer */
     footer {
         padding-top: 20px !important;
+        height: fit-content!important;
     }
 
     #footer-logo-div {
@@ -837,11 +842,12 @@
         padding: 5px 10px;
     }
 
-    .category {
+    .category-big {
         margin-top: 0px !important;
         margin-bottom: 0px !important;
         font-size: 13px !important;
         width: fit-content;
+        margin-left: 0px !important;
     }
 
     /* medium cards */
@@ -929,7 +935,7 @@
 
     .category-overlay {
         font-size: 12px !important;
-        top: 20px;
+        top: 20px !important;
     }
 
     .book-title {
@@ -979,6 +985,7 @@
     /* footer */
     footer {
         padding-top: 20px !important;
+        height: fit-content!important;
     }
 
     #footer-logo-div {
@@ -1153,11 +1160,12 @@
         padding: 5px 10px;
     }
 
-    .category {
+    .category-big {
         margin-top: 0px !important;
         margin-bottom: 0px !important;
         font-size: 13px !important;
         width: fit-content;
+        margin-left: 0px !important;
     }
 
     /* medium cards */
@@ -1245,7 +1253,7 @@
 
     .category-overlay {
         font-size: 12px !important;
-        top: 20px;
+        top: 20px !important;
     }
 
     .book-title {
@@ -1264,6 +1272,7 @@
 
     footer {
         padding-top: 20px !important;
+        height: fit-content!important;
     }
 
     #footer-logo-div {
@@ -1438,11 +1447,12 @@
         padding: 5px 15px;
     }
 
-    .category {
+    .category-big {
         margin-top: 0px !important;
         margin-bottom: 0px !important;
         font-size: 13px !important;
         width: fit-content;
+        margin-left: 0px !important;
     }
 
     /* medium cards */
@@ -1533,13 +1543,13 @@
     }
 
     .book-row {
-        width: fit-content;
+        width: 100%;
         padding-left: 20px;
     }
 
     .category-overlay {
         font-size: 12px !important;
-        top: 20px;
+        top: 5px !important;
     }
 
     .book-title {
@@ -1558,6 +1568,7 @@
 
     footer {
         padding-top: 20px !important;
+        height: fit-content!important;
     }
 
     footer ul li a,
@@ -1729,11 +1740,12 @@
         padding: 5px 15px;
     }
 
-    .category {
+    .category-big {
         margin-top: 0px !important;
         margin-bottom: 0px !important;
         font-size: 13px !important;
         width: fit-content;
+        margin-left: 0px !important;
     }
 
     /* medium cards */
@@ -1824,13 +1836,13 @@
     }
 
     .book-row {
-        width: fit-content;
+        width: 100%;
         padding-left: 20px;
     }
 
     .category-overlay {
         font-size: 12px !important;
-        top: 20px;
+        top: 5px !important;
     }
 
     .book-title {
@@ -1847,8 +1859,10 @@
         padding: 5px 10px !important;
     }
 
+
     footer {
-        padding-top: 20px !important;
+        padding-top: 10px !important;
+        height: fit-content!important;
     }
 
     footer ul li a,
@@ -1874,11 +1888,11 @@
 
     #footer-logo {
         width: 120px;
-        margin-left: 155px;
+        margin-left: 105px;
     }
 
     #copy-right {
-        margin-bottom: 0px;
+      margin-bottom: 0px;
     }
 }
 
@@ -1951,12 +1965,13 @@
     .bottom-row {
         display: flex;
         align-items: center;
-        gap: 150px !important;
+        gap: 50px !important;
         bottom: 0px !important;
     }
 
-    .category {
-        margin-bottom: 30px;
+    .category-big {
+        margin-left: 0px !important;
+        margin-top: 5px !important;
     }
 
     /* medium cards */
@@ -1984,7 +1999,7 @@
 
     .category-overlay {
         font-size: 12px !important;
-        top: 20px;
+        top: 5px !important;
     }
 
     .book-title {
@@ -2091,6 +2106,10 @@
     .cover {
         width: 200px !important;
         height: 350px !important;
+    }
+
+    .category-overlay {
+        top: 10px !important;
     }
 
 }
@@ -2296,13 +2315,15 @@ section {
     display: flex;
     position: absolute;
     bottom: 20px;
-    gap: 300px;
+    gap: 20px;
 }
 
-.category {
+.category-big,
+.category-medium {
     margin-top: 20px;
     height: fit-content;
-    font-size: 18px;
+    width: fit-content;
+    font-size: 16px;
     font-family: 'Poppins-Regular';
     background-color: #91796d;
     padding: 5px 10px;
@@ -2310,11 +2331,16 @@ section {
     border-radius: 10px;
 }
 
+.category-big {
+    margin-left: 240px;
+}
+
+
 .bottom-row-medium {
     display: flex;
     position: absolute;
     bottom: -5px;
-    gap: 100px;
+    gap: 50px;
 }
 
 /* --------------- FIRST-SECTION ---------------*/
@@ -2384,6 +2410,13 @@ section {
     margin-top: 4%;
 }
 
+.moreBtn {
+    font-size: 18px;
+}
+
+.moreBtn-medium {
+    font-size: 16px;
+}
 
 .moreBtn,
 .moreBtn-medium {
@@ -2392,7 +2425,6 @@ section {
     border: 3px solid #895372;
     border-radius: 20px !important;
     font-family: 'PTsans-Regular', sans-serif !important;
-    font-size: 18px;
     letter-spacing: 0.7px;
     background: linear-gradient(145deg, #713D5A, #995D7F) !important;
     padding: 5px 20px 5px;
@@ -2475,7 +2507,7 @@ section {
 
 .book-title {
     font-family: 'Poppins-Regular', sans-serif;
-    font-size: 18px !important;
+    font-size: 18px;
 }
 
 .author-p {
@@ -2707,7 +2739,7 @@ section {
 footer {
     border-top: 0.094rem solid var(--dash-color);
     background-color: var(--footer-bg-color);
-    padding-top: 50px;
+    padding-top: 20px;
     padding-right: 5%;
     padding-left: 5%;
     height: 300px;
