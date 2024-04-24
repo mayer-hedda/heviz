@@ -17,7 +17,7 @@
 
 <body style="background-color: rgb(247, 245, 236)">
     <!-- NAVBAR -->
-    <nav class="navbar fixed-top navbar-expand-lg" id="navbar">
+    <nav class="navbar fixed-top navbar-expand-lg" id="navbar" style="background-color: rgb(247, 245, 236);">
         <div class="container-fluid">
             <img src="../pictures/LOGO.svg" alt="Logo" width="125" height="40" class="d-inline-block align-text-top"
                 id="logo" />
@@ -27,33 +27,31 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse  justify-content-center" id="navbarNav">
-                <div class="navbar-nav text-center">
-                    <a class="nav-link active" aria-current="page" id="HomePage" onclick="window.location.reload()">Home
-                        Page</a>
+            <div class="collapse navbar-collapse " id="navbarNav" style="margin-left: 195px;">
+                <div class="navbar-nav text-center justify-content-center">
+                    <a class="nav-link active" aria-current="page" id="HomePage" onclick="window.location.reload()">Home Page</a>
                     <a class="nav-link" id="Feed" href="../Feed/feed.html">Feed</a>
                     <a class="nav-link" id="Explore" href="../Explore/explore.html">Explore</a>
                     <a class="nav-link" id="SavedBooks" href="../MyBooks/mybooks.html">Saved Books</a>
                 </div>
 
-            </div>
-            <!--? Profilkép helye -->
-            <div id="profile-icon">
-                <!--* be kell szúrnom egy img taget  -->
-                <img class="rounded-circle" src="../pictures/default-profile-pic-man.png" alt="profile picture"></img>
-            </div>
-            <!--? User nevének helye -->
-            <div id="user-name">
-                <div class="dropdown">
-                    <button class="bg-transparent border-0 dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        <p id="userName-p"></p>
-                    </button>
+                <div id="usernamePicture">
+                    <div id="profile-icon" class="rounded-circle"></div>
 
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" id="Logout">Log Out</a></li>
-                        <li id="profile-link"><a class="dropdown-item">Profile</a></li>
-                    </ul>
+                    <div id="user-name">
+                        <div class="dropdown">
+                            <button class="bg-transparent border-0 dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <p id="userName-p"></p>
+                            </button>
+
+                            <ul class="dropdown-menu">
+                                <li id="profile-link"><a class="dropdown-item">Profile</a></li>
+                                <li><a class="dropdown-item" id="Logout">Log Out</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -61,32 +59,26 @@
 
     <h1 id="welcome" class="container"></h1>
 
-    <!-- FIRST SECTION => RANDOM NAGY KÁRTYA  -->
+    <!--  Random big card  -->
     <section id="first-section" class="container">
-        <!-- Default value: hidden = false -->
         <div id="first-s-card" class="container full-card">
             <div class="row card-bg" style="border: 3px">
                 <div class="col-4 picSide" id="bigCard-Pic">
-                    <!-- Cover pic  -->ű
+                    <!-- Cover pic  -->
                 </div>
 
                 <div class="col-8 textSide">
-                    <h2 class="textH2" id="s1-bigCard-h2">
-                        <!-- Title  -->
-                    </h2>
-                    <p class="bigUsername author" id="s1-bigCard-author">
-                        <!-- Author's name -->
-                    </p>
-                    <p class="description" id="s1-bigCard-p">
-                        <!-- Description  -->
-                    </p>
+                    <h2 class="textH2" id="s1-bigCard-h2"></h2>
+
+                    <p class="bigUsername author" id="s1-bigCard-author"></p>
+
+                    <p class="description" id="s1-bigCard-p"></p>
 
                     <div class="bottom-row">
-                        <!-- Modal / popup  -->
                         <button type="button" id="randomBook-btn" class="moreBtn" data-bs-toggle="modal"
                             data-bs-target="#modalID">Show Details</button>
 
-                        <p class="category" id="s1-bigCard-category">Comedy</p>
+                        <p class="category-big" id="s1-bigCard-category"></p>
 
                     </div>
                 </div>
@@ -97,32 +89,25 @@
     </section>
 
     <!-- Recommanded books -->
-    <section id="second-section" class="container">
+    <section id="second-section" class="container sub-sections">
         <h2 class=" subtitle">Recommanded books for you:</h2>
-        <!-- Medium card -->
         <div class="container medium-card" style="background-color: #EAD7BE;" id="s2-mediumC">
             <div class="row">
                 <div class="col-3" id="s2-mediumC-pic">
-                    <!-- Picture => Alt-nak mehet majd a könyv címe -->
                 </div>
 
                 <div class="col-9 medium-right-side">
-                    <!-- Author + Book Title  -->
-                    <h2 class="container medium-h2" id="s2-mediumC-h2">
-                        <!-- Title  -->
-                    </h2>
-                    <p class="username author" id="s2-mediumC-author">
-                        <!-- Author's name -->
-                    </p>
-                    <p class="medium-desc" id="s2-mediumC-p">
-                        <!-- Description  -->
-                    </p>
+                    <h2 class="container medium-h2" id="s2-mediumC-h2"></h2>
+
+                    <p class="username author" id="s2-mediumC-author"></p>
+
+                    <p class="medium-desc" id="s2-mediumC-p"></p>
 
                     <div class="bottom-row-medium">
                         <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
                             data-bs-target="#modalID" id="s2-mediumC-btn">Show Details</button>
 
-                        <p class="category" id="s2-mediumC-category">Comedy</p>
+                        <p class="category-medium" id="s2-mediumC-category"></p>
                     </div>
 
                 </div>
@@ -131,13 +116,11 @@
 
         <div class="book-row">
             <div class="row text-center" id="s2-first-row">
-                <!--* BOOK COVERS  -->
             </div>
         </div>
 
         <div class="book-row">
             <div class="row text-center" id="s2-second-row">
-                <!-- * BOOK COVERS -->
             </div>
         </div>
 
@@ -145,32 +128,25 @@
 
     <!-- 4 random category -->
     <!-- #1 -->
-    <section id="third-section" class="container">
+    <section id="third-section" class="container sub-sections">
         <h2 class=" subtitle" id="s3-subtitle"></h2>
-        <!-- Medium card -->
         <div class="container medium-card" style="background-color: #EAD7BE;" id="s3-mediumC">
             <div class="row">
                 <div class="col-3" id="s3-mediumC-pic">
-                    <!-- Picture => Alt-nak mehet majd a könyv címe -->
                 </div>
 
                 <div class="col-9 medium-right-side">
-                    <!-- Author + Book Title  -->
-                    <h2 class="container medium-h2" id="s3-mediumC-h2">
-                        <!-- Title  -->
-                    </h2>
-                    <p class="username author" id="s3-mediumC-author">
-                        <!-- Author's name -->
-                    </p>
-                    <p class="medium-desc" id="s3-mediumC-desc">
-                        <!-- Description  -->
-                    </p>
+                    <h2 class="container medium-h2" id="s3-mediumC-h2"></h2>
+                    
+                    <p class="username author" id="s3-mediumC-author"></p>
+
+                    <p class="medium-desc" id="s3-mediumC-desc"></p>
 
                     <div class="bottom-row-medium">
                         <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
                             data-bs-target="#modalID" id="s3-mediumC-btn">Show Details</button>
 
-                        <p class="category" id="s3-mediumC-category">Comedy</p>
+                        <p class="category-medium" id="s3-mediumC-category"></p>
                     </div>
 
                 </div>
@@ -179,45 +155,36 @@
 
         <div class="book-row">
             <div class="row text-center" id="s3-first-row">
-                <!--* BOOK COVERS  -->
             </div>
         </div>
 
         <div class="book-row">
             <div class="row text-center" id="s3-second-row">
-                <!-- * BOOK COVERS -->
             </div>
         </div>
 
     </section>
 
     <!-- #2 -->
-    <section id="fourth-section" class="container">
+    <section id="fourth-section" class="container sub-sections">
         <h2 class=" subtitle" id="s4-subtitle"></h2>
-        <!-- Medium card -->
         <div class="container medium-card" style="background-color: #EAD7BE;" id="s4-mediumC">
             <div class="row">
                 <div class="col-3" id="s4-mediumC-pic">
-                    <!-- Picture => Alt-nak mehet majd a könyv címe -->
                 </div>
 
                 <div class="col-9 medium-right-side">
-                    <!-- Author + Book Title  -->
-                    <h2 class="container medium-h2" id="s4-mediumC-h2">
-                        <!-- Title  -->
-                    </h2>
-                    <p class="username author" id="s4-mediumC-author">
-                        <!-- Author's name -->
-                    </p>
-                    <p class="medium-desc" id="s4-mediumC-desc">
-                        <!-- Description  -->
-                    </p>
+                    <h2 class="container medium-h2" id="s4-mediumC-h2"></h2>
+
+                    <p class="username author" id="s4-mediumC-author"></p>
+
+                    <p class="medium-desc" id="s4-mediumC-desc"></p>
 
                     <div class="bottom-row-medium">
                         <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
                             data-bs-target="#modalID" id="s4-mediumC-btn">Show Details</button>
 
-                        <p class="category" id="s4-mediumC-category">Comedy</p>
+                        <p class="category-medium" id="s4-mediumC-category"></p>
                     </div>
 
                 </div>
@@ -226,45 +193,36 @@
 
         <div class="book-row">
             <div class="row text-center" id="s4-first-row">
-                <!--* BOOK COVERS  -->
             </div>
         </div>
 
         <div class="book-row">
             <div class="row text-center" id="s4-second-row">
-                <!-- * BOOK COVERS -->
             </div>
         </div>
 
     </section>
 
     <!-- #3 -->
-    <section id="fifth-section" class="container">
+    <section id="fifth-section" class="container sub-sections">
         <h2 class=" subtitle" id="s5-subtitle"></h2>
-        <!-- Medium card -->
         <div class="container medium-card" style="background-color: #EAD7BE;" id="s5-mediumC">
             <div class="row">
                 <div class="col-3" id="s5-mediumC-pic">
-                    <!-- Picture => Alt-nak mehet majd a könyv címe -->
                 </div>
 
                 <div class="col-9 medium-right-side">
-                    <!-- Author + Book Title  -->
-                    <h2 class="container medium-h2" id="s5-mediumC-h2">
-                        <!-- Title  -->
-                    </h2>
-                    <p class="username author" id="s5-mediumC-author">
-                        <!-- Author's name -->
-                    </p>
-                    <p class="medium-desc" id="s5-mediumC-desc">
-                        <!-- Description  -->
-                    </p>
+                    <h2 class="container medium-h2" id="s5-mediumC-h2"></h2>
+
+                    <p class="username author" id="s5-mediumC-author"></p>
+
+                    <p class="medium-desc" id="s5-mediumC-desc"></p>
 
                     <div class="bottom-row-medium">
                         <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
                             data-bs-target="#modalID" id="s5-mediumC-btn">Show Details</button>
 
-                        <p class="category" id="s5-mediumC-category">Comedy</p>
+                        <p class="category-medium" id="s5-mediumC-category"></p>
                     </div>
 
                 </div>
@@ -273,45 +231,36 @@
 
         <div class="book-row">
             <div class="row text-center" id="s5-first-row">
-                <!--* BOOK COVERS  -->
             </div>
         </div>
 
         <div class="book-row">
             <div class="row text-center" id="s5-second-row">
-                <!-- * BOOK COVERS -->
             </div>
         </div>
 
     </section>
 
     <!-- #4 -->
-    <section id="sixth-section" class="container">
+    <section id="sixth-section" class="container sub-sections">
         <h2 class=" subtitle" id="s6-subtitle"></h2>
-        <!-- Medium card -->
         <div class="container medium-card" style="background-color: #EAD7BE;" id="s6-mediumC">
             <div class="row">
                 <div class="col-3" id="s6-mediumC-pic">
-                    <!-- Picture => Alt-nak mehet majd a könyv címe -->
                 </div>
 
                 <div class="col-9 medium-right-side">
-                    <!-- Author + Book Title  -->
-                    <h2 class="container medium-h2" id="s6-mediumC-h2">
-                        <!-- Title  -->
-                    </h2>
-                    <p class="username author" id="s6-mediumC-author">
-                        <!-- Author's name -->
-                    </p>
-                    <p class="medium-desc" id="s6-mediumC-desc">
-                        <!-- Description  -->
-                    </p>
+                    <h2 class="container medium-h2" id="s6-mediumC-h2"></h2>
+
+                    <p class="username author" id="s6-mediumC-author"></p>
+
+                    <p class="medium-desc" id="s6-mediumC-desc"></p>
 
                     <div class="bottom-row-medium">
                         <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
                             data-bs-target="#modalID" id="s6-mediumC-btn">Show Details</button>
 
-                        <p class="category" id="s6-mediumC-category">Comedy</p>
+                        <p class="category-medium" id="s6-mediumC-category"></p>
                     </div>
 
                 </div>
@@ -320,13 +269,11 @@
 
         <div class="book-row">
             <div class="row text-center" id="s6-first-row">
-                <!--* BOOK COVERS  -->
             </div>
         </div>
 
         <div class="book-row">
             <div class="row text-center" id="s6-second-row">
-                <!-- * BOOK COVERS -->
             </div>
         </div>
 
@@ -336,12 +283,10 @@
     <!-- Modal -->
     <div id="modalID" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-scrollable">
-
-            <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <!--TODO: klikkre váltson át a teli bookmark-ra  -->
-                    <button class="save-btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                  
+                    <button class="save-btn" id="save-btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                             fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
                             <path
                                 d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
@@ -351,36 +296,29 @@
                 </div>
                 <div class="modal-body" id="modal-body">
 
-                    <!-- ide kell beszúrni a képet js-en keresztül -->
                     <img src="../pictures/standard-book-cover.jpg" class="modal-img" id="modal-img">
 
-                    <!-- book title -->
                     <h3 class="modal-h3" id="modal-title"></h3>
 
-                    <!-- author -->
                     <p class="modal-p author" id="modal-author"></p>
 
                     <div class="babszem text-center">
 
                         <div class="col-3 colDiv babszem-margin">
-                            <!-- page number -->
                             <h4 class="align-middle" id="modal-pages"></h4>
                             <p>Pages</p>
                         </div>
                         <div class="col-3 colDiv babszem-margin">
-                            <!-- ranking number -->
                             <h4 id="modal-ranking"></h4>
                             <p>Ranking</p>
                         </div>
                         <div class="col-3 colDiv">
-                            <!-- language -->
                             <h4 id="modal-language"></h4>
                             <p>Language</p>
                         </div>
                     </div>
 
                     <div class="modal-description">
-                        <!-- descriptipn -->
                         <p id="modal-desc"></p>
                     </div>
 
@@ -399,7 +337,6 @@
     </div>
 
     <div class="zero-data container" id="zero-dataContainer" hidden>
-        <!-- Default value: hidden = true -->
         <p class="text-center">We regret to inform you that currently, there are no books available in our
             database, and we are unable to
             load content for you. However, we encourage you to be the first one to publish on our platform. Your
@@ -413,11 +350,9 @@
 
             <div class="row">
                 <div class=" col-12 col-sm-6 d-flex align-items-center mx-auto">
-                    <!-- capterX logo -->
                     <img src="../pictures/LOGO.svg" id="footer-logo">
                 </div>
                 <div class=" col-12 col-sm-6 text-lg-start text-xl-start" id="useful-links">
-                    <!-- hasznos linkek -->
                     <h3 id="footer-h3" class="textCentered">Useful Links</h3>
                     <ul id="footer-ul">
 
@@ -433,14 +368,16 @@
                         </li>
                         <li id="help-center"><i class="bi bi-info-circle-fill" style="margin-right: 0.625rem;"></i><a
                                 href="../HelpCenter/helpcenter.html" target="_blank">Help Center</a></li>
-                        <li id="help-center"><img src="../icons/C-logo.svg"
+
+                        <li id="terms"><i class="bi bi-info-circle-fill" style="margin-right: 0.625rem;"></i><a
+                                href="../TermsAndConditions/TermsAndConditions.html" target="_blank">Terms & Conditions</a></li>
+
+                        <li id="aboutus"><img src="../icons/C-logo.svg"
                                 style="width: 25px; margin-right: 0.313rem;"><a href="../About Us/aboutus.html">About
                                 Us</a></li>
                     </ul>
                 </div>
                 <div id="copy-right-div" class="text-end">
-                    <!--? copyright logo -->
-                    <!--? Minden jog fentartva -->
                     <p id="copy-right" class=""><img src="../icons/copyright.svg" style="margin-right: 0.313rem;">2023
                         All rights reserved.</p>
                 </div>

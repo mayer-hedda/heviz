@@ -1,6 +1,4 @@
-/** ----------- VÁLTOZÓK DEFINIÁLÁSA */
 :root {
-    /* -----------COLORS -----------*/
     --primary-BTN-Bg-color: rgb(232, 181, 160);
     --btn-text-color: rgb(51, 47, 49);
     --mostUsed-text-color: rgb(65, 61, 63);
@@ -12,12 +10,7 @@
     --navbar-p-color: rgb(117, 55, 31);
     --current-page-color: rgb(60, 32, 22);
     --current-page-hover-color: rgb(68, 92, 79);
-    --card-bg: rgb(234, 215, 190);
-
-    --card-height: 400px;
-    --card-width: 270px;
     --max-lines: 5;
-    --line-height: 1.5;
 }
 
 /**--------------- FONTS ---------------*/
@@ -91,6 +84,2173 @@
     font-style: normal;
 }
 
+/* -------- Media Query --------- */
+@media (min-width: 250px) and (max-width:309px) {
+    #logo {
+        width: 100px;
+    }
+
+    .navbar-toggler {
+        width: 30px;
+        height: 30px;
+    }
+
+    .navbar-toggler-icon {
+        width: 20px;
+        position: relative;
+        right: 7.5px;
+        bottom: 4px;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #navbarNav {
+        margin-left: 40px !important;
+    }
+
+    #navbar a {
+        font-size: 15px !important;
+        padding-top: 15px !important;
+        padding-bottom: 0px !important;
+        display: flex !important;
+        justify-content: right;
+    }
+
+    #writingBtn {
+        margin-top: 20px;
+        margin-right: auto !important;
+        margin-bottom: 5px;
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+        margin-right: 0px !important;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #profile-icon img.rounded-circle {
+        width: 40px;
+        height: 40px;
+        margin-right: 50px;
+        margin-top: 10px;
+    }
+
+    #userName-p {
+        font-size: 12px !important;
+    }
+
+    .dropdown-toggle {
+        margin-right: 40px;
+    }
+
+    .dropdown-menu {
+        padding-top: 0px !important;
+    }
+
+    /* first sec. */
+    #welcome {
+        font-size: 20px !important;
+        text-align: center;
+    }
+
+    #first-section {
+        height: fit-content !important;
+        margin-bottom: 0px !important;
+    }
+
+    #first-s-card {
+        margin-top: 0px;
+    }
+
+    .full-card {
+        width: 220px !important;
+    }
+
+    .col-8,
+    .col-4 {
+        width: 100% !important;
+    }
+
+    .picSide img {
+        margin-left: 40px !important;
+        height: 200px !important;
+        width: 110px !important;
+        border-radius: 5px !important;
+        top: 10px !important;
+        left: 0px !important;
+        box-shadow: none !important;
+    }
+
+    .textSide {
+        text-align: center;
+        padding-left: 25px !important;
+        padding-right: 25px !important;
+    }
+
+    .textH2 {
+        font-size: 15px !important;
+    }
+
+    .bigUsername,
+    .username {
+        font-size: 10px !important;
+        margin-bottom: 0px;
+    }
+
+    .description,
+    .medium-desc {
+        font-size: 10px !important;
+        margin-top: 8px !important;
+        margin-bottom: 20pxpx;
+        padding-right: 0px !important;
+    }
+
+    .bottom-row,
+    .bottom-row-medium {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px !important;
+        position: relative !important;
+    }
+
+    #randomBook-btn {
+        margin-left: 40px;
+        font-size: 10px !important;
+        margin-bottom: 0px;
+        padding: 5px 10px;
+    }
+
+    .category-big {
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+        font-size: 10px !important;
+        width: fit-content;
+        margin-left: 0px !important;
+    }
+
+    /* medium cards */
+    .sub-sections {
+        margin-top: 50px !important;
+    }
+
+    .subtitle {
+        font-size: 18px;
+        text-align: center;
+        margin-left: 0px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .medium-card {
+        width: 220px !important;
+        height: fit-content !important;
+        padding-top: 15px;
+        padding-bottom: 30px;
+    }
+
+    .col-3,
+    .col-9 {
+        width: 100%;
+    }
+
+    .medium-pic {
+        height: 200px !important;
+        width: 120px !important;
+        border-radius: 5px !important;
+        margin-left: 50px;
+    }
+
+    .medium-right-side {
+        justify-content: center !important;
+        align-items: center;
+    }
+
+    .medium-h2 {
+        display: flex;
+        margin-left: 0px !important;
+        text-align: center;
+        justify-content: center;
+        font-size: 15px !important;
+        margin-top: 20px !important;
+    }
+
+    .username {
+        width: fit-content;
+        justify-content: center;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+    }
+
+    .medium-desc {
+        width: 170px !important;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+    }
+
+    .moreBtn-medium {
+        font-size: 10px !important;
+        margin-right: 30px;
+        margin-bottom: 10px !important;
+    }
+
+    /* covers */
+    .cover {
+        width: 130px !important;
+        height: 220px !important;
+    }
+
+    .category-overlay {
+        font-size: 10px !important;
+        top: 5px !important;
+    }
+
+    .book-title {
+        font-size: 12px !important;
+        padding: 0px 3px 0px 3px !important;
+    }
+
+    .author-p {
+        font-size: 12px !important;
+    }
+
+    .cover-btn {
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+    }
+
+    /* könyv modal */
+    .save-btn {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .save-btn svg {
+        width: 15px;
+        height: 20px;
+    }
+
+    #modal-img {
+        width: 183px !important;
+        height: 320px !important;
+    }
+
+    .modal-h3 {
+        font-size: 20px;
+    }
+
+    .modal-p {
+        font-size: 18px !important;
+    }
+
+    .babszem {
+        column-gap: 15px !important;
+        padding: 10px 15px 10px 15px !important;
+    }
+
+    .colDiv {
+        width: fit-content !important;
+    }
+
+    .colDiv h4 {
+        font-size: 14px;
+    }
+
+    .colDiv p {
+        font-size: 10px;
+    }
+
+    #modal-desc {
+        font-size: 12px;
+    }
+
+    /* footer */
+    footer {
+        padding-top: 20px !important;
+        height: fit-content!important;
+    }
+
+    #footer-logo-div {
+        width: 150px !important;
+    }
+
+    #footer-logo {
+        width: 120px;
+        margin-left: 45px;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    #useful-links {
+        padding: 0px;
+    }
+
+    #footer-ul {
+        margin-top: 0.938rem;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email,
+    #facebook,
+    #instagram,
+    #help-center,
+    #terms {
+        font-size: 12px !important;
+    }
+
+    #aboutus img {
+        width: 20px !important;
+        height: 20px !important;
+    }
+}
+
+@media (min-width: 309px) and (max-width:376px) {
+    #logo {
+        width: 100px;
+    }
+
+    .navbar-toggler {
+        width: 30px;
+        height: 30px;
+    }
+
+    .navbar-toggler-icon {
+        width: 20px;
+        position: relative;
+        right: 7.5px;
+        bottom: 4px;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #navbarNav {
+        margin-left: 40px !important;
+    }
+
+    #navbar a {
+        font-size: 15px !important;
+        padding-top: 15px !important;
+        padding-bottom: 0px !important;
+        display: flex !important;
+        justify-content: right;
+    }
+
+    #writingBtn {
+        margin-top: 20px;
+        margin-right: auto !important;
+        margin-bottom: 5px;
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+        margin-right: 0px !important;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #profile-icon img.rounded-circle {
+        width: 40px;
+        height: 40px;
+        margin-right: 50px;
+        margin-top: 10px;
+    }
+
+    #userName-p {
+        font-size: 12px !important;
+    }
+
+    .dropdown-toggle {
+        margin-right: 40px;
+    }
+
+    .dropdown-menu {
+        padding-top: 0px !important;
+    }
+
+    /* first sec. */
+    #welcome {
+        font-size: 22px !important;
+        text-align: center;
+    }
+
+    #first-section {
+        height: fit-content !important;
+        margin-bottom: 0px !important;
+    }
+
+    #first-s-card {
+        margin-top: 0px;
+        position: static;
+
+    }
+
+    .full-card {
+        width: 280px !important;
+    }
+
+    .col-8,
+    .col-4 {
+        width: 100% !important;
+    }
+
+    .picSide img {
+        margin-left: 50px;
+        height: 260px !important;
+        width: 160px !important;
+        border-radius: 5px !important;
+        top: 30px !important;
+        left: 0px !important;
+        box-shadow: none !important;
+    }
+
+    .textSide {
+        text-align: center;
+        padding-left: 25px !important;
+        padding-right: 25px !important;
+        margin-top: 15px;
+    }
+
+    .textH2 {
+        font-size: 17px !important;
+    }
+
+    .bigUsername,
+    .username {
+        font-size: 13px !important;
+        margin-bottom: 0px;
+    }
+
+    .description,
+    .medium-desc {
+        font-size: 12px !important;
+        margin-top: 8px !important;
+        margin-bottom: 20pxpx;
+        padding-right: 0px !important;
+    }
+
+    .bottom-row,
+    .bottom-row-medium {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px !important;
+        position: static !important;
+    }
+
+    .bottom-row {
+        margin-bottom: 20px;
+    }
+
+    #randomBook-btn {
+        margin-left: 60px;
+        font-size: 14px !important;
+        margin-bottom: 0px;
+        padding: 5px 10px;
+    }
+
+    .category-big {
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+        font-size: 13px !important;
+        width: fit-content;
+        margin-left: 0px !important;
+    }
+
+    /* medium cards */
+    .sub-sections {
+        margin-top: 50px !important;
+    }
+
+    .subtitle {
+        font-size: 20px;
+        text-align: center;
+        margin-left: 0px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .medium-card {
+        width: 280px !important;
+        height: fit-content !important;
+        padding-top: 15px;
+        padding-bottom: 30px;
+    }
+
+    .col-3,
+    .col-9 {
+        width: 100%;
+    }
+
+    .medium-pic {
+        height: 260px !important;
+        width: 160px !important;
+        border-radius: 5px !important;
+        margin-left: 60px;
+        margin-top: 10px;
+    }
+
+    .medium-right-side {
+        justify-content: center !important;
+        align-items: center;
+    }
+
+    .medium-h2 {
+        display: flex;
+        margin-left: 0px !important;
+        text-align: center;
+        justify-content: center;
+        font-size: 15px !important;
+        margin-top: 20px !important;
+    }
+
+    .username {
+        width: fit-content;
+        justify-content: center;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+    }
+
+    .medium-desc {
+        width: 230px !important;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+        margin-top: 40px !important;
+    }
+
+    .bottom-row-medium {
+        margin-top: 30px;
+    }
+
+    .moreBtn-medium {
+        font-size: 14px !important;
+        margin-right: 30px;
+        margin-bottom: 10px !important;
+    }
+
+    /* covers */
+    .cover {
+        width: 200px !important;
+        height: 340px !important;
+    }
+
+    .category-overlay {
+        font-size: 15px !important;
+        top: 20px;
+    }
+
+    .book-title {
+        font-size: 18px !important;
+    }
+
+    .author-p {
+        font-size: 14px !important;
+        width: 170px;
+    }
+
+    .cover-btn {
+        font-size: 14px !important;
+        padding: 5px 10px !important;
+    }
+
+    /* könyv modal */
+    #modal-img {
+        width: 203px !important;
+        height: 350px !important;
+    }
+
+    .modal-h3 {
+        font-size: 20px;
+    }
+
+    .modal-p {
+        font-size: 18px !important;
+    }
+
+    .colDiv {
+        width: fit-content !important;
+    }
+
+    .colDiv h4 {
+        font-size: 18px;
+    }
+
+    .colDiv p {
+        font-size: 14px;
+    }
+
+    #modal-desc {
+        font-size: 14px;
+    }
+
+    .sMoreBtn {
+        font-size: 14px !important;
+        padding: 10px 15px 10px 15px !important;
+    }
+
+    /* footer */
+    footer {
+        padding-top: 20px !important;
+        height: fit-content!important;
+    }
+
+    #footer-logo-div {
+        width: 150px !important;
+    }
+
+    #footer-logo {
+        width: 120px;
+        margin-left: 80px;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    #useful-links {
+        padding: 0px;
+    }
+
+    #footer-ul {
+        margin-top: 0.938rem;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email,
+    #facebook,
+    #instagram,
+    #help-center,
+    #terms {
+        font-size: 12px !important;
+    }
+
+    #aboutus img {
+        width: 20px !important;
+        height: 20px !important;
+    }
+}
+
+@media (min-width: 377px) and (max-width:425px) {
+    #logo {
+        width: 100px;
+    }
+
+    .navbar-toggler {
+        width: 30px;
+        height: 30px;
+    }
+
+    .navbar-toggler-icon {
+        width: 20px;
+        position: relative;
+        right: 7.5px;
+        bottom: 4px;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #navbarNav {
+        margin-left: 40px !important;
+    }
+
+    #navbar a {
+        font-size: 15px !important;
+        padding-top: 15px !important;
+        padding-bottom: 0px !important;
+        display: flex !important;
+        justify-content: right;
+    }
+
+    #writingBtn {
+        margin-top: 20px;
+        margin-right: auto !important;
+        margin-bottom: 5px;
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+        margin-right: 0px !important;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #profile-icon img.rounded-circle {
+        width: 40px;
+        height: 40px;
+        margin-right: 50px;
+        margin-top: 10px;
+    }
+
+    #userName-p {
+        font-size: 12px !important;
+    }
+
+    .dropdown-toggle {
+        margin-right: 40px;
+    }
+
+    .dropdown-menu {
+        padding-top: 0px !important;
+    }
+
+    /* first sec. */
+    #welcome {
+        font-size: 22px !important;
+        text-align: center;
+    }
+
+    #first-section {
+        height: fit-content !important;
+        margin-bottom: 0px !important;
+    }
+
+    #first-s-card {
+        margin-top: 0px;
+        position: static;
+
+    }
+
+    .full-card {
+        width: 280px !important;
+    }
+
+    .col-8,
+    .col-4 {
+        width: 100% !important;
+    }
+
+    .picSide img {
+        margin-left: 50px;
+        height: 260px !important;
+        width: 160px !important;
+        border-radius: 5px !important;
+        top: 30px !important;
+        left: 0px !important;
+        box-shadow: none !important;
+    }
+
+    .textSide {
+        text-align: center;
+        padding-left: 25px !important;
+        padding-right: 25px !important;
+        margin-top: 15px;
+    }
+
+    .textH2 {
+        font-size: 17px !important;
+    }
+
+    .bigUsername,
+    .username {
+        font-size: 13px !important;
+        margin-bottom: 0px;
+    }
+
+    .description,
+    .medium-desc {
+        font-size: 12px !important;
+        margin-top: 8px !important;
+        margin-bottom: 20pxpx;
+        padding-right: 0px !important;
+    }
+
+    .bottom-row,
+    .bottom-row-medium {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px !important;
+        position: static !important;
+    }
+
+    .bottom-row {
+        margin-bottom: 20px;
+    }
+
+    #randomBook-btn {
+        margin-left: 60px;
+        font-size: 14px !important;
+        margin-bottom: 0px;
+        padding: 5px 10px;
+    }
+
+    .category-big {
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+        font-size: 13px !important;
+        width: fit-content;
+        margin-left: 0px !important;
+    }
+
+    /* medium cards */
+    .sub-sections {
+        margin-top: 50px !important;
+    }
+
+    .subtitle {
+        font-size: 20px;
+        text-align: center;
+        margin-left: 0px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .medium-card {
+        width: 280px !important;
+        height: fit-content !important;
+        padding-top: 15px;
+        padding-bottom: 30px;
+    }
+
+    #s2-mediumC-pic,
+    #s3-mediumCardPic-div,
+    #s4-mediumCardPic-div,
+    #s5-mediumCardPic-div,
+    .col-9 {
+        width: 100% !important;
+    }
+
+    .col-3 {
+        width: 50%;
+    }
+
+    .medium-pic {
+        height: 260px !important;
+        width: 160px !important;
+        border-radius: 5px !important;
+        margin-left: 60px;
+        margin-top: 10px;
+    }
+
+    .medium-right-side {
+        justify-content: center !important;
+        align-items: center;
+    }
+
+    .medium-h2 {
+        display: flex;
+        margin-left: 0px !important;
+        text-align: center;
+        justify-content: center;
+        font-size: 15px !important;
+        margin-top: 20px !important;
+    }
+
+    .username {
+        width: fit-content;
+        justify-content: center;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+    }
+
+    .medium-desc {
+        width: 230px !important;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+        margin-top: 40px !important;
+    }
+
+    .bottom-row-medium {
+        margin-top: 30px;
+    }
+
+    .moreBtn-medium {
+        font-size: 14px !important;
+        margin-right: 30px;
+        margin-bottom: 10px !important;
+    }
+
+    /* covers */
+    .cover {
+        width: 160px !important;
+        height: 270px !important;
+    }
+
+    .category-overlay {
+        font-size: 12px !important;
+        top: 20px !important;
+    }
+
+    .book-title {
+        font-size: 15px !important;
+    }
+
+    .author-p {
+        font-size: 12px !important;
+        width: 170px;
+    }
+
+    .cover-btn {
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+    }
+
+    /* könyv modal */
+    #modal-img {
+        width: 203px !important;
+        height: 350px !important;
+    }
+
+    .modal-h3 {
+        font-size: 20px;
+    }
+
+    .modal-p {
+        font-size: 18px !important;
+    }
+
+    .colDiv {
+        width: fit-content !important;
+    }
+
+    .colDiv h4 {
+        font-size: 18px;
+    }
+
+    .colDiv p {
+        font-size: 14px;
+    }
+
+    #modal-desc {
+        font-size: 14px;
+    }
+
+    /* footer */
+    footer {
+        padding-top: 20px !important;
+        height: fit-content!important;
+    }
+
+    #footer-logo-div {
+        width: 130px !important;
+    }
+
+    #footer-logo {
+        width: 160px;
+        margin-left: 100px;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    #useful-links {
+        padding: 0px;
+    }
+
+    #footer-ul {
+        margin-top: 0.938rem;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email,
+    #facebook,
+    #instagram,
+    #help-center,
+    #terms {
+        font-size: 12px !important;
+    }
+
+    #aboutus img {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    #copy-right {
+        margin-bottom: 0px;
+    }
+}
+
+@media (min-width: 426px) and (max-width: 500px) {
+    #logo {
+        width: 100px;
+    }
+
+    .navbar-toggler {
+        width: 30px;
+        height: 30px;
+    }
+
+    .navbar-toggler-icon {
+        width: 20px;
+        position: relative;
+        right: 7.5px;
+        bottom: 4px;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #navbarNav {
+        margin-left: 40px !important;
+    }
+
+    #navbar a {
+        font-size: 15px !important;
+        padding-top: 15px !important;
+        padding-bottom: 0px !important;
+        display: flex !important;
+        justify-content: right;
+    }
+
+    #writingBtn {
+        margin-top: 20px;
+        margin-right: auto !important;
+        margin-bottom: 5px;
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+        margin-right: 0px !important;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #profile-icon img.rounded-circle {
+        width: 40px;
+        height: 40px;
+        margin-right: 50px;
+        margin-top: 10px;
+    }
+
+    #userName-p {
+        font-size: 12px !important;
+    }
+
+    .dropdown-toggle {
+        margin-right: 40px;
+    }
+
+    .dropdown-menu {
+        padding-top: 0px !important;
+    }
+
+    /* first sec. */
+    #welcome {
+        font-size: 22px !important;
+        text-align: center;
+    }
+
+    #first-section {
+        height: fit-content !important;
+        margin-bottom: 0px !important;
+    }
+
+    #first-s-card {
+        margin-top: 0px;
+        position: static;
+
+    }
+
+    .full-card {
+        width: 280px !important;
+    }
+
+    .col-8,
+    .col-4 {
+        width: 100% !important;
+    }
+
+    .picSide img {
+        margin-left: 50px;
+        height: 260px !important;
+        width: 160px !important;
+        border-radius: 5px !important;
+        top: 30px !important;
+        left: 0px !important;
+        box-shadow: none !important;
+    }
+
+    .textSide {
+        text-align: center;
+        padding-left: 25px !important;
+        padding-right: 25px !important;
+        margin-top: 15px;
+    }
+
+    .textH2 {
+        font-size: 17px !important;
+    }
+
+    .bigUsername,
+    .username {
+        font-size: 13px !important;
+        margin-bottom: 0px;
+    }
+
+    .description,
+    .medium-desc {
+        font-size: 12px !important;
+        margin-top: 8px !important;
+        margin-bottom: 20pxpx;
+        padding-right: 0px !important;
+    }
+
+    .bottom-row,
+    .bottom-row-medium {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px !important;
+        position: static !important;
+    }
+
+    .bottom-row {
+        margin-bottom: 20px;
+    }
+
+    #randomBook-btn {
+        margin-left: 60px;
+        font-size: 14px !important;
+        margin-bottom: 0px;
+        padding: 5px 10px;
+    }
+
+    .category-big {
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+        font-size: 13px !important;
+        width: fit-content;
+        margin-left: 0px !important;
+    }
+
+    /* medium cards */
+    .sub-sections {
+        margin-top: 50px !important;
+    }
+
+    .subtitle {
+        font-size: 20px;
+        text-align: center;
+        margin-left: 0px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .medium-card {
+        width: 280px !important;
+        height: fit-content !important;
+        padding-top: 15px;
+        padding-bottom: 30px;
+    }
+
+    #s2-mediumC-pic,
+    #s3-mediumCardPic-div,
+    #s4-mediumCardPic-div,
+    #s5-mediumCardPic-div,
+    .col-9 {
+        width: 100% !important;
+    }
+
+    .col-3 {
+        width: 50%;
+    }
+
+    .medium-pic {
+        height: 260px !important;
+        width: 160px !important;
+        border-radius: 5px !important;
+        margin-left: 60px;
+        margin-top: 10px;
+    }
+
+    .medium-right-side {
+        justify-content: center !important;
+        align-items: center;
+    }
+
+    .medium-h2 {
+        display: flex;
+        margin-left: 0px !important;
+        text-align: center;
+        justify-content: center;
+        font-size: 15px !important;
+        margin-top: 20px !important;
+    }
+
+    .username {
+        width: fit-content;
+        justify-content: center;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+    }
+
+    .medium-desc {
+        width: 230px !important;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+        margin-top: 40px !important;
+    }
+
+    .bottom-row-medium {
+        margin-top: 30px;
+    }
+
+    .moreBtn-medium {
+        font-size: 14px !important;
+        margin-right: 30px;
+        margin-bottom: 10px !important;
+    }
+
+    /* covers */
+    .cover {
+        width: 160px !important;
+        height: 270px !important;
+    }
+
+    .category-overlay {
+        font-size: 12px !important;
+        top: 20px !important;
+    }
+
+    .book-title {
+        font-size: 15px !important;
+    }
+
+    .author-p {
+        font-size: 12px !important;
+        width: 170px;
+    }
+
+    .cover-btn {
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+    }
+
+    footer {
+        padding-top: 20px !important;
+        height: fit-content!important;
+    }
+
+    #footer-logo-div {
+        width: 130px !important;
+    }
+
+    #footer-logo {
+        width: 160px;
+        margin-left: 100px;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    #useful-links {
+        padding: 0px;
+    }
+
+    #footer-ul {
+        margin-top: 0.938rem;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email,
+    #facebook,
+    #instagram,
+    #help-center,
+    #terms {
+        font-size: 12px !important;
+    }
+
+    #aboutus img {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    #copy-right {
+        margin-bottom: 0px;
+    }
+}
+
+@media (min-width: 501px) and (max-width: 630px) {
+    #logo {
+        width: 100px;
+    }
+
+    .navbar-toggler {
+        width: 30px;
+        height: 30px;
+    }
+
+    .navbar-toggler-icon {
+        width: 20px;
+        position: relative;
+        right: 7.5px;
+        bottom: 4px;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #navbarNav {
+        margin-left: 40px !important;
+    }
+
+    #navbar a {
+        font-size: 15px !important;
+        padding-top: 15px !important;
+        padding-bottom: 0px !important;
+        display: flex !important;
+        justify-content: right;
+    }
+
+    #writingBtn {
+        margin-top: 20px;
+        margin-right: auto !important;
+        margin-bottom: 5px;
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+        margin-right: 0px !important;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #profile-icon img.rounded-circle {
+        width: 40px;
+        height: 40px;
+        margin-right: 50px;
+        margin-top: 10px;
+    }
+
+    #userName-p {
+        font-size: 12px !important;
+    }
+
+    .dropdown-toggle {
+        margin-right: 40px;
+    }
+
+    .dropdown-menu {
+        padding-top: 0px !important;
+    }
+
+    /* first sec. */
+    #welcome {
+        font-size: 25px !important;
+        text-align: center;
+    }
+
+    #first-section {
+        height: fit-content !important;
+        margin-bottom: 0px !important;
+    }
+
+    #first-s-card {
+        margin-top: 0px;
+        position: static;
+
+    }
+
+    .full-card {
+        width: 340px !important;
+    }
+
+    .col-8,
+    .col-4 {
+        width: 100% !important;
+    }
+
+    .picSide img {
+        margin-left: 50px;
+        height: 360px !important;
+        width: 220px !important;
+        border-radius: 5px !important;
+        top: 30px !important;
+        left: 0px !important;
+        box-shadow: none !important;
+    }
+
+    .textSide {
+        text-align: center;
+        padding-left: 45px !important;
+        padding-right: 45px !important;
+        margin-top: 15px;
+    }
+
+    .textH2 {
+        font-size: 20px !important;
+    }
+
+    .bigUsername,
+    .username {
+        font-size: 15px !important;
+        margin-bottom: 0px;
+    }
+
+    .description,
+    .medium-desc {
+        font-size: 15px !important;
+        margin-top: 8px !important;
+        margin-bottom: 20pxpx;
+        padding-right: 0px !important;
+    }
+
+    .bottom-row,
+    .bottom-row-medium {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px !important;
+        position: static !important;
+    }
+
+    .bottom-row {
+        margin-bottom: 20px;
+    }
+
+    #randomBook-btn {
+        margin-left: 60px;
+        font-size: 16px !important;
+        margin-bottom: 0px;
+        padding: 5px 15px;
+    }
+
+    .category-big {
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+        font-size: 13px !important;
+        width: fit-content;
+        margin-left: 0px !important;
+    }
+
+    /* medium cards */
+    .sub-sections {
+        margin-top: 50px !important;
+    }
+
+    .subtitle {
+        font-size: 20px;
+        text-align: center;
+        margin-left: 0px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .medium-card {
+        width: 340px !important;
+        height: fit-content !important;
+        padding-top: 15px;
+        padding-bottom: 30px;
+    }
+
+    #s2-mediumC-pic,
+    #s3-mediumCardPic-div,
+    #s4-mediumCardPic-div,
+    #s5-mediumCardPic-div,
+    .col-9 {
+        width: 100% !important;
+    }
+
+    .col-3 {
+        width: 30%;
+    }
+
+    .medium-pic {
+        height: 360px !important;
+        width: 220px !important;
+        border-radius: 5px !important;
+        margin-left: 60px;
+        margin-top: 10px;
+    }
+
+    .medium-right-side {
+        justify-content: center !important;
+        align-items: center;
+    }
+
+    .medium-h2 {
+        display: flex;
+        margin-left: 0px !important;
+        text-align: center;
+        justify-content: center;
+        font-size: 20px !important;
+        margin-top: 20px !important;
+    }
+
+    .username {
+        width: fit-content;
+        justify-content: center;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+    }
+
+    .medium-desc {
+        width: 230px !important;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+        margin-top: 40px !important;
+    }
+
+    .bottom-row-medium {
+        margin-top: 30px;
+    }
+
+    .moreBtn-medium {
+        font-size: 15px !important;
+        margin-right: 30px;
+        margin-bottom: 10px !important;
+    }
+
+    /* covers */
+    .cover {
+        width: 140px !important;
+        height: 250px !important;
+    }
+
+    .row {
+        gap: 10px;
+    }
+
+    .book-row {
+        width: fit-content;
+        padding-left: 20px;
+    }
+
+    .category-overlay {
+        font-size: 12px !important;
+        top: 5px !important;
+    }
+
+    .book-title {
+        font-size: 15px !important;
+    }
+
+    .author-p {
+        font-size: 12px !important;
+        width: 170px;
+    }
+
+    .cover-btn {
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+    }
+
+    footer {
+        padding-top: 20px !important;
+        height: fit-content!important;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email,
+    #facebook,
+    #instagram,
+    #help-center,
+    #terms {
+        font-size: 15px !important;
+    }
+
+    #aboutus img {
+        width: 25px !important;
+        height: 25px !important;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    #footer-ul {
+        margin-top: 5px;
+    }
+
+    #footer-logo-div {
+        width: 150px !important;
+    }
+
+    #footer-logo {
+        width: 120px;
+        margin-left: 155px;
+    }
+
+    #copy-right {
+        margin-bottom: 0px;
+    }
+}
+
+@media (min-width: 631px) and (max-width: 767px) {
+    #logo {
+        width: 100px;
+    }
+
+    .navbar-toggler {
+        width: 30px;
+        height: 30px;
+    }
+
+    .navbar-toggler-icon {
+        width: 20px;
+        position: relative;
+        right: 7.5px;
+        bottom: 4px;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #navbarNav {
+        margin-left: 40px !important;
+    }
+
+    #navbar a {
+        font-size: 15px !important;
+        padding-top: 15px !important;
+        padding-bottom: 0px !important;
+        display: flex !important;
+        justify-content: right;
+    }
+
+    #writingBtn {
+        margin-top: 20px;
+        margin-right: auto !important;
+        margin-bottom: 5px;
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+        margin-right: 0px !important;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #profile-icon img.rounded-circle {
+        width: 40px;
+        height: 40px;
+        margin-right: 50px;
+        margin-top: 10px;
+    }
+
+    #userName-p {
+        font-size: 12px !important;
+    }
+
+    .dropdown-toggle {
+        margin-right: 40px;
+    }
+
+    .dropdown-menu {
+        padding-top: 0px !important;
+    }
+
+    /* first sec. */
+    #welcome {
+        font-size: 25px !important;
+        text-align: center;
+    }
+
+    #first-section {
+        height: fit-content !important;
+        margin-bottom: 0px !important;
+    }
+
+    #first-s-card {
+        margin-top: 0px;
+        position: static;
+
+    }
+
+    .full-card {
+        width: 340px !important;
+    }
+
+    .col-8,
+    .col-4 {
+        width: 100% !important;
+    }
+
+    .picSide img {
+        margin-left: 50px;
+        height: 360px !important;
+        width: 220px !important;
+        border-radius: 5px !important;
+        top: 30px !important;
+        left: 0px !important;
+        box-shadow: none !important;
+    }
+
+    .textSide {
+        text-align: center;
+        padding-left: 45px !important;
+        padding-right: 45px !important;
+        margin-top: 15px;
+    }
+
+    .textH2 {
+        font-size: 20px !important;
+    }
+
+    .bigUsername,
+    .username {
+        font-size: 15px !important;
+        margin-bottom: 0px;
+    }
+
+    .description,
+    .medium-desc {
+        font-size: 15px !important;
+        margin-top: 8px !important;
+        margin-bottom: 20pxpx;
+        padding-right: 0px !important;
+    }
+
+    .bottom-row,
+    .bottom-row-medium {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px !important;
+        position: static !important;
+    }
+
+    .bottom-row {
+        margin-bottom: 20px;
+    }
+
+    #randomBook-btn {
+        margin-left: 60px;
+        font-size: 16px !important;
+        margin-bottom: 0px;
+        padding: 5px 15px;
+    }
+
+    .category-big {
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+        font-size: 13px !important;
+        width: fit-content;
+        margin-left: 0px !important;
+    }
+
+    /* medium cards */
+    .sub-sections {
+        margin-top: 50px !important;
+    }
+
+    .subtitle {
+        font-size: 20px;
+        text-align: center;
+        margin-left: 0px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .medium-card {
+        width: 340px !important;
+        height: fit-content !important;
+        padding-top: 15px;
+        padding-bottom: 30px;
+    }
+
+    #s2-mediumC-pic,
+    #s3-mediumCardPic-div,
+    #s4-mediumCardPic-div,
+    #s5-mediumCardPic-div,
+    .col-9 {
+        width: 100% !important;
+    }
+
+    .col-3 {
+        width: 30%;
+    }
+
+    .medium-pic {
+        height: 360px !important;
+        width: 220px !important;
+        border-radius: 5px !important;
+        margin-left: 60px;
+        margin-top: 10px;
+    }
+
+    .medium-right-side {
+        justify-content: center !important;
+        align-items: center;
+    }
+
+    .medium-h2 {
+        display: flex;
+        margin-left: 0px !important;
+        text-align: center;
+        justify-content: center;
+        font-size: 20px !important;
+        margin-top: 20px !important;
+    }
+
+    .username {
+        width: fit-content;
+        justify-content: center;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+    }
+
+    .medium-desc {
+        width: 230px !important;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+        margin-top: 40px !important;
+    }
+
+    .bottom-row-medium {
+        margin-top: 30px;
+    }
+
+    .moreBtn-medium {
+        font-size: 15px !important;
+        margin-right: 30px;
+        margin-bottom: 10px !important;
+    }
+
+    /* covers */
+    .cover {
+        width: 140px !important;
+        height: 250px !important;
+    }
+
+    .row {
+        gap: 10px;
+    }
+
+    .book-row {
+        width: fit-content;
+        padding-left: 20px;
+    }
+
+    .category-overlay {
+        font-size: 12px !important;
+        top: 5px !important;
+    }
+
+    .book-title {
+        font-size: 15px !important;
+    }
+
+    .author-p {
+        font-size: 12px !important;
+        width: 170px;
+    }
+
+    .cover-btn {
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+    }
+
+    footer {
+        padding-top: 20px !important;
+        height: fit-content;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email,
+    #facebook,
+    #instagram,
+    #help-center,
+    #terms {
+        font-size: 15px !important;
+    }
+
+    #aboutus img {
+        width: 25px !important;
+        height: 25px !important;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    #footer-ul {
+        margin-top: 5px;
+    }
+
+    #footer-logo-div {
+        width: 150px !important;
+    }
+
+    #footer-logo {
+        width: 120px;
+        margin-left: 155px;
+    }
+
+    #copy-right {
+        margin-bottom: 0px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .navbar-toggler {
+        width: 40px;
+        height: 40px;
+    }
+
+    .navbar-toggler-icon {
+        width: 25px;
+        position: relative;
+        right: 5.5px;
+        bottom: 0px;
+    }
+
+    #navbar a {
+        font-size: 20px !important;
+        padding-top: 15px !important;
+        padding-bottom: 0px !important;
+        display: flex !important;
+        justify-content: right;
+    }
+
+    #userName-p {
+        font-size: 20px !important;
+    }
+
+    #profile-icon img.rounded-circle {
+        margin-right: 220px;
+        margin-bottom: 10px;
+    }
+
+    #usernamePicture {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #writingBtn {
+        margin-top: 20px;
+        margin-right: auto !important;
+        margin-bottom: 30px;
+        font-size: 18px !important;
+        padding: 5px 10px;
+        margin-right: 0px !important;
+    }
+
+    .dropdown-toggle {
+        margin-right: 220px;
+    }
+
+    .dropdown-item {
+        display: flex !important;
+        justify-content: center !important;
+    }
+
+    /* big card */
+    .picSide img {
+        height: 340px !important;
+        width: 200px !important;
+        left: 10px !important;
+        top: -30px !important;
+    }
+
+    .textH2 {
+        font-size: 24px !important;
+    }
+
+    .bigUsername {
+        font-size: 16px;
+        margin-bottom: 0px !important;
+    }
+
+    .description {
+        font-size: 15px !important;
+        margin-top: 10px !important;
+    }
+
+    .bottom-row {
+        display: flex;
+        align-items: center;
+        gap: 50px !important;
+        bottom: 0px !important;
+    }
+
+
+    .category-big {
+        margin-left: 0px !important;
+        margin-top: 5px !important;
+    }
+
+    /* medium cards */
+    .medium-h2 {
+        font-size: 20px !important;
+    }
+
+    .username {
+        font-size: 16px !important;
+    }
+
+    .medium-desc {
+        font-size: 14px !important;
+    }
+
+    /* covers */
+    .subtitle {
+        margin-bottom: 40px !important;
+    }
+
+    .cover {
+        width: 140px !important;
+        height: 250px !important;
+    }
+
+    .category-overlay {
+        font-size: 12px !important;
+        top: 5px !important;
+    }
+
+    .book-title {
+        font-size: 15px !important;
+    }
+
+    .author-p {
+        font-size: 12px !important;
+        width: 170px;
+    }
+
+    .cover-btn {
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1024px) {
+    #navbarNav {
+        margin-left: 50px !important;
+    }
+
+    .nav-link {
+        font-size: 16px !important;
+    }
+
+    #writingBtn {
+        font-size: 13px !important;
+        padding: 5px 10px !important;
+        margin-right: 20px !important;
+    }
+
+    #profile-icon img.rounded-circle {
+        width: 40px;
+        height: 40px;
+    }
+
+    #userName-p {
+        font-size: 16px !important;
+        padding: 8px !important;
+    }
+
+    /* big card */
+    .full-card {
+        width: 900px !important;
+    }
+
+    /* medium cards */
+    .medium-h2 {
+        font-size: 20px !important;
+    }
+
+    .username {
+        font-size: 16px !important;
+    }
+
+    .medium-desc {
+        font-size: 14px !important;
+    }
+
+    /* covers */
+    .subtitle {
+        margin-bottom: 40px !important;
+    }
+
+    .cover {
+        width: 200px !important;
+        height: 350px !important;
+    }
+
+    .category-overlay {
+        font-size: 12px !important;
+        top: 20px;
+    }
+
+    .book-title {
+        font-size: 15px !important;
+    }
+
+    .author-p {
+        font-size: 12px !important;
+        width: 170px;
+    }
+
+    .cover-btn {
+        font-size: 12px !important;
+        padding: 5px 10px !important;
+    }
+}
+
+@media (min-width: 1025px) and (max-width: 1307px) {
+    #navbarNav {
+        margin-left: 90px !important;
+    }
+
+    .nav-link {
+        font-size: 16px !important;
+    }
+
+    #writingBtn {
+        font-size: 13px !important;
+        padding: 5px 10px !important;
+        margin-right: 20px !important;
+    }
+
+    #profile-icon img.rounded-circle {
+        width: 40px;
+        height: 40px;
+    }
+
+    #userName-p {
+        font-size: 16px !important;
+        padding: 8px !important;
+    }
+
+    .cover {
+        width: 200px !important;
+        height: 350px !important;
+    }
+
+    .category-overlay {
+        top: 10px !important;
+    }
+
+}
+
 /* ------- Scrollbar ------- */
 /* scrollbar width */
 ::-webkit-scrollbar {
@@ -118,7 +2278,17 @@
 /* --------------- NAVBAR ---------------*/
 nav {
     background-color: var(--page-bg-color);
+}
 
+#usernamePicture {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+}
+
+#writingBtn {
+    margin-left: auto;
 }
 
 #navbar {
@@ -144,36 +2314,38 @@ nav {
 }
 
 .nav-link:hover {
-    color: var(--navbar-a-hover-color)!important;
+    cursor: pointer !important;
+    color: var(--navbar-a-hover-color) !important;
     text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
     text-underline-offset: 0.281rem;
 }
 
-#HomePage {
+.active {
     color: var(--current-page-color) !important;
     text-decoration: underline 0.125rem var(--primary-BTN-Bg-color);
     text-underline-offset: 0.281rem;
 }
 
-#HomePage:hover {
-    /*? aktuális page hover */
+.active:hover {
     color: var(--current-page-hover-color) !important;
+    cursor: pointer;
 }
 
-#profile-icon img{
+#profile-icon img,
+.smaller-user-profile-pic {
     width: 50px;
     height: 50px;
-    border-radius: 50%;
     background-size: cover;
     background-position: center;
     cursor: pointer;
 }
 
-#navbarNav{
+#navbarNav {
     margin-left: 90px;
 }
 
-#writingBtn, #writingBtn-zeroData{
+#writingBtn,
+#writingBtn-zeroData {
     font-size: medium;
     font-family: 'Inter', sans-serif;
     color: var(--btn-text-color);
@@ -188,7 +2360,8 @@ nav {
     margin-right: 50px;
 }
 
-#writingBtn:hover, #writingBtn-zeroData:hover{
+#writingBtn:hover,
+#writingBtn-zeroData:hover {
     transition: color 0.8s ease;
     transition: background-color 0.3s ease;
     background-color: rgb(247, 245, 236);
@@ -196,18 +2369,18 @@ nav {
     border: dashed 0.094rem var(--dash-color);
 }
 
-.dropdown-menu li{
+.dropdown-menu li {
     padding: 5px;
     margin-bottom: 5px;
 }
 
-.dropdown-menu a:hover{
+.dropdown-menu a:hover {
     background-color: transparent;
     cursor: pointer;
-    color: var(--navbar-a-hover-color)!important;
+    color: var(--navbar-a-hover-color) !important;
 }
 
-/* --------------- TITLES AND ROWS NAD GENERAL STUFF ---------------*/
+/* -------- Titles and rows and general stuff --------*/
 #welcome {
     margin-top: 100px;
     font-family: 'Montserrat-SemiBold', sans-serif;
@@ -222,12 +2395,12 @@ nav {
     margin-left: 20px;
 }
 
-.book-row{
+.book-row {
     margin-bottom: 50px;
 }
 
-.medium-card{
-    width: 600px;
+.medium-card {
+    width: 650px;
     height: 300px;
     margin-bottom: 50px;
     display: flexbox;
@@ -236,7 +2409,7 @@ nav {
     position: relative;
 }
 
-.medium-pic{
+.medium-pic {
     width: 170px;
     height: 300px;
     object-fit: cover;
@@ -248,12 +2421,12 @@ nav {
     box-shadow: 4px 0px 3px #3a3a3a2c;
 }
 
-.col-3{
-    padding-left: 0!important;
-    padding-right: 0!important;
+.col-3 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }
 
-.medium-h2{
+.medium-h2 {
     margin-top: 20px;
     margin-left: 25px;
     font-size: 25px;
@@ -261,7 +2434,7 @@ nav {
     margin-bottom: 1%;
 }
 
-.username{
+.username {
     margin-top: 0;
     margin-left: 25px;
     font-size: 18px;
@@ -271,10 +2444,10 @@ nav {
     padding-bottom: 0;
     padding-left: 12px;
     margin-bottom: 0;
-    color: rgb(99, 76, 62)!important;
+    color: rgb(99, 76, 62) !important;
 }
 
-.medium-desc{
+.medium-desc {
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
@@ -292,27 +2465,28 @@ nav {
     width: 370px;
 }
 
-.medium-right-side{
+.medium-right-side {
     display: flex;
     flex-direction: column;
 }
 
-.moreBtn-medium{
+.moreBtn-medium {
     margin-left: 30px;
     margin-top: 5%;
 }
 
-.bottom-row{
+.bottom-row {
     display: flex;
     position: absolute;
     bottom: 20px;
-    gap: 300px;
 }
 
-.category{
+.category-big,
+.category-medium {
     margin-top: 20px;
     height: fit-content;
-    font-size: 18px;
+    width: fit-content;
+    font-size: 16px;
     font-family: 'Poppins-Regular';
     background-color: #91796d;
     padding: 5px 10px;
@@ -320,11 +2494,15 @@ nav {
     border-radius: 10px;
 }
 
-.bottom-row-medium{
+.category-big {
+    margin-left: 240px;
+}
+
+.bottom-row-medium {
     display: flex;
     position: absolute;
     bottom: -5px;
-    gap: 100px;
+    gap: 50px;
 }
 
 /* --------------- FIRST-SECTION ---------------*/
@@ -339,7 +2517,7 @@ nav {
     background-color: #EAD7BE;
     margin-top: 85px;
     border-radius: 20px !important;
-    width: 950px !important;
+    width: 950px;
     height: fit-content;
     border-radius: 15px !important;
     box-shadow: 8px 8px 4px #3a3a3a2c;
@@ -361,7 +2539,8 @@ nav {
 }
 
 .textSide {
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
     padding-left: 20px;
 }
 
@@ -372,11 +2551,11 @@ nav {
     margin-bottom: 5px;
 }
 
-.bigUsername{
+.bigUsername {
     font-family: 'Poppins-Light', sans-serif;
     font-size: 18px;
     padding-left: 0;
-    padding-top: 5px;
+    margin-bottom: 5px;
 }
 
 .description {
@@ -390,18 +2569,25 @@ nav {
     padding-bottom: 0 !important;
     padding-right: 40px;
     font-family: 'Poppins-Regular', sans-serif;
-    font-size: 18px !important;
-    margin-top: 4%;
+    font-size: 18px;
+    margin-top: 20px;
 }
 
+.moreBtn {
+    font-size: 18px;
+}
 
-.moreBtn, .moreBtn-medium {
+.moreBtn-medium {
+    font-size: 16px;
+}
+
+.moreBtn,
+.moreBtn-medium {
     align-self: baseline !important;
     color: white !important;
     border: 3px solid #895372;
     border-radius: 20px !important;
     font-family: 'PTsans-Regular', sans-serif !important;
-    font-size: 18px !important;
     letter-spacing: 0.7px;
     background: linear-gradient(145deg, #713D5A, #995D7F) !important;
     padding: 5px 20px 5px;
@@ -410,7 +2596,8 @@ nav {
     margin-top: 15px;
 }
 
-.moreBtn:hover, .moreBtn-medium:hover {
+.moreBtn:hover,
+.moreBtn-medium:hover {
     background: linear-gradient(145deg, #38423B, #3F5E5A) !important;
     border: 3px solid #2F3731;
     font-family: 'PTsans-Regular', sans-serif !important;
@@ -418,35 +2605,35 @@ nav {
     letter-spacing: 0.7px;
 }
 
-/* --------------- SECOND SECTION ---------------*/
+/* ---------- SECOND SECTION ---------------*/
 .sub-sections {
     margin-bottom: 5%;
 }
 
-.cover{
+.cover {
     width: 230px;
     height: 410px;
     display: block;
     object-fit: cover;
     background-position: center;
     background-size: cover;
-    transition: filter 0.5s ease; 
+    transition: filter 0.5s ease;
     border-radius: 10px;
 }
 
-.cover-photo{
+.cover-photo {
     position: relative;
     display: inline-block;
     overflow: hidden;
     margin-top: 10%;
 }
 
-.cover-photo:hover img{
-    filter: brightness(0.5); 
+.cover-photo:hover img {
+    filter: brightness(0.5);
 }
 
 .cover-photo:hover .overlay {
-    opacity: 1; 
+    opacity: 1;
 }
 
 .overlay {
@@ -456,18 +2643,18 @@ nav {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); 
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: white; 
+    color: white;
     text-align: center;
-    opacity: 0; 
-    transition: opacity 0.5s ease; 
+    opacity: 0;
+    transition: opacity 0.5s ease;
 }
 
-.category-overlay{
+.category-overlay {
     position: absolute;
     top: 40px;
     font-size: 20px;
@@ -480,17 +2667,17 @@ nav {
     margin-bottom: 10px;
 }
 
-.book-title{
+.book-title {
     font-family: 'Poppins-Regular', sans-serif;
-    font-size: 18px!important;
+    font-size: 18px;
 }
 
-.author-p{
+.author-p {
     font-size: 16px;
     font-family: 'Poppins-light', sans-serif;
 }
 
-.cover-btn{
+.cover-btn {
     text-decoration: none;
     background-color: #ffc4ab !important;
     border: solid 0.094rem #ffc4ab;
@@ -504,8 +2691,8 @@ nav {
     transition: background-color 0.8s ease;
 }
 
-.cover-btn:hover{
-    background-color: transparent!important;
+.cover-btn:hover {
+    background-color: transparent !important;
     color: white;
     border: dashed 0.094rem white;
     cursor: pointer;
@@ -513,9 +2700,9 @@ nav {
     transition: background-color 0.4s ease;
 }
 
-/* --------------- THIRD SECTION ---------------*/
+/* --------- THIRD SECTION ------------*/
 
-.sMoreBtn{
+.sMoreBtn {
     background-color: #f1b9a0;
     color: var(--btn-text-color);
     text-decoration: none;
@@ -527,28 +2714,28 @@ nav {
     transition: background-color 0.8s ease;
 }
 
-.sMoreBtn:hover{
+.sMoreBtn:hover {
     background-color: #649984;
     color: white;
     transition: color 0.8s ease;
     transition: background-color 0.8s ease;
 }
 
-/* ----------------- Zero data ---------------------- */
-.zero-data{
+/* ------ Zero data ------------- */
+.zero-data {
     font-size: 20px;
     margin-top: 5%;
     width: 900px;
     font-family: 'Poppins-Regular', sans-serif;
 }
 
-#writing-zeroData{
+#writing-zeroData {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* ---------------- MODAL ---------------------------*/
+/* ----------- MODAL -------------*/
 .modal-content {
     background: linear-gradient(180deg, #ffeed8, #F0D0BC 100%) !important;
     border-radius: 15px;
@@ -620,12 +2807,12 @@ nav {
     color: rgb(80, 80, 80);
 }
 
-.author{
+.author {
     cursor: pointer;
 }
 
-.author:hover{
-    color: #B43C82!important;
+.author:hover {
+    color: #B43C82 !important;
 }
 
 .babszem {
@@ -683,7 +2870,7 @@ nav {
 .price {
     font-size: 18px;
     margin-right: 10px;
-    margin-left: auto!important;
+    margin-left: auto !important;
     margin-top: 13px;
     margin-bottom: 13px;
     font-family: 'Poppins-Regular', sans-serif;
@@ -713,7 +2900,9 @@ nav {
     transition: background-color 0.8s ease;
 }
 
-/* --------------- FOOTER ---------------*/
+
+/* ------- FOOTER ---------*/
+
 #footer-logo {
     display: flex;
 }
@@ -738,22 +2927,21 @@ footer ul {
 
 footer ul li {
     font-size: 1.25rem;
-    font-family: 'Montserrat', sans-serif;
 }
 
 footer a {
     color: var(--mostUsed-text-color);
 }
 
-footer a:hover{
+footer a:hover {
     color: #B43C82;
 }
 
-#copy-right-div{
-    float: right!important;
+#copy-right-div {
+    float: right !important;
 }
 
-#copy-right{
+#copy-right {
     font-size: small;
     font-family: 'Poppins-Regular', sans-serif;
 }
