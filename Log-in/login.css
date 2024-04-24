@@ -115,6 +115,12 @@ form a:hover {
     color: var(--hover-color);
 }
 
+.landing {
+    position: absolute;
+    top: 22px;
+    left: 30px;
+}
+
 .error {
     color: var(--error-color);
     font-family: 'Poppins', sans-serif;
