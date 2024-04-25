@@ -26,8 +26,8 @@ var audiencePass = false;
 var languagePass = false;
 var categoryPass = false;
 var chapterPass = false;
-var bankPass = false; 
-var pricePass = false; 
+var bankPass = false;
+var pricePass = false;
 var publishingStatus = 0;
 
 let isAdultLiterature = false;
@@ -42,7 +42,7 @@ window.addEventListener('beforeunload', async function () {
 
 window.onload = async function () {
     const tokenResponese = await token();
-   
+
     switch (tokenResponese.status) {
         case 302:
             localStorage.removeItem('searchResult');
@@ -71,6 +71,10 @@ window.onload = async function () {
             break;
     }
 }
+
+document.getElementById('Cancel').addEventListener('click', (e) => {
+    localStorage.removeItem("bookId");
+})
 
 
 //? IMAGE
@@ -211,17 +215,17 @@ function uploadFile() {
         alert('A fájl mérete túl nagy. Kérjük, válassz egy kisebb méretű fájlt (legfeljebb 5MB).');
         inputFile.value = ''; // Töröljük a fájlmező tartalmát
         return;
-    }else{
+    } else {
         if (inputFile.value == "") {
             filePass = false;
             console.log("pic pass value:" + filePass);
         } else {
             filePass = true;
             fileName = inputFile.value.split('\\').pop();
-    
+
             file_p.hidden = true;
             file_span.hidden = true;
-    
+
             file_result_p.hidden = false;
             file_result_uploaded.hidden = false;
             file_result_uploaded.innerText = `${fileName}`;
@@ -231,7 +235,7 @@ function uploadFile() {
     }
 
     // console.log("Lefutott az uploadfile");
-   
+
 }
 
 dropAreaFile.addEventListener('dragover', (e) => {
@@ -278,8 +282,7 @@ inputFile.addEventListener('input', (e) => {
 
 
 function LoadBookDetails(response) {
-    title.value = response.data.title;
-    titlePass = true;
+
     description.value = response.data.description;
     descriptionPass = true;
     selectAudience.value = response.data.targetAudienceId;
@@ -836,12 +839,8 @@ bookPrice.addEventListener('focusin', (e) => {
 // self or search publisher error
 const checkError = document.getElementById('checkboxError');
 
-
 nextBtn.addEventListener('click', async (e) => {
     e.preventDefault();
-    nextBtn.removeAttribute('data-bs-toggle', 'modal');
-    nextBtn.removeAttribute('data-bs-target', '#errorModal');
-
 
     if (adultCheckbox.checked == true) {
         isAdultLiterature = true;
@@ -849,14 +848,13 @@ nextBtn.addEventListener('click', async (e) => {
         isAdultLiterature = false;
     }
 
-    // console.log(inputPicture.value);
-    // console.log(isAdultLiterature);
     if (publishingStatus == 0) {
         checkError.innerHTML = `<p>You have to choose how to publish!</p>`;
     } else {
         checkError.innerHTML = "";
         if (publishingStatus == 1) {
             // looking for publisher case
+
             if (picPass == true &&
                 filePass == true &&
                 titlePass == true &&
@@ -885,10 +883,10 @@ nextBtn.addEventListener('click', async (e) => {
                     });
 
 
-
                     console.log(setBook_response_publisher.status);
                     switch (setBook_response_publisher.status) {
                         case 200:
+                            localStorage.removeItem("bookId");
                             window.location.href = "../General-HomePage/GenHome.html";
                             break;
                         case 403:
@@ -898,10 +896,14 @@ nextBtn.addEventListener('click', async (e) => {
                             window.location.href = "../Log-in/login.html";
                             break;
                         case 422:
-                            // ezt az esetet nem tudtam előidézni frontendről
-                            nextBtn.setAttribute('data-bs-toggle', 'modal');
-                            nextBtn.setAttribute('data-bs-target', '#staticBackdrop');
-                            document.getElementById('errorModal-p').textContent = `${setBook_response_publisher.data}`;
+                            alert("Please make sure you fill in all fields correctly!");
+                            console.log(setBook_response_publisher.data);
+                            break;
+                        default:
+                            alert("Something went worng. Please try it later!");
+                            console.log(setBook_response_publisher.status);
+                            console.log(setBook_response_publisher.data);
+                            console.log(setBook_response_publisher.error);
                             break;
                     }
 
@@ -924,6 +926,8 @@ nextBtn.addEventListener('click', async (e) => {
                     console.log(addBook_response_publisher.status);
                     switch (addBook_response_publisher.status) {
                         case 200:
+
+                            localStorage.removeItem("bookId");
                             window.location.href = "../General-HomePage/GenHome.html";
                             break;
                         case 403:
@@ -933,18 +937,23 @@ nextBtn.addEventListener('click', async (e) => {
                             window.location.href = "../Log-in/login.html";
                             break;
                         case 422:
-                            // ezt az esetet nem tudtam előidézni frontendről
-                            nextBtn.setAttribute('data-bs-toggle', 'modal');
-                            nextBtn.setAttribute('data-bs-target', '#staticBackdrop');
-                            document.getElementById('errorModal-p').textContent = `${addBook_response_publisher.data}`;
+                            alert("Please make sure you fill in all fields correctly!");
+                            console.log(addBook_response_publisher.status);
+                            console.log(addBook_response_publisher.data);
+                            console.log(addBook_response_publisher.error);
+                            break;
+                        default:
+                            alert("Something went worng. Please try it later!");
+                            console.log(addBook_response_publisher.status);
+                            console.log(addBook_response_publisher.data);
+                            console.log(addBook_response_publisher.error);
                             break;
                     }
 
 
                 }
             } else {
-                nextBtn.setAttribute('data-bs-toggle', 'modal');
-                nextBtn.setAttribute('data-bs-target', '#staticBackdrop');
+                alert("Please make sure you fill in all fields correctly!");
 
                 if (picPass == false) {
                     PicError.innerHTML = `<p>Please make sure you fill in this field correctly!</p>`;
@@ -988,16 +997,6 @@ nextBtn.addEventListener('click', async (e) => {
 
         } else if (publishingStatus == 2) {
 
-            console.log("pic: " + picPass);
-            console.log("file: " + filePass);
-            console.log("title: " + titlePass);
-            console.log("desc: " + descriptionPass);
-            console.log("audience: " + audiencePass);
-            console.log("lang: " + languagePass);
-            console.log("category: " + categoryPass);
-            console.log("chapter: " + chapterPass);
-            console.log("bank: " + bankPass);
-            console.log("price: " + pricePass);
             // self publish case
             if (picPass == true &&
                 filePass == true &&
@@ -1032,6 +1031,7 @@ nextBtn.addEventListener('click', async (e) => {
                     console.log(setBook_self.error);
                     switch (setBook_self.status) {
                         case 200:
+                            localStorage.removeItem("bookId");
                             window.location.href = "../General-HomePage/GenHome.html";
                             break;
                         case 403:
@@ -1041,10 +1041,14 @@ nextBtn.addEventListener('click', async (e) => {
                             window.location.href = "../Log-in/login.html";
                             break;
                         case 422:
-                            // ezt az esetet nem tudtam előidézni frontendről
-                            nextBtn.setAttribute('data-bs-toggle', 'modal');
-                            nextBtn.setAttribute('data-bs-target', '#staticBackdrop');
-                            document.getElementById('errorModal-p').textContent = `${setBook_self.data}`;
+                            alert("Please make sure you fill in all fields correctly!");
+                            console.log(setBook_self.data);
+                            break;
+                        default:
+                            alert("Something went worng. Please try it later!");
+                            console.log(setBook_self.status);
+                            console.log(setBook_self.data);
+                            console.log(setBook_self.error);
                             break;
                     }
 
@@ -1067,6 +1071,7 @@ nextBtn.addEventListener('click', async (e) => {
                     console.log(addBook_response_self.status);
                     switch (addBook_response_self.status) {
                         case 200:
+                            localStorage.removeItem("bookId");
                             window.location.href = "../General-HomePage/GenHome.html";
                             break;
                         case 403:
@@ -1076,18 +1081,21 @@ nextBtn.addEventListener('click', async (e) => {
                             window.location.href = "../Log-in/login.html";
                             break;
                         case 422:
-                            // ezt az esetet nem tudtam előidézni frontendről
-                            nextBtn.setAttribute('data-bs-toggle', 'modal');
-                            nextBtn.setAttribute('data-bs-target', '#staticBackdrop');
-                            document.getElementById('errorModal-p').textContent = `${addBook_response_publisher.data}`;
+                            alert("Please make sure you fill in all fields correctly!");
+                            console.log(addBook_response_self.data);
+                            break;
+                        default:
+                            alert("Something went worng. Please try it later!");
+                            console.log(addBook_response_self.status);
+                            console.log(addBook_response_self.data);
+                            console.log(addBook_response_self.error);
                             break;
                     }
                 }
 
 
             } else {
-                nextBtn.setAttribute('data-bs-toggle', 'modal');
-                nextBtn.setAttribute('data-bs-target', '#staticBackdrop');
+                alert("Please make sure you fill in all fields correctly!");
 
                 if (picPass == false) {
                     PicError.innerHTML = `<p>Please make sure you fill in this field correctly!</p>`;

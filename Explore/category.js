@@ -274,7 +274,7 @@ function LoadCategoryResult(response) {
                                 
                                 <div class="bottom-row-medium">
                                     <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', '${response.data[i].publisher !== undefined ? response.data[i].publisher : null}', '${response.data[i].id}', '${response.data[i].saved}', ${response.data[i].publisherUsername !== undefined ? `'${response.data[i].publisherUsername}'` : null},  ${response.data[i].publisherUsername !== undefined ? `'${response.data[i].publisherUsername}'` : null})">Show Details</button>
-                                    <p class="category" id="s2-mediumC-category">${response.data[i].category}</p>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -300,7 +300,7 @@ function LoadCategoryResult(response) {
                                 <p class="medium-desc" >${response.data[i].description}</p>
                                 <div class="bottom-row-medium">
                                     <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', '${response.data[i].publisher !== undefined ? response.data[i].publisher : null}', '${response.data[i].id}', '${response.data[i].saved}', ${response.data[i].publisherUsername !== undefined ? `'${response.data[i].publisherUsername}'` : null}">Show Details</button>
-                                    <p class="category" id="s2-mediumC-category">${response.data[i].category}</p>
+                                    
                                 </div>
     
                             </div>

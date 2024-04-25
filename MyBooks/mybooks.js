@@ -54,7 +54,7 @@ window.onload = async function () {
             });
 
             username.innerText = `@${tokenResponse.data.username}`;
-            profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture"></img>`;
+            profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture" class="rounded-circle"></img>`;
 
             document.getElementById('profile-link').addEventListener('click', (e) => {
                 navigateToProfile(tokenResponse.data.username);
@@ -286,18 +286,18 @@ function LoadBooks(response, isPurchased) {
             book_list.innerHTML += `
                 <div class="medium-card" style="background-color: #EAD7BE;">
                     <div class="row">
-                        <div class="col-3 my-col3" id="s5-mediumCardPic-div">
+                        <div class="col-3 my-col3" >
                             <img class="medium-pic" src="../${response.data[i].coverImage}.jpg">
                         </div>
                 
                         <div class="col-9 medium-right-side">
                             <h2 class="container medium-h2">${response.data[i].title}</h2>
                             <p class="username author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                            <p class="username author" >${response.data[i].publisher || ''}</p>
+                            <p class="username author" onclick="navigateToProfile('${response.data[i].publisherUsername}')">${response.data[i].publisher || ''}</p>
                             <p class="medium-desc">${response.data[i].description}</p>
                            <div class="bottom-row-medium">
-                           <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${isPurchased}', '${response.data[i].id}', ${isPurchased == true ? `${false}` : `${true}`})">Show Details</button>
-                                <p class="category" id="s2-mediumC-category">Comedy</p>
+                           <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${isPurchased}', '${response.data[i].id}', ${isPurchased == true ? `${false}` : `${true}`}, ${response.data[i].publisherUsername !== undefined ? `'${response.data[i].publisherUsername}'` : null})">Show Details</button>
+                                <p class="category">${response.data[i].category}</p>
                             </div>
                         </div>
                     </div>
@@ -310,18 +310,18 @@ function LoadBooks(response, isPurchased) {
             book_list.innerHTML += `
                 <div class="medium-card" style="background-color: #EAD7BE;">
                     <div class="row">
-                        <div class="col-3 my-col3" id="s5-mediumCardPic-div">
+                        <div class="col-3 my-col3" >
                             <img class="medium-pic" src="../pictures/standard-book-cover.jpg">
                         </div>
         
                         <div class="col-9 medium-right-side">
                             <h2 class="container medium-h2">${response.data[i].title}</h2>
                             <p class="username author" onclick="navigateToProfile('${response.data[i].username}')"> ${response.data[i].firstName} ${response.data[i].lastName}</p>
-                            <p class="username author" >${response.data[i].publisher || ''}</p>
+                            <p class="username author" onclick="navigateToProfile('${response.data[i].publisherUsername}')">${response.data[i].publisher || ''}</p>
                             <p class="medium-desc">${response.data[i].description}</p>
                             <div class="bottom-row-medium">
-                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${isPurchased}', '${response.data[i].id}', ${isPurchased == true ? `${false}` : `${true}`})">Show Details</button>
-                                <p class="category" id="s2-mediumC-category">Comedy</p>
+                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${isPurchased}', '${response.data[i].id}', ${isPurchased == true ? `${false}` : `${true}`}, ${response.data[i].publisherUsername !== undefined ? `'${response.data[i].publisherUsername}'` : null})">Show Details</button>
+                                <p class="category" >${response.data[i].category}</p>
                             </div>
                         </div>
                     </div>
@@ -352,7 +352,7 @@ let savedBoolean;
 let bookId;
 let saveClick = false;
 
-function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher, isPurchased, bookIdString, isSaved) {
+function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher, isPurchased, bookIdString, isSaved, publisherUsername) {
     bookId = parseInt(bookIdString);
     console.log(isSaved);
 
@@ -366,6 +366,9 @@ function loadModalData(url, title, firstName, lastName, description, language, r
         book_modal_publisher.hidden = true;
     } else {
         book_modal_publisher.innerText = `${publisher}`;
+        book_modal_publisher.addEventListener('click', (e)=>{
+            navigateToProfile(publisherUsername);
+        })
     }
 
     book_modal_title.innerText = `${title}`;
