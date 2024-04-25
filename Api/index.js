@@ -853,7 +853,7 @@ async function setBook(raw) {
     * 
     * 422: error
  */
-async function setBook(raw) {
+async function setBookPrice(raw) {
     var myHeaders = new Headers();
 
     myHeaders.append("Content-Type", "application/json");
