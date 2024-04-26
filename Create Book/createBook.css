@@ -1,8 +1,4 @@
-/* Option 2: Import via CSS */
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
-
-
-/**--------------- FONTS ---------------*/
+/*--------------- FONTS ---------------*/
 @font-face {
     font-family: 'Montserrat-Regular';
     src: url("../fonts/Montserrat/static/Montserrat-Regular.ttf") format('truetype');
@@ -26,7 +22,7 @@
 
 @font-face {
     font-family: 'Poppins-Regular';
-    src: url(../fonts/Poppins/Poppins-Regular.ttf) format('truetype');
+    src: url("../fonts/Poppins/Poppins-Regular.ttf") format('truetype');
     font-weight: 400;
     font-style: normal;
 }
@@ -45,7 +41,7 @@
     font-style: normal;
 }
 
-/** VÁLTOZÓK DEFINIÁLÁSA  */
+/* VÁLTOZÓK DEFINIÁLÁSA  */
 :root {
     --page-bg-color: rgb(247, 245, 236);
     --footer-bg-color: rgb(246, 227, 205);
@@ -82,7 +78,7 @@
 ::-webkit-scrollbar-thumb {
     background: #92827a;
     border-radius: 20px;
-    
+
 }
 
 /* Handle on hover */
@@ -90,21 +86,847 @@
     background: #ACA09A;
 }
 
-/** --------- EDIT CONTROL PANEL ------------- */
-/* #editControls{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-   
-    border-bottom: #6f6f6f 3px!important;
-} */
+@media (min-width: 250px) and (max-width:309px) {
 
+    /* nav */
+    nav {
+        width: 100% !important;
+    }
+
+    .controlText {
+        display: none !important;
+    }
+
+    #Cancel,
+    #Next {
+        font-size: 12px !important;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    /* inputs */
+    .col-5,
+    .col-7, form {
+        width: 100% !important;
+    }
+
+    .upload-and-delete {
+        margin-left: 0px !important;
+    }
+
+    #imgView img {
+        margin-top: 20px !important;
+    }
+
+    .addPhoto {
+        width: 50px !important;
+    }
+
+    .uploadSpan {
+        font-size: 15px !important;
+    }
+
+    #drop-image,
+    #dropAreaPicture {
+        width: 180px !important;
+        height: 220px;
+        margin-top: 80px;
+    }
+
+    #imgView {
+        height: 380px !important;
+        width: 150px !important;
+    }
+
+    .uploadP {
+        font-size: 12px !important;
+    }
+
+    .delete-pic {
+        margin-top: 400px !important;
+    }
+
+    #drop-file,
+    #dropAreaFile {
+        width: 180px !important;
+    }
+
+    .delete-file {
+        margin-top: 260px !important;
+    }
+
+    /* inputs */
+    form {
+        padding: 20px !important;
+    }
+
+    .form-group {
+        padding: 0px !important;
+    }
+
+    #storyTitle-div.container {
+        padding: 0px;
+    }
+
+    #description-div {
+        padding: 0px !important;
+    }
+
+    #targetAudience-div.container,
+    #language-div.container,
+    #category-div.container {
+        padding: 0px !important;
+    }
+
+    label{
+        margin-top: 15px !important;
+    }
+
+    .input-div label,
+    #bankAcc-div label {
+        font-size: 14px;
+        width: 100% !important;
+    }
+
+    .input-div {
+        display: flex;
+        flex-direction: column !important;
+    }
+
+    select {
+        margin-left: 0px !important;
+    }
+
+    #adultCheck {
+        margin-left: 0px !important;
+    }
+
+    .bi.bi-info-circle.info {
+        margin-top: 0px !important;
+    }
+
+    .info {
+        top: 2px !important;
+        left: 140px !important;
+    }
+
+    #chapter-number {
+        margin-left: 0px !important;
+    }
+
+    #priceP {
+        width: 100% !important;
+        text-align: justify;
+    }
+}
+
+@media (min-width: 310px) and (max-width:376px) {
+
+    /* nav */
+    nav {
+        width: 100% !important;
+    }
+
+    .controlText {
+        display: none !important;
+    }
+
+    #Cancel,
+    #Next {
+        font-size: 12px !important;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    /* inputs */
+    .col-5,
+    .col-7, form {
+        width: 100% !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .upload-and-delete {
+        margin-left: 0px !important;
+    }
+
+    #imgView img {
+        margin-top: 20px !important;
+    }
+
+    .addPhoto {
+        width: 50px !important;
+    }
+
+    .uploadSpan {
+        font-size: 15px !important;
+    }
+
+    #drop-image,
+    #dropAreaPicture {
+        width: 180px !important;
+        height: 220px;
+        margin-top: 80px;
+    }
+
+    #imgView {
+        height: 380px !important;
+        width: 150px !important;
+    }
+
+    .uploadP {
+        font-size: 12px !important;
+    }
+
+    .delete-pic {
+        margin-top: 400px !important;
+    }
+
+    #drop-file,
+    #dropAreaFile {
+        width: 180px !important;
+    }
+
+    .delete-file {
+        margin-top: 260px !important;
+    }
+
+    /* inputs */
+    form {
+        padding: 20px !important;
+    }
+
+    .form-group {
+        padding: 0px !important;
+    }
+
+    #storyTitle-div.container {
+        padding: 0px;
+    }
+
+    #description-div {
+        padding: 0px !important;
+    }
+
+    #targetAudience-div.container,
+    #language-div.container,
+    #category-div.container {
+        padding: 0px !important;
+    }
+
+    label{
+        margin-top: 15px !important;
+    }
+
+    .input-div label,
+    #bankAcc-div label {
+        font-size: 14px;
+        width: 100% !important;
+    }
+
+    .input-div {
+        display: flex;
+        flex-direction: column !important;
+    }
+
+    select {
+        margin-left: 0px !important;
+    }
+
+    #adultCheck {
+        margin-left: 0px !important;
+    }
+
+    .bi.bi-info-circle.info {
+        margin-top: 0px !important;
+    }
+
+    .info {
+        top: 2px !important;
+        left: 140px !important;
+    }
+
+    #chapter-number {
+        margin-left: 0px !important;
+    }
+
+    #priceP {
+        width: 100% !important;
+        text-align: justify;
+    }
+}
+
+@media (min-width: 377px) and (max-width:425px) {
+
+    /* nav */
+    nav {
+        width: 100% !important;
+    }
+
+    .controlText {
+        display: none !important;
+    }
+
+    #Cancel,
+    #Next {
+        font-size: 12px !important;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    /* inputs */
+    .col-5,
+    .col-7, form {
+        width: 100% !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .upload-and-delete {
+        margin-left: 0px !important;
+    }
+
+    #imgView img {
+        margin-top: 20px !important;
+    }
+
+    .addPhoto {
+        width: 50px !important;
+    }
+
+    .uploadSpan {
+        font-size: 15px !important;
+    }
+
+    #drop-image,
+    #dropAreaPicture {
+        width: 250px !important;
+        height: 220px;
+        margin-top: 80px;
+    }
+
+    #imgView {
+        height: 380px !important;
+        width: 220px !important;
+    }
+
+    .uploadP {
+        font-size: 12px !important;
+    }
+
+    .delete-pic {
+        margin-top: 400px !important;
+    }
+
+    #drop-file,
+    #dropAreaFile {
+        width: 250px !important;
+    }
+
+    .delete-file {
+        margin-top: 260px !important;
+    }
+
+    /* inputs */
+    form {
+        padding: 20px !important;
+    }
+
+    .form-group {
+        padding: 0px !important;
+    }
+
+    #storyTitle-div.container {
+        padding: 0px;
+    }
+
+    #description-div {
+        padding: 0px !important;
+    }
+
+    #targetAudience-div.container,
+    #language-div.container,
+    #category-div.container {
+        padding: 0px !important;
+    }
+
+    label{
+        margin-top: 15px !important;
+    }
+
+    .input-div label,
+    #bankAcc-div label {
+        font-size: 14px;
+        width: 100% !important;
+    }
+
+    .input-div {
+        display: flex;
+        flex-direction: column !important;
+    }
+
+    select {
+        margin-left: 0px !important;
+    }
+
+    #adultCheck {
+        margin-left: 0px !important;
+    }
+
+    .bi.bi-info-circle.info {
+        margin-top: 0px !important;
+    }
+
+    .info {
+        top: 2px !important;
+        left: 140px !important;
+    }
+
+    #chapter-number {
+        margin-left: 0px !important;
+    }
+
+    #priceP {
+        width: 100% !important;
+        text-align: justify;
+    }
+}
+
+@media (min-width: 426px) and (max-width:700px) {
+
+    /* nav */
+    nav {
+        width: 100% !important;
+    }
+
+    .controlText {
+        display: none !important;
+    }
+
+    #Cancel,
+    #Next {
+        font-size: 12px !important;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    /* inputs */
+    .col-5,
+    .col-7, form {
+        width: 100% !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .upload-and-delete {
+        margin-left: 0px !important;
+    }
+
+    #imgView img {
+        margin-top: 20px !important;
+    }
+
+    .addPhoto {
+        width: 50px !important;
+    }
+
+    .uploadSpan {
+        font-size: 15px !important;
+    }
+
+    #drop-image,
+    #dropAreaPicture {
+        width: 250px !important;
+        height: 220px;
+        margin-top: 80px;
+    }
+
+    #imgView {
+        height: 380px !important;
+        width: 220px !important;
+    }
+
+    .uploadP {
+        font-size: 12px !important;
+    }
+
+    .delete-pic {
+        margin-top: 400px !important;
+    }
+
+    #drop-file,
+    #dropAreaFile {
+        width: 250px !important;
+    }
+
+    .delete-file {
+        margin-top: 260px !important;
+    }
+
+    /* inputs */
+    form {
+        padding: 20px !important;
+    }
+
+    .form-group {
+        padding: 0px !important;
+    }
+
+    #storyTitle-div.container {
+        padding: 0px;
+    }
+
+    #description-div {
+        padding: 0px !important;
+    }
+
+    #targetAudience-div.container,
+    #language-div.container,
+    #category-div.container {
+        padding: 0px !important;
+    }
+
+    label{
+        margin-top: 15px !important;
+    }
+
+    .input-div label,
+    #bankAcc-div label {
+        font-size: 14px;
+        width: 100% !important;
+    }
+
+    .input-div {
+        display: flex;
+        flex-direction: column !important;
+    }
+
+    select {
+        margin-left: 0px !important;
+    }
+
+    #adultCheck {
+        margin-left: 0px !important;
+    }
+
+    .bi.bi-info-circle.info {
+        margin-top: 0px !important;
+    }
+
+    .info {
+        top: 2px !important;
+        left: 140px !important;
+    }
+
+    #chapter-number {
+        margin-left: 0px !important;
+    }
+
+    #priceP {
+        width: 100% !important;
+        text-align: justify;
+    }
+}
+
+@media (min-width: 701px) and (max-width:1024px) {
+
+    /* nav */
+    nav {
+        width: 100% !important;
+    }
+
+    #Cancel,
+    #Next {
+        font-size: 12px !important;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    /* inputs */
+    .col-5,
+    .col-7 {
+        width: 100% !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #file-picture-container{
+        display: flex;
+        gap: 20px;
+    }
+
+    .upload-and-delete {
+        margin-left: 0px !important;
+    }
+
+    #imgView img {
+        margin-top: 20px !important;
+    }
+
+    .addPhoto {
+        width: 50px !important;
+    }
+
+    .uploadSpan {
+        font-size: 15px !important;
+    }
+
+    #drop-image,
+    #dropAreaPicture {
+        width: 250px !important;
+        height: 220px;
+        margin-top: 80px;
+    }
+
+    #imgView {
+        height: 380px !important;
+        width: 220px !important;
+    }
+
+    .uploadP {
+        font-size: 12px !important;
+    }
+
+    .delete-pic {
+        margin-top: 365px !important;
+    }
+
+    #drop-file,
+    #dropAreaFile {
+        width: 250px !important;
+        margin-top: 40px!important;
+    }
+
+    .delete-file {
+        margin-top: 315px !important;
+        height: fit-content;
+    }
+
+    /* inputs */
+    form {
+        padding: 50px !important;
+        width: 600px !important;
+    }
+
+    .form-group {
+        padding: 0px !important;
+    }
+
+    #storyTitle-div.container {
+        padding: 0px;
+    }
+
+    #description-div {
+        padding: 0px !important;
+    }
+
+    #targetAudience-div.container,
+    #language-div.container,
+    #category-div.container {
+        padding: 0px !important;
+    }
+
+    .input-div label,
+    #bankAcc-div label {
+        font-size: 14px;
+        width: 100% !important;
+        margin-bottom: 10px;
+    }
+
+    .input-div {
+        display: flex;
+        flex-direction: column !important;
+    }
+
+    select {
+        margin-left: 0px !important;
+    }
+
+    #adultCheck {
+        margin-left: 0px !important;
+    }
+
+    .bi.bi-info-circle.info {
+        margin-top: 0px !important;
+    }
+
+    .info {
+        top: 2px !important;
+        left: 140px !important;
+    }
+
+    #chapter-number {
+        margin-left: 0px !important;
+    }
+
+    #priceP {
+        width: 100% !important;
+        text-align: justify;
+    }
+}
+
+@media (min-width: 1024px) and (max-width:1307px) {
+
+    /* nav */
+    nav {
+        width: 100% !important;
+    }
+
+    #Cancel,
+    #Next {
+        font-size: 12px !important;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    /* inputs */
+    .col-5,
+    .col-7 {
+        width: 100% !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #file-picture-container{
+        display: flex;
+        gap: 20px;
+    }
+
+    .upload-and-delete {
+        margin-left: 0px !important;
+    }
+
+    #imgView img {
+        margin-top: 20px !important;
+    }
+
+    .addPhoto {
+        width: 50px !important;
+    }
+
+    .uploadSpan {
+        font-size: 15px !important;
+    }
+
+    #drop-image,
+    #dropAreaPicture {
+        width: 250px !important;
+        height: 220px;
+        margin-top: 80px;
+    }
+
+    #imgView {
+        height: 380px !important;
+        width: 220px !important;
+    }
+
+    .uploadP {
+        font-size: 12px !important;
+    }
+
+    .delete-pic {
+        margin-top: 365px !important;
+    }
+
+    #drop-file,
+    #dropAreaFile {
+        width: 250px !important;
+        margin-top: 40px!important;
+    }
+
+    .delete-file {
+        margin-top: 315px !important;
+        height: fit-content;
+    }
+
+    /* inputs */
+    form {
+        padding: 50px !important;
+        width: 800px !important;
+    }
+
+    .form-group {
+        padding: 0px !important;
+    }
+
+    #storyTitle-div.container {
+        padding: 0px;
+    }
+
+    #description-div {
+        padding: 0px !important;
+    }
+
+    #targetAudience-div.container,
+    #language-div.container,
+    #category-div.container {
+        padding: 0px !important;
+    }
+
+    .input-div label,
+    #bankAcc-div label {
+        font-size: 14px;
+        width: 100% !important;
+        margin-bottom: 10px;
+    }
+
+    .input-div {
+        display: flex;
+        flex-direction: column !important;
+    }
+
+    select {
+        margin-left: 0px !important;
+    }
+
+    #adultCheck {
+        margin-left: 0px !important;
+    }
+
+    .bi.bi-info-circle.info {
+        margin-top: 0px !important;
+    }
+
+    .info {
+        top: 2px !important;
+        left: 140px !important;
+    }
+
+    #chapter-number {
+        margin-left: 0px !important;
+    }
+
+    #priceP {
+        width: 100% !important;
+        text-align: justify;
+    }
+}
+
+@media (min-width: 1308px) and (max-width:1391px) {
+    .upload-and-delete {
+        margin-left: 50px !important;
+    }
+
+    .col-5{
+        width: 35%!important;
+    }
+}
+
+/* --------- nav ------------- */
 .nav {
     background-color: var(--page-bg-color);
     display: flex;
     align-self: center;
-    /* position: absolute; */
     padding: 0.625rem 0.5rem !important;
     top: 0;
     justify-content: space-between;
@@ -125,33 +947,25 @@
 
 #goBack {
     flex-shrink: 0;
-    /* padding-bottom: 4px; */
-
-    /* border: #D6D5D2 1px solid; */
 }
 
 .btn-text {
-    /* border: 1px solid #000000 !important; */
     height: fit-content;
     width: fit-content;
     padding: 0rem !important;
     margin: 0rem !important;
-    /* position: relative; */
-    /* left: 20px; */
 }
 
 .controlText {
     -webkit-box-flex: 1;
     flex: 1;
     display: inline-block;
-    /* align-self: center !important; */
     margin-top: 0.188rem;
 }
 
 .h4 {
     font-size: 1.313rem;
     font-family: 'Montserrat-SemiBold';
-    /* margin: 12px 0px; */
 }
 
 #controlP {
@@ -175,7 +989,6 @@
     margin-left: auto;
     position: absolute;
     right: 2.5rem;
-    /* display: inline-flex; */
     align-self: center;
 }
 
@@ -226,7 +1039,7 @@
     margin-left: 0.625rem;
 }
 
-#Next:hover{
+#Next:hover {
     display: inline-flex;
     height: fit-content;
     width: fit-content;
@@ -247,27 +1060,17 @@
     border-color: var(--controlNext-btn) !important;
 }
 
-/** --------- SECTION ------------- */
 #UploadInfos {
     margin-top: 6.25rem;
 }
 
-/* #outsideDiv{
-   position: relative;
-} */
-/** --------- UPLOAD FILES ------------- */
+/* --------- UPLOAD FILES ------------- */
 .info {
-    /* align-items: bottom; */
     margin-top: 1.5%;
 }
 
-/* .sorba{
-    display: flex;
-    flex-direction: row;
-} */
-
-/** IMAGE */
-.upload-and-delete{
+/* IMAGE */
+.upload-and-delete {
     display: flex;
     margin-left: 120px;
     height: fit-content;
@@ -278,7 +1081,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* width: 100%; */
 }
 
 .uploadP {
@@ -291,8 +1093,6 @@
     width: 300px;
     height: 500px;
     padding: 10px;
-
-    /* padding-top: 10%; */
     background-color: var(--footer-bg-color);
     text-align: center;
     border-radius: 0.938rem;
@@ -304,10 +1104,8 @@
     border-radius: 0.938rem;
     border: 2px dashed rgb(188, 164, 145);
     background: rgba(247, 235, 224, 0.979);
-    /* align-content: center; */
     margin-top: 15px;
     margin-left: 5px;
-    /* align-items: inherit; */
     object-fit: cover;
     top: 10;
     background-position: center;
@@ -330,29 +1128,31 @@
     width: 70px;
 }
 
-.delete-pic{
+.delete-pic {
     position: relative;
     margin-top: 470px;
 }
 
-.delete-file{
+.delete-file {
     margin-top: 280px;
 }
 
-.delete-pic, .delete-file{
+.delete-pic,
+.delete-file {
     cursor: pointer;
     color: rgb(114, 3, 3);
 }
 
-.trash{
+.trash {
     margin-left: 20px;
 }
 
-.delete-pic:hover, .delete-file:hover{
+.delete-pic:hover,
+.delete-file:hover {
     color: rgb(210, 0, 0);
 }
 
-/** FILE */
+/* FILE */
 #drop-file {
     display: flex;
     flex-direction: column;
@@ -381,11 +1181,8 @@
     border-radius: 0.75rem;
 }
 
-
-
-/** ----------  INPUTS --------------- */
-
-#inputs {
+/* ----------  INPUTS --------------- */
+form {
     background-color: var(--input-card-bg);
     padding: 60px;
     border-radius: 0.938rem;
@@ -393,7 +1190,6 @@
     height: max-content;
     width: 800px;
     margin-bottom: 50px;
-
 }
 
 #inputStoryTitle {
@@ -414,7 +1210,6 @@
     color: #EE1D52;
     font-family: 'Poppins-Regular';
     font-size: small;
-    /* margin-left: 2%; */
 }
 
 #inputStoryTitle,
@@ -444,11 +1239,11 @@
     font-family: 'Poppins-Medium', sans-serif;
 }
 
-#chapterLabel{
+#chapterLabel {
     width: 50%;
 }
 
-#chapterError p{
+#chapterError p {
     margin-top: 7%;
 }
 
@@ -459,12 +1254,10 @@ textarea {
 .inputError {
     background: rgb(255, 214, 220) !important;
     border-color: rgb(243, 82, 93) !important;
-    /* margin-left: 4%; */
 }
 
-
-.priceErrorP{
-    margin-left: 31%!important;
+.priceErrorP {
+    margin-left: 31% !important;
 }
 
 .inputPass {
@@ -514,7 +1307,6 @@ textarea {
 
 .select {
     border: var(--input-border) 0.063rem solid;
-    /* background-color: rgb(255, 255, 255); */
     border-radius: 0.938rem !important;
     margin-left: 4%;
     max-width: fit-content;
@@ -523,13 +1315,15 @@ textarea {
     cursor: pointer;
 }
 
+.checkbox {
+    display: flex;
+}
 
 option:checked {
     background-color: #b6f4dc;
 }
 
 #copyrightP {
-    /* position: absolute; */
     margin: 0;
     top: 50%;
     margin-left: 4%;
@@ -560,18 +1354,17 @@ option:checked {
 }
 
 #BookPrice-div label {
-    width: 200px !important;
+    width: 200px;
     margin-left: 2%;
 }
 
-#chapter-number{
+#chapter-number {
     margin-left: 5%;
     height: 4%;
 }
 
 #price,
 #chapter-number {
-    /* margin-left: 2%; */
     width: 150px;
     margin-bottom: 1%;
     margin-top: 2%;
@@ -585,13 +1378,12 @@ option:checked {
     margin-top: 1.5%;
 }
 
-
-/* --------------- */
-
 .info {
-    float: right;
+    /* float: right; */
+    position: absolute;
+    left: 155px;
+    top: 2px;
 }
-
 
 #targetAudience-div {
     position: relative;
@@ -606,8 +1398,6 @@ option:checked {
     margin-left: 0 !important;
 }
 
-
-/* TODO:  Ez a kettő biztosítja azt, hogy a két gomb a navbar-ban függőlegesen középre legyen igazítva*/
 #editControls .container-fluid {
     display: flex;
     align-items: center;
@@ -618,18 +1408,4 @@ option:checked {
     display: flex;
     flex-direction: row;
     align-items: center;
-}
-
-/* Error modal */
-.modalBtn{
-    /* background-color: var(--controlNext-btn)!important; */
-    font-family: 'Poppins-Regular', sans-serif!important;
-}
-
-.modal-p{
-    font-family: 'Poppins-Regular', sans-serif!important;
-}
-
-.modal-content{
-    background-color: #ffe9eb!important;
 }

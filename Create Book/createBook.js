@@ -1,4 +1,14 @@
-//* DRAG AND DROP IMAGE TO COVER PHOTO + UPLOAD FILE
+const title = document.getElementById('inputStoryTitle');
+const description = document.getElementById('inputDescription');
+const selectAudience = document.getElementById("selectTargetAudience");
+const language_dropdown = document.getElementById('selectLanguage');
+const category_dropdown = document.getElementById('selectCategory');
+const chapter_number = document.getElementById('chapter-number');
+const bankAccNumber = document.getElementById('inputBankNum');
+const bookPrice = document.getElementById('inputBookPrice');
+const adultCheckbox = document.getElementById('adultCheck');
+
+// DRAG AND DROP IMAGE TO COVER PHOTO + UPLOAD FILE
 const dropAreaPicture = document.getElementById('dropAreaPicture');
 const inputPicture = document.getElementById('inputPicture');
 const imgView = document.getElementById('imgView');
@@ -7,10 +17,21 @@ const dropAreaFile = document.getElementById('dropAreaFile');
 const inputFile = document.getElementById('inputFile');
 const fileView = document.getElementById('fileView');
 
+// VARIABLES FOR ACTIVATE BUTTON
 var filePass = false;
 var picPass = false;
+var titlePass = false;
+var descriptionPass = false;
+var audiencePass = false;
+var languagePass = false;
+var categoryPass = false;
+var chapterPass = false;
+var bankPass = false;
+var pricePass = false;
+var publishingStatus = 0;
 
-// Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
+let isAdultLiterature = false;
+
 window.addEventListener('beforeunload', async function () {
     const tokenResponse = await token();
 
@@ -21,14 +42,26 @@ window.addEventListener('beforeunload', async function () {
 
 window.onload = async function () {
     const tokenResponese = await token();
-    // console.log(tokenResponese);
 
     switch (tokenResponese.status) {
         case 302:
+            localStorage.removeItem('searchResult');
+            localStorage.removeItem('Error Code:');
+            localStorage.removeItem('id');
+            localStorage.removeItem('name');
+
             const dropdown_response = await getDropDownValues();
             console.log(dropdown_response);
             getLanguages(dropdown_response);
             getCategories(dropdown_response);
+
+            var bookId = localStorage.getItem("bookId");
+            if (bookId !== null) {
+                const detailResponse = await getBookDetails({ "id": bookId });
+                LoadBookDetails(detailResponse);
+            }
+
+
             break;
         case 422:
             console.error(tokenResponese.data);
@@ -38,6 +71,11 @@ window.onload = async function () {
             break;
     }
 }
+
+document.getElementById('Cancel').addEventListener('click', (e) => {
+    localStorage.removeItem("bookId");
+})
+
 
 //? IMAGE
 const img_trash = document.getElementById('del-pic');
@@ -54,43 +92,55 @@ let imgSrc; //ebből fogom kiszedni a kép elérési útját
 var pictureName; // ez lesz a végleges fájlnév amit a backend megkap
 
 function uploadImage() {
-    imgLink = URL.createObjectURL(inputPicture.files[0]);
-    console.log(imgLink);
-    /**
-     * ez egy blob lesz, ami nem tartalmazza a fájl nevét viszont
-     * ha a sima value-t használom nem fog a kép betöltődni mert nincs a böngészőnek
-     * hozzáférése a helyi fájlokhoz, így a blob linket kell használni a kép betöltésére.
-     * Amikor adatot küldök a backendnek akkor a value értéket kell küldeni
-    */
-    imgView.style.backgroundImage = `url(${imgLink})`;
-    addPhoto_icon.hidden = true;
-    img_p.hidden = true;
-    img_span.hidden = true;
+    let imgFile = inputPicture.files[0];
+    imgLink = URL.createObjectURL(imgFile);
 
     var img = new Image();
+    img.src = imgLink;
+    let size = imgFile.size;
+    console.log("A fájl mérete byte-ban: " + size);
 
-    img.onload = function () {
-        height = img.naturalHeight;
-        width = img.naturalWidth;
-        console.log("A kép szélessége: " + width);
-        console.log("A kép magassága: " + height);
-    }
-
-    if (imgLink == "") {
-        picPass = false;
-        console.log("pic pass value:" + picPass);
-
+    const maxSize = 2 * 1024 * 1024;
+    if (size > maxSize) {
+        alert('A kép mérete túl nagy. Kérjük, válassz egy kisebb méretű képet (legfeljebb 2MB).');
+        return;
     } else {
-        picPass = true;
-        imgSrc = inputPicture.value;
-        console.log("pic pass value:" + picPass);
-        console.log("img src: " + imgSrc);
+        /**
+        * ez egy blob lesz, ami nem tartalmazza a fájl nevét viszont
+        * ha a sima value-t használom nem fog a kép betöltődni mert nincs a böngészőnek
+        * hozzáférése a helyi fájlokhoz, így a blob linket kell használni a kép betöltésére.
+        * Amikor adatot küldök a backendnek akkor a value értéket kell küldeni
+        */
+        imgView.style.backgroundImage = `url(${imgLink})`;
+        addPhoto_icon.hidden = true;
+        img_p.hidden = true;
+        img_span.hidden = true;
 
-        // Szétvágom a szöveget a "\" karakter alapján
-        var parts = imgSrc.split('\\');
-        pictureName = parts[parts.length - 1];
+        img.onload = function () {
+            height = img.naturalHeight;
+            width = img.naturalWidth;
+            console.log("A kép szélessége: " + width);
+            console.log("A kép magassága: " + height);
 
-        console.log(pictureName);
+            // itt lesz meghívva az endpoint + a hibakezelés
+        }
+
+        if (imgLink == "") {
+            picPass = false;
+            console.log("pic pass value:" + picPass);
+
+        } else {
+            picPass = true;
+            imgSrc = inputPicture.value;
+            console.log("pic pass value:" + picPass);
+            console.log("img src: " + imgSrc);
+
+            // Szétvágom a szöveget a "\" karakter alapján
+            var parts = imgSrc.split('\\');
+            pictureName = parts[parts.length - 1];
+
+            console.log(pictureName);
+        }
     }
 
 }
@@ -157,23 +207,35 @@ inputFile.addEventListener("change", (e) => {
 function uploadFile() {
     console.log(inputFile.value);
 
-    // console.log("Lefutott az uploadfile");
-    if (inputFile.value == "") {
-        filePass = false;
-        console.log("pic pass value:" + filePass);
+
+    const fileSize = inputFile.files[0].size;
+    const maxSize = 5 * 1024 * 1024; // 5MB méretkorlát
+
+    if (fileSize > maxSize) {
+        alert('A fájl mérete túl nagy. Kérjük, válassz egy kisebb méretű fájlt (legfeljebb 5MB).');
+        inputFile.value = ''; // Töröljük a fájlmező tartalmát
+        return;
     } else {
-        filePass = true;
-        fileName = inputFile.value.split('\\').pop();
+        if (inputFile.value == "") {
+            filePass = false;
+            console.log("pic pass value:" + filePass);
+        } else {
+            filePass = true;
+            fileName = inputFile.value.split('\\').pop();
 
-        file_p.hidden = true;
-        file_span.hidden = true;
+            file_p.hidden = true;
+            file_span.hidden = true;
 
-        file_result_p.hidden = false;
-        file_result_uploaded.hidden = false;
-        file_result_uploaded.innerText = `${fileName}`;
-        console.log("perjel után: " + fileName);
-        console.log("pic pass value:" + filePass);
+            file_result_p.hidden = false;
+            file_result_uploaded.hidden = false;
+            file_result_uploaded.innerText = `${fileName}`;
+            console.log("perjel után: " + fileName);
+            console.log("pic pass value:" + filePass);
+        }
     }
+
+    // console.log("Lefutott az uploadfile");
+
 }
 
 dropAreaFile.addEventListener('dragover', (e) => {
@@ -219,16 +281,87 @@ inputFile.addEventListener('input', (e) => {
 })
 
 
-//* PROCESSING OTHER INPUTS
-const title = document.getElementById('inputStoryTitle');
-const description = document.getElementById('inputDescription');
-const selectAudience = document.getElementById("selectTargetAudience");
-const language_dropdown = document.getElementById('selectLanguage');
-const category_dropdown = document.getElementById('selectCategory');
-const chapter_number = document.getElementById('chapter-number');
-const bankAccNumber = document.getElementById('inputBankNum');
-const bookPrice = document.getElementById('inputBookPrice');
+function LoadBookDetails(response) {
 
+    description.value = response.data.description;
+    descriptionPass = true;
+    selectAudience.value = response.data.targetAudienceId;
+    audiencePass = true;
+    language_dropdown.value = response.data.languageId;
+    languagePass = true;
+    category_dropdown.value = response.data.categoryId;
+    categoryPass = true;
+    chapter_number.value = response.data.chapterNumber;
+    chapterPass = true;
+
+    if (response.data.adultFiction == true) {
+        adultCheckbox.checked = true;
+        isAdultLiterature = true;
+    } else {
+        adultCheckbox.checked = false;
+        isAdultLiterature = false;
+    }
+
+    if (response.data.statusId == 1) {
+        document.getElementById('PublisherPublish').checked = true;
+        publishingStatus = 1;
+    } else if (response.data.statusId == 2) {
+        publishingStatus = 2;
+        document.getElementById('SelfPublish').checked = true;
+        self_inputs.hidden = false;
+        bookPrice.value = response.data.price;
+        pricePass = true;
+        bankAccNumber.value = response.data.bankAccountNumber;
+        bankPass = true;
+    }
+
+    if (response.data.coverImage == "Ez a kép elérési útja") {
+        imgView.style.backgroundImage = 'url(../pictures/standard-book-cover.jpg)';
+        addPhoto_icon.hidden = true;
+        img_p.hidden = true;
+        img_span.hidden = true;
+        picPass = true;
+        const url = "../pictures/standard-book-cover.jpg";
+        const parts = url.split("/");
+        pictureName = parts[parts.length - 1];
+        console.log("pictureName: " + pictureName);
+    } else {
+        addPhoto_icon.hidden = true;
+        img_p.hidden = true;
+        img_span.hidden = true;
+        imgView.style.backgroundImage = `url(../${response.data.coverImage}.jpg)`;
+        picPass = true;
+
+        const url = `../${response.data.coverImage}.jpg`;
+        const parts = url.split("/");
+        pictureName = parts[parts.length - 1];
+        console.log("pictureName: " + pictureName);
+    }
+
+    if (response.data.file != "Ez a könyv elérési útja") {
+        fileName = response.data.file;
+        console.log(fileName);
+        file_p.hidden = true;
+        file_span.hidden = true;
+        file_result_p.hidden = false;
+        file_result_uploaded.hidden = false;
+        file_result_uploaded.innerText = `${fileName}`;
+        // inputFile.value = fileName;
+        filePass = true;
+    } else {
+        file_p.hidden = true;
+        file_span.hidden = true;
+        file_result_p.hidden = false;
+        file_result_uploaded.hidden = false;
+        file_result_uploaded.innerText = "Ez lesz a könyv elérési útja";
+        filePass = true;
+        fileName = response.data.file;
+    }
+
+}
+
+
+//* PROCESSING OTHER INPUTS
 const charCounterTitle = document.getElementById('characterCounterTitle');
 const charCounterDes = document.getElementById('characterCounterDes');
 
@@ -244,18 +377,6 @@ const categoryError = document.getElementById('categoryErr');
 const chapterError = document.getElementById('chapterError');
 const bankError = document.getElementById('BankNumError');
 const priceError = document.getElementById('PriceError');
-
-//* VARIABLES FOR ACTIVATE BUTTON
-var titlePass = false;
-var descriptionPass = false;
-var audiencePass = false;
-var languagePass = false;
-var categoryPass = false;
-var chapterPass = false;
-var bankPass = false; //! csak akkor kell ha selfpublish
-var pricePass = false; //! csak akkor kell ha selfpublish
-var publishingStatus = 0;
-
 
 const storyname = document.getElementById('StoryName');
 //? TITLE 
@@ -301,6 +422,9 @@ title.addEventListener('input', (e) => {
 })
 
 let titleValue;
+const kisbetuRegex = /[a-z]/;
+const nagybetuRegex = /[A-Z]/;
+const ekezetesRegex = /[áéíóöőúüűÁÉÍÓÖŐÚÜŰ]/;
 title.addEventListener('focusout', (e) => {
     e.preventDefault();
     titleValue = title.value;
@@ -310,19 +434,27 @@ title.addEventListener('focusout', (e) => {
         titlePass = false;
         console.log("TitlePass value: " + titlePass);
     } else {
-        const functionValue = MinTitle(titleValue);
-        if (functionValue == false) {
-            titlePass = false;
-            titleError.innerText = "Title must be 3 caracter long.";
-            title.classList.add('inputError');
-            console.log("A title függvény értéke: " + functionValue);
-            console.log("TitlePass value: " + titlePass);
+        if (kisbetuRegex.test(titleValue) == true || nagybetuRegex.test(titleValue) == true || ekezetesRegex.test(titleValue) == true) {
+            const functionValue = MinTitle(titleValue);
+            if (functionValue == false) {
+                titlePass = false;
+                titleError.innerText = "Title must be 3 caracter long.";
+                title.classList.add('inputError');
+                console.log("A title függvény értéke: " + functionValue);
+                console.log("TitlePass value: " + titlePass);
+            } else {
+                title.classList.add('inputPass');
+                titlePass = true;
+                console.log("TitlePass value: " + titlePass);
+                storyname.textContent = title.value;
+            }
         } else {
-            title.classList.add('inputPass');
-            titlePass = true;
+            title.classList.add('inputError');
+            titleError.innerText = "The title must contains at least one letter.";
+            titlePass = false;
             console.log("TitlePass value: " + titlePass);
-            storyname.textContent = title.value;
         }
+
     }
 
 })
@@ -387,18 +519,26 @@ description.addEventListener('focusout', (e) => {
         descriptionPass = false;
         console.log("descriptionPass value: " + descriptionPass);
     } else {
-        const functionValue = MinDesc(descValue);
-        if (functionValue == false) {
-            descriptionPass = false;
-            descriptionError.innerText = "The description must be 20 caracter long.";
-            description.classList.add('inputError');
-            console.log("A descript. függvény értéke: " + functionValue);
-            console.log("descriptionPass value: " + descriptionPass);
+        if (kisbetuRegex.test(descValue) == true || nagybetuRegex.test(descValue) == true || ekezetesRegex.test(descValue) == true) {
+            const functionValue = MinDesc(descValue);
+            if (functionValue == false) {
+                descriptionPass = false;
+                descriptionError.innerText = "The description must be 20 character long.";
+                description.classList.add('inputError');
+                console.log("A descript. függvény értéke: " + functionValue);
+                console.log("descriptionPass value: " + descriptionPass);
+            } else {
+                description.classList.add('inputPass');
+                descriptionPass = true;
+                console.log("descriptionPass value: " + descriptionPass);
+            }
         } else {
-            description.classList.add('inputPass');
-            descriptionPass = true;
+            description.classList.add('inputError');
+            descriptionError.innerText = "The description must contains at least one letter.";
+            descriptionPass = false;
             console.log("descriptionPass value: " + descriptionPass);
         }
+
     }
 })
 
@@ -591,7 +731,7 @@ chapter_number.addEventListener('focusout', (e) => {
     }
 })
 
-chapter_number.addEventListener("focusin", (e)=>{
+chapter_number.addEventListener("focusin", (e) => {
     chapterError.innerHTML = "";
     chapter_number.classList.remove('inputPass');
     chapter_number.classList.remove('inputError');
@@ -698,27 +838,23 @@ bookPrice.addEventListener('focusin', (e) => {
 //? NEXT BUTTON
 // self or search publisher error
 const checkError = document.getElementById('checkboxError');
-let isAdultLiterature = false;
 
 nextBtn.addEventListener('click', async (e) => {
-    nextBtn.removeAttribute('data-bs-toggle', 'modal');
-    nextBtn.removeAttribute('data-bs-target', '#errorModal');
     e.preventDefault();
-    const adultCheckbox = document.getElementById('adultCheck');
+
     if (adultCheckbox.checked == true) {
         isAdultLiterature = true;
     } else {
         isAdultLiterature = false;
     }
 
-    // console.log(inputPicture.value);
-    // console.log(isAdultLiterature);
     if (publishingStatus == 0) {
         checkError.innerHTML = `<p>You have to choose how to publish!</p>`;
     } else {
         checkError.innerHTML = "";
         if (publishingStatus == 1) {
             // looking for publisher case
+
             if (picPass == true &&
                 filePass == true &&
                 titlePass == true &&
@@ -728,45 +864,139 @@ nextBtn.addEventListener('click', async (e) => {
                 categoryPass == true &&
                 chapterPass == true) {
 
-                const addBook_response_publisher = await addBook({
-                    "title": titleValue,
-                    "description": descValue,
-                    "targetAudienceId": audienceData,
-                    "languageId": selectedLanguage,
-                    "adultFiction": isAdultLiterature,
-                    "categoryId": selectedCategory,
-                    "statusId": 1,
-                    "price": "null",
-                    "coverImage": pictureName,
-                    "file": fileName,
-                    "bankAccountNumber": "null",
-                    "chapterNumber": chapternumber
-                });
+                var bookId = localStorage.getItem("bookId");
+                if (bookId !== null) {
+                    const setBook_response_publisher = await setBook({
+                        "id": bookId,
+                        "title": title.value,
+                        "description": description.value,
+                        "targetAudienceId": selectAudience.value,
+                        "languageId": language_dropdown.value,
+                        "adultFiction": isAdultLiterature,
+                        "categoryId": category_dropdown.value,
+                        "statusId": 1,
+                        "price": "null",
+                        "coverImage": pictureName,
+                        "file": fileName,
+                        "bankAccountNumber": "null",
+                        "chapterNumber": chapternumber
+                    });
 
-                console.log(addBook_response_publisher.status);
-                switch (addBook_response_publisher.status) {
-                    case 200:
-                        window.location.href = "../General-HomePage/GenHome.html";
-                        break;
-                    case 403:
-                        window.location.href = "../404/404.html";
-                        break;
-                    case 401:
-                        window.location.href = "../Log-in/login.html";
-                        break;
-                    case 422:
-                        // ezt az esetet nem tudtam előidézni frontendről
-                        nextBtn.setAttribute('data-bs-toggle', 'modal');
-                        nextBtn.setAttribute('data-bs-target', '#staticBackdrop');
-                        document.getElementById('errorModal-p').textContent = `${addBook_response_publisher.data}`;
-                        break;
+
+                    console.log(setBook_response_publisher.status);
+                    switch (setBook_response_publisher.status) {
+                        case 200:
+                            localStorage.removeItem("bookId");
+                            window.location.href = "../General-HomePage/GenHome.html";
+                            break;
+                        case 403:
+                            window.location.href = "../404/404.html";
+                            break;
+                        case 401:
+                            window.location.href = "../Log-in/login.html";
+                            break;
+                        case 422:
+                            alert("Please make sure you fill in all fields correctly!");
+                            console.log(setBook_response_publisher.data);
+                            break;
+                        default:
+                            alert("Something went worng. Please try it later!");
+                            console.log(setBook_response_publisher.status);
+                            console.log(setBook_response_publisher.data);
+                            console.log(setBook_response_publisher.error);
+                            break;
+                    }
+
+                } else {
+                    const addBook_response_publisher = await addBook({
+                        "title": titleValue,
+                        "description": descValue,
+                        "targetAudienceId": audienceData,
+                        "languageId": selectedLanguage,
+                        "adultFiction": isAdultLiterature,
+                        "categoryId": selectedCategory,
+                        "statusId": 1,
+                        "price": "null",
+                        "coverImage": pictureName,
+                        "file": fileName,
+                        "bankAccountNumber": "null",
+                        "chapterNumber": chapternumber
+                    });
+
+                    console.log(addBook_response_publisher.status);
+                    switch (addBook_response_publisher.status) {
+                        case 200:
+
+                            localStorage.removeItem("bookId");
+                            window.location.href = "../General-HomePage/GenHome.html";
+                            break;
+                        case 403:
+                            window.location.href = "../404/404.html";
+                            break;
+                        case 401:
+                            window.location.href = "../Log-in/login.html";
+                            break;
+                        case 422:
+                            alert("Please make sure you fill in all fields correctly!");
+                            console.log(addBook_response_publisher.status);
+                            console.log(addBook_response_publisher.data);
+                            console.log(addBook_response_publisher.error);
+                            break;
+                        default:
+                            alert("Something went worng. Please try it later!");
+                            console.log(addBook_response_publisher.status);
+                            console.log(addBook_response_publisher.data);
+                            console.log(addBook_response_publisher.error);
+                            break;
+                    }
+
+
                 }
             } else {
-                nextBtn.setAttribute('data-bs-toggle', 'modal');
-                nextBtn.setAttribute('data-bs-target', '#staticBackdrop');
+                alert("Please make sure you fill in all fields correctly!");
+
+                if (picPass == false) {
+                    PicError.innerHTML = `<p>Please make sure you fill in this field correctly!</p>`;
+                }
+
+                if (filePass == false) {
+                    FileError.innerHTML = `<p>Please make sure you fill in this field correctly!</p>`;
+                }
+
+                if (titlePass == false) {
+                    title.classList.add('inputError');
+                    titleError.innerHTML = `<p>Please make sure you fill in this field correctly!</p>`;
+                }
+
+                if (descriptionPass == false) {
+                    description.classList.add('inputError');
+                    descriptionError.innerHTML = `<p>Please make sure you fill in this field correctly!</p>`;
+                }
+
+                if (audiencePass == false) {
+                    selectAudience.classList.add('inputError');
+                    audienceError.innerHTML = `<p>Please make sure you fill in this field correctly!</p>`;
+                }
+
+                if (languagePass == false) {
+                    language_dropdown.classList.add('inputError');
+                    languageError.innerHTML = `<p>Please make sure you fill in this field correctly!</p>`;
+                }
+
+                if (categoryPass == false) {
+                    category_dropdown.classList.add('inputError');
+                    categoryError.innerHTML = `<p>Please make sure you fill in this field correctly!</p>`;
+                }
+
+                if (chapterPass == false) {
+                    chapter_number.classList.add('inputError');
+                    chapterError.innerHTML = `<p>Please make sure you fill in this field correctly!</p>`;
+                }
+
             }
 
         } else if (publishingStatus == 2) {
+
             // self publish case
             if (picPass == true &&
                 filePass == true &&
@@ -779,42 +1009,141 @@ nextBtn.addEventListener('click', async (e) => {
                 bankPass == true &&
                 pricePass == true) {
 
-                const addBook_response_self = await addBook({
-                    "title": titleValue,
-                    "description": descValue,
-                    "targetAudienceId": audienceData,
-                    "languageId": selectedLanguage,
-                    "adultFiction": isAdultLiterature,
-                    "categoryId": selectedCategory,
-                    "statusId": 1,
-                    "price": 0,
-                    "coverImage": pictureName,
-                    "file": fileName,
-                    "bankAccountNumber": bankValue,
-                    "chapterNumber": chapternumber
-                });
+                var bookId = localStorage.getItem("bookId");
+                if (bookId !== null) {
+                    const setBook_self = await setBook({
+                        "id": bookId,
+                        "title": title.value,
+                        "description": description.value,
+                        "targetAudienceId": selectAudience.value,
+                        "languageId": language_dropdown.value,
+                        "adultFiction": isAdultLiterature,
+                        "categoryId": category_dropdown.value,
+                        "statusId": 2,
+                        "price": bookPrice.value,
+                        "coverImage": pictureName,
+                        "file": fileName,
+                        "bankAccountNumber": bankAccNumber.value,
+                        "chapterNumber": chapter_number.value
+                    });
 
-                console.log(addBook_response_self.status);
-                switch (addBook_response_self.status) {
-                    case 200:
-                        window.location.href = "../General-HomePage/GenHome.html";
-                        break;
-                    case 403:
-                        window.location.href = "../404/404.html";
-                        break;
-                    case 401:
-                        window.location.href = "../Log-in/login.html";
-                        break;
-                    case 422:
-                        // ezt az esetet nem tudtam előidézni frontendről
-                        nextBtn.setAttribute('data-bs-toggle', 'modal');
-                        nextBtn.setAttribute('data-bs-target', '#staticBackdrop');
-                        document.getElementById('errorModal-p').textContent = `${addBook_response_publisher.data}`;
-                        break;
+                    console.log(setBook_self.status);
+                    console.log(setBook_self.error);
+                    switch (setBook_self.status) {
+                        case 200:
+                            localStorage.removeItem("bookId");
+                            window.location.href = "../General-HomePage/GenHome.html";
+                            break;
+                        case 403:
+                            window.location.href = "../404/404.html";
+                            break;
+                        case 401:
+                            window.location.href = "../Log-in/login.html";
+                            break;
+                        case 422:
+                            alert("Please make sure you fill in all fields correctly!");
+                            console.log(setBook_self.data);
+                            break;
+                        default:
+                            alert("Something went worng. Please try it later!");
+                            console.log(setBook_self.status);
+                            console.log(setBook_self.data);
+                            console.log(setBook_self.error);
+                            break;
+                    }
+
+                } else {
+                    const addBook_response_self = await addBook({
+                        "title": titleValue,
+                        "description": descValue,
+                        "targetAudienceId": audienceData,
+                        "languageId": selectedLanguage,
+                        "adultFiction": isAdultLiterature,
+                        "categoryId": selectedCategory,
+                        "statusId": 1,
+                        "price": 0,
+                        "coverImage": pictureName,
+                        "file": fileName,
+                        "bankAccountNumber": bankValue,
+                        "chapterNumber": chapternumber
+                    });
+
+                    console.log(addBook_response_self.status);
+                    switch (addBook_response_self.status) {
+                        case 200:
+                            localStorage.removeItem("bookId");
+                            window.location.href = "../General-HomePage/GenHome.html";
+                            break;
+                        case 403:
+                            window.location.href = "../404/404.html";
+                            break;
+                        case 401:
+                            window.location.href = "../Log-in/login.html";
+                            break;
+                        case 422:
+                            alert("Please make sure you fill in all fields correctly!");
+                            console.log(addBook_response_self.data);
+                            break;
+                        default:
+                            alert("Something went worng. Please try it later!");
+                            console.log(addBook_response_self.status);
+                            console.log(addBook_response_self.data);
+                            console.log(addBook_response_self.error);
+                            break;
+                    }
                 }
-            }else {
-                nextBtn.setAttribute('data-bs-toggle', 'modal');
-                nextBtn.setAttribute('data-bs-target', '#staticBackdrop');
+
+
+            } else {
+                alert("Please make sure you fill in all fields correctly!");
+
+                if (picPass == false) {
+                    PicError.innerHTML = `<p>Please make sure you fill in this field correctly!</p>`;
+                }
+
+                if (filePass == false) {
+                    FileError.innerHTML = `<p>Please make sure you fill in this field correctly!</p>`;
+                }
+
+                if (titlePass == false) {
+                    title.classList.add('inputError');
+                    titleError.innerHTML = `<p>Please make sure you fill in this field correctly!</p>`;
+                }
+
+                if (descriptionPass == false) {
+                    description.classList.add('inputError');
+                    descriptionError.innerHTML = `<p>Please make sure you fill in this field correctly!</p>`;
+                }
+
+                if (audiencePass == false) {
+                    selectAudience.classList.add('inputError');
+                    audienceError.innerHTML = `<p>Please make sure you fill in this field correctly!</p>`;
+                }
+
+                if (languagePass == false) {
+                    language_dropdown.classList.add('inputError');
+                    languageError.innerHTML = `<p>Please make sure you fill in this field correctly!</p>`;
+                }
+
+                if (categoryPass == false) {
+                    category_dropdown.classList.add('inputError');
+                    categoryError.innerHTML = `<p>Please make sure you fill in this field correctly!</p>`;
+                }
+
+                if (chapterPass == false) {
+                    chapter_number.classList.add('inputError');
+                    chapterError.innerHTML = `<p>Please make sure you fill in this field correctly!</p>`;
+                }
+
+                if (bankPass == false) {
+                    bankAccNumber.classList.add('inputError');
+                    bankError.innerHTML = `<p>Please make sure you fill in this field correctly!</p>`;
+                }
+
+                if (pricePass == false) {
+                    bookPrice.classList.add('inputError');
+                    priceError.innerHTML = `<p>Please make sure you fill in this field correctly!</p>`;
+                }
             }
 
         } else {
