@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Ápr 23. 19:22
+-- Létrehozás ideje: 2024. Ápr 27. 12:38
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -73,14 +73,29 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `addCategoryInterest` (IN `userIdIN`
     WHILE counter <= LENGTH(categoryIds) - LENGTH(REPLACE(categoryIds, ',', '')) + 1 DO
         SET categoryId = SUBSTRING_INDEX(SUBSTRING_INDEX(categoryIds, ',', counter), ',', -1);
         
-        IF NOT EXISTS(SELECT * FROM `categoryinterest` WHERE `categoryinterest`.`userId` = userIdIN AND `categoryinterest`.`categoryId` = categoryId) THEN
-            INSERT INTO `categoryinterest` (`categoryinterest`.`userId`, `categoryinterest`.`categoryId`) 
-            VALUES (userIdIN, categoryId);
+        IF EXISTS(SELECT * FROM `category` WHERE `category`.`id` = categoryId) THEN
+            IF NOT EXISTS(SELECT * FROM `categoryinterest` WHERE `categoryinterest`.`userId` = userIdIN AND `categoryinterest`.`categoryId` = categoryId) THEN
+                INSERT INTO `categoryinterest` (`categoryinterest`.`userId`, `categoryinterest`.`categoryId`) 
+                VALUES (userIdIN, categoryId);
+            END IF;
         END IF;
 
         SET counter = counter + 1;
     END WHILE;
     
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addPasswordCode` (IN `emailIN` VARCHAR(50), IN `codeIN` CHAR(6))   BEGIN
+
+	DECLARE userId INT;
+    
+    SELECT `user`.`id` INTO userId
+    FROM `user`
+    WHERE `user`.`email` = emailIN;
+    
+    INSERT INTO `forgotpassword` (`forgotpassword`.`userId`, `forgotpassword`.`code`)
+    VALUES (userId, codeIN);
+
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `addPost` (IN `userIdIN` INT, IN `descriptionIN` VARCHAR(1000))   INSERT INTO `post` (`post`.`userId`, `post`.`description`)
@@ -2200,7 +2215,12 @@ END$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserDetails` (IN `userIdIN` INT, IN `usernameIN` VARCHAR(50), IN `profileUsernameIN` VARCHAR(50), OUT `result` INT)   BEGIN
     DECLARE profileUserId INT;
     DECLARE profileUserRank VARCHAR(20);
+    DECLARE userRank VARCHAR(20);
     DECLARE userIdMatch BOOLEAN;
+    
+    SELECT `user`.`rank` INTO userRank
+    FROM `user`
+    WHERE `user`.`id` = userIdIN;
 
     IF EXISTS (SELECT * FROM `user` WHERE `user`.`username` = profileUsernameIN) THEN
         SELECT `user`.`id` INTO profileUserId
@@ -2213,7 +2233,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserDetails` (IN `userIdIN` INT,
         
         SET userIdMatch = (profileUserId = userIdIN);
         
-        IF profileUserRank = "general" THEN
+        IF profileUserRank = "general" AND userRank = "general" THEN
             SELECT
                 `user`.`rank`,
                 `user`.`username`,
@@ -2221,7 +2241,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserDetails` (IN `userIdIN` INT,
                 IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
                 `user`.`firstName`,
                 `user`.`lastName`,
-                (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`writerId` = profileUserId) AS bookCount,
+                (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`writerId` = profileUserId AND `book`.`status` != "looking for a publisher") AS bookCount,
                 (SELECT COUNT(`saved`.`id`) FROM `saved` WHERE `saved`.`userId` = profileUserId) AS savedCount,
                 (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
                 `user`.`introDescription`,
@@ -2235,14 +2255,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserDetails` (IN `userIdIN` INT,
             LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
             INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
             WHERE `user`.`id` = profileUserId;
-        ELSEIF profileUserRank = "publisher" THEN
+        ELSEIF profileUserRank = "publisher" AND userRank = "general" THEN
             SELECT
                 `user`.`rank`,
                 `user`.`username`,
                 `user`.`image`,
                 IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
                 `publisher`.`companyName`,
-                (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`publisherId` = profileUserId) AS bookCount,
+                (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`publisherId` = profileUserId AND `book`.`status` != "looking for a publisher") AS bookCount,
                 (SELECT COUNT(`writers`.`writerId`) FROM (SELECT DISTINCT `book`.`writerId` FROM `book` WHERE `book`.`publisherId` = profileUserId) AS `writers`) AS writerCount,
                 (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
                 `user`.`introDescription`,
@@ -2256,6 +2276,50 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserDetails` (IN `userIdIN` INT,
             LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
             INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
             INNER JOIN `publisher` ON `publisher`.`id` = `user`.`userId`
+            WHERE `user`.`id` = profileUserId;
+        ELSEIF userRank = "publisher" AND profileUserRank = "general" THEN
+        	SELECT
+                `user`.`rank`,
+                `user`.`username`,
+                `user`.`image`,
+                IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
+                `user`.`firstName`,
+                `user`.`lastName`,
+                (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`writerId` = profileUserId AND `book`.`status` = "looking for a publisher") AS bookCount,
+                (SELECT COUNT(`saved`.`id`) FROM `saved` WHERE `saved`.`userId` = profileUserId) AS savedCount,
+                (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
+                `user`.`introDescription`,
+                `user`.`website`,
+                `color`.`code`,
+                userIdMatch AS userIdMatchFlag,
+                IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
+                IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
+            	YEAR(`user`.`registrationTime`)
+            FROM `user`
+            LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
+            INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
+            WHERE `user`.`id` = profileUserId;
+        ELSEIF userRank = "publisher" AND profileUserRank = "publisher" THEN
+        	SELECT
+                `user`.`rank`,
+                `user`.`username`,
+                `user`.`image`,
+                IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
+                `user`.`firstName`,
+                `user`.`lastName`,
+                (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`publisherId` = profileUserId AND `book`.`status` = "looking for a publisher") AS bookCount,
+                (SELECT COUNT(`saved`.`id`) FROM `saved` WHERE `saved`.`userId` = profileUserId) AS savedCount,
+                (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
+                `user`.`introDescription`,
+                `user`.`website`,
+                `color`.`code`,
+                userIdMatch AS userIdMatchFlag,
+                IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
+                IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
+            	YEAR(`user`.`registrationTime`)
+            FROM `user`
+            LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
+            INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
             WHERE `user`.`id` = profileUserId;
         END IF;
         
@@ -2294,6 +2358,18 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserPosts` (IN `userIdIN` INT, I
     ELSE
     	SET result = 2;
     END IF;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `isValidEmail` (IN `emailIN` VARCHAR(50), OUT `result` INT)   BEGIN
+
+
+IF EXISTS (SELECT * FROM `user` WHERE `user`.`email` = emailIN) THEN
+	SET result = 1;
+ELSE
+	SET result = 2;
+END IF;
+
 
 END$$
 
@@ -2481,6 +2557,35 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `setBook` (IN `bookIdIN` INT, IN `ti
 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `setBookPrice` (IN `userIdIN` INT, IN `bookIdIN` INT, IN `newPriceIN` INT, OUT `result` INT)   BEGIN
+
+
+DECLARE rank VARCHAR(20);
+SELECT `user`.`rank` INTO rank
+FROM `user`
+WHERE `user`.`id` = userIdIN;
+
+IF rank = "publisher" THEN
+	
+    IF EXISTS (SELECT * FROM `book` WHERE `book`.`id` = bookIdIN AND `book`.`publisherId` = userIdIN) THEN
+        UPDATE `book`
+        SET `book`.`price` = newPriceIN
+        WHERE `book`.`id` = bookIdIN AND `book`.`publisherId` = userIdIN;
+        
+        SET result = 1;
+    ELSEIF NOT EXISTS (SELECT * FROM `book` WHERE `book`.`id` = bookIdIN) THEN
+    	SET result = 3;
+    ELSEIF EXISTS (SELECT * FROM `book` WHERE `book`.`id` = bookIdIN) AND ((SELECT `book`.`publisherId` FROM `book` WHERE `book`.`id` = bookIdIN) != userIdIN OR (SELECT `book`.`publisherId` FROM `book` WHERE `book`.`id` = bookIdIN) IS NULL) THEN
+    	SET result = 4;
+    END IF;
+    
+ELSE
+	SET result = 2;
+END IF;
+
+
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `setCompanyName` (IN `userIdIN` INT, IN `companyNameIN` VARCHAR(50), OUT `result` INT)   BEGIN
 
 	DECLARE rank VARCHAR(20);
@@ -2550,9 +2655,19 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `setPassword` (IN `userIdIN` INT, IN
     
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `setPhoneNumber` (IN `userIdIN` INT, IN `phoneNumberIN` VARCHAR(15))   UPDATE `user`
-SET `user`.`phoneNumber` = phoneNumberIN
-WHERE `user`.`id` = userIdIN$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `setPhoneNumber` (IN `userIdIN` INT, IN `phoneNumberIN` VARCHAR(15))   BEGIN
+
+	IF phoneNumberIN = "" THEN
+    	UPDATE `user`
+        SET `user`.`phoneNumber` = NULL
+        WHERE `user`.`id` = userIdIN;
+    ELSE
+        UPDATE `user`
+        SET `user`.`phoneNumber` = phoneNumberIN
+        WHERE `user`.`id` = userIdIN;
+    END IF;
+    
+END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `setProfileImage` (IN `userIdIN` INT, IN `imageIN` VARCHAR(100))   BEGIN
 
@@ -2684,7 +2799,7 @@ CREATE TABLE `book` (
 --
 
 INSERT INTO `book` (`id`, `title`, `status`, `writerId`, `publisherId`, `publishedTime`, `description`, `price`, `coverImage`, `file`, `chapterNumber`, `freeChapterNumber`, `pagesNumber`, `adultFiction`, `bankAccountNumber`, `languageId`, `targetAudienceId`, `categoryId`) VALUES
-(1, 'Címszerű izé', 'looking for a publisher', 3, 9, '2023-12-17 17:58:06', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 1600, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 20, 4, 200, 1, '1234567890', 1, 1, 1),
+(1, 'Címszerű izé', 'looking for a publisher', 3, 9, '2023-12-17 17:58:06', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 1250, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 20, 4, 200, 1, '1234567890', 1, 1, 1),
 (2, 'Echoes of Eternity', 'published by', 5, 7, '2023-12-17 17:58:06', 'An epic fantasy saga spanning across realms and generations.', 2500, 'pictures/book/Echoes-of-Eternity', '', 40, 8, 350, 0, '0987654321', 2, 5, 18),
 (3, 'Beyond the Horizon', 'self-published', 8, NULL, '2023-12-17 17:58:06', 'A journey of self-discovery and adventure in the heart of the unknown.', 1800, 'pictures/book/Beyond-the-Horizon', '', 25, 5, 180, 0, '1357902468', 3, 3, 9),
 (4, 'The Enigma Code', 'self-published', 3, NULL, '2023-12-17 17:58:38', 'A gripping thriller revealing the secrets of an encrypted message.', 2200, 'pictures/book/The-Enigma-Code', '', 35, 7, 280, 1, '2468135790', 4, 2, 7),
@@ -3090,7 +3205,12 @@ INSERT INTO `forgotpassword` (`id`, `userId`, `code`, `sendTime`) VALUES
 (7, 1, 'LEJDOR', '2024-03-18 11:23:52'),
 (8, 7, 'ALEGRP', '2024-03-18 11:23:52'),
 (9, 1, 'LEJDOR', '2024-03-20 11:23:52'),
-(10, 7, 'ALEGRP', '2024-03-12 11:23:52');
+(10, 7, 'ALEGRP', '2024-03-12 11:23:52'),
+(11, 44, '266037', '2024-04-24 20:49:48'),
+(12, 44, '127810', '2024-04-24 20:49:55'),
+(13, 44, '716249', '2024-04-24 21:06:35'),
+(14, 44, '253883', '2024-04-24 21:06:48'),
+(15, 44, '991309', '2024-04-24 21:12:25');
 
 -- --------------------------------------------------------
 
@@ -3472,14 +3592,14 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `password`, `rank`, `firstName`, `lastName`, `phoneNumber`, `publicEmail`, `publicPhoneNumber`, `introDescription`, `website`, `image`, `registrationTime`, `firstLogin`, `deleted`, `coverColorId`, `userId`) VALUES
-(1, 'lilapapucs', 'nagybeni@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Nagy', 'Benedek', '06201234567', 1, 0, '', 'a.hu', 'pictures/default-profile-pic-man.png', '2023-12-16 01:53:24', 0, 0, 25, 1),
+(1, 'lilapapucs', 'nagybeni@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Nagy', 'Benedek', NULL, 1, 0, '', 'a.hu', 'pictures/default-profile-pic-man.png', '2023-12-16 01:53:24', 0, 0, 25, 1),
 (2, 'PenInkWriter', 'peninkwriter@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Kenderes', 'Amanda', '+36017249461', 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-16 01:54:39', 0, 0, 20, 2),
 (3, 'StoryCraftPro', 'angyalka@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Angyal', 'Kristóf', '+361802680023', 0, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', 'www.3a982c449f.com', 'pictures/default-profile-pic-man.png', '2023-12-16 01:55:13', 1, 0, 1, 3),
 (4, 'NovelWordsmith', 'petike@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Kis', 'Péter', '+361581621029', 0, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', 'www.3061560356.com', 'pictures/default-profile-pic-man.png', '2023-12-16 01:55:45', 1, 0, 11, 4),
 (6, 'ChapterVerseAuthor', 'peterffynora@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Péterffy', 'Nóra', '06202784951', 0, 1, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-16 01:58:43', 0, 0, 2, 6),
 (7, 'PlotTwistWizard', 'sari@freemail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Németh', 'Sára', NULL, 1, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-16 01:59:44', 1, 0, 1, 7),
 (8, 'ProseJourneyer', 'kovemi@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Kovács', 'Emese', '+361964919275', 1, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', 'www.883faa1b88.com', 'pictures/default-profile-pic-man.png', '2023-12-16 02:00:44', 1, 0, 1, 8),
-(9, 'VarazsloAdam', 'kovacsadam@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Nagy', 'Benedek', '+361608969096', 1, 1, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', 'www.004d97d4f8.com', 'pictures/default-profile-pic-man.png', '2023-12-16 02:05:40', 0, 0, 18, 1),
+(9, 'VarazsloAdam', 'kovacsadam@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Nagy', 'Benedek', NULL, 1, 1, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', 'www.004d97d4f8.com', 'pictures/default-profile-pic-man.png', '2023-12-16 02:05:40', 0, 0, 18, 1),
 (10, 'KonyvMesekAnna', 'tothanna@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Anna', 'Tóth', '+36701873692', 1, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-16 02:07:24', 1, 0, 1, 2),
 (11, 'KreativBence', 'szabobeni@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Bence', 'Szabó', '+3672982563', 0, 0, NULL, 'www.hezfnwsko.com', 'pictures/default-profile-pic-man.png', '2023-12-16 02:08:07', 1, 0, 6, 3),
 (12, 'OldalforgatoCsilla', 'molncsill@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Molnár', 'Csilla', '+361025808899', 0, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', 'www.2e66bd14c8.com', 'pictures/default-profile-pic-man.png', '2023-12-16 02:09:07', 1, 0, 7, 4),
@@ -3727,7 +3847,7 @@ ALTER TABLE `follow`
 -- AUTO_INCREMENT a táblához `forgotpassword`
 --
 ALTER TABLE `forgotpassword`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT a táblához `general`
