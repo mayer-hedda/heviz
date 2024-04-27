@@ -977,4 +977,31 @@ public class BookService {
         } 
     }
     
+    
+    /**
+     * @param userId
+     * @param bookId
+     * @param price
+     * 
+     * @return
+        * error
+        * null (Successfully set book price)
+     * 
+     * @throws BookException: Something wrong!
+     */
+    public static JSONObject setBookPrice(Integer userId, Integer bookId, Integer price) throws BookException {
+        try {            
+            if(price < 1000) {
+                return new JSONObject().put("priceError", "The price must be a minimum of 1000 Hungarian Forints!");
+            } else {
+                Integer newPrice = (int) (price / 0.80);
+                
+                return Book.setBookPrice(userId, bookId, newPrice);
+            }
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in setBookPrice() method!");
+        }
+    }
+    
 }

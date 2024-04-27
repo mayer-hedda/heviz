@@ -912,4 +912,32 @@ public class UserController {
         }
     }
     
+    
+    /**
+     * @param user
+     * 
+     * @return
+        * 200: Successfully send email
+        * 422: error
+     * 
+     * @throws UserException: Something wrong!
+     */
+    @POST
+    @Path("getPasswordCode")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getPasswordCode(User user) throws UserException {
+        try {
+            JSONObject result = UserService.getPasswordCode(user.getEmail());
+            
+            if(result == null) {
+                return Response.status(Response.Status.OK).build();
+            } else {
+                return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+            }
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            return Response.status(422).entity("Something wrong!").type(MediaType.APPLICATION_JSON).build();
+        }
+    }
+    
 }

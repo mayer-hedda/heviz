@@ -1249,4 +1249,80 @@ public class User implements Serializable {
         }
     }
     
+    
+    /**
+     * @param email
+     * 
+     * @return:
+        * true: this email is a valid email
+        * false: this email not a valid email
+     * 
+     * @throws UserException: Something wrong!
+     */
+    public static Boolean isValidEmail(String email) throws UserException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("isValidEmail");
+
+            spq.registerStoredProcedureParameter("emailIN", String.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
+
+            spq.setParameter("emailIN", email);
+
+            spq.execute();
+            
+            Integer result = (Integer) spq.getOutputParameterValue("result");
+            
+            if(result == 1) {
+                return true;
+            }
+            
+            return false;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            
+            throw new UserException("Error in isValidEmail() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param email
+     * @param code
+     * 
+     * @return
+        * true: Successfully add password code
+        * false: Unsuccessfully add password code
+     */
+    public static Boolean addPasswordCode(String email, String code) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("addPasswordCode");
+
+            spq.registerStoredProcedureParameter("emailIN", String.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("codeIN", String.class, ParameterMode.IN);
+
+            spq.setParameter("emailIN", email);
+            spq.setParameter("codeIN", code);
+
+            spq.execute();
+            
+            return true;
+        } catch(Exception ex) {
+            return false;
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
 }

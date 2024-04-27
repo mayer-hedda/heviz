@@ -3,13 +3,26 @@ package com.exam.cyberread.Service;
 import com.exam.cyberread.Config.Token;
 import com.exam.cyberread.Exception.UserException;
 import com.exam.cyberread.Model.User;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import javax.mail.Session;
+import java.net.PasswordAuthentication;
+import java.net.Socket;
+import java.util.Base64;
+import javax.mail.*;
+import javax.mail.internet.*;
+import java.util.Properties;
 
 
 public class UserService {
@@ -86,7 +99,7 @@ public class UserService {
 
                         if (period.getYears() < 15) {
                             error.put("birthdateError", "You are too young!");
-                        } else if(period.getYears() > 100) {
+                        } else if(period.getYears() >= 100) {
                             error.put("birthdateError", "Invalid date!");
                         }
                     }
@@ -188,7 +201,7 @@ public class UserService {
             } else if(username.length() > 50) {
                 error.put("usernameError", "The username cannot be longer than 50 characters!");
             } else if(!username.matches("^[a-z0-9._]*$")) {
-                error.put("usernameError", "Invalid username! Please avoid using special characters exept: _ (underscore) and . (dot)!");
+                error.put("usernameError", "Please avoid using special characters exept: _ (underscore) and . (dot)!");
             }
 
             // first name check
@@ -539,15 +552,20 @@ public class UserService {
             JSONObject error = new JSONObject();
             
             if(phoneNumber == null || phoneNumber.isEmpty()) {
-                error.put("phoneNumberError", "The phone number field cannot be empty!");
-            } else if(!phoneNumber.matches(".*[0-9].*")) {
-                error.put("phoneNumberError", "The phone number can only contain a number!");
-            } else if(phoneNumber.length() < 7) {
-                error.put("phoneNumberError", "Password must be at least 7 characters long!");
-            } else if(phoneNumber.length() > 15) {
-                error.put("phoneNumberError", "The phone number cannot be longer than 15 characters!");
-            } else if(!User.setPhoneNumber(userId, phoneNumber)) {
-                error.put("setPhoneNumberError", "Could not change your phone number!");
+                phoneNumber = "";
+                if(!User.setPhoneNumber(userId, phoneNumber)) {
+                    error.put("setPhoneNumberError", "Could not change your phone number!");
+                }
+            } else { 
+                if(!phoneNumber.matches(".*[0-9].*")) {
+                    error.put("phoneNumberError", "The phone number can only contain a number!");
+                } else if(phoneNumber.length() < 7) {
+                    error.put("phoneNumberError", "Password must be at least 7 characters long!");
+                } else if(phoneNumber.length() > 15) {
+                    error.put("phoneNumberError", "The phone number cannot be longer than 15 characters!");
+                } else if(!User.setPhoneNumber(userId, phoneNumber)) {
+                    error.put("setPhoneNumberError", "Could not change your phone number!");
+                }
             }
             
             return error;
@@ -916,6 +934,60 @@ public class UserService {
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
             throw new UserException("Error getPublishersWriters() method!");
+        }
+    }
+    
+    
+    public static JSONObject getPasswordCode(String email) throws UserException {
+        try {
+            if(User.isValidEmail(email)) {
+                Random random = new Random();
+                
+                StringBuilder code = new StringBuilder();
+                
+                for (int i = 0; i < 6; i++) {
+                    int randomNumber = random.nextInt(10);
+                    code.append(randomNumber);
+                }
+                
+                if(User.addPasswordCode(email, code.toString())) {
+
+                    String to = "mayer.hedda@gmail.com";
+                    String from = "cyberread2023@gmail.com"; 
+                    String host = "localhost"; 
+
+                   //Get the session object  
+                    Properties properties = System.getProperties();  
+                    properties.setProperty("mail.smtp.host", host);  
+                    Session session = Session.getDefaultInstance(properties);  
+
+                   //compose the message  
+                    try{  
+                       MimeMessage message = new MimeMessage(session);  
+                       message.setFrom(new InternetAddress(from));  
+                       message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));  
+                       message.setSubject("Ping");  
+                       message.setText("Hello, this is example of sending email  ");  
+
+                       // Send message  
+                       Transport.send(message);  
+                       System.out.println("message sent successfully....");  
+
+                       return null;
+                    }catch (MessagingException mex) {
+                        mex.printStackTrace();
+                        throw mex;
+                    }
+                    
+                } else {
+                    return new JSONObject().put("error", "Something wrong!");
+                }
+            } else {
+                return new JSONObject().put("emailError", "Invalid email address!");
+            }
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new UserException("Error in getPasswordCode() method!");
         }
     }
     

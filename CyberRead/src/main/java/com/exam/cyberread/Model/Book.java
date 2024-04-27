@@ -2324,5 +2324,57 @@ public class Book implements Serializable {
             emf.close();
         }
     }
+    
+    
+    /**
+     * @param userId
+     * @param bookId
+     * @param price
+     * 
+     * @return:
+        * error
+        * null (Successfully set book price)
+     * 
+     * @throws BookException: Something wrong!
+     */
+    public static JSONObject setBookPrice(Integer userId, Integer bookId, Integer price) throws BookException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("setBookPrice");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("bookIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("newPriceIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
+
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("bookIdIN", bookId);
+            spq.setParameter("newPriceIN", price);
+
+            spq.execute();
+            
+            Integer result = (Integer) spq.getOutputParameterValue("result");
+            
+            switch(result) {
+                case 1:
+                    return null;
+                case 2:
+                    return new JSONObject().put("error", "You are not allowed to edit this data!");
+                case 3:
+                    return new JSONObject().put("error", "This book doesn't exist!");
+                default:
+                    return new JSONObject().put("error", "This is not your own book, you cannot change it!");
+            }
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in setBookPrice() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
         
 }
