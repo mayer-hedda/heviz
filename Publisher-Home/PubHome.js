@@ -232,7 +232,7 @@ function LoadRandomBook(response) {
     });
 
     random_book_btn.addEventListener('click', (e) => {
-        loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].price, response.data[0].username, response.data[0].id, response.data[0].saved);
+        loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].username, response.data[0].id, response.data[0].saved);
     })
 }
 
@@ -317,7 +317,7 @@ function createCard(data) {
     button.dataset.bsTarget = "#modalID";
     button.textContent = "Show Details";
     button.addEventListener("click", () => {
-        loadModalData(data.coverImage, data.title, data.firstName, data.lastName, data.description, data.language, data.rating, data.pagesNumber, data.price, data.username, data.id, data.saved);
+        loadModalData(data.coverImage, data.title, data.firstName, data.lastName, data.description, data.language, data.rating, data.pagesNumber, data.username, data.id, data.saved);
     });
 
     overlayDiv.appendChild(categoryP);
@@ -388,7 +388,7 @@ function loadRandoms(separetedObj, separeted_number, subtitle, mediumC_PicDiv, m
     // Add event listener to the medium card button
     mediumC_btn.addEventListener('click', (e) => {
         e.preventDefault();
-        loadModalData(separetedObj[separeted_number].data[0].coverImage, separetedObj[separeted_number].data[0].title, separetedObj[separeted_number].data[0].firstName, separetedObj[separeted_number].data[0].lastName, separetedObj[separeted_number].data[0].description, separetedObj[separeted_number].data[0].language, separetedObj[separeted_number].data[0].rating, separetedObj[separeted_number].data[0].pagesNumber, separetedObj[separeted_number].data[0].price, separetedObj[separeted_number].data[0].username, separetedObj[separeted_number].data[0].id, separetedObj[separeted_number].data[0].saved);
+        loadModalData(separetedObj[separeted_number].data[0].coverImage, separetedObj[separeted_number].data[0].title, separetedObj[separeted_number].data[0].firstName, separetedObj[separeted_number].data[0].lastName, separetedObj[separeted_number].data[0].description, separetedObj[separeted_number].data[0].language, separetedObj[separeted_number].data[0].rating, separetedObj[separeted_number].data[0].pagesNumber, separetedObj[separeted_number].data[0].username, separetedObj[separeted_number].data[0].id, separetedObj[separeted_number].data[0].saved);
     });
 
     // Add event listeners for dynamically created cards
@@ -444,7 +444,6 @@ function loadModalData(url, title, firstName, lastName, description, language, r
 
     modal_language.innerText = `${language}`;
     modal_desc.innerText = `${description}`;
-    modal_price.innerText = `${price} Ft`;
 
     modal_author.addEventListener('click', function () {
         navigateToProfile(username);

@@ -18,6 +18,7 @@ const book_price = document.getElementById('book-price');
 
 var categoryId;
 var own_username;
+var isPublisher;
 
 // Ellenőrizzük, hogy van-e a felhasználónak tokenje, ha nem akkor átirányítjuk a login felületre
 window.addEventListener('beforeunload', async function () {
@@ -63,6 +64,7 @@ window.onload = async function () {
             const HomePage = document.getElementById('HomePage');
 
             if (tokenResponse.data.rank == "publisher") {
+                isPublisher = true;
                 document.getElementById('writingBtn').hidden = true;
                 shopping_btn.hidden = true;
                 publish_btn.hidden = false;
@@ -88,6 +90,7 @@ window.onload = async function () {
                 });
 
             } else if (tokenResponse.data.rank == "general") {
+                isPublisher = false;
                 shopping_btn.hidden = false;
                 publish_btn.hidden = true;
                 book_price.hidden = false;
@@ -317,8 +320,12 @@ function loadModalData(url, title, firstName, lastName, description, language, r
         save_btn.hidden = true;
         shopping_btn.hidden = true;
     } else {
-        save_btn.hidden = false;
-        shopping_btn.hidden = false;
+        if(isPublisher) {
+            shopping_btn.hidden = true;
+        } else {
+            save_btn.hidden = false;
+            shopping_btn.hidden = false;
+        }
     }
 
     book_modal_img.src = `../${url}.jpg`;

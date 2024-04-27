@@ -341,7 +341,7 @@ function loadModalData(url, title, firstName, lastName, description, language, r
     book_modal_title.innerText = `${title}`;
     book_modal_author.innerText = `${firstName} ${lastName}`;
     book_modal_pages.innerText = `${pages}`;
-    if (rating != 'undefined') {
+    if (rating != undefined) {
         book_modal_ranking.innerText = `${rating}`;
     } else {
         book_modal_ranking.innerText = "-";
@@ -349,10 +349,8 @@ function loadModalData(url, title, firstName, lastName, description, language, r
 
     book_modal_language.innerText = `${language}`;
     book_modal_desc.innerText = `${description}`;
-    if (price != 'undefined') {
+    if (price != undefined) {
         book_price.innerText = `${price} Ft`;
-    } else {
-        book_price.innerText = `- Ft`;
     }
 
     book_modal_author.addEventListener('click', (e) => {
