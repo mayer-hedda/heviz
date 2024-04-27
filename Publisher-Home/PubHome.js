@@ -264,14 +264,12 @@ function LoadRandomBook(response) {
  * @param {HTMLDivElement} secondRow - The id of the second row's div
  */
 function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, mediumC_author, mediumC_description, mediumC_btn, firstRow, secondRow, mediumC_category) {
-
-    // Medium cards
+    // Medium card
     if (response.data[0].coverImage == "Ez a kép elérési útja") {
         mediumC_PicDiv.innerHTML = `
              <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
         `;
     } else {
-
         mediumC_PicDiv.innerHTML = `
             <img class="medium-pic" src="../${response.data[0].coverImage}.jpg" alt="${response.data[0].title} cover">
         `;
@@ -282,81 +280,73 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
     mediumC_description.innerText = `${response.data[0].description}`;
     mediumC_category.innerText = `${response.data[0].category}`;
 
-    mediumC_author.addEventListener('click', (e) => {
-        e.preventDefault();
+    mediumC_author.addEventListener('click', () => {
         navigateToProfile(response.data[0].username);
     });
 
-    mediumC_btn.addEventListener('click', (e) => {
-        e.preventDefault();
+    mediumC_btn.addEventListener('click', () => {
         loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].price, response.data[0].username, response.data[0].id, response.data[0].saved);
-    })
+    });
 
     for (let i = 1; i <= 4; i++) {
-        if (response.data[i].coverImage != "Ez a kép elérési útja") {
-            firstRow.innerHTML += `
-                <div class="col-3">
-                    <div class="cover-photo">
-                        <img src="../${response.data[i].coverImage}.jpg" alt="${response.data[i].title}" class="cover">
-                        <div class="overlay">
-                            <p class="category-overlay">${response.data[i].category}</p>
-                            <p class="book-title">${response.data[i].title}</p>
-                            <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', '${response.data[i].id}', '${response.data[i].saved}')">Show Details</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-
-        } else {
-            firstRow.innerHTML += `
-                <div class="col-3">
-                    <div class="cover-photo">
-                        <img src="../pictures/standard-book-cover.jpg" alt="${response.data[i].title}" class="cover">
-                        <div class="overlay">
-                            <p class="category-overlay">${response.data[i].category}</p>
-                            <p class="book-title">${response.data[i].title}</p>
-                            <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', '${response.data[i].id}', '${response.data[i].saved}')">Show Details</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
+        const cardDiv = createCard(response.data[i]);
+        firstRow.appendChild(cardDiv);
     }
 
     for (let i = 5; i < response.data.length; i++) {
-        if (response.data[i].coverImage != "Ez a kép elérési útja") {
-            secondRow.innerHTML += `
-                    <div class="col-3">
-                        <div class="cover-photo">
-                            <img src="../${response.data[i].coverImage}.jpg" alt="${response.data[i].title}" class="cover">
-                            <div class="overlay">
-                                <p class="category-overlay">${response.data[i].category}</p>
-                                <p class="book-title">${response.data[i].title}</p>
-                                <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                                <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', '${response.data[i].id}', '${response.data[i].saved}')">Show Details</button>
-                            </div>
-                        </div>
-                    </div>
-                `
-        } else {
-            secondRow.innerHTML += `
-                    <div class="col-3">
-                        <div class="cover-photo">
-                            <img src="../pictures/standard-book-cover.jpg" alt="${response.data[i].title}" class="cover">
-                            <div class="overlay">
-                                <p class="category-overlay">${response.data[i].category}</p>
-                                <p class="book-title">${response.data[i].title}</p>
-                                <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                                <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', '${response.data[i].id}', '${response.data[i].saved}')">Show Details</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-        }
+        const cardDiv = createCard(response.data[i]);
+        secondRow.appendChild(cardDiv);
     }
+}
+
+function createCard(data) {
+    const cardDiv = document.createElement("div");
+    cardDiv.classList.add("col-3");
+
+    const coverPhotoDiv = document.createElement("div");
+    coverPhotoDiv.classList.add("cover-photo");
+
+    const img = document.createElement("img");
+    img.src = `../${data.coverImage}.jpg`;
+    img.alt = data.title;
+    img.classList.add("cover");
+
+    const overlayDiv = document.createElement("div");
+    overlayDiv.classList.add("overlay");
+
+    const categoryP = document.createElement("p");
+    categoryP.classList.add("category-overlay");
+    categoryP.textContent = data.category;
+
+    const bookTitleP = document.createElement("p");
+    bookTitleP.classList.add("book-title");
+    bookTitleP.textContent = data.title;
+
+    const authorP = document.createElement("p");
+    authorP.classList.add("author-p", "author");
+    authorP.textContent = `${data.firstName} ${data.lastName}`;
+    authorP.addEventListener("click", () => navigateToProfile(data.username));
+
+    const button = document.createElement("button");
+    button.classList.add("cover-btn");
+    button.dataset.bsToggle = "modal";
+    button.dataset.bsTarget = "#modalID";
+    button.textContent = "Show Details";
+    button.addEventListener("click", () => {
+        loadModalData(data.coverImage, data.title, data.firstName, data.lastName, data.description, data.language, data.rating, data.pagesNumber, data.price, data.username, data.id, data.saved);
+    });
+
+    overlayDiv.appendChild(categoryP);
+    overlayDiv.appendChild(bookTitleP);
+    overlayDiv.appendChild(authorP);
+    overlayDiv.appendChild(button);
+
+    coverPhotoDiv.appendChild(img);
+    coverPhotoDiv.appendChild(overlayDiv);
+
+    cardDiv.appendChild(coverPhotoDiv);
+
+    return cardDiv;
 }
 
 function navigateToProfile(username) {

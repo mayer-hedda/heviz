@@ -2431,6 +2431,7 @@ section {
     text-decoration: none;
     margin-bottom: 30px;
     margin-top: 15px;
+    font-size: 18px;
 }
 
 .moreBtn:hover,
@@ -2440,7 +2441,6 @@ section {
     font-family: 'PTsans-Regular', sans-serif !important;
     font-size: 18px !important;
     letter-spacing: 0.7px;
-
 }
 
 /* --------------- SECOND SECTION ---------------*/
