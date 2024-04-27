@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Ápr 27. 12:38
+-- Létrehozás ideje: 2024. Ápr 27. 22:08
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -27,7 +27,7 @@ DELIMITER $$
 --
 -- Eljárások
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addBook` (IN `userIdIN` INT, IN `titleIN` VARCHAR(50), IN `descriptionIN` VARCHAR(1000), IN `targetAudienceIdIN` INT, IN `languageIdIN` INT, IN `adultFictionIN` BOOLEAN, IN `categoryIdIN` INT, IN `statusIN` INT, IN `priceIN` INT, IN `coverImageIN` VARCHAR(100), IN `fileIN` VARCHAR(100), IN `bankAccountNumberIN` VARCHAR(30), IN `chapterNumberIN` INT, IN `freeChapterNumberIN` INT, OUT `result` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addBook` (IN `userIdIN` INT, IN `titleIN` VARCHAR(50), IN `descriptionIN` VARCHAR(1000), IN `targetAudienceIdIN` INT, IN `languageIdIN` INT, IN `adultFictionIN` BOOLEAN, IN `categoryIdIN` INT, IN `statusIN` INT, IN `priceIN` INT, IN `coverImageIN` VARCHAR(100), IN `fileIN` VARCHAR(100), IN `bankAccountNumberIN` VARCHAR(30), IN `chapterNumberIN` INT, OUT `result` INT)   BEGIN
 
 	DECLARE statusText VARCHAR(50);
  
@@ -50,14 +50,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `addBook` (IN `userIdIN` INT, IN `ti
         IF statusIN IS NOT NULL THEN
             IF statusIN = 1 THEN
                 SET statusText = "looking for a publisher";
-                INSERT INTO `book` (`book`.`writerId`,`book`.`title`, `book`.`description`, `book`.`targetAudienceId`, `book`.`languageId`, `book`.`adultFiction`, `book`.`categoryId`, `book`.`status`, `book`.`coverImage`, `book`.`file`, `book`.`chapterNumber`, `book`.`freeChapterNumber`, `book`.`price`)
-                VALUES (userIdIN, titleIN, descriptionIN, targetAudienceIdIN, languageIdIN, adultFictionIN, categoryIdIN, statusText, coverImageIN, fileIN, chapterNumberIN, freeChapterNumberIN, NULL);
+                INSERT INTO `book` (`book`.`writerId`,`book`.`title`, `book`.`description`, `book`.`targetAudienceId`, `book`.`languageId`, `book`.`adultFiction`, `book`.`categoryId`, `book`.`status`, `book`.`coverImage`, `book`.`file`, `book`.`chapterNumber`, `book`.`price`)
+                VALUES (userIdIN, titleIN, descriptionIN, targetAudienceIdIN, languageIdIN, adultFictionIN, categoryIdIN, statusText, coverImageIN, fileIN, chapterNumberIN, NULL);
                 SET result = 1;
             ELSEIF statusIN = 2 THEN
                 SET statusText = "self-published";
 
-                INSERT INTO `book` (`book`.`writerId`,`book`.`title`, `book`.`description`, `book`.`targetAudienceId`, `book`.`languageId`, `book`.`adultFiction`, `book`.`categoryId`, `book`.`status`, `book`.`price`, `book`.`coverImage`, `book`.`file`, `book`.`bankAccountNumber`, `book`.`chapterNumber`, `book`.`freeChapterNumber`)
-                VALUES (userIdIN, titleIN, descriptionIN, targetAudienceIdIN, languageIdIN, adultFictionIN, categoryIdIN, statusText, priceIN, coverImageIN, fileIN, bankAccountNumberIN, chapterNumberIN, freeChapterNumberIN);
+                INSERT INTO `book` (`book`.`writerId`,`book`.`title`, `book`.`description`, `book`.`targetAudienceId`, `book`.`languageId`, `book`.`adultFiction`, `book`.`categoryId`, `book`.`status`, `book`.`price`, `book`.`coverImage`, `book`.`file`, `book`.`bankAccountNumber`, `book`.`chapterNumber`)
+                VALUES (userIdIN, titleIN, descriptionIN, targetAudienceIdIN, languageIdIN, adultFictionIN, categoryIdIN, statusText, priceIN, coverImageIN, fileIN, bankAccountNumberIN, chapterNumberIN);
                 SET result = 1;
             END IF;
         END IF;
@@ -2441,11 +2441,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `saveBook` (IN `userIdIN` INT, IN `b
     
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `setBook` (IN `bookIdIN` INT, IN `titleIN` VARCHAR(50), IN `descriptionIN` VARCHAR(1000), IN `targetAudienceIdIN` INT, IN `languageIdIN` INT, IN `adultFictionIN` BOOLEAN, IN `categoryIdIN` INT, IN `statusIdIN` INT, IN `priceIN` INT, IN `coverImageIN` VARCHAR(100), IN `fileIN` VARCHAR(100), IN `bankAccountNumberIN` VARCHAR(30), IN `chapterNumberIN` INT, IN `freeChapterNumberIN` INT, OUT `result` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `setBook` (IN `bookIdIN` INT, IN `titleIN` VARCHAR(50), IN `descriptionIN` VARCHAR(1000), IN `targetAudienceIdIN` INT, IN `languageIdIN` INT, IN `adultFictionIN` BOOLEAN, IN `categoryIdIN` INT, IN `statusIdIN` INT, IN `priceIN` INT, IN `coverImageIN` VARCHAR(100), IN `fileIN` VARCHAR(100), IN `bankAccountNumberIN` VARCHAR(30), IN `chapterNumberIN` INT, OUT `result` INT)   BEGIN
 
 	DECLARE userId INT;
     
-    SELECt `book`.`writerId` INTO userId FROM `book` WHERE `book`.`id` = bookIdIN;
+    SELECT `book`.`writerId` INTO userId FROM `book` WHERE `book`.`id` = bookIdIN;
     
     IF NOT EXISTS (SELECT * FROM `targetaudience` WHERE `targetaudience`.`id` = targetAudienceIdIN) AND NOT EXISTS (SELECT * FROM `language` WHERE `language`.`id` = languageIdIN) AND NOT EXISTS (SELECT * FROM `category` WHERE `category`.`id` = categoryIdIN) THEN
     	SET result = 8;
@@ -2543,12 +2543,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `setBook` (IN `bookIdIN` INT, IN `ti
         IF chapterNumberIN IS NOT NULL THEN
             UPDATE `book`
             SET `book`.`chapterNumber` = chapterNumberIN
-            WHERE `book`.`id` = bookIdIN;
-        END IF;
-        
-        IF freeChapterNumberIN IS NOT NULL THEN
-            UPDATE `book`
-            SET `book`.`freeChapterNumber` = freeChapterNumberIN
             WHERE `book`.`id` = bookIdIN;
         END IF;
 
@@ -2785,10 +2779,10 @@ CREATE TABLE `book` (
   `coverImage` varchar(100) NOT NULL,
   `file` varchar(100) NOT NULL,
   `chapterNumber` int(10) UNSIGNED NOT NULL,
-  `freeChapterNumber` int(10) UNSIGNED NOT NULL,
   `pagesNumber` int(10) UNSIGNED NOT NULL,
   `adultFiction` tinyint(1) NOT NULL,
   `bankAccountNumber` varchar(30) DEFAULT NULL,
+  `publisherBankAccountNumber` varchar(30) DEFAULT NULL,
   `languageId` int(11) NOT NULL,
   `targetAudienceId` int(11) NOT NULL,
   `categoryId` int(11) NOT NULL
@@ -2798,57 +2792,34 @@ CREATE TABLE `book` (
 -- A tábla adatainak kiíratása `book`
 --
 
-INSERT INTO `book` (`id`, `title`, `status`, `writerId`, `publisherId`, `publishedTime`, `description`, `price`, `coverImage`, `file`, `chapterNumber`, `freeChapterNumber`, `pagesNumber`, `adultFiction`, `bankAccountNumber`, `languageId`, `targetAudienceId`, `categoryId`) VALUES
-(1, 'Címszerű izé', 'looking for a publisher', 3, 9, '2023-12-17 17:58:06', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 1250, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 20, 4, 200, 1, '1234567890', 1, 1, 1),
-(2, 'Echoes of Eternity', 'published by', 5, 7, '2023-12-17 17:58:06', 'An epic fantasy saga spanning across realms and generations.', 2500, 'pictures/book/Echoes-of-Eternity', '', 40, 8, 350, 0, '0987654321', 2, 5, 18),
-(3, 'Beyond the Horizon', 'self-published', 8, NULL, '2023-12-17 17:58:06', 'A journey of self-discovery and adventure in the heart of the unknown.', 1800, 'pictures/book/Beyond-the-Horizon', '', 25, 5, 180, 0, '1357902468', 3, 3, 9),
-(4, 'The Enigma Code', 'self-published', 3, NULL, '2023-12-17 17:58:38', 'A gripping thriller revealing the secrets of an encrypted message.', 2200, 'pictures/book/The-Enigma-Code', '', 35, 7, 280, 1, '2468135790', 4, 2, 7),
-(5, 'Szerkesztett', 'self-published', 14, NULL, '2023-12-17 17:58:38', 'Szerkesztett leírás', 1000, 'Cover image', 'file', 12, 1, 220, 0, '9876543210', 1, 1, 1),
-(6, 'Skyward Odyssey', 'published by', 3, 5, '2023-12-17 17:58:38', 'Space adventure exploring uncharted galaxies and alien civilizations.', 2800, 'pictures/book/Skyward-Odyssey', '', 45, 9, 400, 0, '0123456789', 3, 4, 21),
-(7, 'The Silent Observer', 'self-published', 20, NULL, '2023-12-17 17:58:38', 'A psychological thriller about an observer amidst a series of eerie events.', 1900, 'pictures/book/The-Silent-Observer', '', 32, 6, 250, 1, '5432109876', 5, 1, 10),
-(8, 'Legacy of Shadows', 'looking for a publisher', 23, NULL, '2023-12-17 17:58:38', 'A tale of inheritance, betrayal, and the secrets that haunt a family.', 2000, 'pictures/book/Legacy-of-Shadows', '', 33, 6, 260, 0, '6547893210', 1, 5, 17),
-(9, 'The Elemental Codex', 'published by', 22, 8, '2023-12-17 17:58:38', 'Discovering the ancient secrets of the elements in a world on the brink of chaos.', 2600, 'pictures/book/The-Elemental-Codex', '', 38, 7, 320, 0, '7894561230', 4, 3, 11),
-(10, 'Beyond the Veil', 'self-published', 3, NULL, '2023-12-17 17:58:38', 'A journey through realms beyond imagination and the cost of unlocking their secrets.', 2100, 'pictures/book/Beyond-the-Veil', '', 29, 6, 240, 0, '0123789456', 2, 2, 8),
-(11, 'Threads of Fate', 'looking for a publisher', 31, NULL, '2023-12-17 17:58:38', 'Interwoven destinies collide in a tale of destiny, love, and sacrifice.', 2400, 'pictures/book/Threads-of-Fate', '', 36, 7, 290, 0, '9876321045', 5, 6, 24),
-(12, 'Midnight Whispers', 'published by', 35, 6, '2023-12-17 17:58:38', 'A chilling collection of eerie stories that whisper the secrets of the night.', 2300, 'pictures/book/Midnight-Whispers', '', 31, 6, 260, 1, '7418529630', 3, 1, 13),
-(13, 'Eternal Echoes', 'self-published', 38, NULL, '2023-12-17 17:58:38', 'An exploration of time, eternity, and the echoes that reverberate through centuries.', 2000, 'pictures/book/Eternal-Echoes', '', 30, 6, 250, 0, '3698521470', 1, 4, 19),
-(14, 'Rogue Chronicles', 'looking for a publisher', 4, NULL, '2023-12-17 17:58:48', 'Action-packed adventures of a charismatic rogue navigating political intrigue.', 1900, 'pictures/book/Rogue-Chronicles', '', 28, 5, 220, 0, '0987654321', 2, 5, 18),
-(15, 'Shadows of Destiny', 'published by', 6, 7, '2023-12-17 17:58:48', 'A gripping tale where destinies intertwine amidst dark shadows of the past.', 2500, 'pictures/book/Shadows-of-Destiny', '', 35, 7, 300, 0, '1234567890', 3, 3, 9),
-(16, 'Forgotten Realms', 'self-published', 3, NULL, '2023-12-17 17:58:48', 'Exploring the forgotten realms where myths and legends come to life.', 2200, 'pictures/book/Forgotten-Realms', '', 32, 6, 260, 0, '2468135790', 4, 2, 7),
-(17, 'Whispering Winds', 'looking for a publisher', 3, NULL, '2023-12-17 17:58:48', 'Whispers on the winds reveal secrets in a world teetering on the edge.', 2000, 'pictures/book/Whispering-Winds', '', 30, 6, 250, 1, '1357902468', 1, 4, 19),
-(18, 'Infinite Odyssey', 'published by', 16, 5, '2023-12-17 17:58:48', 'An epic odyssey across infinite realms filled with wonder and danger.', 2700, 'pictures/book/Infinite-Odyssey', '', 40, 8, 380, 0, '9876543210', 5, 1, 13),
-(19, 'Tales of Tomorrow', 'self-published', 19, NULL, '2023-12-17 17:58:48', 'Tales from the future revealing visions and warnings of what lies ahead.', 2100, 'pictures/book/Tales-of-Tomorrow', '', 29, 6, 240, 0, '3698521470', 2, 2, 8),
-(20, 'Dreams of Destiny', 'looking for a publisher', 22, NULL, '2023-12-17 17:58:48', 'Visions in dreams foretell the threads of destiny intertwining.', 2400, 'pictures/book/Dreams-of-Destiny', '', 34, 6, 280, 0, '7418529630', 3, 6, 14),
-(21, 'Chasing Echoes', 'published by', 22, 6, '2023-12-17 17:58:48', 'Chasing echoes across time in a quest to unlock forgotten mysteries.', 2600, 'pictures/book/Chasing-Echoes', '', 36, 7, 310, 1, '9876321045', 4, 4, 21),
-(22, 'Elysium Chronicles', 'self-published', 22, NULL, '2023-12-17 17:58:48', 'Chronicles of an otherworldly paradise and the trials to reach its gates.', 2300, 'pictures/book/Elysium-Chronicles', '', 32, 6, 270, 0, '0123789456', 1, 5, 17),
-(23, 'Chronicles of Chaos', 'looking for a publisher', 22, NULL, '2023-12-17 17:58:48', 'Chronicles foretelling the chaos that ensues when worlds collide.', 2600, 'pictures/book/Chronicles-of-Chaos', '', 38, 7, 320, 1, '6547893210', 5, 2, 24),
-(24, 'The Quantum Paradox', 'looking for a publisher', 36, NULL, '2023-12-17 17:59:30', 'A mind-bending journey through the paradoxes of quantum reality.', 2100, 'pictures/book/The-Quantum-Paradox', '', 32, 6, 280, 0, '7418529630', 2, 6, 14),
-(25, 'Lost in Translation', 'published by', 40, 9, '2023-12-17 17:59:30', 'A tale of lost languages and the secrets they hold across continents.', 2700, 'pictures/book/Lost-in-Translation', '', 40, 8, 360, 0, '9876321045', 3, 1, 13),
-(26, 'Fires of Revolution', 'self-published', 43, NULL, '2023-12-17 17:59:30', 'Revolution ignites when forgotten history resurfaces to rewrite the future.', 2300, 'pictures/book/Fires-of-Revolution', '', 33, 6, 270, 0, '0123789456', 1, 5, 17),
-(27, 'Dreamweaver Chronicles', 'looking for a publisher', 45, NULL, '2023-12-17 17:59:30', 'Chronicles of a dreamweaver unveiling prophecies in the fabric of dreams.', 2600, 'pictures/book/Dreamweaver-Chronicles', '', 38, 7, 310, 1, '6547893210', 5, 2, 24),
-(28, 'Eternal Struggle', 'published by', 48, 10, '2023-12-17 17:59:30', 'The eternal struggle between light and darkness, where fate hangs in the balance.', 2800, 'pictures/book/Eternal-Struggle', '', 42, 8, 380, 1, '1234567890', 4, 3, 9),
-(29, 'Whispers of Fate', 'self-published', 50, NULL, '2023-12-17 17:59:30', 'Whispers of fate weave a tapestry that shapes the destinies of all.', 2400, 'pictures/book/Whispers-of-Fate', '', 35, 7, 290, 0, '3698521470', 2, 2, 8),
-(30, 'The Seventh Key', 'looking for a publisher', 54, NULL, '2023-12-17 17:59:30', 'Unveiling the mysteries hidden behind the seventh key to the unknown.', 2000, 'pictures/book/The-Seventh-Key', '', 30, 6, 250, 1, '1357902468', 1, 4, 19),
-(31, 'Sands of Time', 'published by', 58, 8, '2023-12-17 17:59:30', 'Time-traveling across epochs to protect the sands that control the flow of time.', 2500, 'pictures/book/Sands-of-Time', '', 37, 7, 320, 0, '9876543210', 5, 1, 13),
-(32, 'The Forgotten Scroll', 'self-published', 61, NULL, '2023-12-17 17:59:30', 'The secrets etched within the forgotten scroll hold the key to the unknown.', 2200, 'pictures/book/The-Forgotten-Scroll', '', 34, 6, 270, 0, '2468135790', 4, 2, 7),
-(33, 'Echoes of Destiny', 'looking for a publisher', 65, NULL, '2023-12-17 17:59:30', 'Echoes reverberate through time, revealing the threads of destiny.', 2300, 'pictures/book/Echoes-of-Destiny', '', 36, 7, 300, 1, '0987654321', 3, 3, 9),
-(34, 'Harry Potter és a titkok kamrája', 'published by', 22, 32, '2023-12-18 21:03:13', 'A \"Harry Potter és a Titkok Kamrája\" az ifjúsági fantasy író, J.K. Rowling által írt második kötet a híres Harry Potter sorozatban. A történet továbbviszi Harry, Ron és Hermione kalandjait a Roxfort Boszorkány- és Varázslóképző Szakiskolában.\r\n\r\nEbben a könyvben Harry visszatér Roxfortba, ahol rejtélyes események kezdődnek. Egy titokzatos erő elkezdi fenyegetni a diákokat, ráadásul furcsa dolgok történnek a varázslóiskolában. Harrynek és barátainak fel kell fedezniük a titokzatos Kamrát, hogy megmentsék a diákokat és Roxfortot a veszélytől.\r\n\r\nA regény tele van izgalommal, fordulatokkal és varázslattal, miközben Harry és társai küzdenek az iskolát fenyegető rejtélyes erővel, miközben az ifjú varázsló egyre többet tud meg saját múltjáról és a Roxfortot fenyegető sötét erőkről. Ez a történet tele van kalanddal és izgalommal, amelyeket minden varázslat iránt érdeklődő olvasó élvezni fog.', 5200, 'pictures/book/harry-potter-es-a-titkok-kamraja', '', 18, 4, 294, 0, 'HU1234562935687', 1, 3, 5),
-(35, 'Titkok szigete', 'looking for a publisher', 1, NULL, '2023-12-20 00:11:25', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 10, 2, 0, 1, NULL, 1, 1, 1),
-(36, 'Könyvek titka', 'looking for a publisher', 1, NULL, '2023-12-20 00:11:40', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, NULL, 1, 1, 1),
-(37, 'Áramvonalas esés', 'looking for a publisher', 1, NULL, '2023-12-20 00:11:48', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, NULL, 1, 1, 1),
-(38, 'Föld indulás', 'looking for a publisher', 1, NULL, '2023-12-20 00:12:19', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, NULL, 1, 1, 1),
-(39, 'Elfelejtett hurrikán', 'looking for a publisher', 1, NULL, '2023-12-20 00:13:57', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, NULL, 1, 1, 1),
-(40, 'Elveszett', 'looking for a publisher', 1, NULL, '2023-12-20 00:13:59', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, NULL, 1, 1, 1),
-(41, 'Megtalált', 'looking for a publisher', 1, NULL, '2023-12-20 00:14:50', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 100, 20, 0, 1, NULL, 1, 1, 1),
-(42, 'Kutya macska', 'looking for a publisher', 1, NULL, '2023-12-20 08:08:20', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, NULL, 1, 1, 1),
-(43, 'Tizenhetedik század', 'looking for a publisher', 1, NULL, '2023-12-20 08:09:22', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, NULL, 1, 1, 1),
-(45, 'Ókori festők titkainak titkai', 'published by', 3, 9, '2023-12-20 08:18:09', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 1250, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, '12345678', 1, 1, 1),
-(46, 'Almafán ülvén', 'self-published', 1, NULL, '2024-02-21 09:26:45', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 1000, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, '12345678', 1, 1, 1),
-(47, 'Rossz ötletek', 'self-published', 1, NULL, '2024-02-21 09:29:48', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 1000, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 0, 0, 0, 1, '12345678', 1, 1, 1),
-(48, 'Miért szar a xampp', 'self-published', 1, NULL, '2024-03-08 08:48:55', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 2000, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 30, 6, 0, 1, '12345678', 1, 1, 1),
-(49, 'Sokadjára beimportált db', 'looking for a publisher', 1, NULL, '2024-03-08 08:58:37', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 30, 6, 0, 1, NULL, 1, 1, 1),
-(50, 'Utálom átirogatni a címeket', 'looking for a publisher', 1, NULL, '2024-03-08 08:58:56', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', 0, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 30, 6, 0, 1, NULL, 1, 1, 1),
-(51, 'Miért nincs normális cím', 'looking for a publisher', 1, NULL, '2024-03-08 09:07:38', 'Lorem ipsum dolor sit amet consectetur adipiscing elit blandit phasellus mi, luctus velit cursus sociis eros donec justo aliquet sem, aenean potenti lectus cras nisl curabitur gravida vel conubia. Cubilia magnis habitasse turpis sed mauris, tellus maecenas dapibus enim tristique, vestibulum morbi nunc nibh. Neque nascetur phasellus primis quis ad platea porta pretium, varius nibh sagittis feugiat per nam mus dictum, pharetra dapibus ut ultrices eros suspendisse maecenas. Faucibus dignissim inceptos sed cursus vehicula, ultrices turpis tincidunt. Malesuada nibh ante platea per natoque proin nullam, fames odio ut ornare eu. Nascetur vehicula iaculis sollicitudin dui placerat morbi integer sapien felis tempus, augue euismod praesent dignissim velit convallis nibh duis tortor per taciti, auctor vestibulum rutrum dapibus mollis leo molestie eget curae. Ultrices pretium et neque ultrici', NULL, 'Ez a kép elérési útja', 'Ez a könyv elérési útja', 30, 6, 0, 1, NULL, 1, 1, 1);
+INSERT INTO `book` (`id`, `title`, `status`, `writerId`, `publisherId`, `publishedTime`, `description`, `price`, `coverImage`, `file`, `chapterNumber`, `pagesNumber`, `adultFiction`, `bankAccountNumber`, `publisherBankAccountNumber`, `languageId`, `targetAudienceId`, `categoryId`) VALUES
+(1, 'With Love, from Cold World', 'self-published', 7, NULL, '2024-01-12 14:55:53', 'Lauren is a serious bookkeeper at a theme park where it\'s always winter, which doesn\'t get quite the crowds as its more famous counterparts.', 3000, 'pictures\\book\\with-love-from-cold-world', 'book\\a_mennyeknel_sulyosabb_', 0, 400, 1, '1234567890123456', NULL, 2, 3, 1),
+(2, 'Long Shot', 'self-published', 7, NULL, '2024-02-24 15:03:41', 'A triumphant story of a domestic violence survivor creating her happy-ever-after. Ambitious college graduate Iris DuPree stays with Caleb Bradley, her basketball-player boyfriend, because of an unexpected pregnancy, though she has her own career goals and feels an electric connection with his rival, August West.', 4500, 'pictures\\book\\long-shot', 'book\\a_mennyeknel_sulyosabb_', 1, 539, 1, '2345678910234567', NULL, 2, 3, 2),
+(3, 'Red Mars', 'self-published', 7, NULL, '2024-04-08 14:07:48', 'or centuries, Mars has beckoned to mankind to come and conquer its hostile climate. Now, in the year 2026, a group of one hundred colonists is about to fulfill that destiny. John Boone, Maya Toitavna, Frank Chalmers, and Arkady Bogdanov lead a mission whose ultimate goal is the terraforming of Mars.', 6000, 'pictures\\book\\red-mars', 'book\\a_mennyeknel_sulyosabb_', 1, 592, 1, '3456789021434567', NULL, 2, 3, 3),
+(4, 'Holly', 'looking for a publisher', 5, NULL, '2024-02-24 15:12:18', 'Holly is on her own, and up against a pair of unimaginably depraved and brilliantly disguised adversaries. When Penny Dahl callt the Finders Keepers detective...', NULL, 'pictures\\book\\holly', 'book\\a_mennyeknel_sulyosabb_', 1, 448, 1, '4567890123545678', NULL, 2, 3, 4),
+(5, 'Shatter Me', 'published by', 5, 22, '2024-03-29 15:15:22', 'The Shatter Me series is the story of a teenage girl who has never been able to experience human touch without inflicting extreme pain.', 3000, 'pictures\\book\\shatter-me', 'book\\a_mennyeknel_sulyosabb_', 1, 290, 1, '5678901234655789', '98514215312312', 2, 3, 5),
+(6, 'Zeno\'s Conscience', 'self-published', 9, NULL, '2024-03-23 15:18:54', 'In Zeno\'s Conscience by Italo Svevo, we are introduced to Zeno Cosini, a middle-aged businessman who seeks psychiatric help to quit smoking. The novel is structured as a series of memoirs, written by Zeno himself, at the request of his psychiatrist.', 4500, 'pictures\\book\\zenos-conscience', 'book\\Csontvaros', 1, 464, 1, '6789012345766890', NULL, 5, 3, 6),
+(7, 'The Name of the Rose', 'self-published', 9, NULL, '2024-04-03 14:21:28', 'It is a historical murder mystery set in an Italian monastery in the year 1327, and an intellectual mystery combining semiotics in fiction, biblical analysis, medieval studies, and literary theory.', 5000, 'pictures\\book\\the-name-of-the-rose', 'book\\Csontvaros', 1, 512, 1, '7890123456877901', NULL, 5, 3, 7),
+(8, 'The Late Mattia Pascal', 'self-published', 9, NULL, '2024-04-17 14:24:34', 'Mattia Pascal is a young Italian man. After his father\'s death, his family is ruined by the man who was supposed to help them, and Mattia finds himself in a miserable social condition. His wedding is not more happy : his mother-in-law, with whom he lives, hates him.', 6500, 'pictures\\book\\the-late-mattia-pascal', 'book\\Csontvaros', 1, 272, 1, '8901234567988012', NULL, 5, 3, 8),
+(9, 'Nine Perfect Strangers', 'self-published', 14, NULL, '2024-02-09 15:28:26', 'Set in Sydney, Australia, the novel follows a group of strangers who gather at a wellness retreat to receive treatment from a mysterious health guru. The novel was adapted for a 2021 television series starring Nicole Kidman, Melissa McCarthy, and Michael Shannon.', 5000, 'pictures\\book\\nine-perfect-strangers', 'book\\Csontvaros', 1, 464, 1, '8012345678099123', NULL, 2, 3, 9),
+(10, 'Eleanor Oliphant is Completely Fine', 'self-published', 14, NULL, '2024-02-23 15:30:06', 'The story centres on Eleanor Oliphant, a social misfit with a traumatic past who becomes enamoured with a singer, whom she believes she is destined to be with. The novel deals with themes of isolation and loneliness, and depicts Eleanor\'s transformational journey towards a fuller understanding of self and life.', 4800, 'pictures\\book\\eleanor-oliphant-is-completely-fine', 'book\\Csontvaros', 1, 21, 1, '8012345678099124', NULL, 2, 3, 10),
+(11, 'Magpie Murders', 'self-published', 14, NULL, '2024-03-09 15:34:29', 'When editor Susan Reyland is given the tattered manuscript of Alan Conway\'s latest novel, she has little idea it will change her life.', 4500, 'pictures\\book\\magpie-murders', 'book\\Jenny_Han_-_A_fiuknak_akiket_valaha_szerettem', 1, 560, 1, '8012345678099125', NULL, 2, 3, 11),
+(12, 'The Cruel Prince', 'published by', 19, 26, '2024-04-24 14:36:49', 'A fantasy novel written by Holly Black, follows Jude Duarte, a human living in Elfhame, a world with faerie\'s. Jude longs to be a knight, but her father forbids her. It is a story about overcoming discrimination, as Jude is often bullied by the King\'s children, and especially Prince Cardan.', 4500, 'pictures\\book\\the-cruel-prince', 'book\\Jenny_Han_-_A_fiuknak_akiket_valaha_szerettem', 1, 428, 1, '8012345678099126', '236742529181653', 2, 3, 12),
+(13, 'Believe Me', 'published by', 12, 21, '2023-10-04 14:39:02', 'A powerful, heartrending contemporary novel about fear, first love, and the devastating impact of prejudice. A heart wrenching novel about Shadi, a Muslim teen struggling to forge a blurry identity, fall in love, and find hope in the wake of 9/11.', 5000, 'pictures\\book\\believe-me', 'book\\Jenny_Han_-_A_fiuknak_akiket_valaha_szerettem', 1, 224, 1, '8012345678099126', '5252433189962423', 2, 3, 13),
+(14, 'Girl inPieces', 'published by', 12, 23, '2023-12-14 15:40:58', '“Girl in Pieces” introduces readers to Charlotte “Charlie” Davis, a 17-year-old girl grappling with intense trauma. Her journey is a poignant tale of pain, resilience, and the quest for healing.', 4500, 'pictures\\book\\girl-in-pieces', 'book\\Jenny_Han_-_A_fiuknak_akiket_valaha_szerettem', 1, 448, 1, '8012345678099126', '46732874322', 2, 3, 15),
+(15, 'Before the Coffee Gets Cold', 'looking for a publisher', 12, NULL, '2024-02-07 15:42:46', 'It tells of a café in Tokyo that allows its customers to travel back in time, as long as they return before their coffee gets cold. The story originally began as a play in 2010, before being adapted into a novel in 2015.', NULL, 'pictures\\book\\before-the-coffee-gets-cold', 'book\\Jenny_Han_-_A_fiuknak_akiket_valaha_szerettem', 1, 272, 1, '8012345678099129', NULL, 2, 3, 16),
+(16, 'Harmony', 'published by', 12, 24, '2024-04-17 14:46:27', 'In this collection of all new poems, Whitney Hanson explores the progression of a life through the lens of music. We each begin with a simple note, but as life progresses, we\'re led to the next note, and the next - all of which combine to form the melody of a song and the cadence of a life.', 6000, 'pictures\\book\\harmony', 'book\\ally_carter-_ha_megtudnad_hogy_szeretlek_meg_kellene_oljelek', 1, 272, 0, '8012345678099111', '87235144441243', 2, 2, 17),
+(17, 'The Silent Patient', 'looking for a publisher', 11, NULL, '2023-07-28 14:48:00', 'Theo Faber is a criminal psychotherapist who has waited a long time for the opportunity to work with Alicia. His determination to get her to talk and unravel the mystery of why she shot her husband takes him down a twisting path into his own motivations—a search for the truth that threatens to consume him....', NULL, 'pictures\\book\\the-silent-patient', 'book\\ally_carter-_ha_megtudnad_hogy_szeretlek_meg_kellene_oljelek', 1, 352, 1, '8012345278099125', NULL, 2, 3, 18),
+(18, 'Thin Skin', 'looking for a publisher', 11, NULL, '2023-08-26 14:50:42', 'Thin Skin uses her medical diagnosis as a prism to examine the thinning of boundaries between our bodies and the world:\" to be thin-skinned is to feel keenly, to percieve things that...\"', NULL, 'pictures\\book\\thin-skin', 'book\\ally_carter-_ha_megtudnad_hogy_szeretlek_meg_kellene_oljelek', 1, 571, 1, '8012345278099321', NULL, 2, 3, 19),
+(19, 'Happy Place', 'looking for a publisher', 11, NULL, '2023-12-15 15:52:47', '“Happy Place” follows ex-fiancés Harriet, a conflict-avoidant surgical resident, and Wyn, a quick-witted charmer who dances through life.', NULL, 'pictures\\book\\happy-place', 'book\\ally_carter-_ha_megtudnad_hogy_szeretlek_meg_kellene_oljelek', 1, 416, 1, '801234567802425', NULL, 2, 3, 20),
+(20, 'The Fault in Our Stars', 'published by', 9, 30, '2024-04-02 14:55:53', 'The Fault in Our Stars by John Green is a young adult fiction novel that narrates the story of a 16-year-old girl who is diagnosed with cancer.', 6500, 'pictures\\book\\the-fault-in-our-stars', 'book\\ally_carter-_ha_megtudnad_hogy_szeretlek_meg_kellene_oljelek', 1, 313, 1, '801232367802425', '24789354224455', 2, 3, 21),
+(21, 'Holler, Child: Stories', 'self-published', 18, NULL, '2024-03-31 14:58:12', 'In “Holler, Child,” a mother is forced into an impossible position when her son gets in a kind of trouble she knows too well from the other side. And “Time After” shows us the unshakable bonds of family as a sister journeys to find her estranged brother—the one who saved her many times over.\r\n', 4200, 'pictures\\book\\holler-child-stories', 'book\\ally_carter-_ha_megtudnad_hogy_szeretlek_meg_kellene_oljelek', 1, 563, 1, '801632367802425', NULL, 2, 3, 22),
+(22, 'Wildfire', 'self-published', 18, NULL, '2024-04-26 15:04:59', 'A wildfire is an unplanned, unwanted fire burning in a natural area, such as a forest, grassland, or prairie. Wildfires can start from natural causes, such as lightning, but most are caused by humans, either accidentally or intentionally.', 4300, 'pictures\\book\\wildfire', 'book\\Nelkuled_-_Leiner_Laura', 1, 400, 1, '801232877802425', NULL, 2, 3, 23),
+(23, 'Mrs. Dalloway', 'published by', 1, 28, '2023-05-25 15:07:37', 'It examines one day in the life of Clarissa Dalloway, an upper-class Londoner married to a member of Parliament. Mrs. Dalloway is essentially plotless; what action there is takes place mainly in the characters\' consciousness.', 6000, 'pictures\\book\\mrs-dalloway', 'book\\Nelkuled_-_Leiner_Laura', 1, 224, 1, '805332877802425', '5723145781237465324', 2, 3, 24),
+(24, 'Man and Boy', 'published by', 15, 25, '2024-02-09 16:09:01', 'Man and Boy by Tony Parsons is the story of how a man becomes a father to his son, and a son to a father. The affection Harry feels for his family, all of it, is obvious from the first page. As evident is Harry\'s sense of self. He comes to realise that what he feels isn\'t always enough, though.', 3800, 'pictures\\book\\man-and-boy', 'book\\Nelkuled_-_Leiner_Laura', 1, 356, 1, '801679462802425', '12345432235465425', 2, 3, 25),
+(25, 'The Wedding Date', 'self-published', 15, NULL, '2024-04-02 15:11:45', 'A groomsman and his last-minute guest are about to discover if a fake date can go the distance in a fun and flirty debut novel. Agreeing to go to a wedding with a guy she gets stuck with in an elevator is something Alexa Monroe wouldn\'t normally do. But there\'s something about Drew Nichols that\'s too hard to resist.', 4500, 'pictures\\book\\the-wedding-date', 'book\\Nelkuled_-_Leiner_Laura', 1, 272, 1, '801679496302425', NULL, 2, 3, 23),
+(26, 'Fourth Wing', 'self-published', 15, NULL, '2024-04-26 15:14:31', 'A young scribe is thrust into an elite war college for dragon riders where the only rule is graduate or perish. An addictive fantasy with epic levels of spice and world-building. Twenty-year-old Violet Sorrengail was supposed to enter the Scribe Quadrant, living a quiet life among books and history.', 5500, 'pictures\\book\\fourth-wing', 'book\\Nelkuled_-_Leiner_Laura', 79, 528, 1, '801862877802425', NULL, 2, 3, 13),
+(27, 'After', 'self-published', 15, NULL, '2024-04-26 15:14:31', 'The series follows the life of Tessa Young, a recent high school graduate, as she embarks on her new college life. Her life is meticulously planned by not only herself but her overachieving mother. But when Tessa meets complex rebel Hardin Scott, everything in her life begins to change.', 4200, 'pictures\\book\\after', 'book\\a_mennyeknel_sulyosabb_', 1, 592, 1, '801462877802425', NULL, 2, 3, 23);
 
 -- --------------------------------------------------------
 
@@ -2869,30 +2840,177 @@ CREATE TABLE `bookrating` (
 --
 
 INSERT INTO `bookrating` (`id`, `ratingerId`, `bookId`, `rating`, `ratingTime`) VALUES
-(1, 1, 1, 4, '2023-12-19 21:16:48'),
-(2, 4, 1, 3, '2023-12-19 21:16:48'),
-(3, 1, 2, 5, '2023-12-19 21:16:48'),
-(4, 5, 1, 1, '2023-12-19 21:16:48'),
-(5, 16, 1, 5, '2023-12-19 21:16:48'),
-(6, 1, 3, 5, '2023-12-19 21:16:48'),
-(7, 21, 3, 2, '2023-12-19 21:16:48'),
-(8, 10, 2, 3, '2023-12-19 21:16:48'),
-(9, 10, 21, 4, '2023-12-19 21:16:48'),
-(10, 11, 21, 4, '2023-12-19 21:16:48');
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `bookreport`
---
-
-CREATE TABLE `bookreport` (
-  `id` int(11) NOT NULL,
-  `userId` int(11) NOT NULL,
-  `bookId` int(11) NOT NULL,
-  `description` varchar(500) NOT NULL,
-  `reportTime` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+(1, 26, 1, 2, '2024-02-24 16:46:20'),
+(2, 24, 1, 5, '2024-02-22 16:46:20'),
+(3, 15, 1, 4, '2024-04-02 15:48:34'),
+(4, 9, 1, 4, '2024-04-08 15:48:34'),
+(5, 21, 2, 1, '2024-02-26 16:50:26'),
+(6, 29, 2, 5, '2024-03-06 16:50:57'),
+(7, 6, 2, 4, '2024-04-15 15:50:57'),
+(8, 12, 2, 5, '2024-03-20 16:51:45'),
+(9, 1, 2, 2, '2024-04-10 15:51:45'),
+(10, 5, 2, 5, '2024-02-29 16:52:21'),
+(11, 22, 2, 3, '2024-04-17 15:52:21'),
+(12, 11, 2, 4, '2024-02-26 16:53:44'),
+(13, 13, 2, 1, '2024-04-08 15:53:44'),
+(14, 8, 2, 3, '2024-03-11 16:54:36'),
+(15, 19, 2, 2, '2024-03-30 16:54:36'),
+(16, 18, 2, 1, '2024-03-09 16:55:38'),
+(17, 28, 3, 4, '2024-04-11 15:56:22'),
+(18, 15, 3, 5, '2024-04-12 15:56:53'),
+(19, 5, 3, 1, '2024-04-11 15:56:53'),
+(20, 18, 3, 2, '2024-04-19 15:57:36'),
+(21, 11, 3, 5, '2024-04-24 15:57:37'),
+(22, 21, 3, 3, '2024-04-22 15:58:47'),
+(23, 14, 3, 5, '2024-04-24 15:58:47'),
+(24, 29, 3, 4, '2024-04-15 15:59:31'),
+(25, 6, 3, 1, '2024-04-09 15:59:31'),
+(26, 8, 3, 4, '2024-04-25 16:00:36'),
+(27, 28, 3, 2, '2024-04-16 16:00:36'),
+(28, 21, 4, 3, '2024-02-29 17:04:01'),
+(29, 26, 4, 2, '2024-04-09 16:04:01'),
+(30, 18, 4, 5, '2024-03-13 17:05:12'),
+(31, 29, 4, 2, '2024-04-22 16:05:12'),
+(32, 15, 4, 4, '2024-04-10 16:06:05'),
+(33, 1, 4, 3, '2024-03-20 17:06:05'),
+(34, 11, 4, 1, '2024-04-13 16:06:51'),
+(35, 19, 4, 2, '2024-04-09 16:06:51'),
+(36, 7, 4, 4, '2024-04-24 16:08:03'),
+(37, 14, 5, 5, '2024-04-02 16:09:28'),
+(38, 29, 5, 3, '2024-04-11 16:09:28'),
+(39, 28, 5, 1, '2024-04-10 16:10:48'),
+(40, 13, 5, 3, '2024-04-22 16:10:48'),
+(41, 24, 5, 2, '2024-04-08 16:11:19'),
+(42, 15, 5, 1, '2024-04-20 16:11:19'),
+(43, 17, 5, 3, '2024-04-16 16:11:59'),
+(44, 7, 6, 1, '2024-03-30 17:12:22'),
+(45, 15, 6, 2, '2024-04-03 16:12:22'),
+(46, 26, 6, 5, '2024-04-22 16:13:11'),
+(47, 19, 6, 4, '2024-04-20 16:13:11'),
+(48, 6, 7, 5, '2024-04-06 16:13:46'),
+(49, 22, 7, 2, '2024-04-17 16:13:46'),
+(50, 19, 7, 4, '2024-04-17 16:14:33'),
+(51, 17, 7, 3, '2024-04-16 16:14:33'),
+(52, 27, 7, 5, '2024-04-22 16:15:14'),
+(53, 11, 7, 5, '2024-04-17 16:15:14'),
+(54, 15, 7, 4, '2024-04-23 16:15:48'),
+(55, 21, 7, 5, '2024-04-20 16:15:48'),
+(56, 24, 7, 3, '2024-04-07 16:16:46'),
+(57, 5, 7, 5, '2024-04-10 16:16:46'),
+(58, 12, 7, 4, '2024-04-09 16:17:10'),
+(59, 1, 8, 3, '2024-04-18 16:17:45'),
+(60, 8, 8, 4, '2024-04-25 16:17:45'),
+(61, 12, 8, 2, '2024-04-22 16:18:43'),
+(62, 27, 8, 5, '2024-04-19 16:18:43'),
+(63, 5, 8, 4, '2024-04-18 16:34:15'),
+(64, 26, 8, 1, '2024-04-20 16:34:15'),
+(65, 15, 8, 2, '2024-04-24 16:35:09'),
+(66, 19, 8, 1, '2024-04-22 16:35:09'),
+(67, 24, 8, 2, '2024-04-22 16:35:48'),
+(68, 25, 8, 4, '2024-04-20 16:35:48'),
+(69, 11, 8, 3, '2024-04-22 16:36:33'),
+(70, 28, 8, 4, '2024-04-20 16:36:33'),
+(71, 7, 8, 2, '2024-04-18 16:37:32'),
+(72, 13, 8, 4, '2024-04-25 16:37:32'),
+(73, 23, 9, 1, '2024-02-28 17:40:14'),
+(74, 25, 9, 2, '2024-03-13 17:40:14'),
+(75, 28, 9, 3, '2024-04-10 16:41:33'),
+(76, 11, 9, 2, '2024-03-09 17:41:33'),
+(77, 1, 9, 1, '2024-04-17 16:41:54'),
+(78, 19, 9, 3, '2024-03-19 17:41:54'),
+(79, 6, 9, 1, '2024-02-28 17:42:16'),
+(80, 22, 10, 3, '2024-02-28 17:42:29'),
+(81, 8, 10, 5, '2024-02-27 17:42:29'),
+(82, 15, 10, 4, '2024-03-20 17:44:37'),
+(83, 19, 10, 5, '2024-04-10 16:44:37'),
+(84, 29, 10, 4, '2024-03-19 17:44:58'),
+(85, 18, 10, 2, '2024-04-01 16:44:58'),
+(86, 30, 10, 3, '2024-04-08 16:45:16'),
+(87, 1, 10, 5, '2024-04-06 16:45:16'),
+(88, 26, 10, 2, '2024-03-13 17:45:41'),
+(89, 5, 10, 5, '2024-04-25 16:45:41'),
+(90, 17, 10, 2, '2024-03-07 17:45:58'),
+(91, 7, 10, 5, '2024-03-27 17:45:58'),
+(92, 27, 11, 4, '2024-03-11 17:46:23'),
+(93, 6, 11, 3, '2024-03-28 17:46:23'),
+(94, 5, 11, 1, '2024-04-09 16:47:31'),
+(95, 25, 11, 3, '2024-04-05 16:47:31'),
+(96, 8, 11, 4, '2024-03-20 17:47:49'),
+(97, 19, 11, 5, '2024-03-16 17:47:49'),
+(98, 13, 12, 2, '2024-04-25 16:48:11'),
+(99, 28, 12, 4, '2024-04-25 16:48:11'),
+(100, 19, 13, 5, '2023-10-06 16:49:03'),
+(101, 26, 13, 4, '2024-01-16 17:49:03'),
+(102, 9, 13, 3, '2024-01-19 17:51:20'),
+(103, 1, 13, 4, '2024-04-07 16:51:20'),
+(104, 21, 13, 5, '2024-02-02 17:51:44'),
+(105, 27, 13, 2, '2024-03-12 17:51:44'),
+(106, 6, 13, 3, '2024-04-01 16:52:09'),
+(107, 7, 13, 1, '2024-01-19 17:52:09'),
+(108, 28, 13, 3, '2023-12-01 17:52:32'),
+(109, 18, 13, 1, '2023-11-25 17:52:32'),
+(110, 11, 13, 4, '2024-02-12 17:53:01'),
+(111, 14, 13, 1, '2024-01-16 17:53:01'),
+(112, 13, 13, 4, '2024-01-16 17:53:27'),
+(113, 16, 14, 3, '2024-02-06 17:53:43'),
+(114, 13, 14, 5, '2024-01-19 17:53:43'),
+(115, 11, 14, 1, '2024-04-15 16:54:31'),
+(116, 28, 15, 2, '2024-02-10 17:54:47'),
+(117, 9, 15, 4, '2024-02-21 17:54:47'),
+(118, 13, 15, 5, '2024-03-16 17:55:49'),
+(119, 23, 15, 1, '2024-04-08 16:55:49'),
+(120, 19, 15, 2, '2024-03-02 17:56:16'),
+(121, 29, 16, 5, '2024-02-20 17:57:06'),
+(122, 30, 16, 1, '2024-03-06 17:57:06'),
+(123, 11, 16, 3, '2024-03-06 17:57:47'),
+(124, 23, 16, 2, '2024-04-09 16:57:47'),
+(125, 13, 16, 1, '2024-02-29 17:58:08'),
+(126, 1, 16, 3, '2024-04-09 16:58:08'),
+(127, 18, 17, 5, '2023-07-30 17:00:46'),
+(128, 9, 17, 1, '2023-08-02 17:00:46'),
+(129, 17, 17, 2, '2023-11-07 18:03:10'),
+(130, 27, 17, 5, '2023-10-17 17:03:10'),
+(131, 8, 17, 4, '2024-04-23 17:03:41'),
+(132, 24, 17, 5, '2024-02-21 18:03:41'),
+(133, 23, 17, 2, '2023-12-22 18:04:03'),
+(134, 12, 17, 1, '2023-12-29 18:04:03'),
+(135, 15, 17, 5, '2024-02-22 18:04:30'),
+(136, 1, 17, 5, '2023-09-30 17:04:30'),
+(137, 28, 17, 3, '2024-02-16 18:04:54'),
+(138, 11, 18, 2, '2023-08-23 17:05:03'),
+(139, 6, 18, 5, '2023-12-21 18:05:03'),
+(140, 5, 18, 2, '2024-04-07 17:06:40'),
+(141, 23, 18, 5, '2024-02-23 18:06:40'),
+(142, 25, 18, 4, '2023-11-22 18:07:03'),
+(143, 30, 18, 2, '2023-12-14 18:07:03'),
+(144, 29, 18, 4, '2023-11-25 18:07:38'),
+(145, 1, 18, 1, '2023-08-30 17:07:38'),
+(146, 13, 18, 2, '2024-04-23 17:08:25'),
+(147, 7, 18, 5, '2024-03-13 18:08:25'),
+(148, 15, 19, 4, '2024-01-17 18:08:47'),
+(149, 30, 19, 5, '2023-12-29 18:08:47'),
+(150, 25, 19, 4, '2024-04-16 17:09:44'),
+(151, 15, 19, 5, '2024-03-19 18:09:44'),
+(152, 18, 20, 5, '2024-04-09 17:10:08'),
+(153, 7, 20, 4, '2024-04-19 17:10:08'),
+(154, 19, 21, 1, '2024-04-01 17:10:43'),
+(155, 26, 21, 4, '2024-04-03 17:10:43'),
+(156, 15, 21, 2, '2024-04-15 17:11:29'),
+(157, 6, 23, 3, '2023-05-17 17:12:38'),
+(158, 21, 23, 3, '2023-05-27 17:12:38'),
+(159, 9, 23, 1, '2023-08-16 17:13:50'),
+(160, 29, 23, 3, '2023-05-31 17:13:50'),
+(161, 27, 23, 5, '2023-12-20 18:14:16'),
+(162, 8, 23, 2, '2023-11-15 18:14:16'),
+(163, 22, 23, 3, '2023-09-23 17:14:40'),
+(164, 7, 23, 1, '2023-10-18 17:14:40'),
+(165, 17, 24, 2, '2024-02-15 18:15:23'),
+(166, 28, 24, 4, '2024-02-29 18:15:23'),
+(167, 18, 24, 5, '2024-03-21 18:16:33'),
+(168, 12, 24, 2, '2024-03-01 18:16:33'),
+(169, 11, 25, 3, '2024-04-03 17:17:06'),
+(170, 9, 25, 5, '2024-04-10 17:17:06'),
+(171, 29, 25, 1, '2024-04-10 17:17:50');
 
 -- --------------------------------------------------------
 
@@ -2912,8 +3030,11 @@ CREATE TABLE `bookshopping` (
 --
 
 INSERT INTO `bookshopping` (`id`, `userId`, `bookId`, `shoppingTime`) VALUES
-(1, 1, 1, '2024-03-20 16:26:09'),
-(2, 1, 2, '2024-03-20 16:26:09');
+(1, 1, 13, '2024-02-06 18:24:59'),
+(2, 9, 25, '2024-04-10 17:24:59'),
+(3, 13, 14, '2024-01-19 18:25:27'),
+(4, 13, 15, '2024-03-07 18:25:27'),
+(5, 5, 7, '2024-04-19 17:25:55');
 
 -- --------------------------------------------------------
 
@@ -2984,117 +3105,189 @@ CREATE TABLE `categoryinterest` (
 
 INSERT INTO `categoryinterest` (`id`, `userId`, `categoryId`) VALUES
 (1, 1, 1),
-(2, 1, 2),
-(3, 1, 5),
-(4, 1, 10),
-(5, 2, 1),
-(6, 2, 6),
-(7, 2, 4),
-(8, 3, 4),
-(9, 3, 9),
-(10, 3, 11),
-(11, 4, 12),
-(12, 4, 2),
-(13, 4, 10),
-(14, 5, 1),
-(15, 5, 8),
-(16, 5, 6),
-(17, 5, 15),
-(18, 6, 20),
-(19, 6, 10),
-(20, 6, 2),
-(21, 7, 10),
-(22, 7, 5),
-(23, 7, 2),
-(24, 8, 2),
-(25, 8, 12),
-(26, 8, 3),
-(27, 9, 1),
-(28, 9, 16),
-(29, 9, 4),
-(30, 10, 2),
-(31, 10, 1),
-(32, 10, 7),
-(33, 11, 1),
-(34, 11, 9),
-(35, 11, 15),
-(36, 12, 17),
-(37, 12, 16),
-(38, 12, 20),
-(39, 13, 19),
-(40, 13, 18),
-(41, 13, 1),
-(42, 14, 2),
-(43, 14, 14),
-(44, 14, 3),
-(45, 15, 4),
-(46, 15, 5),
-(47, 15, 6),
-(48, 16, 7),
-(49, 16, 8),
-(50, 16, 9),
-(51, 17, 10),
-(52, 17, 11),
-(53, 17, 12),
-(54, 18, 13),
-(55, 18, 14),
-(56, 18, 15),
-(57, 19, 16),
-(58, 19, 17),
-(59, 19, 18),
-(60, 20, 19),
-(61, 20, 20),
-(62, 20, 1),
-(63, 21, 2),
-(64, 21, 5),
-(65, 21, 3),
-(66, 22, 4),
-(67, 22, 6),
-(68, 22, 9),
-(69, 23, 1),
-(70, 23, 8),
-(71, 1, 20),
-(72, 1, 3),
-(73, 1, 4),
-(74, 38, 1),
-(75, 38, 2),
-(76, 38, 3),
-(77, 38, 4),
-(78, 38, 5),
-(79, 32, 1),
-(80, 32, 2),
-(81, 32, 3),
-(82, 32, 4),
-(83, 32, 5),
-(84, 32, 6),
-(85, 32, 7),
-(86, 32, 8),
-(87, 32, 9),
-(88, 32, 10),
-(89, 32, 11),
-(90, 32, 12),
-(91, 1, 6),
-(92, 1, 7),
-(93, 1, 8),
-(94, 1, 9),
-(95, 1, 11),
-(96, 1, 12),
-(97, 52, 1),
-(98, 52, 2),
-(99, 52, 5),
-(100, 52, 13),
-(101, 52, 18),
-(102, 52, 17),
-(103, 65, 1),
-(104, 65, 6),
-(105, 65, 11),
-(106, 65, 14),
-(107, 1, 100),
-(108, 67, 1),
-(109, 67, 2),
-(110, 67, 7),
-(111, 67, 4),
-(112, 67, 6);
+(2, 1, 6),
+(3, 1, 8),
+(4, 5, 4),
+(5, 5, 7),
+(6, 5, 3),
+(7, 5, 15),
+(8, 5, 23),
+(9, 6, 9),
+(10, 6, 13),
+(11, 6, 21),
+(12, 6, 25),
+(13, 6, 29),
+(14, 7, 2),
+(15, 7, 14),
+(16, 7, 10),
+(17, 7, 32),
+(18, 8, 13),
+(19, 8, 12),
+(20, 8, 11),
+(21, 8, 9),
+(22, 8, 19),
+(23, 8, 21),
+(24, 8, 30),
+(25, 9, 4),
+(26, 9, 8),
+(27, 9, 7),
+(28, 9, 27),
+(29, 11, 22),
+(30, 11, 23),
+(31, 11, 24),
+(32, 11, 27),
+(33, 11, 31),
+(34, 12, 2),
+(35, 12, 13),
+(36, 12, 12),
+(37, 12, 23),
+(38, 12, 21),
+(39, 12, 31),
+(40, 13, 4),
+(41, 13, 8),
+(42, 13, 7),
+(43, 13, 9),
+(44, 13, 12),
+(45, 13, 19),
+(46, 14, 2),
+(47, 14, 27),
+(48, 14, 26),
+(49, 14, 29),
+(50, 14, 30),
+(51, 15, 4),
+(52, 15, 8),
+(53, 15, 20),
+(54, 15, 17),
+(55, 15, 25),
+(56, 17, 13),
+(57, 17, 11),
+(58, 17, 10),
+(59, 17, 9),
+(60, 17, 21),
+(61, 17, 24),
+(62, 17, 33),
+(63, 19, 4),
+(64, 19, 7),
+(65, 19, 8),
+(66, 19, 10),
+(67, 19, 9),
+(68, 19, 11),
+(69, 19, 15),
+(70, 19, 14),
+(71, 19, 27),
+(72, 18, 6),
+(73, 18, 12),
+(74, 18, 16),
+(75, 18, 17),
+(76, 18, 28),
+(77, 21, 6),
+(78, 21, 10),
+(79, 21, 12),
+(80, 21, 7),
+(81, 21, 8),
+(82, 21, 20),
+(83, 22, 1),
+(84, 22, 8),
+(85, 22, 4),
+(86, 22, 3),
+(87, 22, 7),
+(88, 22, 2),
+(89, 22, 6),
+(90, 22, 21),
+(91, 22, 26),
+(92, 22, 25),
+(93, 22, 22),
+(94, 23, 26),
+(95, 23, 27),
+(96, 23, 28),
+(97, 23, 24),
+(98, 23, 23),
+(99, 23, 22),
+(100, 23, 17),
+(101, 23, 18),
+(102, 23, 19),
+(103, 23, 20),
+(104, 23, 6),
+(105, 23, 29),
+(106, 23, 30),
+(107, 24, 3),
+(108, 24, 2),
+(109, 24, 6),
+(110, 24, 8),
+(111, 24, 15),
+(112, 24, 18),
+(113, 24, 19),
+(114, 24, 17),
+(115, 24, 13),
+(116, 24, 20),
+(117, 24, 23),
+(118, 24, 24),
+(119, 24, 22),
+(120, 24, 21),
+(121, 24, 26),
+(122, 25, 13),
+(123, 25, 18),
+(124, 25, 20),
+(125, 25, 23),
+(126, 25, 24),
+(127, 25, 22),
+(128, 25, 21),
+(129, 25, 25),
+(130, 25, 26),
+(131, 25, 27),
+(132, 25, 28),
+(133, 26, 3),
+(134, 26, 2),
+(135, 26, 1),
+(136, 26, 6),
+(137, 26, 8),
+(138, 26, 23),
+(139, 26, 22),
+(140, 26, 31),
+(141, 26, 29),
+(142, 27, 3),
+(143, 27, 27),
+(144, 27, 26),
+(145, 27, 25),
+(146, 27, 29),
+(147, 27, 30),
+(148, 27, 31),
+(149, 27, 22),
+(150, 27, 21),
+(151, 27, 23),
+(152, 27, 24),
+(153, 28, 6),
+(154, 28, 7),
+(155, 28, 11),
+(156, 28, 14),
+(157, 28, 15),
+(158, 28, 13),
+(159, 28, 30),
+(160, 29, 1),
+(161, 29, 7),
+(162, 29, 8),
+(163, 29, 15),
+(164, 29, 16),
+(165, 29, 18),
+(166, 29, 19),
+(167, 29, 22),
+(168, 29, 21),
+(169, 29, 23),
+(170, 29, 24),
+(171, 30, 6),
+(172, 30, 15),
+(173, 30, 14),
+(174, 30, 13),
+(175, 30, 9),
+(176, 30, 18),
+(177, 30, 21),
+(178, 30, 23),
+(179, 30, 22),
+(180, 30, 24),
+(181, 30, 26),
+(182, 32, 1),
+(183, 32, 2),
+(184, 32, 3);
 
 -- --------------------------------------------------------
 
@@ -3136,7 +3329,28 @@ INSERT INTO `color` (`id`, `code`) VALUES
 (22, '#dad2e4'),
 (23, '#c5aaee'),
 (24, '#050505'),
-(25, '#d0a65d');
+(25, '#d0a65d'),
+(26, '#563d7c'),
+(27, '#b3c14e'),
+(28, '#429e87'),
+(29, '#d72d2d'),
+(30, '#538eac'),
+(31, '#c969c6'),
+(32, '#f0568c'),
+(33, '#537474'),
+(34, '#516a48'),
+(35, '#b3c76b'),
+(36, '#384394'),
+(37, '#3d7b66'),
+(38, '#319642'),
+(39, '#58b0c6'),
+(40, '#40c473'),
+(41, '#bd4ca5'),
+(42, '#5dadd0'),
+(43, '#7b3d3d'),
+(44, '#251986'),
+(45, '#4d7b3d'),
+(46, '#3d667b');
 
 -- --------------------------------------------------------
 
@@ -3156,27 +3370,127 @@ CREATE TABLE `follow` (
 --
 
 INSERT INTO `follow` (`id`, `followerId`, `followedId`, `followingTime`) VALUES
-(1, 1, 2, '2023-12-19 22:25:59'),
-(2, 1, 4, '2023-12-19 22:25:59'),
-(3, 1, 10, '2023-12-19 22:25:59'),
-(4, 2, 3, '2023-12-19 22:25:59'),
-(5, 2, 1, '2023-12-19 22:25:59'),
-(6, 6, 2, '2023-12-19 22:25:59'),
-(7, 6, 1, '2023-12-19 22:25:59'),
-(8, 1, 6, '2023-12-19 22:25:59'),
-(9, 1, 4, '2023-12-19 22:25:59'),
-(10, 1, 20, '2023-12-19 22:25:59'),
-(11, 6, 2, '2023-12-19 22:25:59'),
-(12, 6, 9, '2023-12-19 22:25:59'),
-(13, 7, 1, '2023-12-19 22:25:59'),
-(14, 11, 13, '2023-12-19 22:25:59'),
-(15, 11, 6, '2023-12-19 22:25:59'),
-(16, 21, 9, '2023-12-19 22:25:59'),
-(17, 24, 10, '2023-12-19 22:25:59'),
-(18, 16, 12, '2023-12-19 22:25:59'),
-(19, 27, 2, '2023-12-19 22:25:59'),
-(20, 27, 4, '2023-12-19 22:25:59'),
-(23, 1, 32, '2024-01-08 22:18:57');
+(1, 26, 9, '2024-03-28 17:54:09'),
+(2, 21, 1, '2023-02-08 17:43:10'),
+(3, 21, 15, '2023-12-12 17:43:10'),
+(4, 21, 14, '2024-02-22 17:44:35'),
+(5, 22, 5, '2024-02-08 17:45:06'),
+(6, 22, 6, '2023-10-11 16:45:06'),
+(7, 22, 11, '2023-06-15 16:46:42'),
+(8, 23, 7, '2023-10-10 16:47:01'),
+(9, 23, 8, '2023-12-13 17:47:01'),
+(10, 23, 15, '2024-01-10 17:48:44'),
+(11, 23, 19, '2024-04-23 16:48:44'),
+(12, 24, 5, '2024-03-13 17:49:25'),
+(13, 24, 8, '2023-11-16 17:49:25'),
+(14, 24, 15, '2023-12-22 17:51:01'),
+(15, 25, 15, '2023-12-29 17:51:38'),
+(16, 25, 18, '2024-04-02 16:51:38'),
+(17, 25, 19, '2024-04-24 16:53:29'),
+(18, 25, 13, '2024-02-06 17:53:29'),
+(19, 26, 17, '2023-08-16 16:54:09'),
+(27, 26, 13, '2023-11-23 17:56:12'),
+(28, 27, 15, '2024-04-01 16:56:41'),
+(29, 27, 8, '2024-03-27 17:56:41'),
+(30, 27, 6, '2023-11-22 17:58:22'),
+(31, 28, 8, '2023-11-30 18:00:24'),
+(32, 28, 13, '2024-02-08 18:00:24'),
+(33, 28, 18, '2024-04-02 17:00:57'),
+(34, 28, 19, '2024-04-25 17:00:57'),
+(35, 29, 5, '2024-03-03 18:01:23'),
+(36, 29, 1, '2023-08-01 17:01:23'),
+(37, 29, 6, '2024-01-22 18:02:59'),
+(38, 29, 11, '2023-09-04 17:02:59'),
+(39, 29, 17, '2023-12-05 18:03:33'),
+(40, 29, 18, '2024-04-01 17:03:33'),
+(41, 30, 13, '2024-01-05 18:04:00'),
+(42, 30, 1, '2023-05-04 17:04:00'),
+(43, 30, 15, '2024-01-03 18:04:54'),
+(44, 30, 17, '2023-09-14 17:04:54'),
+(45, 1, 6, '2023-12-29 18:05:50'),
+(46, 1, 13, '2024-02-15 18:05:50'),
+(47, 1, 9, '2024-04-19 17:08:33'),
+(48, 1, 15, '2023-12-21 18:08:33'),
+(49, 5, 9, '2024-03-21 18:09:55'),
+(50, 5, 18, '2024-04-10 17:10:10'),
+(51, 5, 19, '2024-04-20 17:10:10'),
+(52, 6, 8, '2024-01-15 18:10:42'),
+(53, 6, 14, '2024-03-25 18:10:42'),
+(54, 7, 18, '2024-03-28 18:11:52'),
+(55, 7, 14, '2024-02-29 18:11:52'),
+(56, 7, 13, '2024-02-16 18:13:20'),
+(57, 8, 9, '2024-03-20 18:13:36'),
+(58, 8, 5, '2024-04-08 17:13:36'),
+(59, 8, 19, '2024-04-22 17:15:24'),
+(60, 8, 15, '2024-01-24 18:15:24'),
+(61, 9, 18, '2024-04-14 17:16:40'),
+(62, 9, 19, '2024-04-20 17:16:40'),
+(63, 11, 15, '2024-03-30 18:17:03'),
+(64, 11, 6, '2023-12-15 18:17:03'),
+(65, 11, 19, '2024-04-23 17:19:34'),
+(66, 11, 7, '2023-12-09 18:19:34'),
+(67, 12, 8, '2023-11-24 18:20:22'),
+(68, 12, 14, '2024-02-22 18:20:22'),
+(69, 12, 13, '2024-03-29 18:22:52'),
+(70, 12, 6, '2023-11-23 18:22:52'),
+(71, 13, 14, '2024-04-02 17:24:15'),
+(72, 13, 5, '2024-02-21 18:24:15'),
+(73, 13, 9, '2024-03-08 18:25:25'),
+(74, 13, 19, '2024-04-18 17:25:25'),
+(75, 14, 5, '2024-04-15 17:25:46'),
+(76, 14, 18, '2024-03-31 17:25:46'),
+(77, 14, 9, '2024-03-16 18:26:36'),
+(78, 15, 13, '2024-02-02 18:26:48'),
+(79, 15, 19, '2024-04-20 17:26:48'),
+(80, 15, 14, '2024-03-09 18:27:43'),
+(81, 17, 12, '2023-10-25 17:27:59'),
+(82, 17, 7, '2023-11-17 18:27:59'),
+(83, 17, 8, '2023-11-25 18:30:21'),
+(84, 17, 6, '2023-12-11 18:30:21'),
+(85, 18, 19, '2024-04-02 17:30:48'),
+(86, 1, 28, '2023-11-17 19:40:59'),
+(87, 1, 25, '2024-03-12 19:40:59'),
+(88, 1, 27, '2023-11-16 19:43:26'),
+(89, 5, 23, '2023-08-17 18:45:26'),
+(90, 5, 30, '2023-04-22 18:45:26'),
+(91, 5, 25, '2023-09-09 18:45:57'),
+(92, 5, 26, '2023-04-13 18:45:57'),
+(93, 6, 21, '2023-02-16 19:46:22'),
+(94, 6, 28, '2024-01-12 19:46:22'),
+(95, 6, 26, '2023-05-12 18:47:29'),
+(96, 7, 22, '2023-09-25 18:47:47'),
+(97, 7, 30, '2023-10-27 18:47:47'),
+(98, 7, 28, '2024-02-16 19:48:58'),
+(99, 7, 24, '2023-07-29 18:48:58'),
+(100, 8, 23, '2023-08-19 18:49:27'),
+(101, 8, 25, '2024-03-22 19:49:27'),
+(102, 9, 27, '2023-11-16 19:50:14'),
+(103, 9, 25, '2023-11-17 19:50:14'),
+(104, 9, 24, '2023-12-09 19:52:02'),
+(105, 9, 21, '2023-01-28 19:52:02'),
+(106, 11, 26, '2023-08-10 18:52:30'),
+(107, 11, 28, '2023-12-23 19:52:30'),
+(108, 11, 29, '2023-04-29 18:55:07'),
+(109, 12, 21, '2023-06-13 18:55:23'),
+(110, 11, 22, '2023-06-29 18:55:23'),
+(111, 13, 25, '2024-04-03 18:56:14'),
+(112, 13, 27, '2023-09-30 18:56:14'),
+(113, 14, 23, '2023-11-30 19:56:59'),
+(114, 14, 28, '2023-12-14 19:56:59'),
+(115, 15, 25, '2024-03-21 19:58:01'),
+(116, 15, 24, '2023-11-30 19:58:01'),
+(117, 15, 30, '2024-04-17 18:58:56'),
+(118, 15, 27, '2023-12-15 19:58:56'),
+(119, 17, 22, '2023-08-31 18:59:24'),
+(120, 17, 21, '2023-03-25 19:59:24'),
+(121, 17, 26, '2023-05-18 19:00:18'),
+(122, 18, 29, '2023-05-24 19:00:37'),
+(123, 18, 23, '2024-02-16 20:00:37'),
+(124, 18, 27, '2023-11-10 20:01:36'),
+(125, 19, 28, '2024-01-10 20:01:53'),
+(126, 19, 22, '2023-05-26 19:01:53'),
+(127, 19, 24, '2023-12-23 20:02:49'),
+(128, 19, 26, '2023-04-20 19:02:49');
 
 -- --------------------------------------------------------
 
@@ -3190,27 +3504,6 @@ CREATE TABLE `forgotpassword` (
   `code` char(6) NOT NULL,
   `sendTime` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- A tábla adatainak kiíratása `forgotpassword`
---
-
-INSERT INTO `forgotpassword` (`id`, `userId`, `code`, `sendTime`) VALUES
-(1, 1, 'ASSDFG', '2024-04-18 10:22:05'),
-(2, 1, 'WERTGF', '2024-04-01 10:23:03'),
-(3, 3, 'ASSDFG', '2024-02-18 11:23:52'),
-(4, 2, 'HJKSDE', '2024-01-18 11:23:52'),
-(5, 1, 'LEJDOR', '2023-11-18 11:23:52'),
-(6, 7, 'ALEGRP', '2023-11-18 11:23:52'),
-(7, 1, 'LEJDOR', '2024-03-18 11:23:52'),
-(8, 7, 'ALEGRP', '2024-03-18 11:23:52'),
-(9, 1, 'LEJDOR', '2024-03-20 11:23:52'),
-(10, 7, 'ALEGRP', '2024-03-12 11:23:52'),
-(11, 44, '266037', '2024-04-24 20:49:48'),
-(12, 44, '127810', '2024-04-24 20:49:55'),
-(13, 44, '716249', '2024-04-24 21:06:35'),
-(14, 44, '253883', '2024-04-24 21:06:48'),
-(15, 44, '991309', '2024-04-24 21:12:25');
 
 -- --------------------------------------------------------
 
@@ -3228,61 +3521,27 @@ CREATE TABLE `general` (
 --
 
 INSERT INTO `general` (`id`, `birthdate`) VALUES
-(1, '2000-11-12'),
-(2, '2004-01-02'),
-(3, '2002-10-22'),
-(4, '2002-04-21'),
-(5, '2002-07-13'),
-(6, '2002-07-13'),
-(7, '2002-12-24'),
-(8, '2005-03-04'),
-(9, '2005-03-04'),
-(10, '2005-03-04'),
-(11, '2005-03-04'),
-(12, '2005-03-04'),
-(13, '2005-03-04'),
-(14, '2005-03-04'),
-(15, '2005-03-04'),
-(16, '2005-03-04'),
-(17, '2005-03-04'),
-(18, '2005-03-04'),
-(19, '2005-03-04'),
-(20, '2006-09-24'),
-(21, '2007-12-17'),
-(22, '2007-12-17'),
-(23, '2002-10-07'),
-(24, '2003-10-07'),
-(25, '1992-04-19'),
-(26, '1992-04-19'),
-(27, '1992-04-19'),
-(28, '1992-04-19'),
-(29, '1990-05-29'),
-(30, '1990-05-29'),
-(31, '2000-11-10'),
-(32, '2002-02-10'),
-(33, '2002-11-14'),
-(34, '2002-11-14'),
-(35, '2002-11-14'),
-(36, '2002-12-12'),
-(37, '1121-12-12'),
-(38, '1999-12-12'),
-(39, '1212-12-12'),
-(40, '2002-11-11'),
-(41, '2009-03-12'),
-(42, '2002-02-02'),
-(43, '2009-03-04'),
-(44, '2009-03-02'),
-(45, '2009-03-17'),
-(46, '2005-06-18'),
-(47, '2005-06-18'),
-(48, '2005-06-18'),
-(49, '2005-06-18'),
-(50, '2005-06-18'),
-(51, '2005-06-18'),
-(52, '2005-06-18'),
-(53, '2002-12-12'),
-(54, '2009-04-01'),
-(55, '2009-03-31');
+(1, '1985-07-15'),
+(2, '1990-04-02'),
+(3, '1988-12-10'),
+(4, '1983-09-25'),
+(5, '2000-03-11'),
+(6, '1999-12-02'),
+(7, '1989-11-03'),
+(8, '1991-12-12'),
+(9, '1987-05-12'),
+(10, '1994-06-06'),
+(11, '1991-09-08'),
+(12, '1982-11-02'),
+(13, '1999-01-22'),
+(14, '1990-03-21'),
+(15, '2001-02-01'),
+(16, '2003-03-21'),
+(17, '1994-07-22'),
+(18, '1990-08-17'),
+(19, '1981-05-30'),
+(20, '2000-02-12'),
+(21, '2002-11-14');
 
 -- --------------------------------------------------------
 
@@ -3302,51 +3561,14 @@ CREATE TABLE `helpcenter` (
 --
 
 INSERT INTO `helpcenter` (`id`, `question`, `answer`, `active`) VALUES
-(1, 'How do I publish a book as an author?', 'Authors can publish their books by creating an account and following the steps under \"Publish Your Book\" section.', 1),
-(2, 'What options do publishers have to list their books?', 'Publishers can register on the platform and list their books under their account by providing necessary details about the book.', 1),
-(3, 'Can authors self-publish their books?', 'Yes, authors have the option to self-publish their books through their account by following the self-publishing guidelines.', 1),
-(4, 'How can users purchase books?', 'Users can buy books by navigating to the book page, selecting the desired format (eBook, paperback, etc.), and proceeding to checkout.', 1),
-(5, 'Are there any fees for publishing books?', 'There might be nominal fees associated with publishing depending on the type of publishing (traditional, self-publishing) chosen by the author.', 0),
-(6, 'What formats are available for publishing?', 'Authors can publish their books in various formats such as eBooks, paperbacks, hardcovers, and audiobooks.', 0),
-(7, 'How long does it take for a book to be published?', 'The time taken for publishing varies based on the publishing process, editing, formatting, and other factors, typically ranging from a few weeks to months.', 0),
-(8, 'Do publishers have to approve author-submitted books?', 'Publishers may review and approve books submitted by authors before they are listed on the platform.', 0),
-(9, 'How can I contact customer support?', 'You can reach our customer support team through the \"Contact Us\" section or via email at support@example.com.', 1),
-(10, 'What payment methods are accepted?', 'We accept various payment methods including credit/debit cards, PayPal, and other secure online payment gateways.', 1),
-(11, 'Is there a limit to the number of books an author can publish?', 'There is no fixed limit for the number of books an author can publish; however, certain guidelines might apply.', 0),
-(12, 'Can publishers edit book details after listing?', 'Yes, publishers can edit book details such as descriptions, prices, and covers after listing them on the platform.', 1),
-(13, 'How are royalties calculated for authors?', 'Royalties for authors are typically calculated based on book sales and are outlined in the publishing agreement.', 0),
-(14, 'What happens after a user purchases a book?', 'After purchase, users can access their purchased books in their account and download or read them online.', 1),
-(15, 'Is there a review process for submitted books?', 'Yes, submitted books might undergo a review process to ensure they meet the platform\'s guidelines and standards.', 0),
-(16, 'Are there discounts for bulk purchases?', 'Bulk purchase discounts might be available for certain books or as part of promotional offers. Check the book details for more information.', 1),
-(17, 'Can authors schedule book releases?', 'Authors have the option to schedule the release date for their books during the publishing process.', 1),
-(18, 'How can I reset my password?', 'You can reset your password by clicking on the \"Forgot Password\" link on the login page and following the instructions sent to your registered email.', 1),
-(19, 'Are there genre restrictions for published books?', 'As long as the content adheres to the platform\'s content guidelines, books of various genres can be published.', 0),
-(20, 'Is there an age restriction for purchasing books?', 'There might be age restrictions for certain books based on their content. Parental guidance might be recommended for some content.', 0),
-(21, 'Can users leave reviews for books?', 'Yes, users can leave reviews and ratings for books they have purchased and read.', 1),
-(22, 'What happens if a book is out of stock?', 'If a book is temporarily out of stock, users can add it to their wishlist and receive notifications when it becomes available.', 1),
-(23, 'Are there any limitations on international sales?', 'Books can generally be purchased internationally; however, shipping and regional restrictions might apply in some cases.', 0),
-(24, 'Can authors track book sales and earnings?', 'Yes, authors can track their book sales and earnings through their account dashboard.', 1),
-(25, 'Is there a limit to the book\'s file size for uploading?', 'There might be limitations on file size for book uploads to ensure smooth processing and download for users.', 0),
-(26, 'Are there copyright guidelines for submitted content?', 'Authors and publishers are responsible for ensuring that they have the necessary rights and permissions for the content they upload.', 1),
-(27, 'Can users gift books to others?', 'Yes, users have the option to purchase books as gifts and send them directly to recipients.', 1),
-(28, 'How can I report an issue with a book or account?', 'You can report any issues related to books or your account through the \"Report a Problem\" feature or by contacting customer support.', 1),
-(29, 'Do authors need an ISBN to publish?', 'Having an ISBN is recommended for certain types of publications; authors can acquire an ISBN during the publishing process if needed.', 0),
-(30, 'Can books be pre-ordered before release?', 'Yes, certain books might be available for pre-order before their official release date.', 1),
-(31, 'How often are new books added to the platform?', 'New books are added regularly; the frequency of additions depends on submissions and publisher activity.', 0),
-(32, 'Are there language restrictions for published books?', 'Books published in various languages are welcome, provided they comply with the platform\'s guidelines.', 0),
-(33, 'What are the refund policies for purchased books?', 'Refund policies might vary based on specific circumstances; refer to the refund policy section for more details.', 1),
-(34, 'Are there requirements for book cover designs?', 'Book cover designs should meet specific requirements outlined in the platform\'s design guidelines.', 0),
-(35, 'Can authors collaborate with other authors on a single book?', 'Yes, authors can collaborate and co-author books by following the collaborative publishing process.', 1),
-(36, 'Is there a limit to the book\'s page count for publishing?', 'There might be recommendations or limitations on the page count for different book formats.', 0),
-(37, 'Are there age recommendations for certain books?', 'Some books might have age recommendations or suitability notes based on their content.', 1),
-(38, 'What are the supported file formats for book uploads?', 'Commonly supported file formats include PDF, ePub, MOBI, and others for different types of books.', 1),
-(39, 'Can users access purchased books on multiple devices?', 'Yes, users can access their purchased books across multiple devices by logging into their account.', 1),
-(40, 'Do authors retain the rights to their published books?', 'Authors usually retain the rights to their books as outlined in the publishing agreement.', 0),
-(41, 'How are shipping fees calculated for physical books?', 'Shipping fees for physical books might vary based on location, weight, and shipping method selected during checkout.', 1),
-(42, 'Are there guidelines for book pricing?', 'There might be suggested pricing guidelines to help authors and publishers set competitive prices for their books.', 0),
-(43, 'Can books be translated after publishing?', 'Authors may translate their books post-publishing, but it involves a separate process and permissions for the translated version.', 1),
-(44, 'What happens if there is an error in a published book?', 'Authors or publishers can address errors in published books by uploading revised editions or contacting support for assistance.', 1),
-(45, 'Are there restrictions on explicit content in books?', 'There might be content guidelines regarding explicit or sensitive content to ensure suitability for all audiences.', 0);
+(1, 'What format should I use to upload an image? How can I convert it if the format is incorrect?', 'Our site only accepts images in the .jpg format. To convert your file, please visit Cloudconvert (link) and select the file you want to convert by clicking on the \'Select file\' button. Then, in the box that appears after the text \'convert to\', please select the .jpg format under \'images\' and press the \'Convert\' button.\r\nPlease note that our site only allows image uploads that are 2MB or smaller.', 1),
+(2, 'What format  should I use to upload a file? How can I convert it if the format is incorrect?', 'Our site only accepts files in the .pdf format. To convert your file, please visit Cloudconvert (link) and select the file you want to convert by clicking on the \'Select file\' button. Then, in the box that appears after the text \'convert to\', please select the .pdf format under \'document\' and press the \'Convert\' button.\r\nPlease note that our site only allows file uploads that are 5MB or smaller.', 1),
+(3, 'What are the differences between self-publishing and finding a publisher to publish my book?', 'When a user seeks a publisher for their book, it will only be visible to publisher profiles until a publisher decides to publish the work. The platform will notify the author by email if a publisher decides to publish the book. In this case, the price will be set by the publisher and the author\'s fees will be discussed with the publisher. Once published, both the author\'s and publisher\'s names will be displayed, and the books will only be visible to \'general\' users. From then on, the publisher owns your work.\r\nIf you decide to publish the book yourself, you must set the price of the book. In order to transfer the profits from the book to the author, we also need a bank account number. In this case, the book will only be visible to \'general\' profiles.\r\nNo matter which publishing method is chosen, the author will be able to change it at any time in the future.', 1),
+(4, 'What is the difference between the \'General\' profile and the \'Publisher\' profile?', 'General profiles can view both published and self-published books. They can also view any user profile. During registration, we require your date of birth to ensure that you are over 15 years old, which is the minimum age limit on our site. Additionally, we have to know if you under 18 years of age, as our site allows the publication of books that may contain adult content.\r\nTo register a publisher profile, please provide the name of your company. Our system will only display books that have not yet been published and are marked for publisher search. Publisher profiles are restricted to viewing general user profiles.', 1),
+(5, 'How do I buy a book on our site and what payment options are available?', 'Our site accepts credit card payments. Additionally, you have the option to purchase individual books. This means that if you find a book you like, you can pay for it immediately without having to add it to your shopping cart. Once the transaction is complete, you can continue browsing and exploring other books, or view the purchased book in the \'Purchased Books\' section of \'My Books\'.', 1),
+(6, 'If I delete my profile, what will happen to my account and books?', 'Clicking on the \'Delete Profile\' button will make your profile inactive, but it cannot be completely deleted. However, you cannot undo this move.\r\nPlease note that once your profile is inactive, you will no longer be able to access the books you have purchased on our site.\r\nIf you have self-published on our site, your books will be removed, but if you have published through a publisher, they will still be available to other users. This is because the publisher owns your work after publication.\r\nIf a publisher profile is deleted and a book has already been published through our site, those books will automatically be given publisher lookup book status.', 1),
+(7, 'How do I access the books I\'ve purchased?', 'To view all the books you have purchased, navigate to \'My Books\' and select \'Purchased Books\'. To start reading a book, click on the \'Start Reading\' button located in the \'Show Details\' window of the book card.\r\nPlease note that the books you have purchased are only accessible through our site.', 1),
+(8, 'Are there any fees or costs associated with publishing my book?', 'Our pricing policy is as follows: The actual price of the book is determined by adding 20% to the publisher/author\'s price. Customers will pay this amount, but the publisher/author will receive the amount they specified. Publishing on our platform is basically free to the author or publisher. The 20% we add is used to maintain and develop our platform.', 1);
 
 -- --------------------------------------------------------
 
@@ -3402,32 +3624,47 @@ CREATE TABLE `post` (
 --
 
 INSERT INTO `post` (`id`, `userId`, `description`, `postTime`) VALUES
-(1, 34, 'Hey fellow bookworms! Just finished reading an amazing thriller - The Silent Observer by Jane Doe. Gripping plot, couldn\'t put it down!', '2023-10-24 19:45:00'),
-(2, 35, 'The plot is a rollercoaster of emotions, and there are unexpected twists that kept me turning the pages well into the night. What I appreciated most about this book is how it explores the complexities of relationships and how people cope with tragedy. It\'s a story that will stay with me for a long time.', '2023-10-15 11:56:00'),
-(3, 36, 'I recently finished a captivating novel that I couldn\'t put down! It\'s a gripping mystery by a talented new author. The character development and intricate plot had me hooked from the first page. Can\'t wait to dive into more of their work. What\'s everyone else reading right now? I\'m also on the lookout for recommendations for my next read, so if you\'ve come across something that you couldn\'t get enough of, please share!', '2023-12-19 22:44:20'),
-(5, 2, 'Az xy könyvnek a folytatása valamikor várható, valójába nmég én sem tudom mikor, de majd lesz valami.', '2023-12-19 22:46:45'),
-(6, 7, 'xd', '2023-12-19 22:46:45'),
-(7, 1, 'Ez egy  leírás!', '2024-02-20 12:54:59'),
-(8, 2, 'Das ist ein deutscher Beitrag. Lorem ipsum dolor sit amet, consectetur adipiscing elit.', '2023-01-02 09:30:00'),
-(9, 3, 'Questa è una pubblicazione in italiano. Lorem ipsum dolor sit amet, consectetur adipiscing elit.', '2023-01-03 10:45:00'),
-(10, 4, 'Ez egy magyar poszt. Lorem ipsum dolor sit amet, consectetur adipiscing elit.', '2023-01-04 13:20:00'),
-(11, 5, 'Ceci est une publication en français. Lorem ipsum dolor sit amet, consectetur adipiscing elit.', '2023-01-05 15:10:00'),
-(12, 6, 'Another English post. Sed ut perspiciatis unde omnis iste natus error sit voluptatem.', '2023-01-06 17:00:00'),
-(13, 7, 'Ein weiterer deutscher Beitrag. Sed ut perspiciatis unde omnis iste natus error sit voluptatem.', '2023-01-07 19:05:00'),
-(14, 8, 'Un altro post italiano. Sed ut perspiciatis unde omnis iste natus error sit voluptatem.', '2023-01-08 21:30:00'),
-(15, 9, 'Még egy magyar poszt. Sed ut perspiciatis unde omnis iste natus error sit voluptatem.', '2023-01-09 08:45:00'),
-(16, 10, 'Encore une publication en français. Sed ut perspiciatis unde omnis iste natus error sit voluptatem.', '2023-01-10 11:00:00'),
-(17, 11, 'English post here. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.', '2023-01-11 14:20:00'),
-(18, 12, 'Deutscher Beitrag hier. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.', '2023-01-12 17:40:00'),
-(19, 13, 'Pubblicazione italiana qui. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.', '2023-01-13 20:00:00'),
-(20, 14, 'Magyar poszt itt. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.', '2023-01-14 09:10:00'),
-(21, 15, 'Publication en français ici. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.', '2023-01-15 11:30:00'),
-(22, 16, 'Another English post. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.', '2023-01-16 13:45:00'),
-(23, 17, 'Ein weiterer deutscher Beitrag. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.', '2023-01-17 15:55:00'),
-(24, 18, 'Un altro post italiano. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.', '2023-01-18 18:00:00'),
-(25, 19, 'Még egy magyar poszt. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.', '2023-01-19 20:15:00'),
-(26, 20, 'Encore une publication en français. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.', '2023-01-20 08:20:00'),
-(27, 44, 'asd', '2024-03-02 21:40:49');
+(1, 1, 'Just finished the final chapter of my latest novel! Can\'t wait for you all to read it. #WritingCommunity #NewBook', '2023-05-25 15:40:41'),
+(2, 1, 'Struggling with writer\'s block today. Any tips to get the creativity flowing again? #WritersLife #AmWriting', '2023-08-09 15:40:53'),
+(3, 5, 'Just finished the first draft of my new novel! Celebrating with a cup of tea and some well-deserved relaxation. #FirstDraft #WritingLife', '2024-02-10 16:43:13'),
+(4, 5, 'Exploring the complexities of human emotions in my latest short story. What themes do you enjoy exploring in your writing? #WritingCraft #Emotions', '2024-02-12 16:43:28'),
+(5, 5, 'Reflecting on the power of storytelling to connect people from different walks of life. #WritingCommunity #Storytelling', '2024-02-20 16:43:41'),
+(7, 6, 'Shoutout to my favorite authors who inspire me every day to keep writing and dreaming big. Who are your literary heroes? #WritingInspiration #Authors', '2023-10-22 15:46:01'),
+(8, 7, 'In the midst of revisions and loving the opportunity to polish my manuscript until it shines. ', '2023-10-09 15:47:53'),
+(9, 7, 'Embarking on a world-building journey today. Building immersive settings is one of my favorite parts of writing fantasy. ', '2023-11-05 16:48:03'),
+(10, 7, 'Diving into a new genre this week and challenging myself as a writer. Who else loves pushing their boundaries?', '2023-11-20 16:48:14'),
+(11, 8, 'Taking a break from writing to recharge my creative batteries. Sometimes a walk in nature is all it takes.', '2024-01-08 16:50:18'),
+(12, 8, 'Just hit 50,000 words in my latest manuscript! Halfway there and feeling unstoppable.', '2024-03-25 16:50:30'),
+(13, 9, 'Finding inspiration in unexpected places today. It\'s amazing where a chance encounter or a fleeting thought can lead.', '2024-04-05 15:51:39'),
+(14, 11, 'Just hit a major plot twist in my current manuscript! Can\'t wait to see how my characters navigate through it.', '2023-07-20 15:52:53'),
+(15, 11, 'Lost in the world of my own creation today. There\'s nothing quite like the feeling of immersing yourself in a story you\'ve written.', '2023-09-11 15:53:11'),
+(16, 12, 'Reflecting on the power of storytelling to shape our understanding of the world. ', '2023-08-15 15:54:24'),
+(17, 12, 'Exploring themes of identity and belonging in my latest project. What themes resonate with you as a reader?', '2023-10-10 15:54:37'),
+(18, 13, 'Just received the first proofs of my upcoming book! Excited to see it all coming together. ', '2024-01-29 16:56:01'),
+(19, 13, 'Taking a moment to appreciate the support of my fellow writers and readers. You make this journey worthwhile.', '2024-02-15 16:56:10'),
+(20, 14, 'Lost in the world of my imagination today. Writing has a way of transporting us to places we\'ve never been. ', '2024-02-15 16:57:24'),
+(21, 14, 'Struggling with the dreaded writer\'s block today. Time for a change of scenery and some fresh inspiration.', '2024-03-05 16:57:36'),
+(22, 15, 'Juggling multiple projects at once and loving the creative challenge. Who else thrives on a bit of chaos?', '2023-12-15 16:58:51'),
+(23, 15, 'Sharing a sneak peek of a new character I\'m introducing in my latest manuscript. Excited to see how they develop.', '2024-01-10 16:59:05'),
+(24, 17, 'Just stumbled upon an old notebook filled with story ideas. Sometimes the best inspiration comes from the past.', '2023-07-10 16:00:34'),
+(25, 18, 'Embracing the editing process today - every revision brings the story closer to its full potential.', '2024-03-29 17:01:52'),
+(26, 18, 'Taking a break to immerse myself in a good book. Writers need to be readers too. ', '2024-04-10 16:02:06'),
+(28, 19, 'Diving deep into research today. The more I learn, the richer my stories become. ', '2024-04-23 16:04:17'),
+(29, 21, 'Calling all aspiring authors! Bright Publications is now accepting submissions for our upcoming anthology. Submit your stories today! ', '2023-04-30 16:06:33'),
+(30, 22, 'Behind the scenes at Stellar Press: our dedicated team working hard to bring you the next literary masterpiece.', '2023-07-05 16:07:46'),
+(31, 22, 'Join us tonight for a live Q&A session with bestselling author Emily Johnson. Get insights into her writing process and ask your burning questions! ', '2024-01-10 17:08:01'),
+(32, 23, 'Embark on a journey through the pages of our latest releases. From romance to mystery, there\'s something for every reader at Horizon Books.', '2023-07-28 16:09:00'),
+(33, 23, 'Stay tuned for exciting news about our upcoming book club! Connect with fellow book lovers and dive into engaging discussions about your favorite reads.', '2023-08-08 16:09:13'),
+(34, 24, 'At Evergreen Publishing, we\'re committed to sustainability. Discover our eco-friendly printing practices and our dedication to preserving the environment.', '2023-09-21 16:10:43'),
+(35, 24, 'Join us in celebrating National Book Lovers Day! Share your favorite book recommendations and spread the joy of reading.', '2024-04-23 16:10:59'),
+(36, 25, 'Calling all fantasy fans! Dive into a world of magic and wonder with our latest fantasy releases. Let your imagination take flight!', '2023-10-21 16:12:29'),
+(37, 27, 'Silverleaf Publishers - where stories shine bright like silver. Discover your next literary treasure among our curated selection of books.', '2023-10-28 16:13:28'),
+(38, 27, 'Join us in supporting independent bookstores! Local bookshops are the heart and soul of the literary community.', '2023-11-13 17:13:38'),
+(39, 27, 'Behind every great book is a great editor. Meet the talented individuals who help bring our authors\' visions to life. ', '2024-01-10 17:13:48'),
+(40, 28, 'Uncover the secrets of successful storytelling with our upcoming masterclass series. Learn from industry experts and take your writing to the next level.', '2024-02-12 17:15:07'),
+(41, 30, '\"Stand tall with Redwood Publications. Our books are like towering redwoods, rooted in storytelling traditions and reaching for the sky.', '2023-05-13 16:16:17'),
+(42, 30, 'Get a sneak peek behind the scenes of our editorial process. See how our team transforms manuscripts into published works of art.', '2023-06-23 16:16:26'),
+(43, 30, 'alling all bookworms! Dive into our summer reading list and discover the perfect book to accompany you on your adventures.', '2023-08-01 16:16:37');
 
 -- --------------------------------------------------------
 
@@ -3447,18 +3684,206 @@ CREATE TABLE `postlike` (
 --
 
 INSERT INTO `postlike` (`id`, `userId`, `postId`, `likeTime`) VALUES
-(1, 1, 1, '2023-12-19 22:47:55'),
-(2, 1, 2, '2023-12-19 22:47:55'),
-(3, 1, 3, '2023-12-19 22:47:55'),
-(4, 7, 2, '2023-12-19 22:47:55'),
-(5, 9, 3, '2023-12-19 22:47:55'),
-(6, 10, 1, '2023-12-19 22:47:55'),
-(7, 20, 4, '2023-12-19 22:47:55'),
-(8, 12, 5, '2023-12-19 22:47:55'),
-(10, 11, 2, '2023-12-19 22:47:55'),
-(14, 1, 5, '2024-04-03 15:12:54'),
-(15, 1, 16, '2024-04-05 02:42:28'),
-(16, 1, 12, '2024-04-05 02:42:31');
+(1, 1, 7, '2023-12-06 20:39:26'),
+(2, 1, 13, '2024-04-06 19:39:26'),
+(3, 1, 18, '2024-01-31 20:40:40'),
+(4, 1, 19, '2024-02-17 20:40:40'),
+(5, 1, 22, '2023-12-15 20:41:31'),
+(6, 1, 23, '2024-01-11 20:41:31'),
+(7, 1, 40, '2024-02-14 20:42:13'),
+(8, 1, 36, '2023-10-24 19:42:42'),
+(9, 1, 37, '2023-10-29 20:43:16'),
+(10, 1, 38, '2023-11-13 20:43:16'),
+(11, 1, 39, '2024-01-12 20:44:02'),
+(12, 5, 13, '2024-04-06 19:44:19'),
+(13, 5, 25, '2024-03-30 20:44:50'),
+(14, 5, 26, '2024-04-12 19:44:50'),
+(15, 5, 28, '2024-04-25 19:45:25'),
+(16, 5, 32, '2023-07-29 19:45:55'),
+(17, 5, 33, '2023-08-12 19:45:55'),
+(18, 5, 41, '2023-05-14 19:46:39'),
+(19, 5, 42, '2023-06-26 19:46:39'),
+(20, 5, 43, '2023-08-04 19:47:26'),
+(21, 5, 36, '2023-10-23 19:47:46'),
+(22, 6, 11, '2024-01-10 20:48:24'),
+(23, 6, 12, '2024-03-27 20:48:24'),
+(24, 8, 20, '2024-02-17 20:49:19'),
+(25, 8, 21, '2024-03-15 20:49:19'),
+(26, 6, 29, '2023-05-01 19:49:58'),
+(27, 6, 40, '2024-02-13 20:50:32'),
+(28, 7, 18, '2024-01-31 20:51:02'),
+(29, 7, 19, '2024-02-16 20:51:02'),
+(30, 7, 20, '2024-02-15 20:51:37'),
+(31, 7, 21, '2024-03-18 20:51:37'),
+(32, 7, 25, '2024-03-29 20:52:14'),
+(33, 7, 26, '2024-04-11 19:52:14'),
+(34, 7, 30, '2023-07-09 19:52:56'),
+(35, 7, 31, '2024-01-11 20:52:56'),
+(36, 7, 41, '2023-05-15 19:53:44'),
+(37, 7, 42, '2023-06-24 19:54:10'),
+(38, 7, 43, '2023-08-03 19:54:10'),
+(39, 7, 40, '2024-02-13 20:54:50'),
+(40, 7, 34, '2023-09-22 19:55:11'),
+(41, 7, 35, '2023-04-25 19:55:11'),
+(42, 8, 13, '2024-04-06 19:56:13'),
+(43, 8, 3, '2024-02-12 20:56:42'),
+(44, 8, 4, '2024-02-13 20:56:42'),
+(45, 8, 5, '2024-02-21 20:57:14'),
+(46, 8, 28, '2024-04-23 19:57:36'),
+(47, 8, 22, '2023-12-16 20:57:59'),
+(48, 8, 23, '2024-01-11 20:57:59'),
+(49, 8, 32, '2023-07-29 19:58:39'),
+(50, 8, 33, '2023-08-08 19:58:39'),
+(51, 8, 36, '2023-10-21 19:59:27'),
+(52, 9, 25, '2024-03-29 20:59:56'),
+(53, 9, 26, '2024-04-10 19:59:56'),
+(54, 9, 28, '2024-04-23 20:00:30'),
+(55, 9, 37, '2023-10-29 21:01:00'),
+(56, 9, 38, '2023-11-13 21:01:00'),
+(57, 9, 39, '2024-01-10 21:01:40'),
+(58, 9, 36, '2023-10-23 20:01:58'),
+(59, 9, 34, '2023-09-21 20:02:28'),
+(60, 9, 35, '2023-04-24 20:02:28'),
+(61, 9, 29, '2023-05-01 20:03:17'),
+(62, 11, 7, '2023-10-22 20:03:44'),
+(63, 11, 22, '2023-12-16 21:04:20'),
+(64, 11, 23, '2024-01-11 21:04:20'),
+(65, 11, 28, '2024-04-23 20:04:53'),
+(66, 11, 8, '2023-10-09 20:05:19'),
+(67, 11, 9, '2023-11-05 21:05:19'),
+(68, 11, 10, '2023-11-20 21:06:00'),
+(69, 11, 40, '2024-02-12 21:06:17'),
+(70, 11, 30, '2023-07-05 20:06:45'),
+(71, 11, 31, '2024-01-10 21:06:45'),
+(72, 12, 11, '2024-01-08 21:07:35'),
+(73, 12, 12, '2024-03-25 21:07:35'),
+(74, 12, 20, '2024-02-15 21:08:17'),
+(75, 12, 21, '2024-03-15 21:08:17'),
+(76, 12, 18, '2024-01-31 21:09:05'),
+(77, 12, 19, '2024-02-15 21:09:05'),
+(78, 12, 7, '2023-10-22 20:09:43'),
+(79, 12, 29, '2023-04-30 20:10:09'),
+(80, 13, 20, '2024-02-16 21:10:43'),
+(81, 13, 21, '2024-03-15 21:10:43'),
+(82, 14, 3, '2024-02-10 21:11:12'),
+(83, 14, 4, '2024-02-12 21:11:12'),
+(84, 14, 5, '2024-02-20 21:11:48'),
+(85, 14, 25, '2024-03-29 21:12:57'),
+(86, 14, 26, '2024-04-10 20:12:57'),
+(87, 14, 13, '2024-04-05 20:13:31'),
+(88, 13, 3, '2024-02-10 21:14:00'),
+(89, 13, 4, '2024-02-12 21:14:00'),
+(90, 13, 5, '2024-02-20 21:14:35'),
+(91, 13, 13, '2024-04-06 20:14:46'),
+(92, 13, 28, '2024-04-23 20:15:14'),
+(93, 13, 37, '2023-10-28 20:15:34'),
+(94, 13, 38, '2023-11-13 21:15:34'),
+(95, 13, 39, '2024-01-11 21:16:25'),
+(96, 14, 32, '2023-07-28 20:17:26'),
+(97, 14, 33, '2023-08-08 20:17:26'),
+(98, 14, 40, '2024-02-12 21:18:11'),
+(99, 15, 18, '2024-01-29 21:18:41'),
+(100, 15, 19, '2024-02-15 21:18:41'),
+(101, 15, 28, '2024-04-24 20:19:37'),
+(102, 15, 20, '2024-02-15 21:20:01'),
+(103, 15, 21, '2024-03-16 21:20:01'),
+(104, 15, 36, '2023-10-21 20:20:39'),
+(105, 15, 34, '2023-09-21 20:21:18'),
+(106, 15, 35, '2023-04-25 20:21:18'),
+(107, 15, 41, '2023-05-14 20:22:00'),
+(108, 15, 42, '2023-06-23 20:22:00'),
+(109, 15, 43, '2023-08-01 20:22:50'),
+(110, 15, 37, '2023-10-28 20:23:10'),
+(111, 15, 38, '2023-11-13 21:23:10'),
+(112, 15, 39, '2024-01-10 21:23:52'),
+(113, 17, 16, '2023-08-15 20:24:15'),
+(114, 17, 17, '2023-10-10 20:24:15'),
+(115, 17, 8, '2023-10-09 20:24:59'),
+(116, 17, 9, '2023-11-05 21:24:59'),
+(117, 17, 10, '2023-11-20 21:25:39'),
+(118, 17, 11, '2024-01-08 21:25:53'),
+(119, 17, 12, '2024-03-25 21:25:53'),
+(120, 17, 7, '2023-10-22 20:26:26'),
+(121, 17, 30, '2023-07-05 20:26:47'),
+(122, 17, 31, '2024-01-10 21:26:47'),
+(123, 17, 29, '2023-04-30 20:27:22'),
+(124, 18, 28, '2024-04-23 20:27:54'),
+(125, 18, 32, '2023-07-28 20:28:13'),
+(126, 18, 33, '2023-08-09 20:28:13'),
+(127, 18, 37, '2023-10-28 20:28:56'),
+(128, 18, 38, '2023-11-13 21:28:56'),
+(129, 18, 39, '2024-01-11 21:29:41'),
+(130, 19, 40, '2024-02-13 21:29:53'),
+(131, 19, 30, '2023-07-05 20:30:11'),
+(132, 19, 31, '2024-01-10 21:30:11'),
+(133, 19, 34, '2023-08-21 20:31:06'),
+(134, 19, 35, '2023-04-23 20:31:06'),
+(135, 21, 1, '2023-05-25 20:31:47'),
+(136, 21, 2, '2023-08-11 20:31:47'),
+(137, 21, 22, '2023-12-15 21:32:36'),
+(138, 21, 23, '2024-01-10 21:32:36'),
+(139, 21, 20, '2024-02-15 21:33:22'),
+(140, 21, 21, '2024-03-15 21:33:22'),
+(141, 22, 3, '2024-02-10 21:33:51'),
+(142, 22, 4, '2024-02-12 21:33:51'),
+(143, 22, 5, '2024-02-20 21:34:18'),
+(144, 22, 7, '2023-10-23 20:34:29'),
+(145, 22, 14, '2023-07-20 20:34:48'),
+(146, 22, 15, '2023-09-11 20:34:48'),
+(147, 23, 8, '2023-10-09 20:35:27'),
+(148, 23, 9, '2023-11-05 21:35:27'),
+(149, 23, 10, '2023-11-20 21:36:07'),
+(150, 23, 11, '2024-01-10 21:36:24'),
+(151, 23, 12, '2024-03-28 21:36:24'),
+(152, 23, 22, '2023-12-15 21:36:51'),
+(153, 23, 23, '2024-01-10 21:36:51'),
+(154, 23, 28, '2024-04-23 20:37:38'),
+(155, 24, 3, '2024-02-10 21:37:58'),
+(156, 24, 4, '2024-02-12 21:37:58'),
+(157, 24, 5, '2024-02-20 21:38:32'),
+(158, 24, 11, '2024-01-08 21:38:40'),
+(159, 24, 12, '2024-03-25 21:38:40'),
+(160, 24, 22, '2023-12-15 21:39:14'),
+(161, 24, 23, '2024-01-10 21:39:14'),
+(162, 25, 22, '2024-01-15 21:39:43'),
+(163, 25, 23, '2024-01-10 21:39:43'),
+(164, 25, 25, '2024-03-29 21:40:22'),
+(165, 25, 26, '2024-04-10 20:40:22'),
+(166, 25, 28, '2024-04-23 20:40:46'),
+(167, 25, 18, '2024-01-30 21:41:05'),
+(168, 25, 19, '2024-02-15 21:41:05'),
+(169, 26, 13, '2024-04-05 20:41:39'),
+(170, 26, 18, '2024-01-29 21:42:00'),
+(171, 26, 19, '2024-02-15 21:42:00'),
+(172, 26, 24, '2023-07-11 20:42:30'),
+(173, 27, 22, '2023-12-15 21:42:55'),
+(174, 27, 23, '2024-01-11 21:42:55'),
+(175, 27, 11, '2024-01-08 21:43:35'),
+(176, 27, 12, '2024-03-25 21:43:35'),
+(177, 27, 7, '2023-10-22 20:44:04'),
+(178, 28, 18, '2024-01-29 21:44:26'),
+(179, 28, 19, '2024-02-15 21:44:26'),
+(180, 28, 25, '2024-03-29 21:45:06'),
+(181, 28, 26, '2024-04-10 20:45:06'),
+(182, 28, 28, '2024-04-23 20:45:32'),
+(183, 29, 3, '2024-02-10 21:45:54'),
+(184, 29, 4, '2024-02-12 21:45:54'),
+(185, 29, 5, '2024-02-20 21:46:25'),
+(186, 29, 1, '2023-05-25 20:46:35'),
+(187, 29, 2, '2023-08-09 20:46:35'),
+(188, 29, 7, '2023-10-22 20:47:03'),
+(189, 29, 14, '2023-07-20 20:47:19'),
+(190, 29, 15, '2023-09-11 20:47:19'),
+(191, 29, 24, '2023-07-11 20:48:01'),
+(192, 29, 25, '2024-03-29 21:48:18'),
+(193, 29, 26, '2024-04-10 20:48:18'),
+(194, 30, 18, '2024-01-29 21:48:48'),
+(195, 30, 19, '2024-02-15 21:48:48'),
+(196, 30, 1, '2023-05-25 20:49:25'),
+(197, 30, 2, '2023-08-09 20:49:25'),
+(198, 30, 22, '2023-12-15 21:49:55'),
+(199, 30, 23, '2024-01-10 21:49:55'),
+(200, 30, 24, '2023-07-10 20:50:28');
 
 -- --------------------------------------------------------
 
@@ -3476,18 +3901,17 @@ CREATE TABLE `publisher` (
 --
 
 INSERT INTO `publisher` (`id`, `companyName`) VALUES
-(1, 'Mesék Kiadója Kft.'),
-(2, 'Tündérmese Kiadások'),
-(3, 'Kalandvilág Könyvkiadó'),
-(4, 'Varázslatos Olvasmányok'),
-(5, 'Varázslatos Olvasmányok'),
-(6, 'Fantáziavilág Kiadóház'),
-(7, 'Kreatív Könyvműhely'),
-(8, 'Történetek Tárháza Kiadó'),
-(9, 'Mesevilág Kiadóház'),
-(10, 'Mesekönyv Birodalom'),
-(11, 'IFJ regények'),
-(12, 'AlbertDezso');
+(1, 'Bright Publications'),
+(2, 'Stellar Press'),
+(3, 'Horizon Books'),
+(4, 'Evergreen Publishing'),
+(5, 'Phoenix Press'),
+(6, 'Cascade Books'),
+(7, 'Silverleaf Publishers'),
+(8, 'Summit Publishing'),
+(9, 'Golden Pen Books'),
+(10, 'Redwood Publications'),
+(11, 'Cascade Books');
 
 -- --------------------------------------------------------
 
@@ -3507,33 +3931,25 @@ CREATE TABLE `saved` (
 --
 
 INSERT INTO `saved` (`id`, `userId`, `bookId`, `savedTime`) VALUES
-(3, 2, 10, '2023-12-19 21:39:24'),
-(4, 12, 21, '2023-12-19 21:39:24'),
-(5, 1, 21, '2023-12-19 21:39:24'),
-(6, 7, 9, '2023-12-19 21:39:24'),
-(7, 5, 9, '2023-12-19 21:39:24'),
-(8, 5, 1, '2023-12-19 21:39:24'),
-(9, 5, 4, '2023-12-19 21:39:24'),
-(10, 3, 10, '2023-12-19 21:39:24'),
-(11, 17, 10, '2023-12-19 21:39:24'),
-(12, 1, 19, '2023-12-19 21:39:24'),
-(15, 11, 1, '2024-02-21 10:50:26'),
-(16, 1, 1, '2024-02-22 11:22:46'),
-(43, 9, 42, '2024-04-15 10:08:06'),
-(44, 9, 40, '2024-04-15 10:12:04'),
-(45, 9, 39, '2024-04-15 10:12:20'),
-(46, 9, 49, '2024-04-15 10:12:20'),
-(47, 9, 38, '2024-04-15 10:12:20'),
-(48, 9, 37, '2024-04-15 10:12:20'),
-(49, 9, 43, '2024-04-15 10:12:20'),
-(87, 1, 33, '2024-04-15 14:28:31'),
-(89, 1, 40, '2024-04-15 14:40:10'),
-(95, 1, 35, '2024-04-15 14:53:05'),
-(96, 1, 29, '2024-04-15 14:53:16'),
-(97, 1, 25, '2024-04-15 14:53:21'),
-(98, 1, 15, '2024-04-15 14:54:19'),
-(99, 1, 28, '2024-04-15 14:54:42'),
-(100, 1, 10, '2024-04-15 15:14:48');
+(1, 7, 22, '2024-04-27 10:28:55'),
+(2, 8, 15, '2024-03-12 11:28:55'),
+(3, 22, 17, '2023-06-28 10:32:18'),
+(4, 1, 25, '2024-04-10 10:34:25'),
+(5, 29, 15, '2024-02-23 11:34:25'),
+(6, 5, 4, '2024-03-06 11:35:09'),
+(7, 18, 13, '2023-12-06 11:35:09'),
+(8, 25, 3, '2024-04-17 10:36:05'),
+(9, 11, 16, '2024-03-28 11:36:05'),
+(10, 25, 10, '2024-03-13 11:36:37'),
+(11, 19, 25, '2024-04-10 10:36:37'),
+(12, 5, 15, '2024-03-01 11:38:29'),
+(13, 3, 25, '2024-04-15 10:38:29'),
+(14, 8, 9, '2024-03-30 11:39:06'),
+(16, 24, 11, '2024-04-26 10:40:03'),
+(17, 12, 7, '2024-04-24 10:40:03'),
+(19, 25, 24, '2024-04-27 16:21:34'),
+(21, 12, 2, '2024-04-27 18:58:46'),
+(23, 12, 3, '2024-04-27 18:59:07');
 
 -- --------------------------------------------------------
 
@@ -3592,48 +4008,37 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `password`, `rank`, `firstName`, `lastName`, `phoneNumber`, `publicEmail`, `publicPhoneNumber`, `introDescription`, `website`, `image`, `registrationTime`, `firstLogin`, `deleted`, `coverColorId`, `userId`) VALUES
-(1, 'lilapapucs', 'nagybeni@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Nagy', 'Benedek', NULL, 1, 0, '', 'a.hu', 'pictures/default-profile-pic-man.png', '2023-12-16 01:53:24', 0, 0, 25, 1),
-(2, 'PenInkWriter', 'peninkwriter@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Kenderes', 'Amanda', '+36017249461', 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-16 01:54:39', 0, 0, 20, 2),
-(3, 'StoryCraftPro', 'angyalka@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Angyal', 'Kristóf', '+361802680023', 0, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', 'www.3a982c449f.com', 'pictures/default-profile-pic-man.png', '2023-12-16 01:55:13', 1, 0, 1, 3),
-(4, 'NovelWordsmith', 'petike@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Kis', 'Péter', '+361581621029', 0, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', 'www.3061560356.com', 'pictures/default-profile-pic-man.png', '2023-12-16 01:55:45', 1, 0, 11, 4),
-(6, 'ChapterVerseAuthor', 'peterffynora@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Péterffy', 'Nóra', '06202784951', 0, 1, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-16 01:58:43', 0, 0, 2, 6),
-(7, 'PlotTwistWizard', 'sari@freemail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Németh', 'Sára', NULL, 1, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-16 01:59:44', 1, 0, 1, 7),
-(8, 'ProseJourneyer', 'kovemi@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Kovács', 'Emese', '+361964919275', 1, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', 'www.883faa1b88.com', 'pictures/default-profile-pic-man.png', '2023-12-16 02:00:44', 1, 0, 1, 8),
-(9, 'VarazsloAdam', 'kovacsadam@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Nagy', 'Benedek', NULL, 1, 1, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', 'www.004d97d4f8.com', 'pictures/default-profile-pic-man.png', '2023-12-16 02:05:40', 0, 0, 18, 1),
-(10, 'KonyvMesekAnna', 'tothanna@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Anna', 'Tóth', '+36701873692', 1, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-16 02:07:24', 1, 0, 1, 2),
-(11, 'KreativBence', 'szabobeni@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Bence', 'Szabó', '+3672982563', 0, 0, NULL, 'www.hezfnwsko.com', 'pictures/default-profile-pic-man.png', '2023-12-16 02:08:07', 1, 0, 6, 3),
-(12, 'OldalforgatoCsilla', 'molncsill@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Molnár', 'Csilla', '+361025808899', 0, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', 'www.2e66bd14c8.com', 'pictures/default-profile-pic-man.png', '2023-12-16 02:09:07', 1, 0, 7, 4),
-(25, 'KalandDaniel', 'nagydaniel@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Nagy', 'Dániel', '+36201374892', 0, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', NULL, 'pictures/default-profile-pic-man.png', '2023-12-17 15:50:25', 0, 0, 13, 6),
-(26, 'WriterEmese', 'varga@citromail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Emese', 'Varga', '+36019832674', 0, 0, 'Kedves Olvasó! Örülök, hogy meglátogattad az oldalamat.', NULL, 'pictures/default-profile-pic-man.png', '2023-12-17 15:51:21', 1, 0, 8, 7),
-(27, 'MeseloGergo', 'gergo@freemail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Kiss', 'Gergő', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-17 15:52:13', 1, 0, 4, 8),
-(28, 'TortenetHanna', 'tortenethanna@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Hanna', 'Horváth', NULL, 1, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-17 15:54:36', 1, 0, 1, 9),
-(29, 'OlvasoJani', 'piroskaesafarkas@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'János', 'Farkas', '06303729165', 0, 1, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-17 15:55:38', 1, 0, 1, 10),
-(30, 'olvasnijo', 'olvasnijo@freemail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Nagy', 'Ferenc', '+36019835627', 0, 1, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-17 15:56:19', 1, 0, 1, 20),
-(31, 'szeretemazoszt', 'nagyhatielemer@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Elemér', 'Nagyháti', '0672359862', 0, 0, NULL, 'www.hetpsh.com', 'pictures/default-profile-pic-man.png', '2023-12-17 15:57:34', 1, 0, 4, 21),
-(32, 'ifj_regenyek', 'ifjregenyek@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Laufer', 'Péter', '06703696146', 1, 1, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-17 15:58:58', 0, 0, 22, 11),
-(34, 'macAndCheese23', 'macandcheese@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'mac', 'cheese', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-19 22:37:56', 1, 0, 1, 23),
-(35, 'ehesVagyok15', 'ehesvagyok@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'ehes', 'vagyok', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-astronaut.png', '2023-12-19 22:40:47', 1, 0, 1, 24),
-(36, 'theMandalorian89', 'mandalorian@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'the', 'mandalorian', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-mandalorian.png', '2023-12-19 22:42:21', 1, 0, 1, 25),
-(38, 'egy_almafa', 'egy.almafa@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'egy', 'almafa', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-20 14:01:13', 0, 0, 1, 27),
-(40, 'egy.almafa', 'egy.alma.fa@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'egy', 'almafa', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-20 14:18:34', 1, 0, 1, 29),
-(42, 'username', 'user@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'first', 'last', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-20 19:08:40', 1, 0, 1, 31),
-(43, 'john.smith', 'john.smith@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'John', 'Smith', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2023-12-22 02:26:45', 1, 0, 1, 32),
-(44, 'mayerhedda', 'mayer.hedda@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Hedda', NULL, 1, 1, 'Kaki', NULL, 'pictures/default-profile-pic-man.png', '2024-02-16 11:52:06', 0, 0, 23, 33),
-(46, 'heddo', 'mayer.hedda2002@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Hedda', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-02-16 12:01:42', 1, 0, 1, 35),
-(47, 'hedda', 'mayer@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Hedda', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-02-16 12:08:37', 1, 0, 1, 36),
-(48, 'hedda1234', 'mayer.hedda1234@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Adrienn', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-02-20 09:58:52', 0, 0, 1, 37),
-(49, 'dkjsahfkjdsf', 'mayer.hedda2222@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Adrienn', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-02-20 10:04:51', 0, 0, 1, 38),
-(50, 'asdf', 'asdf@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'asd', 'asd', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-02-20 10:12:11', 0, 0, 1, 39),
-(51, 'uj_publisher', 'ujpublisher@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Dezső', 'Albert', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-03-13 10:21:57', 1, 0, 1, 12),
-(52, 'alma123123123', 'alma12312311231231@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'alma', 'alma', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-03-14 15:46:15', 0, 0, 1, 40),
-(53, 'username456', 'username456@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Péterfy', 'Jenő', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-03-18 08:08:08', 1, 0, 1, 41),
-(55, 'asdfsafhsdha', 'mayer.hedda456456@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Adrienn', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-03-18 08:09:42', 1, 0, 1, 43),
-(56, 'sadfsdgfdsagadfgda', 'mayer.heddaasdasdsa@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Adrienn', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-03-18 08:49:48', 1, 0, 1, 44),
-(57, 'hdfgkjdsakldsf', 'mayer.heddasfdgafsdg@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Adrienn', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-03-18 08:51:09', 1, 0, 1, 45),
-(62, 'username456789', 'mayer.hedda6789@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Adrienn', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-03-18 09:01:26', 1, 0, 1, 50),
-(65, 'fsagsagfdsagfds', 'asdasdasd@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'dsafDSAFDSA', 'FDSAFDSAFDSAFDS', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-03-31 19:41:53', 0, 0, 1, 53),
-(66, 'mayer.hedda010101', 'mayer.hedda010101@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Adrienn', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-04-03 08:07:30', 0, 0, 1, 54),
-(67, 'mayer.hedda0101', 'mayer.hedda0101@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Adrienn', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-04-03 08:09:21', 0, 0, 1, 55);
+(1, 'emma_smith_writer', 'emma.smith@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Emma', 'Smith', '06704631166', 1, 1, 'Hello, I\'m Emma Smith, a passionate writer eager to share my stories with the world.', 'www.emmasmithwriter.com', 'pictures/default-profile-pic-man.png', '2023-04-12 11:22:45', 0, 0, 26, 1),
+(2, 'b_taylor_', 'benjamin.taylor@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Benjamin', 'Taylor', '06209472944', 1, 0, '', '', 'pictures/default-profile-pic-man.png', '2024-01-17 12:26:20', 1, 0, 3, 2),
+(3, 'oliviajohnson1', 'olivia.johnson@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Olivia', 'Johnson', '06707274276', 0, 0, '', '', 'pictures/default-profile-pic-man.png', '2022-01-14 12:28:31', 1, 0, 1, 3),
+(4, 'ethan_martinez_books', 'ethan.martinez.books@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Ethan ', 'Martinez', '06708493373', 0, 0, '', '', 'pictures/default-profile-pic-man.png', '2023-12-13 12:30:27', 1, 0, 1, 4),
+(5, 'sophia_a_novels', 'sophiaanderson13@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Sophia', 'Anderson', '06709475525', 0, 1, 'Greetings, fellow book lovers! I\'m Sophia Anderson, crafting stories that resonate with the soul:)', 'www.sophienovels.com', 'pictures\\user\\avatar-3.jpg', '2024-01-29 12:32:19', 0, 0, 27, 5),
+(6, 'liam_brown_reads', 'liam.brown@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Liam', 'Brown', '06708238213', 1, 1, 'Liam Brown here, diving into worlds both real and imagined, one page at a time.', 'www.liamthebrown.com', 'pictures\\user\\avatar-6.jpg', '2023-10-08 11:35:02', 0, 0, 28, 6),
+(7, 'bella_wilson_stories', 'isabella.wilson@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Isabella', 'Wilson', '0670947736', 1, 0, 'Welcome! Isabella Wilson here, painting pictures with words and crafting tales that linger in the mind.', NULL, 'pictures\\user\\avatar-2.jpg', '2023-10-04 11:36:07', 0, 0, 29, 7),
+(8, 'maason_', 'masongarcia@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mason', 'Garcia', '06208342414', 1, 0, 'Mason Garcia at your service, creating stories that transport you to distant lands and ignite the imagination.', 'www.masongarcia.com', 'pictures/default-profile-pic-man.png', '2023-11-01 12:37:02', 0, 1, 30, 8),
+(9, 'charlotte.lewis_', 'charlotte.lewis@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Charlotte', 'Lewis', '06209637522', 0, 1, 'Hello, world! I\'m Charlotte Lewis, weaving words into tapestries of wonder and intrigue.', 'www.charlottelewis.com', 'pictures/default-profile-pic-man.png', '2024-02-20 12:37:57', 0, 1, 31, 9),
+(10, 'alex_walker', 'alexanderwalker1313@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Alexander', 'Walker', '06708365753', 0, 0, '', '', 'pictures/default-profile-pic-man.png', '2023-10-05 11:38:42', 1, 0, 1, 10),
+(11, 'ameliaperez123', 'amelia.perez@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Amelia', 'Perez', '06703278493', 1, 1, 'Greetings, fellow readers! I\'m Amelia Perez, spinning tales that whisk you away to realms of wonder.', 'www.ameliathereader.com', 'pictures/default-profile-pic-man.png', '2023-06-11 11:39:43', 0, 0, 32, 11),
+(12, 'michael_king', 'michael.king@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Micheal', 'King', '06208394242', 1, 1, 'Michael King here, crafting stories that illuminate the human experience and ignite the imagination.', 'www.michealking.com', 'pictures\\user\\avatar-7.jpg', '2023-08-18 11:40:50', 0, 0, 33, 12),
+(13, 'harper.scott', 'harper.scott@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Harper', 'Scott', '06201532953', 0, 1, 'Hello, readers! I\'m Harper Scott, conjuring worlds where every page is an adventure waiting to unfold.', NULL, 'pictures/default-profile-pic-man.png', '2023-12-28 12:41:51', 0, 0, 34, 13),
+(14, 'evelyn_hall_books', 'evelynhall1432@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Evelyn', 'Hall', '06708639477', 1, 0, 'Evelyn Hall here, weaving tales that evoke emotion and spark the imagination.', 'www.evelynhall.com0', 'pictures\\user\\avatar-1.jpg', '2024-01-03 12:43:04', 0, 0, 35, 14),
+(15, 'daniel_131', 'danialadams@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Daniel', 'Adams', '06201758473', 1, 0, 'Daniel Adams at your service, crafting stories that resonate long after the final page is turned.', 'www.danieladams.com', 'pictures/default-profile-pic-man.png', '2023-11-11 12:43:52', 0, 0, 36, 15),
+(16, 'mia.campbell_', 'mia.campbell@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mia ', 'Campbell', '06709341833', 0, 0, '', '', 'pictures/default-profile-pic-man.png', '2023-07-15 11:44:53', 1, 0, 1, 16),
+(17, 'lucas121', 'lucasnelson@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Lucas', 'Nelson', '06206783562', 0, 1, 'Lucas Nelson here, penning tales that transport you to worlds both familiar and fantastical.', NULL, 'pictures/default-profile-pic-man.png', '2023-06-12 11:45:32', 0, 0, 37, 17),
+(18, 'chloe_baker_author', 'chloe.baker@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Chloe', 'Baker', '06708344627', 1, 1, 'Greetings, fellow bibliophiles! I\'m Chloe Baker, crafting stories that illuminate the human experience.', 'www.chloebaker.com', 'pictures/default-profile-pic-man.png', '2024-03-15 12:46:20', 0, 1, 26, 18),
+(19, 'jackie_', 'jack.wright@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Jack', 'Wright', '06709352342', 1, 0, 'Jack Wright here, embarking on literary journeys that stir the soul and captivate the mind.', 'www.jackwright.com', 'pictures/default-profile-pic-man.png', '2024-04-14 11:47:39', 0, 0, 38, 19),
+(20, 'lily_hughes_', 'lily.hughes@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Lily ', 'Hughes', '06708234142', 0, 0, '', '', 'pictures/default-profile-pic-man.png', '2024-04-24 11:48:48', 1, 0, 1, 20),
+(21, 'bright_publications', 'info@brightpublications.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'John', 'Smith', '06204535324', 1, 1, 'Welcome to Bright Publications, where we illuminate minds with compelling stories and insightful narratives.\n', 'www.brightpublications.com', 'pictures\\user\\avatar-4.jpg', '2023-01-18 19:50:38', 0, 0, 39, 1),
+(22, 'stellar_press', 'contact@stellarpress.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Emily', 'Johnson', '06201742855', 1, 0, 'Stellar Press - Where every story shines. Join us on a journey through the cosmos of literature.', 'www.stellarpress.com', 'pictures/default-profile-pic-man.png', '2023-04-04 18:51:25', 0, 0, 40, 2),
+(23, 'horizon_books', 'info@horizonbooks.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Michael', 'Davis', '06701693855', 1, 1, 'Welcome to Horizon Books, where every page leads to new horizons of imagination and discovery.', 'www.horizonbooks.com', 'pictures/default-profile-pic-man.png', '2023-06-29 18:52:22', 0, 0, 26, 3),
+(24, 'evergreen_publishing', 'contact@evergreenpublishing.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Sarah', 'Brown', '06209743724', 1, 0, 'Evergreen Publishing - Cultivating timeless stories that endure through the ages.', 'www.evergreenpublishing.com', 'pictures/default-profile-pic-man.png', '2023-07-04 18:53:16', 0, 0, 41, 4),
+(25, 'phoenix_press', 'info@phoenixpress.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Daniel', 'Martinez', '06708494263', 1, 1, 'Rise from the ashes of ordinary reading. Join Phoenix Press for stories that ignite the imagination and inspire the soul.', 'www.phoenixpress.com', 'pictures/default-profile-pic-man.png', '2023-07-09 18:54:06', 0, 0, 42, 5),
+(26, 'cascade_books', 'contact@cascadebooks.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Olivia', 'Anderson', '06209858437', 1, 0, 'Embark on a journey of literary exploration with Cascade Books, where stories flow like a cascade of words.', 'www.cascadebooks.com', 'pictures/default-profile-pic-man.png', '2023-01-13 19:54:57', 0, 0, 43, 6),
+(27, 'silverleaf_publishers', 'info@silverleafpublishers.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Benjamin', 'Taylor', '06702749614', 1, 0, 'Silverleaf Publishers - Crafting stories as enduring as the silver leaves of literature.', 'www.silverleafpublishers.com', 'pictures/default-profile-pic-man.png', '2023-09-16 18:56:17', 0, 0, 44, 7),
+(28, 'summit_publishing', 'contact@summitpublishing.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Sophie', 'Clark', '06701387511', 1, 1, 'Reach new heights of literary excellence with Summit Publishing. Join us on the peak of storytelling.', 'www.summitpublishing.com', 'pictures/default-profile-pic-man.png', '2023-10-30 19:57:15', 0, 0, 45, 8),
+(29, 'golden_pen_books', 'info@goldenpenbooks.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Lucas', 'Nelson', '06201583261', 1, 0, 'At Golden Pen Books, every story is a stroke of brilliance. Join us in crafting tales that leave a lasting impression.', 'www.goldenpenbooks.com', 'pictures\\user\\avatar-5.jpg', '2024-02-01 19:58:01', 0, 0, 46, 9),
+(30, 'redwood_publications', 'contact@redwoodpublications.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Chloe', 'Baker', '06201529413', 1, 1, 'Stand tall with Redwood Publications, where stories grow strong and reach for the sky.', 'www.redwoodpublications.com', 'pictures/default-profile-pic-man.png', '2023-04-10 18:58:45', 0, 0, 1, 10),
+(32, 'mayer.hedda', 'mayer.hedda@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Hedda', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-04-27 16:48:23', 0, 0, 1, 21);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -3662,14 +4067,6 @@ ALTER TABLE `book`
 ALTER TABLE `bookrating`
   ADD PRIMARY KEY (`id`),
   ADD KEY `ratingerId` (`ratingerId`),
-  ADD KEY `bookId` (`bookId`);
-
---
--- A tábla indexei `bookreport`
---
-ALTER TABLE `bookreport`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `userId` (`userId`),
   ADD KEY `bookId` (`bookId`);
 
 --
@@ -3799,25 +4196,19 @@ ALTER TABLE `aszf`
 -- AUTO_INCREMENT a táblához `book`
 --
 ALTER TABLE `book`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT a táblához `bookrating`
 --
 ALTER TABLE `bookrating`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- AUTO_INCREMENT a táblához `bookreport`
---
-ALTER TABLE `bookreport`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
 
 --
 -- AUTO_INCREMENT a táblához `bookshopping`
 --
 ALTER TABLE `bookshopping`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT a táblához `category`
@@ -3829,37 +4220,37 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT a táblához `categoryinterest`
 --
 ALTER TABLE `categoryinterest`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=185;
 
 --
 -- AUTO_INCREMENT a táblához `color`
 --
 ALTER TABLE `color`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT a táblához `follow`
 --
 ALTER TABLE `follow`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
 
 --
 -- AUTO_INCREMENT a táblához `forgotpassword`
 --
 ALTER TABLE `forgotpassword`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `general`
 --
 ALTER TABLE `general`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT a táblához `helpcenter`
 --
 ALTER TABLE `helpcenter`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT a táblához `language`
@@ -3877,25 +4268,25 @@ ALTER TABLE `payment`
 -- AUTO_INCREMENT a táblához `post`
 --
 ALTER TABLE `post`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT a táblához `postlike`
 --
 ALTER TABLE `postlike`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=201;
 
 --
 -- AUTO_INCREMENT a táblához `publisher`
 --
 ALTER TABLE `publisher`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT a táblához `saved`
 --
 ALTER TABLE `saved`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT a táblához `targetaudience`
@@ -3907,7 +4298,7 @@ ALTER TABLE `targetaudience`
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
