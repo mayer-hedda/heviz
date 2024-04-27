@@ -150,6 +150,7 @@ window.onload = async function () {
 
                     // csak kiadósok
                     const responsePublisher = await getPublishedBooks();
+                    console.log(responsePublisher);
                     if (responsePublisher.data.length != 0) {
                         TwoRowAndMediumCard("Publisher books", responsePublisher, s4_mediumCardPic_div, s4_mediumC_h2, s4_mediumC_author, s4_mediumC_publisher, s4_mediumC_desc, s4_mediumC_btn, s4_first_row, s4_second_row, s4_mediumC_category);
                         s4 = true;
@@ -159,11 +160,13 @@ window.onload = async function () {
 
                     // csak öncélú
                     const responseSelfPublished = await getSelfPublishedBooks();
+
                     if (responseSelfPublished.data.length != 0) {
 
                         TwoRowAndMediumCard("Self-published books", responseSelfPublished, s5_mediumCardPic_div, s5_mediumC_h2, s5_mediumC_author, s5_mediumC_publisher, s5_mediumC_desc, s5_mediumC_btn, s5_first_row, s5_second_row, s5_mediumC_category)
                         s5 = true;
                     } else {
+                        
                         fifth_section.hidden = true;
                     }
 
@@ -254,16 +257,9 @@ function LoadRandomBook(response) {
  * 
  */
 function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, mediumC_author, mediumC_publisher, mediumC_description, mediumC_btn, firstRow, mediumC_category) {
-    // Medium cards
-    if (response.data[0].coverImage == "Ez a kép elérési útja") {
-        mediumC_PicDiv.innerHTML = `
-            <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
-        `;
-    } else {
-        mediumC_PicDiv.innerHTML = `
-            <img class="medium-pic" src="../${response.data[0].coverImage}.jpg" alt="${response.data[0].title} cover">
-        `;
-    }
+    mediumC_PicDiv.innerHTML = `
+        <img class="medium-pic" src="../${response.data[0].coverImage}.jpg" alt="${response.data[0].title} cover">
+    `;
 
     if (response.data[0].publisher != undefined) {
         mediumC_publisher.innerText = `${response.data[0].publisher}`;
@@ -295,7 +291,7 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
         coverPhotoDiv.classList.add("cover-photo");
 
         const img = document.createElement("img");
-        img.src = response.data[i].coverImage != "Ez a kép elérési útja" ? `../${response.data[i].coverImage}.jpg` : "../pictures/standard-book-cover.jpg";
+        img.src = `../${response.data[i].coverImage}.jpg`;
         img.alt = response.data[i].title;
         img.classList.add("cover");
 
@@ -363,16 +359,9 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
  * 
  */
 function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, mediumC_author, mediumC_publisher, mediumC_description, mediumC_btn, firstRow, secondRow, mediumC_category) {
-    // Medium cards
-    if (response.data[0].coverImage == "Ez a kép elérési útja") {
-        mediumC_PicDiv.innerHTML = `
-            <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
-        `;
-    } else {
-        mediumC_PicDiv.innerHTML = `
-            <img class="medium-pic" src="../${response.data[0].coverImage}.jpg" alt="${response.data[0].title} cover">
-        `;
-    }
+    mediumC_PicDiv.innerHTML = `
+        <img class="medium-pic" src="../${response.data[0].coverImage}.jpg" alt="${response.data[0].title} cover">
+    `;
 
     if (response.data[0].publisher != undefined) {
         mediumC_publisher.innerText = `${response.data[0].publisher}`;
@@ -397,14 +386,16 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
         loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].price, response.data[0].username, response.data[0].publisher !== undefined ? `${response.data[0].publisher}` : null, response.data[0].id, response.data[0].saved, response.data[0].publisherUsername !== undefined ? `${response.data[0].publisherUsername}` : null);
     });
 
-    for (let i = 1; i <= 4; i++) {
-        const cardDiv = createCard(response.data[i]);
-        firstRow.appendChild(cardDiv);
-    }
-
-    for (let i = 5; i < response.data.length; i++) {
-        const cardDiv = createCard(response.data[i]);
-        secondRow.appendChild(cardDiv);
+    if(response.data.length <= 4) {
+        for (let i = 1; i < response.data.length; i++) {
+            const cardDiv = createCard(response.data[i]);
+            firstRow.appendChild(cardDiv);
+        }
+    } else {
+        for (let i = 5; i < response.data.length; i++) {
+            const cardDiv = createCard(response.data[i]);
+            secondRow.appendChild(cardDiv);
+        }
     }
 }
 
@@ -416,7 +407,7 @@ function createCard(data) {
     coverPhotoDiv.classList.add("cover-photo");
 
     const img = document.createElement("img");
-    img.src = data.coverImage != "Ez a kép elérési útja" ? `../${data.coverImage}.jpg` : "../pictures/standard-book-cover.jpg";
+    img.src = `../${data.coverImage}.jpg`;
     img.alt = data.title;
     img.classList.add("cover");
 
@@ -475,7 +466,6 @@ let bookId;
 function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher, bookIdString, isSaved, publisherUsername) {
     bookId = parseInt(bookIdString);
 
-    console.log(url);
     if (own_uname == username) {
         save_btn.hidden = true;
         shopping_btn.hidden = true;

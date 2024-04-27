@@ -383,14 +383,15 @@ function separateCategories(response) {
  * @param {any} secondRow - The id of the second row's div
  */
 function loadRandoms(separetedObj, separeted_number, subtitle, mediumC_PicDiv, mediumC_h2, mediumC_author, mediumC_description, mediumC_btn, firstRow, secondRow, mediumC_category) {
-    subtitle.innerText = `Books from the ${separetedObj[separeted_number].category} category:`
-    // Medium cards 
+    // Set subtitle
+    subtitle.innerText = `Books from the ${separetedObj[separeted_number].category} category:`;
+
+    // Medium card
     if (separetedObj[separeted_number].data[0].coverImage == "Ez a kép elérési útja") {
         mediumC_PicDiv.innerHTML = `
             <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${separetedObj[separeted_number].data[0].title} cover">
         `;
     } else {
-
         mediumC_PicDiv.innerHTML = `
             <img class="medium-pic" src="../${separetedObj[separeted_number].data[0].coverImage}.jpg" alt="${separetedObj[separeted_number].data[0].title} cover">
         `;
@@ -401,114 +402,32 @@ function loadRandoms(separetedObj, separeted_number, subtitle, mediumC_PicDiv, m
     mediumC_description.innerText = `${separetedObj[separeted_number].data[0].description}`;
     mediumC_category.innerText = `${separetedObj[separeted_number].category}`;
 
-    mediumC_author.addEventListener('click', (e) => {
+    // Add event listener to the medium card author
+    mediumC_author.addEventListener('click', () => {
         window.location.href = `../Profile/profile.html?username=${separetedObj[separeted_number].data[0].username}`;
     });
 
+    // Add event listener to the medium card button
     mediumC_btn.addEventListener('click', (e) => {
         e.preventDefault();
         loadModalData(separetedObj[separeted_number].data[0].coverImage, separetedObj[separeted_number].data[0].title, separetedObj[separeted_number].data[0].firstName, separetedObj[separeted_number].data[0].lastName, separetedObj[separeted_number].data[0].description, separetedObj[separeted_number].data[0].language, separetedObj[separeted_number].data[0].rating, separetedObj[separeted_number].data[0].pagesNumber, separetedObj[separeted_number].data[0].price, separetedObj[separeted_number].data[0].username, separetedObj[separeted_number].data[0].id, separetedObj[separeted_number].data[0].saved);
-    })
+    });
 
-    if (separetedObj[separeted_number].data.length >= 4) {
-        for (let i = 1; i <= 4; i++) {
-            
-            if (separetedObj[separeted_number].data[i].coverImage != "Ez a kép elérési útja") {
-                firstRow.innerHTML += `
-                        <div class="col-3">
-                            <div class="cover-photo">
-                                <img src="../${separetedObj[separeted_number].data[i].coverImage}.jpg" alt="${separetedObj[separeted_number].data[i].title}" class="cover">
-                                <div class="overlay">
-                                    <p class="category-overlay">${separetedObj[separeted_number].category}</p>
-                                    <p class="book-title">${separetedObj[separeted_number].data[i].title}</p>
-                                    <p class="author-p author" onclick="navigateToProfile('${separetedObj[separeted_number].data[i].username}')">${separetedObj[separeted_number].data[i].firstName} ${separetedObj[separeted_number].data[i].lastName}</p>
-                                    <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${separetedObj[separeted_number].data[i].coverImage}', '${separetedObj[separeted_number].data[i].title}', '${separetedObj[separeted_number].data[i].firstName}', '${separetedObj[separeted_number].data[i].lastName}', '${separetedObj[separeted_number].data[i].description}', '${separetedObj[separeted_number].data[i].language}', '${separetedObj[separeted_number].data[i].rating}', '${separetedObj[separeted_number].data[i].pagesNumber}', '${separetedObj[separeted_number].data[i].price}', '${separetedObj[separeted_number].data[i].username}', '${separetedObj[separeted_number].data[i].id}', '${separetedObj[separeted_number].data[i].saved}')">Show Details</button>
-                                </div>
-                            </div>
-                        </div>
-                    `
-            } else {
-                firstRow.innerHTML += `
-                        <div class="col-3">
-                            <div class="cover-photo">
-                                <img src="../pictures/standard-book-cover.jpg" alt="${separetedObj[separeted_number].data[i].title}" class="cover">
-                                <div class="overlay">
-                                    <p class="category-overlay">${separetedObj[separeted_number].category}</p>
-                                    <p class="book-title">${separetedObj[separeted_number].data[i].title}</p>
-                                    <p class="author-p author" onclick="navigateToProfile('${separetedObj[separeted_number].data[i].username}')">${separetedObj[separeted_number].data[i].firstName} ${separetedObj[separeted_number].data[i].lastName}</p>
-                                    <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${separetedObj[separeted_number].data[i].coverImage}', '${separetedObj[separeted_number].data[i].title}', '${separetedObj[separeted_number].data[i].firstName}', '${separetedObj[separeted_number].data[i].lastName}', '${separetedObj[separeted_number].data[i].description}', '${separetedObj[separeted_number].data[i].language}', '${separetedObj[separeted_number].data[i].rating}', '${separetedObj[separeted_number].data[i].pagesNumber}', '${separetedObj[separeted_number].data[i].price}', '${separetedObj[separeted_number].data[i].username}', '${separetedObj[separeted_number].data[i].id}', '${separetedObj[separeted_number].data[i].saved}')">Show Details</button>
-                                </div>
-                            </div>
-                        </div>
-                    `
-            }
-        }
-
-        for (let i = 5; i < separetedObj[separeted_number].data.length; i++) {
-            if (separetedObj[separeted_number].data[i].coverImage != "Ez a kép elérési útja") {
-                secondRow.innerHTML += `
-                        <div class="col-3">
-                            <div class="cover-photo">
-                                <img src="../${separetedObj[separeted_number].data[i].coverImage}.jpg" alt="${separetedObj[separeted_number].data[i].title}" class="cover">
-                                <div class="overlay">
-                                    <p class="category-overlay">${separetedObj[separeted_number].category}</p>
-                                    <p class="book-title">${separetedObj[separeted_number].data[i].title}</p>
-                                    <p class="author-p author" onclick="navigateToProfile('${separetedObj[separeted_number].data[i].username}')">${separetedObj[separeted_number].data[i].firstName} ${separetedObj[separeted_number].data[i].lastName}</p>
-                                    <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${separetedObj[separeted_number].data[i].coverImage}', '${separetedObj[separeted_number].data[i].title}', '${separetedObj[separeted_number].data[i].firstName}', '${separetedObj[separeted_number].data[i].lastName}', '${separetedObj[separeted_number].data[i].description}', '${separetedObj[separeted_number].data[i].language}', '${separetedObj[separeted_number].data[i].rating}', '${separetedObj[separeted_number].data[i].pagesNumber}', '${separetedObj[separeted_number].data[i].price}', '${separetedObj[separeted_number].data[i].username}', '${separetedObj[separeted_number].data[i].id}', '${separetedObj[separeted_number].data[i].saved}')">Show Details</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-            } else {
-                secondRow.innerHTML += `
-                        <div class="col-3">
-                            <div class="cover-photo">
-                                <img src="../pictures/standard-book-cover.jpg" alt="${separetedObj[separeted_number].data[i].title}" class="cover">
-                                <div class="overlay">
-                                    <p class="category-overlay">${separetedObj[separeted_number].category}</p>
-                                    <p class="book-title">${separetedObj[separeted_number].data[i].title}</p>
-                                    <p class="author-p author" onclick="navigateToProfile('${separetedObj[separeted_number].data[i].username}')">${separetedObj[separeted_number].data[i].firstName} ${separetedObj[separeted_number].data[i].lastName}</p>
-                                    <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${separetedObj[separeted_number].data[i].coverImage}', '${separetedObj[separeted_number].data[i].title}', '${separetedObj[separeted_number].data[i].firstName}', '${separetedObj[separeted_number].data[i].lastName}', '${separetedObj[separeted_number].data[i].description}', '${separetedObj[separeted_number].data[i].language}', '${separetedObj[separeted_number].data[i].rating}', '${separetedObj[separeted_number].data[i].pagesNumber}', '${separetedObj[separeted_number].data[i].price}', '${separetedObj[separeted_number].data[i].username}', '${separetedObj[separeted_number].data[i].id}', '${separetedObj[separeted_number].data[i].saved}')">Show Details</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-            }
-        }
-    } else {
-        for (let i = 1; i < separetedObj[separeted_number].data.length; i++) {
-            if (separetedObj[separeted_number].data[i].coverImage != "Ez a kép elérési útja") {
-                firstRow.innerHTML += `
-                        <div class="col-3">
-                            <div class="cover-photo">
-                                <img src="../${separetedObj[separeted_number].data[i].coverImage}.jpg" alt="${separetedObj[separeted_number].data[i].title}" class="cover">
-                                <div class="overlay">
-                                    <p class="category-overlay">${separetedObj[separeted_number].category}</p>
-                                    <p class="book-title">${separetedObj[separeted_number].data[i].title}</p>
-                                    <p class="author-p author" onclick="navigateToProfile('${separetedObj[separeted_number].data[i].username}')">${separetedObj[separeted_number].data[i].firstName} ${separetedObj[separeted_number].data[i].lastName}</p>
-                                    <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${separetedObj[separeted_number].data[i].coverImage}', '${separetedObj[separeted_number].data[i].title}', '${separetedObj[separeted_number].data[i].firstName}', '${separetedObj[separeted_number].data[i].lastName}', '${separetedObj[separeted_number].data[i].description}', '${separetedObj[separeted_number].data[i].language}', '${separetedObj[separeted_number].data[i].rating}', '${separetedObj[separeted_number].data[i].pagesNumber}', '${separetedObj[separeted_number].data[i].price}', '${separetedObj[separeted_number].data[i].username}', '${separetedObj[separeted_number].data[i].id}', '${separetedObj[separeted_number].data[i].saved}')">Show Details</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-            } else {
-                firstRow.innerHTML += `
-                        <div class="col-3">
-                            <div class="cover-photo">
-                                <img src="../pictures/standard-book-cover.jpg" alt="${separetedObj[separeted_number].data[i].title}" class="cover">
-                                <div class="overlay">
-                                    <p class="category-overlay">${separetedObj[separeted_number].category}</p>
-                                    <p class="book-title">${separetedObj[separeted_number].data[i].title}</p>
-                                    <p class="author-p author" onclick="navigateToProfile('${separetedObj[separeted_number].data[i].username}')">${separetedObj[separeted_number].data[i].firstName} ${separetedObj[separeted_number].data[i].lastName}</p>
-                                    <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${separetedObj[separeted_number].data[i].coverImage}', '${separetedObj[separeted_number].data[i].title}', '${separetedObj[separeted_number].data[i].firstName}', '${separetedObj[separeted_number].data[i].lastName}', '${separetedObj[separeted_number].data[i].description}', '${separetedObj[separeted_number].data[i].language}', '${separetedObj[separeted_number].data[i].rating}', '${separetedObj[separeted_number].data[i].pagesNumber}', '${separetedObj[separeted_number].data[i].price}', '${separetedObj[separeted_number].data[i].username}', '${separetedObj[separeted_number].data[i].id}', '${separetedObj[separeted_number].data[i].saved}')">Show Details</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-            }
-        }
+    // Add event listeners for dynamically created cards
+    const dataLength = separetedObj[separeted_number].data.length;
+    const maxCards = dataLength >= 4 ? 4 : dataLength;
+    for (let i = 1; i < maxCards; i++) {
+        const cardDiv = createCard(separetedObj[separeted_number].data[i], separetedObj[separeted_number].category);
+        firstRow.appendChild(cardDiv);
     }
 
+    // Add event listeners for dynamically created cards in the second row
+    if (dataLength > 4) {
+        for (let i = 4; i < dataLength; i++) {
+            const cardDiv = createCard(separetedObj[separeted_number].data[i], separetedObj[separeted_number].category);
+            secondRow.appendChild(cardDiv);
+        }
+    }
 }
 
 let saveClick = false;
