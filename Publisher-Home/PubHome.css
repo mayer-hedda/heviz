@@ -1,5 +1,6 @@
 :root {
     --primary-BTN-Bg-color: rgb(232, 181, 160);
+    --primary-hover: #649984;
     --btn-text-color: rgb(51, 47, 49);
     --mostUsed-text-color: rgb(65, 61, 63);
     --dash-color: rgb(129, 105, 117);
@@ -2431,6 +2432,7 @@ section {
     text-decoration: none;
     margin-bottom: 30px;
     margin-top: 15px;
+    font-size: 18px;
 }
 
 .moreBtn:hover,
@@ -2438,7 +2440,7 @@ section {
     background: linear-gradient(145deg, #38423B, #3F5E5A) !important;
     border: 3px solid #2F3731;
     font-family: 'PTsans-Regular', sans-serif !important;
-    font-size: 18px !important;
+
     letter-spacing: 0.7px;
 
 }
@@ -2540,7 +2542,7 @@ section {
 
 /* --------------- THIRD SECTION ---------------*/
 .sMoreBtn {
-    background-color: #cf967b;
+    background-color: rgb(228, 163, 138);
     color: var(--btn-text-color);
     text-decoration: none;
     padding: 10px 25px 10px;
@@ -2771,19 +2773,21 @@ section {
 }
 
 .cancel-btn {
-    background-color: rgb(211, 211, 220);
-    color: var(--primary-text);
-    transition: background-color 0.8s ease;
-}
-
-.cancel-btn:hover {
-    background-color: rgb(137, 137, 145);
+    font-size: 20px;
+    background-color: rgb(122, 122, 126);
     color: whitesmoke;
     transition: background-color 0.8s ease;
 }
 
+.cancel-btn:hover {
+    background-color: rgb(181, 181, 199);
+    color: var(--primary-text);
+    transition: background-color 0.8s ease;
+}
+
 .publish{
-    background-color: rgb(220 147 117);
+    font-size: 20px;
+    background-color: rgb(228, 163, 138);
     color: var(--primary-text);
     transition: background-color 0.8s ease;
 }

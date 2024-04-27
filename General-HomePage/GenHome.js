@@ -140,6 +140,7 @@ window.onload = async function () {
 
                     // ajánlások neked
                     const responseRecommanded = await getRecommandedBooks();
+                    console.log(responseRecommanded);
                     if (responseRecommanded.data.length != 0) {
                         TwoRowAndMediumCard("Recommanded books for you", responseRecommanded, s3_mediumCardPic_div, s3_mediumC_h2, s3_mediumC_author, s3_mediumC_publisher, s3_mediumC_desc, s3_mediumC_btn, s3_first_row, s3_second_row, s3_mediumC_category);
                         s3 = true;
@@ -406,7 +407,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
                             <p class="book-title">${response.data[i].title}</p>
                             <p class="author-p author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
                             <p class="author-p author" onclick="navigateToProfile('${response.data[i].publisherUsername}')">${response.data[i].publisher || ''}</p>
-                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}' , ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${response.data[i].id}', '${response.data[i].saved}', ${response.data[i].publisherUsername !== undefined ? `'${response.data[i].publisherUsername}'` : null})">Show Details</button>
+                            <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}' , ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : 'null'}, '${response.data[i].id}', '${response.data[i].saved}', ${response.data[i].publisherUsername !== undefined ? `'${response.data[i].publisherUsername}'` : null})">Show Details</button>
                         </div>
                     </div>
                 </div>
