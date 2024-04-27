@@ -28,8 +28,8 @@
 
 <body style="background-color: rgb(247, 245, 236)">
 
-    <!-- Navbar -->
-    <nav class="navbar fixed-top navbar-expand-lg" id="navbar">
+    <!-- NAVBAR -->
+    <nav class="navbar fixed-top navbar-expand-lg" id="navbar" style="background-color: rgb(247, 245, 236);">
         <div class="container-fluid">
             <img src="../pictures/LOGO.svg" alt="Logo" width="125" height="40" class="d-inline-block align-text-top"
                 id="logo" />
@@ -39,37 +39,37 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse  justify-content-center" id="navbarNav">
-                <div class="navbar-nav text-center">
-                    <a class="nav-link" aria-current="page" id="HomePage">Home Page</a>
+            <div class="collapse navbar-collapse " id="navbarNav" style="margin-left: 195px;">
+                <div class="navbar-nav text-center justify-content-center">
+                    <a class="nav-link" aria-current="page" id="HomePage" onclick="window.location.reload()">Home
+                        Page</a>
                     <a class="nav-link" id="Feed" href="../Feed/feed.html">Feed</a>
-                    <a class="nav-link  active" id="Explore" href="./explore.html">Explore</a>
-                    <a class="nav-link" id="SavedBooks" href="../MyBooks/mybooks.html"></a>
+                    <a class="nav-link active" id="Explore" href="../Explore/explore.html">Explore</a>
+                    <a class="nav-link" id="SavedBooks" href="../MyBooks/mybooks.html">My Books</a>
                 </div>
 
-            </div>
-
-            <button role="button" type="submit" class="btn align-content-center" id="writingBtn"
-                onclick="window.location.href='../Create Book/createBook.html'">
-                Start Writing
-            </button>
-
-            <!--? Profilkép helye -->
-            <div id="profile-icon">
-                <!--* be kell szúrnom egy img taget  -->
-            </div>
-            <!--? User nevének helye -->
-            <div id="user-name">
-                <div class="dropdown">
-                    <button class="bg-transparent border-0 dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        <p id="userName-p">Username</p>
+                <div id="usernamePicture">
+                    <button role="button" type="submit" class="btn align-content-center" id="writingBtn"
+                        onclick="window.location.href='../Create Book/createBook.html'">
+                        Start Witing
                     </button>
 
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" id="Logout">Log Out</a></li>
-                        <li><a class="dropdown-item" id="profile-link">Profile</a></li>
-                    </ul>
+                    <div id="profile-icon" class="rounded-circle"></div>
+
+                    <div id="user-name">
+                        <div class="dropdown">
+                            <button class="bg-transparent border-0 dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <p id="userName-p"></p>
+                            </button>
+
+                            <ul class="dropdown-menu">
+                                <li id="profile-link"><a class="dropdown-item">Profile</a></li>
+                                <li><a class="dropdown-item" id="Logout">Log Out</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -114,13 +114,11 @@
             </div>
 
         </div>
-
-
     </section>
 
     <!-- Section 2 -->
     <section id="s2" class="container-fluid">
-        <div class="row">
+        <div class="row" id="second-row">
             <div class="col-3" id="left-side">
                 <!-- fixed side section -->
                 <div class="container" id="left-side-content">
@@ -260,17 +258,19 @@
 
             <div class="col-9" id="right-side">
                 <div id="books-div">
-                     <!-- books -->
+                    <!-- books -->
                 </div>
-               
+
                 <div class="noResult">
                     <p class="text-center missing-data-text" id="noSearchResult" hidden>Sorry, your search has no
                         results.</p>
                     <p class="text-center missing-data-text" id="noCategoryResult" hidden>Sorry, there are no books in
                         this category.</p>
-                    <p class="text-center missing-data-text" id="noSelfInCategory" hidden>Sorry, there are no self published books in
+                    <p class="text-center missing-data-text" id="noSelfInCategory" hidden>Sorry, there are no self
+                        published books in
                         this category.</p>
-                    <p class="text-center missing-data-text" id="noPublihserInCategory" hidden>Sorry, there are no books published by publisher in
+                    <p class="text-center missing-data-text" id="noPublihserInCategory" hidden>Sorry, there are no books
+                        published by publisher in
                         this category.</p>
                     <p class="text-center missing-data-text" id="500Result" hidden>Something went wrong. Please try it
                         later!</p>
@@ -289,7 +289,7 @@
             <!-- Modal content-->
             <div class="modal-content" id="book-modal-content">
                 <div class="modal-header" id="book-modal-header">
-                    <!--TODO: klikkre váltson át a teli bookmark-ra  -->
+
                     <button class="save-btn" id="save-btn"><svg xmlns="http://www.w3.org/2000/svg" width="20"
                             height="20" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
                             <path
@@ -361,7 +361,7 @@
 
 
 
-    <!-- TODO: FOOTER -->
+    <!-- FOOTER -->
     <footer class="footer">
         <div class="container-fluid align-content-center">
 
@@ -384,6 +384,11 @@
                         <li id="instagram"><i class="bi bi-instagram" style="margin-right: 0.625rem;"></i><a
                                 href="https://instagram.com/cyberread2023?igshid=MzRlODBiNWFlZA==">Instagram</a>
                         </li>
+
+                        <li id="terms"><i class="bi bi-info-circle-fill" style="margin-right: 0.625rem;"></i><a
+                            href="../TermsAndConditions/TermsAndConditions.html">Terms &
+                            Conditions</a></li>
+
                         <li id="help-center"><i class="bi bi-info-circle-fill" style="margin-right: 0.625rem;"></i><a
                                 href="../HelpCenter/helpcenter.html">Help Center</a></li>
                         <li id="help-center"><img src="../icons/C-logo.svg"
@@ -392,8 +397,6 @@
                     </ul>
                 </div>
                 <div id="copy-right-div" class="text-end">
-                    <!--? copyright logo -->
-                    <!--? Minden jog fentartva -->
                     <p id="copy-right" class=""><img src="../icons/copyright.svg" style="margin-right: 0.313rem;">2023
                         All rights reserved.</p>
                 </div>
