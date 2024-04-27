@@ -1747,7 +1747,7 @@ nav {
 .userName {
     display: flex;
     gap: 20px;
-    margin-left: 1.25rem;
+    width: 180px;
 }
 
 .card-user-name,
@@ -1837,6 +1837,7 @@ nav {
     left: 70%;
     height: 90vh;
     margin-bottom: 20px;
+    width: 450px;
 }
 
 .suggestions {
@@ -1863,6 +1864,7 @@ nav {
     display: flex;
     align-self: center;
     margin-bottom: 0.5rem;
+    gap: 20px;
 }
 
 .btn-more {
