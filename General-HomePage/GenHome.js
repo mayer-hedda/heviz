@@ -85,7 +85,6 @@ let s5 = false;
 
 window.addEventListener('beforeunload', async function () {
     const tokenResponse = await token();
-    console.log(tokenResponse);
 
     if (tokenResponse.status === 401) {
         window.location.href = "../Log-in/login.html";
@@ -140,7 +139,6 @@ window.onload = async function () {
 
                     // ajánlások neked
                     const responseRecommanded = await getRecommandedBooks();
-                    console.log(responseRecommanded);
                     if (responseRecommanded.data.length != 0) {
                         TwoRowAndMediumCard("Recommanded books for you", responseRecommanded, s3_mediumCardPic_div, s3_mediumC_h2, s3_mediumC_author, s3_mediumC_publisher, s3_mediumC_desc, s3_mediumC_btn, s3_first_row, s3_second_row, s3_mediumC_category);
                         s3 = true;
@@ -150,7 +148,6 @@ window.onload = async function () {
 
                     // csak kiadósok
                     const responsePublisher = await getPublishedBooks();
-                    console.log(responsePublisher);
                     if (responsePublisher.data.length != 0) {
                         TwoRowAndMediumCard("Publisher books", responsePublisher, s4_mediumCardPic_div, s4_mediumC_h2, s4_mediumC_author, s4_mediumC_publisher, s4_mediumC_desc, s4_mediumC_btn, s4_first_row, s4_second_row, s4_mediumC_category);
                         s4 = true;
@@ -189,7 +186,6 @@ window.onload = async function () {
 
         case 422:
             alert("422 - Something went wrong");
-            console.error("Error: " + responseUser);
             break;
 
         default:
@@ -208,16 +204,9 @@ function navigateToProfile(username) {
 function LoadRandomBook(response) {
     const coverImage = response.data[0].coverImage;
 
-    if (coverImage == "Ez a kép elérési útja") {
-        s1_bigCard_div.innerHTML = `
-             <img src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">          
-        `;
-    } else {
-        console.log("Cover book path: ", coverImage);
-        s1_bigCard_div.innerHTML = `          
-            <img src="../${response.data[0].coverImage}.jpg" alt="${response.data[0].title} cover">           
-        `;
-    }
+    s1_bigCard_div.innerHTML = `          
+        <img src="../${response.data[0].coverImage}.jpg" alt="${response.data[0].title} cover">           
+    `;
 
     s1_bigCard_h2.innerText = `${response.data[0].title}`;
     s1_bigCard_p.innerText = `${response.data[0].description}`;
@@ -482,11 +471,7 @@ function loadModalData(url, title, firstName, lastName, description, language, r
         savedBoolean = isSaved;
     }
 
-    if (url != "Ez a kép elérési útja") {
-        modal_img.src = `../${url}.jpg`;
-    } else {
-        modal_img.src = "../pictures/standard-book-cover.jpg";
-    }
+    modal_img.src = `../${url}.jpg`;
 
     if (publisher != null) {
         modal_publisher.innerText = `${publisher}`;
@@ -574,13 +559,9 @@ async function SavingBook(bookId) {
             break;
         case 422:
             alert('Something went wrong. Please try again later!');
-            console.log("Error status: " + savedResult.status);
             break;
         default:
             alert('Something went wrong. Please try again later!');
-            console.error("Error status: " + savedResult.status);
-            console.error("Error msg: " + savedResult.error);
-            console.error("Error data: " + savedResult.data);
             break;
     }
 
@@ -606,13 +587,9 @@ async function UnsavingBook(bookId) {
             break;
         case 422:
             alert('Something went wrong. Please try again later!');
-            console.log("Error status: " + unsavingResult.status);
             break;
         default:
             alert('Something went wrong. Please try again later!');
-            console.error("Error status: " + unsavingResult.status);
-            console.error("Error msg: " + unsavingResult.error);
-            console.error("Error data: " + unsavingResult.data);
             break;
     }
 

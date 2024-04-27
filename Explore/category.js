@@ -47,7 +47,6 @@ window.onload = async function () {
             break;
         case 422:
             alert("422 - Something went wrong");
-            console.error("Error: " + responseUser);
             break;
         case 302:
             localStorage.removeItem("username");
@@ -58,7 +57,7 @@ window.onload = async function () {
             profilePic.innerHTML = `<img src="../${tokenResponse.data.image}" alt="${tokenResponse.data.username} profile picture" class="rounded-circle"></img>`;
 
             document.getElementById('profile-link').addEventListener('click', (e) => {
-               navigateToProfile(tokenResponse.data.username);
+                navigateToProfile(tokenResponse.data.username);
             });
 
             const HomePage = document.getElementById('HomePage');
@@ -109,8 +108,6 @@ window.onload = async function () {
                 categoryId = localStorage.getItem('id');
                 getCategoryName = getCategoryName.toLowerCase();
 
-                // console.log(categoryId);
-                console.log(getCategoryName);
                 const categoryResponse = await getAllBooksByCategory({ "name": getCategoryName, "id": categoryId });
 
                 switch (categoryResponse.status) {
@@ -145,13 +142,10 @@ window.onload = async function () {
 
                     case 404:
                         // window.location.href = '../404/404.html';
-                        console.log(categoryResponse.status);
                         break;
 
                     default:
                         alert('Something went wrong. Please try again later!');
-                        console.log('Status: ' + getCategoryAgain.status);
-                        console.log('Error: ' + getCategoryAgain.error);
                         break;
 
                 }
@@ -184,7 +178,6 @@ function LoadSearchResult() {
 
 
     const storedSearchResult = JSON.parse(localStorage.getItem('searchResult'));
-    console.log(storedSearchResult);
     if (storedSearchResult.length == 0) {
         document.getElementById('noSearchResult').hidden = false;
 
@@ -192,125 +185,70 @@ function LoadSearchResult() {
     } else {
 
         for (let i = 0; i <= storedSearchResult.length - 1; i++) {
+            const bookData = storedSearchResult[i];
 
-            if (storedSearchResult[i].coverImage == "Ez a kép elérési útja") {
+            const div = document.createElement('div');
+            div.className = 'col-6';
+            div.innerHTML = `
+                <div class="container medium-card" style="background-color: #EAD7BE;">
+                    <div class="row">
+                        <div class="col-3 my-col3">
+                            <img class="medium-pic" src="../${bookData.coverImage}.jpg">
+                        </div>
 
+                        <div class="col-9 medium-right-side">
+                            <h2 class="container medium-h2">${bookData.title}</h2>
+                            <p class="username author">${bookData.firstName} ${bookData.lastName}</p>
+                            <p class="username author">${bookData.publisher || ''}</p>
+                            <p class="medium-desc">${bookData.description}</p>
+                            <div class="bottom-row-medium">
+                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup">Show Details</button>
+                                <p class="category" id="s2-mediumC-category">${bookData.category}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
 
-                books_side.innerHTML += `
-                    <div class="col-6">
-                        <div class="container medium-card" style="background-color: #EAD7BE;">
-                            <div class="row">
-                                <div class="col-3 my-col3">
-                                    <img class="medium-pic" src="../pictures/standard-book-cover.jpg">
-                                </div>
+            div.querySelector('.moreBtn-medium').addEventListener('click', function() {
+                loadModalData(bookData.coverImage, bookData.title, bookData.firstName, bookData.lastName, bookData.description, bookData.language, bookData.rating, bookData.pagesNumber, bookData.price, bookData.username, bookData.publisher !== undefined ? bookData.publisher : null, bookData.id, bookData.saved, bookData.publisherUsername !== undefined ? bookData.publisherUsername : null);
+            });
 
-                                <div class="col-9 medium-right-side">
-                                    <h2 class="container medium-h2">${storedSearchResult[i].title}</h2>
-                                    <p class="username author" onclick="navigateToProfile('${storedSearchResult[i].username}')">${storedSearchResult[i].firstName} ${storedSearchResult[i].lastName}</p>
-                                    <p class="username author" onclick="navigateToProfile('${storedSearchResult[i].publisherUsername}')">${storedSearchResult[i].publisher || ''}</p>
-                                    <p class="medium-desc" >${storedSearchResult[i].description}</p>
-                                    
-                                    <div class="bottom-row-medium">
-                                        <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${storedSearchResult[i].coverImage}', '${storedSearchResult[i].title}', '${storedSearchResult[i].firstName}', '${storedSearchResult[i].lastName}', '${storedSearchResult[i].description}', '${storedSearchResult[i].language}', '${storedSearchResult[i].rating}', '${storedSearchResult[i].pagesNumber}', '${storedSearchResult[i].price}', '${storedSearchResult[i].username}', '${storedSearchResult[i].publisher !== undefined ? storedSearchResult[i].publisher : null}', '${storedSearchResult[i].id}', '${storedSearchResult[i].saved}',  ${storedSearchResult[i].publisherUsername !== undefined ? `'${storedSearchResult[i].publisherUsername}'` : null})">Show Details</button>
-                                        <p class="category" id="s2-mediumC-category">${storedSearchResult[i].category}</p>
-                                    </div>
-                                </div>
-                             </div>
-                         </div>
-                     </div>
-                 `;
-
-            } else {
-
-                books_side.innerHTML += `
-                    <div class="col-6">
-                        <div class="container medium-card" style="background-color: #EAD7BE;">
-                            <div class="row">
-                                <div class="col-3 my-col3">
-                                    <img class="medium-pic" src="../${storedSearchResult[i].coverImage}.jpg">
-                                </div>
-
-                                <div class="col-9 medium-right-side">
-                                    <h2 class="container medium-h2">${storedSearchResult[i].title}</h2>
-                                    <p class="username author" onclick="navigateToProfile('${storedSearchResult[i].username}')">${storedSearchResult[i].firstName} ${storedSearchResult[i].lastName}</p>
-                                    <p class="username author" onclick="navigateToProfile('${storedSearchResult[i].publisherUsername}')">${storedSearchResult[i].publisher || ''}</p>
-                                    <p class="medium-desc" >${storedSearchResult[i].description}</p>
-                                    <div class="bottom-row-medium">
-                                        <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${storedSearchResult[i].coverImage}', '${storedSearchResult[i].title}', '${storedSearchResult[i].firstName}', '${storedSearchResult[i].lastName}', '${storedSearchResult[i].description}', '${storedSearchResult[i].language}', '${storedSearchResult[i].rating}', '${storedSearchResult[i].pagesNumber}', '${storedSearchResult[i].price}', '${storedSearchResult[i].username}', '${storedSearchResult[i].publisher !== undefined ? storedSearchResult[i].publisher : null}', '${storedSearchResult[i].id}', '${storedSearchResult[i].saved}', ${storedSearchResult[i].publisherUsername !== undefined ? `'${storedSearchResult[i].publisherUsername}'` : null})">Show Details</button>
-                                        <p class="category" id="s2-mediumC-category">${storedSearchResult[i].category}</p>
-                                    </div>
-                                </div>
-                             </div>
-                         </div>
-                     </div>
-                 `;
-            }
-
+            books_side.appendChild(div);
         }
-
-
     }
-
 }
 
 function LoadCategoryResult(response) {
     for (let i = 0; i <= response.data.length - 1; i++) {
-        if (response.data[i].coverImage == "Ez a kép elérési útja") {
+        const bookData = response.data[i];
 
-            books_side.innerHTML += `
-                    <div class="container medium-card" style="background-color: #EAD7BE;">
-                        <div class="row">
-                            <div class="col-3 my-col3" >
-                                <img class="medium-pic" src="../pictures/standard-book-cover.jpg">
-                                
-                            </div>
-    
-                            <div class="col-9 medium-right-side">
-                            
-                                <h2 class="container medium-h2">${response.data[i].title}</h2>
-                                <p class="username author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                                <p class="username author" onclick="navigateToProfile('${response.data[i].publisherUsername}')">${response.data[i].publisher || ''}</p>
-                                <p class="medium-desc" >${response.data[i].description}</p>
-                                
-                                <div class="bottom-row-medium">
-                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', '${response.data[i].publisher !== undefined ? response.data[i].publisher : null}', '${response.data[i].id}', '${response.data[i].saved}', ${response.data[i].publisherUsername !== undefined ? `'${response.data[i].publisherUsername}'` : null},  ${response.data[i].publisherUsername !== undefined ? `'${response.data[i].publisherUsername}'` : null})">Show Details</button>
-                                    
-                                </div>
-                            </div>
-                        </div>
+        const div = document.createElement('div');
+        div.className = 'container medium-card';
+        div.style.backgroundColor = '#EAD7BE';
+        div.innerHTML = `
+            <div class="row">
+                <div class="col-3 my-col3">
+                    <img class="medium-pic" src="../${bookData.coverImage}.jpg">
+                </div>
+
+                <div class="col-9 medium-right-side">
+                    <h2 class="container medium-h2">${bookData.title}</h2>
+                    <p class="username author">${bookData.firstName} ${bookData.lastName}</p>
+                    <p class="username author">${bookData.publisher || ''}</p>
+                    <p class="medium-desc">${bookData.description}</p>
+                    <div class="bottom-row-medium">
+                        <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup">Show Details</button>
                     </div>
-            
-                `;
+                </div>
+            </div>
+        `;
 
-        } else {
+        div.querySelector('.moreBtn-medium').addEventListener('click', function() {
+            loadModalData(bookData.coverImage, bookData.title, bookData.firstName, bookData.lastName, bookData.description, bookData.language, bookData.rating, bookData.pagesNumber, bookData.price, bookData.username, bookData.publisher !== undefined ? bookData.publisher : null, bookData.id, bookData.saved, bookData.publisherUsername !== undefined ? bookData.publisherUsername : null);
+        });
 
-            books_side.innerHTML += `
-                    <div class="container medium-card" style="background-color: #EAD7BE;">
-                        <div class="row">
-                            <div class="col-3 my-col3" >
-                                <img class="medium-pic" src="../${response.data[i].coverImage}.jpg">
-                                
-                            </div>
-    
-                            <div class="col-9 medium-right-side">
-                            
-                                <h2 class="container medium-h2">${response.data[i].title}</h2>
-                                <p class="username author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                                <p class="username author" onclick="navigateToProfile('${response.data[i].publisherUsername}')">${response.data[i].publisher || ''}</p>
-                                <p class="medium-desc" >${response.data[i].description}</p>
-                                <div class="bottom-row-medium">
-                                    <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', '${response.data[i].publisher !== undefined ? response.data[i].publisher : null}', '${response.data[i].id}', '${response.data[i].saved}', ${response.data[i].publisherUsername !== undefined ? `'${response.data[i].publisherUsername}'` : null}">Show Details</button>
-                                    
-                                </div>
-    
-                            </div>
-                        </div>
-                    </div>
-            
-            `;
-
-        }
-
+        books_side.appendChild(div);
     }
 }
 
@@ -335,7 +273,6 @@ searchBTN.addEventListener('click', async function (event) {
                 break;
             case 422:
                 alert("422 - Something went wrong. Please try again later.");
-                console.error("Error: " + responseUser);
                 break;
 
             default:
@@ -384,15 +321,11 @@ function loadModalData(url, title, firstName, lastName, description, language, r
         shopping_btn.hidden = false;
     }
 
-    if (url != "Ez a kép elérési útja") {
-        book_modal_img.src = `../${url}.jpg`;
-    } else {
-        book_modal_img.src = `../pictures/standard-book-cover.jpg`;
-    }
+    book_modal_img.src = `../${url}.jpg`;
 
-    if (publisher != "null") {
+    if (publisher != null) {
         book_modal_publisher.innerText = `${publisher}`;
-        book_modal_publisher.addEventListener('click', (e)=>{
+        book_modal_publisher.addEventListener('click', (e) => {
             navigateToProfile(publisherUsername);
         });
     } else {
@@ -402,7 +335,7 @@ function loadModalData(url, title, firstName, lastName, description, language, r
     book_modal_title.innerText = `${title}`;
     book_modal_author.innerText = `${firstName} ${lastName}`;
     book_modal_pages.innerText = `${pages}`;
-    if (rating != 'undefined') {
+    if (rating != undefined) {
         book_modal_ranking.innerText = `${rating}`;
     } else {
         book_modal_ranking.innerText = "-";
@@ -410,7 +343,7 @@ function loadModalData(url, title, firstName, lastName, description, language, r
 
     book_modal_language.innerText = `${language}`;
     book_modal_desc.innerText = `${description}`;
-    if (price != 'undefined') {
+    if (price != undefined) {
         book_price.innerText = `${price} Ft`;
     } else {
         book_price.innerText = `- Ft`;
@@ -442,16 +375,16 @@ function loadModalData(url, title, firstName, lastName, description, language, r
 }
 
 save_btn.addEventListener('click', (e) => {
- 
+
     if (savedBoolean != true && savedBoolean != "true") {
         SavingBook(bookId);
         savedBoolean = "true";
         saveClick = true;
-      
-    }else{
+
+    } else {
         UnsavingBook(bookId);
         savedBoolean = "false";
-        saveClick = true;    
+        saveClick = true;
     }
 
 });
@@ -468,7 +401,6 @@ async function SavingBook(bookId) {
         const savedResult = await saveBook({ "id": bookId });
         switch (savedResult.status) {
             case 200:
-                console.log("successfully saved");
                 save_btn.innerHTML = "";
                 save_btn.innerHTML = `
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
@@ -481,18 +413,13 @@ async function SavingBook(bookId) {
                 break;
             case 422:
                 alert('Something went wrong. Please try again later!');
-                console.log("Error status: " + savedResult.status);
                 break;
             default:
                 alert('Something went wrong. Please try again later!');
-                console.error("Error status: " + savedResult.status);
-                console.error("Error msg: " + savedResult.error);
-                console.error("Error data: " + savedResult.data);
                 break;
         }
-        saveClick = true; 
+        saveClick = true;
     } catch (error) {
-        console.error("Error:", error);
         alert('Something went wrong. Please try again later!');
     }
 }
@@ -502,7 +429,6 @@ async function UnsavingBook(bookId) {
         const unsavingResult = await deleteSavedBook({ "id": bookId });
         switch (unsavingResult.status) {
             case 200:
-                console.log("Successfully unsaved!");
                 save_btn.innerHTML = "";
                 save_btn.innerHTML = `
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="bi bi-bookmark" viewBox="0 0 16 16" id="bookmark">
@@ -515,18 +441,13 @@ async function UnsavingBook(bookId) {
                 break;
             case 422:
                 alert('Something went wrong. Please try again later!');
-                console.log("Error status: " + unsavingResult.status);
                 break;
             default:
                 alert('Something went wrong. Please try again later!');
-                console.error("Error status: " + unsavingResult.status);
-                console.error("Error msg: " + unsavingResult.error);
-                console.error("Error data: " + unsavingResult.data);
                 break;
         }
         saveClick = true; // Itt állítsd be a saveClick-et, miután a művelet befejeződött
     } catch (error) {
-        console.error("Error:", error);
         alert('Something went wrong. Please try again later!');
     }
 }
@@ -558,7 +479,6 @@ topRated.addEventListener('change', async function () {
     no_self_result.hidden = true;
 
     if (this.checked) {
-        // console.log(this.id);
         books_side.innerHTML = '';
         const mostRated_result = await getFilteredBooks({ "categoryId": categoryId, "filter": 8 });
         if (mostRated_result.status == 200) {
@@ -569,8 +489,6 @@ topRated.addEventListener('change', async function () {
             document.getElementById('500Result').hidden = false;
         } else {
             alert('Please try again later.');
-            console.log("Status: " + mostRated_result.status);
-            console.error("Error: " + mostRated_result.error);
         }
     }
 });
@@ -632,7 +550,6 @@ abc_check.forEach(function (radioButton) {
         no_self_result.hidden = true;
 
         if (this.checked) {
-            // console.log(this.id);
             books_side.innerHTML = '';
 
             if (this.id == 'a-z') {
@@ -646,8 +563,6 @@ abc_check.forEach(function (radioButton) {
                     document.getElementById('500Result').hidden = false;
                 } else {
                     alert('Please try again later.');
-                    console.log("Status: " + fromA_toZ.status);
-                    console.error("Error: " + fromA_toZ.error);
                 }
 
             } else if (this.id == 'z-a') {
@@ -661,8 +576,6 @@ abc_check.forEach(function (radioButton) {
                     document.getElementById('500Result').hidden = false;
                 } else {
                     alert('Please try again later.');
-                    console.log("Status: " + fromZ_toA.status);
-                    console.error("Error: " + fromZ_toA.error);
                 }
 
             }
@@ -679,7 +592,6 @@ byPrice.forEach(function (radioButton) {
         no_self_result.hidden = true;
 
         if (this.checked) {
-            console.log(this.id);
             books_side.innerHTML = '';
 
             if (this.id == 'increasing-by-price') {
@@ -693,8 +605,6 @@ byPrice.forEach(function (radioButton) {
                     document.getElementById('500Result').hidden = false;
                 } else {
                     alert('Please try again later.');
-                    console.log("Status: " + price_lowToHigh.status);
-                    console.error("Error: " + price_lowToHigh.error);
                 }
 
 
@@ -702,15 +612,13 @@ byPrice.forEach(function (radioButton) {
                 const price_highToLow = await getFilteredBooks({ "categoryId": categoryId, "filter": 6 });
 
                 if (price_highToLow.status == 200) {
-                   LoadCategoryResult(price_highToLow);
+                    LoadCategoryResult(price_highToLow);
                 } else if (price_highToLow.status == 401) {
                     window.location.href = '../Log-in/login.html';
                 } else if (price_highToLow.status == 500) {
                     document.getElementById('500Result').hidden = false;
                 } else {
                     alert('Please try again later.');
-                    console.log("Status: " + price_highToLow.status);
-                    console.error("Error: " + price_highToLow.error);
                 }
 
             }
@@ -727,7 +635,6 @@ byDate.forEach(function (radioButton) {
         no_self_result.hidden = true;
 
         if (this.checked) {
-            console.log(this.id);
             books_side.innerHTML = '';
 
             if (this.id == 'increasing-by-price') {
@@ -741,23 +648,19 @@ byDate.forEach(function (radioButton) {
                     document.getElementById('500Result').hidden = false;
                 } else {
                     alert('Please try again later.');
-                    console.log("Status: " + date_lowToHigh.status);
-                    console.error("Error: " + date_lowToHigh.error);
                 }
 
             } else if (this.id == 'decreasing-by-price') {
                 const date_highToLow = await getFilteredBooks({ "categoryId": categoryId, "filter": 4 });
 
                 if (date_highToLow.status == 200) {
-                   LoadCategoryResult(date_highToLow);
+                    LoadCategoryResult(date_highToLow);
                 } else if (date_highToLow.status == 401) {
                     window.location.href = '../Log-in/login.html';
                 } else if (date_highToLow.status == 500) {
                     document.getElementById('500Result').hidden = false;
                 } else {
                     alert('Please try again later.');
-                    console.log("Status: " + date_highToLow.status);
-                    console.error("Error: " + date_highToLow.error);
                 }
             }
         }
@@ -792,8 +695,6 @@ document.getElementById('clear-filter').addEventListener('click', async function
                 break;
             default:
                 alert('Something went wrong. Please try again later!');
-                console.log('Status: ' + getCategoryAgain.status);
-                console.log('Error: ' + getCategoryAgain.error);
                 break;
         }
 
