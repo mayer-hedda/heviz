@@ -2540,7 +2540,7 @@ section {
 
 /* --------------- THIRD SECTION ---------------*/
 .sMoreBtn {
-    background-color: #f1b9a0;
+    background-color: #cf967b;
     color: var(--btn-text-color);
     text-decoration: none;
     padding: 10px 25px 10px;
@@ -2548,14 +2548,14 @@ section {
     border-radius: 30px;
     align-self: center;
     transition: color 0.8s ease;
-    transition: background-color 0.8s ease;
+    transition: background-color 0.5s ease;
 }
 
 .sMoreBtn:hover {
     background-color: #649984;
     color: white;
     transition: color 0.8s ease;
-    transition: background-color 0.8s ease;
+    transition: background-color 0.5s ease;
 }
 
 /* ----------------- Zero data ---------------------- */
@@ -2637,7 +2637,7 @@ section {
 
 .modal-p {
     font-size: 20px;
-    color: rgb(80, 80, 80);
+    color: rgb(60, 60, 60);
 }
 
 .author {
@@ -2728,6 +2728,69 @@ section {
     color: #2C1810;
     border: dashed 0.094rem #2C1810;
     cursor: pointer;
+    transition: background-color 0.8s ease;
+}
+
+/* publication modal */
+.input-group{
+    width: 300px;
+    margin-left: 50px;
+    margin-top: 50px;
+}
+
+.input-group label{
+    font-family: 'Poppins-Medium', sans-serif;
+    font-size: 22px;
+}
+
+.bank-acc{
+    margin-left: 50px;
+    margin-top: 50px;
+    width: 650px;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Poppins-Medium', sans-serif;
+  
+}
+
+.bank-acc label{
+    text-align: left;
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+
+#publisher-price{
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    margin-left: 20px;
+}
+
+#forint{
+    border: 1px solid var(--border-color);
+    height: 40px;
+}
+
+.cancel-btn {
+    background-color: rgb(211, 211, 220);
+    color: var(--primary-text);
+    transition: background-color 0.8s ease;
+}
+
+.cancel-btn:hover {
+    background-color: rgb(137, 137, 145);
+    color: whitesmoke;
+    transition: background-color 0.8s ease;
+}
+
+.publish{
+    background-color: rgb(220 147 117);
+    color: var(--primary-text);
+    transition: background-color 0.8s ease;
+}
+
+.publish:hover{
+    background-color: var(--primary-hover);
+    color: white;
     transition: background-color 0.8s ease;
 }
 

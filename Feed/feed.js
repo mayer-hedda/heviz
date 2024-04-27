@@ -291,6 +291,10 @@ async function LoadUserDatas(userResponse) {
 async function LoadRecommandedUsers(response) {
     const suggestion_div = document.getElementById('suggestion-div');
 
+    if (response.data.length == 0) {
+        document.getElementById('right-side').hidden = true;
+    }
+
     for (let i = 0; i <= response.data.length - 1; i++) {
         suggestion_div.innerHTML += `
             <div class="profile-suggestion">

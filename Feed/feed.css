@@ -1005,6 +1005,53 @@
         bottom: 50px !important;
         margin-right: 0px !important;
     }
+
+    footer {
+        padding-top: 20px !important;
+        height: fit-content!important;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #facebook,
+    #instagram,
+    #help-center,
+    #terms {
+        font-size: 15px !important;
+    }
+
+    #aboutus img {
+        width: 25px !important;
+        height: 25px !important;
+    }
+
+    #email{
+        font-size: 12px!important;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    #footer-ul {
+        margin-top: 5px;
+        padding-left: 0px!important;
+    }
+
+    #footer-logo-div {
+        width: 150px !important;
+    }
+
+    #footer-logo {
+        width: 120px;
+    }
+
+    #copy-right {
+        margin-bottom: 0px;
+    }
 }
 
 @media (min-width: 631px) and (max-width: 768px){
@@ -1141,6 +1188,52 @@
     .fixed-bottom-right {
         bottom: 50px !important;
         margin-right: 10px !important;
+    }
+
+    footer {
+        padding-top: 20px !important;
+        height: fit-content!important;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #facebook,
+    #instagram,
+    #help-center,
+    #terms {
+        font-size: 15px !important;
+    }
+
+    #aboutus img {
+        width: 25px !important;
+        height: 25px !important;
+    }
+
+    #email{
+        font-size: 12px!important;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    #footer-ul {
+        margin-top: 5px;
+    }
+
+    #footer-logo-div {
+        width: 150px !important;
+    }
+
+    #footer-logo {
+        width: 120px;
+    }
+
+    #copy-right {
+        margin-bottom: 0px;
     }
 }
 

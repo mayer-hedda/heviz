@@ -595,7 +595,9 @@ function contactInfos(response) {
  * @param {HTMLInputElement} input - The input element for which we set a placeholder
  */
 function addPlaceholder(response, responseElement, input) {
-    input.placeholder = `${response.data[responseElement]}`;
+    if (response.data[responseElement] != undefined && response.data[responseElement] != "undefined") {
+        input.placeholder = `${response.data[responseElement]}`;
+    }
 }
 
 const book_modal_body = document.getElementById('book-popup-modal-body');
@@ -2006,28 +2008,28 @@ input_phoneNumber.addEventListener('input', (e) => {
 });
 
 p_save.addEventListener('click', async function () {
-    let phone_lenght = checkPhoneLenght(input_phoneNumber.value, input_phoneNumber, phone_error);
-    if (phone_boolean == true && phone_lenght == true) {
-        let phone_value = input_phoneNumber.value;
-        const setPhoneResponse = await setPhoneNumber({ "phoneNumber": `${phone_value}` });
-        if (setPhoneResponse.status == 200) {
+    console.log(input_phoneNumber.value);
 
-            input_phoneNumber.style.background = "";
-            input_phoneNumber.style.borderColor = "";
-            phone_error.innerHTML = "";
-            const settingCall = await getDetails();
-            addPlaceholder(settingCall, "phoneNumber", input_phoneNumber);
-            Cancel(input_phoneNumber, phone_saveCancel);
+    let phone_value = input_phoneNumber.value;
+    const setPhoneResponse = await setPhoneNumber({ "phoneNumber": `${phone_value}` });
+    if (setPhoneResponse.status == 200) {
 
-        } else if (setEmailResponse.status == 401) {
-            window.location.href = "../Log-in/login.html";
-        } else if (setEmailResponse.status == 422) {
-            alert("422-es státsukód");
-        } else {
-            alert("Something went wrong.");
-        }
+        input_phoneNumber.style.background = "";
+        input_phoneNumber.style.borderColor = "";
+        phone_error.innerHTML = "";
+        const settingCall = await getDetails();
+        addPlaceholder(settingCall, "phoneNumber", input_phoneNumber);
+        Cancel(input_phoneNumber, phone_saveCancel);
 
+    } else if (setEmailResponse.status == 401) {
+        window.location.href = "../Log-in/login.html";
+    } else if (setEmailResponse.status == 422) {
+        alert("422-es státsukód");
+    } else {
+        alert("Something went wrong.");
     }
+
+
 });
 
 input_phoneNumber.addEventListener('focusin', (e) => {
