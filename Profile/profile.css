@@ -8,9 +8,10 @@
     --border-color: rgb(129, 105, 117);
     --label: rgb(34, 34, 36);
     --error-color: rgb(238, 29, 82);
+    --btn-text-color: rgb(51, 47, 49);
 }
 
-:read-only:after {
+:disabled:after {
     border: none;
 }
 
@@ -232,12 +233,6 @@ body {
     border-color: var(--primary);
 }
 
-/* .followed {
-    background: transparent !important;
-    color: rgb(44, 24, 16) !important;
-    border: solid var(--border-color) !important;
-} */
-
 #edit-coverCol-div {
     margin-left: auto;
     margin-right: 100px;
@@ -408,16 +403,12 @@ body {
 
 .pb-header-btns button.active-btn {
     border-radius: 2rem;
-
     border: 0rem;
     background-color: rgba(232, 181, 160, 1);
-
     padding: 5px 25px;
-
     font-size: 27px;
     text-align: center;
     color: rgb(51, 48, 49);
-
 }
 
 .btn-h2 {
@@ -433,6 +424,7 @@ body {
     display: flexbox;
     border-radius: 15px;
     filter: drop-shadow(4px 4px 4px rgba(84, 84, 84, 0.051));
+    position: relative;
 }
 
 .my-col3 {
@@ -458,7 +450,7 @@ body {
 }
 
 .medium-h2 {
-    margin-top: 30px;
+    margin-top: 20px;
     margin-left: 25px;
     font-size: 25px;
     font-family: 'Poppins-Medium', sans-serif;
@@ -479,7 +471,7 @@ body {
 }
 
 .author{
-    cursor: pointer;
+    cursor: pointer!important;
 }
 
 .author:hover{
@@ -503,7 +495,10 @@ body {
     font-size: 16px;
     padding-left: 12px;
     text-align: justify;
+    margin-bottom: 0px;
     padding-right: 20px;
+    word-wrap: break-word;
+    width: 370px;
 }
 
 .moreBtn-medium {
@@ -518,7 +513,6 @@ body {
     text-decoration: none;
     margin-bottom: 30px;
     margin-top: 15px;
-
     align-self: baseline !important;
     color: white !important;
     border: 3px solid #895372;
@@ -534,6 +528,9 @@ body {
 
 .card-footer {
     display: flex;
+    position: absolute;
+    bottom: 0px;
+    gap: 130px;
 }
 
 .edit-delete-div-books {
@@ -626,12 +623,10 @@ body {
     display: flex;
     margin-top: 1.875rem;
     width: fit-content;
-
 }
 
 .like-and-share {
     margin-left: auto !important;
-
     padding-right: 1.25rem;
     display: flex;
     position: absolute;
@@ -652,12 +647,10 @@ body {
     cursor: pointer;
 }
 
-
 #like {
     width: 40px !important;
     height: 40px !important;
 }
-
 
 .share {
     margin-left: 0.625rem !important;
@@ -790,6 +783,11 @@ body {
 }
 
 /* settings */
+#settings-body::-webkit-scrollbar-track{
+    background: transparent!important;
+    border-radius: 10px;
+}
+
 .error {
     color: var(--error-color);
     font-family: 'Poppins', sans-serif;
@@ -803,7 +801,6 @@ body {
     background-color: #D6C3AA;
     height: 800px;
 }
-
 
 #settings-header {
     border-bottom: none;
@@ -819,8 +816,10 @@ body {
     margin-bottom: 20px;
 }
 
-#options-panel {
-    border-right: solid 1px #846856b6;
+.actual-settings{
+    border-left: solid 1px #846856b6;
+    height: fit-content;
+    padding-bottom: 20px;
 }
 
 .active-set {
@@ -882,9 +881,12 @@ body {
     color: var(--label);
 }
 
-.set-inputs {
+.set-inputs:disabled, .set-inputs:not(:disabled){
     height: 30px;
-    width: 300px;
+    width: 300px!important;
+}
+
+.set-inputs:disabled {
     margin-top: 0px;
     border-color: #33262154;
     background-color: rgb(232, 221, 213);
@@ -900,7 +902,6 @@ body {
     display: flex;
     flex-direction: row;
 }
-
 
 /* privacy settings */
 #privacy-settings-div {
@@ -1095,19 +1096,38 @@ body {
     font-size: 20px;
     border-radius: 30px;
     align-self: center;
-    transition: color 0.8s ease;
-    transition: background-color 0.8s ease;
+    transition: color 0.5s ease;
+    transition: background-color 0.5s ease;
 }
 
 .sMoreBtn:hover{
+    cursor: pointer;
+    background-color: #649984;
+    color: #ffffff;
+    transition: color 0.5s ease;
+    transition: background-color 0.5s ease;
+}
+
+.recall{
     background-color: #649984;
     color: white;
-    transition: color 0.8s ease;
-    transition: background-color 0.8s ease;
+    padding: 10px 25px 10px;
+    font-size: 20px;
+    border-radius: 30px;
+    align-self: center;
+    transition: color 0.5s ease;
+    transition: background-color 0.5s ease;
+}
+
+.recall:hover{
+    cursor: pointer;
+    background-color: #f1b9a0;
+    color: var(--btn-text-color);
+    transition: color 0.5s ease;
+    transition: background-color 0.5s ease;
 }
 
 /* Modal poszt szerkesztéshez */
-
 #postModalLabel {
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
@@ -1133,24 +1153,48 @@ body {
     margin-top: 0.625rem;
 }
 
-/* --------------- FOOTER ---------------*/
+/* Modal az ár szerkesztéséhez */
+.modal-p{
+    margin-bottom: 30px;
+}
+
+.setPrice-div{
+    display: flex;
+}
+
+#price-div{
+    width: 300px;
+    margin-left: 40px;
+}
+
+#forint, #newPrice{
+    border: 1px solid var(--border-color);
+    height: 40px;
+}
+
+#setPrice-modalFooter{
+    border-top: none;
+}
+
+/** --------------- FOOTER ---------------*/
 
 #footer-logo {
+    /* padding-left: 6%; */
     display: flex;
 }
 
 footer {
     border-top: solid 0.094rem rgb(129, 105, 117);
     background-color: var(--footer-bg-color);
-    padding-top: 30px;
+    padding-top: 50px;
     padding-right: 5%;
     padding-left: 5%;
-    height: 300px;
+    height: fit-content;
 }
 
 footer h3 {
     font-size: 1.75rem;
-    margin-bottom: 1rem;
+    margin-bottom: 10px;
 }
 
 footer ul {
@@ -1177,5 +1221,4 @@ footer a:hover {
 #copy-right {
     font-size: small;
     font-family: 'Poppins-Regular', sans-serif;
-
 }

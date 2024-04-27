@@ -62,7 +62,6 @@
     <section class="container-fluid" id="s2">
         <div id="profile-pic-div">
             <img class="rounded-circle shadow-sm" height="240" width="240" id="profile-picture">
-
         </div>
 
         <div id="edit-pic-div"> <!--Csak akkor látható ha a saját profilja-->
@@ -175,26 +174,30 @@
                         <p class="personal-datas-light" id="website-link">----</p>
                     </div>
                 </div>
+
             </div>
 
             <!-- books and posts -->
             <div class="col-6" id="posts-and-books">
                 <div class="container-fluid pb-header-btns" id="pb-header">
-                    <button class="active-btn btn-h2 border-0" id="our-books">Our Books</button> 
-                    <button class="disabled-btn btn-h2 border-0" id="our-posts">Our Posts</button>
+                    <button class="active-btn btn-h2 border-0" id="our-books"></button> <!-- DEFAULT -->
+                    <button class="disabled-btn btn-h2 border-0" id="our-posts"></button>
                 </div>
 
-                <div class="container" id="books"> 
-                    <!-- books -->
-                    <p id="missing-book-text-own" class="missing-data-text text-center" hidden>You don't have any books.</p>
-                    <p id="missing-book-text" class="missing-data-text text-center" hidden>This user doesn't have any books.</p>
-                    <p id="access-denied-notification" class="missing-data-text text-center" hidden>You are not authorised to view this user's books.</p>
+                <div class="container" id="books"> <!-- DEFAULT -->
+                    <p id="missing-book-text-own" class="missing-data-text text-center" hidden>You don't have any books.
+                    </p>
+                    <p id="missing-book-text" class="missing-data-text text-center" hidden>This user doesn't have any
+                        books.</p>
+                    <p id="access-denied-notification" class="missing-data-text text-center" hidden>You are not
+                        authorised to view this user's books.</p>
                 </div>
 
                 <div class="container" id="posts" hidden>
-                    <!-- posts -->
-                    <p id="missing-posts-text-own" class="missing-data-text text-center" hidden>You don't have any posts.</p>
-                    <p id="missing-posts-text" class="missing-data-text text-center" hidden>This user doesn't have any posts.</p>
+                    <p id="missing-posts-text-own" class="missing-data-text text-center" hidden>You don't have any
+                        posts.</p>
+                    <p id="missing-posts-text" class="missing-data-text text-center" hidden>This user doesn't have any
+                        posts.</p>
                 </div>
             </div>
         </div>
@@ -210,7 +213,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                   
+                    <!-- drag and drop -->
                     <div id="drop-image" class="text-center">
                         <label for="inputPicture" id="drop-area-picture">
                             <input type="file" accept=".jpg" id="inputPicture" hidden>
@@ -224,7 +227,8 @@
                                     </svg>
                                 </div>
                                 <p class="uploadP" id="upload-p">Drag and drop or click here to upload image</p>
-                                <span class="uploadSpan" id="upload-span">Upload any images from desktop</span>
+                                <span class="uploadSpan" id="upload-span">Upload any images in jpg format from
+                                    desktop</span>
                             </div>
                         </label>
                     </div>
@@ -257,6 +261,7 @@
         </div>
     </div>
 
+
     <!-- popup a beállításokhoz -->
     <div class="modal fade" id="settings-modal" tabindex="-1" aria-labelledby="settings-labels" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
@@ -268,18 +273,15 @@
                 </div>
 
                 <div class="modal-body" id="settings-body">
-                   
                     <div class="col-3 container" id="options-panel">
-                      
+                        <!-- options panel -->
                         <p class="active-set" id="profile-settings">Profile Settings</p>
                         <p class="disabled-set" id="privacy-settings">Privacy Settings</p>
                         <p class="disabled-set" id="buisness-settings">Buisness Information</p>
-
-
                     </div>
 
+                    <!-- default visible -> profile settings -->
                     <div class="col-9 container actual-settings" id="profile-settings-div">
-                     
                         <div id="set-username" class="set-row">
                             <div class="label-div">
                                 <p class="set-label">Username</p>
@@ -289,7 +291,7 @@
                             </div>
 
                             <div class="inputGroup-divs">
-                                <input class="form-control set-inputs" type="text" id="input-un" readonly>
+                                <input class="form-control set-inputs" type="text" id="input-un" disabled>
                                 <button id="edit-username" class="settings-editButton rounded-circle">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
                                         class="bi bi-pen" viewBox="0 0 16 16">
@@ -298,17 +300,22 @@
                                     </svg>
                                 </button>
                             </div>
-                            <div class="error" id="un-error"></div> 
+                            <div class="error" id="un-error"></div>
                             <div class="save-and-cancel" id="username-saveCancel" hidden>
-                                <button type="button" class="btn saveChanges-btn" id="un-save" disabled>Save</button>
+                                <button type="button" class="btn saveChanges-btn" id="un-save">Save</button>
                                 <button type="button" class="btn cancel-btn" id="un-cancel">Cancel</button>
                             </div>
                         </div>
 
                         <div id="set-email" class="set-row">
-                            <p class="set-label">Email</p>
+                            <div class="label-div">
+                                <p class="set-label">Email</p>
+                                <i class="bi bi-info-circle info" tabindex="0" data-bs-toggle="popover"
+                                    data-bs-trigger="hover focus"
+                                    data-bs-content="If you want this data to be public, you need to set it in the 'privacy settings' tab."></i>
+                            </div>
                             <div class="inputGroup-divs">
-                                <input class="form-control set-inputs" type="text" id="input-email" readonly>
+                                <input class="form-control set-inputs" type="text" id="input-email" disabled>
                                 <button id="edit-email" class="settings-editButton rounded-circle">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
                                         class="bi bi-pen" viewBox="0 0 16 16">
@@ -317,7 +324,7 @@
                                     </svg>
                                 </button>
                             </div>
-                            <div class="error" id="e-error"></div> 
+                            <div class="error" id="e-error"></div>
 
                             <div class="save-and-cancel" id="email-saveCancel" hidden>
                                 <button type="button" class="btn saveChanges-btn" id="e-save">Save</button>
@@ -329,7 +336,7 @@
                         <div id="set-website" class="set-row">
                             <p class="set-label">Website</p>
                             <div class="inputGroup-divs">
-                                <input class="form-control set-inputs" type="text" id="input-website" readonly>
+                                <input class="form-control set-inputs" type="text" id="input-website" disabled>
                                 <button id="edit-website" class="settings-editButton rounded-circle">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
                                         class="bi bi-pen" viewBox="0 0 16 16">
@@ -338,7 +345,7 @@
                                     </svg>
                                 </button>
                             </div>
-                            <div class="error" id="w-error"></div> 
+                            <div class="error" id="w-error"></div>
 
                             <div class="save-and-cancel" id="web-saveCancel" hidden>
                                 <button type="button" class="btn saveChanges-btn" id="w-save">Save</button>
@@ -350,7 +357,7 @@
                         <div id="set-pwd" class="set-row">
                             <p class="set-label">Password</p>
                             <div class="inputGroup-divs">
-                                <input class="form-control set-inputs" type="password" id="input-pwd" readonly>
+                                <input class="form-control set-inputs" type="password" id="input-pwd" disabled>
                                 <button id="edit-pwd" class="settings-editButton rounded-circle">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
                                         class="bi bi-pen" viewBox="0 0 16 16">
@@ -359,7 +366,7 @@
                                     </svg>
                                 </button>
                             </div>
-                            <div class="error" id="pwd-error"></div> 
+                            <div class="error" id="pwd-error"></div>
                             <div class="save-and-cancel" id="pwd-saveCancel" hidden>
                                 <button type="button" class="btn saveChanges-btn" id="pwd-save">Save</button>
                                 <button type="button" class="btn cancel-btn" id="pwd-cancel">Cancel</button>
@@ -377,7 +384,7 @@
 
                             <div class="inputGroup-divs">
                                 <input class="form-control set-inputs" type="text" id="input-phoneNumber" min="7"
-                                    max="15" readonly>
+                                    max="15" disabled>
                                 <button id="edit-phone" class="settings-editButton rounded-circle">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
                                         class="bi bi-pen" viewBox="0 0 16 16">
@@ -387,7 +394,7 @@
                                 </button>
                             </div>
 
-                            <div class="error" id="phone-error"></div> 
+                            <div class="error" id="phone-error"></div>
 
                             <div class="save-and-cancel" id="phone-saveCancel" hidden>
                                 <button type="button" class="btn saveChanges-btn" id="p-save">Save</button>
@@ -402,7 +409,7 @@
 
                                     <label for="set-fName">First name</label>
                                     <div class="inputGroup-divs">
-                                        <input class="form-control set-inputs" type="text" id="input-fName" readonly>
+                                        <input class="form-control set-inputs" type="text" id="input-fName" disabled>
                                         <button id="edit-fName" class="settings-editButton rounded-circle">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
                                                 fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
@@ -412,7 +419,7 @@
                                         </button>
                                     </div>
 
-                                    <div class="error" id="fn-error"></div> 
+                                    <div class="error" id="fn-error"></div>
 
                                     <div class="save-and-cancel" id="fName-saveCancel" hidden>
                                         <button type="button" class="btn saveChanges-btn" id="fn-save">Save</button>
@@ -423,7 +430,7 @@
                                 <div class="col-6">
                                     <label for="set-fName">Last name</label>
                                     <div class="inputGroup-divs">
-                                        <input class="form-control set-inputs" type="text" id="input-lName" readonly>
+                                        <input class="form-control set-inputs" type="text" id="input-lName" disabled>
                                         <button id="edit-lName" class="settings-editButton rounded-circle">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
                                                 fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
@@ -433,7 +440,7 @@
                                         </button>
                                     </div>
 
-                                    <div class="error" id="ln-error"></div> 
+                                    <div class="error" id="ln-error"></div>
 
                                     <div class="save-and-cancel" id="lName-saveCancel" hidden>
                                         <button type="button" class="btn saveChanges-btn" id="ln-save">Save</button>
@@ -449,11 +456,9 @@
                         </div>
                     </div>
 
-                    <!-- default hidden -> privacy settings -->
+                    <!-- privacy settings -->
                     <div class="col-9 container actual-settings" id="privacy-settings-div" hidden>
-                        
                         <div class="form-check form-switch" id="pub-email-div">
-
                             <input class="form-check-input my-switch" type="checkbox" data-bs-toggle="toggle"
                                 id="email-isPublic">
                             <label class="form-check-label swiitch-label" for="email-isPublic">Make the email
@@ -467,7 +472,7 @@
                         </div>
                     </div>
 
-                    <!-- default hidden -> buisness information -->
+                    <!-- buisness information -->
                     <div class="col-9 container actual-settings" id="buisness-settings-div" hidden>
                         <div id="set-company" class="set-row">
                             <div class="label-div">
@@ -477,7 +482,7 @@
                                     data-bs-content="If you want this data to be public, you need to set it in the 'privacy settings' tab."></i>
                             </div>
                             <div class="inputGroup-divs">
-                                <input class="form-control set-inputs" type="text" id="input-company" readonly>
+                                <input class="form-control set-inputs" type="text" id="input-company" disabled>
                                 <button id="edit-company" class="settings-editButton rounded-circle">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
                                         class="bi bi-pen" viewBox="0 0 16 16">
@@ -487,7 +492,7 @@
                                 </button>
                             </div>
 
-                            <div class="error" id="c-error"></div> 
+                            <div class="error" id="c-error"></div>
 
                             <div class="save-and-cancel" id="company-saveCancel" hidden>
                                 <button type="button" class="btn saveChanges-btn" id="c-save">Save</button>
@@ -517,38 +522,34 @@
     <!-- Modal a könyvekhez -->
     <div id="bookPopup" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-scrollable">
-
             <div class="modal-content" id="book-modal-content">
                 <div class="modal-header" id="book-modal-header">
-                    <!--TODO: klikkre váltson át a teli bookmark-ra  -->
-                    <button class="save-btn" id="save-btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                            fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+
+                    <button class="save-btn" id="save-btn"><svg xmlns="http://www.w3.org/2000/svg" width="20"
+                            height="20" class="bi bi-bookmark" viewBox="0 0 16 16" id="bookmark">
                             <path
                                 d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
                         </svg></button>
+
+
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
                 </div>
                 <div class="modal-body" id="book-popup-modal-body">
-
                     <img src="../pictures/standard-book-cover.jpg" class="modal-img" id="book-modal-img">
-
                     <h3 class="modal-h3" id="modal-title"></h3>
-
                     <p class="modal-p author" id="modal-author"></p>
+                    <p class="modal-p author" id="modal-publisher"></p>
 
                     <div class="babszem text-center">
-
                         <div class="col-3 colDiv babszem-margin">
                             <h4 class="align-middle" id="modal-pages"></h4>
                             <p>Pages</p>
                         </div>
-
                         <div class="col-3 colDiv babszem-margin">
                             <h4 id="modal-ranking"></h4>
                             <p>Ranking</p>
                         </div>
-
                         <div class="col-3 colDiv">
                             <h4 id="modal-language"></h4>
                             <p>Language</p>
@@ -558,7 +559,6 @@
                     <div class="modal-description">
                         <p id="modal-desc"></p>
                     </div>
-
 
                 </div>
                 <div class="modal-footer" id="book-modal-footer">
@@ -573,7 +573,7 @@
                                     d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
                             </svg>
                         </button>
-                       
+
                         <button class="sMoreBtn border-0" id="publish-btn" hidden>Let's Publish</button>
                     </div>
                     <p class="price" id="book-price"></p>
@@ -620,18 +620,50 @@
         </div>
     </div>
 
+    <!-- Modal az ár szerkesztéséhez => Kiadói profil -->
+    <div class="modal fade" id="setPriceModal" tabindex="-1" aria-labelledby="setPriceModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="setPriceModalLabel">Let's set your book's price!</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="modal-p">Would you change the price of your book? No problem!
+                        However, please note that our prices are in Hungarian forints and your book cannot be cheaper
+                        than 1000ft.</p>
+
+                    <div class="setPrice-div">
+                        <label for="newPrice" class=" modal-p">Enter the new price:</label>
+                        <div class="input-group flex-nowrap" id="price-div">
+                            <input type="number" class="form-control" aria-describedby="addon-wrapping" id="newPrice">
+                            <span class="input-group-text" id="forint">Ft</span>
+                        </div>
+
+                    </div>
+                    <p class="error" id="newPriceErr" style="font-size: 16px;"></p>
+                </div>
+                <div class="modal-footer" id="setPrice-modalFooter">
+                    <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn saveChanges-btn" id="save-modal-price">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- FOOTER -->
     <footer class="footer">
         <div class="container-fluid align-content-center">
 
             <div class="row">
-                <div class=" col-12 col-sm-6 d-flex align-items-center mx-auto" id="footer-logo-div">
+                <div class=" col-12 col-sm-6 d-flex align-items-center mx-auto">
                     <img src="../pictures/LOGO.svg" id="footer-logo">
                 </div>
                 <div class=" col-12 col-sm-6 text-lg-start text-xl-start" id="useful-links">
                     <h3 id="footer-h3" class="textCentered">Useful Links</h3>
                     <ul id="footer-ul">
-                        <li id="email"><i class="icon bi bi-google"
+
+                        <li id="email"><i class="bi bi-google"
                                 style="margin-right: 0.625rem;"></i>cyberread2023@gmail.com
                         </li>
                         <li id="facebook"><i class="bi bi-facebook" style="margin-right: 0.625rem;"></i><a
@@ -641,6 +673,10 @@
                         </li>
                         <li id="help-center"><i class="bi bi-info-circle-fill" style="margin-right: 0.625rem;"></i><a
                                 href="../HelpCenter/helpcenter.html">Help Center</a></li>
+
+                        <li id="terms"><i class="bi bi-info-circle-fill" style="margin-right: 0.625rem;"></i><a
+                                href="../TermsAndConditions/TermsAndConditions.html">Terms & Conditions</a></li>
+
                         <li id="help-center"><img src="../icons/C-logo.svg"
                                 style="width: 25px; margin-right: 0.313rem;"><a href="../About Us/aboutus.html">About
                                 Us</a></li>
@@ -654,6 +690,8 @@
 
         </div>
     </footer>
+
+
 
     <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
