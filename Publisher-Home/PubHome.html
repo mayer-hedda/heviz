@@ -29,8 +29,7 @@
 
             <div class="collapse navbar-collapse " id="navbarNav" style="margin-left: 195px;">
                 <div class="navbar-nav text-center justify-content-center">
-                    <a class="nav-link active" aria-current="page" id="HomePage" onclick="window.location.reload()">Home
-                        Page</a>
+                    <a class="nav-link active" aria-current="page" id="HomePage" onclick="window.location.reload()">Home Page</a>
                     <a class="nav-link" id="Feed" href="../Feed/feed.html">Feed</a>
                     <a class="nav-link" id="Explore" href="../Explore/explore.html">Explore</a>
                     <a class="nav-link" id="SavedBooks" href="../MyBooks/mybooks.html">Saved Books</a>
@@ -138,7 +137,7 @@
 
                 <div class="col-9 medium-right-side">
                     <h2 class="container medium-h2" id="s3-mediumC-h2"></h2>
-
+                    
                     <p class="username author" id="s3-mediumC-author"></p>
 
                     <p class="medium-desc" id="s3-mediumC-desc"></p>
@@ -286,9 +285,9 @@
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-
-                    <button class="save-btn" id="save-btn"><svg xmlns="http://www.w3.org/2000/svg" width="20"
-                            height="20" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+                  
+                    <button class="save-btn" id="save-btn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                            fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
                             <path
                                 d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
                         </svg></button>
@@ -327,46 +326,13 @@
                 <div class="modal-footer">
                     <div class="m-footer-div">
 
-                        <button class="sMoreBtn border-0" data-bs-toggle="modal"
-                            data-bs-target="#publishing-modal">Let's Publish</button>
+                        <button class="sMoreBtn border-0">Let's Publish</button>
 
                     </div>
                     <p class="price" id="book-price"></p>
                 </div>
             </div>
 
-        </div>
-    </div>
-
-    <!-- publishing modal -->
-    <div class="modal fade" id="publishing-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Let's Publish</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p class="modal-p">Wonderful! Please fill in the details below and we're ready to go!</p>
-
-                    <div class="input-group mb-3">
-                        <label class="modal-p" for="publisher-price">Price:</label>
-                        <input type="number" min="0" class="form-control" aria-describedby="forint" id="publisher-price">
-                        <span class="input-group-text" id="forint">Ft</span>
-                    </div>
-
-                    <div class="bank-acc mb-3">
-                        <label for="bank-num" class="modal-p">Bank Account Number</label>
-                        <input type="text" class="form-control" id="bank-num">
-                    </div>
-
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn publish">Publish!</button>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -406,8 +372,8 @@
                         <li id="terms"><i class="bi bi-info-circle-fill" style="margin-right: 0.625rem;"></i><a
                                 href="../TermsAndConditions/TermsAndConditions.html">Terms & Conditions</a></li>
 
-                        <li id="aboutus"><img src="../icons/C-logo.svg" style="width: 25px; margin-right: 0.313rem;"><a
-                                href="../About Us/aboutus.html">About
+                        <li id="aboutus"><img src="../icons/C-logo.svg"
+                                style="width: 25px; margin-right: 0.313rem;"><a href="../About Us/aboutus.html">About
                                 Us</a></li>
                     </ul>
                 </div>
