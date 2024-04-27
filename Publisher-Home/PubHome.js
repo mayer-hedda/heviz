@@ -285,17 +285,19 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
     });
 
     mediumC_btn.addEventListener('click', () => {
-        loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].price, response.data[0].username, response.data[0].id, response.data[0].saved);
+        loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].username, response.data[0].id, response.data[0].saved);
     });
 
-    for (let i = 1; i <= 4; i++) {
-        const cardDiv = createCard(response.data[i]);
-        firstRow.appendChild(cardDiv);
-    }
-
-    for (let i = 5; i < response.data.length; i++) {
-        const cardDiv = createCard(response.data[i]);
-        secondRow.appendChild(cardDiv);
+    if(response.data.length <= 4) {
+        for (let i = 1; i < response.data.length; i++) {
+            const cardDiv = createCard(response.data[i]);
+            firstRow.appendChild(cardDiv);
+        }
+    } else {
+        for (let i = 5; i < response.data.length; i++) {
+            const cardDiv = createCard(response.data[i]);
+            secondRow.appendChild(cardDiv);
+        }
     }
 }
 
@@ -436,7 +438,7 @@ let deletedSavedBooksIds = [];
 let savedBoolean;
 let bookId;
 
-function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, bookIdString, isSaved) {
+function loadModalData(url, title, firstName, lastName, description, language, rating, pages, username, bookIdString, isSaved) {
     bookId = parseInt(bookIdString);
 
     if (own_uname == username) {
