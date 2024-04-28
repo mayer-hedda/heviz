@@ -894,6 +894,65 @@ async function setPublishedBookDetails(raw) {
 }
 
 
+/**
+ * @param {JSON} raw = {
+ *      "id": 1             (book id)
+ *  }
+ *
+ * @return
+    * 200: 
+        * price
+        * publisherBankAccountNumber
+    * 
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 
+    * 403: You are not authorised to access this page
+    * 
+    * 422: error
+ */
+async function getPublishedBookDetails(raw) {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getPublishedBookDetails", requestOptions);
+
+        if (response.status == 422 || response.status == 200) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
+        } else if (response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        }
+
+        return { status: response.status }
+    } catch (error) {
+        return { error: error }
+    }
+}
+
+
 
 
 // ----- FEED -----
