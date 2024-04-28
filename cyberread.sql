@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Ápr 28. 17:45
+-- Létrehozás ideje: 2024. Ápr 28. 18:53
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -2146,23 +2146,135 @@ ORDER BY
     RAND()
 LIMIT 9$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getRecommandedUsers` (IN `userIdIN` INT)   SELECT DISTINCT `user`.`image`, `user`.`username`
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getRecommandedUsers` (IN `userIdIN` INT)   BEGIN
+
+DECLARE rank VARCHAR(20);
+DECLARE followingCount INT;
+DECLARE userCount INT;
+DECLARE additionalUsers INT;
+
+SELECT `user`.`rank` INTO rank
 FROM `user`
-INNER JOIN `follow` ON `user`.`id` = `follow`.`followerId`
-WHERE `follow`.`followedId` IN (
-    SELECT DISTINCT `user`.`id`
-	FROM `user`
-	INNER JOIN `follow` ON `user`.`id` = `follow`.`followedId`
-	WHERE `follow`.`followerId` = userIdIN
-)
-AND `user`.`id` != userIdIN
-AND `user`.`id` NOT IN (
-	SELECT `user`.`id`
-    FROM `user`
-    INNER JOIN `follow` ON `user`.`id` = `follow`.`followedId`
-    WHERE `follow`.`followerId` = userIdIN
-)
-LIMIT 10$$
+WHERE `user`.`id` = userIdIN;
+
+SELECT COUNT(*) INTO followingCount
+FROM `follow`
+WHERE `followerId` = userIdIN;
+
+IF rank = "general" THEN
+
+    SELECT COUNT(*) INTO followingCount
+    FROM `book`
+    WHERE `writerId` = userIdIN AND (`status` = 'published by' OR `status` = 'self-published');
+
+    IF followingCount = 0 THEN
+        SELECT COUNT(*) INTO userCount
+        FROM `user`
+        WHERE `deleted` = 0;
+        
+        IF userCount < 4 THEN
+            SET additionalUsers = 4 - userCount;
+        END IF;
+        
+        SELECT DISTINCT `user`.`image`, `user`.`username`
+        FROM `user`
+        WHERE `deleted` = 0
+        AND `user`.`id` IN (
+            SELECT DISTINCT `user`.`id`
+            FROM `user`
+            INNER JOIN `book` ON `user`.`id` = `book`.`writerId`
+            WHERE `book`.`status` = 'published by' OR `book`.`status` = 'self-published'
+        )
+        ORDER BY RAND()
+        LIMIT 4;
+        
+        IF userCount < 4 THEN
+            INSERT INTO resultTable (image, username)
+            SELECT DISTINCT `user`.`image`, `user`.`username`
+            FROM `user`
+            WHERE `deleted` = 0
+            AND `user`.`id` NOT IN (
+                SELECT DISTINCT `user`.`id`
+                FROM `user`
+                INNER JOIN `book` ON `user`.`id` = `book`.`writerId`
+                WHERE `book`.`status` = 'published by' OR `book`.`status` = 'self-published'
+            )
+            ORDER BY RAND()
+            LIMIT additionalUsers;
+        END IF;
+        
+    ELSE
+        SELECT DISTINCT `user`.`image`, `user`.`username`
+        FROM `user`
+        INNER JOIN `follow` ON `user`.`id` = `follow`.`followerId`
+        INNER JOIN `book` ON `user`.`id` = `book`.`writerId`
+        WHERE `follow`.`followedId` IN (
+            SELECT DISTINCT `user`.`id`
+            FROM `user`
+            INNER JOIN `follow` ON `user`.`id` = `follow`.`followedId`
+            WHERE `follow`.`followerId` = userIdIN
+        )
+        AND (`book`.`status` = 'published by' OR `book`.`status` = 'self-published')
+        AND `user`.`id` != userIdIN
+        AND `user`.`deleted` = 0
+        LIMIT 4;
+    END IF;
+    
+ELSEIF rank = "publisher" THEN
+
+    SELECT COUNT(*) INTO followingCount
+    FROM `book`
+    WHERE `writerId` IN (
+        SELECT DISTINCT `user`.`id`
+        FROM `user`
+        INNER JOIN `book` ON `user`.`id` = `book`.`writerId`
+        WHERE `book`.`status` = 'looking for a publisher'
+    );
+
+    IF followingCount = 0 THEN
+        SELECT COUNT(*) INTO userCount
+        FROM `user`
+        WHERE `deleted` = 0;
+        
+        IF userCount < 4 THEN
+            SET additionalUsers = 4 - userCount;
+        END IF;
+        
+        SELECT DISTINCT `user`.`image`, `user`.`username`
+        FROM `user`
+        WHERE `deleted` = 0
+        ORDER BY RAND()
+        LIMIT 4;
+        
+        IF userCount < 4 THEN
+            INSERT INTO resultTable (image, username)
+            SELECT DISTINCT `user`.`image`, `user`.`username`
+            FROM `user`
+            WHERE `deleted` = 0
+            ORDER BY RAND()
+            LIMIT additionalUsers;
+        END IF;
+        
+    ELSE
+        SELECT DISTINCT `user`.`image`, `user`.`username`
+        FROM `user`
+        INNER JOIN `follow` ON `user`.`id` = `follow`.`followerId`
+        INNER JOIN `book` ON `user`.`id` = `book`.`writerId`
+        WHERE `follow`.`followedId` IN (
+            SELECT DISTINCT `user`.`id`
+            FROM `user`
+            INNER JOIN `follow` ON `user`.`id` = `follow`.`followedId`
+            WHERE `follow`.`followerId` = userIdIN
+        )
+        AND `book`.`status` = 'looking for a publisher'
+        AND `user`.`id` != userIdIN
+        AND `user`.`deleted` = 0
+        LIMIT 4;
+    END IF;
+
+END IF;
+
+END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getSavedBooksByCategoryId` (IN `userIdIN` INT, IN `categoryIdIN` INT, OUT `result` INT)   BEGIN
 	
@@ -3783,7 +3895,16 @@ INSERT INTO `categoryinterest` (`id`, `userId`, `categoryId`) VALUES
 (181, 30, 26),
 (182, 32, 1),
 (183, 32, 2),
-(184, 32, 3);
+(184, 32, 3),
+(185, 20, 1),
+(186, 20, 5),
+(187, 20, 6),
+(188, 20, 7),
+(189, 20, 8),
+(190, 20, 19),
+(191, 20, 26),
+(192, 20, 32),
+(193, 20, 33);
 
 -- --------------------------------------------------------
 
@@ -4448,7 +4569,10 @@ INSERT INTO `saved` (`id`, `userId`, `bookId`, `savedTime`) VALUES
 (23, 12, 3, '2024-04-27 18:59:07'),
 (24, 21, 15, '2024-04-28 11:15:54'),
 (25, 1, 9, '2024-04-28 11:17:53'),
-(26, 1, 8, '2024-04-28 11:17:57');
+(26, 1, 8, '2024-04-28 11:17:57'),
+(27, 21, 19, '2024-04-28 15:51:12'),
+(28, 21, 4, '2024-04-28 15:51:26'),
+(29, 21, 24, '2024-04-28 15:51:31');
 
 -- --------------------------------------------------------
 
@@ -4526,7 +4650,7 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `rank`, `firstName`, 
 (17, 'lucas121', 'lucasnelson@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Lucas', 'Nelson', '06206783562', 0, 1, 'Lucas Nelson here, penning tales that transport you to worlds both familiar and fantastical.', NULL, 'pictures/default-profile-pic-man.png', '2023-06-12 11:45:32', 0, 0, 37, 17),
 (18, 'chloe_baker_author', 'chloe.baker@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Chloe', 'Baker', '06708344627', 1, 1, 'Greetings, fellow bibliophiles! I\'m Chloe Baker, crafting stories that illuminate the human experience.', 'www.chloebaker.com', 'pictures/default-profile-pic-man.png', '2024-03-15 12:46:20', 0, 1, 26, 18),
 (19, 'jackie_', 'jack.wright@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Jack', 'Wright', '06709352342', 1, 0, 'Jack Wright here, embarking on literary journeys that stir the soul and captivate the mind.', 'www.jackwright.com', 'pictures/default-profile-pic-man.png', '2024-04-14 11:47:39', 0, 0, 38, 19),
-(20, 'lily_hughes_', 'lily.hughes@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Lily ', 'Hughes', '06708234142', 0, 0, '', '', 'pictures/default-profile-pic-man.png', '2024-04-24 11:48:48', 1, 0, 1, 20),
+(20, 'lily_hughes_', 'lily.hughes@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Lily ', 'Hughes', '06708234142', 0, 0, '', '', 'pictures/default-profile-pic-man.png', '2024-04-24 11:48:48', 0, 0, 1, 20),
 (21, 'bright_publications', 'info@brightpublications.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'John', 'Smith', '06204535324', 1, 1, 'Welcome to Bright Publications, where we illuminate minds with compelling stories and insightful narratives.\n', 'www.google.com', 'pictures\\user\\avatar-4.jpg', '2023-01-18 19:50:38', 0, 0, 39, 1),
 (22, 'stellar_press', 'contact@stellarpress.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Emily', 'Johnson', '06201742855', 1, 0, 'Stellar Press - Where every story shines. Join us on a journey through the cosmos of literature.', 'www.stellarpress.com', 'pictures/default-profile-pic-man.png', '2023-04-04 18:51:25', 0, 0, 40, 2),
 (23, 'horizon_books', 'info@horizonbooks.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Michael', 'Davis', '06701693855', 1, 1, 'Welcome to Horizon Books, where every page leads to new horizons of imagination and discovery.', 'www.horizonbooks.com', 'pictures/default-profile-pic-man.png', '2023-06-29 18:52:22', 0, 0, 26, 3),
@@ -4719,7 +4843,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT a táblához `categoryinterest`
 --
 ALTER TABLE `categoryinterest`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=185;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=194;
 
 --
 -- AUTO_INCREMENT a táblához `color`
@@ -4731,7 +4855,7 @@ ALTER TABLE `color`
 -- AUTO_INCREMENT a táblához `follow`
 --
 ALTER TABLE `follow`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
 
 --
 -- AUTO_INCREMENT a táblához `forgotpassword`
@@ -4785,7 +4909,7 @@ ALTER TABLE `publisher`
 -- AUTO_INCREMENT a táblához `saved`
 --
 ALTER TABLE `saved`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT a táblához `targetaudience`
