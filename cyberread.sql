@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Ápr 28. 17:02
+-- Létrehozás ideje: 2024. Ápr 28. 17:45
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -916,7 +916,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredPayedBooks` (IN `userIdI
                     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                     LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id`
                     INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
-                    WHERE `bookShopping`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                    WHERE `bookShopping`.`userId` = userIdIN
                     ORDER BY `book`.`title` ASC;
                 ELSEIF filter = 2 THEN
                 	SELECT
@@ -947,7 +947,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredPayedBooks` (IN `userIdI
                     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                     LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id`
                     INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
-                    WHERE `bookShopping`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                    WHERE `bookShopping`.`userId` = userIdIN
                     ORDER BY `book`.`title` DESC;
                 ELSEIF filter = 3 THEN
                 	SELECT
@@ -978,7 +978,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredPayedBooks` (IN `userIdI
                     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                     LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id`
                     INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
-                    WHERE `bookShopping`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                    WHERE `bookShopping`.`userId` = userIdIN
                     ORDER BY `book`.`publishedTime` ASC;
                 ELSEIF filter = 4 THEN
                 	SELECT
@@ -1009,7 +1009,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredPayedBooks` (IN `userIdI
                     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                     LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id`
                     INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
-                    WHERE `bookShopping`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                    WHERE `bookShopping`.`userId` = userIdIN
                     ORDER BY `book`.`publishedTime` DESC;
                 ELSEIF filter = 5 THEN
                     SELECT
@@ -1040,7 +1040,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredPayedBooks` (IN `userIdI
                     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                     LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id`
                     INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
-                    WHERE `bookShopping`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                    WHERE `bookShopping`.`userId` = userIdIN
                     ORDER BY `book`.`price` ASC;
                 ELSEIF filter = 6 THEN
                     SELECT
@@ -1071,7 +1071,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredPayedBooks` (IN `userIdI
                     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                     LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id`
                     INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
-                    WHERE `bookShopping`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                    WHERE `bookShopping`.`userId` = userIdIN
                     ORDER BY `book`.`price` DESC;
                 ELSEIF filter = 7 THEN
                     SELECT
@@ -1102,7 +1102,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredPayedBooks` (IN `userIdI
                     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                     LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id`
                     INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
-                    WHERE `bookShopping`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                    WHERE `bookShopping`.`userId` = userIdIN
                     ORDER BY (
                         SELECT COUNT(*)
                         FROM `saved`
@@ -1137,7 +1137,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredPayedBooks` (IN `userIdI
                     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                     LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id`
                     INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
-                    WHERE `bookShopping`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                    WHERE `bookShopping`.`userId` = userIdIN
                     ORDER BY `bookrat`.`rat` ASC;
                 ELSEIF filter = 9 THEN
                     SELECT
@@ -2598,7 +2598,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserBooks` (IN `userIdIN` INT, I
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserDetails` (IN `userIdIN` INT, IN `usernameIN` VARCHAR(50), IN `profileUsernameIN` VARCHAR(50), OUT `result` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserDetails` (IN `userIdIN` INT, IN `usernameIN` VARCHAR(50), IN `profileUsernameIN` VARCHAR(50), OUT `result` INT, OUT `deleted` INT)   BEGIN
     DECLARE profileUserId INT;
     DECLARE profileUserRank VARCHAR(20);
     DECLARE userRank VARCHAR(20);
@@ -2619,148 +2619,154 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserDetails` (IN `userIdIN` INT,
         
         SET userIdMatch = (profileUserId = userIdIN);
         
-        IF userIdMatch = TRUE THEN
-        	IF userRank = "general" THEN
-            	SELECT
-                    `user`.`rank`,
-                    `user`.`username`,
-                    `user`.`image`,
-                    IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
-                    `user`.`firstName`,
-                    `user`.`lastName`,
-                    (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`writerId` = profileUserId) AS bookCount,
-                    (SELECT COUNT(`saved`.`id`) FROM `saved` WHERE `saved`.`userId` = profileUserId) AS savedCount,
-                    (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
-                    `user`.`introDescription`,
-                    `user`.`website`,
-                    `color`.`code`,
-                    userIdMatch AS userIdMatchFlag,
-                    IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
-                    IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
-                    YEAR(`user`.`registrationTime`)
-                FROM `user`
-                LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
-                INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
-                WHERE `user`.`id` = profileUserId;
-                
-                SET result = 1;
-            ELSEIF userRank = "publisher" THEN
-            	SELECT
-                    `user`.`rank`,
-                    `user`.`username`,
-                    `user`.`image`,
-                    IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
-                    `publisher`.`companyName`,
-                    (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`publisherId` = profileUserId) AS bookCount,
-                    (SELECT COUNT(`writers`.`writerId`) FROM (SELECT DISTINCT `book`.`writerId` FROM `book` WHERE `book`.`publisherId` = profileUserId) AS `writers`) AS writerCount,
-                    (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
-                    `user`.`introDescription`,
-                    `user`.`website`,
-                    `color`.`code`,
-                    userIdMatch AS userIdMatchFlag,
-                    IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
-                    IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
-                    YEAR(`user`.`registrationTime`)
-                FROM `user`
-                LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
-                INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
-                INNER JOIN `publisher` ON `publisher`.`id` = `user`.`userId`
-                WHERE `user`.`id` = profileUserId;
-                
-                SET result = 1;
-            END IF;
+        IF (SELECT `user`.`deleted` FROM `user` WHERE `user`.`id` = profileUserId) = 1 THEN
+        	SET deleted = 1;
         ELSE
-            IF profileUserRank = "general" AND userRank = "general" THEN
-                SELECT
-                    `user`.`rank`,
-                    `user`.`username`,
-                    `user`.`image`,
-                    IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
-                    `user`.`firstName`,
-                    `user`.`lastName`,
-                    (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`writerId` = profileUserId AND `book`.`status` != "looking for a publisher") AS bookCount,
-                    (SELECT COUNT(`saved`.`id`) FROM `saved` WHERE `saved`.`userId` = profileUserId) AS savedCount,
-                    (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
-                    `user`.`introDescription`,
-                    `user`.`website`,
-                    `color`.`code`,
-                    userIdMatch AS userIdMatchFlag,
-                    IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
-                    IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
-                    YEAR(`user`.`registrationTime`)
-                FROM `user`
-                LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
-                INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
-                WHERE `user`.`id` = profileUserId;
-            ELSEIF profileUserRank = "publisher" AND userRank = "general" THEN
-                SELECT
-                    `user`.`rank`,
-                    `user`.`username`,
-                    `user`.`image`,
-                    IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
-                    `publisher`.`companyName`,
-                    (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`publisherId` = profileUserId AND `book`.`status` != "looking for a publisher") AS bookCount,
-                    (SELECT COUNT(`writers`.`writerId`) FROM (SELECT DISTINCT `book`.`writerId` FROM `book` WHERE `book`.`publisherId` = profileUserId) AS `writers`) AS writerCount,
-                    (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
-                    `user`.`introDescription`,
-                    `user`.`website`,
-                    `color`.`code`,
-                    userIdMatch AS userIdMatchFlag,
-                    IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
-                    IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
-                    YEAR(`user`.`registrationTime`)
-                FROM `user`
-                LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
-                INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
-                INNER JOIN `publisher` ON `publisher`.`id` = `user`.`userId`
-                WHERE `user`.`id` = profileUserId;
-            ELSEIF userRank = "publisher" AND profileUserRank = "general" THEN
-                SELECT
-                    `user`.`rank`,
-                    `user`.`username`,
-                    `user`.`image`,
-                    IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
-                    `user`.`firstName`,
-                    `user`.`lastName`,
-                    (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`writerId` = profileUserId AND `book`.`status` = "looking for a publisher") AS bookCount,
-                    (SELECT COUNT(`saved`.`id`) FROM `saved` WHERE `saved`.`userId` = profileUserId) AS savedCount,
-                    (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
-                    `user`.`introDescription`,
-                    `user`.`website`,
-                    `color`.`code`,
-                    userIdMatch AS userIdMatchFlag,
-                    IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
-                    IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
-                    YEAR(`user`.`registrationTime`)
-                FROM `user`
-                LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
-                INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
-                WHERE `user`.`id` = profileUserId;
-            ELSEIF userRank = "publisher" AND profileUserRank = "publisher" THEN
-                SELECT
-                    `user`.`rank`,
-                    `user`.`username`,
-                    `user`.`image`,
-                    IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
-                    `publisher`.`companyName`,
-                    (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`publisherId` = profileUserId AND `book`.`status` = "looking for a publisher") AS bookCount,
-                    (SELECT COUNT(`writers`.`writerId`) FROM (SELECT DISTINCT `book`.`writerId` FROM `book` WHERE `book`.`publisherId` = profileUserId) AS `writers`) AS writerCount,
-                    (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
-                    `user`.`introDescription`,
-                    `user`.`website`,
-                    `color`.`code`,
-                    userIdMatch AS userIdMatchFlag,
-                    IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
-                    IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
-                    YEAR(`user`.`registrationTime`)
-                FROM `user`
-                LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
-                INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
-                INNER JOIN `publisher` ON `publisher`.`id` = `user`.`userId`
-                WHERE `user`.`id` = profileUserId;
-            END IF;
+            IF userIdMatch = TRUE THEN
+                IF userRank = "general" THEN
+                    SELECT
+                        `user`.`rank`,
+                        `user`.`username`,
+                        `user`.`image`,
+                        IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
+                        `user`.`firstName`,
+                        `user`.`lastName`,
+                        (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`writerId` = profileUserId) AS bookCount,
+                        (SELECT COUNT(`saved`.`id`) FROM `saved` WHERE `saved`.`userId` = profileUserId) AS savedCount,
+                        (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
+                        `user`.`introDescription`,
+                        `user`.`website`,
+                        `color`.`code`,
+                        userIdMatch AS userIdMatchFlag,
+                        IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
+                        IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
+                        YEAR(`user`.`registrationTime`)
+                    FROM `user`
+                    LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
+                    INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
+                    WHERE `user`.`id` = profileUserId;
 
-            SET result = 1;
+                    SET result = 1;
+                ELSEIF userRank = "publisher" THEN
+                    SELECT
+                        `user`.`rank`,
+                        `user`.`username`,
+                        `user`.`image`,
+                        IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
+                        `publisher`.`companyName`,
+                        (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`publisherId` = profileUserId) AS bookCount,
+                        (SELECT COUNT(`writers`.`writerId`) FROM (SELECT DISTINCT `book`.`writerId` FROM `book` WHERE `book`.`publisherId` = profileUserId) AS `writers`) AS writerCount,
+                        (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
+                        `user`.`introDescription`,
+                        `user`.`website`,
+                        `color`.`code`,
+                        userIdMatch AS userIdMatchFlag,
+                        IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
+                        IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
+                        YEAR(`user`.`registrationTime`)
+                    FROM `user`
+                    LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
+                    INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
+                    INNER JOIN `publisher` ON `publisher`.`id` = `user`.`userId`
+                    WHERE `user`.`id` = profileUserId;
+
+                    SET result = 1;
+                END IF;
+            ELSE
+                IF profileUserRank = "general" AND userRank = "general" THEN
+                    SELECT
+                        `user`.`rank`,
+                        `user`.`username`,
+                        `user`.`image`,
+                        IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
+                        `user`.`firstName`,
+                        `user`.`lastName`,
+                        (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`writerId` = profileUserId AND `book`.`status` != "looking for a publisher") AS bookCount,
+                        (SELECT COUNT(`saved`.`id`) FROM `saved` WHERE `saved`.`userId` = profileUserId) AS savedCount,
+                        (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
+                        `user`.`introDescription`,
+                        `user`.`website`,
+                        `color`.`code`,
+                        userIdMatch AS userIdMatchFlag,
+                        IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
+                        IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
+                        YEAR(`user`.`registrationTime`)
+                    FROM `user`
+                    LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
+                    INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
+                    WHERE `user`.`id` = profileUserId;
+                ELSEIF profileUserRank = "publisher" AND userRank = "general" THEN
+                    SELECT
+                        `user`.`rank`,
+                        `user`.`username`,
+                        `user`.`image`,
+                        IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
+                        `publisher`.`companyName`,
+                        (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`publisherId` = profileUserId AND `book`.`status` != "looking for a publisher") AS bookCount,
+                        (SELECT COUNT(`writers`.`writerId`) FROM (SELECT DISTINCT `book`.`writerId` FROM `book` WHERE `book`.`publisherId` = profileUserId) AS `writers`) AS writerCount,
+                        (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
+                        `user`.`introDescription`,
+                        `user`.`website`,
+                        `color`.`code`,
+                        userIdMatch AS userIdMatchFlag,
+                        IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
+                        IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
+                        YEAR(`user`.`registrationTime`)
+                    FROM `user`
+                    LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
+                    INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
+                    INNER JOIN `publisher` ON `publisher`.`id` = `user`.`userId`
+                    WHERE `user`.`id` = profileUserId;
+                ELSEIF userRank = "publisher" AND profileUserRank = "general" THEN
+                    SELECT
+                        `user`.`rank`,
+                        `user`.`username`,
+                        `user`.`image`,
+                        IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
+                        `user`.`firstName`,
+                        `user`.`lastName`,
+                        (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`writerId` = profileUserId AND `book`.`status` = "looking for a publisher") AS bookCount,
+                        (SELECT COUNT(`saved`.`id`) FROM `saved` WHERE `saved`.`userId` = profileUserId) AS savedCount,
+                        (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
+                        `user`.`introDescription`,
+                        `user`.`website`,
+                        `color`.`code`,
+                        userIdMatch AS userIdMatchFlag,
+                        IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
+                        IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
+                        YEAR(`user`.`registrationTime`)
+                    FROM `user`
+                    LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
+                    INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
+                    WHERE `user`.`id` = profileUserId;
+                ELSEIF userRank = "publisher" AND profileUserRank = "publisher" THEN
+                    SELECT
+                        `user`.`rank`,
+                        `user`.`username`,
+                        `user`.`image`,
+                        IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
+                        `publisher`.`companyName`,
+                        (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`publisherId` = profileUserId AND `book`.`status` = "looking for a publisher") AS bookCount,
+                        (SELECT COUNT(`writers`.`writerId`) FROM (SELECT DISTINCT `book`.`writerId` FROM `book` WHERE `book`.`publisherId` = profileUserId) AS `writers`) AS writerCount,
+                        (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
+                        `user`.`introDescription`,
+                        `user`.`website`,
+                        `color`.`code`,
+                        userIdMatch AS userIdMatchFlag,
+                        IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
+                        IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
+                        YEAR(`user`.`registrationTime`)
+                    FROM `user`
+                    LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
+                    INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
+                    INNER JOIN `publisher` ON `publisher`.`id` = `user`.`userId`
+                    WHERE `user`.`id` = profileUserId;
+                END IF;
+
+                SET result = 1;
+            END IF;
+            
+            SET deleted = 0;
         END IF;
     ELSE
         SET result = 2;
