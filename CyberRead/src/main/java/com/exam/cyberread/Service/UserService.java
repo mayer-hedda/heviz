@@ -991,4 +991,23 @@ public class UserService {
         }
     }
     
+    
+    /**
+     * @param userId
+     * 
+     * @return
+        * true: Successfully delete user
+        * false: Unsuccessfully delete user
+     * 
+     * @throws UserException: Something wrong!
+     */
+    public static Boolean deleteUser(Integer userId) throws UserException {
+        try {
+            return User.deleteUser(userId);
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new UserException("Error in deleteUser() method!");
+        }
+    }
+    
 }

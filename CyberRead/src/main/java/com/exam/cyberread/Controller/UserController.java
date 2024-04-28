@@ -10,6 +10,7 @@ import com.exam.cyberread.Service.UserService;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -937,6 +938,46 @@ public class UserController {
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
             return Response.status(422).entity("Something wrong!").type(MediaType.APPLICATION_JSON).build();
+        }
+    }
+    
+    
+    /**
+     * @param jwt
+     * 
+     * @return
+        * 200: Successfully delete user
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 422: Unsuccessfully delete user
+        * 
+     * @throws UserException: Something wrong!
+     */
+    @DELETE
+    @Path("deleteUser")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteUser(@HeaderParam("Token") String jwt) throws UserException {
+        if(jwt == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
+        } else {
+            int tokenCheckResult = Token.decodeJwt(jwt);
+
+            switch(tokenCheckResult) {
+                case 1: 
+                    Integer userId = Token.getUserIdByToken(jwt);
+                    Boolean result = UserService.deleteUser(userId);
+
+                    if(result) {
+                        return Response.status(Response.Status.OK).build();
+                    }
+                    return Response.status(422).build();
+                case 2:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
+                default:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
+            }
         }
     }
     

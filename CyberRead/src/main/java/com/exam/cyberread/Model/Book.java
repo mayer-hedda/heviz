@@ -5,6 +5,7 @@ import com.exam.cyberread.Exception.MissingCategoryException;
 import com.exam.cyberread.Exception.MissingFilterException;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -419,7 +420,9 @@ public class Book implements Serializable {
                 book.put("publisher", (String) result[6]);
                 book.put("description", (String) result[7]);
                 book.put("pagesNumber", (Integer) result[8]);
-                book.put("rating", (BigDecimal) result[9]);
+                if(result[9] != null) {
+                    book.put("rating", ((BigDecimal) result[9]).setScale(1, RoundingMode.HALF_UP));
+                }
                 book.put("language", (String) result[10]);
                 if((Integer) result[11] == 0) {
                     book.put("saved", false);
@@ -499,7 +502,9 @@ public class Book implements Serializable {
                 book.put("publisher", (String) result[6]);
                 book.put("description", (String) result[7]);
                 book.put("pagesNumber", (Integer) result[8]);
-                book.put("rating", (BigDecimal) result[9]);
+                if(result[9] != null) {
+                    book.put("rating", ((BigDecimal) result[9]).setScale(1, RoundingMode.HALF_UP));
+                }
                 book.put("language", (String) result[10]);
                 if((Integer) result[11] == 0) {
                     book.put("saved", false);
@@ -576,7 +581,9 @@ public class Book implements Serializable {
                 book.put("lastName", (String) result[5]);
                 book.put("description", (String) result[6]);
                 book.put("pagesNumber", (Integer) result[7]);
-                book.put("rating", (BigDecimal) result[8]);
+                if(result[8] != null) {
+                    book.put("rating", ((BigDecimal) result[8]).setScale(1, RoundingMode.HALF_UP));
+                }
                 book.put("language", (String) result[9]);
                 if((Integer) result[10] == 0) {
                     book.put("saved", false);
@@ -655,7 +662,9 @@ public class Book implements Serializable {
                 book.put("publisher", (String) result[6]);
                 book.put("description", (String) result[7]);
                 book.put("pagesNumber", (Integer) result[8]);
-                book.put("rating", (BigDecimal) result[9]);
+                if(result[9] != null) {
+                    book.put("rating", ((BigDecimal) result[9]).setScale(1, RoundingMode.HALF_UP));
+                }
                 book.put("language", (String) result[10]);
                 if((Integer) result[11] == 0) {
                     book.put("saved", false);
@@ -735,7 +744,9 @@ public class Book implements Serializable {
                 book.put("publisher", (String) result[6]);
                 book.put("description", (String) result[7]);
                 book.put("pagesNumber", (Integer) result[8]);
-                book.put("rating", (BigDecimal) result[9]);
+                if(result[9] != null) {
+                    book.put("rating", ((BigDecimal) result[9]).setScale(1, RoundingMode.HALF_UP));
+                }
                 book.put("language", (String) result[10]);
                 if((Integer) result[11] == 0) {
                     book.put("saved", false);
@@ -1036,7 +1047,9 @@ public class Book implements Serializable {
                 book.put("lastName", (String) result[5]);
                 book.put("description", (String) result[6]);
                 book.put("pagesNumber", (Integer) result[7]);
-                book.put("rating", (BigDecimal) result[8]);
+                if(result[8] != null) {
+                    book.put("rating", ((BigDecimal) result[8]).setScale(1, RoundingMode.HALF_UP));
+                }
                 book.put("language", (String) result[9]);
                 if((Integer) result[10] == 0) {
                     book.put("saved", false);
@@ -1106,7 +1119,9 @@ public class Book implements Serializable {
                 book.put("lastName", (String) result[5]);
                 book.put("description", (String) result[6]);
                 book.put("pagesNumber", (Integer) result[7]);
-                book.put("rating", (BigDecimal) result[8]);
+                if(result[8] != null) {
+                    book.put("rating", ((BigDecimal) result[8]).setScale(1, RoundingMode.HALF_UP));
+                }
                 book.put("language", (String) result[9]);
                 if((Integer) result[10] == 0) {
                     book.put("saved", false);
@@ -1177,7 +1192,9 @@ public class Book implements Serializable {
                 book.put("lastName", (String) result[6]);
                 book.put("description", (String) result[7]);
                 book.put("pagesNumber", (Integer) result[8]);
-                book.put("rating", (BigDecimal) result[9]);
+                if(result[9] != null) {
+                    book.put("rating", ((BigDecimal) result[9]).setScale(1, RoundingMode.HALF_UP));
+                }
                 book.put("language", (String) result[10]);
                 book.put("saved", (Boolean) result[11]);
                 book.put("price", (Integer) result[12]);
@@ -1258,7 +1275,9 @@ public class Book implements Serializable {
                             book.put("companyName", (String) result[6]);
                             book.put("description", (String) result[7]);
                             book.put("pagesNumber", (Integer) result[8]);
-                            book.put("rating", (BigDecimal) result[9]);
+                            if(result[9] != null) {
+                                book.put("rating", ((BigDecimal) result[9]).setScale(1, RoundingMode.HALF_UP));
+                            }
                             book.put("language", (String) result[10]);
                             if((Integer) result[11] == 0) {
                                 book.put("saved", false);
@@ -1283,7 +1302,9 @@ public class Book implements Serializable {
                                 book.put("companyName", (String) result[6]);
                                 book.put("description", (String) result[7]);
                                 book.put("pagesNumber", (Integer) result[8]);
-                                book.put("rating", (BigDecimal) result[9]);
+                                if(result[9] != null) {
+                                    book.put("rating", ((BigDecimal) result[9]).setScale(1, RoundingMode.HALF_UP));
+                                }
                                 book.put("language", (String) result[10]);
                                 if((Integer) result[11] == 0) {
                                     book.put("saved", false);
@@ -1307,7 +1328,9 @@ public class Book implements Serializable {
                                 book.put("companyName", (String) result[6]);
                                 book.put("description", (String) result[7]);
                                 book.put("pagesNumber", (Integer) result[8]);
-                                book.put("rating", (BigDecimal) result[9]);
+                                if(result[9] != null) {
+                                    book.put("rating", ((BigDecimal) result[9]).setScale(1, RoundingMode.HALF_UP));
+                                }
                                 book.put("language", (String) result[10]);
                                 if((Integer) result[11] == 0) {
                                     book.put("saved", false);
@@ -1335,10 +1358,17 @@ public class Book implements Serializable {
                     
                     return error;
                 }
-                default:
+                case 3:
                 {
                     JSONObject error = new JSONObject();
                     error.put("eligibilityError", "You are not entitled to view books published by other publishers!");
+                    
+                    return error;
+                }
+                default:
+                {
+                    JSONObject error = new JSONObject();
+                    error.put("profileUsernameError", "This user profile has been deleted!");
                     
                     return error;
                 }
@@ -1547,7 +1577,9 @@ public class Book implements Serializable {
                             book.put("publisher", (String) result[5]);
                             book.put("description", (String) result[6]);
                             book.put("pagesNumber", (Integer) result[7]);
-                            book.put("rating", (BigDecimal) result[8]);
+                            if(result[8] != null) {
+                                book.put("rating", ((BigDecimal) result[8]).setScale(1, RoundingMode.HALF_UP));
+                            }
                             book.put("language", (String) result[9]);
                             if((Integer) result[10] == 0) {
                                 book.put("saved", false);
@@ -1571,7 +1603,9 @@ public class Book implements Serializable {
                             book.put("publisher", (String) result[5]);
                             book.put("description", (String) result[6]);
                             book.put("pagesNumber", (Integer) result[7]);
-                            book.put("rating", (BigDecimal) result[8]);
+                            if(result[8] != null) {
+                                book.put("rating", ((BigDecimal) result[8]).setScale(1, RoundingMode.HALF_UP));
+                            }
                             book.put("language", (String) result[9]);
                             if((Integer) result[10] == 0) {
                                 book.put("saved", false);
@@ -1678,7 +1712,9 @@ public class Book implements Serializable {
                             book.put("publisher", (String) result[5]);
                             book.put("description", (String) result[6]);
                             book.put("pagesNumber", (Integer) result[7]);
-                            book.put("rating", (BigDecimal) result[8]);
+                            if(result[8] != null) {
+                                book.put("rating", ((BigDecimal) result[8]).setScale(1, RoundingMode.HALF_UP));
+                            }
                             book.put("language", (String) result[9]);
                             if((Integer) result[10] == 0) {
                                 book.put("saved", false);
@@ -1708,7 +1744,9 @@ public class Book implements Serializable {
                             book.put("publisher", (String) result[5]);
                             book.put("description", (String) result[6]);
                             book.put("pagesNumber", (Integer) result[7]);
-                            book.put("rating", (BigDecimal) result[8]);
+                            if(result[8] != null) {
+                                book.put("rating", ((BigDecimal) result[8]).setScale(1, RoundingMode.HALF_UP));
+                            }
                             book.put("language", (String) result[9]);
                             if((Integer) result[10] == 0) {
                                 book.put("saved", false);
@@ -1802,7 +1840,9 @@ public class Book implements Serializable {
                     book.put("publisher", (String) result[5]);
                     book.put("description", (String) result[6]);
                     book.put("pagesNumber", (Integer) result[7]);
-                    book.put("rating", (BigDecimal) result[8]);
+                    if(result[8] != null) {
+                        book.put("rating", ((BigDecimal) result[8]).setScale(1, RoundingMode.HALF_UP));
+                    }
                     book.put("language", (String) result[9]);
                     if((Integer) result[10] == 0) {
                         book.put("saved", false);
@@ -1832,7 +1872,9 @@ public class Book implements Serializable {
                     book.put("publisher", (String) result[5]);
                     book.put("description", (String) result[6]);
                     book.put("pagesNumber", (Integer) result[7]);
-                    book.put("rating", (BigDecimal) result[8]);
+                    if(result[8] != null) {
+                        book.put("rating", ((BigDecimal) result[8]).setScale(1, RoundingMode.HALF_UP));
+                    }
                     book.put("language", (String) result[9]);
                     if((Integer) result[10] == 0) {
                         book.put("saved", false);
@@ -1917,7 +1959,9 @@ public class Book implements Serializable {
                     book.put("publisher", (String) result[5]);
                     book.put("description", (String) result[6]);
                     book.put("pagesNumber", (Integer) result[7]);
-                    book.put("rating", (BigDecimal) result[8]);
+                    if(result[8] != null) {
+                        book.put("rating", ((BigDecimal) result[8]).setScale(1, RoundingMode.HALF_UP));
+                    }
                     book.put("language", (String) result[9]);
                     book.put("price", (Integer) result[10]);
                     book.put("username", (String) result[11]);
@@ -1942,7 +1986,9 @@ public class Book implements Serializable {
                     book.put("publisher", (String) result[5]);
                     book.put("description", (String) result[6]);
                     book.put("pagesNumber", (Integer) result[7]);
-                    book.put("rating", (BigDecimal) result[8]);
+                    if(result[8] != null) {
+                        book.put("rating", ((BigDecimal) result[8]).setScale(1, RoundingMode.HALF_UP));
+                    }
                     book.put("language", (String) result[9]);
                     book.put("price", (Integer) result[10]);
                     book.put("username", (String) result[11]);
@@ -2012,7 +2058,9 @@ public class Book implements Serializable {
                 book.put("publisher", (String) result[5]);
                 book.put("description", (String) result[6]);
                 book.put("pagesNumber", (Integer) result[7]);
-                book.put("rating", (BigDecimal) result[8]);
+                if(result[8] != null) {
+                    book.put("rating", ((BigDecimal) result[8]).setScale(1, RoundingMode.HALF_UP));
+                }
                 book.put("language", (String) result[9]);
                 book.put("username", (String) result[10]);
                 book.put("category", (String) result[11]);
@@ -2201,7 +2249,6 @@ public class Book implements Serializable {
             * price
             * username
             * category
-            * purchased
             * publisher username
      * 
      * @throws BookException: Something wrong
@@ -2243,7 +2290,9 @@ public class Book implements Serializable {
                             book.put("publisher", (String) result[5]);
                             book.put("description", (String) result[6]);
                             book.put("pagesNumber", (Integer) result[7]);
-                            book.put("rating", (BigDecimal) result[8]);
+                            if(result[8] != null) {
+                                book.put("rating", ((BigDecimal) result[8]).setScale(1, RoundingMode.HALF_UP));
+                            }
                             book.put("language", (String) result[9]);
                             if((Integer) result[10] == 0) {
                                 book.put("saved", false);
@@ -2253,12 +2302,7 @@ public class Book implements Serializable {
                             book.put("price", (Integer) result[11]);
                             book.put("username", (String) result[12]);
                             book.put("category", (String) result[13]);
-                            if((Integer) result[14] == 0) {
-                                book.put("purchased", false);
-                            } else {
-                                book.put("purchased", true);
-                            }
-                            book.put("publisherUsername", (String) result[15]);
+                            book.put("publisherUsername", (String) result[14]);
 
                             books.put(book);
                         }
@@ -2273,7 +2317,9 @@ public class Book implements Serializable {
                             book.put("publisher", (String) result[5]);
                             book.put("description", (String) result[6]);
                             book.put("pagesNumber", (Integer) result[7]);
-                            book.put("rating", (BigDecimal) result[8]);
+                            if(result[8] != null) {
+                                book.put("rating", ((BigDecimal) result[8]).setScale(1, RoundingMode.HALF_UP));
+                            }
                             book.put("language", (String) result[9]);
                             if((Integer) result[10] == 0) {
                                 book.put("saved", false);
@@ -2515,6 +2561,100 @@ public class Book implements Serializable {
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
             throw new BookException("Error in unpublishBook() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param filter
+     * 
+     * @return
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+            * price
+            * username
+            * category
+            * publisher username
+     * 
+     * @throws BookException: Something wrong
+     * @throws MissingFilterException: This filter number does not exist!
+     */
+    public static JSONArray getFilteredPayedBooks(Integer userId, Integer filter) throws BookException, MissingFilterException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getFilteredPayedBooks");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("filter", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
+            spq.registerStoredProcedureParameter("userRank", String.class, ParameterMode.OUT);
+            
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("filter", filter);
+
+            spq.execute();
+            
+            String rank = (String) spq.getOutputParameterValue("userRank");
+            Integer resultOUT = (Integer) spq.getOutputParameterValue("result");
+            
+            switch (resultOUT) {
+                case 1:
+                    List<Object[]> resultList = spq.getResultList();
+                    JSONArray books = new JSONArray();
+                    
+                    if(rank .equals("general")) {
+                        for(Object[] result : resultList) {
+                            JSONObject book = new JSONObject();
+                            book.put("id", (Integer) result[0]);
+                            book.put("coverImage", (String) result[1]);
+                            book.put("title", (String) result[2]);
+                            book.put("firstName", (String) result[3]);
+                            book.put("lastName", (String) result[4]);
+                            book.put("publisher", (String) result[5]);
+                            book.put("description", (String) result[6]);
+                            book.put("pagesNumber", (Integer) result[7]);
+                            if(result[8] != null) {
+                                book.put("rating", ((BigDecimal) result[8]).setScale(1, RoundingMode.HALF_UP));
+                            }
+                            book.put("language", (String) result[9]);
+                            book.put("price", (Integer) result[10]);
+                            book.put("username", (String) result[11]);
+                            book.put("category", (String) result[12]);
+                            book.put("publisherUsername", (String) result[13]);
+
+                            books.put(book);
+                        }
+                    } else if(rank.equals("publisher")) {
+                        return null;
+                    }
+                    
+                    return books;
+                case 2:
+                    throw new MissingFilterException("This filter number does not exist!");
+                default:
+                    throw new BookException("Something wrong!");
+            }
+        } catch(MissingFilterException ex) {
+            throw ex;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getFilteredPayedBooks() method!");
         } finally {
             em.clear();
             em.close();

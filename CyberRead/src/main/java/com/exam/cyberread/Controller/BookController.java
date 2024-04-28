@@ -1350,7 +1350,6 @@ public class BookController {
                 * price
                 * username
                 * category
-                * purchased
                 * publisher username
         * 401:
             * User hasn't token
@@ -1577,6 +1576,77 @@ public class BookController {
                                 return Response.status(Response.Status.OK).build();
                             }
                             return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                        default:
+                            return Response.status(Response.Status.FORBIDDEN).build();
+                    }
+                case 2:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
+                default:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
+            }
+        }
+    }
+    
+    
+    /**
+     * @param jwt
+     * @param book
+     * 
+     * @return
+        * 200:
+            * books:
+                * book id
+                * cover image
+                * title
+                * first name
+                * last name
+                * publisher company name
+                * description
+                * pages number
+                * book rating
+                * language
+                * price
+                * username
+                * category
+                * publisher username
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 403: This user not a general user
+        * 422: filterError
+     * 
+     * @throws BookException: Something wrong!
+     * @throws MissingFilterException: This filter number does not exist!
+     */
+    @POST
+    @Path("getFilteredPayedBooks")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getFilteredPayedBooks(@HeaderParam("Token") String jwt, Book book) throws BookException, MissingFilterException {
+        if(jwt == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
+        } else {
+            int tokenCheckResult = Token.decodeJwt(jwt);
+
+            switch(tokenCheckResult) {
+                case 1: 
+                    String rank = Token.getUserRankByToken(jwt);
+                    switch(rank) {
+                        case "general":
+                            try {
+                                Integer userId = Token.getUserIdByToken(jwt);
+                                JSONArray result = BookService.getFilteredPayedBooks(userId, book.getFilter());
+                                if(result != null) {
+                                    return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                                }
+                                
+                                return Response.status(Response.Status.FORBIDDEN).build();
+                            } catch(MissingFilterException ex) {
+                                JSONObject error = new JSONObject();
+                                error.put("filterError", ex.getMessage());
+
+                                return Response.status(422).entity(error.toString()).type(MediaType.APPLICATION_JSON).build();
+                            }
                         default:
                             return Response.status(Response.Status.FORBIDDEN).build();
                     }

@@ -1325,4 +1325,37 @@ public class User implements Serializable {
         }
     }
     
+    
+    /**
+     * @param userId
+     * 
+     * @return
+        * true: Successfully delete user
+        * false: Unsuccessfully delete user
+     */
+    public static Boolean deleteUser(Integer userId) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("deleteUser");
+
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+
+            spq.setParameter("userIdIN", userId);
+
+            spq.execute();
+            
+            return true;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            
+            return false;
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
+    
 }

@@ -956,7 +956,6 @@ public class BookService {
             * price
             * username
             * category
-            * purchased
             * publisher username
      *
      * @throws BookException: Something wrong!
@@ -1097,6 +1096,42 @@ public class BookService {
             System.err.println(ex.getMessage());
             throw new BookException("Error in unpublishBook() method!");
         }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param filter
+     * 
+     * @return
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+            * price
+            * username
+            * category
+            * publisher username
+     *
+     * @throws BookException: Something wrong!
+     * @throws MissingFilterException: This filter number does not exist!
+     */
+    public static JSONArray getFilteredPayedBooks(Integer userId, Integer filter) throws BookException, MissingFilterException {
+        try {
+            return Book.getFilteredPayedBooks(userId, filter);
+        } catch(BookException ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getFilteredPayedBooks() method!");
+        } catch(MissingFilterException ex) {
+            throw ex;
+        } 
     }
     
 }
