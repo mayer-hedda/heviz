@@ -1037,4 +1037,46 @@ public class BookService {
         }
     }
     
+    
+    /**
+     * @param userId
+     * @param bookId
+     * @param price
+     * @param publisherBankAccountNumber
+     * 
+     * @return
+        * error
+        * null (Successfully publish this book)
+     * 
+     * @throws BookException: Something wrong!
+     */
+    public static JSONObject publishBook(Integer userId, Integer bookId, Integer price, String publisherBankAccountNumber) throws BookException {
+        try {   
+            JSONObject error = new JSONObject();
+            
+            // price validate
+            if(price < 1000) {
+                error.put("priceError", "The price must be a minimum of 1000 Hungarian Forints!");
+            } 
+            
+            // bank account number validate
+            if(publisherBankAccountNumber == null || publisherBankAccountNumber.isEmpty()) {
+                error.put("publisherBankAccountNumberError", "This field cannot be empty!");
+            } else if(publisherBankAccountNumber.length() > 30) {
+                error.put("publisherBankAccountNumberError", "The length of the bank account number must not exceed 30 characters!");
+            }
+            
+            if(error.isEmpty()) {
+                Integer newPrice = (int) (price / 0.80);
+
+                return Book.publishBook(userId, bookId, newPrice, publisherBankAccountNumber);
+            }
+            
+            return error;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in publishBook() method!");
+        }
+    }
+    
 }

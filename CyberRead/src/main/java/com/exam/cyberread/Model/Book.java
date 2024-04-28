@@ -2417,5 +2417,60 @@ public class Book implements Serializable {
             emf.close();
         }
     }
+    
+    
+    /**
+     * @param userId
+     * @param bookId
+     * @param price
+     * @param publisherBankAccountNumber
+     * 
+     * @return:
+        * error
+        * null (Successfully publish this book)
+     * 
+     * @throws BookException: Something wrong!
+     */
+    public static JSONObject publishBook(Integer userId, Integer bookId, Integer price, String publisherBankAccountNumber) throws BookException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("publishBook");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("bookIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("priceIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("publisherBankAccountNumberIN", String.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
+
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("bookIdIN", bookId);
+            spq.setParameter("priceIN", price);
+            spq.setParameter("publisherBankAccountNumberIN", publisherBankAccountNumber);
+
+            spq.execute();
+            
+            Integer result = (Integer) spq.getOutputParameterValue("result");
+            
+            switch(result) {
+                case 1:
+                    return null;
+                case 2:
+                    return new JSONObject().put("error", "This book doesn't exist!");
+                case 3:
+                    return new JSONObject().put("error", "This book has already been published!");
+                default:
+                    return new JSONObject().put("error", "You are not allowed to edit this data!");
+            }
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in publishBook() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
         
 }

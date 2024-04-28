@@ -1490,4 +1490,53 @@ public class BookController {
         }
     }
     
+    
+    /**
+     * @param jwt
+     * @param book
+     * 
+     * @return
+        * 200: Successfully publish this book
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 403: User is not a publisher user
+        * 422: error
+     * 
+     * @throws BookException: Something wrong!
+     */
+    @POST
+    @Path("publishBook")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response publishBook(@HeaderParam("Token") String jwt, Book book) throws BookException {
+        if(jwt == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
+        } else {
+            int tokenCheckResult = Token.decodeJwt(jwt);
+
+            switch(tokenCheckResult) {
+                case 1: 
+                    String rank = Token.getUserRankByToken(jwt);
+                    
+                    switch(rank) {
+                        case "publisher": 
+                            Integer userId = Token.getUserIdByToken(jwt);
+                            JSONObject result = BookService.publishBook(userId, book.getId(), book.getPrice(), book.getPublisherBankAccountNumber());
+                            
+                            if(result == null) {
+                                return Response.status(Response.Status.OK).build();
+                            }
+                            return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                        default:
+                            return Response.status(Response.Status.FORBIDDEN).build();
+                    }
+                case 2:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
+                default:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
+            }
+        }
+    }
+    
 }
