@@ -710,3 +710,108 @@ document.getElementById('clear-filter').addEventListener('click', async function
         LoadSearchResult()
     }
 });
+
+// publishing modal
+const publisher_price = document.getElementById('publisher-price');
+const PriceErr = document.getElementById('PriceErr');
+const bankNumber = document.getElementById('bankNumber');
+const bankErr = document.getElementById('bankErr');
+
+const cancelPublish = document.getElementById('cancelPublish');
+const agreePublish = document.getElementById('agreePublish');
+
+var pricePass = false;
+var bankPass = false;
+
+cancelPublish.addEventListener('click', (e) => {
+    publisher_price.value = "";
+    bankNumber.value = "";
+    publisher_price.classList.remove('inputPass');
+    publisher_price.classList.remove('inputError');
+    PriceErr.innerText = "";
+
+    bankNumber.classList.remove('inputPass');
+    bankNumber.classList.remove('inputError');
+    bankErr.innerText = "";
+});
+
+document.getElementById('closeX').addEventListener('click', (e) => {
+    publisher_price.value = "";
+    bankNumber.value = "";
+    publisher_price.classList.remove('inputPass');
+    publisher_price.classList.remove('inputError');
+    PriceErr.innerText = "";
+
+    bankNumber.classList.remove('inputPass');
+    bankNumber.classList.remove('inputError');
+    bankErr.innerText = "";
+});
+
+publisher_price.addEventListener('focusin', (e) => {
+    publisher_price.classList.remove('inputPass');
+    publisher_price.classList.remove('inputError');
+    PriceErr.innerText = "";
+});
+
+publisher_price.addEventListener('focusout', (e) => {
+    e.preventDefault();
+    if (publisher_price.value == "") {
+        PriceErr.innerText = "This field cannot be empty."
+        publisher_price.classList.add('inputError');
+        pricePass = false;
+    } else if (publisher_price.value < 1000) {
+       
+        PriceErr.innerText = "The price must not be less than 1000 Ft."
+        publisher_price.classList.add('inputError');
+        pricePass = false;
+    } else {
+        publisher_price.classList.add('inputPass');
+        bankPass = false;
+        PriceErr.innerText = "";
+    }
+});
+
+function bankValidation(bankValue) {
+    const removeSpaces = bankValue.replace(/ /g, "");
+
+    if (bankValue == "") {
+        bankNumber.classList.add('inputError');
+        bankErr.innerText = "This field cannot be empty.";
+        return false;
+
+    } else if (removeSpaces.length < 15) {
+        bankNumber.classList.add('inputError');
+        bankErr.innerText = "This value is too short. The IBAN number should be between 15 and 34 characters.";
+        return false;
+
+    } else if (removeSpaces.length > 34) {
+        bankNumber.classList.add('inputError');
+        bankErr.innerText = "This value is too long. The IBAN number should be between 15 and 34 characters.";
+        return false;
+
+    } else if (removeSpaces.length >= 15 && removeSpaces.length <= 34) {
+        bankNumber.classList.add('inputPass');
+        const upperCase = removeSpaces.toUpperCase();
+        return true;
+    }
+
+}
+
+bankNumber.addEventListener('focusin', (e) => {
+    bankNumber.classList.remove('inputPass');
+    bankNumber.classList.remove('inputError');
+    bankErr.innerText = "";
+});
+
+bankNumber.addEventListener('focusout', (e) => {
+    bankPass = bankValidation(bankNumber.value);
+    console.log(bankPass);
+});
+
+agreePublish.addEventListener('click', async function(){
+    if(bankPass == true && pricePass == true){
+        // endpoint meghívása
+    }else{
+        alert("Please make sure you fill in every field correctly.");
+    }
+});

@@ -13,6 +13,7 @@
     --current-page-color: rgb(60, 32, 22);
     --current-page-hover-color: rgb(68, 92, 79);
     --card-bg: rgb(234, 215, 190);
+    --error-color: rgb(238, 29, 82);
 }
 
 /*--------------- FONTS ---------------*/
@@ -2643,7 +2644,7 @@ form {
     color: #B43C82 !important;
 }
 
-#book-modal-content {
+#book-modal-content, #publishing-modal-content {
     background: linear-gradient(180deg, #ffeed8, #F0D0BC 100%) !important;
     border-radius: 15px;
     border-width: 0;
@@ -2671,22 +2672,22 @@ form {
     background-color: #fffcf6d7;
 }
 
-#book-popup-modal-body::-webkit-scrollbar {
+#book-popup-modal-body::-webkit-scrollbar, #publishing-modal::-webkit-scrollbar {
     width: 6px;
 }
 
-#book-popup-modal-body::-webkit-scrollbar-track {
+#book-popup-modal-body::-webkit-scrollbar-track, #publishing-modal::-webkit-scrollbar-track {
     background: transparent;
     border-radius: 10px;
 }
 
-#book-popup-modal-body::-webkit-scrollbar-thumb {
+#book-popup-modal-body::-webkit-scrollbar-thumb, #publishing-modal::-webkit-scrollbar-thumb {
     background-color: #92827a;
     border-radius: 10px;
     transition: background-color 1s ease-in;
 }
 
-#book-popup-modal-body::-webkit-scrollbar-thumb:hover {
+#book-popup-modal-body::-webkit-scrollbar-thumb:hover, #publishing-modal::-webkit-scrollbar-thumb:hover {
     background-color: #ACA09A;
     transition: background-color 1s ease-in;
 }
@@ -2791,6 +2792,98 @@ form {
     color: white;
     transition: color 0.8s ease;
     transition: background-color 0.8s ease;
+}
+
+/* publication modal */
+input{
+    font-family: 'Poppins-Regular', sans-serif;
+    color: var(--mostUsed-text-color);
+}
+.input-group{
+    width: 300px;
+    margin-left: 50px;
+    margin-top: 50px;
+}
+
+.input-group label{
+    font-family: 'Poppins-Medium', sans-serif;
+    font-size: 22px;
+}
+
+.bank-acc{
+    margin-left: 50px;
+    margin-top: 50px;
+    width: 650px;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Poppins-Medium', sans-serif;
+}
+
+.bank-acc label{
+    text-align: left;
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+
+#publisher-price{
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    margin-left: 20px;
+}
+
+#forint{
+    border: 1px solid var(--border-color);
+    height: 40px;
+}
+
+.cancel-btn {
+    background-color: rgb(211, 211, 220);
+    color: var(--primary-text);
+    transition: background-color 0.8s ease;
+}
+
+.cancel-btn:hover {
+    background-color: rgb(137, 137, 145);
+    color: whitesmoke;
+    transition: background-color 0.8s ease;
+}
+
+.publish{
+    background-color: rgb(220 147 117);
+    color: var(--primary-text);
+    transition: background-color 0.8s ease;
+}
+
+.publish:hover{
+    background-color: var(--primary-hover);
+    color: white;
+    transition: background-color 0.8s ease;
+}
+
+.form-control::placeholder{
+    color: rgb(179, 175, 186);
+    font-family: 'Poppins-light', sans-serif;
+}
+
+.error {
+    color: var(--error-color);
+    font-family: 'Poppins', sans-serif;
+    padding-left: 5px;
+    margin-top: 5px !important;
+    margin-bottom: 0px;
+    text-align: left;
+    margin-left: 50px;
+    max-width: 600px;
+}
+
+.inputPass {
+    background-color: rgb(241, 255, 231) !important;
+    border-color: rgb(98, 173, 107) !important;
+}
+
+.inputError {
+    background: rgb(255, 214, 220) !important;
+    border-color: rgb(243, 82, 93) !important;
 }
 
 

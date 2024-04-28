@@ -45,6 +45,7 @@ window.addEventListener('beforeunload', async function () {
 window.onload = async function () {
 
     var username = localStorage.getItem("username");
+    console.log(username);
 
     var tokenResponese = await token();
     switch (tokenResponese.status) {

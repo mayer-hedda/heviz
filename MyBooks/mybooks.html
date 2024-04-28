@@ -24,52 +24,52 @@
 </head>
 
 <body style="background-color: rgb(247, 245, 236)">
-   <!-- NAVBAR -->
-   <nav class="navbar fixed-top navbar-expand-lg" id="navbar" style="background-color: rgb(247, 245, 236);">
-    <div class="container-fluid">
-        <img src="../pictures/LOGO.svg" alt="Logo" width="125" height="40" class="d-inline-block align-text-top"
-            id="logo" />
+    <!-- NAVBAR -->
+    <nav class="navbar fixed-top navbar-expand-lg" id="navbar" style="background-color: rgb(247, 245, 236);">
+        <div class="container-fluid">
+            <img src="../pictures/LOGO.svg" alt="Logo" width="125" height="40" class="d-inline-block align-text-top"
+                id="logo" />
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="collapse navbar-collapse " id="navbarNav" style="margin-left: 195px;">
-            <div class="navbar-nav text-center justify-content-center">
-                <a class="nav-link" aria-current="page" id="HomePage" onclick="window.location.reload()">Home
-                    Page</a>
-                <a class="nav-link" id="Feed" href="../Feed/feed.html">Feed</a>
-                <a class="nav-link " id="Explore" href="../Explore/explore.html">Explore</a>
-                <a class="nav-link active" id="SavedBooks" href="../MyBooks/mybooks.html">My Books</a>
-            </div>
-
-            <div id="usernamePicture">
-                <button role="button" type="submit" class="btn align-content-center" id="writingBtn"
-                    onclick="window.location.href='../Create Book/createBook.html'">
-                    Start Writing
-                </button>
-
-                <div id="profile-icon" class="rounded-circle"></div>
-
-                <div id="user-name">
-                    <div class="dropdown">
-                        <button class="bg-transparent border-0 dropdown-toggle" type="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <p id="userName-p"></p>
-                        </button>
-
-                        <ul class="dropdown-menu">
-                            <li id="profile-link"><a class="dropdown-item">Profile</a></li>
-                            <li><a class="dropdown-item" id="Logout">Log Out</a></li>
-                        </ul>
-                    </div>
+            <div class="collapse navbar-collapse " id="navbarNav" style="margin-left: 195px;">
+                <div class="navbar-nav text-center justify-content-center">
+                    <a class="nav-link" aria-current="page" id="HomePage" onclick="window.location.reload()">Home
+                        Page</a>
+                    <a class="nav-link" id="Feed" href="../Feed/feed.html">Feed</a>
+                    <a class="nav-link " id="Explore" href="../Explore/explore.html">Explore</a>
+                    <a class="nav-link active" id="SavedBooks" href="../MyBooks/mybooks.html">My Books</a>
                 </div>
 
+                <div id="usernamePicture">
+                    <button role="button" type="submit" class="btn align-content-center" id="writingBtn"
+                        onclick="window.location.href='../Create Book/createBook.html'">
+                        Start Writing
+                    </button>
+
+                    <div id="profile-icon" class="rounded-circle"></div>
+
+                    <div id="user-name">
+                        <div class="dropdown">
+                            <button class="bg-transparent border-0 dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <p id="userName-p"></p>
+                            </button>
+
+                            <ul class="dropdown-menu">
+                                <li id="profile-link"><a class="dropdown-item">Profile</a></li>
+                                <li><a class="dropdown-item" id="Logout">Log Out</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
     <section id="s1" class="container-fluid">
         <div class="row">
@@ -327,7 +327,8 @@
                             </svg>
                         </button>
 
-                        <button class="sMoreBtn border-0" id="publish-btn" hidden>Let's Publish</button>
+                        <button class="sMoreBtn border-0" id="publish-btn" data-bs-toggle="modal"
+                        data-bs-target="#publishing-modal" hidden>Let's Publish</button>
                         <button class="sMoreBtn border-0" id="read-btn" hidden>Let's Read</button>
                     </div>
                     <p class="price" id="book-price"></p>
@@ -335,6 +336,45 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+
+    <!-- publishing modal -->
+    <div class="modal fade" id="publishing-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+        data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Let's Publish</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        id="closeX"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="modal-p">Wonderful! Please fill in the details below and we're ready to go!</p>
+
+                    <div class="input-group mb-3">
+                        <label class="modal-p" for="publisher-price">Price:</label>
+                        <input type="number" min="1000" class="form-control" aria-describedby="forint"
+                            id="publisher-price">
+                        <span class="input-group-text" id="forint">Ft</span>
+                    </div>
+                    <p class="error" id="PriceErr" style="font-size: 16px; height: 24px;"></p>
+
+
+                    <div class="bank-acc mb-3">
+                        <label for="bankNumber" class="modal-p">Bank Account Number</label>
+                        <input type="email" class="form-control" id="bankNumber"
+                            placeholder="GB 12 ABCD 102030 12345678">
+                    </div>
+                    <p class="error" id="bankErr" style="font-size: 16px; height: 24px;"></p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn cancel-btn" data-bs-dismiss="modal"
+                        id="cancelPublish">Cancel</button>
+                    <button type="button" class="btn publish" id="agreePublish">Publish!</button>
+                </div>
+            </div>
         </div>
     </div>
 
