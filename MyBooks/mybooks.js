@@ -19,9 +19,9 @@ const missing_publisher_purchased = document.getElementById('missing-publisher-p
 
 //Modal btn-s
 const shopping_btn = document.getElementById('shopping-cart');
-const publish_btn = document.getElementById('publish-btn');
+const publish_btn = document.getElementById('m-footer-publisher');
 const book_price = document.getElementById('book-price');
-const read_btn = document.getElementById('read-btn');
+const read_btn = document.getElementById('read-general-btn');
 const save_btn = document.getElementById('save-btn');
 
 let isPurchased = false;
@@ -64,7 +64,7 @@ window.onload = async function () {
             if (tokenResponse.data.rank == "publisher") {
                 shopping_btn.style.display = "none";
                 publish_btn.hidden = false;
-                book_price.hidden = true;
+                book_price.style.display = "none";
                 read_btn.hidden = true;
                 document.getElementById('writingBtn').hidden = true;
                 SavedBooks.textContent = "Saved Books"
@@ -326,6 +326,7 @@ let saveClick = false;
 
 function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher, isPurchased, bookIdString, isSaved, publisherUsername) {
     bookId = parseInt(bookIdString);
+    console.log(bookId);
 
     book_modal_img.src = `../${url}.jpg`;
 
@@ -792,6 +793,8 @@ const agreePublish = document.getElementById('agreePublish');
 var pricePass = false;
 var bankPass = false;
 
+var priceValue;
+
 cancelPublish.addEventListener('click', (e) => {
     publisher_price.value = "";
     bankNumber.value = "";
@@ -836,6 +839,7 @@ publisher_price.addEventListener('focusout', (e) => {
     } else {
         publisher_price.classList.add('inputPass');
         pricePass = true;
+        priceValue = publisher_price.value;
         PriceErr.innerText = "";
     }
 });
@@ -880,7 +884,34 @@ bankNumber.addEventListener('focusout', (e) => {
 agreePublish.addEventListener('click', async function () {
 
     if (bankPass == true && pricePass == true) {
-        // endpoint meghívása
+        console.log(bookId);
+        const publish_result = await publishBook({ "id": bookId, "price": priceValue, "publisherBankAccountNumber": bankNumber.value });
+
+        switch (publish_result.status) {
+            case 200:
+                alert("You have successfully published this book! You can check it on your profile!");
+                location.reload();
+                break;
+
+            case 401:
+                window.location.href = '../Log-in/login.html';
+                break;
+
+            case 403:
+                Window.location.href = '../General-HomePage/GenHome.html';
+                break;
+
+            case 422:
+                alert("Something went wrong. Please try again later.");
+                break;
+
+            default:
+                alert("Something went wrong. Please try again later.");
+                console.log(publish_result.status);
+                console.log(publish_result.data);
+                console.log(publish_result.error);
+                break;
+        }
     } else {
         alert("Please make sure you fill in every field correctly.");
     }

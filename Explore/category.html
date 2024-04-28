@@ -349,8 +349,16 @@
                             </svg>
                         </button>
 
-                        <button class="sMoreBtn border-0" id="publish-btn" data-bs-toggle="modal"
-                            data-bs-target="#publishing-modal" hidden>Let's Publish</button>
+                        <div id="m-footer-publisher" hidden>
+                            <button class="modal-cover-btn border-0" id="publish-btn" data-bs-toggle="modal"
+                            data-bs-target="#publishing-modal">Let's Publish</button>
+
+                            <button class="publisher-read border-0" id="read-publish-btn" data-bs-toggle="modal"
+                            data-bs-target="#publishing-modal">Let's Read</button>
+                        </div>
+
+                        <!-- ez az olvasás gomb ha megvette a könyvet -->
+                        <button class="sMoreBtn border-0" id="read-general-btn" hidden>Let's Read</button>
                     </div>
                     <p class="price" id="book-price"></p>
                 </div>

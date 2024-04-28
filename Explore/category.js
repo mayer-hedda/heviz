@@ -13,8 +13,9 @@ const no_publisher_result = document.getElementById('noPublihserInCategory');
 //Modal btn-s
 const save_btn = document.getElementById('save-btn');
 const shopping_btn = document.getElementById('shopping-cart');
-const publish_btn = document.getElementById('publish-btn');
+const publish_btn = document.getElementById('m-footer-publisher');
 const book_price = document.getElementById('book-price');
+const read_general_btn = document.getElementById('read-general-btn');
 
 var categoryId;
 var own_username;
@@ -66,7 +67,7 @@ window.onload = async function () {
             if (tokenResponse.data.rank == "publisher") {
                 isPublisher = true;
                 document.getElementById('writingBtn').hidden = true;
-                shopping_btn.hidden = true;
+                shopping_btn.style.display = 'none';
                 publish_btn.hidden = false;
                 book_price.hidden = true;
 
@@ -213,8 +214,8 @@ function LoadSearchResult() {
                 </div>
             `;
 
-            div.querySelector('.moreBtn-medium').addEventListener('click', function() {
-                loadModalData(bookData.coverImage, bookData.title, bookData.firstName, bookData.lastName, bookData.description, bookData.language, bookData.rating, bookData.pagesNumber, bookData.price, bookData.username, bookData.publisher !== undefined ? bookData.publisher : null, bookData.id, bookData.saved, bookData.publisherUsername !== undefined ? bookData.publisherUsername : null);
+            div.querySelector('.moreBtn-medium').addEventListener('click', function () {
+                loadModalData(bookData.coverImage, bookData.title, bookData.firstName, bookData.lastName, bookData.description, bookData.language, bookData.rating, bookData.pagesNumber, bookData.price, bookData.username, bookData.publisher !== undefined ? bookData.publisher : null, bookData.id, bookData.saved, bookData.publisherUsername !== undefined ? bookData.publisherUsername : null, bookData.purchased);
             });
 
             books_side.appendChild(div);
@@ -247,8 +248,8 @@ function LoadCategoryResult(response) {
             </div>
         `;
 
-        div.querySelector('.moreBtn-medium').addEventListener('click', function() {
-            loadModalData(bookData.coverImage, bookData.title, bookData.firstName, bookData.lastName, bookData.description, bookData.language, bookData.rating, bookData.pagesNumber, bookData.price, bookData.username, bookData.publisher !== undefined ? bookData.publisher : null, bookData.id, bookData.saved, bookData.publisherUsername !== undefined ? bookData.publisherUsername : null);
+        div.querySelector('.moreBtn-medium').addEventListener('click', function () {
+            loadModalData(bookData.coverImage, bookData.title, bookData.firstName, bookData.lastName, bookData.description, bookData.language, bookData.rating, bookData.pagesNumber, bookData.price, bookData.username, bookData.publisher !== undefined ? bookData.publisher : null, bookData.id, bookData.saved, bookData.publisherUsername !== undefined ? bookData.publisherUsername : null, bookData.purchased);
         });
 
         books_side.appendChild(div);
@@ -313,14 +314,16 @@ let saveClick = false;
 let bookId;
 let savedBoolean;
 
-function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher, bookIdString, isSaved, publisherUsername) {
+function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher, bookIdString, isSaved, publisherUsername, isPurchased) {
     bookId = parseInt(bookIdString);
+    console.log(bookId);
+    console.log(isPurchased);
 
     if (own_username == username) {
         save_btn.hidden = true;
         shopping_btn.hidden = true;
     } else {
-        if(isPublisher) {
+        if (isPublisher) {
             shopping_btn.hidden = true;
         } else {
             save_btn.hidden = false;
@@ -377,6 +380,16 @@ function loadModalData(url, title, firstName, lastName, description, language, r
                 <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
             </svg>
         `;
+    }
+
+    if (isPurchased == true) {
+        shopping_btn.hidden = true;
+        save_btn.hidden = true;
+        read_general_btn.hidden = false;
+    }else{
+        read_general_btn.hidden = true;
+        shopping_btn.hidden = false;
+        save_btn.hidden = false;
     }
 
 }
@@ -723,6 +736,8 @@ const agreePublish = document.getElementById('agreePublish');
 var pricePass = false;
 var bankPass = false;
 
+var priceValue;
+
 cancelPublish.addEventListener('click', (e) => {
     publisher_price.value = "";
     bankNumber.value = "";
@@ -767,6 +782,7 @@ publisher_price.addEventListener('focusout', (e) => {
     } else {
         publisher_price.classList.add('inputPass');
         pricePass = true;
+        priceValue = publisher_price.value;
         PriceErr.innerText = "";
     }
 });
@@ -811,7 +827,35 @@ bankNumber.addEventListener('focusout', (e) => {
 agreePublish.addEventListener('click', async function () {
 
     if (bankPass == true && pricePass == true) {
-        // endpoint meghívása
+        console.log(bookId);
+        const publish_result = await publishBook({ "id": bookId, "price": priceValue, "publisherBankAccountNumber": bankNumber.value });
+
+        switch (publish_result.status) {
+            case 200:
+                alert("You have successfully published this book! You can check it on your profile!");
+                location.reload();
+                break;
+
+            case 401:
+                window.location.href = '../Log-in/login.html';
+                break;
+
+            case 403:
+                Window.location.href = '../General-HomePage/GenHome.html';
+                break;
+
+            case 422:
+                alert("Something went wrong. Please try again later.");
+                break;
+
+            default:
+                alert("Something went wrong. Please try again later.");
+                console.log(publish_result.status);
+                console.log(publish_result.data);
+                console.log(publish_result.error);
+                break;
+        }
+
     } else {
         alert("Please make sure you fill in every field correctly.");
     }

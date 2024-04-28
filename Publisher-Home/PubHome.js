@@ -416,6 +416,7 @@ let bookId;
 
 function loadModalData(url, title, firstName, lastName, description, language, rating, pages, username, bookIdString, isSaved) {
     bookId = parseInt(bookIdString);
+    console.log(bookId);
 
     if (own_uname == username) {
         save_btn.hidden = true;
@@ -559,6 +560,9 @@ const agreePublish = document.getElementById('agreePublish');
 var pricePass = false;
 var bankPass = false;
 
+var priceValue;
+var bankValue;
+
 cancelPublish.addEventListener('click', (e) => {
     publisher_price.value = "";
     bankNumber.value = "";
@@ -603,6 +607,7 @@ publisher_price.addEventListener('focusout', (e) => {
     } else {
         publisher_price.classList.add('inputPass');
         pricePass = true;
+        priceValue = publisher_price.value;
         PriceErr.innerText = "";
     }
 });
@@ -641,13 +646,41 @@ bankNumber.addEventListener('focusin', (e) => {
 
 bankNumber.addEventListener('focusout', (e) => {
     bankPass = bankValidation(bankNumber.value);
-    console.log(bankPass);
 });
 
 agreePublish.addEventListener('click', async function () {
 
     if (bankPass == true && pricePass == true) {
-        // endpoint meghívása
+        console.log(bookId);
+        const publish_result = await publishBook({ "id": bookId, "price": priceValue, "publisherBankAccountNumber": bankNumber.value });
+
+        switch (publish_result.status) {
+            case 200:
+                alert("You have successfully published this book! You can check it on your profile!");
+                location.reload();
+                break;
+
+            case 401:
+                window.location.href = '../Log-in/login.html';
+                break;
+
+            case 403:
+                Window.location.href = '../General-HomePage/GenHome.html';
+                break;
+
+            case 422:
+                alert("Something went wrong. Please try again later.");
+                break;
+
+            default:
+                alert("Something went wrong. Please try again later.");
+                console.log(publish_result.status);
+                console.log(publish_result.data);
+                console.log(publish_result.error);
+                break;
+
+        }
+
     } else {
         alert("Please make sure you fill in every field correctly.");
     }

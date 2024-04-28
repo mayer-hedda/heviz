@@ -135,21 +135,25 @@ window.onload = async function () {
                             document.getElementById('introdution').hidden = true;
                         }
 
-                        var followed = false;
+                        var follow = false;
                         if (responseUser.data.following == true) {
                             followBTN.classList.remove('default-follow');
                             followBTN.classList.add('followed');
                             followBTN.textContent = "Followed";
-                            followed = true;
+                            follow = true;
+
 
                         } else if (responseUser.data.following == false) {
                             followBTN.classList.remove('followed');
                             followBTN.classList.add('default-follow');
                             followBTN.textContent = "Follow";
-                            followed = false;
+                            follow = false;
+
                         }
 
-                        Follow(followBTN, responseUser, 9);
+                        followBTN.addEventListener('click', async function () {
+                           
+                        });
 
                         if (responseUser.data.rank == "publisher" && tokenResponese.data.rank == "publisher") {
                             document.getElementById('access-denied-notification').hidden = false;
@@ -887,7 +891,7 @@ saveButton.addEventListener('click', async function () {
 
 });
 
-// Follow btn events and functions
+Follow btn events and functions
 async function Follow(btn, responseUser, id) {
 
     if (responseUser.data.following == false) {
@@ -1259,7 +1263,7 @@ function getBooks(responseBook, userResponse) {
                 </div>
             `;
 
-            div.querySelector('.moreBtn-medium').addEventListener('click', function() {
+            div.querySelector('.moreBtn-medium').addEventListener('click', function () {
                 loadModalData(bookData.coverImage, bookData.title, bookData.firstName, bookData.lastName, bookData.description, bookData.language, bookData.rating, bookData.pagesNumber, bookData.price, bookData.username, bookData.companyName !== undefined ? bookData.companyName : null, bookData.id, bookData.saved);
             });
 

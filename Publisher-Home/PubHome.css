@@ -352,9 +352,19 @@
         font-size: 12px;
     }
 
-    .sMoreBtn {
-        font-size: 12px !important;
-        padding: 10px 15px 10px 15px !important;
+    .modal-cover-btn, .readThis{
+        font-size: 10px!important;
+        padding: 5px 15px !important;
+    }
+
+    .modal-footer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #book-m-footer{
+        gap: 20px!important;
     }
 
     /* footer */
@@ -664,9 +674,19 @@
         font-size: 14px;
     }
 
-    .sMoreBtn {
-        font-size: 14px !important;
-        padding: 10px 15px 10px 15px !important;
+    .modal-cover-btn, .readThis{
+        font-size: 12px!important;
+        padding: 5px 15px !important;
+    }
+
+    .modal-footer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #book-m-footer{
+        gap: 50px!important;
     }
 
     /* footer */
@@ -983,6 +1003,21 @@
         font-size: 14px;
     }
 
+    .modal-cover-btn, .readThis{
+        font-size: 12px!important;
+    }
+
+    .modal-footer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #book-m-footer{
+        gap: 50px!important;
+    }
+
+
     /* footer */
     footer {
         padding-top: 20px !important;
@@ -1269,6 +1304,17 @@
     .cover-btn {
         font-size: 12px !important;
         padding: 5px 10px !important;
+    }
+
+    /* modal */
+    .modal-cover-btn, .readThis{
+        font-size: 12px!important;
+    }
+
+    .modal-footer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     footer {
@@ -1565,6 +1611,13 @@
     .cover-btn {
         font-size: 12px !important;
         padding: 5px 10px !important;
+    }
+
+    /* modal */
+    .modal-footer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     footer {
@@ -2540,7 +2593,7 @@ section {
 }
 
 /* --------------- THIRD SECTION ---------------*/
-.sMoreBtn {
+.sMoreBtn, .readThis:hover {
     background-color: #f1b9a0;
     color: var(--btn-text-color);
     text-decoration: none;
@@ -2548,15 +2601,20 @@ section {
     font-size: 20px;
     border-radius: 30px;
     align-self: center;
-    transition: color 0.8s ease;
-    transition: background-color 0.8s ease;
+    transition: color 0.5s ease;
+    transition: background-color 0.5s ease;
 }
 
-.sMoreBtn:hover {
+.sMoreBtn:hover, .readThis{
     background-color: #649984;
     color: white;
-    transition: color 0.8s ease;
-    transition: background-color 0.8s ease;
+    transition: color 0.5s ease;
+    transition: background-color 0.5s ease;
+    text-decoration: none;
+    padding: 10px 25px 10px;
+    font-size: 20px;
+    border-radius: 30px;
+    align-self: center;
 }
 
 /* ----------------- Zero data ---------------------- */
@@ -2611,8 +2669,7 @@ section {
     color: rgb(63, 63, 63);
 }
 
-.save-btn:hover,
-.shopping-btn:hover {
+.save-btn:hover{
     background-color: #fffcf6d7;
 }
 
@@ -2689,30 +2746,17 @@ section {
     height: fit-content;
 }
 
-.m-footer-div {
+#book-m-footer {
     display: flex;
-    margin-right: auto !important;
-}
-
-.shopping-btn {
-    margin-right: 20px;
-    padding: 8px 18px 12px;
-    background-color: #fffcf6a7;
-}
-
-.price {
-    font-size: 18px;
-    margin-top: 13px;
-    margin-left: auto !important;
-    margin-bottom: 13px;
-    font-family: 'Poppins-Regular', sans-serif;
-    color: var(--mostUsed-text-color);
+    gap: 100px;
+    justify-content: center!important;
+    align-items: center!important;
 }
 
 .modal-cover-btn {
     text-decoration: none;
     background: #895372 !important;
-    border: 0.094rem solid #895372;
+    border: 0.094rem solid #895372!important;
     color: white;
     padding: 10px 20px 10px;
     border-radius: 30px;
@@ -2727,7 +2771,7 @@ section {
 .modal-cover-btn:hover {
     background-color: transparent !important;
     color: #2C1810;
-    border: dashed 0.094rem #2C1810;
+    border: dashed 0.094rem #2C1810!important;
     cursor: pointer;
     transition: background-color 0.8s ease;
 }
