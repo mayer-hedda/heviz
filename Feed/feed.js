@@ -298,7 +298,7 @@ async function LoadRecommandedUsers(response) {
         document.getElementById('right-side').hidden = true;
     }
 
-    for (let i = 0; i <= 4; i++) {
+    for (let i = 0; i <= response.data.length; i++) {
         suggestion_div.innerHTML += `
             <div class="profile-suggestion">
                 

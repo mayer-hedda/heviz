@@ -626,7 +626,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="setPriceModalLabel">Let's set your book's price!</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="setPriceX"></button>
                 </div>
                 <div class="modal-body">
                     <p class="modal-p">Would you change the price of your book? No problem!
@@ -636,16 +636,23 @@
                     <div class="setPrice-div">
                         <label for="newPrice" class=" modal-p">Enter the new price:</label>
                         <div class="input-group flex-nowrap" id="price-div">
-                            <input type="number" class="form-control" aria-describedby="addon-wrapping" id="newPrice">
+                            <input type="number" class="form-control" aria-describedby="addon-wrapping" id="newPrice" min="1000">
                             <span class="input-group-text" id="forint">Ft</span>
                         </div>
 
                     </div>
-                    <p class="error" id="newPriceErr" style="font-size: 16px;"></p>
+                    <p class="error" id="newPriceErr" style="font-size: 16px; height: 30px;"></p>
+
+                    <div class="mb-3">
+                        <label for="recipient-name" class="modal-p mb-2">Bank Account Number:</label>
+                        <input type="text" class="form-control w-75" id="newBankNumber" placeholder="GB 12 ABCD 102030 12345678">
+                      </div>
                 </div>
+                <p class="error" id="newBankErr" style="font-size: 16px; height: 30px;"></p>
+
                 <div class="modal-footer" id="setPrice-modalFooter">
-                    <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn saveChanges-btn" id="save-modal-price">Save changes</button>
+                    <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" id="setPriceClose">Close</button>
+                    <button type="button" class="btn saveChanges-btn" id="save-modal-Newprice">Save changes</button>
                 </div>
             </div>
         </div>

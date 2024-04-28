@@ -35,6 +35,8 @@ const publish_btn = document.getElementById('publish-btn');
 const modal_footer_div = document.getElementById('general-m-footer-shop');
 const book_price = document.getElementById('book-price');
 
+var isOwnProf;
+
 window.addEventListener('beforeunload', async function () {
     const tokenResponse = await token();
     if (tokenResponse.status === 401) {
@@ -76,7 +78,8 @@ window.onload = async function () {
                         our_posts.textContent = "Our Posts";
                     }
 
-                    const isOwnProf = checkOwnProfile(responseUser);
+                    isOwnProf = checkOwnProfile(responseUser);
+                    console.log(isOwnProf);
 
                     if (isOwnProf == true) {
                         if (responseUser.data.introDescription === undefined || responseUser.data.introDescription == "") {
@@ -326,7 +329,7 @@ followBTN.addEventListener('click', async function () {
                 followBTN.classList.add('default-follow');
                 followBTN.textContent = "Followed";
 
-                follow = true; 
+                follow = true;
                 console.log("Successfully followed!");
                 break;
             case 401:
@@ -352,7 +355,7 @@ followBTN.addEventListener('click', async function () {
                 followBTN.classList.add('followed');
                 followBTN.textContent = "Follow";
 
-                follow = false; 
+                follow = false;
                 console.log("Successfully unfollowed!");
                 break;
 
@@ -627,13 +630,13 @@ function contactInfos(response) {
 
     if (response.data.website != undefined && response.data.website != "") {
         let websiteUrl = response.data.website;
-        
+
         if (!websiteUrl.startsWith('http://') && !websiteUrl.startsWith('https://')) {
             websiteUrl = 'http://' + websiteUrl;
         }
-        
-        website.innerHTML = `<a href="${websiteUrl}" class="website-link">${response.data.website}</a>`;
-        
+
+        website.innerHTML = `<a href="${websiteUrl}" target="_blank" class="website-link">${response.data.website}</a>`;
+
         BooleanW = true;
     } else {
         website_div.hidden = true;
@@ -1250,28 +1253,149 @@ async function DeleteBookBTN(button, bookID) {
     }
 }
 
+var actualPublisherBookId;
 function setBookFunction(bookId, userRank) {
     if (userRank == 'general') {
         localStorage.setItem("bookId", bookId);
         window.location.href = "../Create Book/createBook.html";
+    } else {
+        actualPublisherBookId = bookId;
+        console.log(bookId);
     }
 }
 
-const save_modal_price = document.getElementById('save-modal-price');
-const newPriceInput = document.getElementById('newPrice');
-newPriceInput.addEventListener('focusin', (e) => {
-    document.getElementById('newPriceErr').textContent = "";
-})
+// set price in the own profile
+const newPrice = document.getElementById('newPrice');
+const newPriceErr = document.getElementById('newPriceErr');
+const newBankNumber = document.getElementById('newBankNumber');
+const newBankErr = document.getElementById('newBankErr');
 
-save_modal_price.addEventListener('click', async function () {
-    const priceValue = newPriceInput.value;
-    if (priceValue >= 1000) {
+var newPricePass = false;
+var newPriceValue;
+var newBankPass = false;
 
-        // ide jön az hogy elküldöm a helyes új adatot a backendnek
+document.getElementById('setPriceClose').addEventListener('click', (e) => {
+    newPrice.value = "";
+    newBankNumber.value = "";
+    newPrice.classList.remove('inputPass');
+    newPrice.classList.remove('inputError');
+    newPriceErr.innerText = "";
+
+    newBankNumber.classList.remove('inputPass');
+    newBankNumber.classList.remove('inputError');
+    newBankErr.innerText = "";
+});
+
+document.getElementById('setPriceX').addEventListener('click', (e) => {
+    newPrice.value = "";
+    newBankNumber.value = "";
+    newPrice.classList.remove('inputPass');
+    newPrice.classList.remove('inputError');
+    newPriceErr.innerText = "";
+
+    newBankNumber.classList.remove('inputPass');
+    newBankNumber.classList.remove('inputError');
+    newBankErr.innerText = "";
+});
+
+newPrice.addEventListener('focusin', (e) => {
+    newPrice.classList.remove('inputPass');
+    newPrice.classList.remove('inputError');
+    newPriceErr.innerText = "";
+});
+
+newPrice.addEventListener('focusout', (e) => {
+    newPriceValue = newPrice.value;
+    if (newPriceValue == "") {
+        newPrice.classList.add('inputError');
+        newPriceErr.innerText = "This field cannot be empty.";
+        newPricePass = false;
+
+    } else if (newPriceValue.value < 1000) {
+        newPriceErr.innerText = "The price must not be less than 1000 Ft."
+        newPrice.classList.add('inputError');
+        newPricePass = false;
+
     } else {
-        document.getElementById('newPriceErr').textContent = "The given price cannot be lower than 1 000 Ft!";
+        newPrice.classList.add('inputPass');
+        newPricePass = true;
+        newPriceValue = newPrice.value;
+        newPriceErr.innerText = "";
     }
-})
+});
+
+function bankValidation(bankValue, input, error) {
+    const removeSpaces = bankValue.replace(/ /g, "");
+
+    if (bankValue == "") {
+        input.classList.add('inputError');
+        error.innerText = "This field cannot be empty.";
+        return false;
+
+    } else if (removeSpaces.length < 15) {
+        input.classList.add('inputError');
+        error.innerText = "This value is too short. The IBAN number should be between 15 and 34 characters.";
+        return false;
+
+    } else if (removeSpaces.length > 34) {
+        input.classList.add('inputError');
+        error.innerText = "This value is too long. The IBAN number should be between 15 and 34 characters.";
+        return false;
+
+    } else if (removeSpaces.length >= 15 && removeSpaces.length <= 34) {
+        input.classList.add('inputPass');
+        error.innerText = "";
+        const upperCase = removeSpaces.toUpperCase();
+        return true;
+    }
+}
+
+newBankNumber.addEventListener('focusin', (e) => {
+    newBankNumber.classList.remove('inputPass');
+    newBankNumber.classList.remove('inputError');
+    newBankErr.innerText = "";
+});
+
+newBankNumber.addEventListener('focusout', (e) => {
+    newBankPass = bankValidation(newBankNumber.value, newBankNumber, newBankErr);
+});
+
+document.getElementById('save-modal-Newprice').addEventListener('click', async function () {
+
+    if (newBankPass == true && newPricePass == true) {
+        console.log(actualPublisherBookId);
+
+        const setNewPrice_result = await setPublishedBookDetails({ "id": actualPublisherBookId, "price": newPriceValue, "publisherBankAccountNumber": newBankNumber.value });
+
+        switch (setNewPrice_result.status) {
+            case 200:
+                alert("You have successfully published this book! You can check it on your profile!");
+                location.reload();
+                break;
+
+            case 401:
+                window.location.href = '../Log-in/login.html';
+                break;
+
+            case 403:
+                Window.location.href = '../General-HomePage/GenHome.html';
+                break;
+
+            case 422:
+                alert("Something went wrong. Please try again later.");
+                break;
+
+            default:
+                alert("Something went wrong. Please try again later.");
+                console.log(publish_result.status);
+                console.log(publish_result.data);
+                console.log(publish_result.error);
+                break;
+        }
+    } else {
+        alert("Please make sure you fill in every field correctly.");
+    }
+});
 
 // show books
 ourBooks_btn.addEventListener('click', (e) => {
@@ -2218,3 +2342,4 @@ const settings_modal = document.getElementById('settings-modal');
 settings_modal.addEventListener('hidden.bs.modal', function () {
     location.reload();
 });
+

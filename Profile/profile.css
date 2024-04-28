@@ -797,6 +797,16 @@ body {
     margin-bottom: 0px;
 }
 
+.inputPass {
+    background-color: rgb(241, 255, 231) !important;
+    border-color: rgb(98, 173, 107) !important;
+}
+
+.inputError {
+    background: rgb(255, 214, 220) !important;
+    border-color: rgb(243, 82, 93) !important;
+}
+
 #settings-modal-content {
     background-color: #D6C3AA;
     height: 800px;
@@ -1167,7 +1177,7 @@ body {
     margin-left: 40px;
 }
 
-#forint, #newPrice{
+#forint, #newPrice, #newBankNumber{
     border: 1px solid var(--border-color);
     height: 40px;
 }

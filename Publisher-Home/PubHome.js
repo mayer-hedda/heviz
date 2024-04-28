@@ -632,10 +632,10 @@ function bankValidation(bankValue) {
 
     } else if (removeSpaces.length >= 15 && removeSpaces.length <= 34) {
         bankNumber.classList.add('inputPass');
+        bankErr.innerText = "";
         const upperCase = removeSpaces.toUpperCase();
         return true;
     }
-
 }
 
 bankNumber.addEventListener('focusin', (e) => {
