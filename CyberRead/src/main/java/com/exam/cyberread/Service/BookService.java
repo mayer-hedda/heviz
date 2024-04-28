@@ -1079,4 +1079,24 @@ public class BookService {
         }
     }
     
+    
+    /**
+     * @param userId
+     * @param bookId
+     * 
+     * @return
+        * error
+        * null (Successfully unpublish this book)
+     * 
+     * @throws BookException: Something wrong!
+     */
+    public static JSONObject unpublishBook(Integer userId, Integer bookId) throws BookException {
+        try {   
+            return Book.unpublishBook(userId, bookId);
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in unpublishBook() method!");
+        }
+    }
+    
 }
