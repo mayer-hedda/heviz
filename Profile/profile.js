@@ -25,6 +25,7 @@ const carousel = document.getElementById('recom-profs');
 const just_two_writer = document.getElementById('just-two-writer');
 
 const followBTN = document.getElementById('follow-btn');
+var follow = false;
 const books_div = document.getElementById('books');
 
 // Modal btn-s
@@ -42,9 +43,12 @@ window.addEventListener('beforeunload', async function () {
     }
 });
 
+var username;
+
 window.onload = async function () {
 
-    var username = localStorage.getItem("username");
+    username = localStorage.getItem("username");
+    console.log(username);
 
     var tokenResponese = await token();
     switch (tokenResponese.status) {
@@ -134,21 +138,21 @@ window.onload = async function () {
                             document.getElementById('introdution').hidden = true;
                         }
 
-                        var followed = false;
                         if (responseUser.data.following == true) {
                             followBTN.classList.remove('default-follow');
                             followBTN.classList.add('followed');
                             followBTN.textContent = "Followed";
-                            followed = true;
+                            follow = true;
+
 
                         } else if (responseUser.data.following == false) {
                             followBTN.classList.remove('followed');
                             followBTN.classList.add('default-follow');
                             followBTN.textContent = "Follow";
-                            followed = false;
+                            follow = false;
+
                         }
 
-                        Follow(followBTN, responseUser, 9);
 
                         if (responseUser.data.rank == "publisher" && tokenResponese.data.rank == "publisher") {
                             document.getElementById('access-denied-notification').hidden = false;
@@ -309,6 +313,66 @@ window.onload = async function () {
 
     }
 }
+
+followBTN.addEventListener('click', async function () {
+    if (!follow) {
+        // az az eset amikor nem követi még a usert
+        const follow_result = await followUser({ "username": username });
+
+        switch (follow_result.status) {
+            case 200:
+
+                followBTN.classList.remove('followed');
+                followBTN.classList.add('default-follow');
+                followBTN.textContent = "Followed";
+
+                follow = true; 
+                console.log("Successfully followed!");
+                break;
+            case 401:
+                window.location.href = '../Log-in/login.html';
+                break;
+            case 422:
+                alert("Something went wrong. Please try again later.");
+                break;
+
+            default:
+                alert("Something went wrong. Please try again later.");
+                console.log(follow_result.status);
+                console.log(follow_result.error);
+                console.log(follow_result.data);
+                break;
+        }
+    } else {
+        const unfollow_result = await unfollowedUser({ "username": username });
+
+        switch (unfollow_result.status) {
+            case 200:
+                followBTN.classList.remove('default-follow');
+                followBTN.classList.add('followed');
+                followBTN.textContent = "Follow";
+
+                follow = false; 
+                console.log("Successfully unfollowed!");
+                break;
+
+            case 401:
+                window.location.href = '../Log-in/login.html';
+                break;
+            case 422:
+                alert("Something went wrong. Please try again later.");
+                break;
+
+            default:
+                alert("Something went wrong. Please try again later.");
+                console.log(unfollow_result.status);
+                console.log(unfollow_result.error);
+                console.log(unfollow_result.data);
+                break;
+        }
+    }
+});
+
 
 // edit introdution
 const editIntro = document.getElementById('edit-intro');
@@ -562,7 +626,14 @@ function contactInfos(response) {
     const contact_div = document.getElementById('contact');
 
     if (response.data.website != undefined && response.data.website != "") {
-        website.innerHTML = `<a href="${response.data.website}" class="website-link">${response.data.website}</a>`
+        let websiteUrl = response.data.website;
+        
+        if (!websiteUrl.startsWith('http://') && !websiteUrl.startsWith('https://')) {
+            websiteUrl = 'http://' + websiteUrl;
+        }
+        
+        website.innerHTML = `<a href="${websiteUrl}" class="website-link">${response.data.website}</a>`;
+        
         BooleanW = true;
     } else {
         website_div.hidden = true;
@@ -887,54 +958,54 @@ saveButton.addEventListener('click', async function () {
 });
 
 // Follow btn events and functions
-async function Follow(btn, responseUser, id) {
+// async function Follow(btn, responseUser, id) {
 
-    if (responseUser.data.following == false) {
+//     if (responseUser.data.following == false) {
 
-        btn.addEventListener('click', async function () {
-            const followResult = await followUser({ "followedId": id });
+//         btn.addEventListener('click', async function () {
+//             const followResult = await followUser({ "followedId": id });
 
-            switch (followResult.status) {
-                case 200:
-                    // btn.classList.remove('default-follow');
-                    // btn.classList.add('followed');
-                    // btn.textContent = "Followed";
-                    window.location.reload();
-                    break;
-                case 401:
-                    window.location.href = "../Log-in/login.html";
-                    break;
-                case 422:
-                    alert("Something went wrong. Status: " + followResult.status);
-                    break;
-                default:
-                    alert("Something went wrong. Status: " + followResult.status);
-                    break;
-            }
-        });
+//             switch (followResult.status) {
+//                 case 200:
+//                     // btn.classList.remove('default-follow');
+//                     // btn.classList.add('followed');
+//                     // btn.textContent = "Followed";
+//                     window.location.reload();
+//                     break;
+//                 case 401:
+//                     window.location.href = "../Log-in/login.html";
+//                     break;
+//                 case 422:
+//                     alert("Something went wrong. Status: " + followResult.status);
+//                     break;
+//                 default:
+//                     alert("Something went wrong. Status: " + followResult.status);
+//                     break;
+//             }
+//         });
 
-    } else if (responseUser.data.following == true) {
+//     } else if (responseUser.data.following == true) {
 
-        btn.addEventListener('click', async function () {
-            const unfollowResult = await unfollowedUser({ "followedId": id });
+//         btn.addEventListener('click', async function () {
+//             const unfollowResult = await unfollowedUser({ "followedId": id });
 
-            switch (unfollowResult.status) {
-                case 200:
-                    window.location.reload();
-                    break;
-                case 401:
-                    window.location.href = "../Log-in/login.html";
-                    break;
-                case 422:
-                    alert("Something went wrong. Status: " + unfollowResult.status);
-                    break;
-                default:
-                    alert("Something went wrong. Status: " + unfollowResult.status);
-                    break;
-            }
-        });
-    }
-}
+//             switch (unfollowResult.status) {
+//                 case 200:
+//                     window.location.reload();
+//                     break;
+//                 case 401:
+//                     window.location.href = "../Log-in/login.html";
+//                     break;
+//                 case 422:
+//                     alert("Something went wrong. Status: " + unfollowResult.status);
+//                     break;
+//                 default:
+//                     alert("Something went wrong. Status: " + unfollowResult.status);
+//                     break;
+//             }
+//         });
+//     }
+// }
 
 const ourBooks_btn = document.getElementById('our-books');
 
@@ -1258,7 +1329,7 @@ function getBooks(responseBook, userResponse) {
                 </div>
             `;
 
-            div.querySelector('.moreBtn-medium').addEventListener('click', function() {
+            div.querySelector('.moreBtn-medium').addEventListener('click', function () {
                 loadModalData(bookData.coverImage, bookData.title, bookData.firstName, bookData.lastName, bookData.description, bookData.language, bookData.rating, bookData.pagesNumber, bookData.price, bookData.username, bookData.companyName !== undefined ? bookData.companyName : null, bookData.id, bookData.saved);
             });
 

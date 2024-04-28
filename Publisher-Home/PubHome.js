@@ -129,7 +129,7 @@ window.onload = async function () {
             document.getElementById('welcome').innerText = `Welcome ${tokenResponse.data.firstName} ${tokenResponse.data.lastName}!`;
 
             document.getElementById('profile-link').addEventListener('click', (e) => {
-               navigateToProfile(own_uname);
+                navigateToProfile(own_uname);
             });
 
             switch (tokenResponse.data.rank) {
@@ -270,7 +270,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
         loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].username, response.data[0].id, response.data[0].saved);
     });
 
-    if(response.data.length <= 4) {
+    if (response.data.length <= 4) {
         for (let i = 1; i < response.data.length; i++) {
             const cardDiv = createCard(response.data[i]);
             firstRow.appendChild(cardDiv);
@@ -416,6 +416,7 @@ let bookId;
 
 function loadModalData(url, title, firstName, lastName, description, language, rating, pages, username, bookIdString, isSaved) {
     bookId = parseInt(bookIdString);
+    console.log(bookId);
 
     if (own_uname == username) {
         save_btn.hidden = true;
@@ -546,3 +547,141 @@ logout_btn.addEventListener('click', (e) => {
     window.location.assign('../Landing-Page/landing.html');
     localStorage.removeItem("Token");
 })
+
+// publishing modal
+const publisher_price = document.getElementById('publisher-price');
+const PriceErr = document.getElementById('PriceErr');
+const bankNumber = document.getElementById('bankNumber');
+const bankErr = document.getElementById('bankErr');
+
+const cancelPublish = document.getElementById('cancelPublish');
+const agreePublish = document.getElementById('agreePublish');
+
+var pricePass = false;
+var bankPass = false;
+
+var priceValue;
+var bankValue;
+
+cancelPublish.addEventListener('click', (e) => {
+    publisher_price.value = "";
+    bankNumber.value = "";
+    publisher_price.classList.remove('inputPass');
+    publisher_price.classList.remove('inputError');
+    PriceErr.innerText = "";
+
+    bankNumber.classList.remove('inputPass');
+    bankNumber.classList.remove('inputError');
+    bankErr.innerText = "";
+});
+
+document.getElementById('closeX').addEventListener('click', (e) => {
+    publisher_price.value = "";
+    bankNumber.value = "";
+    publisher_price.classList.remove('inputPass');
+    publisher_price.classList.remove('inputError');
+    PriceErr.innerText = "";
+
+    bankNumber.classList.remove('inputPass');
+    bankNumber.classList.remove('inputError');
+    bankErr.innerText = "";
+});
+
+publisher_price.addEventListener('focusin', (e) => {
+    publisher_price.classList.remove('inputPass');
+    publisher_price.classList.remove('inputError');
+    PriceErr.innerText = "";
+});
+
+publisher_price.addEventListener('focusout', (e) => {
+    e.preventDefault();
+    if (publisher_price.value == "") {
+        PriceErr.innerText = "This field cannot be empty."
+        publisher_price.classList.add('inputError');
+        pricePass = false;
+    } else if (publisher_price.value < 1000) {
+
+        PriceErr.innerText = "The price must not be less than 1000 Ft."
+        publisher_price.classList.add('inputError');
+        pricePass = false;
+    } else {
+        publisher_price.classList.add('inputPass');
+        pricePass = true;
+        priceValue = publisher_price.value;
+        PriceErr.innerText = "";
+    }
+});
+
+function bankValidation(bankValue) {
+    const removeSpaces = bankValue.replace(/ /g, "");
+
+    if (bankValue == "") {
+        bankNumber.classList.add('inputError');
+        bankErr.innerText = "This field cannot be empty.";
+        return false;
+
+    } else if (removeSpaces.length < 15) {
+        bankNumber.classList.add('inputError');
+        bankErr.innerText = "This value is too short. The IBAN number should be between 15 and 34 characters.";
+        return false;
+
+    } else if (removeSpaces.length > 34) {
+        bankNumber.classList.add('inputError');
+        bankErr.innerText = "This value is too long. The IBAN number should be between 15 and 34 characters.";
+        return false;
+
+    } else if (removeSpaces.length >= 15 && removeSpaces.length <= 34) {
+        bankNumber.classList.add('inputPass');
+        const upperCase = removeSpaces.toUpperCase();
+        return true;
+    }
+
+}
+
+bankNumber.addEventListener('focusin', (e) => {
+    bankNumber.classList.remove('inputPass');
+    bankNumber.classList.remove('inputError');
+    bankErr.innerText = "";
+});
+
+bankNumber.addEventListener('focusout', (e) => {
+    bankPass = bankValidation(bankNumber.value);
+});
+
+agreePublish.addEventListener('click', async function () {
+
+    if (bankPass == true && pricePass == true) {
+        console.log(bookId);
+        const publish_result = await publishBook({ "id": bookId, "price": priceValue, "publisherBankAccountNumber": bankNumber.value });
+
+        switch (publish_result.status) {
+            case 200:
+                alert("You have successfully published this book! You can check it on your profile!");
+                location.reload();
+                break;
+
+            case 401:
+                window.location.href = '../Log-in/login.html';
+                break;
+
+            case 403:
+                Window.location.href = '../General-HomePage/GenHome.html';
+                break;
+
+            case 422:
+                alert("Something went wrong. Please try again later.");
+                break;
+
+            default:
+                alert("Something went wrong. Please try again later.");
+                console.log(publish_result.status);
+                console.log(publish_result.data);
+                console.log(publish_result.error);
+                break;
+
+        }
+
+    } else {
+        alert("Please make sure you fill in every field correctly.");
+    }
+});

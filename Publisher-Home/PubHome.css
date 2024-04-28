@@ -11,6 +11,7 @@
     --current-page-color: rgb(60, 32, 22);
     --current-page-hover-color: rgb(68, 92, 79);
     --max-lines: 5;
+    --error-color: rgb(238, 29, 82);
 }
 
 /*--------------- FONTS ---------------*/
@@ -351,9 +352,19 @@
         font-size: 12px;
     }
 
-    .sMoreBtn {
-        font-size: 12px !important;
-        padding: 10px 15px 10px 15px !important;
+    .modal-cover-btn, .readThis{
+        font-size: 10px!important;
+        padding: 5px 15px !important;
+    }
+
+    .modal-footer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #book-m-footer{
+        gap: 20px!important;
     }
 
     /* footer */
@@ -663,9 +674,19 @@
         font-size: 14px;
     }
 
-    .sMoreBtn {
-        font-size: 14px !important;
-        padding: 10px 15px 10px 15px !important;
+    .modal-cover-btn, .readThis{
+        font-size: 12px!important;
+        padding: 5px 15px !important;
+    }
+
+    .modal-footer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #book-m-footer{
+        gap: 50px!important;
     }
 
     /* footer */
@@ -982,6 +1003,21 @@
         font-size: 14px;
     }
 
+    .modal-cover-btn, .readThis{
+        font-size: 12px!important;
+    }
+
+    .modal-footer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #book-m-footer{
+        gap: 50px!important;
+    }
+
+
     /* footer */
     footer {
         padding-top: 20px !important;
@@ -1268,6 +1304,17 @@
     .cover-btn {
         font-size: 12px !important;
         padding: 5px 10px !important;
+    }
+
+    /* modal */
+    .modal-cover-btn, .readThis{
+        font-size: 12px!important;
+    }
+
+    .modal-footer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     footer {
@@ -1564,6 +1611,13 @@
     .cover-btn {
         font-size: 12px !important;
         padding: 5px 10px !important;
+    }
+
+    /* modal */
+    .modal-footer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     footer {
@@ -2539,7 +2593,7 @@ section {
 }
 
 /* --------------- THIRD SECTION ---------------*/
-.sMoreBtn {
+.sMoreBtn, .readThis:hover {
     background-color: #f1b9a0;
     color: var(--btn-text-color);
     text-decoration: none;
@@ -2547,15 +2601,20 @@ section {
     font-size: 20px;
     border-radius: 30px;
     align-self: center;
-    transition: color 0.8s ease;
-    transition: background-color 0.8s ease;
+    transition: color 0.5s ease;
+    transition: background-color 0.5s ease;
 }
 
-.sMoreBtn:hover {
+.sMoreBtn:hover, .readThis{
     background-color: #649984;
     color: white;
-    transition: color 0.8s ease;
-    transition: background-color 0.8s ease;
+    transition: color 0.5s ease;
+    transition: background-color 0.5s ease;
+    text-decoration: none;
+    padding: 10px 25px 10px;
+    font-size: 20px;
+    border-radius: 30px;
+    align-self: center;
 }
 
 /* ----------------- Zero data ---------------------- */
@@ -2610,8 +2669,7 @@ section {
     color: rgb(63, 63, 63);
 }
 
-.save-btn:hover,
-.shopping-btn:hover {
+.save-btn:hover{
     background-color: #fffcf6d7;
 }
 
@@ -2688,30 +2746,17 @@ section {
     height: fit-content;
 }
 
-.m-footer-div {
+#book-m-footer {
     display: flex;
-    margin-right: auto !important;
-}
-
-.shopping-btn {
-    margin-right: 20px;
-    padding: 8px 18px 12px;
-    background-color: #fffcf6a7;
-}
-
-.price {
-    font-size: 18px;
-    margin-top: 13px;
-    margin-left: auto !important;
-    margin-bottom: 13px;
-    font-family: 'Poppins-Regular', sans-serif;
-    color: var(--mostUsed-text-color);
+    gap: 100px;
+    justify-content: center!important;
+    align-items: center!important;
 }
 
 .modal-cover-btn {
     text-decoration: none;
     background: #895372 !important;
-    border: 0.094rem solid #895372;
+    border: 0.094rem solid #895372!important;
     color: white;
     padding: 10px 20px 10px;
     border-radius: 30px;
@@ -2726,9 +2771,101 @@ section {
 .modal-cover-btn:hover {
     background-color: transparent !important;
     color: #2C1810;
-    border: dashed 0.094rem #2C1810;
+    border: dashed 0.094rem #2C1810!important;
     cursor: pointer;
     transition: background-color 0.8s ease;
+}
+
+/* publication modal */
+input{
+    font-family: 'Poppins-Regular', sans-serif;
+    color: var(--mostUsed-text-color);
+}
+.input-group{
+    width: 300px;
+    margin-left: 50px;
+    margin-top: 50px;
+}
+
+.input-group label{
+    font-family: 'Poppins-Medium', sans-serif;
+    font-size: 22px;
+}
+
+.bank-acc{
+    margin-left: 50px;
+    margin-top: 50px;
+    width: 650px;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Poppins-Medium', sans-serif;
+}
+
+.bank-acc label{
+    text-align: left;
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+
+#publisher-price{
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    margin-left: 20px;
+}
+
+#forint{
+    border: 1px solid var(--border-color);
+    height: 40px;
+}
+
+.cancel-btn {
+    background-color: rgb(211, 211, 220);
+    color: var(--primary-text);
+    transition: background-color 0.8s ease;
+}
+
+.cancel-btn:hover {
+    background-color: rgb(137, 137, 145);
+    color: whitesmoke;
+    transition: background-color 0.8s ease;
+}
+
+.publish{
+    background-color: rgb(220 147 117);
+    color: var(--primary-text);
+    transition: background-color 0.8s ease;
+}
+
+.publish:hover{
+    background-color: var(--primary-hover);
+    color: white;
+    transition: background-color 0.8s ease;
+}
+
+.form-control::placeholder{
+    color: rgb(179, 175, 186);
+    font-family: 'Poppins-light', sans-serif;
+}
+
+.error {
+    color: var(--error-color);
+    font-family: 'Poppins', sans-serif;
+    padding-left: 5px;
+    margin-top: 5px !important;
+    margin-bottom: 0px;
+    text-align: left;
+    margin-left: 50px;
+    max-width: 600px;
+}
+
+.inputPass {
+    background-color: rgb(241, 255, 231) !important;
+    border-color: rgb(98, 173, 107) !important;
+}
+
+.inputError {
+    background: rgb(255, 214, 220) !important;
+    border-color: rgb(243, 82, 93) !important;
 }
 
 /* --------------- FOOTER ---------------*/
