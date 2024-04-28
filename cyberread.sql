@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Ápr 28. 10:12
+-- Létrehozás ideje: 2024. Ápr 28. 11:59
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -1508,6 +1508,33 @@ END IF;
 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getPublishedBookDetails` (IN `userIdIN` INT, IN `bookIdIN` INT, OUT `result` INT)   BEGIN
+
+	DECLARE rank VARCHAR(20);
+    SELECT `user`.`rank` INTO rank
+    FROM `user`
+    WHERE `user`.`id` = userIdIN;
+
+    IF rank = "publisher" THEN
+
+        IF EXISTS (SELECT * FROM `book` WHERE `book`.`id` = bookIdIN AND `book`.`publisherId` = userIdIN) THEN
+            SELECT `book`.`price`, `book`.`publisherBankAccountNumber`
+            FROM `book`
+            WHERE `book`.`id` = bookIdIN AND `book`.`publisherId` = userIdIN;
+
+            SET result = 1;
+        ELSEIF NOT EXISTS (SELECT * FROM `book` WHERE `book`.`id` = bookIdIN) THEN
+            SET result = 3;
+        ELSEIF EXISTS (SELECT * FROM `book` WHERE `book`.`id` = bookIdIN) AND ((SELECT `book`.`publisherId` FROM `book` WHERE `book`.`id` = bookIdIN) != userIdIN OR (SELECT `book`.`publisherId` FROM `book` WHERE `book`.`id` = bookIdIN) IS NULL) THEN
+            SET result = 4;
+        END IF;
+
+    ELSE
+        SET result = 2;
+    END IF;
+
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getPublishedBooks` (IN `userIdIN` INT)   SELECT DISTINCT
     `book`.`id`, 
     `book`.`coverImage`, 
@@ -2305,10 +2332,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserDetails` (IN `userIdIN` INT,
                 `user`.`username`,
                 `user`.`image`,
                 IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
-                `user`.`firstName`,
-                `user`.`lastName`,
+                `publisher`.`companyName`,
                 (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`publisherId` = profileUserId AND `book`.`status` = "looking for a publisher") AS bookCount,
-                (SELECT COUNT(`saved`.`id`) FROM `saved` WHERE `saved`.`userId` = profileUserId) AS savedCount,
+                (SELECT COUNT(`writers`.`writerId`) FROM (SELECT DISTINCT `book`.`writerId` FROM `book` WHERE `book`.`publisherId` = profileUserId) AS `writers`) AS writerCount,
                 (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
                 `user`.`introDescription`,
                 `user`.`website`,
@@ -2316,10 +2342,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserDetails` (IN `userIdIN` INT,
                 userIdMatch AS userIdMatchFlag,
                 IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
                 IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
-            	YEAR(`user`.`registrationTime`)
+                YEAR(`user`.`registrationTime`)
             FROM `user`
             LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
             INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
+            INNER JOIN `publisher` ON `publisher`.`id` = `user`.`userId`
             WHERE `user`.`id` = profileUserId;
         END IF;
         
