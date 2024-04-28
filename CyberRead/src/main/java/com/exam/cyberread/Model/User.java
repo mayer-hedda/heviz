@@ -568,6 +568,7 @@ public class User implements Serializable {
             * phone number
             * registration year
         * error: profileUsernameError
+        * null: deleted profile
      * 
      * @throws UserException: Something wrong
      */
@@ -582,6 +583,7 @@ public class User implements Serializable {
             spq.registerStoredProcedureParameter("usernameIN", String.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("profileUsernameIN", String.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
+            spq.registerStoredProcedureParameter("deleted", Integer.class, ParameterMode.OUT);
 
             spq.setParameter("userIdIN", userId);
             spq.setParameter("usernameIN", username);
@@ -590,63 +592,68 @@ public class User implements Serializable {
             spq.execute();
             
             Integer resultOUT = (Integer) spq.getOutputParameterValue("result");
+            Integer deleted = (Integer) spq.getOutputParameterValue("deleted");
             
-            if(resultOUT == 1) {
-                List<Object[]> resultList = spq.getResultList();
-                JSONObject userDetails = new JSONObject();
-                for(Object[] result : resultList) {
-                    String rank = (String) result[0];
-                    userDetails.put("rank", rank);
-                    
-                    if(rank.equals("general")) {
-                        userDetails.put("username", (String) result[1]);
-                        userDetails.put("image", (String) result[2]);
-                        if((Integer) result[3] == 0) {
-                            userDetails.put("following", false);
-                        } else {
-                            userDetails.put("following", true);
-                        }
-                        userDetails.put("firstName", (String) result[4]);
-                        userDetails.put("lastName", (String) result[5]);
-                        userDetails.put("bookCount", (BigInteger) result[6]);
-                        userDetails.put("savedBookCount", (BigInteger) result[7]);
-                        userDetails.put("followersCount", (BigInteger) result[8]);
-                        userDetails.put("introDescription", (String) result[9]);
-                        userDetails.put("website", (String) result[10]);
-                        userDetails.put("coverColorCode", (String) result[11]);
-                        userDetails.put("ownProfile", (Boolean) result[12]);
-                        userDetails.put("email", (String) result[13]);
-                        userDetails.put("phoneNumber", (String) result[14]);
-                        userDetails.put("registrationYear", (Integer) result[15]);
-                    } else if(rank.equals("publisher")) {
-                        userDetails.put("username", (String) result[1]);
-                        userDetails.put("image", (String) result[2]);
-                        if((Integer) result[3] == 0) {
-                            userDetails.put("following", false);
-                        } else {
-                            userDetails.put("following", true);
-                        }
-                        userDetails.put("companyName", (String) result[4]);
-                        userDetails.put("bookCount", (BigInteger) result[5]);
-                        userDetails.put("writerCount", (BigInteger) result[6]);
-                        userDetails.put("followersCount", (BigInteger) result[7]);
-                        userDetails.put("introDescription", (String) result[8]);
-                        userDetails.put("website", (String) result[9]);
-                        userDetails.put("coverColorCode", (String) result[10]);
-                        userDetails.put("ownProfile", (Boolean) result[11]);
-                        userDetails.put("email", (String) result[12]);
-                        userDetails.put("phoneNumber", (String) result[13]);
-                        userDetails.put("registrationYear", (Integer) result[14]);
-                    }               
+            if(deleted == 0) {
+                if(resultOUT == 1) {
+                    List<Object[]> resultList = spq.getResultList();
+                    JSONObject userDetails = new JSONObject();
+                    for(Object[] result : resultList) {
+                        String rank = (String) result[0];
+                        userDetails.put("rank", rank);
+
+                        if(rank.equals("general")) {
+                            userDetails.put("username", (String) result[1]);
+                            userDetails.put("image", (String) result[2]);
+                            if((Integer) result[3] == 0) {
+                                userDetails.put("following", false);
+                            } else {
+                                userDetails.put("following", true);
+                            }
+                            userDetails.put("firstName", (String) result[4]);
+                            userDetails.put("lastName", (String) result[5]);
+                            userDetails.put("bookCount", (BigInteger) result[6]);
+                            userDetails.put("savedBookCount", (BigInteger) result[7]);
+                            userDetails.put("followersCount", (BigInteger) result[8]);
+                            userDetails.put("introDescription", (String) result[9]);
+                            userDetails.put("website", (String) result[10]);
+                            userDetails.put("coverColorCode", (String) result[11]);
+                            userDetails.put("ownProfile", (Boolean) result[12]);
+                            userDetails.put("email", (String) result[13]);
+                            userDetails.put("phoneNumber", (String) result[14]);
+                            userDetails.put("registrationYear", (Integer) result[15]);
+                        } else if(rank.equals("publisher")) {
+                            userDetails.put("username", (String) result[1]);
+                            userDetails.put("image", (String) result[2]);
+                            if((Integer) result[3] == 0) {
+                                userDetails.put("following", false);
+                            } else {
+                                userDetails.put("following", true);
+                            }
+                            userDetails.put("companyName", (String) result[4]);
+                            userDetails.put("bookCount", (BigInteger) result[5]);
+                            userDetails.put("writerCount", (BigInteger) result[6]);
+                            userDetails.put("followersCount", (BigInteger) result[7]);
+                            userDetails.put("introDescription", (String) result[8]);
+                            userDetails.put("website", (String) result[9]);
+                            userDetails.put("coverColorCode", (String) result[10]);
+                            userDetails.put("ownProfile", (Boolean) result[11]);
+                            userDetails.put("email", (String) result[12]);
+                            userDetails.put("phoneNumber", (String) result[13]);
+                            userDetails.put("registrationYear", (Integer) result[14]);
+                        }               
+                    }
+
+                    return userDetails;
+                } else {
+                    JSONObject error = new JSONObject();
+
+                    error.put("profileUsernameError", "This user dosn't exists!");
+
+                    return error;
                 }
-            
-                return userDetails;
             } else {
-                JSONObject error = new JSONObject();
-                
-                error.put("profileUsernameError", "This user dosn't exists!");
-                
-                return error;
+                return null;
             }
         } catch(Exception ex) {
             System.err.println(ex.getMessage());

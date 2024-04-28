@@ -361,6 +361,7 @@ public class UserService {
             * phone number
             * registration year
         * error: profileUsernameError
+        * null: deleted profile
      * 
      * @throws UserException: Something wrong
      */

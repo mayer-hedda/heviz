@@ -266,6 +266,7 @@ public class UserController {
             * User hasn't token
             * Invalid token
             * The token has expired
+        * 404: deleted profile
         * 422: profileUsernameError
      * 
      * @throws UserException: Something wrong
@@ -284,6 +285,9 @@ public class UserController {
                     Integer userId = Token.getUserIdByToken(jwt);
                     String usrname = Token.getUsernameByToken(jwt);
                     JSONObject result = UserService.getUserDetails(userId, usrname, user.getProfileUsername());
+                    if(result == null) {
+                        return Response.status(404).build();
+                    }
                     if(result.length() == 1) {
                         return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
                     }
