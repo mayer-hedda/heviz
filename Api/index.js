@@ -2768,7 +2768,6 @@ async function getPublishedBooksByUserId() {
             * price
             * username
             * category
-            * purchased
             * publisher username
     * 401:
         * User hasn't token
@@ -2796,6 +2795,76 @@ async function getFilteredSavedBooks(raw) {
 
     try {
         const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getFilteredSavedBooks", requestOptions);
+
+        if (response.status == 200 || response.status == 422) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
+        }
+        if (response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        }
+
+        return { status: response.status }
+    } catch (error) {
+        return { error: error }
+    }
+}
+
+
+/**
+ * @param {JSON} raw = {
+ *      "filter": 1
+ *  }
+ * 
+ * @return
+    * 200:
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+            * price
+            * username
+            * category
+            * publisher username
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 403: This user not a general user
+    * 422: filterError
+ */
+async function getFilteredPayedBooks(raw) {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getFilteredPayedBooks", requestOptions);
 
         if (response.status == 200 || response.status == 422) {
             return {
