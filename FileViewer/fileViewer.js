@@ -4,6 +4,7 @@ var myState = {
     zoom: 1
 }
 
+
 pdfjsLib.getDocument('./pdf.pdf').then((pdf) => {
 
     myState.pdf = pdf;
@@ -42,10 +43,8 @@ document.getElementById('go_next').addEventListener('click', (e) => {
 document.getElementById('current_page').addEventListener('keypress', (e) => {
     if (myState.pdf == null) return;
 
-    // Get key code 
     var code = (e.keyCode ? e.keyCode : e.which);
 
-    // If key code matches that of the Enter key 
     if (code == 13) {
         var desiredPage =
             document.getElementById('current_page').valueAsNumber;

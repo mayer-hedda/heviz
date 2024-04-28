@@ -3787,3 +3787,62 @@ async function deleteUser() {
         return { error: error }
     }
 }
+
+
+
+// ----- FILE VIEWER -----
+
+/**
+ * @param {JSON} raw = {
+ *      "id": 1
+ * }
+ * 
+ * @return
+    * 200: 
+        * file
+        * pagesNumber
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 422: error
+ */
+async function getFileViewerData(raw) {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/getFileViewerData", requestOptions);
+
+        if (response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        }
+        if (response.status == 200 || response.status == 422) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
+        }
+
+        return { status: response.status }
+    } catch (error) {
+        return { error: error }
+    }
+}
