@@ -1015,4 +1015,26 @@ public class BookService {
         }
     }
     
+    
+    /**
+     * @param userId
+     * @param bookId
+     * 
+     * @return
+        * book details:
+            * price
+            * publisher bank account number
+        * error 
+     * 
+     * @throws BookException: Something wrong!
+     */
+    public static JSONObject getPublishedBookDetails(Integer userId, Integer bookId) throws BookException {
+        try {   
+            return Book.getPublishedBookDetails(userId, bookId);
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getPublishedBookDetails() method!");
+        }
+    }
+    
 }

@@ -2360,5 +2360,62 @@ public class Book implements Serializable {
             emf.close();
         }
     }
+    
+    
+    /**
+     * @param userId
+     * @param bookId
+     * 
+     * @return
+        * book details:
+            * price
+            * publisher bank account number
+        * error
+     * 
+     * @throws BookException: Something wrong!
+     */
+    public static JSONObject getPublishedBookDetails(Integer userId, Integer bookId) throws BookException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getPublishedBookDetails");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("bookIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
+
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("bookIdIN", bookId);
+
+            spq.execute();
+            
+            Integer result = (Integer) spq.getOutputParameterValue("result");
+            
+            switch(result) {
+                case 1:
+                    List<Object[]> resultList = spq.getResultList();
+
+                    JSONObject book = new JSONObject();
+                    book.put("price", (Integer) resultList.get(0)[0]);
+                    book.put("publisherBankAccountNumber", (String) resultList.get(0)[1]);
+
+                    return book;
+                case 2:
+                    return new JSONObject().put("error", "You are not allowed to edit this data!");
+                case 3:
+                    return new JSONObject().put("error", "This book doesn't exist!");
+                default:
+                    return new JSONObject().put("error", "This is not your own book, you cannot change it!");
+            }
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getPublishedBookDetails() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
         
 }

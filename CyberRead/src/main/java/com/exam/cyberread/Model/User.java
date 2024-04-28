@@ -594,10 +594,10 @@ public class User implements Serializable {
             if(resultOUT == 1) {
                 List<Object[]> resultList = spq.getResultList();
                 JSONObject userDetails = new JSONObject();
-
                 for(Object[] result : resultList) {
                     String rank = (String) result[0];
                     userDetails.put("rank", rank);
+                    
                     if(rank.equals("general")) {
                         userDetails.put("username", (String) result[1]);
                         userDetails.put("image", (String) result[2]);
