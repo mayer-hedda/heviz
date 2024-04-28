@@ -853,7 +853,7 @@ async function setBook(raw) {
     * 
     * 422: error
  */
-async function setBookPrice(raw) {
+async function setPublishedBookDetails(raw) {
     var myHeaders = new Headers();
 
     myHeaders.append("Content-Type", "application/json");
@@ -872,7 +872,7 @@ async function setBookPrice(raw) {
     };
 
     try {
-        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/setBookPrice", requestOptions);
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/book/setPublishedBookDetails", requestOptions);
 
         if (response.status == 422) {
             return {
