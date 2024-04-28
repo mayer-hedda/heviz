@@ -223,19 +223,16 @@ public class BookService {
     public static JSONObject addBook(Integer userId, String title, String description, Integer targetAudienceId, Integer languageId, Boolean adultFiction, Integer categoryId, Integer statusId, Integer price, String coverImage, String file, String bankAccountNumber, Integer chapterNumber) throws BookException {
         try {
             JSONObject errors = BookService.bookDetailsCheck(title, description, targetAudienceId, languageId, adultFiction, categoryId, price, statusId, bankAccountNumber, coverImage, file);
-            Integer freeChapterNumber = null;
 
             if(chapterNumber == null) {
                 errors.put("chapterNumberError", "The chapter number field cannot be empty!");
             } else if(chapterNumber < 0) {
                 errors.put("chapterNumberError", "The book cannot have less than zero chapters!");
-            } else {
-                freeChapterNumber = (int) Math.round(chapterNumber * 0.2);
             }
             
             
             if(errors.isEmpty()) {
-                Integer result = Book.addBook(userId, title, description, targetAudienceId, languageId, adultFiction, categoryId, statusId, price, coverImage, file, bankAccountNumber, chapterNumber, freeChapterNumber);
+                Integer result = Book.addBook(userId, title, description, targetAudienceId, languageId, adultFiction, categoryId, statusId, price, coverImage, file, bankAccountNumber, chapterNumber);
                 
                 switch(result) {
                     case 2:
@@ -330,19 +327,16 @@ public class BookService {
     public static JSONObject setBook(Integer bookId, String title, String description, Integer targetAudienceId, Integer languageId, Boolean adultFiction, Integer categoryId, Integer statusId, Integer price, String coverImage, String file, String bankAccountNumber, Integer chapterNumber) throws BookException {
         try{
             JSONObject errors = BookService.bookDetailsCheck(title, description, targetAudienceId, languageId, adultFiction, categoryId, price, statusId, bankAccountNumber, coverImage, file);
-            Integer freeChapterNumber = null;
             
             if(chapterNumber == null) {
                 errors.put("chapterNumberError", "The chapter number field cannot be empty!");
             } else if(chapterNumber < 0) {
                 errors.put("chapterNumberError", "The book cannot have less than zero chapters!");
-            } else {
-                freeChapterNumber = (int) Math.round(chapterNumber * 0.2);
-            }
+            } 
             
             
             if(errors.isEmpty()) {
-                Integer result = Book.setBook(bookId, title, description, targetAudienceId, languageId, adultFiction, categoryId, statusId, price, coverImage, file, bankAccountNumber, chapterNumber, freeChapterNumber);
+                Integer result = Book.setBook(bookId, title, description, targetAudienceId, languageId, adultFiction, categoryId, statusId, price, coverImage, file, bankAccountNumber, chapterNumber);
                         
                 switch(result) {
                     case 2:
@@ -462,6 +456,8 @@ public class BookService {
 
                 if(statusId == 2 && (bankAccountNumber == null || bankAccountNumber.isEmpty())) {
                     errors.put("bankAccountNumberError", "The bank account number field cannot be empty!");
+                } else if(statusId == 2 && bankAccountNumber.length() > 30) {
+                    errors.put("bankAccountNumberError", "The length of the bank account number must not exceed 30 characters!");
                 } else if(statusId == 1) {
                     bankAccountNumber = "";
                 }
@@ -982,25 +978,40 @@ public class BookService {
      * @param userId
      * @param bookId
      * @param price
+     * @param publisherBankAccountNumber
      * 
      * @return
         * error
-        * null (Successfully set book price)
+        * null (Successfully set published book details)
      * 
      * @throws BookException: Something wrong!
      */
-    public static JSONObject setBookPrice(Integer userId, Integer bookId, Integer price) throws BookException {
-        try {            
+    public static JSONObject setPublishedBookDetails(Integer userId, Integer bookId, Integer price, String publisherBankAccountNumber) throws BookException {
+        try {   
+            JSONObject error = new JSONObject();
+            
+            // price validate
             if(price < 1000) {
-                return new JSONObject().put("priceError", "The price must be a minimum of 1000 Hungarian Forints!");
-            } else {
-                Integer newPrice = (int) (price / 0.80);
-                
-                return Book.setBookPrice(userId, bookId, newPrice);
+                error.put("priceError", "The price must be a minimum of 1000 Hungarian Forints!");
+            } 
+            
+            // bank account number validate
+            if(publisherBankAccountNumber == null || publisherBankAccountNumber.isEmpty()) {
+                error.put("publisherBankAccountNumberError", "This field cannot be empty!");
+            } else if(publisherBankAccountNumber.length() > 30) {
+                error.put("publisherBankAccountNumberError", "The length of the bank account number must not exceed 30 characters!");
             }
+            
+            if(error.isEmpty()) {
+                Integer newPrice = (int) (price / 0.80);
+
+                return Book.setPublishedBookDetails(userId, bookId, newPrice, publisherBankAccountNumber);
+            }
+            
+            return error;
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
-            throw new BookException("Error in setBookPrice() method!");
+            throw new BookException("Error in setPublishedBookDetails() method!");
         }
     }
     

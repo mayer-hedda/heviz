@@ -33,7 +33,8 @@ import org.json.JSONObject;
 @Entity
 @Table(name = "book")
 @XmlRootElement
-@NamedQueries({
+@NamedQueries(
+{
     @NamedQuery(name = "Book.findAll", query = "SELECT b FROM Book b"),
     @NamedQuery(name = "Book.findById", query = "SELECT b FROM Book b WHERE b.id = :id"),
     @NamedQuery(name = "Book.findByTitle", query = "SELECT b FROM Book b WHERE b.title = :title"),
@@ -41,19 +42,19 @@ import org.json.JSONObject;
     @NamedQuery(name = "Book.findByWriterId", query = "SELECT b FROM Book b WHERE b.writerId = :writerId"),
     @NamedQuery(name = "Book.findByPublisherId", query = "SELECT b FROM Book b WHERE b.publisherId = :publisherId"),
     @NamedQuery(name = "Book.findByPublishedTime", query = "SELECT b FROM Book b WHERE b.publishedTime = :publishedTime"),
-    @NamedQuery(name = "Book.findByRating", query = "SELECT b FROM Book b WHERE b.rating = :rating"),
     @NamedQuery(name = "Book.findByDescription", query = "SELECT b FROM Book b WHERE b.description = :description"),
     @NamedQuery(name = "Book.findByPrice", query = "SELECT b FROM Book b WHERE b.price = :price"),
     @NamedQuery(name = "Book.findByCoverImage", query = "SELECT b FROM Book b WHERE b.coverImage = :coverImage"),
     @NamedQuery(name = "Book.findByFile", query = "SELECT b FROM Book b WHERE b.file = :file"),
     @NamedQuery(name = "Book.findByChapterNumber", query = "SELECT b FROM Book b WHERE b.chapterNumber = :chapterNumber"),
-    @NamedQuery(name = "Book.findByFreeChapterNumber", query = "SELECT b FROM Book b WHERE b.freeChapterNumber = :freeChapterNumber"),
     @NamedQuery(name = "Book.findByPagesNumber", query = "SELECT b FROM Book b WHERE b.pagesNumber = :pagesNumber"),
     @NamedQuery(name = "Book.findByAdultFiction", query = "SELECT b FROM Book b WHERE b.adultFiction = :adultFiction"),
     @NamedQuery(name = "Book.findByBankAccountNumber", query = "SELECT b FROM Book b WHERE b.bankAccountNumber = :bankAccountNumber"),
+    @NamedQuery(name = "Book.findByPublisherBankAccountNumber", query = "SELECT b FROM Book b WHERE b.publisherBankAccountNumber = :publisherBankAccountNumber"),
     @NamedQuery(name = "Book.findByLanguageId", query = "SELECT b FROM Book b WHERE b.languageId = :languageId"),
     @NamedQuery(name = "Book.findByTargetAudienceId", query = "SELECT b FROM Book b WHERE b.targetAudienceId = :targetAudienceId"),
-    @NamedQuery(name = "Book.findByCategoryId", query = "SELECT b FROM Book b WHERE b.categoryId = :categoryId")})
+    @NamedQuery(name = "Book.findByCategoryId", query = "SELECT b FROM Book b WHERE b.categoryId = :categoryId")
+})
 public class Book implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -83,18 +84,13 @@ public class Book implements Serializable {
     @Column(name = "publishedTime")
     @Temporal(TemporalType.TIMESTAMP)
     private Date publishedTime;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "rating")
-    private Double rating;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 1000)
     @Column(name = "description")
     private String description;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "price")
-    private int price;
+    private Integer price;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
@@ -111,10 +107,6 @@ public class Book implements Serializable {
     private int chapterNumber;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "freeChapterNumber")
-    private int freeChapterNumber;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "pagesNumber")
     private int pagesNumber;
     @Basic(optional = false)
@@ -124,6 +116,9 @@ public class Book implements Serializable {
     @Size(max = 30)
     @Column(name = "bankAccountNumber")
     private String bankAccountNumber;
+    @Size(max = 30)
+    @Column(name = "publisherBankAccountNumber")
+    private String publisherBankAccountNumber;
     @Basic(optional = false)
     @NotNull
     @Column(name = "languageId")
@@ -136,7 +131,7 @@ public class Book implements Serializable {
     @NotNull
     @Column(name = "categoryId")
     private int categoryId;
-    
+
     private int statusId;
     
     private int filter;
@@ -150,18 +145,16 @@ public class Book implements Serializable {
         this.id = id;
     }
 
-    public Book(Integer id, String title, String status, int writerId, Date publishedTime, String description, int price, String coverImage, String file, int chapterNumber, int freeChapterNumber, int pagesNumber, boolean adultFiction, int languageId, int targetAudienceId, int categoryId) {
+    public Book(Integer id, String title, String status, int writerId, Date publishedTime, String description, String coverImage, String file, int chapterNumber, int pagesNumber, boolean adultFiction, int languageId, int targetAudienceId, int categoryId) {
         this.id = id;
         this.title = title;
         this.status = status;
         this.writerId = writerId;
         this.publishedTime = publishedTime;
         this.description = description;
-        this.price = price;
         this.coverImage = coverImage;
         this.file = file;
         this.chapterNumber = chapterNumber;
-        this.freeChapterNumber = freeChapterNumber;
         this.pagesNumber = pagesNumber;
         this.adultFiction = adultFiction;
         this.languageId = languageId;
@@ -217,14 +210,6 @@ public class Book implements Serializable {
         this.publishedTime = publishedTime;
     }
 
-    public Double getRating() {
-        return rating;
-    }
-
-    public void setRating(Double rating) {
-        this.rating = rating;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -233,11 +218,11 @@ public class Book implements Serializable {
         this.description = description;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
@@ -265,14 +250,6 @@ public class Book implements Serializable {
         this.chapterNumber = chapterNumber;
     }
 
-    public int getFreeChapterNumber() {
-        return freeChapterNumber;
-    }
-
-    public void setFreeChapterNumber(int freeChapterNumber) {
-        this.freeChapterNumber = freeChapterNumber;
-    }
-
     public int getPagesNumber() {
         return pagesNumber;
     }
@@ -295,6 +272,14 @@ public class Book implements Serializable {
 
     public void setBankAccountNumber(String bankAccountNumber) {
         this.bankAccountNumber = bankAccountNumber;
+    }
+
+    public String getPublisherBankAccountNumber() {
+        return publisherBankAccountNumber;
+    }
+
+    public void setPublisherBankAccountNumber(String publisherBankAccountNumber) {
+        this.publisherBankAccountNumber = publisherBankAccountNumber;
     }
 
     public int getLanguageId() {
@@ -365,11 +350,13 @@ public class Book implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Book)) {
+        if (!(object instanceof Book))
+        {
             return false;
         }
         Book other = (Book) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)))
+        {
             return false;
         }
         return true;
@@ -795,7 +782,6 @@ public class Book implements Serializable {
      * @param file
      * @param bankAccountNumber
      * @param chapterNumber
-     * @param freeChapterNumber
      * 
      * @return
         * 1: Successfully add book
@@ -811,7 +797,7 @@ public class Book implements Serializable {
      * 
      * @throws BookException: Something wrong
      */
-    public static Integer addBook(Integer userId, String title, String description, Integer targetAudienceId, Integer languageId, Boolean adultFiction, Integer categoryId, Integer statusId, Integer price, String coverImage, String file, String bankAccountNumber, Integer chapterNumber, Integer freeChapterNumber) throws BookException {
+    public static Integer addBook(Integer userId, String title, String description, Integer targetAudienceId, Integer languageId, Boolean adultFiction, Integer categoryId, Integer statusId, Integer price, String coverImage, String file, String bankAccountNumber, Integer chapterNumber) throws BookException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
         EntityManager em = emf.createEntityManager();
 
@@ -831,7 +817,6 @@ public class Book implements Serializable {
             spq.registerStoredProcedureParameter("fileIN", String.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("bankAccountNumberIN", String.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("chapterNumberIN", Integer.class, ParameterMode.IN);
-            spq.registerStoredProcedureParameter("freeChapterNumberIN", Integer.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
 
             spq.setParameter("userIdIN", userId);
@@ -847,7 +832,6 @@ public class Book implements Serializable {
             spq.setParameter("fileIN", file);
             spq.setParameter("bankAccountNumberIN", bankAccountNumber);
             spq.setParameter("chapterNumberIN", chapterNumber);
-            spq.setParameter("freeChapterNumberIN", freeChapterNumber);
 
             spq.execute();
             
@@ -942,7 +926,6 @@ public class Book implements Serializable {
      * @param file
      * @param bankAccountNumber
      * @param chapterNumber
-     * @param freeChapterNumber
      * 
      * @return
         * 1: Successfully add book
@@ -958,7 +941,7 @@ public class Book implements Serializable {
      * 
      * @throws BookException: Something wrong
      */
-    public static Integer setBook(Integer bookId, String title, String description, Integer targetAudienceId, Integer languageId, Boolean adultFiction, Integer categoryId, Integer statusId, Integer price, String coverImage, String file, String bankAccountNumber, Integer chapterNumber, Integer freeChapterNumber) throws BookException {
+    public static Integer setBook(Integer bookId, String title, String description, Integer targetAudienceId, Integer languageId, Boolean adultFiction, Integer categoryId, Integer statusId, Integer price, String coverImage, String file, String bankAccountNumber, Integer chapterNumber) throws BookException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
         EntityManager em = emf.createEntityManager();
 
@@ -978,7 +961,6 @@ public class Book implements Serializable {
             spq.registerStoredProcedureParameter("fileIN", String.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("bankAccountNumberIN", String.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("chapterNumberIN", Integer.class, ParameterMode.IN);
-            spq.registerStoredProcedureParameter("freeChapterNumberIN", Integer.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
 
             spq.setParameter("bookIdIN", bookId);
@@ -994,7 +976,6 @@ public class Book implements Serializable {
             spq.setParameter("fileIN", file);
             spq.setParameter("bankAccountNumberIN", bankAccountNumber);
             spq.setParameter("chapterNumberIN", chapterNumber);
-            spq.setParameter("freeChapterNumberIN", freeChapterNumber);
 
             spq.execute();
             
@@ -2330,28 +2311,31 @@ public class Book implements Serializable {
      * @param userId
      * @param bookId
      * @param price
+     * @param publisherBankAccountNumber
      * 
      * @return:
         * error
-        * null (Successfully set book price)
+        * null (Successfully set published book details)
      * 
      * @throws BookException: Something wrong!
      */
-    public static JSONObject setBookPrice(Integer userId, Integer bookId, Integer price) throws BookException {
+    public static JSONObject setPublishedBookDetails(Integer userId, Integer bookId, Integer price, String publisherBankAccountNumber) throws BookException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
         EntityManager em = emf.createEntityManager();
 
         try {
-            StoredProcedureQuery spq = em.createStoredProcedureQuery("setBookPrice");
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("setPublishedBookDetails");
             
             spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("bookIdIN", Integer.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("newPriceIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("newPublisherBankAccountNumberIN", String.class, ParameterMode.IN);
             spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
 
             spq.setParameter("userIdIN", userId);
             spq.setParameter("bookIdIN", bookId);
             spq.setParameter("newPriceIN", price);
+            spq.setParameter("newPublisherBankAccountNumberIN", publisherBankAccountNumber);
 
             spq.execute();
             
@@ -2369,7 +2353,7 @@ public class Book implements Serializable {
             }
         } catch(Exception ex) {
             System.err.println(ex.getMessage());
-            throw new BookException("Error in setBookPrice() method!");
+            throw new BookException("Error in setPublishedBookDetails() method!");
         } finally {
             em.clear();
             em.close();

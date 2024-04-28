@@ -1396,7 +1396,7 @@ public class BookController {
      * @param book
      * 
      * @return
-        * 200: Successfully set book price
+        * 200: Successfully set published book details
         * 401:
             * User hasn't token
             * Invalid token
@@ -1407,9 +1407,9 @@ public class BookController {
      * @throws BookException: Something wrong!
      */
     @PUT
-    @Path("setBookPrice")
+    @Path("setPublishedBookDetails")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response setBookPrice(@HeaderParam("Token") String jwt, Book book) throws BookException {
+    public Response setPublishedBookDetails(@HeaderParam("Token") String jwt, Book book) throws BookException {
         if(jwt == null) {
             return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
         } else {
@@ -1422,7 +1422,7 @@ public class BookController {
                     switch(rank) {
                         case "publisher": 
                             Integer userId = Token.getUserIdByToken(jwt);
-                            JSONObject result = BookService.setBookPrice(userId, book.getId(), book.getPrice());
+                            JSONObject result = BookService.setPublishedBookDetails(userId, book.getId(), book.getPrice(), book.getPublisherBankAccountNumber());
                             
                             if(result == null) {
                                 return Response.status(Response.Status.OK).build();
