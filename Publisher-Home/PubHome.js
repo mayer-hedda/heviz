@@ -163,28 +163,28 @@ window.onload = async function () {
                     if (booksByCategory_response.data.length != 0) {
                         const separetedCategories_obj = separateCategories(booksByCategory_response);
 
-                        if (separetedCategories_obj[0].data.length != 0) {
+                        if (booksByCategory_response.data.length >= 1 && separetedCategories_obj[0].data.length != 0) {
                             loadRandoms(separetedCategories_obj, 0, s3_subtitle, s3_mediumCardPic_div, s3_mediumC_h2, s3_mediumC_author, s3_mediumC_desc, s3_mediumC_btn, s3_first_row, s3_second_row, s3_mediumC_category);
                             s3 = true;
                         } else {
                             third_section.hidden = true;
                         }
 
-                        if (separetedCategories_obj[1].data.length != 0) {
+                        if (booksByCategory_response.data.length >= 2 && separetedCategories_obj[1].data.length != 0) {
                             loadRandoms(separetedCategories_obj, 1, s4_subtitle, s4_mediumCardPic_div, s4_mediumC_h2, s4_mediumC_author, s4_mediumC_desc, s4_mediumC_btn, s4_first_row, s4_second_row, s4_mediumC_category);
                             s4 = true;
                         } else {
                             fourth_section.hidden = true;
                         }
 
-                        if (separetedCategories_obj[2].data.length != 0) {
+                        if (booksByCategory_response.data.length >= 3 && separetedCategories_obj[2].data.length != 0) {
                             loadRandoms(separetedCategories_obj, 2, s5_subtitle, s5_mediumCardPic_div, s5_mediumC_h2, s5_mediumC_author, s5_mediumC_desc, s5_mediumC_btn, s5_first_row, s5_second_row, s5_mediumC_category);
                             s5 = true;
                         } else {
                             fifth_section.hidden = true;
                         }
 
-                        if (separetedCategories_obj[3].data.length != 0) {
+                        if (booksByCategory_response.data.length >= 4 && separetedCategories_obj[3].data.length != 0) {
                             loadRandoms(separetedCategories_obj, 3, s6_subtitle, s6_mediumCardPic_div, s6_mediumC_h2, s6_mediumC_author, s6_mediumC_desc, s6_mediumC_btn, s6_first_row, s6_second_row, s6_mediumC_category);
                             s6 = true;
                         } else {
@@ -596,13 +596,13 @@ publisher_price.addEventListener('focusout', (e) => {
         publisher_price.classList.add('inputError');
         pricePass = false;
     } else if (publisher_price.value < 1000) {
-       
+
         PriceErr.innerText = "The price must not be less than 1000 Ft."
         publisher_price.classList.add('inputError');
         pricePass = false;
     } else {
         publisher_price.classList.add('inputPass');
-        bankPass = false;
+        pricePass = true;
         PriceErr.innerText = "";
     }
 });
@@ -644,10 +644,11 @@ bankNumber.addEventListener('focusout', (e) => {
     console.log(bankPass);
 });
 
-agreePublish.addEventListener('click', async function(){
-    if(bankPass == true && pricePass == true){
+agreePublish.addEventListener('click', async function () {
+
+    if (bankPass == true && pricePass == true) {
         // endpoint meghívása
-    }else{
+    } else {
         alert("Please make sure you fill in every field correctly.");
     }
 });

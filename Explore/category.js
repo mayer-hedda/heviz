@@ -760,13 +760,13 @@ publisher_price.addEventListener('focusout', (e) => {
         publisher_price.classList.add('inputError');
         pricePass = false;
     } else if (publisher_price.value < 1000) {
-       
+
         PriceErr.innerText = "The price must not be less than 1000 Ft."
         publisher_price.classList.add('inputError');
         pricePass = false;
     } else {
         publisher_price.classList.add('inputPass');
-        bankPass = false;
+        pricePass = true;
         PriceErr.innerText = "";
     }
 });
@@ -808,10 +808,11 @@ bankNumber.addEventListener('focusout', (e) => {
     console.log(bankPass);
 });
 
-agreePublish.addEventListener('click', async function(){
-    if(bankPass == true && pricePass == true){
+agreePublish.addEventListener('click', async function () {
+
+    if (bankPass == true && pricePass == true) {
         // endpoint meghívása
-    }else{
+    } else {
         alert("Please make sure you fill in every field correctly.");
     }
 });

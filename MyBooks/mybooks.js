@@ -41,7 +41,6 @@ window.onload = async function () {
             break;
         case 422:
             alert("422 - Something went wrong");
-            console.error("Error: " + responseUser);
             break;
         case 302:
             
@@ -63,7 +62,6 @@ window.onload = async function () {
             const HomePage = document.getElementById('HomePage');
 
             if (tokenResponse.data.rank == "publisher") {
-                console.log("Publisher");
                 shopping_btn.style.display = "none";
                 publish_btn.hidden = false;
                 book_price.hidden = true;
@@ -104,7 +102,6 @@ window.onload = async function () {
             }
 
             const savedBookResponse = await getSavedBooksByUserId();
-            console.log(savedBookResponse.data);
             switch (savedBookResponse.status) {
                 case 200:
                     if (savedBookResponse.data.length == 0) {
@@ -216,9 +213,6 @@ purchased_books.addEventListener('click', async function (event) {
 
         default:
             alert('Something went wrong. Please try it again later.');
-            console.error(purchasedResult.status);
-            console.error(purchasedResult.data);
-            console.error(purchasedResult.error);
             break;
 
     }
@@ -246,7 +240,6 @@ saved_books.addEventListener('click', async function (event) {
     switch (savedResult.status) {
         case 200:
             if (savedResult.data.length == 0) {
-                console.log(savedResult.data.length);
                 book_list.innerHTML = `
                     <div id="zero-saved" class="text-center" >
                         <p id="missing-saved" class="missing-data-text text-center">You haven't saved any books yet.</p>
@@ -281,56 +274,35 @@ function LoadBooks(response, isPurchased) {
     book_list.innerHTML = "";
 
     for (let i = 0; i <= response.data.length - 1; i++) {
-        if (response.data[i].coverImage != "Ez a kép elérési útja") {
+        const bookData = response.data[i];
 
-            book_list.innerHTML += `
-                <div class="medium-card" style="background-color: #EAD7BE;">
-                    <div class="row">
-                        <div class="col-3 my-col3" >
-                            <img class="medium-pic" src="../${response.data[i].coverImage}.jpg">
-                        </div>
-                
-                        <div class="col-9 medium-right-side">
-                            <h2 class="container medium-h2">${response.data[i].title}</h2>
-                            <p class="username author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
-                            <p class="username author" onclick="navigateToProfile('${response.data[i].publisherUsername}')">${response.data[i].publisher || ''}</p>
-                            <p class="medium-desc">${response.data[i].description}</p>
-                           <div class="bottom-row-medium">
-                           <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${isPurchased}', '${response.data[i].id}', ${isPurchased == true ? `${false}` : `${true}`}, ${response.data[i].publisherUsername !== undefined ? `'${response.data[i].publisherUsername}'` : null})">Show Details</button>
-                                <p class="category">${response.data[i].category}</p>
-                            </div>
-                        </div>
+        const div = document.createElement('div');
+        div.className = 'medium-card';
+        div.style.backgroundColor = '#EAD7BE';
+        div.innerHTML = `
+            <div class="row">
+                <div class="col-3 my-col3">
+                    <img class="medium-pic" src="../${bookData.coverImage}.jpg">
+                </div>
+                <div class="col-9 medium-right-side">
+                    <h2 class="container medium-h2">${bookData.title}</h2>
+                    <p class="username author" onclick="navigateToProfile('${bookData.username}')">${bookData.firstName} ${bookData.lastName}</p>
+                    <p class="username author" onclick="navigateToProfile('${bookData.publisherUsername}')">${bookData.publisher || ''}</p>
+                    <p class="medium-desc">${bookData.description}</p>
+                    <div class="bottom-row-medium">
+                        <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup">Show Details</button>
+                        <p class="category">${bookData.category}</p>
                     </div>
                 </div>
-            `;
+            </div>
+        `;
 
+        div.querySelector('.moreBtn-medium').addEventListener('click', function() {
+            loadModalData(bookData.coverImage, bookData.title, bookData.firstName, bookData.lastName, bookData.description, bookData.language, bookData.rating, bookData.pagesNumber, bookData.price, bookData.username, bookData.publisher !== undefined ? bookData.publisher : null, isPurchased, bookData.id, isPurchased ? false : true, bookData.publisherUsername !== undefined ? bookData.publisherUsername : null);
+        });
 
-        } else {
-
-            book_list.innerHTML += `
-                <div class="medium-card" style="background-color: #EAD7BE;">
-                    <div class="row">
-                        <div class="col-3 my-col3" >
-                            <img class="medium-pic" src="../pictures/standard-book-cover.jpg">
-                        </div>
-        
-                        <div class="col-9 medium-right-side">
-                            <h2 class="container medium-h2">${response.data[i].title}</h2>
-                            <p class="username author" onclick="navigateToProfile('${response.data[i].username}')"> ${response.data[i].firstName} ${response.data[i].lastName}</p>
-                            <p class="username author" onclick="navigateToProfile('${response.data[i].publisherUsername}')">${response.data[i].publisher || ''}</p>
-                            <p class="medium-desc">${response.data[i].description}</p>
-                            <div class="bottom-row-medium">
-                                <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup" onclick="loadModalData('${response.data[i].coverImage}', '${response.data[i].title}', '${response.data[i].firstName}', '${response.data[i].lastName}', '${response.data[i].description}', '${response.data[i].language}', '${response.data[i].rating}', '${response.data[i].pagesNumber}', '${response.data[i].price}', '${response.data[i].username}', ${response.data[i].publisher !== undefined ? `'${response.data[i].publisher}'` : null}, '${isPurchased}', '${response.data[i].id}', ${isPurchased == true ? `${false}` : `${true}`}, ${response.data[i].publisherUsername !== undefined ? `'${response.data[i].publisherUsername}'` : null})">Show Details</button>
-                                <p class="category" >${response.data[i].category}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
+        book_list.appendChild(div);
     }
-
-
 }
 
 function navigateToProfile(username) {
@@ -354,13 +326,8 @@ let saveClick = false;
 
 function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher, isPurchased, bookIdString, isSaved, publisherUsername) {
     bookId = parseInt(bookIdString);
-    console.log(isSaved);
 
-    if (url != "Ez a kép elérési útja") {
-        book_modal_img.src = `../${url}.jpg`;
-    } else {
-        book_modal_img.src = `../pictures/standard-book-cover.jpg`;
-    }
+    book_modal_img.src = `../${url}.jpg`;
 
     if (publisher === null || publisher === "null") {
         book_modal_publisher.hidden = true;
@@ -374,7 +341,7 @@ function loadModalData(url, title, firstName, lastName, description, language, r
     book_modal_title.innerText = `${title}`;
     book_modal_author.innerText = `${firstName} ${lastName}`;
     book_modal_pages.innerText = `${pages}`;
-    if (rating != 'undefined') {
+    if (rating != undefined) {
         book_modal_ranking.innerText = `${rating}`;
     } else {
         book_modal_ranking.innerText = "-";
@@ -382,10 +349,8 @@ function loadModalData(url, title, firstName, lastName, description, language, r
 
     book_modal_language.innerText = `${language}`;
     book_modal_desc.innerText = `${description}`;
-    if (price != 'undefined') {
+    if (price != undefined) {
         book_price.innerText = `${price} Ft`;
-    } else {
-        book_price.innerText = `- Ft`;
     }
 
     book_modal_author.addEventListener('click', (e) => {
@@ -432,13 +397,9 @@ async function UnsavingBook(bookId) {
             break;
         case 422:
             alert('Something went wrong. Please try again later!');
-            console.log("Error status: " + unsavingResult.status);
             break;
         default:
             alert('Something went wrong. Please try again later!');
-            console.error("Error status: " + unsavingResult.status);
-            console.error("Error msg: " + unsavingResult.error);
-            console.error("Error data: " + unsavingResult.data);
             break;
     }
 
@@ -482,7 +443,6 @@ mostSaved.addEventListener('change', async function () {
 const topRated = document.getElementById('top-rated-books-radio');
 topRated.addEventListener('change', async function () {
     if (this.checked && !isPurchased) {
-        // console.log(this.id);
         books_side.innerHTML = '';
         const mostRated_result = await getFilteredSavedBooks({ "filter": 8 });
         if (mostRated_result.status == 200) {
@@ -502,8 +462,6 @@ topRated.addEventListener('change', async function () {
             document.getElementById('500Result').hidden = false;
         } else {
             alert('Please try again later.');
-            console.log("Status: " + mostRated_result.status);
-            console.error("Error: " + mostRated_result.error);
         }
     } 
 });
@@ -570,7 +528,6 @@ const abc_check = document.querySelectorAll('.ABC-radio');
 abc_check.forEach(function (radioButton) {
     radioButton.addEventListener('change', async function () {
         if (this.checked && isPurchased == false) {
-            console.log(this.id);
             book_list.innerHTML = '';
 
             if (this.id == 'a-z') {
@@ -626,7 +583,6 @@ const byPrice = document.querySelectorAll('.byPrice');
 byPrice.forEach(function (radioButton) {
     radioButton.addEventListener('change', async function () {
         if (this.checked && isPurchased == false) {
-            console.log(this.id);
             book_list.innerHTML = '';
 
             if (this.id == 'increasing-by-price') {
@@ -682,13 +638,11 @@ const byDate = document.querySelectorAll('.byDate');
 byDate.forEach(function (radioButton) {
     radioButton.addEventListener('change', async function () {
         if (this.checked && isPurchased == false) {
-            console.log(this.id);
             book_list.innerHTML = '';
 
             if (this.id == 'increasing-by-price') {
                 const date_lowToHigh = await getFilteredSavedBooks({ "filter": 3 });
 
-                // console.log(date_lowToHigh.status);
                 if (date_lowToHigh.status == 200) {
                     if (date_lowToHigh.data.length == 0) {
                         book_list.innerHTML = `
@@ -779,9 +733,6 @@ document.getElementById('clear-filter').addEventListener('click', async function
 
             default:
                 alert('Something went wrong. Please try it again later.');
-                console.error(getPaidAgain.status);
-                console.error(getPaidAgain.data);
-                console.error(getPaidAgain.error);
                 break;
         }
 
@@ -822,11 +773,115 @@ document.getElementById('clear-filter').addEventListener('click', async function
                 break;
             default:
                 alert("Something went wrong, please try it later. Status: " + getSavedAgain.status);
-                console.error(getSavedAgain.error);
-                console.error(getSavedAgain.data);
                 break;
         }
 
     }
 
+});
+
+// publishing modal
+const publisher_price = document.getElementById('publisher-price');
+const PriceErr = document.getElementById('PriceErr');
+const bankNumber = document.getElementById('bankNumber');
+const bankErr = document.getElementById('bankErr');
+
+const cancelPublish = document.getElementById('cancelPublish');
+const agreePublish = document.getElementById('agreePublish');
+
+var pricePass = false;
+var bankPass = false;
+
+cancelPublish.addEventListener('click', (e) => {
+    publisher_price.value = "";
+    bankNumber.value = "";
+    publisher_price.classList.remove('inputPass');
+    publisher_price.classList.remove('inputError');
+    PriceErr.innerText = "";
+
+    bankNumber.classList.remove('inputPass');
+    bankNumber.classList.remove('inputError');
+    bankErr.innerText = "";
+});
+
+document.getElementById('closeX').addEventListener('click', (e) => {
+    publisher_price.value = "";
+    bankNumber.value = "";
+    publisher_price.classList.remove('inputPass');
+    publisher_price.classList.remove('inputError');
+    PriceErr.innerText = "";
+
+    bankNumber.classList.remove('inputPass');
+    bankNumber.classList.remove('inputError');
+    bankErr.innerText = "";
+});
+
+publisher_price.addEventListener('focusin', (e) => {
+    publisher_price.classList.remove('inputPass');
+    publisher_price.classList.remove('inputError');
+    PriceErr.innerText = "";
+});
+
+publisher_price.addEventListener('focusout', (e) => {
+    e.preventDefault();
+    if (publisher_price.value == "") {
+        PriceErr.innerText = "This field cannot be empty."
+        publisher_price.classList.add('inputError');
+        pricePass = false;
+    } else if (publisher_price.value < 1000) {
+
+        PriceErr.innerText = "The price must not be less than 1000 Ft."
+        publisher_price.classList.add('inputError');
+        pricePass = false;
+    } else {
+        publisher_price.classList.add('inputPass');
+        pricePass = true;
+        PriceErr.innerText = "";
+    }
+});
+
+function bankValidation(bankValue) {
+    const removeSpaces = bankValue.replace(/ /g, "");
+
+    if (bankValue == "") {
+        bankNumber.classList.add('inputError');
+        bankErr.innerText = "This field cannot be empty.";
+        return false;
+
+    } else if (removeSpaces.length < 15) {
+        bankNumber.classList.add('inputError');
+        bankErr.innerText = "This value is too short. The IBAN number should be between 15 and 34 characters.";
+        return false;
+
+    } else if (removeSpaces.length > 34) {
+        bankNumber.classList.add('inputError');
+        bankErr.innerText = "This value is too long. The IBAN number should be between 15 and 34 characters.";
+        return false;
+
+    } else if (removeSpaces.length >= 15 && removeSpaces.length <= 34) {
+        bankNumber.classList.add('inputPass');
+        const upperCase = removeSpaces.toUpperCase();
+        return true;
+    }
+
+}
+
+bankNumber.addEventListener('focusin', (e) => {
+    bankNumber.classList.remove('inputPass');
+    bankNumber.classList.remove('inputError');
+    bankErr.innerText = "";
+});
+
+bankNumber.addEventListener('focusout', (e) => {
+    bankPass = bankValidation(bankNumber.value);
+    console.log(bankPass);
+});
+
+agreePublish.addEventListener('click', async function () {
+
+    if (bankPass == true && pricePass == true) {
+        // endpoint meghívása
+    } else {
+        alert("Please make sure you fill in every field correctly.");
+    }
 });
