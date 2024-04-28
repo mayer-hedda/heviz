@@ -3676,3 +3676,44 @@ async function getDetails() {
         return { error: error }
     }
 }
+
+
+/**
+ * @return
+    * 200: Successfully delete user
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 422: Unsuccessfully delete user
+ */
+async function deleteUser() {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var requestOptions = {
+        method: 'DELETE',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/user/deleteUser", requestOptions);
+
+        if (response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        }
+
+        return { status: response.status }
+    } catch (error) {
+        return { error: error }
+    }
+}
