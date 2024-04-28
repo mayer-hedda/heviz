@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Ápr 28. 14:10
+-- Létrehozás ideje: 2024. Ápr 28. 17:02
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -144,6 +144,25 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteSavedBook` (IN `userIdIN` INT
 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteUser` (IN `userIdIN` INT)   BEGIN
+	
+    DECLARE rank VARCHAR(20);
+    SELECT `user`.`rank` INTO rank
+    FROM `user`
+    WHERE `user`.`id` = userIdIN;
+
+	UPDATE `user`
+	SET `user`.`deleted` = 1
+	WHERE `user`.`id` = userIdIN;
+    
+    IF rank = "publisher" THEN
+    	UPDATE `book`
+        SET `book`.`status` = "looking for a publisher", `book`.`publisherId` = NULL, `book`.`price` = NULL, `book`.`publisherBankAccountNumber` = NULL
+        WHERE `book`.`publisherId` = userIdIN;
+    END IF;
+    
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `followUser` (IN `userIdIN` INT, IN `followedUsernameIN` VARCHAR(50), OUT `result` INT)   BEGIN
 
 	DECLARE followedUserId INT;
@@ -224,7 +243,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllBooksByCategory` (IN `userIdI
             LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
             INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
             LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
-            WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+            WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by") AND `writer`.`deleted` = 0
             ORDER BY RAND();
         ELSEIF rank = "publisher" THEN
         	SELECT
@@ -254,7 +273,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllBooksByCategory` (IN `userIdI
             INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
             LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
             INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
-            WHERE `book`.`categoryId` = categoryIdIN AND `book`.`status` = "looking for a publisher"
+            WHERE `book`.`categoryId` = categoryIdIN AND `book`.`status` = "looking for a publisher" AND `writer`.`deleted` = 0
             ORDER BY RAND();
         END IF;
         
@@ -403,7 +422,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
                 INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                 LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
-                WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by") AND `writer`.`deleted` = 0
                 ORDER BY `book`.`title` ASC;
             ELSEIF rank = "publisher" THEN
             	SELECT
@@ -433,7 +452,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
                 INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
-                WHERE `book`.`categoryId` = categoryIdIN AND `book`.`status` = "looking for a publisher"
+                WHERE `book`.`categoryId` = categoryIdIN AND `book`.`status` = "looking for a publisher" AND `writer`.`deleted` = 0
                 ORDER BY `book`.`title` ASC;
             END IF;
         ELSEIF filter = 2 THEN
@@ -469,7 +488,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
                 INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                 LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
-                WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by") AND `writer`.`deleted` = 0
                 ORDER BY `book`.`title` DESC;
             ELSEIF rank = "publisher" THEN
             	SELECT
@@ -499,7 +518,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
                 INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
-                WHERE `book`.`categoryId` = categoryIdIN AND `book`.`status` = "looking for a publisher"
+                WHERE `book`.`categoryId` = categoryIdIN AND `book`.`status` = "looking for a publisher" AND `writer`.`deleted` = 0
                 ORDER BY `book`.`title` DESC;
             END IF;
         ELSEIF filter = 3 THEN
@@ -535,7 +554,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
                 INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                 LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
-                WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by") AND `writer`.`deleted` = 0
                 ORDER BY `book`.`publishedTime` ASC;
             ELSEIF rank = "publisher" THEN
             	SELECT
@@ -565,7 +584,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
                 INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
-                WHERE `book`.`categoryId` = categoryIdIN AND `book`.`status` = "looking for a publisher"
+                WHERE `book`.`categoryId` = categoryIdIN AND `book`.`status` = "looking for a publisher" AND `writer`.`deleted` = 0
                 ORDER BY `book`.`publishedTime` ASC;
             END IF;
         ELSEIF filter = 4 THEN
@@ -601,7 +620,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
                 INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                 LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
-                WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by") AND `writer`.`deleted` = 0
                 ORDER BY `book`.`publishedTime` DESC;
             ELSEIF rank = "publisher" THEN
             	SELECT
@@ -631,7 +650,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
                 INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
-                WHERE `book`.`categoryId` = categoryIdIN AND `book`.`status` = "looking for a publisher"
+                WHERE `book`.`categoryId` = categoryIdIN AND `book`.`status` = "looking for a publisher" AND `writer`.`deleted` = 0
                 ORDER BY `book`.`publishedTime` DESC;
             END IF;
         ELSE
@@ -668,7 +687,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
                     INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                     LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
-                    WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                    WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by") AND `writer`.`deleted` = 0
                     ORDER BY `book`.`price` ASC;
                 ELSEIF filter = 6 THEN
                     SELECT
@@ -702,7 +721,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
                     INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                     LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
-                    WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                    WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by") AND `writer`.`deleted` = 0
                     ORDER BY `book`.`price` DESC;
                 ELSEIF filter = 7 THEN
                     SELECT
@@ -736,7 +755,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
                     INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                     LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
-                    WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                    WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by") AND `writer`.`deleted` = 0
                     ORDER BY (
                         SELECT COUNT(*)
                         FROM `saved`
@@ -774,7 +793,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
                     INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                     LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
-                    WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                    WHERE `book`.`categoryId` = categoryIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by") AND `writer`.`deleted` = 0
                     ORDER BY `bookrat`.`rat` ASC;
                 ELSEIF filter = 9 THEN
                     SELECT
@@ -809,7 +828,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                     LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
                     WHERE `book`.`categoryId` = categoryIdIN AND
-                    `book`.`status` = "self-published";
+                    `book`.`status` = "self-published" AND `writer`.`deleted` = 0;
                 ELSEIF filter = 10 THEN
                     SELECT
                         `book`.`id`,
@@ -843,10 +862,348 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                     LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
                     WHERE `book`.`categoryId` = categoryIdIN AND
-                    `book`.`status` = "published by";
+                    `book`.`status` = "published by" AND `writer`.`deleted` = 0;
                 END IF;
             END IF;
         END IF;
+        
+        SET result = 1;
+    
+    END IF;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredPayedBooks` (IN `userIdIN` INT, IN `filter` INT, OUT `result` INT, OUT `userRank` VARCHAR(20))   BEGIN
+
+	DECLARE rank VARCHAR(20);
+
+	IF filter < 1 OR filter > 10 THEN
+    	SET result = 2;
+    ELSE
+
+        SELECT `user`.`rank` INTO rank 
+        FROM `user`
+        WHERE `user`.`id` = userIdIN;
+        SET userRank = rank;
+
+            IF rank = "general" THEN
+            	IF filter = 1 THEN
+                	SELECT
+                        `book`.`id`,
+                        `book`.`coverImage`,
+                        `book`.`title`,
+                        `writer`.`firstName`,
+                        `writer`.`lastName`,
+                        `publisher`.`companyName`,
+                        `book`.`description`,
+                        `book`.`pagesNumber`,
+                        `bookrat`.`rat`,
+                        `language`.`code`,
+                        `book`.`price`,
+                        `writer`.`username`,
+                        `category`.`name`,
+                        `publish`.`username` AS "publisher username"
+                    FROM `book`
+                    INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
+                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN (
+                        SELECT `bookrating`.`bookId`,
+                        AVG(`bookrating`.`rating`) AS `rat`
+                        FROM `bookrating`
+                        GROUP BY `bookrating`.`bookId`
+                    ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                    INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id`
+                    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                    WHERE `bookShopping`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                    ORDER BY `book`.`title` ASC;
+                ELSEIF filter = 2 THEN
+                	SELECT
+                        `book`.`id`,
+                        `book`.`coverImage`,
+                        `book`.`title`,
+                        `writer`.`firstName`,
+                        `writer`.`lastName`,
+                        `publisher`.`companyName`,
+                        `book`.`description`,
+                        `book`.`pagesNumber`,
+                        `bookrat`.`rat`,
+                        `language`.`code`,
+                        `book`.`price`,
+                        `writer`.`username`,
+                        `category`.`name`,
+                        `publish`.`username` AS "publisher username"
+                    FROM `book`
+                    INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
+                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN (
+                        SELECT `bookrating`.`bookId`,
+                        AVG(`bookrating`.`rating`) AS `rat`
+                        FROM `bookrating`
+                        GROUP BY `bookrating`.`bookId`
+                    ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                    INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id`
+                    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                    WHERE `bookShopping`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                    ORDER BY `book`.`title` DESC;
+                ELSEIF filter = 3 THEN
+                	SELECT
+                        `book`.`id`,
+                        `book`.`coverImage`,
+                        `book`.`title`,
+                        `writer`.`firstName`,
+                        `writer`.`lastName`,
+                        `publisher`.`companyName`,
+                        `book`.`description`,
+                        `book`.`pagesNumber`,
+                        `bookrat`.`rat`,
+                        `language`.`code`,
+                        `book`.`price`,
+                        `writer`.`username`,
+                        `category`.`name`,
+                        `publish`.`username` AS "publisher username"
+                    FROM `book`
+                    INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
+                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN (
+                        SELECT `bookrating`.`bookId`,
+                        AVG(`bookrating`.`rating`) AS `rat`
+                        FROM `bookrating`
+                        GROUP BY `bookrating`.`bookId`
+                    ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                    INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id`
+                    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                    WHERE `bookShopping`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                    ORDER BY `book`.`publishedTime` ASC;
+                ELSEIF filter = 4 THEN
+                	SELECT
+                        `book`.`id`,
+                        `book`.`coverImage`,
+                        `book`.`title`,
+                        `writer`.`firstName`,
+                        `writer`.`lastName`,
+                        `publisher`.`companyName`,
+                        `book`.`description`,
+                        `book`.`pagesNumber`,
+                        `bookrat`.`rat`,
+                        `language`.`code`,
+                        `book`.`price`,
+                        `writer`.`username`,
+                        `category`.`name`,
+                        `publish`.`username` AS "publisher username"
+                    FROM `book`
+                    INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
+                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN (
+                        SELECT `bookrating`.`bookId`,
+                        AVG(`bookrating`.`rating`) AS `rat`
+                        FROM `bookrating`
+                        GROUP BY `bookrating`.`bookId`
+                    ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                    INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id`
+                    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                    WHERE `bookShopping`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                    ORDER BY `book`.`publishedTime` DESC;
+                ELSEIF filter = 5 THEN
+                    SELECT
+                        `book`.`id`,
+                        `book`.`coverImage`,
+                        `book`.`title`,
+                        `writer`.`firstName`,
+                        `writer`.`lastName`,
+                        `publisher`.`companyName`,
+                        `book`.`description`,
+                        `book`.`pagesNumber`,
+                        `bookrat`.`rat`,
+                        `language`.`code`,
+                        `book`.`price`,
+                        `writer`.`username`,
+                        `category`.`name`,
+                        `publish`.`username` AS "publisher username"
+                    FROM `book`
+                    INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
+                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN (
+                        SELECT `bookrating`.`bookId`,
+                        AVG(`bookrating`.`rating`) AS `rat`
+                        FROM `bookrating`
+                        GROUP BY `bookrating`.`bookId`
+                    ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                    INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id`
+                    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                    WHERE `bookShopping`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                    ORDER BY `book`.`price` ASC;
+                ELSEIF filter = 6 THEN
+                    SELECT
+                        `book`.`id`,
+                        `book`.`coverImage`,
+                        `book`.`title`,
+                        `writer`.`firstName`,
+                        `writer`.`lastName`,
+                        `publisher`.`companyName`,
+                        `book`.`description`,
+                        `book`.`pagesNumber`,
+                        `bookrat`.`rat`,
+                        `language`.`code`,
+                        `book`.`price`,
+                        `writer`.`username`,
+                        `category`.`name`,
+                        `publish`.`username` AS "publisher username"
+                    FROM `book`
+                    INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
+                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN (
+                        SELECT `bookrating`.`bookId`,
+                        AVG(`bookrating`.`rating`) AS `rat`
+                        FROM `bookrating`
+                        GROUP BY `bookrating`.`bookId`
+                    ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                    INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id`
+                    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                    WHERE `bookShopping`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                    ORDER BY `book`.`price` DESC;
+                ELSEIF filter = 7 THEN
+                    SELECT
+                        `book`.`id`,
+                        `book`.`coverImage`,
+                        `book`.`title`,
+                        `writer`.`firstName`,
+                        `writer`.`lastName`,
+                        `publisher`.`companyName`,
+                        `book`.`description`,
+                        `book`.`pagesNumber`,
+                        `bookrat`.`rat`,
+                        `language`.`code`,
+                        `book`.`price`,
+                        `writer`.`username`,
+                        `category`.`name`,
+                        `publish`.`username` AS "publisher username"
+                    FROM `book`
+                    INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
+                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN (
+                        SELECT `bookrating`.`bookId`,
+                        AVG(`bookrating`.`rating`) AS `rat`
+                        FROM `bookrating`
+                        GROUP BY `bookrating`.`bookId`
+                    ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                    INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id`
+                    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                    WHERE `bookShopping`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                    ORDER BY (
+                        SELECT COUNT(*)
+                        FROM `saved`
+                        WHERE `saved`.`bookId` = `book`.`id`
+                    ) DESC;
+                ELSEIF filter = 8 THEN
+                    SELECT
+                        `book`.`id`,
+                        `book`.`coverImage`,
+                        `book`.`title`,
+                        `writer`.`firstName`,
+                        `writer`.`lastName`,
+                        `publisher`.`companyName`,
+                        `book`.`description`,
+                        `book`.`pagesNumber`,
+                        `bookrat`.`rat`,
+                        `language`.`code`,
+                        `book`.`price`,
+                        `writer`.`username`,
+                        `category`.`name`,
+                        `publish`.`username` AS "publisher username"
+                    FROM `book`
+                    INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
+                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN (
+                        SELECT `bookrating`.`bookId`,
+                        AVG(`bookrating`.`rating`) AS `rat`
+                        FROM `bookrating`
+                        GROUP BY `bookrating`.`bookId`
+                    ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                    INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id`
+                    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                    WHERE `bookShopping`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                    ORDER BY `bookrat`.`rat` ASC;
+                ELSEIF filter = 9 THEN
+                    SELECT
+                        `book`.`id`,
+                        `book`.`coverImage`,
+                        `book`.`title`,
+                        `writer`.`firstName`,
+                        `writer`.`lastName`,
+                        `publisher`.`companyName`,
+                        `book`.`description`,
+                        `book`.`pagesNumber`,
+                        `bookrat`.`rat`,
+                        `language`.`code`,
+                        `book`.`price`,
+                        `writer`.`username`,
+                        `category`.`name`,
+                        `publish`.`username` AS "publisher username"
+                    FROM `book`
+                    INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
+                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN (
+                        SELECT `bookrating`.`bookId`,
+                        AVG(`bookrating`.`rating`) AS `rat`
+                        FROM `bookrating`
+                        GROUP BY `bookrating`.`bookId`
+                    ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                    INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id`
+                    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                    WHERE `bookShopping`.`userId` = userIdIN AND
+                    `book`.`status` = "self-published";
+                ELSEIF filter = 10 THEN
+                    SELECT
+                        `book`.`id`,
+                        `book`.`coverImage`,
+                        `book`.`title`,
+                        `writer`.`firstName`,
+                        `writer`.`lastName`,
+                        `publisher`.`companyName`,
+                        `book`.`description`,
+                        `book`.`pagesNumber`,
+                        `bookrat`.`rat`,
+                        `language`.`code`,
+                        `book`.`price`,
+                        `writer`.`username`,
+                        `category`.`name`,
+                        `publish`.`username` AS "publisher username"
+                    FROM `book`
+                    INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
+                    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
+                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN (
+                        SELECT `bookrating`.`bookId`,
+                        AVG(`bookrating`.`rating`) AS `rat`
+                        FROM `bookrating`
+                        GROUP BY `bookrating`.`bookId`
+                    ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                    INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id`
+                    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                    WHERE `bookShopping`.`userId` = userIdIN AND
+                    `book`.`status` = "published by";
+                END IF;
+                
+            END IF;
         
         SET result = 1;
     
@@ -884,7 +1241,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     `book`.`price`,
                     `writer`.`username`,
                     `category`.`name`,
-                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
                     `publish`.`username` AS "publisher username"
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
@@ -900,7 +1256,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
                 INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                 LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
-                WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by") AND `writer`.`deleted` = 0
                 ORDER BY `book`.`title` ASC;
             ELSEIF rank = "publisher" THEN
             	SELECT
@@ -930,7 +1286,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
                 INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
-                WHERE `saved`.`userId` = userIdIN AND `book`.`status` = "looking for a publisher"
+                WHERE `saved`.`userId` = userIdIN AND `book`.`status` = "looking for a publisher" AND `writer`.`deleted` = 0
                 ORDER BY `book`.`title` ASC;
             END IF;
         ELSEIF filter = 2 THEN
@@ -950,7 +1306,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     `book`.`price`,
                     `writer`.`username`,
                     `category`.`name`,
-                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
                     `publish`.`username` AS "publisher username"
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
@@ -966,7 +1321,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
                 INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                 LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
-                WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by") AND `writer`.`deleted` = 0
                 ORDER BY `book`.`title` DESC;
             ELSEIF rank = "publisher" THEN
             	SELECT
@@ -996,7 +1351,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
                 INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
-                WHERE `saved`.`userId` = userIdIN AND `book`.`status` = "looking for a publisher"
+                WHERE `saved`.`userId` = userIdIN AND `book`.`status` = "looking for a publisher" AND `writer`.`deleted` = 0
                 ORDER BY `book`.`title` DESC;
             END IF;
         ELSEIF filter = 3 THEN
@@ -1016,7 +1371,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     `book`.`price`,
                     `writer`.`username`,
                     `category`.`name`,
-                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
                     `publish`.`username` AS "publisher username"
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
@@ -1032,7 +1386,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
                 INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                 LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
-                WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by") AND `writer`.`deleted` = 0
                 ORDER BY `book`.`publishedTime` ASC;
             ELSEIF rank = "publisher" THEN
             	SELECT
@@ -1062,7 +1416,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
                 INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
-                WHERE `saved`.`userId` = userIdIN AND `book`.`status` = "looking for a publisher"
+                WHERE `saved`.`userId` = userIdIN AND `book`.`status` = "looking for a publisher" AND `writer`.`deleted` = 0
                 ORDER BY `book`.`publishedTime` ASC;
             END IF;
         ELSEIF filter = 4 THEN
@@ -1082,7 +1436,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     `book`.`price`,
                     `writer`.`username`,
                     `category`.`name`,
-                    IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
                     `publish`.`username` AS "publisher username"
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
@@ -1098,7 +1451,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
                 INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                 LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
-                WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by") AND `writer`.`deleted` = 0
                 ORDER BY `book`.`publishedTime` DESC;
             ELSEIF rank = "publisher" THEN
             	SELECT
@@ -1128,7 +1481,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
                 INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
-                WHERE `saved`.`userId` = userIdIN AND `book`.`status` = "looking for a publisher"
+                WHERE `saved`.`userId` = userIdIN AND `book`.`status` = "looking for a publisher" AND `writer`.`deleted` = 0
                 ORDER BY `book`.`publishedTime` DESC;
             END IF;
         ELSE
@@ -1149,7 +1502,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                         `book`.`price`,
                         `writer`.`username`,
                         `category`.`name`,
-                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
                         `publish`.`username` AS "publisher username"
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
@@ -1165,7 +1517,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
                     INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                     LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
-                    WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                    WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by") AND `writer`.`deleted` = 0
                     ORDER BY `book`.`price` ASC;
                 ELSEIF filter = 6 THEN
                     SELECT
@@ -1183,7 +1535,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                         `book`.`price`,
                         `writer`.`username`,
                         `category`.`name`,
-                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
                         `publish`.`username` AS "publisher username"
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
@@ -1199,7 +1550,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
                     INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                     LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
-                    WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                    WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by") AND `writer`.`deleted` = 0
                     ORDER BY `book`.`price` DESC;
                 ELSEIF filter = 7 THEN
                     SELECT
@@ -1217,7 +1568,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                         `book`.`price`,
                         `writer`.`username`,
                         `category`.`name`,
-                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
                         `publish`.`username` AS "publisher username"
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
@@ -1233,7 +1583,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
                     INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                     LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
-                    WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                    WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by") AND `writer`.`deleted` = 0
                     ORDER BY (
                         SELECT COUNT(*)
                         FROM `saved`
@@ -1255,7 +1605,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                         `book`.`price`,
                         `writer`.`username`,
                         `category`.`name`,
-                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
                         `publish`.`username` AS "publisher username"
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
@@ -1271,7 +1620,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
                     INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                     LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
-                    WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by")
+                    WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by") AND `writer`.`deleted` = 0
                     ORDER BY `bookrat`.`rat` ASC;
                 ELSEIF filter = 9 THEN
                     SELECT
@@ -1289,7 +1638,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                         `book`.`price`,
                         `writer`.`username`,
                         `category`.`name`,
-                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
                         `publish`.`username` AS "publisher username"
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
@@ -1306,7 +1654,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                     LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
                     WHERE `saved`.`userId` = userIdIN AND
-                    `book`.`status` = "self-published";
+                    `book`.`status` = "self-published" AND `writer`.`deleted` = 0;
                 ELSEIF filter = 10 THEN
                     SELECT
                         `book`.`id`,
@@ -1323,7 +1671,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                         `book`.`price`,
                         `writer`.`username`,
                         `category`.`name`,
-                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`,
                         `publish`.`username` AS "publisher username"
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
@@ -1340,7 +1687,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                     LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
                     WHERE `saved`.`userId` = userIdIN AND
-                    `book`.`status` = "published by";
+                    `book`.`status` = "published by" AND `writer`.`deleted` = 0;
                 END IF;
             END IF;
         END IF;
@@ -1394,7 +1741,8 @@ LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopp
 WHERE 
 	`saved`.`savedTime` >= NOW() - INTERVAL 30 DAY AND
     `book`.`writerId` != userIdIN AND
-    `book`.`status` != "looking for a publisher"
+    `book`.`status` != "looking for a publisher" AND
+    `writer`.`deleted` = 0
 ORDER BY `save`.`count` DESC
 LIMIT 5$$
 
@@ -1430,7 +1778,7 @@ LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userI
 INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
 LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
 WHERE `book`.`writerId` != userIdIN AND
-`book`.`status` != "looking for a publisher"
+`book`.`status` != "looking for a publisher" AND `writer`.`deleted` = 0
 ORDER BY RAND()
 LIMIT 1$$
 
@@ -1459,7 +1807,7 @@ LEFT JOIN (
 INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
 LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
 INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
-WHERE `book`.`status` = "looking for a publisher"
+WHERE `book`.`status` = "looking for a publisher" AND `writer`.`deleted` = 0
 ORDER BY RAND()
 LIMIT 1$$
 
@@ -1567,7 +1915,8 @@ LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userI
 INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
 LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
 WHERE `book`.`status` = "published by" AND
-`book`.`writerId` != userIdIN
+`book`.`writerId` != userIdIN AND
+`writer`.`deleted` = 0
 ORDER BY RAND()
 LIMIT 9$$
 
@@ -1689,7 +2038,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getRandomBookByCategory` (IN `userI
         INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
         LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
         WHERE `book`.`status` = "looking for a publisher" AND
-        `book`.`categoryId` = cId
+        `book`.`categoryId` = cId AND `writer`.`deleted` = 0
         ORDER BY RAND()
         LIMIT 9;
         
@@ -1748,7 +2097,7 @@ OR
     WHERE `categoryinterest`.`userId` = userIdIN
 )) AND
 `book`.`writerId` != userIdIN AND
-`book`.`status` != "looking for a publisher"
+`book`.`status` != "looking for a publisher" AND `writer`.`deleted` = 0
 ORDER BY 
     RAND()
 LIMIT 9$$
@@ -1791,7 +2140,8 @@ OR
     FROM `categoryinterest`
     WHERE `categoryinterest`.`userId` = userIdIN
 )) AND
-`book`.`status` = "looking for a publisher"
+`book`.`status` = "looking for a publisher" AND
+`writer`.`deleted` = 0
 ORDER BY 
     RAND()
 LIMIT 9$$
@@ -1842,7 +2192,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getSavedBooksByCategoryId` (IN `use
         ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
         INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
         LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id`
-        WHERE `saved`.`userId` = userIdIN AND `book`.`categoryId` = categoryIdIN;
+        WHERE `saved`.`userId` = userIdIN AND `book`.`categoryId` = categoryIdIN AND `writer`.`deleted` = 0;
         
         SET result = 1;
         
@@ -1893,7 +2243,7 @@ IF rank = "general" THEN
     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id`
     INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
     LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
-    WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by");
+    WHERE `saved`.`userId` = userIdIN AND (`book`.`status` = "self-published" OR `book`.`status` = "published by") AND `writer`.`deleted` = 0;
     
 ELSEIF rank = "publisher" THEN
 
@@ -1923,7 +2273,7 @@ ELSEIF rank = "publisher" THEN
     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id`
     INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
-    WHERE `saved`.`userId` = userIdIN AND `book`.`status` = "looking for a publisher";
+    WHERE `saved`.`userId` = userIdIN AND `book`.`status` = "looking for a publisher" AND `writer`.`deleted` = 0;
 
 END IF;
 
@@ -1968,7 +2318,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getSearchBooks` (IN `userIdIN` INT,
         INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
         LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
         INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
-        WHERE (`book`.`title` LIKE CONCAT(searchTextIN, "%") OR `writer`.`firstName` LIKE CONCAT(searchTextIN, "%") OR `writer`.`lastName` LIKE CONCAT(searchTextIN, "%") OR `publisher`.`companyName` LIKE CONCAT(searchTextIN, "%")) AND `book`.`status` = "looking for a publisher";
+        WHERE (`book`.`title` LIKE CONCAT(searchTextIN, "%") OR `writer`.`firstName` LIKE CONCAT(searchTextIN, "%") OR `writer`.`lastName` LIKE CONCAT(searchTextIN, "%") OR `publisher`.`companyName` LIKE CONCAT(searchTextIN, "%")) AND `book`.`status` = "looking for a publisher" AND `writer`.`deleted` = 0
+        ORDER BY `book`.`title` ASC, `writer`.`lastName` ASC, `writer`.`firstName` ASC;
     ELSEIF userRank = "general" THEN
     	SELECT
             `book`.`id`,
@@ -2001,7 +2352,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getSearchBooks` (IN `userIdIN` INT,
         LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
         INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
         LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
-        WHERE (`book`.`title` LIKE CONCAT(searchTextIN, "%") OR `writer`.`firstName` LIKE CONCAT(searchTextIN, "%") OR `writer`.`lastName` LIKE CONCAT(searchTextIN, "%") OR `publisher`.`companyName` LIKE CONCAT(searchTextIN, "%")) AND (`book`.`status` = "self-published" OR `book`.`status`= "published by");
+        WHERE (`book`.`title` LIKE CONCAT(searchTextIN, "%") OR `writer`.`firstName` LIKE CONCAT(searchTextIN, "%") OR `writer`.`lastName` LIKE CONCAT(searchTextIN, "%") OR `publisher`.`companyName` LIKE CONCAT(searchTextIN, "%")) AND (`book`.`status` = "self-published" OR `book`.`status`= "published by") AND `writer`.`deleted` = 0
+        ORDER BY `book`.`title` ASC, `writer`.`lastName` ASC, `writer`.`firstName` ASC;
     END IF;
 
 END$$
@@ -2034,7 +2386,7 @@ LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userI
 INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
 LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
 WHERE `book`.`status` = "self-published" AND
-`book`.`writerId` != userIdIN
+`book`.`writerId` != userIdIN AND `writer`.`deleted` = 0
 ORDER BY RAND()
 LIMIT 9$$
 
@@ -2063,107 +2415,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserBooks` (IN `userIdIN` INT, I
         
         SET result = 1;
         
-        IF ownBooks = TRUE THEN
-        
-        	IF profileUserRank = "general" THEN
-                SELECT
-                    `book`.`id`,
-                    `book`.`coverImage`,
-                    `book`.`title`,
-                    `user`.`username`,
-                    `user`.`firstName`,
-                    `user`.`lastName`,
-                    `publisher`.`companyName`,
-                    `book`.`description`,
-                    `book`.`pagesNumber`,
-                    `bookrat`.`rat`,
-                    `language`.`code`,
-                    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
-                    `book`.`price`,
-                    `category`.`name`
-                FROM `book`
-                INNER JOIN `user` ON `user`.`id` = `book`.`writerId`
-                LEFT JOIN `publisher` ON `publisher`.`id` = `book`.`publisherId`
-                INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
-                LEFT JOIN (
-                    SELECT `bookrating`.`bookId`,
-                    AVG(`bookrating`.`rating`) AS `rat`
-                    FROM `bookrating`
-                    GROUP BY `bookrating`.`bookId`
-                ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
-                LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-                INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
-                WHERE `book`.`writerId` = profileUserId
-                ORDER BY `book`.`publishedTime` DESC;
-            ELSEIF profileUserRank = "publisher" THEN
-                SELECT
-                    `book`.`id`,
-                    `book`.`coverImage`,
-                    `book`.`title`,
-                    `user`.`username`,
-                    `user`.`firstName`,
-                    `user`.`lastName`,
-                    `publisher`.`companyName`,
-                    `book`.`description`,
-                    `book`.`pagesNumber`,
-                    `bookrat`.`rat`,
-                    `language`.`code`,
-                    IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
-                    `book`.`price`,
-                    `category`.`name`
-                FROM `book`
-                INNER JOIN `user` ON `user`.`id` = `book`.`writerId`
-                LEFT JOIN `publisher` ON `publisher`.`id` = `book`.`publisherId`
-                INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
-                LEFT JOIN (
-                    SELECT `bookrating`.`bookId`,
-                    AVG(`bookrating`.`rating`) AS `rat`
-                    FROM `bookrating`
-                    GROUP BY `bookrating`.`bookId`
-                ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
-                LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-                INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
-                WHERE `book`.`publisherId` = profileUserId
-            	ORDER BY `book`.`publishedTime` DESC;
-            END IF;
-        
-        ELSE
-        
-            IF profileUserRank = "general" THEN
-            	IF rank = "general" THEN
+            IF ownBooks = TRUE THEN
+
+                IF profileUserRank = "general" THEN
                     SELECT
-                        `book`.`id`,
-                        `book`.`coverImage`,
-                        `book`.`title`,
-                        `user`.`username`,
-                        `user`.`firstName`,
-                        `user`.`lastName`,
-                        `publisher`.`companyName`,
-                        `book`.`description`,
-                        `book`.`pagesNumber`,
-                        `bookrat`.`rat`,
-                        `language`.`code`,
-                        IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
-                        `book`.`price`,
-                        `category`.`name`,
-                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
-                    FROM `book`
-                    INNER JOIN `user` ON `user`.`id` = `book`.`writerId`
-                    LEFT JOIN `publisher` ON `publisher`.`id` = `book`.`publisherId`
-                    INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
-                    LEFT JOIN (
-                        SELECT `bookrating`.`bookId`,
-                        AVG(`bookrating`.`rating`) AS `rat`
-                        FROM `bookrating`
-                        GROUP BY `bookrating`.`bookId`
-                    ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
-                    LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-                    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
-                    INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
-                    WHERE `book`.`writerId` = profileUserId AND `book`.`status` != "looking for a publisher"
-                    ORDER BY `book`.`publishedTime` DESC;
-                ELSEIF rank = "publisher" THEN
-                	SELECT
                         `book`.`id`,
                         `book`.`coverImage`,
                         `book`.`title`,
@@ -2190,11 +2445,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserBooks` (IN `userIdIN` INT, I
                     ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
                     INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
-                    WHERE `book`.`writerId` = profileUserId AND `book`.`status` = "looking for a publisher"
+                    WHERE `book`.`writerId` = profileUserId
                     ORDER BY `book`.`publishedTime` DESC;
-                END IF;
-            ELSEIF profileUserRank = "publisher" THEN
-            	IF rank = "general" THEN
+                ELSEIF profileUserRank = "publisher" THEN
                     SELECT
                         `book`.`id`,
                         `book`.`coverImage`,
@@ -2209,8 +2462,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserBooks` (IN `userIdIN` INT, I
                         `language`.`code`,
                         IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
                         `book`.`price`,
-                        `category`.`name`,
-                        IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+                        `category`.`name`
                     FROM `book`
                     INNER JOIN `user` ON `user`.`id` = `book`.`writerId`
                     LEFT JOIN `publisher` ON `publisher`.`id` = `book`.`publisherId`
@@ -2222,13 +2474,120 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserBooks` (IN `userIdIN` INT, I
                         GROUP BY `bookrating`.`bookId`
                     ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
                     LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
-                    LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
                     INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
                     WHERE `book`.`publisherId` = profileUserId
                     ORDER BY `book`.`publishedTime` DESC;
-                ELSEIF rank = "publisher" THEN
-                	SET result = 3;
                 END IF;
+
+            ELSE
+            
+            	IF (SELECT `user`.`deleted` FROM `user` WHERE `user`.`id` = profileUserId) = 0 THEN
+
+                    IF profileUserRank = "general" THEN
+                        IF rank = "general" THEN
+                            SELECT
+                                `book`.`id`,
+                                `book`.`coverImage`,
+                                `book`.`title`,
+                                `user`.`username`,
+                                `user`.`firstName`,
+                                `user`.`lastName`,
+                                `publisher`.`companyName`,
+                                `book`.`description`,
+                                `book`.`pagesNumber`,
+                                `bookrat`.`rat`,
+                                `language`.`code`,
+                                IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+                                `book`.`price`,
+                                `category`.`name`,
+                                IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+                            FROM `book`
+                            INNER JOIN `user` ON `user`.`id` = `book`.`writerId`
+                            LEFT JOIN `publisher` ON `publisher`.`id` = `book`.`publisherId`
+                            INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                            LEFT JOIN (
+                                SELECT `bookrating`.`bookId`,
+                                AVG(`bookrating`.`rating`) AS `rat`
+                                FROM `bookrating`
+                                GROUP BY `bookrating`.`bookId`
+                            ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                            LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                            LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
+                            INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                            WHERE `book`.`writerId` = profileUserId AND `book`.`status` != "looking for a publisher"
+                            ORDER BY `book`.`publishedTime` DESC;
+                        ELSEIF rank = "publisher" THEN
+                            SELECT
+                                `book`.`id`,
+                                `book`.`coverImage`,
+                                `book`.`title`,
+                                `user`.`username`,
+                                `user`.`firstName`,
+                                `user`.`lastName`,
+                                `publisher`.`companyName`,
+                                `book`.`description`,
+                                `book`.`pagesNumber`,
+                                `bookrat`.`rat`,
+                                `language`.`code`,
+                                IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+                                `book`.`price`,
+                                `category`.`name`
+                            FROM `book`
+                            INNER JOIN `user` ON `user`.`id` = `book`.`writerId`
+                            LEFT JOIN `publisher` ON `publisher`.`id` = `book`.`publisherId`
+                            INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                            LEFT JOIN (
+                                SELECT `bookrating`.`bookId`,
+                                AVG(`bookrating`.`rating`) AS `rat`
+                                FROM `bookrating`
+                                GROUP BY `bookrating`.`bookId`
+                            ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                            LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                            INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                            WHERE `book`.`writerId` = profileUserId AND `book`.`status` = "looking for a publisher"
+                            ORDER BY `book`.`publishedTime` DESC;
+                        END IF;
+                    ELSEIF profileUserRank = "publisher" THEN
+                        IF rank = "general" THEN
+                            SELECT
+                                `book`.`id`,
+                                `book`.`coverImage`,
+                                `book`.`title`,
+                                `user`.`username`,
+                                `user`.`firstName`,
+                                `user`.`lastName`,
+                                `publisher`.`companyName`,
+                                `book`.`description`,
+                                `book`.`pagesNumber`,
+                                `bookrat`.`rat`,
+                                `language`.`code`,
+                                IF(`saved`.`userId` IS NOT NULL, TRUE, FALSE) AS `save`,
+                                `book`.`price`,
+                                `category`.`name`,
+                                IF(`bookShopping`.`userId` IS NOT NULL, TRUE, FALSE) AS `purchased`
+                            FROM `book`
+                            INNER JOIN `user` ON `user`.`id` = `book`.`writerId`
+                            LEFT JOIN `publisher` ON `publisher`.`id` = `book`.`publisherId`
+                            INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
+                            LEFT JOIN (
+                                SELECT `bookrating`.`bookId`,
+                                AVG(`bookrating`.`rating`) AS `rat`
+                                FROM `bookrating`
+                                GROUP BY `bookrating`.`bookId`
+                            ) AS `bookrat` ON `bookrat`.`bookId` = `book`.`id`
+                            LEFT JOIN `saved` ON `saved`.`bookId` = `book`.`id` AND `saved`.`userId` = userIdIN
+                            LEFT JOIN `bookShopping` ON `bookShopping`.`bookId` = `book`.`id` AND `bookShopping`.`userId` = userIdIN
+                            INNER JOIN `category` ON `category`.`id` = `book`.`categoryId`
+                            WHERE `book`.`publisherId` = profileUserId
+                            ORDER BY `book`.`publishedTime` DESC;
+                        ELSEIF rank = "publisher" THEN
+                            SET result = 3;
+                        END IF;
+                    
+                	END IF;
+
+			ELSE
+            	SET result = 4;
             END IF;
             
         END IF;
@@ -2260,97 +2619,149 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserDetails` (IN `userIdIN` INT,
         
         SET userIdMatch = (profileUserId = userIdIN);
         
-        IF profileUserRank = "general" AND userRank = "general" THEN
-            SELECT
-                `user`.`rank`,
-                `user`.`username`,
-                `user`.`image`,
-                IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
-                `user`.`firstName`,
-                `user`.`lastName`,
-                (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`writerId` = profileUserId AND `book`.`status` != "looking for a publisher") AS bookCount,
-                (SELECT COUNT(`saved`.`id`) FROM `saved` WHERE `saved`.`userId` = profileUserId) AS savedCount,
-                (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
-                `user`.`introDescription`,
-                `user`.`website`,
-                `color`.`code`,
-                userIdMatch AS userIdMatchFlag,
-                IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
-                IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
-            	YEAR(`user`.`registrationTime`)
-            FROM `user`
-            LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
-            INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
-            WHERE `user`.`id` = profileUserId;
-        ELSEIF profileUserRank = "publisher" AND userRank = "general" THEN
-            SELECT
-                `user`.`rank`,
-                `user`.`username`,
-                `user`.`image`,
-                IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
-                `publisher`.`companyName`,
-                (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`publisherId` = profileUserId AND `book`.`status` != "looking for a publisher") AS bookCount,
-                (SELECT COUNT(`writers`.`writerId`) FROM (SELECT DISTINCT `book`.`writerId` FROM `book` WHERE `book`.`publisherId` = profileUserId) AS `writers`) AS writerCount,
-                (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
-                `user`.`introDescription`,
-                `user`.`website`,
-                `color`.`code`,
-                userIdMatch AS userIdMatchFlag,
-                IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
-                IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
-                YEAR(`user`.`registrationTime`)
-            FROM `user`
-            LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
-            INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
-            INNER JOIN `publisher` ON `publisher`.`id` = `user`.`userId`
-            WHERE `user`.`id` = profileUserId;
-        ELSEIF userRank = "publisher" AND profileUserRank = "general" THEN
-        	SELECT
-                `user`.`rank`,
-                `user`.`username`,
-                `user`.`image`,
-                IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
-                `user`.`firstName`,
-                `user`.`lastName`,
-                (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`writerId` = profileUserId AND `book`.`status` = "looking for a publisher") AS bookCount,
-                (SELECT COUNT(`saved`.`id`) FROM `saved` WHERE `saved`.`userId` = profileUserId) AS savedCount,
-                (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
-                `user`.`introDescription`,
-                `user`.`website`,
-                `color`.`code`,
-                userIdMatch AS userIdMatchFlag,
-                IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
-                IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
-            	YEAR(`user`.`registrationTime`)
-            FROM `user`
-            LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
-            INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
-            WHERE `user`.`id` = profileUserId;
-        ELSEIF userRank = "publisher" AND profileUserRank = "publisher" THEN
-        	SELECT
-                `user`.`rank`,
-                `user`.`username`,
-                `user`.`image`,
-                IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
-                `publisher`.`companyName`,
-                (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`publisherId` = profileUserId AND `book`.`status` = "looking for a publisher") AS bookCount,
-                (SELECT COUNT(`writers`.`writerId`) FROM (SELECT DISTINCT `book`.`writerId` FROM `book` WHERE `book`.`publisherId` = profileUserId) AS `writers`) AS writerCount,
-                (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
-                `user`.`introDescription`,
-                `user`.`website`,
-                `color`.`code`,
-                userIdMatch AS userIdMatchFlag,
-                IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
-                IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
-                YEAR(`user`.`registrationTime`)
-            FROM `user`
-            LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
-            INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
-            INNER JOIN `publisher` ON `publisher`.`id` = `user`.`userId`
-            WHERE `user`.`id` = profileUserId;
+        IF userIdMatch = TRUE THEN
+        	IF userRank = "general" THEN
+            	SELECT
+                    `user`.`rank`,
+                    `user`.`username`,
+                    `user`.`image`,
+                    IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
+                    `user`.`firstName`,
+                    `user`.`lastName`,
+                    (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`writerId` = profileUserId) AS bookCount,
+                    (SELECT COUNT(`saved`.`id`) FROM `saved` WHERE `saved`.`userId` = profileUserId) AS savedCount,
+                    (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
+                    `user`.`introDescription`,
+                    `user`.`website`,
+                    `color`.`code`,
+                    userIdMatch AS userIdMatchFlag,
+                    IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
+                    IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
+                    YEAR(`user`.`registrationTime`)
+                FROM `user`
+                LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
+                INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
+                WHERE `user`.`id` = profileUserId;
+                
+                SET result = 1;
+            ELSEIF userRank = "publisher" THEN
+            	SELECT
+                    `user`.`rank`,
+                    `user`.`username`,
+                    `user`.`image`,
+                    IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
+                    `publisher`.`companyName`,
+                    (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`publisherId` = profileUserId) AS bookCount,
+                    (SELECT COUNT(`writers`.`writerId`) FROM (SELECT DISTINCT `book`.`writerId` FROM `book` WHERE `book`.`publisherId` = profileUserId) AS `writers`) AS writerCount,
+                    (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
+                    `user`.`introDescription`,
+                    `user`.`website`,
+                    `color`.`code`,
+                    userIdMatch AS userIdMatchFlag,
+                    IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
+                    IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
+                    YEAR(`user`.`registrationTime`)
+                FROM `user`
+                LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
+                INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
+                INNER JOIN `publisher` ON `publisher`.`id` = `user`.`userId`
+                WHERE `user`.`id` = profileUserId;
+                
+                SET result = 1;
+            END IF;
+        ELSE
+            IF profileUserRank = "general" AND userRank = "general" THEN
+                SELECT
+                    `user`.`rank`,
+                    `user`.`username`,
+                    `user`.`image`,
+                    IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
+                    `user`.`firstName`,
+                    `user`.`lastName`,
+                    (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`writerId` = profileUserId AND `book`.`status` != "looking for a publisher") AS bookCount,
+                    (SELECT COUNT(`saved`.`id`) FROM `saved` WHERE `saved`.`userId` = profileUserId) AS savedCount,
+                    (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
+                    `user`.`introDescription`,
+                    `user`.`website`,
+                    `color`.`code`,
+                    userIdMatch AS userIdMatchFlag,
+                    IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
+                    IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
+                    YEAR(`user`.`registrationTime`)
+                FROM `user`
+                LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
+                INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
+                WHERE `user`.`id` = profileUserId;
+            ELSEIF profileUserRank = "publisher" AND userRank = "general" THEN
+                SELECT
+                    `user`.`rank`,
+                    `user`.`username`,
+                    `user`.`image`,
+                    IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
+                    `publisher`.`companyName`,
+                    (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`publisherId` = profileUserId AND `book`.`status` != "looking for a publisher") AS bookCount,
+                    (SELECT COUNT(`writers`.`writerId`) FROM (SELECT DISTINCT `book`.`writerId` FROM `book` WHERE `book`.`publisherId` = profileUserId) AS `writers`) AS writerCount,
+                    (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
+                    `user`.`introDescription`,
+                    `user`.`website`,
+                    `color`.`code`,
+                    userIdMatch AS userIdMatchFlag,
+                    IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
+                    IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
+                    YEAR(`user`.`registrationTime`)
+                FROM `user`
+                LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
+                INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
+                INNER JOIN `publisher` ON `publisher`.`id` = `user`.`userId`
+                WHERE `user`.`id` = profileUserId;
+            ELSEIF userRank = "publisher" AND profileUserRank = "general" THEN
+                SELECT
+                    `user`.`rank`,
+                    `user`.`username`,
+                    `user`.`image`,
+                    IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
+                    `user`.`firstName`,
+                    `user`.`lastName`,
+                    (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`writerId` = profileUserId AND `book`.`status` = "looking for a publisher") AS bookCount,
+                    (SELECT COUNT(`saved`.`id`) FROM `saved` WHERE `saved`.`userId` = profileUserId) AS savedCount,
+                    (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
+                    `user`.`introDescription`,
+                    `user`.`website`,
+                    `color`.`code`,
+                    userIdMatch AS userIdMatchFlag,
+                    IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
+                    IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
+                    YEAR(`user`.`registrationTime`)
+                FROM `user`
+                LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
+                INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
+                WHERE `user`.`id` = profileUserId;
+            ELSEIF userRank = "publisher" AND profileUserRank = "publisher" THEN
+                SELECT
+                    `user`.`rank`,
+                    `user`.`username`,
+                    `user`.`image`,
+                    IF(`follow`.`followerId` IS NOT NULL, TRUE, FALSE) AS `followed`,
+                    `publisher`.`companyName`,
+                    (SELECT COUNT(`book`.`id`) FROM `book` WHERE `book`.`publisherId` = profileUserId AND `book`.`status` = "looking for a publisher") AS bookCount,
+                    (SELECT COUNT(`writers`.`writerId`) FROM (SELECT DISTINCT `book`.`writerId` FROM `book` WHERE `book`.`publisherId` = profileUserId) AS `writers`) AS writerCount,
+                    (SELECT COUNT(`follow`.`id`) FROM `follow` WHERE `follow`.`followedId` = profileUserId) AS followCount,
+                    `user`.`introDescription`,
+                    `user`.`website`,
+                    `color`.`code`,
+                    userIdMatch AS userIdMatchFlag,
+                    IF((SELECT `user`.`publicEmail` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`email` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS email,
+                    IF((SELECT `user`.`publicPhoneNumber` FROM `user` WHERE `user`.`id` = profileUserId) = TRUE, (SELECT `user`.`phoneNumber` FROM `user` WHERE `user`.`id` = profileUserId), NULL) AS phoneNumber,
+                    YEAR(`user`.`registrationTime`)
+                FROM `user`
+                LEFT JOIN `follow` ON `follow`.`followedId` = profileUserId AND `follow`.`followerId` = userIdIN
+                INNER JOIN `color` ON `color`.`id` = `user`.`coverColorId`
+                INNER JOIN `publisher` ON `publisher`.`id` = `user`.`userId`
+                WHERE `user`.`id` = profileUserId;
+            END IF;
+
+            SET result = 1;
         END IF;
-        
-        SET result = 1;
     ELSE
         SET result = 2;
     END IF;
@@ -2888,14 +3299,14 @@ INSERT INTO `book` (`id`, `title`, `status`, `writerId`, `publisherId`, `publish
 (14, 'Girl inPieces', 'published by', 12, 23, '2023-12-14 15:40:58', '“Girl in Pieces” introduces readers to Charlotte “Charlie” Davis, a 17-year-old girl grappling with intense trauma. Her journey is a poignant tale of pain, resilience, and the quest for healing.', 4500, 'pictures\\book\\girl-in-pieces', 'book\\Jenny_Han_-_A_fiuknak_akiket_valaha_szerettem', 1, 448, 1, '8012345678099126', '46732874322', 2, 3, 15),
 (15, 'Before the Coffee Gets Cold', 'looking for a publisher', 12, NULL, '2024-02-07 15:42:46', 'It tells of a café in Tokyo that allows its customers to travel back in time, as long as they return before their coffee gets cold. The story originally began as a play in 2010, before being adapted into a novel in 2015.', NULL, 'pictures\\book\\before-the-coffee-gets-cold', 'book\\Jenny_Han_-_A_fiuknak_akiket_valaha_szerettem', 1, 272, 1, '8012345678099129', NULL, 2, 3, 16),
 (16, 'Harmony', 'published by', 12, 24, '2024-04-17 14:46:27', 'In this collection of all new poems, Whitney Hanson explores the progression of a life through the lens of music. We each begin with a simple note, but as life progresses, we\'re led to the next note, and the next - all of which combine to form the melody of a song and the cadence of a life.', 6000, 'pictures\\book\\harmony', 'book\\ally_carter-_ha_megtudnad_hogy_szeretlek_meg_kellene_oljelek', 1, 272, 0, '8012345678099111', '87235144441243', 2, 2, 17),
-(17, 'The Silent Patient', 'published by', 11, 25, '2023-07-28 14:48:00', 'Theo Faber is a criminal psychotherapist who has waited a long time for the opportunity to work with Alicia. His determination to get her to talk and unravel the mystery of why she shot her husband takes him down a twisting path into his own motivations—a search for the truth that threatens to consume him....', 4012, 'pictures\\book\\the-silent-patient', 'book\\ally_carter-_ha_megtudnad_hogy_szeretlek_meg_kellene_oljelek', 1, 352, 1, '8012345278099125', '12345678-12345678-12345678', 2, 3, 18),
+(17, 'The Silent Patient', 'looking for a publisher', 11, NULL, '2023-07-28 14:48:00', 'Theo Faber is a criminal psychotherapist who has waited a long time for the opportunity to work with Alicia. His determination to get her to talk and unravel the mystery of why she shot her husband takes him down a twisting path into his own motivations—a search for the truth that threatens to consume him....', NULL, 'pictures\\book\\the-silent-patient', 'book\\ally_carter-_ha_megtudnad_hogy_szeretlek_meg_kellene_oljelek', 1, 352, 1, '8012345278099125', NULL, 2, 3, 18),
 (18, 'Thin Skin', 'looking for a publisher', 11, NULL, '2023-08-26 14:50:42', 'Thin Skin uses her medical diagnosis as a prism to examine the thinning of boundaries between our bodies and the world:\" to be thin-skinned is to feel keenly, to percieve things that...\"', NULL, 'pictures\\book\\thin-skin', 'book\\ally_carter-_ha_megtudnad_hogy_szeretlek_meg_kellene_oljelek', 1, 571, 1, '8012345278099321', NULL, 2, 3, 19),
 (19, 'Happy Place', 'looking for a publisher', 11, NULL, '2023-12-15 15:52:47', '“Happy Place” follows ex-fiancés Harriet, a conflict-avoidant surgical resident, and Wyn, a quick-witted charmer who dances through life.', NULL, 'pictures\\book\\happy-place', 'book\\ally_carter-_ha_megtudnad_hogy_szeretlek_meg_kellene_oljelek', 1, 416, 1, '801234567802425', NULL, 2, 3, 20),
 (20, 'The Fault in Our Stars', 'published by', 9, 30, '2024-04-02 14:55:53', 'The Fault in Our Stars by John Green is a young adult fiction novel that narrates the story of a 16-year-old girl who is diagnosed with cancer.', 6500, 'pictures\\book\\the-fault-in-our-stars', 'book\\ally_carter-_ha_megtudnad_hogy_szeretlek_meg_kellene_oljelek', 1, 313, 1, '801232367802425', '24789354224455', 2, 3, 21),
 (21, 'Holler, Child: Stories', 'self-published', 18, NULL, '2024-03-31 14:58:12', 'In “Holler, Child,” a mother is forced into an impossible position when her son gets in a kind of trouble she knows too well from the other side. And “Time After” shows us the unshakable bonds of family as a sister journeys to find her estranged brother—the one who saved her many times over.\r\n', 4200, 'pictures\\book\\holler-child-stories', 'book\\ally_carter-_ha_megtudnad_hogy_szeretlek_meg_kellene_oljelek', 1, 563, 1, '801632367802425', NULL, 2, 3, 22),
 (22, 'Wildfire', 'self-published', 18, NULL, '2024-04-26 15:04:59', 'A wildfire is an unplanned, unwanted fire burning in a natural area, such as a forest, grassland, or prairie. Wildfires can start from natural causes, such as lightning, but most are caused by humans, either accidentally or intentionally.', 4300, 'pictures\\book\\wildfire', 'book\\Nelkuled_-_Leiner_Laura', 1, 400, 1, '801232877802425', NULL, 2, 3, 23),
 (23, 'Mrs. Dalloway', 'published by', 1, 28, '2023-05-25 15:07:37', 'It examines one day in the life of Clarissa Dalloway, an upper-class Londoner married to a member of Parliament. Mrs. Dalloway is essentially plotless; what action there is takes place mainly in the characters\' consciousness.', 6000, 'pictures\\book\\mrs-dalloway', 'book\\Nelkuled_-_Leiner_Laura', 1, 224, 1, '805332877802425', '5723145781237465324', 2, 3, 24),
-(24, 'Man and Boy', 'published by', 15, 25, '2024-02-09 16:09:01', 'Man and Boy by Tony Parsons is the story of how a man becomes a father to his son, and a son to a father. The affection Harry feels for his family, all of it, is obvious from the first page. As evident is Harry\'s sense of self. He comes to realise that what he feels isn\'t always enough, though.', 6750, 'pictures\\book\\man-and-boy', 'book\\Nelkuled_-_Leiner_Laura', 1, 356, 1, '801679462802425', '12345678-12345678-12345678', 2, 3, 25),
+(24, 'Man and Boy', 'looking for a publisher', 15, NULL, '2024-02-09 16:09:01', 'Man and Boy by Tony Parsons is the story of how a man becomes a father to his son, and a son to a father. The affection Harry feels for his family, all of it, is obvious from the first page. As evident is Harry\'s sense of self. He comes to realise that what he feels isn\'t always enough, though.', NULL, 'pictures\\book\\man-and-boy', 'book\\Nelkuled_-_Leiner_Laura', 1, 356, 1, '801679462802425', NULL, 2, 3, 25),
 (25, 'The Wedding Date', 'self-published', 15, NULL, '2024-04-02 15:11:45', 'A groomsman and his last-minute guest are about to discover if a fake date can go the distance in a fun and flirty debut novel. Agreeing to go to a wedding with a guy she gets stuck with in an elevator is something Alexa Monroe wouldn\'t normally do. But there\'s something about Drew Nichols that\'s too hard to resist.', 4500, 'pictures\\book\\the-wedding-date', 'book\\Nelkuled_-_Leiner_Laura', 1, 272, 1, '801679496302425', NULL, 2, 3, 23),
 (26, 'Fourth Wing', 'self-published', 15, NULL, '2024-04-26 15:14:31', 'A young scribe is thrust into an elite war college for dragon riders where the only rule is graduate or perish. An addictive fantasy with epic levels of spice and world-building. Twenty-year-old Violet Sorrengail was supposed to enter the Scribe Quadrant, living a quiet life among books and history.', 5500, 'pictures\\book\\fourth-wing', 'book\\Nelkuled_-_Leiner_Laura', 79, 528, 1, '801862877802425', NULL, 2, 3, 13),
 (27, 'After', 'self-published', 15, NULL, '2024-04-26 15:14:31', 'The series follows the life of Tessa Young, a recent high school graduate, as she embarks on her new college life. Her life is meticulously planned by not only herself but her overachieving mother. But when Tessa meets complex rebel Hardin Scott, everything in her life begins to change.', 4200, 'pictures\\book\\after', 'book\\a_mennyeknel_sulyosabb_', 1, 592, 1, '801462877802425', NULL, 2, 3, 23);
@@ -4110,11 +4521,11 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `rank`, `firstName`, 
 (18, 'chloe_baker_author', 'chloe.baker@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Chloe', 'Baker', '06708344627', 1, 1, 'Greetings, fellow bibliophiles! I\'m Chloe Baker, crafting stories that illuminate the human experience.', 'www.chloebaker.com', 'pictures/default-profile-pic-man.png', '2024-03-15 12:46:20', 0, 1, 26, 18),
 (19, 'jackie_', 'jack.wright@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Jack', 'Wright', '06709352342', 1, 0, 'Jack Wright here, embarking on literary journeys that stir the soul and captivate the mind.', 'www.jackwright.com', 'pictures/default-profile-pic-man.png', '2024-04-14 11:47:39', 0, 0, 38, 19),
 (20, 'lily_hughes_', 'lily.hughes@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Lily ', 'Hughes', '06708234142', 0, 0, '', '', 'pictures/default-profile-pic-man.png', '2024-04-24 11:48:48', 1, 0, 1, 20),
-(21, 'bright_publications', 'info@brightpublications.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'John', 'Smith', '06204535324', 1, 1, 'Welcome to Bright Publications, where we illuminate minds with compelling stories and insightful narratives.\n', 'www.brightpublications.com', 'pictures\\user\\avatar-4.jpg', '2023-01-18 19:50:38', 0, 0, 39, 1),
+(21, 'bright_publications', 'info@brightpublications.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'John', 'Smith', '06204535324', 1, 1, 'Welcome to Bright Publications, where we illuminate minds with compelling stories and insightful narratives.\n', 'www.google.com', 'pictures\\user\\avatar-4.jpg', '2023-01-18 19:50:38', 0, 0, 39, 1),
 (22, 'stellar_press', 'contact@stellarpress.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Emily', 'Johnson', '06201742855', 1, 0, 'Stellar Press - Where every story shines. Join us on a journey through the cosmos of literature.', 'www.stellarpress.com', 'pictures/default-profile-pic-man.png', '2023-04-04 18:51:25', 0, 0, 40, 2),
 (23, 'horizon_books', 'info@horizonbooks.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Michael', 'Davis', '06701693855', 1, 1, 'Welcome to Horizon Books, where every page leads to new horizons of imagination and discovery.', 'www.horizonbooks.com', 'pictures/default-profile-pic-man.png', '2023-06-29 18:52:22', 0, 0, 26, 3),
 (24, 'evergreen_publishing', 'contact@evergreenpublishing.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Sarah', 'Brown', '06209743724', 1, 0, 'Evergreen Publishing - Cultivating timeless stories that endure through the ages.', 'www.evergreenpublishing.com', 'pictures/default-profile-pic-man.png', '2023-07-04 18:53:16', 0, 0, 41, 4),
-(25, 'phoenix_press', 'info@phoenixpress.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Daniel', 'Martinez', '06708494263', 1, 1, 'Rise from the ashes of ordinary reading. Join Phoenix Press for stories that ignite the imagination and inspire the soul.', 'www.phoenixpress.com', 'pictures/default-profile-pic-man.png', '2023-07-09 18:54:06', 0, 0, 42, 5),
+(25, 'phoenix_press', 'info@phoenixpress.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Daniel', 'Martinez', '06708494263', 1, 1, 'Rise from the ashes of ordinary reading. Join Phoenix Press for stories that ignite the imagination and inspire the soul.', 'www.phoenixpress.com', 'pictures/default-profile-pic-man.png', '2023-07-09 18:54:06', 0, 1, 42, 5),
 (26, 'cascade_books', 'contact@cascadebooks.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Olivia', 'Anderson', '06209858437', 1, 0, 'Embark on a journey of literary exploration with Cascade Books, where stories flow like a cascade of words.', 'www.cascadebooks.com', 'pictures/default-profile-pic-man.png', '2023-01-13 19:54:57', 0, 0, 43, 6),
 (27, 'silverleaf_publishers', 'info@silverleafpublishers.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Benjamin', 'Taylor', '06702749614', 1, 0, 'Silverleaf Publishers - Crafting stories as enduring as the silver leaves of literature.', 'www.silverleafpublishers.com', 'pictures/default-profile-pic-man.png', '2023-09-16 18:56:17', 0, 0, 44, 7),
 (28, 'summit_publishing', 'contact@summitpublishing.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Sophie', 'Clark', '06701387511', 1, 1, 'Reach new heights of literary excellence with Summit Publishing. Join us on the peak of storytelling.', 'www.summitpublishing.com', 'pictures/default-profile-pic-man.png', '2023-10-30 19:57:15', 0, 0, 45, 8),
