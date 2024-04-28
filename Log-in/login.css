@@ -84,7 +84,7 @@ form {
 
 .form {
     background-color: var(--form-color);
-    min-width: 310px;
+    min-width: 300px;
     max-width: 50%;
     border-radius: 2rem;
     box-shadow: 0.625rem 0.625rem 0.625rem 0rem rgba(77, 66, 64, 0.40);
