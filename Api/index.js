@@ -838,7 +838,8 @@ async function setBook(raw) {
 /**
  * @param {JSON} raw = {
  *      "id": 1,
- *      "price": 1000
+ *      "price": 1000,
+ *      "publisherBankAccountNumber": "234536457657543"
  *  }
  *
  * @return
