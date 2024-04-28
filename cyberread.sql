@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Ápr 28. 13:33
+-- Létrehozás ideje: 2024. Ápr 28. 14:10
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -2782,6 +2782,33 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `unfollowedUser` (IN `userIdIN` INT,
 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `unpublishBook` (IN `userIdIN` INT, IN `bookIdIN` INT, OUT `result` INT)   BEGIN
+
+	DECLARE rank VARCHAR(20);
+    SELECT `user`.`rank` INTO rank
+    FROM `user`
+    WHERE `user`.`id` = userIdIN;
+    
+    IF rank = "publisher" THEN
+    	IF NOT EXISTS (SELECT * FROM `book` WHERE `book`.`id` = bookIdIN) THEN
+        	SET result = 3;
+        ELSE
+        	IF (SELECT `book`.`publisherId` FROM `book` WHERE `book`.`id` = bookIdIN) = userIdIN THEN
+            	UPDATE `book`
+                SET `book`.`status` = "looking for a publisher", `book`.`price` = NULL, `book`.`publisherBankAccountNumber` = NULL, `book`.`publisherId` = NULL
+                WHERE `book`.`id` = bookIdIN;
+                
+                SET result = 1;
+            ELSE
+            	SET result = 4;
+            END IF;
+        END IF;
+    ELSE
+    	SET result = 2;
+    END IF;
+
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `updatePost` (IN `userIdIN` INT, IN `postIdIN` INT, IN `postDescriptionIN` VARCHAR(1000), OUT `result` INT)   BEGIN
 
 	IF (SELECT `post`.`userId` FROM `post` WHERE `post`.`id` = postIdIN) != userIdIN THEN
@@ -2848,7 +2875,7 @@ INSERT INTO `book` (`id`, `title`, `status`, `writerId`, `publisherId`, `publish
 (1, 'With Love, from Cold World', 'self-published', 7, NULL, '2024-01-12 14:55:53', 'Lauren is a serious bookkeeper at a theme park where it\'s always winter, which doesn\'t get quite the crowds as its more famous counterparts.', 3000, 'pictures\\book\\with-love-from-cold-world', 'book\\a_mennyeknel_sulyosabb_', 0, 400, 1, '1234567890123456', NULL, 2, 3, 1),
 (2, 'Long Shot', 'self-published', 7, NULL, '2024-02-24 15:03:41', 'A triumphant story of a domestic violence survivor creating her happy-ever-after. Ambitious college graduate Iris DuPree stays with Caleb Bradley, her basketball-player boyfriend, because of an unexpected pregnancy, though she has her own career goals and feels an electric connection with his rival, August West.', 4500, 'pictures\\book\\long-shot', 'book\\a_mennyeknel_sulyosabb_', 1, 539, 1, '2345678910234567', NULL, 2, 3, 2),
 (3, 'Red Mars', 'self-published', 7, NULL, '2024-04-08 14:07:48', 'or centuries, Mars has beckoned to mankind to come and conquer its hostile climate. Now, in the year 2026, a group of one hundred colonists is about to fulfill that destiny. John Boone, Maya Toitavna, Frank Chalmers, and Arkady Bogdanov lead a mission whose ultimate goal is the terraforming of Mars.', 6000, 'pictures\\book\\red-mars', 'book\\a_mennyeknel_sulyosabb_', 1, 592, 1, '3456789021434567', NULL, 2, 3, 3),
-(4, 'Holly', 'published by', 5, 25, '2024-02-24 15:12:18', 'Holly is on her own, and up against a pair of unimaginably depraved and brilliantly disguised adversaries. When Penny Dahl callt the Finders Keepers detective...', 4012, 'pictures\\book\\holly', 'book\\a_mennyeknel_sulyosabb_', 1, 448, 1, '4567890123545678', '12345678-12345678-12345678', 2, 3, 4),
+(4, 'Holly', 'looking for a publisher', 5, NULL, '2024-02-24 15:12:18', 'Holly is on her own, and up against a pair of unimaginably depraved and brilliantly disguised adversaries. When Penny Dahl callt the Finders Keepers detective...', NULL, 'pictures\\book\\holly', 'book\\a_mennyeknel_sulyosabb_', 1, 448, 1, '4567890123545678', NULL, 2, 3, 4),
 (5, 'Shatter Me', 'published by', 5, 22, '2024-03-29 15:15:22', 'The Shatter Me series is the story of a teenage girl who has never been able to experience human touch without inflicting extreme pain.', 3000, 'pictures\\book\\shatter-me', 'book\\a_mennyeknel_sulyosabb_', 1, 290, 1, '5678901234655789', '98514215312312', 2, 3, 5),
 (6, 'Zeno\'s Conscience', 'self-published', 9, NULL, '2024-03-23 15:18:54', 'In Zeno\'s Conscience by Italo Svevo, we are introduced to Zeno Cosini, a middle-aged businessman who seeks psychiatric help to quit smoking. The novel is structured as a series of memoirs, written by Zeno himself, at the request of his psychiatrist.', 4500, 'pictures\\book\\zenos-conscience', 'book\\Csontvaros', 1, 464, 1, '6789012345766890', NULL, 5, 3, 6),
 (7, 'The Name of the Rose', 'self-published', 9, NULL, '2024-04-03 14:21:28', 'It is a historical murder mystery set in an Italian monastery in the year 1327, and an intellectual mystery combining semiotics in fiction, biblical analysis, medieval studies, and literary theory.', 5000, 'pictures\\book\\the-name-of-the-rose', 'book\\Csontvaros', 1, 512, 1, '7890123456877901', NULL, 5, 3, 7),
@@ -2862,8 +2889,8 @@ INSERT INTO `book` (`id`, `title`, `status`, `writerId`, `publisherId`, `publish
 (15, 'Before the Coffee Gets Cold', 'looking for a publisher', 12, NULL, '2024-02-07 15:42:46', 'It tells of a café in Tokyo that allows its customers to travel back in time, as long as they return before their coffee gets cold. The story originally began as a play in 2010, before being adapted into a novel in 2015.', NULL, 'pictures\\book\\before-the-coffee-gets-cold', 'book\\Jenny_Han_-_A_fiuknak_akiket_valaha_szerettem', 1, 272, 1, '8012345678099129', NULL, 2, 3, 16),
 (16, 'Harmony', 'published by', 12, 24, '2024-04-17 14:46:27', 'In this collection of all new poems, Whitney Hanson explores the progression of a life through the lens of music. We each begin with a simple note, but as life progresses, we\'re led to the next note, and the next - all of which combine to form the melody of a song and the cadence of a life.', 6000, 'pictures\\book\\harmony', 'book\\ally_carter-_ha_megtudnad_hogy_szeretlek_meg_kellene_oljelek', 1, 272, 0, '8012345678099111', '87235144441243', 2, 2, 17),
 (17, 'The Silent Patient', 'published by', 11, 25, '2023-07-28 14:48:00', 'Theo Faber is a criminal psychotherapist who has waited a long time for the opportunity to work with Alicia. His determination to get her to talk and unravel the mystery of why she shot her husband takes him down a twisting path into his own motivations—a search for the truth that threatens to consume him....', 4012, 'pictures\\book\\the-silent-patient', 'book\\ally_carter-_ha_megtudnad_hogy_szeretlek_meg_kellene_oljelek', 1, 352, 1, '8012345278099125', '12345678-12345678-12345678', 2, 3, 18),
-(18, 'Thin Skin', 'published by', 11, 25, '2023-08-26 14:50:42', 'Thin Skin uses her medical diagnosis as a prism to examine the thinning of boundaries between our bodies and the world:\" to be thin-skinned is to feel keenly, to percieve things that...\"', 4012, 'pictures\\book\\thin-skin', 'book\\ally_carter-_ha_megtudnad_hogy_szeretlek_meg_kellene_oljelek', 1, 571, 1, '8012345278099321', '12345678-12345678-12345678', 2, 3, 19),
-(19, 'Happy Place', 'published by', 11, 25, '2023-12-15 15:52:47', '“Happy Place” follows ex-fiancés Harriet, a conflict-avoidant surgical resident, and Wyn, a quick-witted charmer who dances through life.', 4012, 'pictures\\book\\happy-place', 'book\\ally_carter-_ha_megtudnad_hogy_szeretlek_meg_kellene_oljelek', 1, 416, 1, '801234567802425', '12345678-12345678-12345678', 2, 3, 20),
+(18, 'Thin Skin', 'looking for a publisher', 11, NULL, '2023-08-26 14:50:42', 'Thin Skin uses her medical diagnosis as a prism to examine the thinning of boundaries between our bodies and the world:\" to be thin-skinned is to feel keenly, to percieve things that...\"', NULL, 'pictures\\book\\thin-skin', 'book\\ally_carter-_ha_megtudnad_hogy_szeretlek_meg_kellene_oljelek', 1, 571, 1, '8012345278099321', NULL, 2, 3, 19),
+(19, 'Happy Place', 'looking for a publisher', 11, NULL, '2023-12-15 15:52:47', '“Happy Place” follows ex-fiancés Harriet, a conflict-avoidant surgical resident, and Wyn, a quick-witted charmer who dances through life.', NULL, 'pictures\\book\\happy-place', 'book\\ally_carter-_ha_megtudnad_hogy_szeretlek_meg_kellene_oljelek', 1, 416, 1, '801234567802425', NULL, 2, 3, 20),
 (20, 'The Fault in Our Stars', 'published by', 9, 30, '2024-04-02 14:55:53', 'The Fault in Our Stars by John Green is a young adult fiction novel that narrates the story of a 16-year-old girl who is diagnosed with cancer.', 6500, 'pictures\\book\\the-fault-in-our-stars', 'book\\ally_carter-_ha_megtudnad_hogy_szeretlek_meg_kellene_oljelek', 1, 313, 1, '801232367802425', '24789354224455', 2, 3, 21),
 (21, 'Holler, Child: Stories', 'self-published', 18, NULL, '2024-03-31 14:58:12', 'In “Holler, Child,” a mother is forced into an impossible position when her son gets in a kind of trouble she knows too well from the other side. And “Time After” shows us the unshakable bonds of family as a sister journeys to find her estranged brother—the one who saved her many times over.\r\n', 4200, 'pictures\\book\\holler-child-stories', 'book\\ally_carter-_ha_megtudnad_hogy_szeretlek_meg_kellene_oljelek', 1, 563, 1, '801632367802425', NULL, 2, 3, 22),
 (22, 'Wildfire', 'self-published', 18, NULL, '2024-04-26 15:04:59', 'A wildfire is an unplanned, unwanted fire burning in a natural area, such as a forest, grassland, or prairie. Wildfires can start from natural causes, such as lightning, but most are caused by humans, either accidentally or intentionally.', 4300, 'pictures\\book\\wildfire', 'book\\Nelkuled_-_Leiner_Laura', 1, 400, 1, '801232877802425', NULL, 2, 3, 23),
