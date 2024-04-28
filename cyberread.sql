@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Ápr 28. 18:53
+-- Létrehozás ideje: 2024. Ápr 28. 19:13
 -- Kiszolgáló verziója: 10.4.32-MariaDB
--- PHP verzió: 8.2.12
+-- PHP verzió: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -3424,10 +3424,35 @@ INSERT INTO `book` (`id`, `title`, `status`, `writerId`, `publisherId`, `publish
 (21, 'Holler, Child: Stories', 'self-published', 18, NULL, '2024-03-31 14:58:12', 'In “Holler, Child,” a mother is forced into an impossible position when her son gets in a kind of trouble she knows too well from the other side. And “Time After” shows us the unshakable bonds of family as a sister journeys to find her estranged brother—the one who saved her many times over.\r\n', 4200, 'pictures\\book\\holler-child-stories', 'book\\ally_carter-_ha_megtudnad_hogy_szeretlek_meg_kellene_oljelek', 1, 563, 1, '801632367802425', NULL, 2, 3, 22),
 (22, 'Wildfire', 'self-published', 18, NULL, '2024-04-26 15:04:59', 'A wildfire is an unplanned, unwanted fire burning in a natural area, such as a forest, grassland, or prairie. Wildfires can start from natural causes, such as lightning, but most are caused by humans, either accidentally or intentionally.', 4300, 'pictures\\book\\wildfire', 'book\\Nelkuled_-_Leiner_Laura', 1, 400, 1, '801232877802425', NULL, 2, 3, 23),
 (23, 'Mrs. Dalloway', 'published by', 1, 28, '2023-05-25 15:07:37', 'It examines one day in the life of Clarissa Dalloway, an upper-class Londoner married to a member of Parliament. Mrs. Dalloway is essentially plotless; what action there is takes place mainly in the characters\' consciousness.', 6000, 'pictures\\book\\mrs-dalloway', 'book\\Nelkuled_-_Leiner_Laura', 1, 224, 1, '805332877802425', '5723145781237465324', 2, 3, 24),
-(24, 'Man and Boy', 'looking for a publisher', 15, NULL, '2024-02-09 16:09:01', 'Man and Boy by Tony Parsons is the story of how a man becomes a father to his son, and a son to a father. The affection Harry feels for his family, all of it, is obvious from the first page. As evident is Harry\'s sense of self. He comes to realise that what he feels isn\'t always enough, though.', NULL, 'pictures\\book\\man-and-boy', 'book\\Nelkuled_-_Leiner_Laura', 1, 356, 1, '801679462802425', NULL, 2, 3, 25),
+(24, 'Man and Boy', 'published by', 15, 25, '2024-02-09 16:09:01', 'Man and Boy by Tony Parsons is the story of how a man becomes a father to his son, and a son to a father. The affection Harry feels for his family, all of it, is obvious from the first page. As evident is Harry\'s sense of self. He comes to realise that what he feels isn\'t always enough, though.', 6750, 'pictures\\book\\man-and-boy', 'book\\Nelkuled_-_Leiner_Laura', 1, 356, 1, '801679462802425', '12345678-12345678-12345678', 2, 3, 25),
 (25, 'The Wedding Date', 'self-published', 15, NULL, '2024-04-02 15:11:45', 'A groomsman and his last-minute guest are about to discover if a fake date can go the distance in a fun and flirty debut novel. Agreeing to go to a wedding with a guy she gets stuck with in an elevator is something Alexa Monroe wouldn\'t normally do. But there\'s something about Drew Nichols that\'s too hard to resist.', 4500, 'pictures\\book\\the-wedding-date', 'book\\Nelkuled_-_Leiner_Laura', 1, 272, 1, '801679496302425', NULL, 2, 3, 23),
 (26, 'Fourth Wing', 'self-published', 15, NULL, '2024-04-26 15:14:31', 'A young scribe is thrust into an elite war college for dragon riders where the only rule is graduate or perish. An addictive fantasy with epic levels of spice and world-building. Twenty-year-old Violet Sorrengail was supposed to enter the Scribe Quadrant, living a quiet life among books and history.', 5500, 'pictures\\book\\fourth-wing', 'book\\Nelkuled_-_Leiner_Laura', 79, 528, 1, '801862877802425', NULL, 2, 3, 13),
-(27, 'After', 'self-published', 15, NULL, '2024-04-26 15:14:31', 'The series follows the life of Tessa Young, a recent high school graduate, as she embarks on her new college life. Her life is meticulously planned by not only herself but her overachieving mother. But when Tessa meets complex rebel Hardin Scott, everything in her life begins to change.', 4200, 'pictures\\book\\after', 'book\\a_mennyeknel_sulyosabb_', 1, 592, 1, '801462877802425', NULL, 2, 3, 23);
+(27, 'After', 'self-published', 15, NULL, '2024-04-26 15:14:31', 'The series follows the life of Tessa Young, a recent high school graduate, as she embarks on her new college life. Her life is meticulously planned by not only herself but her overachieving mother. But when Tessa meets complex rebel Hardin Scott, everything in her life begins to change.', 4200, 'pictures\\book\\after', 'book\\a_mennyeknel_sulyosabb_', 1, 592, 1, '801462877802425', NULL, 2, 3, 23),
+(28, 'Beyond the Horizon', 'self-published', 9, NULL, '2024-03-28 11:30:18', 'A first novel by a Ghanaian woman who spent some time in Germany. It provides an account of the exploitation of women in Africa and Europe, and tells of an immigrant who, having travelled to Germany to find a paradise, finds she has been betrayed by her husband and is forced into prostitution.', 4100, 'pictures\\book\\Beyond-the-Horizon', 'book\\Bexi_Sorozat_3.-Illuzio', 0, 400, 1, '801687467802425', '', 2, 3, 1),
+(29, 'Beyond the Veil', 'self-published', 1, NULL, '2023-06-14 10:31:04', 'Internationally renowned sociologist Fatema Mernissi argues that women\'s oppression is not due to Islam because this religion celebrates women\'s power. Women\'s oppression, she maintains, is due to political manipulation of religion by power-seeking, archaic Muslim male elites.', 3500, 'pictures\\book\\Beyond-the-Veil', 'book\\Bexi_Sorozat_3.-Illuzio', 0, 365, 1, '801232877202425', NULL, 2, 3, 2),
+(30, 'Chasing Echoes', 'looking for a publisher', 6, NULL, '2023-12-23 11:38:26', 'Chasing Echoes is the story of an extended (and dysfunctional) Jewish American family trying to track down their roots in Poland. Most of their relatives and history were wiped out by the Holocaust. Now they only have some stories from their grandfather and a few old pictures to go by.', NULL, 'pictures\\book\\Chasing-Echoes', 'book\\Bexi_Sorozat_3.-Illuzio', 0, 1200, 1, '801234563802425', NULL, 2, 3, 3),
+(31, 'Kings of Chaos', 'looking for a publisher', 17, NULL, '2023-07-21 10:41:23', 'And I\'ve got demons of my own. Kings of Chaos is a full length dark new adult romance with enemies-to-lovers/love-hate themes, featuring a slightly psycho heroine and four even more psychotic men.', NULL, 'pictures\\book\\kings-of-chaos', 'book\\Bexi_Sorozat_3.-Illuzio', 0, 484, 1, '801232332802425', NULL, 2, 3, 4),
+(32, 'Dreams of Destiny', 'published by', 14, 25, '2024-04-09 10:41:23', 'Dream of Destiny is a story of true love, betrayal, forgiveness and journey of self discovery, inspired by Hades & Persephone\'s myth. This modern retelling book is a dark, standalone book with adult themes, which some readers might find uncomfortable and triggering.', 4200, 'pictures\\book\\Dreams-of-Destiny', 'book\\Bexi_Sorozat_3.-Illuzio', 0, 288, 1, '801462877802425', '801432877802425', 2, 3, 5),
+(33, 'Revelations: A Nove', 'self-published', 13, NULL, '2024-02-15 11:49:32', 'Brings to vivid life Margery Kempe and her world with all its riotous color, conflicting religious beliefs, deadly perils, saints and sinners. Revelations is a fascinating journey into both the medieval world and the medieval mind.', 5000, 'pictures\\book\\revelations', 'book\\SZJG-_6-_ketten', 0, 416, 1, NULL, NULL, 2, 3, 6),
+(34, 'Echoes of Eternity', 'published by', 15, 28, '2024-02-07 11:49:32', 'Angron, Herald of Horus, has achieved immortality through annihilation – now he leads the armies of the damned in a wrathful tide, destroying all before them as the warp begins its poisonous corruption of Terra. For the Emperor\'s beleaguered forces, the end has come. The Khan lies on the edge of death.', 6300, 'pictures\\book\\Echoes-of-Eternity', 'book\\SZJG-_6-_ketten', 0, 400, 1, '801122877802425', '801432823802425', 2, 3, 7),
+(35, 'Legacy of Shadows', 'looking for a publisher', 18, NULL, '2023-04-27 10:56:42', 'All I wanted was to keep my head above water. To survive long enough to hit my eighteenth birthday so I could escape the nightmare that my homelife had become. But all of that was turned upside down the moment they showed up.\r\nThe best friend from my past. The surly brooder. The kind-hearted nerd. The king of campus. The dark one.\r\n', NULL, 'pictures\\book\\Legacy-of-Shadows', 'book\\SZJG-_6-_ketten', 0, 288, 1, NULL, NULL, 2, 3, 8),
+(36, 'The Sands of Time', 'self-published', 12, NULL, '2023-10-18 11:12:23', 'The novel follows the adventures of four women who are forced to leave their Spanish convent for the outside world of threat, violence and passions; and two men who are pitted against each other in a fight to the death.', 3540, 'pictures\\book\\Sands-of-Time', 'book\\SZJG-_6-_ketten', 0, 412, 1, '801245277202425', NULL, 2, 3, 9),
+(37, 'The Forgotten Scroll', 'looking for a publisher', 8, NULL, '2024-03-16 12:17:19', 'When thirteen-year-old Jaxon\'s father died, he thought all was lost, until he was taken to a new world. Living his whole life on a dying planet, he never imagined he would see trees, grass, or blue sky. He never even knew they even existed. Overjoyed at the possibility of a new life, Jaxon soon learns that it might not be possible after all.', NULL, 'pictures\\book\\The-Forgotten-Scroll', 'book\\SZJG-_6-_ketten', 0, 173, 0, '801689267802425', NULL, 2, 2, 10),
+(38, 'Twisted Lve', 'published by', 19, 24, '2024-04-17 11:20:37', 'A scintillating romance about a cold-hearted man driven by vengeance whose heart starts to melt when he is forced to look after his best friend\'s sister, Twisted Love is essential reading for all fans of enemies-to-lovers stories. He has a heart of ice... but for her, he\'d burn the world.', 5300, 'pictures\\book\\twisted-love', 'book\\SZJG-_6-_ketten', 0, 352, 1, '801234567002425', '801238167002425', 2, 3, 11),
+(39, 'It Ends with Us', 'published by', 9, 21, '2024-03-08 12:25:57', 'This novel focuses on how harmful love can be, and how a person that loves you can hurt you the most. I read this novel during winter break, and all I can say is that it\'s very impacting and brings awareness to a lot of very sensitive topics.', 6000, 'pictures\\book\\it-ends-with-us', 'book\\SZJG-_6-_ketten', 0, 421, 1, '801679462102425', '801238167002425', 2, 3, 12),
+(40, 'King of Wrath', 'looking for a publisher', 14, NULL, '2024-02-24 12:25:57', 'King of Wrath is a steamy arranged marriage/billionaire romance. It is book one in the Kings of Sin series but can be read as a standalone. It contains explicit content, profanity, and mild violence. Recommended for mature readers only.', NULL, 'pictures\\book\\king-of-wrath', 'book\\Leiner_Laura_-_A_Szent_Johanna_Gimi_8._-_Orokke_II.', 0, 400, 1, '801462877802423', NULL, 2, 3, 13),
+(41, 'The Wind in the Willows', 'self-published', 15, NULL, '2024-01-10 12:31:53', 'It details the story of Mole, Ratty, and Badger as they try to help Mr. Toad, after he becomes obsessed with motorcars and gets into trouble.', 3300, 'pictures\\book\\the-wind-in-the-willows', 'book\\Leiner_Laura_-_A_Szent_Johanna_Gimi_8._-_Orokke_II.', 0, 192, 0, '801276367802425', NULL, 2, 1, 14),
+(42, 'The Exchange: After The Firm', 'self-published', 11, NULL, '2023-08-16 11:31:53', 'Thid new book follows the story of Mitch McDeere from THE FIRM, 15 years after he and wife Abby escaped from the Chicago mob with their lives.', 3800, 'pictures\\book\\the-exchange-after-the-firm', 'book\\Leiner_Laura_-_A_Szent_Johanna_Gimi_8._-_Orokke_II.', 0, 338, 1, '801469877802425', NULL, 2, 3, 15),
+(43, 'Murtagh', 'looking for a publisher', 7, NULL, '2024-01-02 12:39:38', 'Join Dragon Rider—and fan favorite—Murtagh and his dragon as they confront a perilous new enemy! The world is no longer safe for the Dragon Rider Murtagh and his dragon, Thorn. An evil king has been toppled, and they are left to face the consequences of the reluctant role they played in his reign of terror.', NULL, 'pictures\\book\\murtagh', 'book\\Leiner_Laura_-_A_Szent_Johanna_Gimi_8._-_Orokke_II.', 0, 704, 1, NULL, NULL, 2, 3, 16),
+(44, 'The Ink Black Heart', 'self-published', 6, NULL, '2024-03-12 12:43:33', 'The Ink Black Heart is about the female creator of a popular YouTube cartoon who releases a cartoon criticized as being racist, ableist, and—you guessed it—transphobic.', 4800, 'pictures\\book\\the-ink-black-heart', 'book\\Leiner_Laura_-_A_Szent_Johanna_Gimi_8._-_Orokke_II.', 0, 1024, 1, '801687167802425', NULL, 2, 3, 17),
+(45, 'Harry Potter and the Philosopher\'s Stone', 'published by', 12, 26, '2024-04-28 11:54:08', 'Featuring vivid descriptions and an imaginative story line, it followed the adventures of the unlikely hero Harry Potter, a lonely orphan who discovers that he is actually a wizard and enrolls in the Hogwarts School of Witchcraft and Wizardry. The book received numerous awards, including the British Book Award.', 5500, 'pictures\\book\\harry-potter-1', 'book\\Leiner_Laura_-_A_Szent_Johanna_Gimi_8._-_Orokke_II.', 0, 233, 0, '801687432402425', NULL, 2, 2, 18),
+(46, 'Game of Thrones', 'looking for a publisher', 14, NULL, '2024-03-17 12:54:57', 'Sweeping from a harsh land of cold to a summertime kingdom of epicurean plenty, A Game of Thrones tells a tale of lords and ladies, soldiers and sorcerers, assassins and bastards, who come together in a time of grim omens.', 8500, 'pictures\\book\\game-of-thrones', 'book\\Leiner_Laura_-_A_Szent_Johanna_Gimi_8._-_Orokke_II.', 73, 694, 1, '891234567802425', NULL, 2, 3, 19),
+(47, 'A Clash of Kings', 'self-published', 1, NULL, '2023-04-12 12:01:31', 'A Clash of Kings depicts the Seven Kingdoms of Westeros in civil war, while the Night\'s Watch mounts a reconnaissance to investigate the mysterious people known as wildlings. Meanwhile, Daenerys Targaryen continues her plan to conquer the Seven Kingdoms.', 6500, 'pictures\\book\\clash-of-kings', 'book\\Leiner_Laura_-_A_Szent_Johanna_Gimi_8._-_Orokke_II.', 70, 768, 1, '801462832402425', NULL, 2, 3, 20),
+(48, 'A ​Storm of Swords: Steel and Snow', 'looking for a publisher', 5, NULL, '2024-03-26 13:04:14', 'A Storm of Swords continues the story where A Clash of Kings ended. The novel describes the increasingly vicious War of Five Kings in Westeros, Daenerys\'s strengthening forces in the East, and the oncoming threat of the Others, a ghostly army that is nearly invincible.', 7654, 'pictures\\book\\storm-of-swords', 'book\\Leiner_Laura_-_A_Szent_Johanna_Gimi_8._-_Orokke_II.', 82, 9730, 1, '851687467802425', NULL, 2, 3, 21),
+(49, 'A Feast for Crows', 'looking for a publisher', 7, NULL, '2024-01-18 13:05:28', 'A Feast for Crows focuses on the Lannister family\'s continuing consolidation of power following victory in the “War of the Five Kings.” Specifically, it follows the events precipitated by the murder of Tywin Lannister, who had been de facto ruler of Westeros. In his place, his daughter Cersei, seizes power.', 6574, 'pictures\\book\\feast-for-crows', 'book\\Nelkuled_-_Leiner_Laura', 46, 753, 1, '801687467802422', NULL, 2, 3, 22),
+(50, 'A Dance with Dragons', 'self-published', 9, NULL, '2024-03-26 13:11:56', 'In the aftermath of a colossal battle, the future of the Seven Kingdoms hangs in the balance—beset by newly emerging threats from every direction. In the east, Daenerys Targaryen, the last scion of House Targaryen, rules with her three dragons as queen of a city built on dust and death.', 7800, 'pictures\\book\\dance-with-the-dragons', 'book\\Nelkuled_-_Leiner_Laura', 73, 1056, 1, '801232361302425', NULL, 2, 3, 23),
+(51, 'Harry Potter and the Prisoner of Azkaban', 'looking for a publisher', 11, NULL, '2023-10-13 12:16:22', 'The book follows Harry Potter, a young wizard, in his third year at Hogwarts School of Witchcraft and Wizardry. Along with friends Ronald Weasley and Hermione Granger, Harry investigates Sirius Black, an escaped prisoner from Azkaban, the wizard prison, believed to be one of Lord Voldemort\'s old allies.', 6537, 'pictures\\book\\harry-potter-2', 'book\\Jenny_Han_-_A_fiuknak_akiket_valaha_szerettem', 0, 448, 1, '801683467802425', NULL, 2, 2, 24),
+(52, 'A Good Girl\'s Guide to Murder Könyv', 'looking for a publisher', 18, NULL, '2024-04-03 12:16:22', 'A Good Girl\'s Guide to Murder is a YA mystery novel following high schooler Pippa Fitz-Amobi. What first started as a school project, Pippa begins to dig into the murder of high schooler Andie Bell, a case that occurred five years ago, in her small town. The case is apparently closed.', 4500, 'pictures\\book\\a-good-girls-guide-to-murder', 'book\\Bexi_Sorozat_3.-Illuzio', 0, 432, 1, '803122877802425', NULL, 2, 3, 25);
 
 -- --------------------------------------------------------
 
@@ -3618,7 +3643,35 @@ INSERT INTO `bookrating` (`id`, `ratingerId`, `bookId`, `rating`, `ratingTime`) 
 (168, 12, 24, 2, '2024-03-01 18:16:33'),
 (169, 11, 25, 3, '2024-04-03 17:17:06'),
 (170, 9, 25, 5, '2024-04-10 17:17:06'),
-(171, 29, 25, 1, '2024-04-10 17:17:50');
+(171, 29, 25, 1, '2024-04-10 17:17:50'),
+(172, 8, 32, 5, '2024-04-17 15:32:24'),
+(173, 22, 41, 2, '2024-04-02 15:32:24'),
+(174, 14, 49, 5, '2024-02-22 16:34:24'),
+(175, 19, 35, 1, '2024-04-23 15:34:24'),
+(176, 7, 40, 5, '2024-04-02 15:34:54'),
+(177, 1, 51, 3, '2024-02-14 16:34:54'),
+(178, 14, 30, 1, '2024-01-04 16:35:48'),
+(179, 17, 47, 5, '2024-04-18 15:35:48'),
+(180, 6, 46, 2, '2024-02-29 16:36:37'),
+(181, 8, 38, 1, '2024-04-25 15:36:37'),
+(182, 9, 38, 5, '2024-04-24 15:37:52'),
+(183, 21, 45, 3, '2024-04-28 15:38:50'),
+(184, 8, 44, 4, '2024-03-15 16:38:51'),
+(185, 30, 48, 5, '2024-03-28 16:38:51'),
+(186, 14, 31, 1, '2024-01-18 16:46:26'),
+(187, 23, 28, 5, '2024-03-30 16:46:26'),
+(188, 22, 32, 3, '2024-04-17 16:04:31'),
+(189, 27, 39, 4, '2024-03-09 17:04:31'),
+(190, 25, 30, 1, '2024-02-06 17:05:51'),
+(191, 5, 29, 5, '2024-04-11 16:05:51'),
+(192, 19, 29, 3, '2023-09-19 16:07:01'),
+(193, 7, 37, 5, '2024-03-18 17:07:01'),
+(194, 22, 43, 1, '2024-02-08 17:08:43'),
+(195, 7, 36, 3, '2023-11-01 17:08:43'),
+(196, 12, 33, 2, '2024-03-06 17:09:31'),
+(197, 13, 50, 5, '2024-04-17 16:09:31'),
+(198, 15, 52, 4, '2024-04-17 16:11:42'),
+(199, 25, 37, 3, '2024-03-21 17:11:42');
 
 -- --------------------------------------------------------
 
@@ -3642,7 +3695,15 @@ INSERT INTO `bookshopping` (`id`, `userId`, `bookId`, `shoppingTime`) VALUES
 (2, 9, 25, '2024-04-10 17:24:59'),
 (3, 13, 14, '2024-01-19 18:25:27'),
 (4, 13, 15, '2024-03-07 18:25:27'),
-(5, 5, 7, '2024-04-19 17:25:55');
+(5, 5, 7, '2024-04-19 17:25:55'),
+(6, 11, 49, '2024-02-03 17:13:17'),
+(7, 17, 50, '2024-04-01 16:13:17'),
+(8, 6, 32, '2024-04-11 16:14:04'),
+(9, 11, 49, '2024-02-09 17:14:04'),
+(10, 1, 38, '2024-04-22 16:14:58'),
+(11, 8, 35, '2024-04-27 16:14:58'),
+(12, 7, 28, '2024-04-04 16:15:56'),
+(13, 17, 49, '2024-02-01 17:15:56');
 
 -- --------------------------------------------------------
 
@@ -3895,16 +3956,7 @@ INSERT INTO `categoryinterest` (`id`, `userId`, `categoryId`) VALUES
 (181, 30, 26),
 (182, 32, 1),
 (183, 32, 2),
-(184, 32, 3),
-(185, 20, 1),
-(186, 20, 5),
-(187, 20, 6),
-(188, 20, 7),
-(189, 20, 8),
-(190, 20, 19),
-(191, 20, 26),
-(192, 20, 32),
-(193, 20, 33);
+(184, 32, 3);
 
 -- --------------------------------------------------------
 
@@ -4566,13 +4618,7 @@ INSERT INTO `saved` (`id`, `userId`, `bookId`, `savedTime`) VALUES
 (17, 12, 7, '2024-04-24 10:40:03'),
 (19, 25, 24, '2024-04-27 16:21:34'),
 (21, 12, 2, '2024-04-27 18:58:46'),
-(23, 12, 3, '2024-04-27 18:59:07'),
-(24, 21, 15, '2024-04-28 11:15:54'),
-(25, 1, 9, '2024-04-28 11:17:53'),
-(26, 1, 8, '2024-04-28 11:17:57'),
-(27, 21, 19, '2024-04-28 15:51:12'),
-(28, 21, 4, '2024-04-28 15:51:26'),
-(29, 21, 24, '2024-04-28 15:51:31');
+(23, 12, 3, '2024-04-27 18:59:07');
 
 -- --------------------------------------------------------
 
@@ -4650,12 +4696,12 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `rank`, `firstName`, 
 (17, 'lucas121', 'lucasnelson@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Lucas', 'Nelson', '06206783562', 0, 1, 'Lucas Nelson here, penning tales that transport you to worlds both familiar and fantastical.', NULL, 'pictures/default-profile-pic-man.png', '2023-06-12 11:45:32', 0, 0, 37, 17),
 (18, 'chloe_baker_author', 'chloe.baker@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Chloe', 'Baker', '06708344627', 1, 1, 'Greetings, fellow bibliophiles! I\'m Chloe Baker, crafting stories that illuminate the human experience.', 'www.chloebaker.com', 'pictures/default-profile-pic-man.png', '2024-03-15 12:46:20', 0, 1, 26, 18),
 (19, 'jackie_', 'jack.wright@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Jack', 'Wright', '06709352342', 1, 0, 'Jack Wright here, embarking on literary journeys that stir the soul and captivate the mind.', 'www.jackwright.com', 'pictures/default-profile-pic-man.png', '2024-04-14 11:47:39', 0, 0, 38, 19),
-(20, 'lily_hughes_', 'lily.hughes@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Lily ', 'Hughes', '06708234142', 0, 0, '', '', 'pictures/default-profile-pic-man.png', '2024-04-24 11:48:48', 0, 0, 1, 20),
-(21, 'bright_publications', 'info@brightpublications.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'John', 'Smith', '06204535324', 1, 1, 'Welcome to Bright Publications, where we illuminate minds with compelling stories and insightful narratives.\n', 'www.google.com', 'pictures\\user\\avatar-4.jpg', '2023-01-18 19:50:38', 0, 0, 39, 1),
+(20, 'lily_hughes_', 'lily.hughes@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Lily ', 'Hughes', '06708234142', 0, 0, '', '', 'pictures/default-profile-pic-man.png', '2024-04-24 11:48:48', 1, 0, 1, 20),
+(21, 'bright_publications', 'info@brightpublications.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'John', 'Smith', '06204535324', 1, 1, 'Welcome to Bright Publications, where we illuminate minds with compelling stories and insightful narratives.\n', 'www.brightpublications.com', 'pictures\\user\\avatar-4.jpg', '2023-01-18 19:50:38', 0, 0, 39, 1),
 (22, 'stellar_press', 'contact@stellarpress.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Emily', 'Johnson', '06201742855', 1, 0, 'Stellar Press - Where every story shines. Join us on a journey through the cosmos of literature.', 'www.stellarpress.com', 'pictures/default-profile-pic-man.png', '2023-04-04 18:51:25', 0, 0, 40, 2),
 (23, 'horizon_books', 'info@horizonbooks.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Michael', 'Davis', '06701693855', 1, 1, 'Welcome to Horizon Books, where every page leads to new horizons of imagination and discovery.', 'www.horizonbooks.com', 'pictures/default-profile-pic-man.png', '2023-06-29 18:52:22', 0, 0, 26, 3),
 (24, 'evergreen_publishing', 'contact@evergreenpublishing.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Sarah', 'Brown', '06209743724', 1, 0, 'Evergreen Publishing - Cultivating timeless stories that endure through the ages.', 'www.evergreenpublishing.com', 'pictures/default-profile-pic-man.png', '2023-07-04 18:53:16', 0, 0, 41, 4),
-(25, 'phoenix_press', 'info@phoenixpress.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Daniel', 'Martinez', '06708494263', 1, 1, 'Rise from the ashes of ordinary reading. Join Phoenix Press for stories that ignite the imagination and inspire the soul.', 'www.phoenixpress.com', 'pictures/default-profile-pic-man.png', '2023-07-09 18:54:06', 0, 1, 42, 5),
+(25, 'phoenix_press', 'info@phoenixpress.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Daniel', 'Martinez', '06708494263', 1, 1, 'Rise from the ashes of ordinary reading. Join Phoenix Press for stories that ignite the imagination and inspire the soul.', 'www.phoenixpress.com', 'pictures/default-profile-pic-man.png', '2023-07-09 18:54:06', 0, 0, 42, 5),
 (26, 'cascade_books', 'contact@cascadebooks.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Olivia', 'Anderson', '06209858437', 1, 0, 'Embark on a journey of literary exploration with Cascade Books, where stories flow like a cascade of words.', 'www.cascadebooks.com', 'pictures/default-profile-pic-man.png', '2023-01-13 19:54:57', 0, 0, 43, 6),
 (27, 'silverleaf_publishers', 'info@silverleafpublishers.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Benjamin', 'Taylor', '06702749614', 1, 0, 'Silverleaf Publishers - Crafting stories as enduring as the silver leaves of literature.', 'www.silverleafpublishers.com', 'pictures/default-profile-pic-man.png', '2023-09-16 18:56:17', 0, 0, 44, 7),
 (28, 'summit_publishing', 'contact@summitpublishing.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Sophie', 'Clark', '06701387511', 1, 1, 'Reach new heights of literary excellence with Summit Publishing. Join us on the peak of storytelling.', 'www.summitpublishing.com', 'pictures/default-profile-pic-man.png', '2023-10-30 19:57:15', 0, 0, 45, 8),
@@ -4819,19 +4865,19 @@ ALTER TABLE `aszf`
 -- AUTO_INCREMENT a táblához `book`
 --
 ALTER TABLE `book`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT a táblához `bookrating`
 --
 ALTER TABLE `bookrating`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=200;
 
 --
 -- AUTO_INCREMENT a táblához `bookshopping`
 --
 ALTER TABLE `bookshopping`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT a táblához `category`
@@ -4843,7 +4889,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT a táblához `categoryinterest`
 --
 ALTER TABLE `categoryinterest`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=194;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=185;
 
 --
 -- AUTO_INCREMENT a táblához `color`
@@ -4855,7 +4901,7 @@ ALTER TABLE `color`
 -- AUTO_INCREMENT a táblához `follow`
 --
 ALTER TABLE `follow`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
 
 --
 -- AUTO_INCREMENT a táblához `forgotpassword`
@@ -4909,7 +4955,7 @@ ALTER TABLE `publisher`
 -- AUTO_INCREMENT a táblához `saved`
 --
 ALTER TABLE `saved`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT a táblához `targetaudience`
