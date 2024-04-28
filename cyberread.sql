@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Ápr 27. 22:08
+-- Létrehozás ideje: 2024. Ápr 28. 10:12
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -2551,35 +2551,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `setBook` (IN `bookIdIN` INT, IN `ti
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `setBookPrice` (IN `userIdIN` INT, IN `bookIdIN` INT, IN `newPriceIN` INT, OUT `result` INT)   BEGIN
-
-
-DECLARE rank VARCHAR(20);
-SELECT `user`.`rank` INTO rank
-FROM `user`
-WHERE `user`.`id` = userIdIN;
-
-IF rank = "publisher" THEN
-	
-    IF EXISTS (SELECT * FROM `book` WHERE `book`.`id` = bookIdIN AND `book`.`publisherId` = userIdIN) THEN
-        UPDATE `book`
-        SET `book`.`price` = newPriceIN
-        WHERE `book`.`id` = bookIdIN AND `book`.`publisherId` = userIdIN;
-        
-        SET result = 1;
-    ELSEIF NOT EXISTS (SELECT * FROM `book` WHERE `book`.`id` = bookIdIN) THEN
-    	SET result = 3;
-    ELSEIF EXISTS (SELECT * FROM `book` WHERE `book`.`id` = bookIdIN) AND ((SELECT `book`.`publisherId` FROM `book` WHERE `book`.`id` = bookIdIN) != userIdIN OR (SELECT `book`.`publisherId` FROM `book` WHERE `book`.`id` = bookIdIN) IS NULL) THEN
-    	SET result = 4;
-    END IF;
-    
-ELSE
-	SET result = 2;
-END IF;
-
-
-END$$
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `setCompanyName` (IN `userIdIN` INT, IN `companyNameIN` VARCHAR(50), OUT `result` INT)   BEGIN
 
 	DECLARE rank VARCHAR(20);
@@ -2705,6 +2676,35 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `setPublicPhoneNumber` (IN `userIdIN
 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `setPublishedBookDetails` (IN `userIdIN` INT, IN `bookIdIN` INT, IN `newPriceIN` INT, IN `newPublisherBankAccountNumberIN` VARCHAR(30), OUT `result` INT)   BEGIN
+
+
+DECLARE rank VARCHAR(20);
+SELECT `user`.`rank` INTO rank
+FROM `user`
+WHERE `user`.`id` = userIdIN;
+
+IF rank = "publisher" THEN
+	
+    IF EXISTS (SELECT * FROM `book` WHERE `book`.`id` = bookIdIN AND `book`.`publisherId` = userIdIN) THEN
+        UPDATE `book` 
+        SET `book`.`price` = newPriceIN, `book`.`publisherBankAccountNumber` = newPublisherBankAccountNumberIN
+        WHERE `book`.`id` = bookIdIN AND `book`.`publisherId` = userIdIN;
+        
+        SET result = 1;
+    ELSEIF NOT EXISTS (SELECT * FROM `book` WHERE `book`.`id` = bookIdIN) THEN
+    	SET result = 3;
+    ELSEIF EXISTS (SELECT * FROM `book` WHERE `book`.`id` = bookIdIN) AND ((SELECT `book`.`publisherId` FROM `book` WHERE `book`.`id` = bookIdIN) != userIdIN OR (SELECT `book`.`publisherId` FROM `book` WHERE `book`.`id` = bookIdIN) IS NULL) THEN
+    	SET result = 4;
+    END IF;
+    
+ELSE
+	SET result = 2;
+END IF;
+
+
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `setUsername` (IN `userIdIN` INT, IN `usernameIN` VARCHAR(50))   UPDATE `user`
 SET `user`.`username` = usernameIN
 WHERE `user`.`id` = userIdIN$$
@@ -2816,7 +2816,7 @@ INSERT INTO `book` (`id`, `title`, `status`, `writerId`, `publisherId`, `publish
 (21, 'Holler, Child: Stories', 'self-published', 18, NULL, '2024-03-31 14:58:12', 'In “Holler, Child,” a mother is forced into an impossible position when her son gets in a kind of trouble she knows too well from the other side. And “Time After” shows us the unshakable bonds of family as a sister journeys to find her estranged brother—the one who saved her many times over.\r\n', 4200, 'pictures\\book\\holler-child-stories', 'book\\ally_carter-_ha_megtudnad_hogy_szeretlek_meg_kellene_oljelek', 1, 563, 1, '801632367802425', NULL, 2, 3, 22),
 (22, 'Wildfire', 'self-published', 18, NULL, '2024-04-26 15:04:59', 'A wildfire is an unplanned, unwanted fire burning in a natural area, such as a forest, grassland, or prairie. Wildfires can start from natural causes, such as lightning, but most are caused by humans, either accidentally or intentionally.', 4300, 'pictures\\book\\wildfire', 'book\\Nelkuled_-_Leiner_Laura', 1, 400, 1, '801232877802425', NULL, 2, 3, 23),
 (23, 'Mrs. Dalloway', 'published by', 1, 28, '2023-05-25 15:07:37', 'It examines one day in the life of Clarissa Dalloway, an upper-class Londoner married to a member of Parliament. Mrs. Dalloway is essentially plotless; what action there is takes place mainly in the characters\' consciousness.', 6000, 'pictures\\book\\mrs-dalloway', 'book\\Nelkuled_-_Leiner_Laura', 1, 224, 1, '805332877802425', '5723145781237465324', 2, 3, 24),
-(24, 'Man and Boy', 'published by', 15, 25, '2024-02-09 16:09:01', 'Man and Boy by Tony Parsons is the story of how a man becomes a father to his son, and a son to a father. The affection Harry feels for his family, all of it, is obvious from the first page. As evident is Harry\'s sense of self. He comes to realise that what he feels isn\'t always enough, though.', 3800, 'pictures\\book\\man-and-boy', 'book\\Nelkuled_-_Leiner_Laura', 1, 356, 1, '801679462802425', '12345432235465425', 2, 3, 25),
+(24, 'Man and Boy', 'published by', 15, 25, '2024-02-09 16:09:01', 'Man and Boy by Tony Parsons is the story of how a man becomes a father to his son, and a son to a father. The affection Harry feels for his family, all of it, is obvious from the first page. As evident is Harry\'s sense of self. He comes to realise that what he feels isn\'t always enough, though.', 6750, 'pictures\\book\\man-and-boy', 'book\\Nelkuled_-_Leiner_Laura', 1, 356, 1, '801679462802425', '12345678-12345678-12345678', 2, 3, 25),
 (25, 'The Wedding Date', 'self-published', 15, NULL, '2024-04-02 15:11:45', 'A groomsman and his last-minute guest are about to discover if a fake date can go the distance in a fun and flirty debut novel. Agreeing to go to a wedding with a guy she gets stuck with in an elevator is something Alexa Monroe wouldn\'t normally do. But there\'s something about Drew Nichols that\'s too hard to resist.', 4500, 'pictures\\book\\the-wedding-date', 'book\\Nelkuled_-_Leiner_Laura', 1, 272, 1, '801679496302425', NULL, 2, 3, 23),
 (26, 'Fourth Wing', 'self-published', 15, NULL, '2024-04-26 15:14:31', 'A young scribe is thrust into an elite war college for dragon riders where the only rule is graduate or perish. An addictive fantasy with epic levels of spice and world-building. Twenty-year-old Violet Sorrengail was supposed to enter the Scribe Quadrant, living a quiet life among books and history.', 5500, 'pictures\\book\\fourth-wing', 'book\\Nelkuled_-_Leiner_Laura', 79, 528, 1, '801862877802425', NULL, 2, 3, 13),
 (27, 'After', 'self-published', 15, NULL, '2024-04-26 15:14:31', 'The series follows the life of Tessa Young, a recent high school graduate, as she embarks on her new college life. Her life is meticulously planned by not only herself but her overachieving mother. But when Tessa meets complex rebel Hardin Scott, everything in her life begins to change.', 4200, 'pictures\\book\\after', 'book\\a_mennyeknel_sulyosabb_', 1, 592, 1, '801462877802425', NULL, 2, 3, 23);
