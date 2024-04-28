@@ -116,7 +116,6 @@ window.onload = async function () {
 
         case 422:
             alert("422 - Something went wrong");
-            console.error("Error: " + responseUser);
             break;
 
         case 302:
@@ -130,7 +129,7 @@ window.onload = async function () {
             document.getElementById('welcome').innerText = `Welcome ${tokenResponse.data.firstName} ${tokenResponse.data.lastName}!`;
 
             document.getElementById('profile-link').addEventListener('click', (e) => {
-                navigateToProfile(own_uname);
+               navigateToProfile(own_uname);
             });
 
             switch (tokenResponse.data.rank) {
@@ -219,20 +218,9 @@ window.onload = async function () {
 function LoadRandomBook(response) {
     const coverImage = response.data[0].coverImage;
 
-    if (coverImage == "Ez a kép elérési útja") {
-        s1_bigCard_div.innerHTML = `
-            
-             <img src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
-            
-        `;
-    } else {
-        console.log("Cover book path: ", coverImage);
-        s1_bigCard_div.innerHTML = `
-            
-            <img src="../${response.data[0].coverImage}.jpg" alt="${response.data[0].title} cover">
-            
-        `;
-    }
+    s1_bigCard_div.innerHTML = `
+        <img src="../${response.data[0].coverImage}.jpg" alt="${response.data[0].title} cover">
+    `;
 
     s1_bigCard_h2.innerText = `${response.data[0].title}`;
     s1_bigCard_p.innerText = `${response.data[0].description}`;
@@ -244,7 +232,7 @@ function LoadRandomBook(response) {
     });
 
     random_book_btn.addEventListener('click', (e) => {
-        loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].price, response.data[0].username, response.data[0].id, response.data[0].saved);
+        loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].username, response.data[0].id, response.data[0].saved);
     })
 }
 
@@ -265,15 +253,9 @@ function LoadRandomBook(response) {
  */
 function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, mediumC_author, mediumC_description, mediumC_btn, firstRow, secondRow, mediumC_category) {
     // Medium card
-    if (response.data[0].coverImage == "Ez a kép elérési útja") {
-        mediumC_PicDiv.innerHTML = `
-             <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${response.data[0].title} cover">
-        `;
-    } else {
-        mediumC_PicDiv.innerHTML = `
-            <img class="medium-pic" src="../${response.data[0].coverImage}.jpg" alt="${response.data[0].title} cover">
-        `;
-    }
+    mediumC_PicDiv.innerHTML = `
+        <img class="medium-pic" src="../${response.data[0].coverImage}.jpg" alt="${response.data[0].title} cover">
+    `;
 
     mediumC_h2.innerText = `${response.data[0].title}`;
     mediumC_author.innerText = `${response.data[0].firstName} ${response.data[0].lastName}`;
@@ -285,17 +267,19 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
     });
 
     mediumC_btn.addEventListener('click', () => {
-        loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].price, response.data[0].username, response.data[0].id, response.data[0].saved);
+        loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].username, response.data[0].id, response.data[0].saved);
     });
 
-    for (let i = 1; i <= 4; i++) {
-        const cardDiv = createCard(response.data[i]);
-        firstRow.appendChild(cardDiv);
-    }
-
-    for (let i = 5; i < response.data.length; i++) {
-        const cardDiv = createCard(response.data[i]);
-        secondRow.appendChild(cardDiv);
+    if(response.data.length <= 4) {
+        for (let i = 1; i < response.data.length; i++) {
+            const cardDiv = createCard(response.data[i]);
+            firstRow.appendChild(cardDiv);
+        }
+    } else {
+        for (let i = 5; i < response.data.length; i++) {
+            const cardDiv = createCard(response.data[i]);
+            secondRow.appendChild(cardDiv);
+        }
     }
 }
 
@@ -333,7 +317,7 @@ function createCard(data) {
     button.dataset.bsTarget = "#modalID";
     button.textContent = "Show Details";
     button.addEventListener("click", () => {
-        loadModalData(data.coverImage, data.title, data.firstName, data.lastName, data.description, data.language, data.rating, data.pagesNumber, data.price, data.username, data.id, data.saved);
+        loadModalData(data.coverImage, data.title, data.firstName, data.lastName, data.description, data.language, data.rating, data.pagesNumber, data.username, data.id, data.saved);
     });
 
     overlayDiv.appendChild(categoryP);
@@ -383,87 +367,45 @@ function separateCategories(response) {
  * @param {any} secondRow - The id of the second row's div
  */
 function loadRandoms(separetedObj, separeted_number, subtitle, mediumC_PicDiv, mediumC_h2, mediumC_author, mediumC_description, mediumC_btn, firstRow, secondRow, mediumC_category) {
-    subtitle.innerText = `Books from the ${separetedObj[separeted_number].category} category:`
-    // Medium cards 
-    if (separetedObj[separeted_number].data[0].coverImage == "Ez a kép elérési útja") {
-        mediumC_PicDiv.innerHTML = `
-            <img class="medium-pic" src="../pictures/standard-book-cover.jpg" alt="${separetedObj[separeted_number].data[0].title} cover">
-        `;
-    } else {
+    // Set subtitle
+    subtitle.innerText = `Books from the ${separetedObj[separeted_number].category} category:`;
 
-        mediumC_PicDiv.innerHTML = `
-            <img class="medium-pic" src="../${separetedObj[separeted_number].data[0].coverImage}.jpg" alt="${separetedObj[separeted_number].data[0].title} cover">
-        `;
-    }
+    // Medium card
+    mediumC_PicDiv.innerHTML = `
+        <img class="medium-pic" src="../${separetedObj[separeted_number].data[0].coverImage}.jpg" alt="${separetedObj[separeted_number].data[0].title} cover">
+    `;
 
     mediumC_h2.innerText = `${separetedObj[separeted_number].data[0].title}`;
     mediumC_author.innerText = `${separetedObj[separeted_number].data[0].firstName} ${separetedObj[separeted_number].data[0].lastName}`;
     mediumC_description.innerText = `${separetedObj[separeted_number].data[0].description}`;
     mediumC_category.innerText = `${separetedObj[separeted_number].category}`;
 
-    mediumC_author.addEventListener('click', (e) => {
+    // Add event listener to the medium card author
+    mediumC_author.addEventListener('click', () => {
         window.location.href = `../Profile/profile.html?username=${separetedObj[separeted_number].data[0].username}`;
     });
 
+    // Add event listener to the medium card button
     mediumC_btn.addEventListener('click', (e) => {
         e.preventDefault();
-        loadModalData(separetedObj[separeted_number].data[0].coverImage, separetedObj[separeted_number].data[0].title, separetedObj[separeted_number].data[0].firstName, separetedObj[separeted_number].data[0].lastName, separetedObj[separeted_number].data[0].description, separetedObj[separeted_number].data[0].language, separetedObj[separeted_number].data[0].rating, separetedObj[separeted_number].data[0].pagesNumber, separetedObj[separeted_number].data[0].price, separetedObj[separeted_number].data[0].username, separetedObj[separeted_number].data[0].id, separetedObj[separeted_number].data[0].saved);
-    })
+        loadModalData(separetedObj[separeted_number].data[0].coverImage, separetedObj[separeted_number].data[0].title, separetedObj[separeted_number].data[0].firstName, separetedObj[separeted_number].data[0].lastName, separetedObj[separeted_number].data[0].description, separetedObj[separeted_number].data[0].language, separetedObj[separeted_number].data[0].rating, separetedObj[separeted_number].data[0].pagesNumber, separetedObj[separeted_number].data[0].username, separetedObj[separeted_number].data[0].id, separetedObj[separeted_number].data[0].saved);
+    });
 
-    if (separetedObj[separeted_number].data.length >= 4) {
-        for (let i = 1; i <= 4; i++) {
-
-
-            firstRow.innerHTML += `
-                        <div class="col-3">
-                            <div class="cover-photo">
-                                <img src="../${separetedObj[separeted_number].data[i].coverImage}.jpg" alt="${separetedObj[separeted_number].data[i].title}" class="cover">
-                                <div class="overlay">
-                                    <p class="category-overlay">${separetedObj[separeted_number].category}</p>
-                                    <p class="book-title">${separetedObj[separeted_number].data[i].title}</p>
-                                    <p class="author-p author" onclick="navigateToProfile('${separetedObj[separeted_number].data[i].username}')">${separetedObj[separeted_number].data[i].firstName} ${separetedObj[separeted_number].data[i].lastName}</p>
-                                    <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${separetedObj[separeted_number].data[i].coverImage}', '${separetedObj[separeted_number].data[i].title}', '${separetedObj[separeted_number].data[i].firstName}', '${separetedObj[separeted_number].data[i].lastName}', '${separetedObj[separeted_number].data[i].description}', '${separetedObj[separeted_number].data[i].language}', '${separetedObj[separeted_number].data[i].rating}', '${separetedObj[separeted_number].data[i].pagesNumber}', '${separetedObj[separeted_number].data[i].price}', '${separetedObj[separeted_number].data[i].username}', '${separetedObj[separeted_number].data[i].id}', '${separetedObj[separeted_number].data[i].saved}')">Show Details</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-        }
-
-        for (let i = 5; i < separetedObj[separeted_number].data.length; i++) {
-
-            secondRow.innerHTML += `
-                        <div class="col-3">
-                            <div class="cover-photo">
-                                <img src="../${separetedObj[separeted_number].data[i].coverImage}.jpg" alt="${separetedObj[separeted_number].data[i].title}" class="cover">
-                                <div class="overlay">
-                                    <p class="category-overlay">${separetedObj[separeted_number].category}</p>
-                                    <p class="book-title">${separetedObj[separeted_number].data[i].title}</p>
-                                    <p class="author-p author" onclick="navigateToProfile('${separetedObj[separeted_number].data[i].username}')">${separetedObj[separeted_number].data[i].firstName} ${separetedObj[separeted_number].data[i].lastName}</p>
-                                    <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${separetedObj[separeted_number].data[i].coverImage}', '${separetedObj[separeted_number].data[i].title}', '${separetedObj[separeted_number].data[i].firstName}', '${separetedObj[separeted_number].data[i].lastName}', '${separetedObj[separeted_number].data[i].description}', '${separetedObj[separeted_number].data[i].language}', '${separetedObj[separeted_number].data[i].rating}', '${separetedObj[separeted_number].data[i].pagesNumber}', '${separetedObj[separeted_number].data[i].price}', '${separetedObj[separeted_number].data[i].username}', '${separetedObj[separeted_number].data[i].id}', '${separetedObj[separeted_number].data[i].saved}')">Show Details</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-        }
-    } else {
-        for (let i = 1; i < separetedObj[separeted_number].data.length; i++) {
-           
-                firstRow.innerHTML += `
-                        <div class="col-3">
-                            <div class="cover-photo">
-                                <img src="../${separetedObj[separeted_number].data[i].coverImage}.jpg" alt="${separetedObj[separeted_number].data[i].title}" class="cover">
-                                <div class="overlay">
-                                    <p class="category-overlay">${separetedObj[separeted_number].category}</p>
-                                    <p class="book-title">${separetedObj[separeted_number].data[i].title}</p>
-                                    <p class="author-p author" onclick="navigateToProfile('${separetedObj[separeted_number].data[i].username}')">${separetedObj[separeted_number].data[i].firstName} ${separetedObj[separeted_number].data[i].lastName}</p>
-                                    <button class="cover-btn" data-bs-toggle="modal" data-bs-target="#modalID" onclick="loadModalData('${separetedObj[separeted_number].data[i].coverImage}', '${separetedObj[separeted_number].data[i].title}', '${separetedObj[separeted_number].data[i].firstName}', '${separetedObj[separeted_number].data[i].lastName}', '${separetedObj[separeted_number].data[i].description}', '${separetedObj[separeted_number].data[i].language}', '${separetedObj[separeted_number].data[i].rating}', '${separetedObj[separeted_number].data[i].pagesNumber}', '${separetedObj[separeted_number].data[i].price}', '${separetedObj[separeted_number].data[i].username}', '${separetedObj[separeted_number].data[i].id}', '${separetedObj[separeted_number].data[i].saved}')">Show Details</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-        }
+    // Add event listeners for dynamically created cards
+    const dataLength = separetedObj[separeted_number].data.length;
+    const maxCards = dataLength >= 4 ? 4 : dataLength;
+    for (let i = 1; i < maxCards; i++) {
+        const cardDiv = createCard(separetedObj[separeted_number].data[i], separetedObj[separeted_number].category);
+        firstRow.appendChild(cardDiv);
     }
 
+    // Add event listeners for dynamically created cards in the second row
+    if (dataLength > 4) {
+        for (let i = 4; i < dataLength; i++) {
+            const cardDiv = createCard(separetedObj[separeted_number].data[i], separetedObj[separeted_number].category);
+            secondRow.appendChild(cardDiv);
+        }
+    }
 }
 
 let saveClick = false;
@@ -472,7 +414,7 @@ let deletedSavedBooksIds = [];
 let savedBoolean;
 let bookId;
 
-function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, bookIdString, isSaved) {
+function loadModalData(url, title, firstName, lastName, description, language, rating, pages, username, bookIdString, isSaved) {
     bookId = parseInt(bookIdString);
 
     if (own_uname == username) {
@@ -489,11 +431,7 @@ function loadModalData(url, title, firstName, lastName, description, language, r
         savedBoolean = isSaved;
     }
 
-    if (url != "Ez a kép elérési útja") {
-        modal_img.src = `../${url}.jpg`;
-    } else {
-        modal_img.src = "../pictures/standard-book-cover.jpg";
-    }
+    modal_img.src = `../${url}.jpg`;
 
     modal_title.innerText = `${title}`;
     modal_author.innerText = `${firstName} ${lastName}`;
@@ -506,7 +444,6 @@ function loadModalData(url, title, firstName, lastName, description, language, r
 
     modal_language.innerText = `${language}`;
     modal_desc.innerText = `${description}`;
-    modal_price.innerText = `${price} Ft`;
 
     modal_author.addEventListener('click', function () {
         navigateToProfile(username);
@@ -571,9 +508,6 @@ async function SavingBook(bookId) {
             break;
         default:
             alert('Something went wrong. Please try again later!');
-            console.error("Error status: " + savedResult.status);
-            console.error("Error msg: " + savedResult.error);
-            console.error("Error data: " + savedResult.data);
             break;
     }
 
@@ -599,13 +533,9 @@ async function UnsavingBook(bookId) {
             break;
         case 422:
             alert('Something went wrong. Please try again later!');
-            console.log("Error status: " + unsavingResult.status);
             break;
         default:
             alert('Something went wrong. Please try again later!');
-            console.error("Error status: " + unsavingResult.status);
-            console.error("Error msg: " + unsavingResult.error);
-            console.error("Error data: " + unsavingResult.data);
             break;
     }
 
