@@ -1692,6 +1692,7 @@ async function publishBook(raw) {
         * User hasn't token
         * Invalid token
         * The token has expired
+    * 404: deleted profile
     * 422: profileUsernameError
  */
 async function getUserDetails(raw) {
