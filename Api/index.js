@@ -1604,7 +1604,7 @@ async function publishBook(raw) {
     * 
     * 422: error
  */
-async function publishBook(raw) {
+async function unpublishBook(raw) {
     var myHeaders = new Headers();
 
     myHeaders.append("Content-Type", "application/json");
