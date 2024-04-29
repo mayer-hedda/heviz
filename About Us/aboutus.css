@@ -1008,7 +1008,6 @@ nav {
     background-color: var(--page-bg-color);
 }
 
-
 #navbar {
     padding-top: 10px;
     padding-right: 5%;
@@ -1016,10 +1015,11 @@ nav {
     height: 76px;
 }
 
-#logo {
+#logo{
     display: flex;
     justify-content: right;
-}
+}  
+
 
 #s1-outsideDiv {
     display: inline-flex;

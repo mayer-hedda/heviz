@@ -158,12 +158,7 @@ const saved_books = document.getElementById('saved-books');
 purchased_books.addEventListener('click', async function (event) {
     event.preventDefault();
     isPurchased = true;
-    document.getElementById('left-side-content').hidden = true;
-    document.getElementById('left-side').style.backgroundColor = "rgb(247, 245, 236)";
-    const radioButtons = document.querySelectorAll('input[type="radio"]');
-    radioButtons.forEach(radioButton => {
-        radioButton.checked = false;
-    });
+   
 
     purchased_books.classList.remove("disabled-btn");
     purchased_books.classList.add("active-btn");
@@ -306,7 +301,6 @@ function LoadBooks(response, isPurchased) {
 }
 
 function navigateToProfile(username) {
-    localStorage.setItem("username", username);
     window.location.href = `../Profile/profile.html?username=${username}`;
 }
 
@@ -437,6 +431,27 @@ mostSaved.addEventListener('change', async function () {
             alert('Please try again later. Status: ' + mostSaved_result.status);
         }
 
+    }else if(this.checked && isPurchased == true){
+        books_side.innerHTML = '';
+        const mostSaved_result = await getFilteredPayedBooks({ "filter": 7 });
+        if (mostSaved_result.status == 200) {
+
+            if (mostSaved_result.data.length == 0) {
+                book_list.innerHTML = `
+                    <div id="zero-purchased" class="text-center">
+                        <p id="missing-purchased" class="missing-data-text text-center">You haven't saved any books yet.</p>
+                        <button class="btn clear-filter rounded-5" id="go-to-explore" onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+                    </div>
+                `;
+            } else {
+                LoadBooks(mostSaved_result, true);
+            }
+        } else if (mostSaved_result.status == 401) {
+            window.location.href = '../Log-in/login.html';
+        } else {
+            alert('Please try again later. Status: ' + mostSaved_result.status);
+        }
+
     } 
 });
 
@@ -464,7 +479,28 @@ topRated.addEventListener('change', async function () {
         } else {
             alert('Please try again later.');
         }
-    } 
+    } else if(this.checked && isPurchased == true){
+        books_side.innerHTML = '';
+        const mostRated_result = await getFilteredPayedBooks({ "filter": 8 });
+        if (mostRated_result.status == 200) {
+            if (mostRated_result.data.length == 0) {
+                book_list.innerHTML = `
+                    <div id="zero-purchased" class="text-center">
+                        <p id="missing-purchased" class="missing-data-text text-center">You haven't saved any books yet.</p>
+                        <button class="btn clear-filter rounded-5" id="go-to-explore" onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+                    </div>
+                `;
+            } else {
+                LoadBooks(mostRated_result, true)
+            }
+        } else if (mostRated_result.status == 401) {
+            window.location.href = '../Log-in/login.html';
+        } else if (mostRated_result.status == 500) {
+            document.getElementById('500Result').hidden = false;
+        } else {
+            alert('Please try again later.');
+        }
+    }
 });
 
 const selfBooks = document.getElementById('self-published-books-radio');
@@ -491,7 +527,29 @@ selfBooks.addEventListener('change', async function () {
         } else {
             alert('Please try again later. Status: ' + self_result.status);
         }
-    } 
+    } else if(this.checked && isPurchased == true){
+        book_list.innerHTML = '';
+        const self_result = await getFilteredPayedBooks({ "filter": 9 });
+
+        if (self_result.status == 200) {
+            if (self_result.data.length == 0) {
+                book_list.innerHTML = `
+                    <div id="zero-purchased" class="text-center">
+                        <p class="missing-data-text text-center">You haven't saved any self published books yet.</p>
+                        <button class="btn clear-filter rounded-5" id="go-to-explore" onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+                    </div>
+                
+                `;
+            } else {
+                LoadBooks(self_result, true)
+            }
+
+        } else if (self_result.status == 401) {
+            window.location.href = '../Log-in/login.html';
+        } else {
+            alert('Please try again later. Status: ' + self_result.status);
+        }
+    }
 });
 
 
@@ -521,7 +579,29 @@ byPublisher.addEventListener('change', async function () {
         } else {
             alert('Please try again later. Status: ' + publisher_result.status);
         }
-    } 
+    } else if(this.checked && isPurchased == true){
+        const publisher_result = await getFilteredPayedBooks({ "filter": 10 });
+
+        if (publisher_result.status == 200) {
+            if (publisher_result.data.length == 0) {
+                book_list.innerHTML = `
+                    <div id="zero-purchased" class="text-center">
+                        <p id="missing-publisher-saved" class="missing-data-text text-center">You haven't yet saved any books published by a publisher.</p>
+                        <button class="btn clear-filter rounded-5" id="go-to-explore" onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+                    </div>
+                `;
+
+            } else {
+                LoadBooks(publisher_result, false)
+            }
+
+
+        } else if (publisher_result.status == 401) {
+            window.location.href = '../Log-in/login.html';
+        } else {
+            alert('Please try again later. Status: ' + publisher_result.status);
+        }
+    }
 })
 
 const abc_check = document.querySelectorAll('.ABC-radio');
@@ -575,7 +655,54 @@ abc_check.forEach(function (radioButton) {
                 }
 
             }
-        } 
+        } else{
+            book_list.innerHTML = '';
+
+            if (this.id == 'a-z') {
+                const fromA_toZ = await getFilteredPayedBooks({ "filter": 1 });
+
+                if (fromA_toZ.status == 200) {
+                    if (fromA_toZ.data.length == 0) {
+                        book_list.innerHTML = `
+                            <div id="zero-purchased" class="text-center">
+                                <p id="missing-purchased" class="missing-data-text text-center">You haven't saved any books yet.</p>
+                                <button class="btn clear-filter rounded-5" id="go-to-explore" onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+                            </div>
+                        `;
+                    } else {
+                        LoadBooks(fromA_toZ, true);
+                    }
+
+                } else if (fromA_toZ.status == 401) {
+                    window.location.href = '../Log-in/login.html';
+                } else {
+                    alert('Please try again later. Status: ' + fromA_toZ.status);
+                }
+
+            } else if (this.id == 'z-a') {
+                const fromZ_toA = await getFilteredPayedBooks({ "filter": 2 });
+
+                if (fromZ_toA.status == 200) {
+                    if (fromZ_toA.data.length == 0) {
+                        book_list.innerHTML = `
+                            <div id="zero-purchased" class="text-center">
+                                <p id="missing-purchased" class="missing-data-text text-center">You haven't saved any books yet.</p>
+                                <button class="btn clear-filter rounded-5" id="go-to-explore" onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+                            </div>
+                        `;
+                    } else {
+                        LoadBooks(fromZ_toA, true);
+                    }
+
+
+                } else if (fromZ_toA.status == 401) {
+                    window.location.href = '../Log-in/login.html';
+                } else {
+                    alert('Please try again later. Status: ' + fromZ_toA.status);
+                }
+
+            }
+        }
     })
 });
 
@@ -630,7 +757,54 @@ byPrice.forEach(function (radioButton) {
                 }
 
             }
-        } 
+        } else{
+            book_list.innerHTML = '';
+
+            if (this.id == 'increasing-by-price') {
+                const price_lowToHigh = await getFilteredPayedBooks({ "filter": 5 });
+
+                if (price_lowToHigh.status == 200) {
+                    if (price_lowToHigh.data.length == 0) {
+                        book_list.innerHTML = `
+                            <div id="zero-purchased" class="text-center">
+                                <p id="missing-purchased" class="missing-data-text text-center">You haven't saved any books yet.</p>
+                                <button class="btn clear-filter rounded-5" id="go-to-explore" onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+                            </div>
+                        `;
+                    } else {
+                        LoadBooks(price_lowToHigh, true);
+                    }
+
+                } else if (price_lowToHigh.status == 401) {
+                    window.location.href = '../Log-in/login.html';
+                } else {
+                    alert('Please try again later. Status: ' + price_lowToHigh.status);
+                }
+
+
+            } else if (this.id == 'decreasing-by-price') {
+                const price_highToLow = await getFilteredPayedBooks({ "filter": 6 });
+
+                if (price_highToLow.status == 200) {
+                    if (price_highToLow.data.length == 0) {
+                        book_list.innerHTML = `
+                            <div id="zero-purchased" class="text-center">
+                                <p id="missing-purchased" class="missing-data-text text-center">You haven't saved any books yet.</p>
+                                <button class="btn clear-filter rounded-5" id="go-to-explore" onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+                            </div>
+                        `;
+                    } else {
+                        LoadBooks(price_highToLow, true);
+                    }
+
+                } else if (price_highToLow.status == 401) {
+                    window.location.href = '../Log-in/login.html';
+                } else {
+                    alert('Please try again later. Status: ' + price_highToLow.status);
+                }
+
+            }
+        }
     });
 });
 
@@ -681,7 +855,50 @@ byDate.forEach(function (radioButton) {
                     alert('Please try again later. Status: ' + date_highToLow.status);
                 }
             }
-        } 
+        } else {
+            book_list.innerHTML = '';
+
+            if (this.id == 'increasing-by-price') {
+                const date_lowToHigh = await getFilteredPayedBooks({ "filter": 3 });
+
+                if (date_lowToHigh.status == 200) {
+                    if (date_lowToHigh.data.length == 0) {
+                        book_list.innerHTML = `
+                            <div id="zero-purchased" class="text-center">
+                                <p id="missing-purchased" class="missing-data-text text-center">You haven't saved any books yet.</p>
+                                <button class="btn clear-filter rounded-5" id="go-to-explore" onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+                            </div>
+                        `;
+                    } else {
+                        LoadBooks(date_lowToHigh, true);
+                    }
+                } else if (date_lowToHigh.status == 401) {
+                    window.location.href = '../Log-in/login.html';
+                } else {
+                    alert('Please try again later. Status: ' + date_lowToHigh.status);
+                }
+
+            } else if (this.id == 'decreasing-by-price') {
+                const date_highToLow = await getFilteredPayedBooks({ "filter": 4 });
+
+                if (date_highToLow.status == 200) {
+                    if (date_highToLow.data.length == 0) {
+                        book_list.innerHTML = `
+                            <div id="zero-purchased" class="text-center">
+                                <p id="missing-purchased" class="missing-data-text text-center">You haven't saved any books yet.</p>
+                                <button class="btn clear-filter rounded-5" id="go-to-explore" onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+                            </div>
+                        `;
+                    } else {
+                        LoadBooks(date_highToLow, true);
+                    }
+                } else if (date_highToLow.status == 401) {
+                    window.location.href = '../Log-in/login.html';
+                } else {
+                    alert('Please try again later. Status: ' + date_highToLow.status);
+                }
+            }
+        }
     });
 });
 
@@ -792,6 +1009,8 @@ const agreePublish = document.getElementById('agreePublish');
 
 var pricePass = false;
 var bankPass = false;
+
+
 
 var priceValue;
 

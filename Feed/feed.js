@@ -230,8 +230,6 @@ async function LoadPosts(response) {
 }
 
 function navigateToProfile(username) {
-    // console.log(username);
-    localStorage.setItem("username", username);
     window.location.href = `../Profile/profile.html?username=${username}`;
 }
 

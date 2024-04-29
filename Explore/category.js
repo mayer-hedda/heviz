@@ -296,7 +296,6 @@ logout_btn.addEventListener('click', (e) => {
 })
 
 function navigateToProfile(username) {
-    localStorage.setItem("username", username);
     window.location.href = `../Profile/profile.html?username=${username}`;
 }
 
