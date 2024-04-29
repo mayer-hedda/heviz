@@ -327,8 +327,16 @@
                             </svg>
                         </button>
 
-                        <button class="sMoreBtn border-0" id="publish-btn" hidden>Let's Publish</button>
-                        <button class="sMoreBtn border-0" id="read-btn" hidden>Let's Read</button>
+                        <div id="m-footer-publisher" hidden>
+                            <button class="modal-cover-btn border-0" id="publish-btn" data-bs-toggle="modal"
+                            data-bs-target="#publishing-modal">Let's Publish</button>
+
+                            <button class="publisher-read border-0" id="read-publish-btn" data-bs-toggle="modal"
+                            data-bs-target="#publishing-modal">Let's Read</button>
+                        </div>
+
+                        <!-- ez az olvasás gomb ha megvette a könyvet -->
+                        <button class="sMoreBtn border-0" id="read-general-btn" hidden>Let's Read</button>
                     </div>
                     <p class="price" id="book-price"></p>
 
@@ -337,6 +345,45 @@
 
         </div>
     </div>
+
+     <!-- publishing modal -->
+     <div class="modal fade" id="publishing-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+     data-bs-backdrop="static">
+     <div class="modal-dialog modal-dialog-centered modal-lg">
+         <div class="modal-content" id="publishing-modal-content">
+             <div class="modal-header" id="publishing-modal-header">
+                 <h1 class="modal-title fs-5" id="exampleModalLabel">Let's Publish</h1>
+                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                     id="closeX"></button>
+             </div>
+             <div class="modal-body">
+                 <p class="modal-p">Wonderful! Please fill in the details below and we're ready to go!</p>
+
+                 <div class="input-group mb-3">
+                     <label class="modal-p" for="publisher-price">Price:</label>
+                     <input type="number" min="1000" class="form-control" aria-describedby="forint"
+                         id="publisher-price">
+                     <span class="input-group-text" id="forint">Ft</span>
+                 </div>
+                 <p class="error" id="PriceErr" style="font-size: 16px; height: 24px;"></p>
+
+
+                 <div class="bank-acc mb-3">
+                     <label for="bankNumber" class="modal-p">Bank Account Number</label>
+                     <input type="email" class="form-control" id="bankNumber"
+                         placeholder="GB 12 ABCD 102030 12345678">
+                 </div>
+                 <p class="error" id="bankErr" style="font-size: 16px; height: 24px;"></p>
+
+             </div>
+             <div class="modal-footer">
+                 <button type="button" class="btn cancel-btn" data-bs-dismiss="modal"
+                     id="cancelPublish">Cancel</button>
+                 <button type="button" class="btn publish" id="agreePublish">Publish!</button>
+             </div>
+         </div>
+     </div>
+ </div>
 
     <!-- FOOTER -->
     <footer class="footer">

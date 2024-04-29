@@ -19,9 +19,9 @@ const missing_publisher_purchased = document.getElementById('missing-publisher-p
 
 //Modal btn-s
 const shopping_btn = document.getElementById('shopping-cart');
-const publish_btn = document.getElementById('publish-btn');
+const publish_btn = document.getElementById('m-footer-publisher');
 const book_price = document.getElementById('book-price');
-const read_btn = document.getElementById('read-btn');
+const read_btn = document.getElementById('read-general-btn');
 const save_btn = document.getElementById('save-btn');
 
 let isPurchased = false;
@@ -64,7 +64,7 @@ window.onload = async function () {
             if (tokenResponse.data.rank == "publisher") {
                 shopping_btn.style.display = "none";
                 publish_btn.hidden = false;
-                book_price.hidden = true;
+                book_price.style.display = "none";
                 read_btn.hidden = true;
                 document.getElementById('writingBtn').hidden = true;
                 SavedBooks.textContent = "Saved Books"
@@ -158,12 +158,7 @@ const saved_books = document.getElementById('saved-books');
 purchased_books.addEventListener('click', async function (event) {
     event.preventDefault();
     isPurchased = true;
-    document.getElementById('left-side-content').hidden = true;
-    document.getElementById('left-side').style.backgroundColor = "rgb(247, 245, 236)";
-    const radioButtons = document.querySelectorAll('input[type="radio"]');
-    radioButtons.forEach(radioButton => {
-        radioButton.checked = false;
-    });
+   
 
     purchased_books.classList.remove("disabled-btn");
     purchased_books.classList.add("active-btn");
@@ -306,7 +301,6 @@ function LoadBooks(response, isPurchased) {
 }
 
 function navigateToProfile(username) {
-    localStorage.setItem("username", username);
     window.location.href = `../Profile/profile.html?username=${username}`;
 }
 
@@ -326,6 +320,7 @@ let saveClick = false;
 
 function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher, isPurchased, bookIdString, isSaved, publisherUsername) {
     bookId = parseInt(bookIdString);
+    console.log(bookId);
 
     book_modal_img.src = `../${url}.jpg`;
 
@@ -436,6 +431,27 @@ mostSaved.addEventListener('change', async function () {
             alert('Please try again later. Status: ' + mostSaved_result.status);
         }
 
+    }else if(this.checked && isPurchased == true){
+        books_side.innerHTML = '';
+        const mostSaved_result = await getFilteredPayedBooks({ "filter": 7 });
+        if (mostSaved_result.status == 200) {
+
+            if (mostSaved_result.data.length == 0) {
+                book_list.innerHTML = `
+                    <div id="zero-purchased" class="text-center">
+                        <p id="missing-purchased" class="missing-data-text text-center">You haven't saved any books yet.</p>
+                        <button class="btn clear-filter rounded-5" id="go-to-explore" onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+                    </div>
+                `;
+            } else {
+                LoadBooks(mostSaved_result, true);
+            }
+        } else if (mostSaved_result.status == 401) {
+            window.location.href = '../Log-in/login.html';
+        } else {
+            alert('Please try again later. Status: ' + mostSaved_result.status);
+        }
+
     } 
 });
 
@@ -463,7 +479,28 @@ topRated.addEventListener('change', async function () {
         } else {
             alert('Please try again later.');
         }
-    } 
+    } else if(this.checked && isPurchased == true){
+        books_side.innerHTML = '';
+        const mostRated_result = await getFilteredPayedBooks({ "filter": 8 });
+        if (mostRated_result.status == 200) {
+            if (mostRated_result.data.length == 0) {
+                book_list.innerHTML = `
+                    <div id="zero-purchased" class="text-center">
+                        <p id="missing-purchased" class="missing-data-text text-center">You haven't saved any books yet.</p>
+                        <button class="btn clear-filter rounded-5" id="go-to-explore" onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+                    </div>
+                `;
+            } else {
+                LoadBooks(mostRated_result, true)
+            }
+        } else if (mostRated_result.status == 401) {
+            window.location.href = '../Log-in/login.html';
+        } else if (mostRated_result.status == 500) {
+            document.getElementById('500Result').hidden = false;
+        } else {
+            alert('Please try again later.');
+        }
+    }
 });
 
 const selfBooks = document.getElementById('self-published-books-radio');
@@ -490,7 +527,29 @@ selfBooks.addEventListener('change', async function () {
         } else {
             alert('Please try again later. Status: ' + self_result.status);
         }
-    } 
+    } else if(this.checked && isPurchased == true){
+        book_list.innerHTML = '';
+        const self_result = await getFilteredPayedBooks({ "filter": 9 });
+
+        if (self_result.status == 200) {
+            if (self_result.data.length == 0) {
+                book_list.innerHTML = `
+                    <div id="zero-purchased" class="text-center">
+                        <p class="missing-data-text text-center">You haven't saved any self published books yet.</p>
+                        <button class="btn clear-filter rounded-5" id="go-to-explore" onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+                    </div>
+                
+                `;
+            } else {
+                LoadBooks(self_result, true)
+            }
+
+        } else if (self_result.status == 401) {
+            window.location.href = '../Log-in/login.html';
+        } else {
+            alert('Please try again later. Status: ' + self_result.status);
+        }
+    }
 });
 
 
@@ -520,7 +579,29 @@ byPublisher.addEventListener('change', async function () {
         } else {
             alert('Please try again later. Status: ' + publisher_result.status);
         }
-    } 
+    } else if(this.checked && isPurchased == true){
+        const publisher_result = await getFilteredPayedBooks({ "filter": 10 });
+
+        if (publisher_result.status == 200) {
+            if (publisher_result.data.length == 0) {
+                book_list.innerHTML = `
+                    <div id="zero-purchased" class="text-center">
+                        <p id="missing-publisher-saved" class="missing-data-text text-center">You haven't yet saved any books published by a publisher.</p>
+                        <button class="btn clear-filter rounded-5" id="go-to-explore" onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+                    </div>
+                `;
+
+            } else {
+                LoadBooks(publisher_result, false)
+            }
+
+
+        } else if (publisher_result.status == 401) {
+            window.location.href = '../Log-in/login.html';
+        } else {
+            alert('Please try again later. Status: ' + publisher_result.status);
+        }
+    }
 })
 
 const abc_check = document.querySelectorAll('.ABC-radio');
@@ -574,7 +655,54 @@ abc_check.forEach(function (radioButton) {
                 }
 
             }
-        } 
+        } else{
+            book_list.innerHTML = '';
+
+            if (this.id == 'a-z') {
+                const fromA_toZ = await getFilteredPayedBooks({ "filter": 1 });
+
+                if (fromA_toZ.status == 200) {
+                    if (fromA_toZ.data.length == 0) {
+                        book_list.innerHTML = `
+                            <div id="zero-purchased" class="text-center">
+                                <p id="missing-purchased" class="missing-data-text text-center">You haven't saved any books yet.</p>
+                                <button class="btn clear-filter rounded-5" id="go-to-explore" onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+                            </div>
+                        `;
+                    } else {
+                        LoadBooks(fromA_toZ, true);
+                    }
+
+                } else if (fromA_toZ.status == 401) {
+                    window.location.href = '../Log-in/login.html';
+                } else {
+                    alert('Please try again later. Status: ' + fromA_toZ.status);
+                }
+
+            } else if (this.id == 'z-a') {
+                const fromZ_toA = await getFilteredPayedBooks({ "filter": 2 });
+
+                if (fromZ_toA.status == 200) {
+                    if (fromZ_toA.data.length == 0) {
+                        book_list.innerHTML = `
+                            <div id="zero-purchased" class="text-center">
+                                <p id="missing-purchased" class="missing-data-text text-center">You haven't saved any books yet.</p>
+                                <button class="btn clear-filter rounded-5" id="go-to-explore" onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+                            </div>
+                        `;
+                    } else {
+                        LoadBooks(fromZ_toA, true);
+                    }
+
+
+                } else if (fromZ_toA.status == 401) {
+                    window.location.href = '../Log-in/login.html';
+                } else {
+                    alert('Please try again later. Status: ' + fromZ_toA.status);
+                }
+
+            }
+        }
     })
 });
 
@@ -629,7 +757,54 @@ byPrice.forEach(function (radioButton) {
                 }
 
             }
-        } 
+        } else{
+            book_list.innerHTML = '';
+
+            if (this.id == 'increasing-by-price') {
+                const price_lowToHigh = await getFilteredPayedBooks({ "filter": 5 });
+
+                if (price_lowToHigh.status == 200) {
+                    if (price_lowToHigh.data.length == 0) {
+                        book_list.innerHTML = `
+                            <div id="zero-purchased" class="text-center">
+                                <p id="missing-purchased" class="missing-data-text text-center">You haven't saved any books yet.</p>
+                                <button class="btn clear-filter rounded-5" id="go-to-explore" onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+                            </div>
+                        `;
+                    } else {
+                        LoadBooks(price_lowToHigh, true);
+                    }
+
+                } else if (price_lowToHigh.status == 401) {
+                    window.location.href = '../Log-in/login.html';
+                } else {
+                    alert('Please try again later. Status: ' + price_lowToHigh.status);
+                }
+
+
+            } else if (this.id == 'decreasing-by-price') {
+                const price_highToLow = await getFilteredPayedBooks({ "filter": 6 });
+
+                if (price_highToLow.status == 200) {
+                    if (price_highToLow.data.length == 0) {
+                        book_list.innerHTML = `
+                            <div id="zero-purchased" class="text-center">
+                                <p id="missing-purchased" class="missing-data-text text-center">You haven't saved any books yet.</p>
+                                <button class="btn clear-filter rounded-5" id="go-to-explore" onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+                            </div>
+                        `;
+                    } else {
+                        LoadBooks(price_highToLow, true);
+                    }
+
+                } else if (price_highToLow.status == 401) {
+                    window.location.href = '../Log-in/login.html';
+                } else {
+                    alert('Please try again later. Status: ' + price_highToLow.status);
+                }
+
+            }
+        }
     });
 });
 
@@ -680,7 +855,50 @@ byDate.forEach(function (radioButton) {
                     alert('Please try again later. Status: ' + date_highToLow.status);
                 }
             }
-        } 
+        } else {
+            book_list.innerHTML = '';
+
+            if (this.id == 'increasing-by-price') {
+                const date_lowToHigh = await getFilteredPayedBooks({ "filter": 3 });
+
+                if (date_lowToHigh.status == 200) {
+                    if (date_lowToHigh.data.length == 0) {
+                        book_list.innerHTML = `
+                            <div id="zero-purchased" class="text-center">
+                                <p id="missing-purchased" class="missing-data-text text-center">You haven't saved any books yet.</p>
+                                <button class="btn clear-filter rounded-5" id="go-to-explore" onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+                            </div>
+                        `;
+                    } else {
+                        LoadBooks(date_lowToHigh, true);
+                    }
+                } else if (date_lowToHigh.status == 401) {
+                    window.location.href = '../Log-in/login.html';
+                } else {
+                    alert('Please try again later. Status: ' + date_lowToHigh.status);
+                }
+
+            } else if (this.id == 'decreasing-by-price') {
+                const date_highToLow = await getFilteredPayedBooks({ "filter": 4 });
+
+                if (date_highToLow.status == 200) {
+                    if (date_highToLow.data.length == 0) {
+                        book_list.innerHTML = `
+                            <div id="zero-purchased" class="text-center">
+                                <p id="missing-purchased" class="missing-data-text text-center">You haven't saved any books yet.</p>
+                                <button class="btn clear-filter rounded-5" id="go-to-explore" onclick="window.location.href='../Explore/explore.html'">Let's Explore</button>
+                            </div>
+                        `;
+                    } else {
+                        LoadBooks(date_highToLow, true);
+                    }
+                } else if (date_highToLow.status == 401) {
+                    window.location.href = '../Log-in/login.html';
+                } else {
+                    alert('Please try again later. Status: ' + date_highToLow.status);
+                }
+            }
+        }
     });
 });
 
@@ -778,4 +996,142 @@ document.getElementById('clear-filter').addEventListener('click', async function
 
     }
 
+});
+
+// publishing modal
+const publisher_price = document.getElementById('publisher-price');
+const PriceErr = document.getElementById('PriceErr');
+const bankNumber = document.getElementById('bankNumber');
+const bankErr = document.getElementById('bankErr');
+
+const cancelPublish = document.getElementById('cancelPublish');
+const agreePublish = document.getElementById('agreePublish');
+
+var pricePass = false;
+var bankPass = false;
+
+
+
+var priceValue;
+
+cancelPublish.addEventListener('click', (e) => {
+    publisher_price.value = "";
+    bankNumber.value = "";
+    publisher_price.classList.remove('inputPass');
+    publisher_price.classList.remove('inputError');
+    PriceErr.innerText = "";
+
+    bankNumber.classList.remove('inputPass');
+    bankNumber.classList.remove('inputError');
+    bankErr.innerText = "";
+});
+
+document.getElementById('closeX').addEventListener('click', (e) => {
+    publisher_price.value = "";
+    bankNumber.value = "";
+    publisher_price.classList.remove('inputPass');
+    publisher_price.classList.remove('inputError');
+    PriceErr.innerText = "";
+
+    bankNumber.classList.remove('inputPass');
+    bankNumber.classList.remove('inputError');
+    bankErr.innerText = "";
+});
+
+publisher_price.addEventListener('focusin', (e) => {
+    publisher_price.classList.remove('inputPass');
+    publisher_price.classList.remove('inputError');
+    PriceErr.innerText = "";
+});
+
+publisher_price.addEventListener('focusout', (e) => {
+    e.preventDefault();
+    if (publisher_price.value == "") {
+        PriceErr.innerText = "This field cannot be empty."
+        publisher_price.classList.add('inputError');
+        pricePass = false;
+    } else if (publisher_price.value < 1000) {
+
+        PriceErr.innerText = "The price must not be less than 1000 Ft."
+        publisher_price.classList.add('inputError');
+        pricePass = false;
+    } else {
+        publisher_price.classList.add('inputPass');
+        pricePass = true;
+        priceValue = publisher_price.value;
+        PriceErr.innerText = "";
+    }
+});
+
+function bankValidation(bankValue) {
+    const removeSpaces = bankValue.replace(/ /g, "");
+
+    if (bankValue == "") {
+        bankNumber.classList.add('inputError');
+        bankErr.innerText = "This field cannot be empty.";
+        return false;
+
+    } else if (removeSpaces.length < 15) {
+        bankNumber.classList.add('inputError');
+        bankErr.innerText = "This value is too short. The IBAN number should be between 15 and 34 characters.";
+        return false;
+
+    } else if (removeSpaces.length > 34) {
+        bankNumber.classList.add('inputError');
+        bankErr.innerText = "This value is too long. The IBAN number should be between 15 and 34 characters.";
+        return false;
+
+    } else if (removeSpaces.length >= 15 && removeSpaces.length <= 34) {
+        bankNumber.classList.add('inputPass');
+        const upperCase = removeSpaces.toUpperCase();
+        return true;
+    }
+
+}
+
+bankNumber.addEventListener('focusin', (e) => {
+    bankNumber.classList.remove('inputPass');
+    bankNumber.classList.remove('inputError');
+    bankErr.innerText = "";
+});
+
+bankNumber.addEventListener('focusout', (e) => {
+    bankPass = bankValidation(bankNumber.value);
+    console.log(bankPass);
+});
+
+agreePublish.addEventListener('click', async function () {
+
+    if (bankPass == true && pricePass == true) {
+        console.log(bookId);
+        const publish_result = await publishBook({ "id": bookId, "price": priceValue, "publisherBankAccountNumber": bankNumber.value });
+
+        switch (publish_result.status) {
+            case 200:
+                alert("You have successfully published this book! You can check it on your profile!");
+                location.reload();
+                break;
+
+            case 401:
+                window.location.href = '../Log-in/login.html';
+                break;
+
+            case 403:
+                Window.location.href = '../General-HomePage/GenHome.html';
+                break;
+
+            case 422:
+                alert("Something went wrong. Please try again later.");
+                break;
+
+            default:
+                alert("Something went wrong. Please try again later.");
+                console.log(publish_result.status);
+                console.log(publish_result.data);
+                console.log(publish_result.error);
+                break;
+        }
+    } else {
+        alert("Please make sure you fill in every field correctly.");
+    }
 });

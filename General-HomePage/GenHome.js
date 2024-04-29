@@ -196,7 +196,6 @@ window.onload = async function () {
 };
 
 function navigateToProfile(username) {
-    localStorage.setItem("username", username);
     window.location.href = `../Profile/profile.html?username=${username}`;
 }
 

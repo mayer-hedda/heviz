@@ -30,6 +30,7 @@ window.onload = async function () {
             localStorage.removeItem('Error Code:');
             localStorage.removeItem('id');
             localStorage.removeItem('name');
+            localStorage.removeItem('username');
 
             document.getElementById('profile-link').addEventListener('click', (e) => {
                 navigateToProfile(tokenResponse.data.username);
@@ -50,8 +51,8 @@ window.onload = async function () {
                 SavedBooks.textContent = "My Books";
             }
 
-            const userDatas = await getUserDetails({ "profileUsername": tokenResponse.data.username });
-            LoadUserDatas(userDatas);
+           
+            LoadUserDatas(tokenResponse);
 
             const RecommandedUsers_response = await getRecommandedUsers();
             LoadRecommandedUsers(RecommandedUsers_response);
@@ -229,7 +230,6 @@ async function LoadPosts(response) {
 }
 
 function navigateToProfile(username) {
-    localStorage.setItem("username", username);
     window.location.href = `../Profile/profile.html?username=${username}`;
 }
 
@@ -278,6 +278,7 @@ async function LoadUserDatas(userResponse) {
         writingBTN.hidden = true;
     }
 
+    console.log(userResponse.data.image);
     if (userResponse.data.image != undefined) {
         profile_icon.innerHTML = `<img class="rounded-circle" src="../${userResponse.data.image}" alt="${userResponse.data.username} profile picture"></img>`;
     } else {
@@ -295,7 +296,7 @@ async function LoadRecommandedUsers(response) {
         document.getElementById('right-side').hidden = true;
     }
 
-    for (let i = 0; i <= response.data.length - 1; i++) {
+    for (let i = 0; i <= response.data.length; i++) {
         suggestion_div.innerHTML += `
             <div class="profile-suggestion">
                 
