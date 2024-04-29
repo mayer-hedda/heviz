@@ -4,6 +4,22 @@ var myState = {
     zoom: 1
 }
 
+var url = window.location.href;
+
+var queryString = url.split('?')[1];
+
+var params = queryString.split('&');
+
+var id;
+for (var i = 0; i < params.length; i++) {
+    var param = params[i].split('=');
+    if (param[0] === 'id') {
+        id = param[1];
+        break;
+    }
+}
+
+console.log('Az id értéke:', id);
 
 pdfjsLib.getDocument('./pdf.pdf').then((pdf) => {
 
