@@ -190,6 +190,7 @@ function LoadSearchResult() {
 
         for (let i = 0; i <= storedSearchResult.length - 1; i++) {
             const bookData = storedSearchResult[i];
+            console.log(bookData.publisher);
 
             const div = document.createElement('div');
             div.className = 'col-6';
@@ -202,8 +203,8 @@ function LoadSearchResult() {
 
                         <div class="col-9 medium-right-side">
                             <h2 class="container medium-h2">${bookData.title}</h2>
-                            <p class="username author">${bookData.firstName} ${bookData.lastName}</p>
-                            <p class="username author">${bookData.publisher || ''}</p>
+                            <p class="username author" onclick="navigateToProfile('${bookData.username}')">${bookData.firstName} ${bookData.lastName}</p>
+                            <p class="username author" onclick="navigateToProfile('${bookData.publisherUsername}')">${bookData.publisher || ''}</p>
                             <p class="medium-desc">${bookData.description}</p>
                             <div class="bottom-row-medium">
                                 <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup">Show Details</button>
@@ -225,22 +226,22 @@ function LoadSearchResult() {
 
 function LoadCategoryResult(response) {
     for (let i = 0; i <= response.data.length - 1; i++) {
-        const bookData = response.data[i];
-
+        const publisher = response.data[i].publisher || '';
+        console.log(response.data[i].publisher);
         const div = document.createElement('div');
         div.className = 'container medium-card';
         div.style.backgroundColor = '#EAD7BE';
         div.innerHTML = `
             <div class="row">
                 <div class="col-3 my-col3">
-                    <img class="medium-pic" src="../${bookData.coverImage}.jpg">
+                    <img class="medium-pic" src="../${response.data[i].coverImage}.jpg">
                 </div>
 
                 <div class="col-9 medium-right-side">
-                    <h2 class="container medium-h2">${bookData.title}</h2>
-                    <p class="username author">${bookData.firstName} ${bookData.lastName}</p>
-                    <p class="username author">${bookData.publisher || ''}</p>
-                    <p class="medium-desc">${bookData.description}</p>
+                    <h2 class="container medium-h2">${response.data[i].title}</h2>
+                    <p class="username author" onclick="navigateToProfile('${response.data[i].username}')">${response.data[i].firstName} ${response.data[i].lastName}</p>
+                    <p class="username author" onclick="navigateToProfile('${response.data[i].publisherUsername}')">${publisher}</p>
+                    <p class="medium-desc">${response.data[i].description}</p>
                     <div class="bottom-row-medium">
                         <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal" data-bs-target="#bookPopup">Show Details</button>
                     </div>
@@ -249,7 +250,7 @@ function LoadCategoryResult(response) {
         `;
 
         div.querySelector('.moreBtn-medium').addEventListener('click', function () {
-            loadModalData(bookData.coverImage, bookData.title, bookData.firstName, bookData.lastName, bookData.description, bookData.language, bookData.rating, bookData.pagesNumber, bookData.price, bookData.username, bookData.publisher !== undefined ? bookData.publisher : null, bookData.id, bookData.saved, bookData.publisherUsername !== undefined ? bookData.publisherUsername : null, bookData.purchased);
+            loadModalData(response.data[i].coverImage, response.data[i].title, response.data[i].firstName, response.data[i].lastName, response.data[i].description, response.data[i].language, response.data[i].rating, response.data[i].pagesNumber, response.data[i].price, response.data[i].username, publisher !== undefined ? publisher : null, response.data[i].id, response.data[i].saved, response.data[i].publisherUsername !== undefined ? response.data[i].publisherUsername : null, response.data[i].purchased);
         });
 
         books_side.appendChild(div);
@@ -314,19 +315,29 @@ let bookId;
 let savedBoolean;
 
 function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher, bookIdString, isSaved, publisherUsername, isPurchased) {
+
     bookId = parseInt(bookIdString);
     console.log(bookId);
     console.log(isPurchased);
+    console.log(isSaved);
 
     if (own_username == username) {
+       
         save_btn.hidden = true;
         shopping_btn.hidden = true;
     } else {
         if (isPublisher) {
             shopping_btn.hidden = true;
         } else {
-            save_btn.hidden = false;
+            if (isPurchased == true) {
+                save_btn.hidden = true;
+                shopping_btn.hidden = true;
+                read_general_btn.hidden = false;
+            } else {
+                read_general_btn.hidden = true;
+                save_btn.hidden = false;
             shopping_btn.hidden = false;
+            }
         }
     }
 
@@ -362,7 +373,7 @@ function loadModalData(url, title, firstName, lastName, description, language, r
         navigateToProfile(username);
     })
 
-    if (isSaved == "true") {
+    if (isSaved == "true" || isSaved == true) {
 
         save_btn.innerHTML = "";
         save_btn.innerHTML = `
@@ -370,6 +381,8 @@ function loadModalData(url, title, firstName, lastName, description, language, r
                 <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5m8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
             </svg>
         `;
+
+        savedBoolean = true;
 
     } else {
 
@@ -379,16 +392,8 @@ function loadModalData(url, title, firstName, lastName, description, language, r
                 <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
             </svg>
         `;
-    }
 
-    if (isPurchased == true) {
-        shopping_btn.hidden = true;
-        save_btn.hidden = true;
-        read_general_btn.hidden = false;
-    }else{
-        read_general_btn.hidden = true;
-        shopping_btn.hidden = false;
-        save_btn.hidden = false;
+        savedBoolean = false;
     }
 
 }

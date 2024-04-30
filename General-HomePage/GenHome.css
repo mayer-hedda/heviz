@@ -368,6 +368,21 @@
         font-size: 12px;
     }
 
+    .modal-footer{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .m-footer-div{
+        margin-right: 4px!important;
+    }
+
+    .modal-footer p{
+        margin-left: 10px!important;
+    }
+
     /* footer */
     footer {
         padding-top: 20px !important;

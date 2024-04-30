@@ -38,6 +38,7 @@ const book_price = document.getElementById('book-price');
 
 var isOwnProf;
 var followerCount;
+var isPublisher;
 
 window.addEventListener('beforeunload', async function () {
     const tokenResponse = await token();
@@ -67,14 +68,6 @@ window.onload = async function () {
 
             switch (responseUser.status) {
                 case 200:
-                    /**
-                     * Ha general akkor elrejtem a következő adatokat
-                     *  - író ajánlások
-                     *  - settings-ben a company-ra vonatkozó beállítások
-                     * Átírja a következőket:
-                     *  - Our Books menü helyett --> My Books
-                     *  - Our Posts menü helyett --> My Posts
-                     */
                     if (responseUser.data.rank == "general") {
                         our_books.textContent = "My Books";
                         our_posts.textContent = "My Posts";
@@ -82,6 +75,7 @@ window.onload = async function () {
                     } else {
                         our_books.textContent = "Our Books";
                         our_posts.textContent = "Our Posts";
+                        isPublisher = true;
                     }
 
                     loadProfilePicture(responseUser);
@@ -93,6 +87,9 @@ window.onload = async function () {
                     console.log(isOwnProf);
 
                     if (isOwnProf == true) {
+                        shopping_btn.style.display = "none";
+                        save_btn.style.display = "none";
+
                         if (responseUser.data.introDescription === undefined || responseUser.data.introDescription == "") {
                             introText.hidden = true;
                             missing_intro_text.hidden = false;
@@ -104,16 +101,13 @@ window.onload = async function () {
                             isIntroExist = true;
                         }
                         save_btn.hidden = true;
-                        // modal_footer_div.hidden = true;
-
 
                         // load books
                         const responseBooks = await getUserBooks({ "profileUsername": username });
 
+
                         switch (responseBooks.status) {
                             case 200:
-                                getBooks(responseBooks, responseUser);
-
                                 if (responseUser.data.rank == "publisher") {
                                     const editBooks = document.querySelectorAll('.edit-book');
                                     editBooks.forEach(button => {
@@ -128,6 +122,8 @@ window.onload = async function () {
                                         button.removeAttribute('data-bs-target', '#setPriceModal');
                                     });
                                 }
+
+                                getBooks(responseBooks, responseUser);
 
                                 break;
                             case 401:
@@ -705,6 +701,8 @@ const book_modal_ranking = document.getElementById('modal-ranking');
 const book_modal_language = document.getElementById('modal-language');
 const book_modal_desc = document.getElementById('modal-desc');
 
+const read_general_btn = document.getElementById('read-general-btn');
+
 let saveClick = false;
 let savedBoolean;
 let bookId;
@@ -712,11 +710,21 @@ let bookId;
 let publishClick = false;
 let publishBoolean;
 
-function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher, bookIdString, isSaved) {
-    // ha kész lesz az endpoint akkor ki kell egészíteni a kiadás boolean-jével
+function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher, bookIdString, isSaved, isPurchased) {
     bookId = parseInt(bookIdString);
 
     book_modal_img.src = `../${url}.jpg`;
+
+    if (isPurchased == true) {
+        save_btn.hidden = true;
+        shopping_btn.hidden = true;
+        read_general_btn.hidden = false;
+    } else if(isPurchased == false) {
+        read_general_btn.hidden = true;
+        save_btn.hidden = false;
+        shopping_btn.hidden = false;
+    }
+
 
     if (publisher != null) {
         book_modal_publisher.innerText = `${publisher}`;
@@ -764,8 +772,6 @@ function loadModalData(url, title, firstName, lastName, description, language, r
             </svg>
         `;
     }
-
-    // itt kell majd beállítani az alaphelyzetét a btn-nek
 
 }
 
@@ -1028,9 +1034,9 @@ function getPosts(responsePost, responseUser) {
                     <div class="post-card ">
                         <div class="first-row">
                             
-                            <img class="post-profile-icon rounded-circle shadow-sm" src="../${responsePost.data.myPosts[i].image}">
-                            
-                            <div class="userName">
+                        <img class="post-profile-icon rounded-circle shadow-sm" src="../${responsePost.data.myPosts[i].image}">
+                        
+                        <div class="userName">
                                 <p class="card-user-name user" onclick="navigateToProfile('${responsePost.data.myPosts[i].username}')">@${responsePost.data.myPosts[i].username}</p>
                             </div>
                             <div class="cardDate align-content-end">
@@ -1465,13 +1471,11 @@ function getBooks(responseBook, userResponse) {
                             </div>
                         </div>
                     </div>
-                `;      
+                `;
             }
 
-
-
             div.querySelector('.moreBtn-medium').addEventListener('click', function () {
-                loadModalData(bookData.coverImage, bookData.title, bookData.firstName, bookData.lastName, bookData.description, bookData.language, bookData.rating, bookData.pagesNumber, bookData.price, bookData.username, bookData.companyName !== undefined ? bookData.companyName : null, bookData.id, bookData.saved);
+                loadModalData(bookData.coverImage, bookData.title, bookData.firstName, bookData.lastName, bookData.description, bookData.language, bookData.rating, bookData.pagesNumber, bookData.price, bookData.username, bookData.companyName !== undefined ? bookData.companyName : null, bookData.id, bookData.saved, bookData.purchased);
             });
 
             books_div.appendChild(div);
@@ -1479,8 +1483,6 @@ function getBooks(responseBook, userResponse) {
 
 
     }
-
-    // Kiadóként a kiadás törlése gombok elrejtése
 
 }
 

@@ -283,6 +283,8 @@ inputFile.addEventListener('input', (e) => {
 
 function LoadBookDetails(response) {
 
+    title.value = response.data.title;
+    titlePass = true;
     description.value = response.data.description;
     descriptionPass = true;
     selectAudience.value = response.data.targetAudienceId;
@@ -315,48 +317,28 @@ function LoadBookDetails(response) {
         bankPass = true;
     }
 
-    if (response.data.coverImage == "Ez a kép elérési útja") {
-        imgView.style.backgroundImage = 'url(../pictures/standard-book-cover.jpg)';
-        addPhoto_icon.hidden = true;
-        img_p.hidden = true;
-        img_span.hidden = true;
-        picPass = true;
-        const url = "../pictures/standard-book-cover.jpg";
-        const parts = url.split("/");
-        pictureName = parts[parts.length - 1];
-        console.log("pictureName: " + pictureName);
-    } else {
-        addPhoto_icon.hidden = true;
-        img_p.hidden = true;
-        img_span.hidden = true;
-        imgView.style.backgroundImage = `url(../${response.data.coverImage}.jpg)`;
-        picPass = true;
 
-        const url = `../${response.data.coverImage}.jpg`;
-        const parts = url.split("/");
-        pictureName = parts[parts.length - 1];
-        console.log("pictureName: " + pictureName);
-    }
+    addPhoto_icon.hidden = true;
+    img_p.hidden = true;
+    img_span.hidden = true;
+    imgView.style.backgroundImage = `url(../${response.data.coverImage}.jpg)`;
+    picPass = true;
 
-    if (response.data.file != "Ez a könyv elérési útja") {
-        fileName = response.data.file;
-        console.log(fileName);
-        file_p.hidden = true;
-        file_span.hidden = true;
-        file_result_p.hidden = false;
-        file_result_uploaded.hidden = false;
-        file_result_uploaded.innerText = `${fileName}`;
-        // inputFile.value = fileName;
-        filePass = true;
-    } else {
-        file_p.hidden = true;
-        file_span.hidden = true;
-        file_result_p.hidden = false;
-        file_result_uploaded.hidden = false;
-        file_result_uploaded.innerText = "Ez lesz a könyv elérési útja";
-        filePass = true;
-        fileName = response.data.file;
-    }
+    const url = `../${response.data.coverImage}.jpg`;
+    const parts = url.split("/");
+    pictureName = parts[parts.length - 1];
+    console.log("pictureName: " + pictureName);
+
+
+
+    fileName = response.data.file;
+    console.log(fileName);
+    file_p.hidden = true;
+    file_span.hidden = true;
+    file_result_p.hidden = false;
+    file_result_uploaded.hidden = false;
+    file_result_uploaded.innerText = `${fileName}`;
+    filePass = true;
 
 }
 

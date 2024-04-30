@@ -309,7 +309,7 @@ body {
 
     .babszem {
         column-gap: 15px !important;
-        padding: 10px 15px 10px 15px!important;
+        padding: 10px 15px 10px 15px !important;
     }
 
     .colDiv {
@@ -328,17 +328,47 @@ body {
         font-size: 12px;
     }
 
-    .sMoreBtn{
-        font-size: 12px!important;
+    .sMoreBtn {
+        font-size: 12px !important;
         padding: 10px 15px 10px 15px !important;
     }
 
-    #m-footer-publisher{
-        gap: 20px!important;
+    #m-footer-publisher {
+        gap: 20px !important;
     }
 
-    .modal-cover-btn, .publisher-read{
-        font-size: 12px!important;
+    .modal-cover-btn,
+    .publisher-read {
+        font-size: 12px !important;
+    }
+
+    /* publishing modal */
+    .bank-acc {
+        width: 180px !important;
+    }
+
+    .modal-p {
+        font-size: 14px !important;
+    }
+
+    #bankNumber,
+    .input-group input {
+        font-size: 12px;
+    }
+
+    .input-group,
+    .bank-acc,
+    .error {
+        margin-left: 10px !important;
+    }
+
+    .input-group {
+        width: 180px !important;
+    }
+
+    .error {
+        height: fit-content !important;
+        font-size: 14px !important;
     }
 
     /* footer */
@@ -629,17 +659,46 @@ body {
         font-size: 14px;
     }
 
-    .sMoreBtn{
-        font-size: 14px!important;
+    .sMoreBtn {
+        font-size: 14px !important;
         padding: 10px 15px 10px 15px !important;
     }
 
-    #m-footer-publisher{
-        gap: 50px!important;
+    #m-footer-publisher {
+        gap: 50px !important;
     }
 
-    .modal-cover-btn, .publisher-read{
-        font-size: 15px!important;
+    .modal-cover-btn,
+    .publisher-read {
+        font-size: 15px !important;
+    }
+
+    /* publishing modal */
+    .bank-acc {
+        width: 200px !important;
+    }
+
+    label.modal-p {
+        font-size: 14px !important;
+    }
+
+    #bankNumber {
+        font-size: 12px;
+    }
+
+    .input-group,
+    .bank-acc,
+    .error {
+        margin-left: 10px !important;
+    }
+
+    .input-group {
+        width: 200px !important;
+    }
+
+    .error {
+        height: fit-content !important;
+        font-size: 14px !important;
     }
 
     /* footer */
@@ -946,12 +1005,28 @@ body {
         font-size: 14px;
     }
 
-    #m-footer-publisher{
-        gap: 50px!important;
+    #m-footer-publisher {
+        gap: 50px !important;
     }
 
-    .modal-cover-btn, .publisher-read{
-        font-size: 15px!important;
+    .modal-cover-btn,
+    .publisher-read {
+        font-size: 15px !important;
+    }
+
+    /* publishing modal */
+    .bank-acc {
+        width: 250px !important;
+    }
+
+    .input-group,
+    .bank-acc,
+    .error {
+        margin-left: 10px !important;
+    }
+
+    .error {
+        height: fit-content !important;
     }
 
     /* footer */
@@ -1213,10 +1288,18 @@ body {
         margin-bottom: 10px !important;
     }
 
-   
+    .modal-cover-btn,
+    .publisher-read {
+        font-size: 12px !important;
+    }
 
-    .modal-cover-btn, .publisher-read{
-        font-size: 12px!important;
+    /* publishing modal */
+    .bank-acc {
+        width: 300px !important;
+    }
+
+    .error {
+        height: fit-content !important;
     }
 
     footer {
@@ -1521,6 +1604,15 @@ body {
         width: fit-content;
     }
 
+    /* publishing modal */
+    .bank-acc {
+        width: 350px !important;
+    }
+
+    .error {
+        height: fit-content !important;
+    }
+
     /* footer */
     footer {
         padding-top: 20px !important;
@@ -1820,6 +1912,15 @@ body {
         width: fit-content;
     }
 
+    /* publishing modal */
+    .bank-acc {
+        width: 350px !important;
+    }
+
+    .error {
+        height: fit-content !important;
+    }
+
     /* footer */
     footer {
         padding-top: 40px !important;
@@ -2031,14 +2132,23 @@ body {
     .category {
         font-size: 12px !important;
     }
+
+     /* publishing modal */
+     .bank-acc{
+        width: 350px!important;
+    }
+
+    .error{
+        height: fit-content!important;
+    }
 }
 
 @media (min-width: 992px) and (max-width: 1024px) {
-    nav{
-        padding-left: 20px!important;
-        padding-right: 20px!important;
+    nav {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
     }
-   
+
     #navbarNav {
         margin-left: 50px !important;
     }
@@ -2153,11 +2263,11 @@ body {
 }
 
 @media (min-width: 1025px) and (max-width: 1100px) {
-    nav{
-        padding-left: 20px!important;
-        padding-right: 20px!important;
+    nav {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
     }
-   
+
     #navbarNav {
         margin-left: 90px !important;
     }
@@ -2222,7 +2332,7 @@ body {
 }
 
 @media (min-width: 1101px) and (max-width: 1347px) {
-   
+
     #navbarNav {
         margin-left: 90px !important;
     }
@@ -2729,7 +2839,8 @@ nav {
     color: #B43C82 !important;
 }
 
-#book-modal-content, #publishing-modal-content {
+#book-modal-content,
+#publishing-modal-content {
     background: linear-gradient(180deg, #ffeed8, #F0D0BC 100%) !important;
     border-radius: 15px;
     border-width: 0;
@@ -2757,22 +2868,26 @@ nav {
     background-color: #fffcf6d7;
 }
 
-#book-popup-modal-body::-webkit-scrollbar, #publishing-modal::-webkit-scrollbar {
+#book-popup-modal-body::-webkit-scrollbar,
+#publishing-modal::-webkit-scrollbar {
     width: 6px;
 }
 
-#book-popup-modal-body::-webkit-scrollbar-track, #publishing-modal::-webkit-scrollbar-track {
+#book-popup-modal-body::-webkit-scrollbar-track,
+#publishing-modal::-webkit-scrollbar-track {
     background: transparent;
     border-radius: 10px;
 }
 
-#book-popup-modal-body::-webkit-scrollbar-thumb, #publishing-modal::-webkit-scrollbar-thumb {
+#book-popup-modal-body::-webkit-scrollbar-thumb,
+#publishing-modal::-webkit-scrollbar-thumb {
     background-color: #92827a;
     border-radius: 10px;
     transition: background-color 1s ease-in;
 }
 
-#book-popup-modal-body::-webkit-scrollbar-thumb:hover, #publishing-modal::-webkit-scrollbar-thumb:hover {
+#book-popup-modal-body::-webkit-scrollbar-thumb:hover,
+#publishing-modal::-webkit-scrollbar-thumb:hover {
     background-color: #ACA09A;
     transition: background-color 1s ease-in;
 }
@@ -2860,7 +2975,8 @@ nav {
     color: var(--mostUsed-text-color);
 }
 
-.sMoreBtn, .publisher-read:hover {
+.sMoreBtn,
+.publisher-read:hover {
     background-color: #f1b9a0;
     color: var(--btn-text-color);
     text-decoration: none;
@@ -2872,7 +2988,8 @@ nav {
     transition: background-color 0.8s ease;
 }
 
-.sMoreBtn:hover, .publisher-read {
+.sMoreBtn:hover,
+.publisher-read {
     background-color: #649984;
     color: white;
     transition: color 0.8s ease;
@@ -2884,7 +3001,7 @@ nav {
     align-self: center;
 }
 
-#m-footer-publisher{
+#m-footer-publisher {
     display: flex;
     width: 100%;
     gap: 150px;
@@ -2893,7 +3010,7 @@ nav {
 .modal-cover-btn {
     text-decoration: none;
     background: #895372 !important;
-    border: 0.094rem solid #895372!important;
+    border: 0.094rem solid #895372 !important;
     color: white;
     padding: 10px 20px 10px;
     border-radius: 30px;
@@ -2908,28 +3025,29 @@ nav {
 .modal-cover-btn:hover {
     background-color: transparent !important;
     color: #2C1810;
-    border: dashed 0.094rem #2C1810!important;
+    border: dashed 0.094rem #2C1810 !important;
     cursor: pointer;
     transition: background-color 0.8s ease;
 }
 
 /* publication modal */
-input{
+input {
     font-family: 'Poppins-Regular', sans-serif;
     color: var(--mostUsed-text-color);
 }
-.input-group{
+
+.input-group {
     width: 300px;
     margin-left: 50px;
     margin-top: 50px;
 }
 
-.input-group label{
+.input-group label {
     font-family: 'Poppins-Medium', sans-serif;
     font-size: 22px;
 }
 
-.bank-acc{
+.bank-acc {
     margin-left: 50px;
     margin-top: 50px;
     width: 650px;
@@ -2938,19 +3056,19 @@ input{
     font-family: 'Poppins-Medium', sans-serif;
 }
 
-.bank-acc label{
+.bank-acc label {
     text-align: left;
     font-size: 22px;
     margin-bottom: 5px;
 }
 
-#publisher-price{
+#publisher-price {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     margin-left: 20px;
 }
 
-#forint{
+#forint {
     border: 1px solid var(--border-color);
     height: 40px;
 }
@@ -2967,19 +3085,19 @@ input{
     transition: background-color 0.8s ease;
 }
 
-.publish{
+.publish {
     background-color: rgb(220 147 117);
     color: var(--primary-text);
     transition: background-color 0.8s ease;
 }
 
-.publish:hover{
+.publish:hover {
     background-color: var(--primary-hover);
     color: white;
     transition: background-color 0.8s ease;
 }
 
-.form-control::placeholder{
+.form-control::placeholder {
     color: rgb(179, 175, 186);
     font-family: 'Poppins-light', sans-serif;
 }
