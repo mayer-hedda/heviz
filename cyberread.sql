@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Ápr 28. 19:13
+-- Létrehozás ideje: 2024. Ápr 30. 14:38
 -- Kiszolgáló verziója: 10.4.32-MariaDB
--- PHP verzió: 8.0.30
+-- PHP verzió: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -63,6 +63,33 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `addBook` (IN `userIdIN` INT, IN `ti
         END IF;
     END IF;
     
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addBookRating` (IN `userIdIN` INT, IN `bookIdIN` INT, IN `rating` INT, OUT `result` INT)   BEGIN
+
+
+DECLARE rank VARCHAR(20);
+SELECT `user`.`rank` INTO rank
+FROM `user`
+WHERE `user`.`id` = userIdIN;
+
+IF rank = "general" THEN
+    IF EXISTS (SELECT * FROM `bookshopping` WHERE `bookshopping`.`userId` = userId AND `bookshopping`.`bookId` = bookIdIN) THEN
+        INSERT INTO `bookrating`(`bookrating`.`ratingerId`, `bookrating`.`bookId`, `bookrating`.`rating`)
+        VALUES (userIdIN, bookIdIN, rating);
+
+        SET result = 1;
+    ELSE
+        SET result = 2;
+    END IF;
+ELSEIF rank = "publisher" THEN
+	INSERT INTO `bookrating`(`bookrating`.`ratingerId`, `bookrating`.`bookId`, `bookrating`.`rating`)
+    VALUES (userIdIN, bookIdIN, rating);
+
+    SET result = 1;
+END IF;
+
+
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `addCategoryInterest` (IN `userIdIN` INT, IN `categoryIds` TEXT)   BEGIN
@@ -232,7 +259,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllBooksByCategory` (IN `userIdI
             FROM `book`
             INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
             LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-            LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+            LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
             LEFT JOIN (
                 SELECT `bookrating`.`bookId`,
                 AVG(`bookrating`.`rating`) AS `rat`
@@ -263,7 +290,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllBooksByCategory` (IN `userIdI
                 `category`.`name`
             FROM `book`
             INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-            LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+            LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
+            LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
             LEFT JOIN (
                 SELECT `bookrating`.`bookId`,
                 AVG(`bookrating`.`rating`) AS `rat`
@@ -374,6 +402,39 @@ WHERE
     `follow`.`followerId` = userIdIN
 ORDER BY `post`.`postTime` DESC$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getFileViewerData` (IN `userIdIN` INT, IN `bookIdIN` INT, OUT `result` INT)   BEGIN
+
+
+DECLARE rank VARCHAR(20);
+SELECT `user`.`rank` INTO rank
+FROM `user`
+WHERE `user`.`id` = userIdIN;
+
+IF rank = "general" THEN
+    IF EXISTS (SELECT * FROM `bookshopping` WHERE `bookshopping`.`userId` = userId AND `bookshopping`.`bookId` = bookIdIN) THEN
+        SELECT 
+            `book`.`file`,
+            `book`.`pagesNumber`
+        FROM `book`
+        WHERE `book`.`id` = bookIdIN;
+
+        SET result = 1;
+    ELSE
+        SET result = 2;
+    END IF;
+ELSEIF rank = "publisher" THEN
+	SELECT 
+        `book`.`file`,
+        `book`.`pagesNumber`
+    FROM `book`
+    WHERE `book`.`id` = bookIdIN;
+
+    SET result = 1;
+END IF;
+
+
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` INT, IN `filter` INT, IN `categoryIdIN` INT, OUT `result` INT, OUT `userRank` VARCHAR(20))   BEGIN
 
 	DECLARE rank VARCHAR(20);
@@ -411,7 +472,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                 LEFT JOIN (
                     SELECT `bookrating`.`bookId`,
                     AVG(`bookrating`.`rating`) AS `rat`
@@ -442,7 +503,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     `category`.`name`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
+                LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                 LEFT JOIN (
                     SELECT `bookrating`.`bookId`,
                     AVG(`bookrating`.`rating`) AS `rat`
@@ -477,7 +539,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                 LEFT JOIN (
                     SELECT `bookrating`.`bookId`,
                     AVG(`bookrating`.`rating`) AS `rat`
@@ -508,7 +570,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     `category`.`name`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
+                LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                 LEFT JOIN (
                     SELECT `bookrating`.`bookId`,
                     AVG(`bookrating`.`rating`) AS `rat`
@@ -543,7 +606,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                 LEFT JOIN (
                     SELECT `bookrating`.`bookId`,
                     AVG(`bookrating`.`rating`) AS `rat`
@@ -574,7 +637,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     `category`.`name`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
+                LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                 LEFT JOIN (
                     SELECT `bookrating`.`bookId`,
                     AVG(`bookrating`.`rating`) AS `rat`
@@ -609,7 +673,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                 LEFT JOIN (
                     SELECT `bookrating`.`bookId`,
                     AVG(`bookrating`.`rating`) AS `rat`
@@ -640,7 +704,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     `category`.`name`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
+                LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                 LEFT JOIN (
                     SELECT `bookrating`.`bookId`,
                     AVG(`bookrating`.`rating`) AS `rat`
@@ -676,7 +741,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
                         AVG(`bookrating`.`rating`) AS `rat`
@@ -710,7 +775,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
                         AVG(`bookrating`.`rating`) AS `rat`
@@ -744,7 +809,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
                         AVG(`bookrating`.`rating`) AS `rat`
@@ -782,7 +847,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
                         AVG(`bookrating`.`rating`) AS `rat`
@@ -816,7 +881,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
                         AVG(`bookrating`.`rating`) AS `rat`
@@ -850,7 +915,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredBooks` (IN `userIdIN` IN
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
                         AVG(`bookrating`.`rating`) AS `rat`
@@ -906,7 +971,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredPayedBooks` (IN `userIdI
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
                         AVG(`bookrating`.`rating`) AS `rat`
@@ -937,7 +1002,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredPayedBooks` (IN `userIdI
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
                         AVG(`bookrating`.`rating`) AS `rat`
@@ -968,7 +1033,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredPayedBooks` (IN `userIdI
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
                         AVG(`bookrating`.`rating`) AS `rat`
@@ -999,7 +1064,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredPayedBooks` (IN `userIdI
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
                         AVG(`bookrating`.`rating`) AS `rat`
@@ -1030,7 +1095,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredPayedBooks` (IN `userIdI
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
                         AVG(`bookrating`.`rating`) AS `rat`
@@ -1061,7 +1126,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredPayedBooks` (IN `userIdI
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
                         AVG(`bookrating`.`rating`) AS `rat`
@@ -1092,7 +1157,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredPayedBooks` (IN `userIdI
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
                         AVG(`bookrating`.`rating`) AS `rat`
@@ -1127,7 +1192,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredPayedBooks` (IN `userIdI
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
                         AVG(`bookrating`.`rating`) AS `rat`
@@ -1158,7 +1223,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredPayedBooks` (IN `userIdI
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
                         AVG(`bookrating`.`rating`) AS `rat`
@@ -1189,7 +1254,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredPayedBooks` (IN `userIdI
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
                         AVG(`bookrating`.`rating`) AS `rat`
@@ -1245,7 +1310,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                 LEFT JOIN (
                     SELECT `bookrating`.`bookId`,
                     AVG(`bookrating`.`rating`) AS `rat`
@@ -1276,7 +1341,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     `category`.`name`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
+                LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                 LEFT JOIN (
                     SELECT `bookrating`.`bookId`,
                     AVG(`bookrating`.`rating`) AS `rat`
@@ -1310,7 +1376,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                 LEFT JOIN (
                     SELECT `bookrating`.`bookId`,
                     AVG(`bookrating`.`rating`) AS `rat`
@@ -1341,7 +1407,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     `category`.`name`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
+                LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                 LEFT JOIN (
                     SELECT `bookrating`.`bookId`,
                     AVG(`bookrating`.`rating`) AS `rat`
@@ -1375,7 +1442,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                 LEFT JOIN (
                     SELECT `bookrating`.`bookId`,
                     AVG(`bookrating`.`rating`) AS `rat`
@@ -1406,7 +1473,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     `category`.`name`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
+                LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                 LEFT JOIN (
                     SELECT `bookrating`.`bookId`,
                     AVG(`bookrating`.`rating`) AS `rat`
@@ -1440,7 +1508,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                 LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                 LEFT JOIN (
                     SELECT `bookrating`.`bookId`,
                     AVG(`bookrating`.`rating`) AS `rat`
@@ -1471,7 +1539,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     `category`.`name`
                 FROM `book`
                 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-                LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
+                LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                 LEFT JOIN (
                     SELECT `bookrating`.`bookId`,
                     AVG(`bookrating`.`rating`) AS `rat`
@@ -1506,7 +1575,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
                         AVG(`bookrating`.`rating`) AS `rat`
@@ -1539,7 +1608,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
                         AVG(`bookrating`.`rating`) AS `rat`
@@ -1572,7 +1641,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
                         AVG(`bookrating`.`rating`) AS `rat`
@@ -1609,7 +1678,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
                         AVG(`bookrating`.`rating`) AS `rat`
@@ -1642,7 +1711,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
                         AVG(`bookrating`.`rating`) AS `rat`
@@ -1675,7 +1744,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getFilteredSavedBooks` (IN `userIdI
                     FROM `book`
                     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
                     LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-                    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+                    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
                         AVG(`bookrating`.`rating`) AS `rat`
@@ -1839,7 +1908,7 @@ IF rank = "general" THEN
     FROM `book`
     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
     LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
     LEFT JOIN (
         SELECT `bookrating`.`bookId`,
         AVG(`bookrating`.`rating`) AS `rat`
@@ -1935,7 +2004,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getPublishedBooksByUserId` (IN `use
     `writer`.`username`
 FROM `book`
 INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
+LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
 LEFT JOIN (
     SELECT `bookrating`.`bookId`,
     AVG(`bookrating`.`rating`) AS `rat`
@@ -2294,8 +2364,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getSavedBooksByCategoryId` (IN `use
             `book`.`price`,
             `writer`.`username`
         FROM `book`
-        INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-        LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+        INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId` 
+        LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
+        LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
         LEFT JOIN (
             SELECT `bookrating`.`bookId`,
             AVG(`bookrating`.`rating`) AS `rat`
@@ -2344,7 +2415,7 @@ IF rank = "general" THEN
     FROM `book`
     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
     LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
     LEFT JOIN (
         SELECT `bookrating`.`bookId`,
         AVG(`bookrating`.`rating`) AS `rat`
@@ -2375,7 +2446,8 @@ ELSEIF rank = "publisher" THEN
         `category`.`name`
     FROM `book`
     INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-    LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
+    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
     LEFT JOIN (
         SELECT `bookrating`.`bookId`,
         AVG(`bookrating`.`rating`) AS `rat`
@@ -2420,7 +2492,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getSearchBooks` (IN `userIdIN` INT,
             `category`.`name`
         FROM `book`
         INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
-        LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+        LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
+        LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
         LEFT JOIN (
             SELECT `bookrating`.`bookId`,
             AVG(`bookrating`.`rating`) AS `rat`
@@ -2453,7 +2526,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getSearchBooks` (IN `userIdIN` INT,
         FROM `book`
         INNER JOIN `user` AS `writer` ON `writer`.`id` = `book`.`writerId`
         LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
-        LEFT JOIN `publisher` ON `book`.`publisherId` = `publisher`.`id`
+        LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
         LEFT JOIN (
             SELECT `bookrating`.`bookId`,
             AVG(`bookrating`.`rating`) AS `rat`
@@ -2547,7 +2620,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserBooks` (IN `userIdIN` INT, I
                         `category`.`name`
                     FROM `book`
                     INNER JOIN `user` ON `user`.`id` = `book`.`writerId`
-                    LEFT JOIN `publisher` ON `publisher`.`id` = `book`.`publisherId`
+                    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
+                    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
@@ -2577,7 +2651,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserBooks` (IN `userIdIN` INT, I
                         `category`.`name`
                     FROM `book`
                     INNER JOIN `user` ON `user`.`id` = `book`.`writerId`
-                    LEFT JOIN `publisher` ON `publisher`.`id` = `book`.`publisherId`
+                    LEFT JOIN `user` AS `publish` ON `publish`.`id` = `book`.`publisherId`
+                    LEFT JOIN `publisher` ON `publish`.`userId` = `publisher`.`id`
                     INNER JOIN `language` ON `language`.`id` = `book`.`languageId`
                     LEFT JOIN (
                         SELECT `bookrating`.`bookId`,
@@ -4686,7 +4761,7 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `rank`, `firstName`, 
 (7, 'bella_wilson_stories', 'isabella.wilson@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Isabella', 'Wilson', '0670947736', 1, 0, 'Welcome! Isabella Wilson here, painting pictures with words and crafting tales that linger in the mind.', NULL, 'pictures\\user\\avatar-2.jpg', '2023-10-04 11:36:07', 0, 0, 29, 7),
 (8, 'maason_', 'masongarcia@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mason', 'Garcia', '06208342414', 1, 0, 'Mason Garcia at your service, creating stories that transport you to distant lands and ignite the imagination.', 'www.masongarcia.com', 'pictures/default-profile-pic-man.png', '2023-11-01 12:37:02', 0, 1, 30, 8),
 (9, 'charlotte.lewis_', 'charlotte.lewis@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Charlotte', 'Lewis', '06209637522', 0, 1, 'Hello, world! I\'m Charlotte Lewis, weaving words into tapestries of wonder and intrigue.', 'www.charlottelewis.com', 'pictures/default-profile-pic-man.png', '2024-02-20 12:37:57', 0, 1, 31, 9),
-(10, 'alex_walker', 'alexanderwalker1313@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Alexander', 'Walker', '06708365753', 0, 0, '', '', 'pictures/default-profile-pic-man.png', '2023-10-05 11:38:42', 1, 0, 1, 10),
+(10, 'alex_walker', 'alexanderwalker1313@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Alexander', 'Walker', '06708365753', 0, 0, '', '', 'pictures/default-profile-pic-man.png', '2023-10-05 11:38:42', 0, 0, 1, 10),
 (11, 'ameliaperez123', 'amelia.perez@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Amelia', 'Perez', '06703278493', 1, 1, 'Greetings, fellow readers! I\'m Amelia Perez, spinning tales that whisk you away to realms of wonder.', 'www.ameliathereader.com', 'pictures/default-profile-pic-man.png', '2023-06-11 11:39:43', 0, 0, 32, 11),
 (12, 'michael_king', 'michael.king@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Micheal', 'King', '06208394242', 1, 1, 'Michael King here, crafting stories that illuminate the human experience and ignite the imagination.', 'www.michealking.com', 'pictures\\user\\avatar-7.jpg', '2023-08-18 11:40:50', 0, 0, 33, 12),
 (13, 'harper.scott', 'harper.scott@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Harper', 'Scott', '06201532953', 0, 1, 'Hello, readers! I\'m Harper Scott, conjuring worlds where every page is an adventure waiting to unfold.', NULL, 'pictures/default-profile-pic-man.png', '2023-12-28 12:41:51', 0, 0, 34, 13),
@@ -4901,7 +4976,7 @@ ALTER TABLE `color`
 -- AUTO_INCREMENT a táblához `follow`
 --
 ALTER TABLE `follow`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
 
 --
 -- AUTO_INCREMENT a táblához `forgotpassword`
