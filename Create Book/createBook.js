@@ -51,7 +51,6 @@ window.onload = async function () {
             localStorage.removeItem('name');
 
             const dropdown_response = await getDropDownValues();
-            console.log(dropdown_response);
             getLanguages(dropdown_response);
             getCategories(dropdown_response);
 
@@ -87,9 +86,9 @@ const PicError = document.getElementById('PicError');
 inputPicture.addEventListener("change", uploadImage);
 
 var height, width;
-let imgLink; //ez lesz a blob
-let imgSrc; //ebből fogom kiszedni a kép elérési útját
-var pictureName; // ez lesz a végleges fájlnév amit a backend megkap
+let imgLink; 
+let imgSrc; 
+var pictureName; 
 
 function uploadImage() {
     let imgFile = inputPicture.files[0];
@@ -98,7 +97,6 @@ function uploadImage() {
     var img = new Image();
     img.src = imgLink;
     let size = imgFile.size;
-    console.log("A fájl mérete byte-ban: " + size);
 
     const maxSize = 2 * 1024 * 1024;
     if (size > maxSize) {
@@ -119,27 +117,18 @@ function uploadImage() {
         img.onload = function () {
             height = img.naturalHeight;
             width = img.naturalWidth;
-            console.log("A kép szélessége: " + width);
-            console.log("A kép magassága: " + height);
-
-            // itt lesz meghívva az endpoint + a hibakezelés
         }
 
         if (imgLink == "") {
             picPass = false;
-            console.log("pic pass value:" + picPass);
 
         } else {
             picPass = true;
             imgSrc = inputPicture.value;
-            console.log("pic pass value:" + picPass);
-            console.log("img src: " + imgSrc);
 
-            // Szétvágom a szöveget a "\" karakter alapján
             var parts = imgSrc.split('\\');
             pictureName = parts[parts.length - 1];
 
-            console.log(pictureName);
         }
     }
 
@@ -149,31 +138,25 @@ dropAreaPicture.addEventListener('dragover', (e) => {
     e.preventDefault();
 })
 
-// Képfeltöltés eseménykezelője
 dropAreaPicture.addEventListener('drop', (e) => {
     e.preventDefault();
     inputPicture.files = e.dataTransfer.files;
-    const allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif']; // Elfogadott képformátumok MIME típusokban
+    const allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
-    // Ellenőrizze a kép fájltípusát
     const fileType = inputPicture.files[0].type;
     if (!allowedImageTypes.includes(fileType)) {
         alert('Csak JPEG, PNG vagy GIF képeket tölthetsz fel!');
-        inputPicture.value = ''; // Töröljük a fájlmező tartalmát
+        inputPicture.value = ''; 
         picPass = false;
-        console.log("pic pass value:" + picPass);
         return;
     }
 
     uploadImage();
-    console.log(inputPicture.value);
-    console.log("lefut a drop a képnél");
 });
 
 img_trash.addEventListener('click', (e) => {
     inputPicture.value = '';
     imgLink = '';
-    console.log(imgLink);
     imgView.style.backgroundImage = '';
     addPhoto_icon.hidden = false;
     img_p.hidden = false;
@@ -196,29 +179,26 @@ const file_result_p = document.getElementById('f-result-p-1');
 const file_result_uploaded = document.getElementById('f-result-p-2');
 const FileError = document.getElementById('FileError');
 
-var fileName; // ez lesz az az érték amelyet megkap a backend
+var fileName; 
 
 inputFile.addEventListener("change", (e) => {
     e.preventDefault();
-    console.log("lefut a change");
     uploadFile();
 });
 
 function uploadFile() {
-    console.log(inputFile.value);
 
 
     const fileSize = inputFile.files[0].size;
-    const maxSize = 5 * 1024 * 1024; // 5MB méretkorlát
+    const maxSize = 5 * 1024 * 1024; 
 
     if (fileSize > maxSize) {
         alert('A fájl mérete túl nagy. Kérjük, válassz egy kisebb méretű fájlt (legfeljebb 5MB).');
-        inputFile.value = ''; // Töröljük a fájlmező tartalmát
+        inputFile.value = ''; 
         return;
     } else {
         if (inputFile.value == "") {
             filePass = false;
-            console.log("pic pass value:" + filePass);
         } else {
             filePass = true;
             fileName = inputFile.value.split('\\').pop();
@@ -229,12 +209,9 @@ function uploadFile() {
             file_result_p.hidden = false;
             file_result_uploaded.hidden = false;
             file_result_uploaded.innerText = `${fileName}`;
-            console.log("perjel után: " + fileName);
-            console.log("pic pass value:" + filePass);
         }
     }
 
-    // console.log("Lefutott az uploadfile");
 
 }
 
@@ -242,26 +219,21 @@ dropAreaFile.addEventListener('dragover', (e) => {
     e.preventDefault();
 })
 
-// Fájlfeltöltés eseménykezelője
 dropAreaFile.addEventListener('drop', (e) => {
     e.preventDefault();
     inputFile.files = e.dataTransfer.files;
-    const allowedFileExtensions = ['.pdf', '.doc']; // Elfogadott fájlkiterjesztések
+    const allowedFileExtensions = ['.pdf', '.doc']; 
 
-    // Ellenőrizze a fájl kiterjesztését
-    const fileName = inputFile.value.split('.').pop(); // Fájlnév utolsó része, a kiterjesztés
-    const fileExtension = '.' + fileName.split('.').pop().toLowerCase(); // Kiterjesztés kisbetűsen
+    const fileName = inputFile.value.split('.').pop(); 
+    const fileExtension = '.' + fileName.split('.').pop().toLowerCase(); 
     if (!allowedFileExtensions.includes(fileExtension)) {
         alert('Csak .pdf vagy .doc fájlokat tölthetsz fel!');
-        inputFile.value = ''; // Töröljük a fájlmező tartalmát
+        inputFile.value = ''; 
         filePass = false;
-        console.log("pic pass value:" + filePass);
         return;
     }
 
     uploadFile();
-    console.log(inputFile.value);
-    console.log("lefut a drop a fájlnál");
 });
 
 file_trash.addEventListener('click', (e) => {
@@ -315,48 +287,23 @@ function LoadBookDetails(response) {
         bankPass = true;
     }
 
-    if (response.data.coverImage == "Ez a kép elérési útja") {
-        imgView.style.backgroundImage = 'url(../pictures/standard-book-cover.jpg)';
-        addPhoto_icon.hidden = true;
-        img_p.hidden = true;
-        img_span.hidden = true;
-        picPass = true;
-        const url = "../pictures/standard-book-cover.jpg";
-        const parts = url.split("/");
-        pictureName = parts[parts.length - 1];
-        console.log("pictureName: " + pictureName);
-    } else {
-        addPhoto_icon.hidden = true;
-        img_p.hidden = true;
-        img_span.hidden = true;
-        imgView.style.backgroundImage = `url(../${response.data.coverImage}.jpg)`;
-        picPass = true;
+    addPhoto_icon.hidden = true;
+    img_p.hidden = true;
+    img_span.hidden = true;
+    imgView.style.backgroundImage = `url(../${response.data.coverImage}.jpg)`;
+    picPass = true;
 
-        const url = `../${response.data.coverImage}.jpg`;
-        const parts = url.split("/");
-        pictureName = parts[parts.length - 1];
-        console.log("pictureName: " + pictureName);
-    }
+    const url = `../${response.data.coverImage}.jpg`;
+    const parts = url.split("/");
+    pictureName = parts[parts.length - 1];
 
-    if (response.data.file != "Ez a könyv elérési útja") {
-        fileName = response.data.file;
-        console.log(fileName);
-        file_p.hidden = true;
-        file_span.hidden = true;
-        file_result_p.hidden = false;
-        file_result_uploaded.hidden = false;
-        file_result_uploaded.innerText = `${fileName}`;
-        // inputFile.value = fileName;
-        filePass = true;
-    } else {
-        file_p.hidden = true;
-        file_span.hidden = true;
-        file_result_p.hidden = false;
-        file_result_uploaded.hidden = false;
-        file_result_uploaded.innerText = "Ez lesz a könyv elérési útja";
-        filePass = true;
-        fileName = response.data.file;
-    }
+    fileName = response.data.file;
+    file_p.hidden = true;
+    file_span.hidden = true;
+    file_result_p.hidden = false;
+    file_result_uploaded.hidden = false;
+    file_result_uploaded.innerText = `${fileName}`;
+    filePass = true;
 
 }
 
@@ -383,7 +330,6 @@ const storyname = document.getElementById('StoryName');
 function MinTitle(titleValue) {
     if (titleValue.length < 3) {
         title.classList.add('inputError');
-        console.log("Title error: too short - " + titleValue);
         return false;
     }
     return true;
@@ -396,7 +342,6 @@ title.addEventListener('input', (e) => {
     charCounterTitle.textContent = `${count}/50`;
 
     if (count >= 45) {
-        // console.log("bemegy az ifbe");
         charCounterTitle.classList.remove('counter');
         charCounterTitle.classList.add('counterErrorLight');
 
@@ -432,27 +377,22 @@ title.addEventListener('focusout', (e) => {
         title.classList.add('inputError');
         titleError.innerText = "Title cannot be empty";
         titlePass = false;
-        console.log("TitlePass value: " + titlePass);
     } else {
         if (kisbetuRegex.test(titleValue) == true || nagybetuRegex.test(titleValue) == true || ekezetesRegex.test(titleValue) == true) {
             const functionValue = MinTitle(titleValue);
             if (functionValue == false) {
                 titlePass = false;
-                titleError.innerText = "Title must be 3 caracter long.";
+                titleError.innerText = "Title must be 3 character long.";
                 title.classList.add('inputError');
-                console.log("A title függvény értéke: " + functionValue);
-                console.log("TitlePass value: " + titlePass);
             } else {
                 title.classList.add('inputPass');
                 titlePass = true;
-                console.log("TitlePass value: " + titlePass);
                 storyname.textContent = title.value;
             }
         } else {
             title.classList.add('inputError');
             titleError.innerText = "The title must contains at least one letter.";
             titlePass = false;
-            console.log("TitlePass value: " + titlePass);
         }
 
     }
@@ -472,7 +412,6 @@ let descValue;
 function MinDesc(descriptionValue) {
     if (descriptionValue.length < 20) {
         description.classList.add('inputError');
-        console.log("Description error: too short - " + descriptionValue);
         return false;
     }
     return true;
@@ -485,7 +424,6 @@ description.addEventListener('input', (e) => {
     charCounterDes.textContent = `${count}/1000`;
 
     if (count >= 950) {
-        console.log("bemegy az ifbe");
         charCounterDes.classList.remove('counter');
         charCounterDes.classList.add('counterErrorLight');
 
@@ -517,7 +455,6 @@ description.addEventListener('focusout', (e) => {
         description.classList.add('inputError');
         descriptionError.innerText = "The description field cannot be empty";
         descriptionPass = false;
-        console.log("descriptionPass value: " + descriptionPass);
     } else {
         if (kisbetuRegex.test(descValue) == true || nagybetuRegex.test(descValue) == true || ekezetesRegex.test(descValue) == true) {
             const functionValue = MinDesc(descValue);
@@ -525,18 +462,14 @@ description.addEventListener('focusout', (e) => {
                 descriptionPass = false;
                 descriptionError.innerText = "The description must be 20 character long.";
                 description.classList.add('inputError');
-                console.log("A descript. függvény értéke: " + functionValue);
-                console.log("descriptionPass value: " + descriptionPass);
             } else {
                 description.classList.add('inputPass');
                 descriptionPass = true;
-                console.log("descriptionPass value: " + descriptionPass);
             }
         } else {
             description.classList.add('inputError');
             descriptionError.innerText = "The description must contains at least one letter.";
             descriptionPass = false;
-            console.log("descriptionPass value: " + descriptionPass);
         }
 
     }
@@ -562,7 +495,6 @@ function VerifyDropdown(select, errorField, selection) {
     if (select.value == 0) {
         const errorMessage = `The ${selection} cannot be the default value.`;
         errorField.innerHTML = `<p>${errorMessage}</p>`;
-        console.log(selection + ": wrong choice");
         select.classList.add('inputError');
         return false;
     }
@@ -574,19 +506,15 @@ var audienceData;
 selectAudience.addEventListener('focusout', (e) => {
     e.preventDefault();
     audienceData = e.target.value;
-    console.log("You selected: " + audienceData);
 
     const functionValue = VerifyDropdown(selectAudience, audienceError, "Audience");
     if (functionValue == true) {
         selectAudience.classList.add('inputPass');
         audiencePass = true;
-        console.log("audiencePass value: " + audiencePass);
-        console.log(audienceData);
     }
 })
 
 selectAudience.addEventListener('change', function () {
-    // Az alapértelmezett érték letiltása, ha már választottak
     if (this.value !== "0") {
         disableDefaultOption(this);
     }
@@ -611,7 +539,6 @@ function getLanguages(response) {
 
     language_dropdown.addEventListener('change', function (event) {
         selectedLanguage = event.target.value;
-        console.log('Selected language ID:', selectedLanguage);
     });
 }
 
@@ -625,18 +552,14 @@ language_dropdown.addEventListener('focusin', (e) => {
 language_dropdown.addEventListener('focusout', (e) => {
     e.preventDefault();
 
-    console.log("You selected: " + selectedLanguage);
-
     const functionValue = VerifyDropdown(language_dropdown, languageError, "Langugage");
     if (functionValue == true) {
         language_dropdown.classList.add('inputPass');
         languagePass = true;
-        console.log("language value: " + languagePass);
     }
 })
 
 language_dropdown.addEventListener('change', function () {
-    // Az alapértelmezett érték letiltása, ha már választottak
     if (this.value !== "0") {
         disableDefaultOption(this);
     }
@@ -655,7 +578,6 @@ function getCategories(response) {
 
     category_dropdown.addEventListener('change', function (event) {
         selectedCategory = event.target.value;
-        console.log('Selected category ID:', selectedCategory);
     });
 }
 
@@ -668,18 +590,15 @@ category_dropdown.addEventListener('focusin', (e) => {
 
 category_dropdown.addEventListener('focusout', (e) => {
     e.preventDefault();
-    console.log("You selected: " + selectedCategory);
 
     const functionValue = VerifyDropdown(category_dropdown, categoryError, "Category");
     if (functionValue == true) {
         category_dropdown.classList.add('inputPass');
         categoryPass = true;
-        console.log("audiencePass value: " + categoryPass);
     }
 })
 
 category_dropdown.addEventListener('change', function () {
-    // Az alapértelmezett érték letiltása, ha már választottak
     if (this.value !== "0") {
         disableDefaultOption(this);
     }
@@ -693,19 +612,15 @@ var publishingForm;
 checkboxes.forEach(function (radioButton) {
     radioButton.addEventListener('change', function () {
         checkError.innerHTML = "";
-        // Ellenőrizze, hogy melyik rádiógomb van bejelölve
         if (this.checked) {
             publishingForm = this.id;
-            // console.log("Bejelölt rádiógomb: " + publishingForm);
             if (publishingForm == "SelfPublish") {
-                console.log("Aktívak a mezők");
                 self_inputs.hidden = false;
                 publishingStatus = 2;
                 console.warn('Selfpublish boolean: ', publishingStatus);
             }
 
             if (publishingForm == "PublisherPublish") {
-                console.log("Mezők deaktiválása");
                 self_inputs.hidden = true;
                 publishingStatus = 1;
                 console.warn('Selfpublish boolean: ', publishingStatus);
@@ -739,31 +654,26 @@ chapter_number.addEventListener("focusin", (e) => {
 
 //? BANK ACC NUMBER
 function bankValidation(bankValue) {
-    console.log("Input IBAN: " + bankValue);
     const removeSpaces = bankValue.replace(/ /g, "");
 
     if (bankValue == "") {
         bankAccNumber.classList.add('inputError');
         bankError.innerHTML = `<p>This field cannot be empty.</p>`;
-        console.log("The bank field is empty.");
         return false;
 
     } else if (removeSpaces.length < 15) {
         bankAccNumber.classList.add('inputError');
         bankError.innerHTML = `<p>This value is too short. The IBAN number should be between 15 and 34 characters.</p>`;
-        console.log("The bank value is too short.");
         return false;
 
     } else if (removeSpaces.length > 34) {
         bankAccNumber.classList.add('inputError');
         bankError.innerHTML = `<p>This value is too long. The IBAN number should be between 15 and 34 characters.</p>`;
-        console.log("The bank value is too long.");
         return false;
 
     } else if (removeSpaces.length >= 15 && removeSpaces.length <= 34) {
         bankAccNumber.classList.add('inputPass');
         const upperCase = removeSpaces.toUpperCase();
-        console.log("IBAN number converted to upper case: " + upperCase);
         return true;
     }
 
@@ -793,7 +703,6 @@ bankAccNumber.addEventListener('focusin', (e) => {
 function minPrice(priceValue) {
     if (priceValue < 1000) {
         bookPrice.classList.add('inputError');
-        console.log("price error: too low");
         return false;
     }
     return true;
@@ -807,23 +716,18 @@ bookPrice.addEventListener('focusout', (e) => {
         bookPrice.classList.add('inputError');
         priceError.innerHTML = `<p class="priceErrorP">The price field cannot be empty</p>`;
         pricePass = false;
-        console.log("pricePass value: " + pricePass);
         priceValue = "";
     } else {
-        // Átadjuk a bookPrice.value-t a minPrice függvénynek
         const minFunctionValue = minPrice(bookPrice.value);
         if (minFunctionValue == false) {
             priceValue = "";
             pricePass = false;
-            priceError.innerHTML = `<p class="priceErrorP">The price must be a minimum of 1000 Hungarian Forints!</p>`; // Hibás sor
+            priceError.innerHTML = `<p class="priceErrorP">The price must be a minimum of 1000 Hungarian Forints!</p>`;
             bookPrice.classList.add('inputError');
-            console.log("A minPrice függvény értéke: " + minFunctionValue);
-            console.log("pricePass value: " + pricePass);
         } else {
             bookPrice.classList.add('inputPass');
             pricePass = true;
             priceValue = bookPrice.value;
-            console.log("pricePass value: " + pricePass);
         }
     }
 })
@@ -866,90 +770,90 @@ nextBtn.addEventListener('click', async (e) => {
 
                 var bookId = localStorage.getItem("bookId");
                 if (bookId !== null) {
-                    const setBook_response_publisher = await setBook({
-                        "id": bookId,
-                        "title": title.value,
-                        "description": description.value,
-                        "targetAudienceId": selectAudience.value,
-                        "languageId": language_dropdown.value,
-                        "adultFiction": isAdultLiterature,
-                        "categoryId": category_dropdown.value,
-                        "statusId": 1,
-                        "price": "null",
-                        "coverImage": pictureName,
-                        "file": fileName,
-                        "bankAccountNumber": "null",
-                        "chapterNumber": chapternumber
-                    });
+                    const fileUploadResponse = await uploadFilePhp();
+
+                    if (fileUploadResponse.status === 200) {
+                        
+                        const setBook_response_publisher = await setBook({
+                            "id": bookId,
+                            "title": title.value,
+                            "description": description.value,
+                            "targetAudienceId": selectAudience.value,
+                            "languageId": language_dropdown.value,
+                            "adultFiction": isAdultLiterature,
+                            "categoryId": category_dropdown.value,
+                            "statusId": 1,
+                            "price": "null",
+                            "coverImage": pictureName,
+                            "file": fileName,
+                            "bankAccountNumber": "null",
+                            "chapterNumber": chapternumber
+                        });
 
 
-                    console.log(setBook_response_publisher.status);
-                    switch (setBook_response_publisher.status) {
-                        case 200:
-                            localStorage.removeItem("bookId");
-                            window.location.href = "../General-HomePage/GenHome.html";
-                            break;
-                        case 403:
-                            window.location.href = "../404/404.html";
-                            break;
-                        case 401:
-                            window.location.href = "../Log-in/login.html";
-                            break;
-                        case 422:
-                            alert("Please make sure you fill in all fields correctly!");
-                            console.log(setBook_response_publisher.data);
-                            break;
-                        default:
-                            alert("Something went worng. Please try it later!");
-                            console.log(setBook_response_publisher.status);
-                            console.log(setBook_response_publisher.data);
-                            console.log(setBook_response_publisher.error);
-                            break;
+                        switch (setBook_response_publisher.status) {
+                            case 200:
+                                localStorage.removeItem("bookId");
+                                window.location.href = "../General-HomePage/GenHome.html";
+                                break;
+                            case 403:
+                                window.location.href = "../404/404.html";
+                                break;
+                            case 401:
+                                window.location.href = "../Log-in/login.html";
+                                break;
+                            case 422:
+                                alert("Please make sure you fill in all fields correctly!");
+                                break;
+                            default:
+                                alert("Something went worng. Please try it later!");
+                                break;
+                        }
+                    } else {
+                        alert(fileUploadResponse.message);
                     }
 
                 } else {
-                    const addBook_response_publisher = await addBook({
-                        "title": titleValue,
-                        "description": descValue,
-                        "targetAudienceId": audienceData,
-                        "languageId": selectedLanguage,
-                        "adultFiction": isAdultLiterature,
-                        "categoryId": selectedCategory,
-                        "statusId": 1,
-                        "price": "null",
-                        "coverImage": pictureName,
-                        "file": fileName,
-                        "bankAccountNumber": "null",
-                        "chapterNumber": chapternumber
-                    });
+                    const fileUploadResponse = await uploadFilePhp();
 
-                    console.log(addBook_response_publisher.status);
-                    switch (addBook_response_publisher.status) {
-                        case 200:
+                    if (fileUploadResponse.status === 200) {
+                        
+                        const addBook_response_publisher = await addBook({
+                            "title": titleValue,
+                            "description": descValue,
+                            "targetAudienceId": audienceData,
+                            "languageId": selectedLanguage,
+                            "adultFiction": isAdultLiterature,
+                            "categoryId": selectedCategory,
+                            "statusId": 1,
+                            "price": "null",
+                            "coverImage": pictureName,
+                            "file": fileName,
+                            "bankAccountNumber": "null",
+                            "chapterNumber": chapternumber
+                        });
 
-                            localStorage.removeItem("bookId");
-                            window.location.href = "../General-HomePage/GenHome.html";
-                            break;
-                        case 403:
-                            window.location.href = "../404/404.html";
-                            break;
-                        case 401:
-                            window.location.href = "../Log-in/login.html";
-                            break;
-                        case 422:
-                            alert("Please make sure you fill in all fields correctly!");
-                            console.log(addBook_response_publisher.status);
-                            console.log(addBook_response_publisher.data);
-                            console.log(addBook_response_publisher.error);
-                            break;
-                        default:
-                            alert("Something went worng. Please try it later!");
-                            console.log(addBook_response_publisher.status);
-                            console.log(addBook_response_publisher.data);
-                            console.log(addBook_response_publisher.error);
-                            break;
+                        switch (addBook_response_publisher.status) {
+                            case 200:
+                                localStorage.removeItem("bookId");
+                                window.location.href = "../General-HomePage/GenHome.html";
+                                break;
+                            case 403:
+                                window.location.href = "../404/404.html";
+                                break;
+                            case 401:
+                                window.location.href = "../Log-in/login.html";
+                                break;
+                            case 422:
+                                alert("Please make sure you fill in all fields correctly!");
+                                break;
+                            default:
+                                alert("Something went worng. Please try it later!");
+                                break;
+                        }
+                    } else {
+                        alert(fileUploadResponse.message);
                     }
-
 
                 }
             } else {
@@ -1011,85 +915,89 @@ nextBtn.addEventListener('click', async (e) => {
 
                 var bookId = localStorage.getItem("bookId");
                 if (bookId !== null) {
-                    const setBook_self = await setBook({
-                        "id": bookId,
-                        "title": title.value,
-                        "description": description.value,
-                        "targetAudienceId": selectAudience.value,
-                        "languageId": language_dropdown.value,
-                        "adultFiction": isAdultLiterature,
-                        "categoryId": category_dropdown.value,
-                        "statusId": 2,
-                        "price": bookPrice.value,
-                        "coverImage": pictureName,
-                        "file": fileName,
-                        "bankAccountNumber": bankAccNumber.value,
-                        "chapterNumber": chapter_number.value
-                    });
 
-                    console.log(setBook_self.status);
-                    console.log(setBook_self.error);
-                    switch (setBook_self.status) {
-                        case 200:
-                            localStorage.removeItem("bookId");
-                            window.location.href = "../General-HomePage/GenHome.html";
-                            break;
-                        case 403:
-                            window.location.href = "../404/404.html";
-                            break;
-                        case 401:
-                            window.location.href = "../Log-in/login.html";
-                            break;
-                        case 422:
-                            alert("Please make sure you fill in all fields correctly!");
-                            console.log(setBook_self.data);
-                            break;
-                        default:
-                            alert("Something went worng. Please try it later!");
-                            console.log(setBook_self.status);
-                            console.log(setBook_self.data);
-                            console.log(setBook_self.error);
-                            break;
+                    const fileUploadResponse = await uploadFilePhp();
+
+                    if (fileUploadResponse.status === 200) {
+                        
+                        const setBook_self = await setBook({
+                            "id": bookId,
+                            "title": title.value,
+                            "description": description.value,
+                            "targetAudienceId": selectAudience.value,
+                            "languageId": language_dropdown.value,
+                            "adultFiction": isAdultLiterature,
+                            "categoryId": category_dropdown.value,
+                            "statusId": 2,
+                            "price": bookPrice.value,
+                            "coverImage": pictureName,
+                            "file": fileName,
+                            "bankAccountNumber": bankAccNumber.value,
+                            "chapterNumber": chapter_number.value
+                        });
+
+                        switch (setBook_self.status) {
+                            case 200:
+                                localStorage.removeItem("bookId");
+                                window.location.href = "../General-HomePage/GenHome.html";
+                                break;
+                            case 403:
+                                window.location.href = "../404/404.html";
+                                break;
+                            case 401:
+                                window.location.href = "../Log-in/login.html";
+                                break;
+                            case 422:
+                                alert("Please make sure you fill in all fields correctly!");
+                                break;
+                            default:
+                                alert("Something went worng. Please try it later!");
+                                break;
+                        }
+                    } else {
+                        alert(fileUploadResponse.message);
                     }
 
                 } else {
-                    const addBook_response_self = await addBook({
-                        "title": titleValue,
-                        "description": descValue,
-                        "targetAudienceId": audienceData,
-                        "languageId": selectedLanguage,
-                        "adultFiction": isAdultLiterature,
-                        "categoryId": selectedCategory,
-                        "statusId": 1,
-                        "price": 0,
-                        "coverImage": pictureName,
-                        "file": fileName,
-                        "bankAccountNumber": bankValue,
-                        "chapterNumber": chapternumber
-                    });
+                    const fileUploadResponse = await uploadFilePhp();
 
-                    console.log(addBook_response_self.status);
-                    switch (addBook_response_self.status) {
-                        case 200:
-                            localStorage.removeItem("bookId");
-                            window.location.href = "../General-HomePage/GenHome.html";
-                            break;
-                        case 403:
-                            window.location.href = "../404/404.html";
-                            break;
-                        case 401:
-                            window.location.href = "../Log-in/login.html";
-                            break;
-                        case 422:
-                            alert("Please make sure you fill in all fields correctly!");
-                            console.log(addBook_response_self.data);
-                            break;
-                        default:
-                            alert("Something went worng. Please try it later!");
-                            console.log(addBook_response_self.status);
-                            console.log(addBook_response_self.data);
-                            console.log(addBook_response_self.error);
-                            break;
+                    if (fileUploadResponse.status === 200) {
+                        
+                        const addBook_response_self = await addBook({
+                            "title": titleValue,
+                            "description": descValue,
+                            "targetAudienceId": audienceData,
+                            "languageId": selectedLanguage,
+                            "adultFiction": isAdultLiterature,
+                            "categoryId": selectedCategory,
+                            "statusId": 1,
+                            "price": 0,
+                            "coverImage": pictureName,
+                            "file": fileName,
+                            "bankAccountNumber": bankValue,
+                            "chapterNumber": chapternumber
+                        });
+
+                        switch (addBook_response_self.status) {
+                            case 200:
+                                localStorage.removeItem("bookId");
+                                window.location.href = "../General-HomePage/GenHome.html";
+                                break;
+                            case 403:
+                                window.location.href = "../404/404.html";
+                                break;
+                            case 401:
+                                window.location.href = "../Log-in/login.html";
+                                break;
+                            case 422:
+                                alert("Please make sure you fill in all fields correctly!");
+                                break;
+                            default:
+                                alert("Something went worng. Please try it later!");
+                                break;
+                        }
+                    } else {
+                        alert(fileUploadResponse.message);
                     }
                 }
 
@@ -1151,3 +1059,59 @@ nextBtn.addEventListener('click', async (e) => {
         }
     }
 })
+
+async function uploadFilePhp() {
+    const formData = new FormData();
+    formData.append('file', inputFile.files[0]);
+    formData.append('image', inputPicture.files[0]);
+
+    const file = inputFile.files[0];
+    if (file.type !== 'application/pdf') {
+        return { status: 400, message: 'The file type can only be PDF!' };
+    }
+    const filePages = await countPdfPages(file);
+    if (filePages < 5) {
+        return { status: 400, message: 'The file must be at least 5 pages long!' };
+    }
+
+    const image = inputPicture.files[0];
+    if (image.type !== 'image/jpeg') {
+        return { status: 400, message: 'Image type must be JPG only!' };
+    }
+
+    try {
+        const response = await fetch('upload.php', {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (response.status === 200) {
+            return { status: 200 };
+        } else {
+            return { status: response.status };
+        }
+    } catch (error) {
+        console.error('Error uploading file:', error);
+        return { status: 500 };
+    }
+}
+
+function countPdfPages(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const pdf = new Uint8Array(event.target.result);
+            let pages = 0;
+            for (let i = 0; i < pdf.length; i++) {
+                if (pdf[i] === 0x0c && pdf[i + 1] === 0x0a) {
+                    pages++;
+                }
+            }
+            resolve(pages);
+        };
+        reader.onerror = function(error) {
+            reject(error);
+        };
+        reader.readAsArrayBuffer(file);
+    });
+}
