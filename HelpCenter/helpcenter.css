@@ -397,6 +397,12 @@
     }
 }
 
+@media (min-width: 1025px) and (max-width: 1199px) {
+    #accordion-element{
+        width: 800px!important;
+    }
+}
+
 /** ---- FONTS ---- */
 
 @font-face {

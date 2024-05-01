@@ -16,13 +16,13 @@
         bottom: 4px;
     }
 
+    #navbarNav{
+        margin-left: 0px!important;
+    }
+
     #usernamePicture {
         display: flex;
         flex-direction: column;
-    }
-
-    #navbarNav {
-        margin-left: 40px!important;
     }
 
     #navbar a {
@@ -66,16 +66,12 @@
         padding-top: 0px !important;
     }
 
-    .col-8,
-    .col-4 {
+    .col-8{
         width: 100% !important;
     }
 
-    .right-side {
-        border-left: 0px !important;
-        left: 0% !important;
-        position: absolute !important;
-        height: fit-content !important;
+    .col-4{
+        display: none !important;
     }
 
     .left-side {
@@ -85,26 +81,6 @@
 
     #kulsoPostCard{
         padding-left: 0px!important;
-    }
-
-    #suggestion-div {
-        display: flex !important;
-        flex-direction: row !important;
-        gap: 30px !important;
-    }
-
-    .suggested-user {
-        margin-left: 0px !important;
-    }
-
-    .sug-user-name {
-        font-size: 12px !important;
-    }
-
-    .profile-suggestion {
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
     }
 
     .first-row {
@@ -128,6 +104,12 @@
     .userName {
         gap: 8px !important;
         margin-left: 0% !important;
+        width: fit-content!important;
+    }
+
+    .sug-user-name{
+        width: 50px !important;
+        word-wrap: break-word;
     }
 
     .card-user-name {
@@ -227,7 +209,7 @@
     }
 
     #navbarNav {
-        margin-left: 40px!important;
+        margin-left: 0px!important;
     }
 
     .navbar-toggler {
@@ -289,52 +271,16 @@
         margin-bottom: 30px !important;
     }
 
-    .col-8,
-    .col-4 {
+    .col-8 {
         width: 100% !important;
     }
 
-    .right-side {
-        border-left: 0px !important;
-        left: 0% !important;
-        position: absolute !important;
-        height: fit-content !important;
+    .col-4{
+        display: none;
     }
 
     #kulsoPostCard{
         padding-left: 0px!important;
-    }
-
-    #suggestion-div {
-        display: flex !important;
-        flex-direction: row !important;
-    }
-
-    #suggestion-h2{
-        font-size: 18px;
-    }
-
-    .smaller-user-profile-pic{
-        width: 40px!important;
-        height: 40px!important;
-    }
-
-    .suggested-user {
-        margin-left: 0px !important;
-    }
-
-    .sug-user-name {
-        font-size: 12px !important;
-    }
-
-    .profile-suggestion {
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .btn-more {
-        display: none;
     }
 
     .left-side {
@@ -460,7 +406,7 @@
     }
 }
 
-@media (min-width: 376px) and (max-width:425px) {
+@media (min-width: 377px) and (max-width:425px) {
     #logo {
         width: 80px;
     }
@@ -558,7 +504,7 @@
     #suggestion-div {
         display: flex !important;
         flex-direction: row !important;
-        gap: 30px !important;
+        gap: 10px !important;
     }
 
     .suggested-user {
@@ -567,6 +513,11 @@
 
     .sug-user-name {
         font-size: 12px !important;
+        width: 70px !important;
+    }
+
+    #kulsoPostCard{
+        padding-left: 0px !important;
     }
 
     .left-side {
@@ -575,9 +526,10 @@
     }
 
     .profile-suggestion {
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        flex-direction: column!important;
+        justify-content: center!important;
+        align-items: center!important;
+        width: fit-content!important;
     }
 
     .smaller-user-profile-pic {
@@ -586,7 +538,7 @@
     }
 
     .post-card {
-        width: 350px !important;
+        width: 340px !important;
         padding: 16px !important;
     }
 
@@ -601,7 +553,8 @@
 
     .userName {
         margin-top: 5px !important;
-        margin-left: 10px !important;
+        width: 70px !important;
+        word-wrap: break-word!important;
     }
 
     .card-user-name {
@@ -734,7 +687,7 @@
     }
 
     #first-section {
-        margin-top: 100px !important;
+        margin-top: 150px !important;
         display: grid;
         justify-content: center;
         margin-bottom: 30px !important;
@@ -767,7 +720,7 @@
     #suggestion-div {
         display: flex !important;
         flex-direction: row !important;
-        gap: 30px !important;
+        gap: 20px !important;
     }
 
     .suggested-user {
@@ -776,12 +729,14 @@
 
     .sug-user-name {
         font-size: 12px !important;
+        width: 70px !important;
     }
 
     .profile-suggestion {
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        flex-direction: column!important;
+        justify-content: center!important;
+        align-items: center!important;
+        width: fit-content!important;
     }
 
     .left-side {
@@ -805,6 +760,8 @@
 
     .userName {
         margin-left: 10px !important;
+        width: 70px!important;
+        word-wrap: break-word;
     }
 
     .card-user-name {
@@ -952,7 +909,7 @@
     #suggestion-div {
         display: flex !important;
         flex-direction: row !important;
-        gap: 30px !important;
+        gap: 20px !important;
     }
 
     .suggested-user {
@@ -961,12 +918,14 @@
 
     .sug-user-name {
         font-size: 12px !important;
+        width: 70px !important;
     }
 
     .profile-suggestion {
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        flex-direction: column!important;
+        justify-content: center!important;
+        align-items: center!important;
+        width: fit-content!important;
     }
 
     .left-side {
@@ -976,6 +935,11 @@
     .post-card {
         width: 470px !important;
         padding: 20px !important;
+    }
+
+    #kulsoPostCard{
+        padding-left: 10px !important;
+        margin-top: 50px;
     }
 
     .first-row {
@@ -989,6 +953,8 @@
 
     .userName {
         margin-left: 10px !important;
+        width: 70px!important;
+        word-wrap: break-word;
     }
 
     .card-user-name {
@@ -1157,18 +1123,32 @@
         height: 60px !important;
     }
 
+    .userName {
+        margin-left: 10px !important;
+        width: 100px!important;
+        word-wrap: break-word!important;
+        text-align: center!important;
+    }
+
     .suggested-user {
         margin-left: 0px !important;
     }
 
     .sug-user-name {
         font-size: 16px !important;
+        width: 100px!important;
     }
 
     .profile-suggestion {
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        flex-direction: column!important;
+        justify-content: center!important;
+        align-items: center!important;
+        width: fit-content!important;
+    }
+
+    #kulsoPostCard{
+        padding-left: 10px !important;
+        margin-top: 50px;
     }
 
     .left-side {
@@ -1325,6 +1305,12 @@
         height: fit-content !important;
     }
 
+    
+    #kulsoPostCard{
+        padding-left: 10px !important;
+        margin-top: 50px;
+    }
+
     .btn-more{
         display: none;
     }
@@ -1332,7 +1318,7 @@
     #suggestion-div {
         display: flex !important;
         flex-direction: row !important;
-        gap: 50px !important;
+        gap: 30px !important;
     }
 
     .suggested-user {
@@ -1341,6 +1327,14 @@
 
     .sug-user-name {
         font-size: 16px !important;
+        width: 100px!important;
+    }
+
+    .userName {
+        margin-left: 10px !important;
+        width: 100px!important;
+        word-wrap: break-word!important;
+        text-align: center!important;
     }
 
     .profile-suggestion {
