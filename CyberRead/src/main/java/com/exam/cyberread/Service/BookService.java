@@ -223,7 +223,26 @@ public class BookService {
     public static JSONObject addBook(Integer userId, String title, String description, Integer targetAudienceId, Integer languageId, Boolean adultFiction, Integer categoryId, Integer statusId, Integer price, String coverImage, String file, String bankAccountNumber, Integer chapterNumber) throws BookException {
         try {
             JSONObject errors = BookService.bookDetailsCheck(title, description, targetAudienceId, languageId, adultFiction, categoryId, price, statusId, bankAccountNumber, coverImage, file);
+            
+            if(statusId == null) {
+                errors.put("statusError", "You have to choose one option!");
+            } else if(statusId < 1 || statusId > 2) {
+                errors.put("statusError", "The option does not exist!");
+            } else {
+                if(statusId == 2 && price == null) {
+                    errors.put("priceError", "The price field cannot be empty!");
+                } else if(statusId == 1) {
+                    price = 0;
+                }
 
+                if(statusId == 2 && (bankAccountNumber == null || bankAccountNumber.isEmpty())) {
+                    errors.put("bankAccountNumberError", "The bank account number field cannot be empty!");
+                } else if(statusId == 2 && bankAccountNumber.length() > 30) {
+                    errors.put("bankAccountNumberError", "The length of the bank account number must not exceed 30 characters!");
+                } else if(statusId == 1) {
+                    bankAccountNumber = "";
+                }
+            }
             if(chapterNumber == null) {
                 errors.put("chapterNumberError", "The chapter number field cannot be empty!");
             } else if(chapterNumber < 0) {
@@ -327,6 +346,26 @@ public class BookService {
     public static JSONObject setBook(Integer bookId, String title, String description, Integer targetAudienceId, Integer languageId, Boolean adultFiction, Integer categoryId, Integer statusId, Integer price, String coverImage, String file, String bankAccountNumber, Integer chapterNumber) throws BookException {
         try{
             JSONObject errors = BookService.bookDetailsCheck(title, description, targetAudienceId, languageId, adultFiction, categoryId, price, statusId, bankAccountNumber, coverImage, file);
+            
+            if(statusId == null) {
+                errors.put("statusError", "You have to choose one option!");
+            } else if(statusId < 1 || statusId > 2) {
+                errors.put("statusError", "The option does not exist!");
+            } else {
+                if(statusId == 2 && price == null) {
+                    errors.put("priceError", "The price field cannot be empty!");
+                } else if(statusId == 1) {
+                    price = 0;
+                }
+
+                if(statusId == 2 && (bankAccountNumber == null || bankAccountNumber.isEmpty())) {
+                    errors.put("bankAccountNumberError", "The bank account number field cannot be empty!");
+                } else if(statusId == 2 && bankAccountNumber.length() > 30) {
+                    errors.put("bankAccountNumberError", "The length of the bank account number must not exceed 30 characters!");
+                } else if(statusId == 1) {
+                    bankAccountNumber = "";
+                }
+            }
             
             if(chapterNumber == null) {
                 errors.put("chapterNumberError", "The chapter number field cannot be empty!");
@@ -440,26 +479,6 @@ public class BookService {
                     errors.put("priceError", "The price must be a minimum of 1000 Hungarian Forints!");
                 } else {
                     price = (int) (price / 0.80);
-                }
-            }
-
-            if(statusId == null) {
-                errors.put("statusError", "You have to choose one option!");
-            } else if(statusId < 1 || statusId > 2) {
-                errors.put("statusError", "The option does not exist!");
-            } else {
-                if(statusId == 2 && price == null) {
-                    errors.put("priceError", "The price field cannot be empty!");
-                } else if(statusId == 1) {
-                    price = 0;
-                }
-
-                if(statusId == 2 && (bankAccountNumber == null || bankAccountNumber.isEmpty())) {
-                    errors.put("bankAccountNumberError", "The bank account number field cannot be empty!");
-                } else if(statusId == 2 && bankAccountNumber.length() > 30) {
-                    errors.put("bankAccountNumberError", "The length of the bank account number must not exceed 30 characters!");
-                } else if(statusId == 1) {
-                    bankAccountNumber = "";
                 }
             }
 
