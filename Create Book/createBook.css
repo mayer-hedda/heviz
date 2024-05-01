@@ -1087,6 +1087,8 @@
     font-family: 'Montserrat-Medium', sans-serif;
     font-size: smaller;
     color: var(--dragAndDrop-label);
+    width: 216px;
+    overflow-wrap: break-word;
 }
 
 #dropAreaPicture {
