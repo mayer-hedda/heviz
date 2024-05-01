@@ -259,7 +259,8 @@ inputFile.addEventListener('input', (e) => {
 
 
 function LoadBookDetails(response) {
-
+    title.value = response.data.title;
+    titlePass = true;
     description.value = response.data.description;
     descriptionPass = true;
     selectAudience.value = response.data.targetAudienceId;
@@ -977,7 +978,7 @@ nextBtn.addEventListener('click', async (e) => {
                             "adultFiction": isAdultLiterature,
                             "categoryId": selectedCategory,
                             "statusId": 2,
-                            "price": 0,
+                            "price": bookPrice.value,
                             "coverImage": `pictures/book/${imgDataToSend}`,
                             "file": `book/${fileDataToSend}`,
                             "bankAccountNumber": bankValue,
