@@ -223,19 +223,16 @@ public class BookService {
     public static JSONObject addBook(Integer userId, String title, String description, Integer targetAudienceId, Integer languageId, Boolean adultFiction, Integer categoryId, Integer statusId, Integer price, String coverImage, String file, String bankAccountNumber, Integer chapterNumber) throws BookException {
         try {
             JSONObject errors = BookService.bookDetailsCheck(title, description, targetAudienceId, languageId, adultFiction, categoryId, price, statusId, bankAccountNumber, coverImage, file);
-            Integer freeChapterNumber = null;
 
             if(chapterNumber == null) {
                 errors.put("chapterNumberError", "The chapter number field cannot be empty!");
             } else if(chapterNumber < 0) {
                 errors.put("chapterNumberError", "The book cannot have less than zero chapters!");
-            } else {
-                freeChapterNumber = (int) Math.round(chapterNumber * 0.2);
             }
             
             
             if(errors.isEmpty()) {
-                Integer result = Book.addBook(userId, title, description, targetAudienceId, languageId, adultFiction, categoryId, statusId, price, coverImage, file, bankAccountNumber, chapterNumber, freeChapterNumber);
+                Integer result = Book.addBook(userId, title, description, targetAudienceId, languageId, adultFiction, categoryId, statusId, price, coverImage, file, bankAccountNumber, chapterNumber);
                 
                 switch(result) {
                     case 2:
@@ -330,19 +327,16 @@ public class BookService {
     public static JSONObject setBook(Integer bookId, String title, String description, Integer targetAudienceId, Integer languageId, Boolean adultFiction, Integer categoryId, Integer statusId, Integer price, String coverImage, String file, String bankAccountNumber, Integer chapterNumber) throws BookException {
         try{
             JSONObject errors = BookService.bookDetailsCheck(title, description, targetAudienceId, languageId, adultFiction, categoryId, price, statusId, bankAccountNumber, coverImage, file);
-            Integer freeChapterNumber = null;
             
             if(chapterNumber == null) {
                 errors.put("chapterNumberError", "The chapter number field cannot be empty!");
             } else if(chapterNumber < 0) {
                 errors.put("chapterNumberError", "The book cannot have less than zero chapters!");
-            } else {
-                freeChapterNumber = (int) Math.round(chapterNumber * 0.2);
-            }
+            } 
             
             
             if(errors.isEmpty()) {
-                Integer result = Book.setBook(bookId, title, description, targetAudienceId, languageId, adultFiction, categoryId, statusId, price, coverImage, file, bankAccountNumber, chapterNumber, freeChapterNumber);
+                Integer result = Book.setBook(bookId, title, description, targetAudienceId, languageId, adultFiction, categoryId, statusId, price, coverImage, file, bankAccountNumber, chapterNumber);
                         
                 switch(result) {
                     case 2:
@@ -462,6 +456,8 @@ public class BookService {
 
                 if(statusId == 2 && (bankAccountNumber == null || bankAccountNumber.isEmpty())) {
                     errors.put("bankAccountNumberError", "The bank account number field cannot be empty!");
+                } else if(statusId == 2 && bankAccountNumber.length() > 30) {
+                    errors.put("bankAccountNumberError", "The length of the bank account number must not exceed 30 characters!");
                 } else if(statusId == 1) {
                     bankAccountNumber = "";
                 }
@@ -960,7 +956,6 @@ public class BookService {
             * price
             * username
             * category
-            * purchased
             * publisher username
      *
      * @throws BookException: Something wrong!
@@ -975,6 +970,190 @@ public class BookService {
         } catch(MissingFilterException ex) {
             throw ex;
         } 
+    }
+    
+    
+    /**
+     * @param userId
+     * @param bookId
+     * @param price
+     * @param publisherBankAccountNumber
+     * 
+     * @return
+        * error
+        * null (Successfully set published book details)
+     * 
+     * @throws BookException: Something wrong!
+     */
+    public static JSONObject setPublishedBookDetails(Integer userId, Integer bookId, Integer price, String publisherBankAccountNumber) throws BookException {
+        try {   
+            JSONObject error = new JSONObject();
+            
+            // price validate
+            if(price < 1000) {
+                error.put("priceError", "The price must be a minimum of 1000 Hungarian Forints!");
+            } 
+            
+            // bank account number validate
+            if(publisherBankAccountNumber == null || publisherBankAccountNumber.isEmpty()) {
+                error.put("publisherBankAccountNumberError", "This field cannot be empty!");
+            } else if(publisherBankAccountNumber.length() > 30) {
+                error.put("publisherBankAccountNumberError", "The length of the bank account number must not exceed 30 characters!");
+            }
+            
+            if(error.isEmpty()) {
+                Integer newPrice = (int) (price / 0.80);
+
+                return Book.setPublishedBookDetails(userId, bookId, newPrice, publisherBankAccountNumber);
+            }
+            
+            return error;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in setPublishedBookDetails() method!");
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param bookId
+     * 
+     * @return
+        * book details:
+            * price
+            * publisher bank account number
+        * error 
+     * 
+     * @throws BookException: Something wrong!
+     */
+    public static JSONObject getPublishedBookDetails(Integer userId, Integer bookId) throws BookException {
+        try {   
+            return Book.getPublishedBookDetails(userId, bookId);
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getPublishedBookDetails() method!");
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param bookId
+     * @param price
+     * @param publisherBankAccountNumber
+     * 
+     * @return
+        * error
+        * null (Successfully publish this book)
+     * 
+     * @throws BookException: Something wrong!
+     */
+    public static JSONObject publishBook(Integer userId, Integer bookId, Integer price, String publisherBankAccountNumber) throws BookException {
+        try {   
+            JSONObject error = new JSONObject();
+            
+            // price validate
+            if(price < 1000) {
+                error.put("priceError", "The price must be a minimum of 1000 Hungarian Forints!");
+            } 
+            
+            // bank account number validate
+            if(publisherBankAccountNumber == null || publisherBankAccountNumber.isEmpty()) {
+                error.put("publisherBankAccountNumberError", "This field cannot be empty!");
+            } else if(publisherBankAccountNumber.length() > 30) {
+                error.put("publisherBankAccountNumberError", "The length of the bank account number must not exceed 30 characters!");
+            }
+            
+            if(error.isEmpty()) {
+                Integer newPrice = (int) (price / 0.80);
+
+                return Book.publishBook(userId, bookId, newPrice, publisherBankAccountNumber);
+            }
+            
+            return error;
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in publishBook() method!");
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param bookId
+     * 
+     * @return
+        * error
+        * null (Successfully unpublish this book)
+     * 
+     * @throws BookException: Something wrong!
+     */
+    public static JSONObject unpublishBook(Integer userId, Integer bookId) throws BookException {
+        try {   
+            return Book.unpublishBook(userId, bookId);
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in unpublishBook() method!");
+        }
+    }
+    
+    
+    /**
+     * @param userId
+     * @param filter
+     * 
+     * @return
+        * books:
+            * book id
+            * cover image
+            * title
+            * first name
+            * last name
+            * publisher company name
+            * description
+            * pages number
+            * book rating
+            * language
+            * price
+            * username
+            * category
+            * publisher username
+     *
+     * @throws BookException: Something wrong!
+     * @throws MissingFilterException: This filter number does not exist!
+     */
+    public static JSONArray getFilteredPayedBooks(Integer userId, Integer filter) throws BookException, MissingFilterException {
+        try {
+            return Book.getFilteredPayedBooks(userId, filter);
+        } catch(BookException ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getFilteredPayedBooks() method!");
+        } catch(MissingFilterException ex) {
+            throw ex;
+        } 
+    }
+    
+    
+    /**
+     * @param userId
+     * @param bookId
+     * 
+     * @return
+        * book: 
+            * file
+            * pagesNumber
+        * null - You are not authorised to view this book!
+     * 
+     * @throws BookException: Something wrong!
+     */
+    public static JSONObject getFileViewerData(Integer userId, Integer bookId) throws BookException {
+        try {
+            return Book.getFileViewerData(userId, bookId);
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getFileViewerData() method!");
+        }
     }
     
 }

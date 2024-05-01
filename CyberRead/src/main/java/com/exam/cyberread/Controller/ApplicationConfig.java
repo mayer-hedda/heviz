@@ -23,6 +23,8 @@ public class ApplicationConfig extends Application {
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(com.exam.cyberread.Config.CorsFilter.class);
         resources.add(com.exam.cyberread.Controller.BookController.class);
+        resources.add(com.exam.cyberread.Controller.BookratingController.class);
+        resources.add(com.exam.cyberread.Controller.BookshoppingController.class);
         resources.add(com.exam.cyberread.Controller.CategoryController.class);
         resources.add(com.exam.cyberread.Controller.CategoryinterestController.class);
         resources.add(com.exam.cyberread.Controller.FollowController.class);

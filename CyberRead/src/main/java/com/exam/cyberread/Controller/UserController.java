@@ -10,6 +10,7 @@ import com.exam.cyberread.Service.UserService;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -265,6 +266,7 @@ public class UserController {
             * User hasn't token
             * Invalid token
             * The token has expired
+        * 404: deleted profile
         * 422: profileUsernameError
      * 
      * @throws UserException: Something wrong
@@ -283,6 +285,9 @@ public class UserController {
                     Integer userId = Token.getUserIdByToken(jwt);
                     String usrname = Token.getUsernameByToken(jwt);
                     JSONObject result = UserService.getUserDetails(userId, usrname, user.getProfileUsername());
+                    if(result == null) {
+                        return Response.status(404).build();
+                    }
                     if(result.length() == 1) {
                         return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
                     }
@@ -904,6 +909,74 @@ public class UserController {
                     }
                     
                     return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                case 2:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
+                default:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
+            }
+        }
+    }
+    
+    
+    /**
+     * @param user
+     * 
+     * @return
+        * 200: Successfully send email
+        * 422: error
+     * 
+     * @throws UserException: Something wrong!
+     */
+    @POST
+    @Path("getPasswordCode")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getPasswordCode(User user) throws UserException {
+        try {
+            JSONObject result = UserService.getPasswordCode(user.getEmail());
+            
+            if(result == null) {
+                return Response.status(Response.Status.OK).build();
+            } else {
+                return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+            }
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            return Response.status(422).entity("Something wrong!").type(MediaType.APPLICATION_JSON).build();
+        }
+    }
+    
+    
+    /**
+     * @param jwt
+     * 
+     * @return
+        * 200: Successfully delete user
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 422: Unsuccessfully delete user
+        * 
+     * @throws UserException: Something wrong!
+     */
+    @DELETE
+    @Path("deleteUser")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteUser(@HeaderParam("Token") String jwt) throws UserException {
+        if(jwt == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
+        } else {
+            int tokenCheckResult = Token.decodeJwt(jwt);
+
+            switch(tokenCheckResult) {
+                case 1: 
+                    Integer userId = Token.getUserIdByToken(jwt);
+                    Boolean result = UserService.deleteUser(userId);
+
+                    if(result) {
+                        return Response.status(Response.Status.OK).build();
+                    }
+                    return Response.status(422).build();
                 case 2:
                     return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
                 default:

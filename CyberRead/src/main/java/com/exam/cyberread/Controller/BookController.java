@@ -1350,7 +1350,6 @@ public class BookController {
                 * price
                 * username
                 * category
-                * purchased
                 * publisher username
         * 401:
             * User hasn't token
@@ -1382,6 +1381,318 @@ public class BookController {
                         
                         return Response.status(422).entity(error.toString()).type(MediaType.APPLICATION_JSON).build();
                     }
+                case 2:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
+                default:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
+            }
+        }
+    }
+    
+    
+    /**
+     * @param jwt
+     * @param book
+     * 
+     * @return
+        * 200: Successfully set published book details
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 403: User is not a publisher user
+        * 422: error
+     * 
+     * @throws BookException: Something wrong!
+     */
+    @PUT
+    @Path("setPublishedBookDetails")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response setPublishedBookDetails(@HeaderParam("Token") String jwt, Book book) throws BookException {
+        if(jwt == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
+        } else {
+            int tokenCheckResult = Token.decodeJwt(jwt);
+
+            switch(tokenCheckResult) {
+                case 1: 
+                    String rank = Token.getUserRankByToken(jwt);
+                    
+                    switch(rank) {
+                        case "publisher": 
+                            Integer userId = Token.getUserIdByToken(jwt);
+                            JSONObject result = BookService.setPublishedBookDetails(userId, book.getId(), book.getPrice(), book.getPublisherBankAccountNumber());
+                            
+                            if(result == null) {
+                                return Response.status(Response.Status.OK).build();
+                            }
+                            return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                        default:
+                            return Response.status(Response.Status.FORBIDDEN).build();
+                    }
+                case 2:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
+                default:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
+            }
+        }
+    }
+    
+    
+     /**
+     * @param jwt
+     * @param book
+     * 
+     * @return
+        * 200: 
+            * price
+            * publisher bank account number
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 403: User is not a publisher user
+        * 422: error
+     * 
+     * @throws BookException: Something wrong!
+     */
+    @POST
+    @Path("getPublishedBookDetails")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getPublishedBookDetails(@HeaderParam("Token") String jwt, Book book) throws BookException {
+        if(jwt == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
+        } else {
+            int tokenCheckResult = Token.decodeJwt(jwt);
+
+            switch(tokenCheckResult) {
+                case 1: 
+                    String rank = Token.getUserRankByToken(jwt);
+                    
+                    switch(rank) {
+                        case "publisher": 
+                            Integer userId = Token.getUserIdByToken(jwt);
+                            JSONObject result = BookService.getPublishedBookDetails(userId, book.getId());
+                            
+                            if(!result.has("error")) {
+                                return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                            }
+                            return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                        default:
+                            return Response.status(Response.Status.FORBIDDEN).build();
+                    }
+                case 2:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
+                default:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
+            }
+        }
+    }
+    
+    
+    /**
+     * @param jwt
+     * @param book
+     * 
+     * @return
+        * 200: Successfully publish this book
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 403: User is not a publisher user
+        * 422: error
+     * 
+     * @throws BookException: Something wrong!
+     */
+    @POST
+    @Path("publishBook")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response publishBook(@HeaderParam("Token") String jwt, Book book) throws BookException {
+        if(jwt == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
+        } else {
+            int tokenCheckResult = Token.decodeJwt(jwt);
+
+            switch(tokenCheckResult) {
+                case 1: 
+                    String rank = Token.getUserRankByToken(jwt);
+                    
+                    switch(rank) {
+                        case "publisher": 
+                            Integer userId = Token.getUserIdByToken(jwt);
+                            JSONObject result = BookService.publishBook(userId, book.getId(), book.getPrice(), book.getPublisherBankAccountNumber());
+                            
+                            if(result == null) {
+                                return Response.status(Response.Status.OK).build();
+                            }
+                            return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                        default:
+                            return Response.status(Response.Status.FORBIDDEN).build();
+                    }
+                case 2:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
+                default:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
+            }
+        }
+    }
+    
+    
+    /**
+     * @param jwt
+     * @param book
+     * 
+     * @return
+        * 200: Successfully unpublish this book
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 403: User is not a publisher user
+        * 422: error
+     * 
+     * @throws BookException: Something wrong!
+     */
+    @POST
+    @Path("unpublishBook")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response unpublishBook(@HeaderParam("Token") String jwt, Book book) throws BookException {
+        if(jwt == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
+        } else {
+            int tokenCheckResult = Token.decodeJwt(jwt);
+
+            switch(tokenCheckResult) {
+                case 1: 
+                    String rank = Token.getUserRankByToken(jwt);
+                    
+                    switch(rank) {
+                        case "publisher": 
+                            Integer userId = Token.getUserIdByToken(jwt);
+                            JSONObject result = BookService.unpublishBook(userId, book.getId());
+                            
+                            if(result == null) {
+                                return Response.status(Response.Status.OK).build();
+                            }
+                            return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                        default:
+                            return Response.status(Response.Status.FORBIDDEN).build();
+                    }
+                case 2:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
+                default:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
+            }
+        }
+    }
+    
+    
+    /**
+     * @param jwt
+     * @param book
+     * 
+     * @return
+        * 200:
+            * books:
+                * book id
+                * cover image
+                * title
+                * first name
+                * last name
+                * publisher company name
+                * description
+                * pages number
+                * book rating
+                * language
+                * price
+                * username
+                * category
+                * publisher username
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 403: This user not a general user
+        * 422: filterError
+     * 
+     * @throws BookException: Something wrong!
+     * @throws MissingFilterException: This filter number does not exist!
+     */
+    @POST
+    @Path("getFilteredPayedBooks")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getFilteredPayedBooks(@HeaderParam("Token") String jwt, Book book) throws BookException, MissingFilterException {
+        if(jwt == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
+        } else {
+            int tokenCheckResult = Token.decodeJwt(jwt);
+
+            switch(tokenCheckResult) {
+                case 1: 
+                    String rank = Token.getUserRankByToken(jwt);
+                    switch(rank) {
+                        case "general":
+                            try {
+                                Integer userId = Token.getUserIdByToken(jwt);
+                                JSONArray result = BookService.getFilteredPayedBooks(userId, book.getFilter());
+                                if(result != null) {
+                                    return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                                }
+                                
+                                return Response.status(Response.Status.FORBIDDEN).build();
+                            } catch(MissingFilterException ex) {
+                                JSONObject error = new JSONObject();
+                                error.put("filterError", ex.getMessage());
+
+                                return Response.status(422).entity(error.toString()).type(MediaType.APPLICATION_JSON).build();
+                            }
+                        default:
+                            return Response.status(Response.Status.FORBIDDEN).build();
+                    }
+                case 2:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
+                default:
+                    return Response.status(Response.Status.UNAUTHORIZED).entity("The token has expired!").type(MediaType.APPLICATION_JSON).build();
+            }
+        }
+    }
+    
+    
+    /**
+     * @param jwt
+     * @param book
+     * 
+     * @return
+        * 200:
+            * file
+            * pagesNumber
+        * 401:
+            * User hasn't token
+            * Invalid token
+            * The token has expired
+        * 422: error
+     * 
+     * @throws BookException: Something wrong!
+     */
+    @POST
+    @Path("getFileViewerData")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getFileViewerData(@HeaderParam("Token") String jwt, Book book) throws BookException {
+        if(jwt == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("User hasn't token!").type(MediaType.APPLICATION_JSON).build();
+        } else {
+            int tokenCheckResult = Token.decodeJwt(jwt);
+
+            switch(tokenCheckResult) {
+                case 1:
+                    Integer userId = Token.getUserIdByToken(jwt);
+                    JSONObject result = BookService.getFileViewerData(userId, book.getId());
+                    if(!result.has("error")) {
+                        return Response.status(Response.Status.OK).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
+                    }
+
+                    return Response.status(422).entity(result.toString()).type(MediaType.APPLICATION_JSON).build();
                 case 2:
                     return Response.status(Response.Status.UNAUTHORIZED).entity("Invalid token!").type(MediaType.APPLICATION_JSON).build();
                 default:
