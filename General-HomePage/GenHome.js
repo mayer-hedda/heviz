@@ -523,8 +523,16 @@ function loadModalData(url, title, firstName, lastName, description, language, r
         save_btn.hidden = false;
         shopping_btn.hidden = false;
         document.getElementById('read-general-btn').hidden = true;
-    }
+    } 
 }
+
+document.getElementById('read-general-btn').addEventListener('click', (e)=>{
+    window.location.href = `../FileViewer/fileViewer.html?id=${bookId}`;
+});
+
+document.getElementById('shopping-cart').addEventListener('click', (e)=>{
+    window.location.href = `../BookShopping/bookshopping.php?id=${bookId}`;
+});
 
 save_btn.addEventListener('click', (e) => {
 
