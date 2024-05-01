@@ -293,17 +293,6 @@
     }
 
     /* medium cards */
-    .sub-sections {
-        margin-top: 50px !important;
-    }
-
-    .subtitle {
-        font-size: 18px;
-        text-align: center;
-        margin-left: 0px !important;
-        margin-bottom: 20px !important;
-    }
-
     .medium-card {
         width: 220px !important;
         height: fit-content !important;
@@ -425,7 +414,8 @@
     }
 
     .modal-cover-btn,
-    .publisher-read {
+    #read-publish-btn,
+    #read-general-btn {
         font-size: 12px !important;
     }
 
@@ -811,17 +801,6 @@
     }
 
     /* medium cards */
-    .sub-sections {
-        margin-top: 50px !important;
-    }
-
-    .subtitle {
-        font-size: 18px;
-        text-align: center;
-        margin-left: 0px !important;
-        margin-bottom: 20px !important;
-    }
-
     .medium-card {
         width: 220px !important;
         height: fit-content !important;
@@ -943,9 +922,11 @@
     }
 
     .modal-cover-btn,
-    .publisher-read {
+    #read-publish-btn,
+    #read-general-btn {
         font-size: 12px !important;
     }
+
 
     /* posts */
     .post-card {
@@ -1186,7 +1167,8 @@
         padding: 2px 10px 8px 10px !important;
     }
 
-    .bi.bi-pen {
+    .bi.bi-pen,
+    .bi.bi-trash3-fill {
         width: 15px !important;
         height: 15px !important;
     }
@@ -1320,17 +1302,6 @@
     }
 
     /* medium cards */
-    .sub-sections {
-        margin-top: 50px !important;
-    }
-
-    .subtitle {
-        font-size: 20px;
-        text-align: center;
-        margin-left: 0px !important;
-        margin-bottom: 20px !important;
-    }
-
     .medium-card {
         width: 280px !important;
         height: fit-content !important;
@@ -1338,10 +1309,6 @@
         padding-bottom: 30px;
     }
 
-    #s2-mediumC-pic,
-    #s3-mediumCardPic-div,
-    #s4-mediumCardPic-div,
-    #s5-mediumCardPic-div,
     .col-9 {
         width: 100% !important;
     }
@@ -1650,7 +1617,8 @@
 @media (min-width: 426px) and (max-width:500px) {
 
     .bi.bi-arrow-left,
-    .bi.bi-gear {
+    .bi.bi-gear,
+    .bi.bi-trash3-fill {
         width: 20px !important;
         height: 20px !important;
     }
@@ -1700,7 +1668,8 @@
         padding: 2px 10px 8px 10px !important;
     }
 
-    .bi.bi-pen {
+    .bi.bi-pen,
+    .bi.bi-trash3-fill {
         width: 15px !important;
         height: 15px !important;
     }
@@ -1834,17 +1803,6 @@
     }
 
     /* medium cards */
-    .sub-sections {
-        margin-top: 50px !important;
-    }
-
-    .subtitle {
-        font-size: 20px;
-        text-align: center;
-        margin-left: 0px !important;
-        margin-bottom: 20px !important;
-    }
-
     .medium-card {
         width: 280px !important;
         height: fit-content !important;
@@ -1852,10 +1810,6 @@
         padding-bottom: 30px;
     }
 
-    #s2-mediumC-pic,
-    #s3-mediumCardPic-div,
-    #s4-mediumCardPic-div,
-    #s5-mediumCardPic-div,
     .col-9 {
         width: 100% !important;
     }
@@ -1954,17 +1908,19 @@
     }
 
     .modal-cover-btn,
-    .readThis {
+    #read-publish-btn,
+    #read-general-btn {
         font-size: 12px !important;
     }
 
+
     .modal-footer {
         display: flex;
-        justify-content: center;
-        align-items: center;
+        justify-content: center !important;
+        align-items: center !important;
     }
 
-    #book-m-footer {
+    #m-footer-publisher {
         gap: 50px !important;
     }
 
@@ -2158,6 +2114,1758 @@
     #copy-right {
         margin-top: 15px;
         font-size: 10px !important;
+    }
+}
+
+@media (min-width: 501px) and (max-width:630px) {
+
+    .bi.bi-arrow-left,
+    .bi.bi-gear {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    .nav-element {
+        padding-top: 10px !important;
+    }
+
+    .container-fluid {
+        padding-left: 0px !important;
+        padding-right: 5px !important;
+    }
+
+    .nav-element#settings {
+        padding-right: 0px !important;
+    }
+
+    #s1,
+    #s2,
+    #s3 {
+        width: 100% !important;
+    }
+
+    #s1 {
+        height: 20vh !important;
+    }
+
+    #s2 {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #profile-pic-div {
+        margin-top: -45px !important;
+    }
+
+    #profile-picture {
+        height: 90px !important;
+        width: 90px !important;
+        margin-left: 20px;
+    }
+
+    #edit-picture,
+    #edit-coverColor {
+        padding: 5px 10px 8px 10px !important;
+    }
+
+    .bi.bi-pen,
+    .bi.bi-trash3-fill {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    #edit-pic-div {
+        top: 13px !important;
+        left: 80px;
+    }
+
+    #edit-coverCol-div {
+        position: relative !important;
+        top: -240px !important;
+        left: 90px !important;
+    }
+
+    #my-datas {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-left: 0px !important;
+        text-align: center;
+        width: 100%;
+    }
+
+    #name {
+        font-size: 18px !important;
+        width: 100% !important;
+    }
+
+    #follow-btn-div {
+        margin-top: 20px !important;
+        margin-right: 0px !important;
+        margin-left: 0px !important;
+    }
+
+    .default-follow,
+    .followed:hover,
+    .default-follow:hover,
+    .followed {
+        font-size: 16px !important;
+        padding: 10px 15px !important;
+    }
+
+    .number-caption {
+        font-size: 12px;
+    }
+
+    #partners {
+        width: 80px;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #s3 {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .col-6 {
+        width: 100%;
+    }
+
+    .personal-card {
+        width: 400px !important;
+        padding: 25px 30px !important;
+    }
+
+    .intro-h2 {
+        font-size: 20px;
+        text-align: center !important;
+    }
+
+    .intro-text {
+        font-size: 14px !important;
+        text-align: justify;
+    }
+
+    .member-p,
+    .member-year {
+        font-size: 12px;
+    }
+
+    .personal-datas {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #personal-infos {
+        padding-left: 0px !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #website-div,
+    #public-email {
+        font-size: 16px;
+        inline-size: 350px;
+        overflow-wrap: break-word;
+    }
+
+    #pb-header {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #pb-header button {
+        width: fit-content;
+        font-size: 20px !important;
+    }
+
+    /* medium cards */
+    .medium-card {
+        width: 350px !important;
+        height: fit-content !important;
+        padding-top: 15px;
+        padding-bottom: 30px;
+    }
+
+    .col-9 {
+        width: 100% !important;
+    }
+
+    .col-3 {
+        width: 50%;
+    }
+
+    .medium-pic {
+        height: 360px !important;
+        width: 230px !important;
+        border-radius: 5px !important;
+        margin-left: 60px;
+        margin-top: 10px;
+    }
+
+    .medium-right-side {
+        justify-content: center !important;
+        align-items: center;
+    }
+
+    .medium-h2 {
+        display: flex;
+        margin-left: 0px !important;
+        text-align: center;
+        justify-content: center;
+        font-size: 22px !important;
+        margin-top: 20px !important;
+    }
+
+    .username {
+        width: fit-content;
+        justify-content: center;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+        font-size: 16px !important;
+    }
+
+    .medium-desc {
+        width: 300px !important;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+        padding-right: 2px !important;
+        margin-top: 40px !important;
+    }
+
+    .bottom-row-medium {
+        margin-top: 30px;
+    }
+
+    .moreBtn-medium {
+        font-size: 14px !important;
+        margin-right: 30px;
+        margin-bottom: 10px !important;
+    }
+
+    .card-footer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: static !important;
+        gap: 20px !important;
+        margin-top: 10px;
+    }
+
+    .edit-delete-div-books {
+        margin: 0px !important;
+    }
+
+    /* könyv modal */
+    #modal-img {
+        width: 203px !important;
+        height: 350px !important;
+    }
+
+    .modal-h3 {
+        font-size: 20px;
+    }
+
+    .modal-p {
+        font-size: 18px !important;
+    }
+
+    .colDiv {
+        width: fit-content !important;
+    }
+
+    .colDiv h4 {
+        font-size: 18px;
+    }
+
+    .colDiv p {
+        font-size: 14px;
+    }
+
+    #modal-desc {
+        font-size: 14px;
+    }
+
+    .modal-cover-btn,
+    #read-publish-btn,
+    #read-general-btn {
+        font-size: 14px !important;
+    }
+
+    #m-footer-publisher {
+        gap: 180px !important;
+    }
+
+    /* posts */
+    .post-card {
+        width: 450px !important;
+        padding: 16px !important;
+    }
+
+    .first-row {
+        gap: 10px;
+    }
+
+    .post-profile-icon {
+        width: 30px !important;
+        height: 30px !important;
+    }
+
+    .userName {
+        margin-top: 5px !important;
+        margin-left: 10px !important;
+    }
+
+    .card-user-name {
+        font-size: 14px !important;
+    }
+
+    .card-date-text {
+        font-size: 12px !important;
+        width: 120px;
+        left: 70px;
+        top: 50px !important;
+    }
+
+    .postText {
+        padding-right: 20px !important;
+        padding-left: 20px !important;
+        width: 400px !important;
+        overflow: hidden;
+
+    }
+
+    .post-text {
+        font-size: 12px !important;
+        width: 400px !important;
+        word-wrap: break-word !important;
+        hyphens: manual !important;
+        margin-top: 20px !important;
+    }
+
+    .like-and-share {
+        padding-right: 0px !important;
+        right: 15px !important;
+        bottom: 15px !important;
+    }
+
+    .edit-delete-div {
+        margin-left: 330px !important;
+    }
+
+    svg.liked,
+    svg.bi-suit-heart-fill {
+        width: 18px;
+    }
+
+    /* publishing modal */
+    .bank-acc {
+        width: 350px !important;
+    }
+
+    .error {
+        height: fit-content !important;
+    }
+
+    /* settings */
+    #settings-body {
+        display: flex;
+        flex-direction: column !important;
+    }
+
+    #options-panel {
+        width: fit-content;
+    }
+
+    .modal-body.col-3,
+    .modal-body.col-9 {
+        width: 100% !important;
+    }
+
+    .active-set,
+    .disabled-set {
+        font-size: 18px !important;
+        text-align: center;
+        width: 200px !important;
+    }
+
+    .actual-settings {
+        border-left: none !important;
+    }
+
+    .set-inputs:disabled,
+    .set-inputs:not(:disabled) {
+        width: 400px !important;
+        font-size: 12px !important;
+    }
+
+    .set-label,
+    .form-check-label {
+        font-size: 15px !important;
+    }
+
+    #name-inputs {
+        display: flex;
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+
+    #logOut {
+        width: fit-content !important;
+
+    }
+
+    /* change profil pic */
+    #imgView {
+        width: 280px !important;
+        height: 280px !important;
+        padding: 10px !important;
+    }
+
+    .uploadP {
+        width: 260px !important;
+        overflow: word-wrap !important;
+        margin-bottom: 20px !important;
+    }
+
+    /* footer */
+    footer {
+        padding-top: 20px !important;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email,
+    #facebook,
+    #instagram,
+    #help-center {
+        font-size: 15px !important;
+    }
+
+    #aboutus img {
+        width: 25px !important;
+        height: 25px !important;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    #footer-ul {
+        margin-top: 5px;
+    }
+
+    #footer-logo-div {
+        width: 150px !important;
+    }
+
+    #footer-logo {
+        width: 120px;
+        margin-left: 155px;
+    }
+
+    #copy-right {
+        margin-bottom: 0px;
+    }
+}
+
+@media (min-width: 631px) and (max-width: 780px) {
+
+    .bi.bi-arrow-left,
+    .bi.bi-gear {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    .nav-element {
+        padding-top: 10px !important;
+    }
+
+    .container-fluid {
+        padding-left: 0px !important;
+        padding-right: 5px !important;
+    }
+
+    .nav-element#settings {
+        padding-right: 0px !important;
+    }
+
+    #s1,
+    #s2,
+    #s3 {
+        width: 100% !important;
+    }
+
+
+    #s2 {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #profile-pic-div {
+        margin-top: -45px !important;
+    }
+
+    #profile-picture {
+        height: 90px !important;
+        width: 90px !important;
+        margin-left: 20px;
+    }
+
+    #edit-picture,
+    #edit-coverColor {
+        padding: 5px 10px 8px 10px !important;
+    }
+
+    .bi.bi-pen,
+    .bi.bi-trash3-fill {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    #edit-pic-div {
+        top: 13px !important;
+        left: 80px;
+    }
+
+    #edit-coverCol-div {
+        position: relative !important;
+        top: -240px !important;
+        left: 90px !important;
+    }
+
+    #my-datas {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-left: 0px !important;
+        text-align: center;
+        width: 100%;
+    }
+
+    #name {
+        font-size: 18px !important;
+        width: 100% !important;
+    }
+
+    #follow-btn-div {
+        margin-top: 20px !important;
+        margin-right: 0px !important;
+        margin-left: 0px !important;
+    }
+
+    .default-follow,
+    .followed:hover,
+    .default-follow:hover,
+    .followed {
+        font-size: 16px !important;
+        padding: 10px 15px !important;
+    }
+
+    .number-caption {
+        font-size: 12px;
+    }
+
+    #partners {
+        width: 80px;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #s3 {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .col-6 {
+        width: 100%;
+    }
+
+    .personal-card {
+        width: 400px !important;
+        padding: 25px 30px !important;
+    }
+
+    .intro-h2 {
+        font-size: 20px;
+        text-align: center !important;
+    }
+
+    .intro-text {
+        font-size: 14px !important;
+        text-align: justify;
+    }
+
+    .member-p,
+    .member-year {
+        font-size: 12px;
+    }
+
+    .personal-datas {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #personal-infos {
+        padding-left: 0px !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #website-div,
+    #public-email {
+        font-size: 16px;
+        inline-size: 350px;
+        overflow-wrap: break-word;
+    }
+
+    #pb-header {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #pb-header button {
+        width: fit-content;
+        font-size: 20px !important;
+    }
+
+    /* medium cards */
+    .medium-card {
+        width: 350px !important;
+        height: fit-content !important;
+        padding-top: 15px;
+        padding-bottom: 30px;
+    }
+
+    .col-9 {
+        width: 100% !important;
+    }
+
+    .col-3 {
+        width: 50%;
+    }
+
+    .medium-pic {
+        height: 360px !important;
+        width: 230px !important;
+        border-radius: 5px !important;
+        margin-left: 60px;
+        margin-top: 10px;
+    }
+
+    .medium-right-side {
+        justify-content: center !important;
+        align-items: center;
+    }
+
+    .medium-h2 {
+        display: flex;
+        margin-left: 0px !important;
+        text-align: center;
+        justify-content: center;
+        font-size: 22px !important;
+        margin-top: 20px !important;
+    }
+
+    .username {
+        width: fit-content;
+        justify-content: center;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+        font-size: 16px !important;
+    }
+
+    .medium-desc {
+        width: 300px !important;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+        padding-right: 2px !important;
+        margin-top: 40px !important;
+    }
+
+    .bottom-row-medium {
+        margin-top: 30px;
+    }
+
+    .moreBtn-medium {
+        font-size: 14px !important;
+        margin-right: 30px;
+        margin-bottom: 10px !important;
+    }
+
+    .card-footer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: static !important;
+        gap: 20px !important;
+        margin-top: 10px;
+    }
+
+    .edit-delete-div-books {
+        margin: 0px !important;
+    }
+
+    /* könyv modal */
+    #modal-img {
+        width: 203px !important;
+        height: 350px !important;
+    }
+
+    .modal-h3 {
+        font-size: 20px;
+    }
+
+    .modal-p {
+        font-size: 18px !important;
+    }
+
+    .colDiv {
+        width: fit-content !important;
+    }
+
+    .colDiv h4 {
+        font-size: 18px;
+    }
+
+    .colDiv p {
+        font-size: 14px;
+    }
+
+    #modal-desc {
+        font-size: 14px;
+    }
+
+    .modal-cover-btn,
+    #read-publish-btn,
+    #read-general-btn {
+        font-size: 14px !important;
+    }
+
+    #m-footer-publisher {
+        gap: 180px !important;
+    }
+
+    /* posts */
+    .post-card {
+        width: 450px !important;
+        padding: 16px !important;
+    }
+
+    .first-row {
+        gap: 10px;
+    }
+
+    .post-profile-icon {
+        width: 30px !important;
+        height: 30px !important;
+    }
+
+    .userName {
+        margin-top: 5px !important;
+        margin-left: 10px !important;
+    }
+
+    .card-user-name {
+        font-size: 14px !important;
+    }
+
+    .card-date-text {
+        font-size: 12px !important;
+        width: 120px;
+        left: 70px;
+        top: 50px !important;
+    }
+
+    .postText {
+        padding-right: 20px !important;
+        padding-left: 20px !important;
+        width: 400px !important;
+        overflow: hidden;
+
+    }
+
+    .post-text {
+        font-size: 12px !important;
+        width: 400px !important;
+        word-wrap: break-word !important;
+        hyphens: manual !important;
+        margin-top: 20px !important;
+    }
+
+    .like-and-share {
+        padding-right: 0px !important;
+        right: 15px !important;
+        bottom: 15px !important;
+    }
+
+    .edit-delete-div {
+        margin-left: 330px !important;
+    }
+
+    svg.liked,
+    svg.bi-suit-heart-fill {
+        width: 18px;
+    }
+
+    /* publishing modal */
+    .bank-acc {
+        width: 350px !important;
+    }
+
+    .error {
+        height: fit-content !important;
+    }
+
+    /* settings */
+    #settings-body {
+        display: flex;
+        flex-direction: column !important;
+    }
+
+    #options-panel {
+        width: fit-content;
+    }
+
+    .modal-body.col-3,
+    .modal-body.col-9 {
+        width: 100% !important;
+    }
+
+    .active-set,
+    .disabled-set {
+        font-size: 18px !important;
+        text-align: center;
+        width: 200px !important;
+    }
+
+    .actual-settings {
+        border-left: none !important;
+    }
+
+    .set-inputs:disabled,
+    .set-inputs:not(:disabled) {
+        width: 400px !important;
+        font-size: 12px !important;
+    }
+
+    .set-label,
+    .form-check-label {
+        font-size: 15px !important;
+    }
+
+    #name-inputs {
+        display: flex;
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+
+    #logOut {
+        width: fit-content !important;
+
+    }
+
+    /* change profil pic */
+    #imgView {
+        width: 280px !important;
+        height: 280px !important;
+        padding: 10px !important;
+    }
+
+    .uploadP {
+        width: 260px !important;
+        overflow: word-wrap !important;
+        margin-bottom: 20px !important;
+    }
+
+    /* footer */
+    footer {
+        padding-top: 20px !important;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email,
+    #facebook,
+    #instagram,
+    #help-center {
+        font-size: 15px !important;
+    }
+
+    #aboutus img {
+        width: 25px !important;
+        height: 25px !important;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    #footer-ul {
+        margin-top: 5px;
+    }
+
+    #footer-logo-div {
+        width: 150px !important;
+    }
+
+    #footer-logo {
+        width: 120px;
+        margin-left: 155px;
+    }
+
+    #copy-right {
+        margin-bottom: 0px;
+    }
+}
+
+@media (min-width: 781px) and (max-width: 991px) {
+
+    .bi.bi-arrow-left,
+    .bi.bi-gear {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    .nav-element {
+        padding-top: 10px !important;
+    }
+
+    .container-fluid {
+        padding-left: 0px !important;
+        padding-right: 5px !important;
+    }
+
+    .nav-element#settings {
+        padding-right: 0px !important;
+    }
+
+    #s1,
+    #s2,
+    #s3 {
+        width: 100% !important;
+    }
+
+
+    #s2 {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #profile-pic-div {
+        margin-top: -45px !important;
+    }
+
+    #profile-picture {
+        height: 90px !important;
+        width: 90px !important;
+        margin-left: 20px;
+    }
+
+    #edit-picture,
+    #edit-coverColor {
+        padding: 5px 10px 8px 10px !important;
+    }
+
+    .bi.bi-pen,
+    .bi.bi-trash3-fill {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    #edit-pic-div {
+        top: 13px !important;
+        left: 80px;
+    }
+
+    #edit-coverCol-div {
+        position: relative !important;
+        top: -240px !important;
+        left: 90px !important;
+    }
+
+    #my-datas {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-left: 0px !important;
+        text-align: center;
+        width: 100%;
+    }
+
+    #name {
+        font-size: 18px !important;
+        width: 100% !important;
+    }
+
+    #follow-btn-div {
+        margin-top: 20px !important;
+        margin-right: 0px !important;
+        margin-left: 0px !important;
+    }
+
+    .default-follow,
+    .followed:hover,
+    .default-follow:hover,
+    .followed {
+        font-size: 16px !important;
+        padding: 10px 15px !important;
+    }
+
+    .number-caption {
+        font-size: 12px;
+    }
+
+    #partners {
+        width: 80px;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #s3 {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .col-6 {
+        width: 100%;
+    }
+
+    .personal-card {
+        width: 400px !important;
+        padding: 25px 30px !important;
+    }
+
+    .intro-h2 {
+        font-size: 20px;
+        text-align: center !important;
+    }
+
+    .intro-text {
+        font-size: 14px !important;
+        text-align: justify;
+    }
+
+    .member-p,
+    .member-year {
+        font-size: 12px;
+    }
+
+    .personal-datas {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #personal-infos {
+        padding-left: 0px !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #website-div,
+    #public-email {
+        font-size: 16px;
+        inline-size: 350px;
+        overflow-wrap: break-word;
+    }
+
+    #pb-header {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #pb-header button {
+        width: fit-content;
+        font-size: 20px !important;
+    }
+
+    /* medium cards */
+    .medium-card {
+        width: 350px !important;
+        height: fit-content !important;
+        padding-top: 15px;
+        padding-bottom: 30px;
+    }
+
+    .col-9 {
+        width: 100% !important;
+    }
+
+    .col-3 {
+        width: 50%;
+    }
+
+    .medium-pic {
+        height: 360px !important;
+        width: 230px !important;
+        border-radius: 5px !important;
+        margin-left: 60px;
+        margin-top: 10px;
+    }
+
+    .medium-right-side {
+        justify-content: center !important;
+        align-items: center;
+    }
+
+    .medium-h2 {
+        display: flex;
+        margin-left: 0px !important;
+        text-align: center;
+        justify-content: center;
+        font-size: 22px !important;
+        margin-top: 20px !important;
+    }
+
+    .username {
+        width: fit-content;
+        justify-content: center;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+        font-size: 16px !important;
+    }
+
+    .medium-desc {
+        width: 300px !important;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+        padding-right: 2px !important;
+        margin-top: 40px !important;
+    }
+
+    .bottom-row-medium {
+        margin-top: 30px;
+    }
+
+    .moreBtn-medium {
+        font-size: 14px !important;
+        margin-right: 30px;
+        margin-bottom: 10px !important;
+    }
+
+    .card-footer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: static !important;
+        gap: 20px !important;
+        margin-top: 10px;
+    }
+
+    .edit-delete-div-books {
+        margin: 0px !important;
+    }
+
+    /* könyv modal */
+    #modal-img {
+        width: 203px !important;
+        height: 350px !important;
+    }
+
+    .modal-h3 {
+        font-size: 20px;
+    }
+
+    .modal-p {
+        font-size: 18px !important;
+    }
+
+    .colDiv {
+        width: fit-content !important;
+    }
+
+    .colDiv h4 {
+        font-size: 18px;
+    }
+
+    .colDiv p {
+        font-size: 14px;
+    }
+
+    #modal-desc {
+        font-size: 14px;
+    }
+
+    .modal-cover-btn,
+    #read-publish-btn,
+    #read-general-btn {
+        font-size: 14px !important;
+    }
+
+    #m-footer-publisher {
+        gap: 180px !important;
+    }
+
+    /* posts */
+    .post-card {
+        width: 450px !important;
+        padding: 16px !important;
+    }
+
+    .first-row {
+        gap: 10px;
+    }
+
+    .post-profile-icon {
+        width: 30px !important;
+        height: 30px !important;
+    }
+
+    .userName {
+        margin-top: 5px !important;
+        margin-left: 10px !important;
+    }
+
+    .card-user-name {
+        font-size: 14px !important;
+    }
+
+    .card-date-text {
+        font-size: 12px !important;
+        width: 120px;
+        left: 70px;
+        top: 50px !important;
+    }
+
+    .postText {
+        padding-right: 20px !important;
+        padding-left: 20px !important;
+        width: 400px !important;
+        overflow: hidden;
+
+    }
+
+    .post-text {
+        font-size: 12px !important;
+        width: 400px !important;
+        word-wrap: break-word !important;
+        hyphens: manual !important;
+        margin-top: 20px !important;
+    }
+
+    .like-and-share {
+        padding-right: 0px !important;
+        right: 15px !important;
+        bottom: 15px !important;
+    }
+
+    .edit-delete-div {
+        margin-left: 330px !important;
+    }
+
+    svg.liked,
+    svg.bi-suit-heart-fill {
+        width: 18px;
+    }
+
+    /* publishing modal */
+    .bank-acc {
+        width: 350px !important;
+    }
+
+    .error {
+        height: fit-content !important;
+    }
+
+    /* settings */
+    #settings-body {
+        display: flex;
+        flex-direction: column !important;
+    }
+
+    #options-panel {
+        width: fit-content;
+    }
+
+    .modal-body.col-3,
+    .modal-body.col-9 {
+        width: 100% !important;
+    }
+
+    .active-set,
+    .disabled-set {
+        font-size: 18px !important;
+        text-align: center;
+        width: 200px !important;
+    }
+
+    .actual-settings {
+        border-left: none !important;
+    }
+
+    .set-inputs:disabled,
+    .set-inputs:not(:disabled) {
+        width: 400px !important;
+        font-size: 12px !important;
+    }
+
+    .set-label,
+    .form-check-label {
+        font-size: 15px !important;
+    }
+
+    #name-inputs {
+        display: flex;
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+
+    #logOut {
+        width: fit-content !important;
+
+    }
+
+    /* change profil pic */
+    #imgView {
+        width: 280px !important;
+        height: 280px !important;
+        padding: 10px !important;
+    }
+
+    .uploadP {
+        width: 260px !important;
+        overflow: word-wrap !important;
+        margin-bottom: 20px !important;
+    }
+
+    /* footer */
+    footer {
+        padding-top: 20px !important;
+    }
+
+    footer ul li a,
+    #phone-num,
+    #email,
+    #facebook,
+    #instagram,
+    #help-center {
+        font-size: 15px !important;
+    }
+
+    #aboutus img {
+        width: 25px !important;
+        height: 25px !important;
+    }
+
+    footer h3 {
+        font-size: 23px !important;
+        text-align: center;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    #footer-ul {
+        margin-top: 5px;
+    }
+
+    #footer-logo-div {
+        width: 150px !important;
+    }
+
+    #footer-logo {
+        width: 120px;
+        margin-left: 155px;
+    }
+
+    #copy-right {
+        margin-bottom: 0px;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1100px) {
+    .personal-card {
+        width: 400px !important;
+        padding: 15px 25px !important;
+    }
+
+    .personal-datas {
+        width: 350px !important;
+        overflow: word-wrap !important;
+    }
+
+    /* books */
+    .medium-card {
+        width: 280px !important;
+        height: fit-content !important;
+        padding-top: 15px;
+        padding-bottom: 30px;
+    }
+
+    .col-9 {
+        width: 100% !important;
+    }
+
+    .col-3 {
+        width: 50%;
+    }
+
+    .medium-pic {
+        height: 260px !important;
+        width: 160px !important;
+        border-radius: 5px !important;
+        margin-left: 60px;
+        margin-top: 10px;
+    }
+
+    .medium-right-side {
+        justify-content: center !important;
+        align-items: center;
+    }
+
+    .medium-h2 {
+        display: flex;
+        margin-left: 0px !important;
+        text-align: center;
+        justify-content: center;
+        font-size: 15px !important;
+        margin-top: 20px !important;
+    }
+
+    .username {
+        width: fit-content;
+        justify-content: center;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+    }
+
+    .medium-desc {
+        width: 230px !important;
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+        margin-top: 40px !important;
+    }
+
+    .bottom-row-medium {
+        margin-top: 30px;
+    }
+
+    .moreBtn-medium {
+        font-size: 14px !important;
+        margin-right: 30px;
+        margin-bottom: 10px !important;
+    }
+
+    .card-footer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: static !important;
+        gap: 20px !important;
+    }
+
+    .edit-delete-div-books {
+        margin: 0px !important;
+    }
+
+    /* posts */
+    .post-card {
+        width: 400px !important;
+        padding: 16px !important;
+    }
+
+    .first-row {
+        gap: 10px;
+    }
+
+    .post-profile-icon {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    .userName {
+        margin-top: 5px !important;
+        margin-left: 10px !important;
+    }
+
+    .card-user-name {
+        font-size: 16px !important;
+    }
+
+    .card-date-text {
+        font-size: 14px !important;
+        width: 120px;
+        left: 70px;
+        top: 50px !important;
+    }
+
+    .postText {
+        padding-right: 20px !important;
+        padding-left: 20px !important;
+        width: 320px !important;
+        word-wrap: break-word !important;
+        hyphens: manual !important;
+    }
+
+    .post-text {
+        font-size: 16px !important;
+        width: 320px !important;
+        word-wrap: break-word !important;
+        hyphens: manual !important;
+    }
+
+    .like-and-share {
+        padding-right: 0px !important;
+        right: 15px !important;
+        bottom: 15px !important;
+    }
+
+    .edit-delete-div {
+        margin-left: 240px !important;
+    }
+
+    svg.liked,
+    svg.bi-suit-heart-fill {
+        width: 18px;
+    }
+
+    /* settings */
+    #settings-body {
+        display: flex;
+        flex-direction: column !important;
+    }
+
+    #options-panel {
+        width: fit-content;
+    }
+
+    .modal-body.col-3,
+    .modal-body.col-9 {
+        width: 100% !important;
+    }
+
+    .active-set,
+    .disabled-set {
+        font-size: 20px !important;
+        text-align: center;
+    }
+
+    .actual-settings {
+        border-left: none !important;
+    }
+
+    .set-inputs:disabled,
+    .set-inputs:not(:disabled) {
+        width: 450px !important;
+        height: 40px !important;
+        font-size: 15px !important;
+    }
+
+    .set-label,
+    .form-check-label {
+        font-size: 20px !important;
+    }
+
+    #name-inputs {
+        display: flex;
+        gap: 10px !important;
+    }
+
+    #input-fName,
+    #input-lName {
+        width: 250px !important;
+    }
+}
+
+@media (min-width: 1101px) and (max-width: 1382px) {
+    .personal-card {
+        width: 500px !important;
+        padding: 25px 30px !important;
+    }
+
+    .personal-datas {
+        width: 440px !important;
+        overflow: word-wrap !important;
+    }
+
+    /* medium cards */
+    .medium-card{
+        width: 500px !important;
+    }
+
+    .medium-pic{
+        width: 150px !important;
+    }
+
+    .medium-h2{
+        font-size: 20px!important;
+        margin-top: 10px !important;
+        margin-left: 20px !important;
+    }
+
+    .username{
+        font-size: 14px!important;
+        margin-left: 20px !important;
+    }
+
+    .medium-desc{
+        margin-left: 20px !important;
+        font-size: 14px !important;
+        width: 320px!important;
+        overflow: word-wrap !important;
+    }
+
+    button.moreBtn-medium{
+        font-size: 14px !important;
+    }
+
+    .card-footer{
+        gap: 70px !important;
+    }
+
+    /* posts */
+    .post-card {
+        width: 450px !important;
+        padding: 16px !important;
+    }
+
+    .first-row {
+        gap: 10px;
+    }
+
+    .post-profile-icon {
+        width: 30px !important;
+        height: 30px !important;
+    }
+
+    .userName {
+        margin-top: 5px !important;
+        margin-left: 10px !important;
+    }
+
+    .card-user-name {
+        font-size: 16px !important;
+    }
+
+    .card-date-text {
+        font-size: 14px !important;
+        width: 120px;
+        left: 70px;
+        top: 50px !important;
+    }
+
+    .postText {
+        padding-right: 20px !important;
+        padding-left: 20px !important;
+        width: 400px !important;
+        overflow: hidden;
+
+    }
+
+    .post-text {
+        font-size: 16px !important;
+        width: 400px !important;
+        word-wrap: break-word !important;
+        hyphens: manual !important;
+        margin-top: 20px !important;
+    }
+
+    .like-and-share {
+        padding-right: 0px !important;
+        right: 15px !important;
+        bottom: 15px !important;
+    }
+
+    .edit-delete-div {
+        margin-left: 330px !important;
+    }
+
+    svg.liked,
+    svg.bi-suit-heart-fill {
+        width: 18px;
+    }
+
+    /* settings */
+    #settings-body {
+        display: flex;
+        flex-direction: column !important;
+    }
+
+    #options-panel {
+        width: fit-content;
+    }
+
+    .modal-body.col-3,
+    .modal-body.col-9 {
+        width: 100% !important;
+    }
+
+    .active-set,
+    .disabled-set {
+        font-size: 20px !important;
+        text-align: center;
+    }
+
+    .actual-settings {
+        border-left: none !important;
+    }
+
+    .set-inputs:disabled,
+    .set-inputs:not(:disabled) {
+        width: 450px !important;
+        height: 40px !important;
+        font-size: 15px !important;
+    }
+
+    .set-label,
+    .form-check-label {
+        font-size: 20px !important;
+    }
+
+    #name-inputs {
+        display: flex;
+        gap: 10px !important;
+    }
+
+    #input-fName,
+    #input-lName {
+        width: 250px !important;
     }
 }
 

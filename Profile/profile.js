@@ -108,6 +108,8 @@ window.onload = async function () {
 
                         switch (responseBooks.status) {
                             case 200:
+                                getBooks(responseBooks, responseUser);
+
                                 if (responseUser.data.rank == "publisher") {
                                     const editBooks = document.querySelectorAll('.edit-book');
                                     editBooks.forEach(button => {
@@ -123,7 +125,7 @@ window.onload = async function () {
                                     });
                                 }
 
-                                getBooks(responseBooks, responseUser);
+                                
 
                                 break;
                             case 401:
@@ -471,11 +473,9 @@ introText.addEventListener('input', (e) => {
 intro_saveBtn.addEventListener('click', async function () {
     const introValue = introText.value;
 
-
     const introResult = await setIntroDescription({ "introDescription": `${introValue}` });
     if (introResult.status == 200) {
 
-        var username = localStorage.getItem('username');
         const userDetailsIntro = await getUserDetails({ "profileUsername": `${username}` });
         if (userDetailsIntro.status == 200) {
             console.log("Success");
@@ -1236,7 +1236,7 @@ async function DeleteBookBTN(button, bookID) {
 }
 
 var actualPublisherBookId;
-async function setBookFunction(bookId, userRank) {
+async function setBookFunction( bookId, userRank) {
     if (userRank == 'general') {
         localStorage.setItem("bookId", bookId);
         window.location.href = "../Create Book/createBook.html";
@@ -1479,6 +1479,8 @@ function getBooks(responseBook, userResponse) {
             });
 
             books_div.appendChild(div);
+            
+            
         }
 
 
