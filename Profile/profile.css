@@ -3585,7 +3585,7 @@
         margin-top: 30px;
     }
 
-    .moreBtn-medium {
+    .moreBtn-medium, .moreBtn-medium:hover {
         font-size: 14px !important;
         margin-right: 30px;
         margin-bottom: 10px !important;
@@ -3751,7 +3751,7 @@
         overflow: word-wrap !important;
     }
 
-    button.moreBtn-medium{
+    button.moreBtn-medium, button.moreBtn-medium:hover{
         font-size: 14px !important;
     }
 
@@ -4816,6 +4816,7 @@ body {
     height: 400px;
     align-self: center;
     border-radius: 10px;
+    object-fit: cover;
 }
 
 .modal-h3 {

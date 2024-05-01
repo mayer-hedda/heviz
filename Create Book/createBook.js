@@ -122,7 +122,7 @@ function uploadImage() {
 
         } else {
             picPass = true;
-        
+
             const imgName = imgFile.name;
             console.log('Feltöltött fájl neve:', imgName);
 
@@ -205,7 +205,7 @@ function uploadFile() {
             const fileName = inputFile.files[0].name;
 
             const fileNameWithoutExtension = fileName.split('.').slice(0, -1).join('.');
-        
+
             fileDataToSend = fileNameWithoutExtension;
 
             file_p.hidden = true;
@@ -259,7 +259,8 @@ inputFile.addEventListener('input', (e) => {
 
 
 function LoadBookDetails(response) {
-
+    title.value = response.data.title;
+    titlePass = true;
     description.value = response.data.description;
     descriptionPass = true;
     selectAudience.value = response.data.targetAudienceId;
@@ -748,6 +749,7 @@ bookPrice.addEventListener('focusin', (e) => {
 // self or search publisher error
 const checkError = document.getElementById('checkboxError');
 
+
 nextBtn.addEventListener('click', async (e) => {
     e.preventDefault();
 
@@ -975,8 +977,8 @@ nextBtn.addEventListener('click', async (e) => {
                             "languageId": selectedLanguage,
                             "adultFiction": isAdultLiterature,
                             "categoryId": selectedCategory,
-                            "statusId": 1,
-                            "price": 0,
+                            "statusId": 2,
+                            "price": bookPrice.value,
                             "coverImage": `pictures/book/${imgDataToSend}`,
                             "file": `book/${fileDataToSend}`,
                             "bankAccountNumber": bankValue,

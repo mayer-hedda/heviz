@@ -1228,7 +1228,7 @@ async function DeleteBookBTN(button, bookID) {
 
     const deleteResult = await deleteBook({ "id": bookID });
     if (deleteResult.status == 200) {
-        const bookCard = button.closest('.book-card');
+        const bookCard = button.closest('.container.medium-card'); 
         bookCard.remove();
     } else {
         console.error("A kapott eredmény: " + JSON.stringify(deleteResult));
