@@ -57,8 +57,6 @@ window.onload = async function () {
     username = decodeURIComponent(usernameFromLink);
 
 
-    console.log(usernameFromLink);
-
     var tokenResponese = await token();
     switch (tokenResponese.status) {
         case 302:
@@ -84,7 +82,6 @@ window.onload = async function () {
                     contactInfos(responseUser);
 
                     isOwnProf = checkOwnProfile(responseUser);
-                    console.log(isOwnProf);
 
                     if (isOwnProf == true) {
                         shopping_btn.style.display = "none";
@@ -139,9 +136,6 @@ window.onload = async function () {
 
                             default:
                                 alert("Something went wrong. Please try it again later.");
-                                console.log("Status: " + responseBooks.status);
-                                console.log("Error msg: " + responseBooks.error);
-                                console.log("Data: " + responseBooks.data);
                                 break;
                         }
 
@@ -195,9 +189,6 @@ window.onload = async function () {
 
                                 default:
                                     alert("Something went wrong. Please try it again later.");
-                                    console.log("Status: " + responseBooks.status);
-                                    console.log("Error msg: " + responseBooks.error);
-                                    console.log("Data: " + responseBooks.data);
                                     break;
 
                             }
@@ -224,9 +215,6 @@ window.onload = async function () {
 
                                 default:
                                     alert("Something went wrong. Please try it again later.");
-                                    console.log("Status: " + responseBooks.status);
-                                    console.log("Error msg: " + responseBooks.error);
-                                    console.log("Data: " + responseBooks.data);
                                     break;
                             }
                         }
@@ -284,9 +272,6 @@ window.onload = async function () {
 
                         default:
                             alert("Something went wrong. Please try it again later.");
-                            console.log("Status: " + responseBooks.status);
-                            console.log("Error msg: " + responseBooks.error);
-                            console.log("Data: " + responseBooks.data);
                             break;
                     }
 
@@ -305,9 +290,6 @@ window.onload = async function () {
                     break;
 
                 default:
-                    console.log("Status: " + responseBooks.status);
-                    console.log("Error msg: " + responseBooks.error);
-                    console.log("Data: " + responseBooks.data);
                     break;
             }
 
@@ -322,9 +304,6 @@ window.onload = async function () {
             break;
         default:
             localStorage.setItem('Error Code:', `${responseUser.error}`);
-            console.log("Status: " + responseBooks.status);
-            console.log("Error msg: " + responseBooks.error);
-            console.log("Data: " + responseBooks.data);
             break;
 
     }
@@ -344,7 +323,6 @@ followBTN.addEventListener('click', async function () {
                 followerCount++;
                 followers.textContent = `${followerCount}`;
                 follow = true;
-                console.log("Successfully followed! Follow count: " + followerCount);
                 break;
             case 401:
                 window.location.href = '../Log-in/login.html';
@@ -355,9 +333,6 @@ followBTN.addEventListener('click', async function () {
 
             default:
                 alert("Something went wrong. Please try again later.");
-                console.log(follow_result.status);
-                console.log(follow_result.error);
-                console.log(follow_result.data);
                 break;
         }
     } else {
@@ -372,7 +347,6 @@ followBTN.addEventListener('click', async function () {
                 followers.textContent = `${followerCount}`;
 
                 follow = false;
-                console.log("Successfully unfollowed!");
                 break;
 
             case 401:
@@ -384,9 +358,6 @@ followBTN.addEventListener('click', async function () {
 
             default:
                 alert("Something went wrong. Please try again later.");
-                console.log(unfollow_result.status);
-                console.log(unfollow_result.error);
-                console.log(unfollow_result.data);
                 break;
         }
     }
@@ -478,7 +449,6 @@ intro_saveBtn.addEventListener('click', async function () {
 
         const userDetailsIntro = await getUserDetails({ "profileUsername": `${username}` });
         if (userDetailsIntro.status == 200) {
-            console.log("Success");
             introText.readOnly = true;
             introText.classList.remove("info-edit-active");
             intro_saveBtn.hidden = true;
@@ -496,8 +466,6 @@ intro_saveBtn.addEventListener('click', async function () {
 
     } else if (introResult.status == 422) {
         alert("Statuscode: " + introResult.status + " - " + introResult.data);
-    } else {
-        console.log("Unknown error ");
     }
 });
 
@@ -713,7 +681,7 @@ let publishBoolean;
 function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher, bookIdString, isSaved, isPurchased) {
     bookId = parseInt(bookIdString);
 
-    book_modal_img.src = `../${url}.jpg`;
+    book_modal_img.src = `../${url}`;
 
     if (isPurchased == true) {
         save_btn.hidden = true;
@@ -806,7 +774,6 @@ async function SavingBook(bookId) {
             break;
         case 422:
             alert('Something went wrong. Please try again later!');
-            console.log("Error status: " + savedResult.status);
             break;
         default:
             alert('Something went wrong. Please try again later!');
@@ -833,13 +800,9 @@ async function UnsavingBook(bookId) {
             break;
         case 422:
             alert('Something went wrong. Please try again later!');
-            console.log("Error status: " + unsavingResult.status);
             break;
         default:
             alert('Something went wrong. Please try again later!');
-            console.error("Error status: " + unsavingResult.status);
-            console.error("Error msg: " + unsavingResult.error);
-            console.error("Error data: " + unsavingResult.data);
             break;
     }
 }
@@ -866,12 +829,9 @@ async function UnPublish(button, bookId) {
             break;
 
         case 422:
-            console.log(unpublish_result.data);
-            console.log(unpublish_result.status);
             break;
 
         default:
-            console.log(unpublish_result.error);
             break;
 
     }
@@ -919,10 +879,9 @@ dropAreaPicture.addEventListener('drop', (e) => {
 // Képfeltöltés eseménykezelője
 inputPicture.addEventListener('change', uploadImage);
 
-function uploadImage() {
+async function uploadImage() {
     let imgFile = inputPicture.files[0];
     let imgLink = URL.createObjectURL(imgFile);
-
 
     var img = new Image();
     img.src = imgLink;
@@ -932,7 +891,7 @@ function uploadImage() {
 
     const maxSize = 2 * 1024 * 1024;
     if (size > maxSize) {
-        alert('A kép mérete túl nagy. Kérjük, válassz egy kisebb méretű képet (legfeljebb 2MB).');
+        alert('The image size is too large. Please choose a smaller image size (up to 2MB)!');
         return;
     } else {
         imgView.style.backgroundImage = `url(${imgLink})`;
@@ -940,26 +899,26 @@ function uploadImage() {
         upload_p.hidden = true;
         upload_span.hidden = true;
 
-        img.onload = function () {
-            document.getElementById('save-pPic').addEventListener('click', async function () {
-                const imgResponse = await setProfileImage({ "image": `../pictures/user/${name}` });
-
-
-                if (imgResponse.status == 200) {
+        img.onload = async function () {
+            const imgResponse = await uploadFilePhp();
+            if (imgResponse.status == 200) {
+                const setProfileImgResponse = await setProfileImage({ "image": `pictures/user/${name}` });
+                if (setProfileImgResponse.status == 200) {
                     location.reload();
-                } else if (setPublicPhone_result.status == 401) {
+                } else if (setProfileImgResponse.status == 401) {
                     window.location.href = "../Log-in/login.html";
-                } else if (setPublicPhone_result.status == 422) {
-                    alert("422: " + setPublicPhone_result.data.setPublicPhoneError);
+                } else if (setProfileImgResponse.status == 422) {
+                    alert("422: " + setProfileImgResponse.data.setProfileImageError);
                 } else {
-                    alert(setPublicPhone_result.status);
+                    alert(setProfileImgResponse.status);
                 }
-
-            });
-        }
+            } else {
+                alert("Error uploading image. Status: " + imgResponse.status);
+            }
+        };
     }
-
 }
+
 
 document.getElementById('close').addEventListener('click', (e) => {
     inputPicture.value = "";
@@ -1242,7 +1201,6 @@ async function setBookFunction(bookId, userRank) {
         window.location.href = "../Create Book/createBook.html";
     } else {
         actualPublisherBookId = bookId;
-        console.log(bookId);
         const getPriceInfos_response = await getPublishedBookDetails({ "id": bookId });
         loadPlaceholderForEditPrice(getPriceInfos_response);
     }
@@ -1352,7 +1310,6 @@ newBankNumber.addEventListener('focusout', (e) => {
 document.getElementById('save-modal-Newprice').addEventListener('click', async function () {
 
     if (newBankPass == true && newPricePass == true) {
-        console.log(actualPublisherBookId);
 
         const setNewPrice_result = await setPublishedBookDetails({ "id": actualPublisherBookId, "price": newPriceValue, "publisherBankAccountNumber": newBankNumber.value });
 
@@ -1376,9 +1333,6 @@ document.getElementById('save-modal-Newprice').addEventListener('click', async f
 
             default:
                 alert("Something went wrong. Please try again later.");
-                console.log(publish_result.status);
-                console.log(publish_result.data);
-                console.log(publish_result.error);
                 break;
         }
     } else {
@@ -2159,7 +2113,6 @@ input_phoneNumber.addEventListener('input', (e) => {
 });
 
 p_save.addEventListener('click', async function () {
-    console.log(input_phoneNumber.value);
 
     let phone_value = input_phoneNumber.value;
     const setPhoneResponse = await setPhoneNumber({ "phoneNumber": `${phone_value}` });
@@ -2284,9 +2237,6 @@ document.getElementById('delete-profile').addEventListener('click', async functi
 
         default:
             alert("Something went wrong. Please try again later.");
-            console.log(delete_result.status);
-            console.log(delete_result.data);
-            console.log(delete_result.error);
             break;
     }
 });
@@ -2339,21 +2289,13 @@ function isChecked(elementID) {
     } else if (elementID.checked == false) {
         return false;
     } else {
-        console.log("Lehetetlen küldetés");
     }
 }
 
 isEmail_public.addEventListener('change', async function () {
-    let ischecked = isChecked(isEmail_public);
     const setPublicEmail_result = await setPublicEmail();
 
-    if (setPublicEmail_result.status == 200) {
-        if (ischecked == true) {
-            console.log("A következőre változott az érték: true");
-        } else {
-            console.log("A következőre változott az érték: false");
-        }
-    } else if (setPublicEmail_result.status == 401) {
+    if (setPublicEmail_result.status == 401) {
         window.location.href = "../Log-in/login.html";
     } else if (setPublicEmail_result.status == 422) {
         alert("422: " + setPublicEmail_result.data.setPublicEmailError);
@@ -2363,15 +2305,8 @@ isEmail_public.addEventListener('change', async function () {
 });
 
 isPhone_public.addEventListener('change', async function () {
-    let ischecked = isChecked(isPhone_public);
     const setPublicPhone_result = await setPublicPhoneNumber();
-    if (setPublicPhone_result.status == 200) {
-        if (ischecked == true) {
-            console.log("A következőre változott az érték: true");
-        } else {
-            console.log("A következőre változott az érték: false");
-        }
-    } else if (setPublicPhone_result.status == 401) {
+    if (setPublicPhone_result.status == 401) {
         window.location.href = "../Log-in/login.html";
     } else if (setPublicPhone_result.status == 422) {
         alert("422: " + setPublicPhone_result.data.setPublicPhoneError);
@@ -2482,13 +2417,11 @@ bankNumber.addEventListener('focusin', (e) => {
 
 bankNumber.addEventListener('focusout', (e) => {
     bankPass = bankValidation(bankNumber.value);
-    console.log(bankPass);
 });
 
 agreePublish.addEventListener('click', async function () {
 
     if (bankPass == true && pricePass == true) {
-        console.log(bookId);
         const publish_result = await publishBook({ "id": bookId, "price": priceValue, "publisherBankAccountNumber": bankNumber.value });
 
         switch (publish_result.status) {
@@ -2511,12 +2444,36 @@ agreePublish.addEventListener('click', async function () {
 
             default:
                 alert("Something went wrong. Please try again later.");
-                console.log(publish_result.status);
-                console.log(publish_result.data);
-                console.log(publish_result.error);
                 break;
         }
     } else {
         alert("Please make sure you fill in every field correctly.");
     }
 });
+
+async function uploadFilePhp() {
+    const image = inputPicture.files[0];
+    
+    if (image.type !== 'image/jpeg') {
+        return { status: 400, message: 'Image type must be JPG only!' };
+    }
+
+    const formData = new FormData();
+    formData.append('image', image);
+
+    try {
+        const response = await fetch('upload.php', {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (response.status === 200) {
+            return { status: 200 };
+        } else {
+            return { status: response.status };
+        }
+    } catch (error) {
+        console.error('Error uploading image:', error);
+        return { status: 500 };
+    }
+}
