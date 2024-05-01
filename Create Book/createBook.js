@@ -32,6 +32,9 @@ var publishingStatus = 0;
 
 let isAdultLiterature = false;
 
+var imgDataToSend;
+var fileDataToSend;
+
 window.addEventListener('beforeunload', async function () {
     const tokenResponse = await token();
 
@@ -86,13 +89,15 @@ const PicError = document.getElementById('PicError');
 inputPicture.addEventListener("change", uploadImage);
 
 var height, width;
-let imgLink; 
-let imgSrc; 
-var pictureName; 
+let imgLink;
+let imgSrc;
+var pictureName;
 
 function uploadImage() {
     let imgFile = inputPicture.files[0];
     imgLink = URL.createObjectURL(imgFile);
+
+
 
     var img = new Image();
     img.src = imgLink;
@@ -103,32 +108,28 @@ function uploadImage() {
         alert('A kép mérete túl nagy. Kérjük, válassz egy kisebb méretű képet (legfeljebb 2MB).');
         return;
     } else {
-        /**
-        * ez egy blob lesz, ami nem tartalmazza a fájl nevét viszont
-        * ha a sima value-t használom nem fog a kép betöltődni mert nincs a böngészőnek
-        * hozzáférése a helyi fájlokhoz, így a blob linket kell használni a kép betöltésére.
-        * Amikor adatot küldök a backendnek akkor a value értéket kell küldeni
-        */
+
         imgView.style.backgroundImage = `url(${imgLink})`;
+
         addPhoto_icon.hidden = true;
         img_p.hidden = true;
         img_span.hidden = true;
 
-        img.onload = function () {
-            height = img.naturalHeight;
-            width = img.naturalWidth;
-        }
+
 
         if (imgLink == "") {
             picPass = false;
 
         } else {
             picPass = true;
-            imgSrc = inputPicture.value;
+        
+            const imgName = imgFile.name;
+            console.log('Feltöltött fájl neve:', imgName);
 
-            var parts = imgSrc.split('\\');
-            pictureName = parts[parts.length - 1];
+            const fileNameWithoutExtension = imgName.split('.').slice(0, -1).join('.');
+            console.log('Fájlnév kiterjesztés nélkül:', fileNameWithoutExtension);
 
+            imgDataToSend = fileNameWithoutExtension;
         }
     }
 
@@ -146,7 +147,7 @@ dropAreaPicture.addEventListener('drop', (e) => {
     const fileType = inputPicture.files[0].type;
     if (!allowedImageTypes.includes(fileType)) {
         alert('Csak JPEG, PNG vagy GIF képeket tölthetsz fel!');
-        inputPicture.value = ''; 
+        inputPicture.value = '';
         picPass = false;
         return;
     }
@@ -179,7 +180,7 @@ const file_result_p = document.getElementById('f-result-p-1');
 const file_result_uploaded = document.getElementById('f-result-p-2');
 const FileError = document.getElementById('FileError');
 
-var fileName; 
+var fileName;
 
 inputFile.addEventListener("change", (e) => {
     e.preventDefault();
@@ -190,18 +191,22 @@ function uploadFile() {
 
 
     const fileSize = inputFile.files[0].size;
-    const maxSize = 5 * 1024 * 1024; 
+    const maxSize = 5 * 1024 * 1024;
 
     if (fileSize > maxSize) {
         alert('A fájl mérete túl nagy. Kérjük, válassz egy kisebb méretű fájlt (legfeljebb 5MB).');
-        inputFile.value = ''; 
+        inputFile.value = '';
         return;
     } else {
         if (inputFile.value == "") {
             filePass = false;
         } else {
             filePass = true;
-            fileName = inputFile.value.split('\\').pop();
+            const fileName = inputFile.files[0].name;
+
+            const fileNameWithoutExtension = fileName.split('.').slice(0, -1).join('.');
+        
+            fileDataToSend = fileNameWithoutExtension;
 
             file_p.hidden = true;
             file_span.hidden = true;
@@ -222,13 +227,13 @@ dropAreaFile.addEventListener('dragover', (e) => {
 dropAreaFile.addEventListener('drop', (e) => {
     e.preventDefault();
     inputFile.files = e.dataTransfer.files;
-    const allowedFileExtensions = ['.pdf', '.doc']; 
+    const allowedFileExtensions = ['.pdf', '.doc'];
 
-    const fileName = inputFile.value.split('.').pop(); 
-    const fileExtension = '.' + fileName.split('.').pop().toLowerCase(); 
+    const fileName = inputFile.value.split('.').pop();
+    const fileExtension = '.' + fileName.split('.').pop().toLowerCase();
     if (!allowedFileExtensions.includes(fileExtension)) {
         alert('Csak .pdf vagy .doc fájlokat tölthetsz fel!');
-        inputFile.value = ''; 
+        inputFile.value = '';
         filePass = false;
         return;
     }
@@ -773,7 +778,7 @@ nextBtn.addEventListener('click', async (e) => {
                     const fileUploadResponse = await uploadFilePhp();
 
                     if (fileUploadResponse.status === 200) {
-                        
+
                         const setBook_response_publisher = await setBook({
                             "id": bookId,
                             "title": title.value,
@@ -784,8 +789,8 @@ nextBtn.addEventListener('click', async (e) => {
                             "categoryId": category_dropdown.value,
                             "statusId": 1,
                             "price": "null",
-                            "coverImage": pictureName,
-                            "file": fileName,
+                            "coverImage": `pictures/book/${imgDataToSend}`,
+                            "file": `book/${fileDataToSend}`,
                             "bankAccountNumber": "null",
                             "chapterNumber": chapternumber
                         });
@@ -817,7 +822,7 @@ nextBtn.addEventListener('click', async (e) => {
                     const fileUploadResponse = await uploadFilePhp();
 
                     if (fileUploadResponse.status === 200) {
-                        
+
                         const addBook_response_publisher = await addBook({
                             "title": titleValue,
                             "description": descValue,
@@ -827,8 +832,8 @@ nextBtn.addEventListener('click', async (e) => {
                             "categoryId": selectedCategory,
                             "statusId": 1,
                             "price": "null",
-                            "coverImage": pictureName,
-                            "file": fileName,
+                            "coverImage": `pictures/book/${imgDataToSend}`,
+                            "file": `book/${fileDataToSend}`,
                             "bankAccountNumber": "null",
                             "chapterNumber": chapternumber
                         });
@@ -919,7 +924,7 @@ nextBtn.addEventListener('click', async (e) => {
                     const fileUploadResponse = await uploadFilePhp();
 
                     if (fileUploadResponse.status === 200) {
-                        
+
                         const setBook_self = await setBook({
                             "id": bookId,
                             "title": title.value,
@@ -930,8 +935,8 @@ nextBtn.addEventListener('click', async (e) => {
                             "categoryId": category_dropdown.value,
                             "statusId": 2,
                             "price": bookPrice.value,
-                            "coverImage": pictureName,
-                            "file": fileName,
+                            "coverImage": `pictures/book/${imgDataToSend}`,
+                            "file": `book/${fileDataToSend}`,
                             "bankAccountNumber": bankAccNumber.value,
                             "chapterNumber": chapter_number.value
                         });
@@ -962,7 +967,7 @@ nextBtn.addEventListener('click', async (e) => {
                     const fileUploadResponse = await uploadFilePhp();
 
                     if (fileUploadResponse.status === 200) {
-                        
+
                         const addBook_response_self = await addBook({
                             "title": titleValue,
                             "description": descValue,
@@ -972,8 +977,8 @@ nextBtn.addEventListener('click', async (e) => {
                             "categoryId": selectedCategory,
                             "statusId": 1,
                             "price": 0,
-                            "coverImage": pictureName,
-                            "file": fileName,
+                            "coverImage": `pictures/book/${imgDataToSend}`,
+                            "file": `book/${fileDataToSend}`,
                             "bankAccountNumber": bankValue,
                             "chapterNumber": chapternumber
                         });
@@ -1084,7 +1089,7 @@ async function uploadFilePhp() {
             method: 'POST',
             body: formData
         });
-        
+
         if (response.status === 200) {
             return { status: 200 };
         } else {
@@ -1099,7 +1104,7 @@ async function uploadFilePhp() {
 function countPdfPages(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = function(event) {
+        reader.onload = function (event) {
             const pdf = new Uint8Array(event.target.result);
             let pages = 0;
             for (let i = 0; i < pdf.length; i++) {
@@ -1109,7 +1114,7 @@ function countPdfPages(file) {
             }
             resolve(pages);
         };
-        reader.onerror = function(error) {
+        reader.onerror = function (error) {
             reject(error);
         };
         reader.readAsArrayBuffer(file);
