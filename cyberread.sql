@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Ápr 30. 17:57
+-- Létrehozás ideje: 2024. Máj 01. 07:53
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -89,6 +89,37 @@ ELSEIF rank = "publisher" THEN
     SET result = 1;
 END IF;
 
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addBookShopping` (IN `userIdIN` INT, IN `bookIdIN` INT, OUT `result` INT)   BEGIN
+
+	DECLARE rank VARCHAR(20);
+    SELECT `user`.`rank` INTO rank
+    FROM `user`
+    WHERE `user`.`id` = userIdIN;
+    
+    IF rank = "general" THEN
+    	IF NOT EXISTS (SELECT * FROM `book` WHERE `book`.`id` = bookIdIN) THEN 
+        	SET result = 3;
+        ELSE
+        	IF EXISTS (SELECT * FROM `bookshopping` WHERE `bookshopping`.`userId` = userIdIN AND `bookshopping`.`bookId` = bookIdIN) THEN
+            	SET result = 4;
+            ELSE
+                IF EXISTS (SELECT * FROM `saved` WHERE `saved`.`userId` = userIdIN AND `saved`.`bookId` = bookIdIN) THEN
+                    DELETE FROM `saved`
+                    WHERE `saved`.`userId` = userIdIN AND `saved`.`bookId` = bookIdIN;
+                END IF;
+
+                INSERT INTO `bookshopping` (`bookshopping`.`userId`, `bookshopping`.`bookId`)
+                VALUES(userIdIN, bookIdIN);
+
+                SET result = 1;
+            END IF;
+        END IF;
+    ELSE
+    	SET result = 2;
+    END IF;
 
 END$$
 
@@ -3778,7 +3809,9 @@ INSERT INTO `bookshopping` (`id`, `userId`, `bookId`, `shoppingTime`) VALUES
 (10, 1, 38, '2024-04-22 16:14:58'),
 (11, 8, 35, '2024-04-27 16:14:58'),
 (12, 7, 28, '2024-04-04 16:15:56'),
-(13, 17, 49, '2024-02-01 17:15:56');
+(13, 17, 49, '2024-02-01 17:15:56'),
+(14, 32, 1, '2024-05-01 05:36:29'),
+(16, 1, 1, '2024-05-01 05:43:12');
 
 -- --------------------------------------------------------
 
@@ -4031,7 +4064,16 @@ INSERT INTO `categoryinterest` (`id`, `userId`, `categoryId`) VALUES
 (181, 30, 26),
 (182, 32, 1),
 (183, 32, 2),
-(184, 32, 3);
+(184, 32, 3),
+(185, 33, 14),
+(186, 33, 18),
+(187, 33, 20),
+(188, 33, 27),
+(189, 33, 29),
+(190, 33, 33),
+(191, 33, 32),
+(192, 33, 31),
+(193, 33, 30);
 
 -- --------------------------------------------------------
 
@@ -4285,7 +4327,8 @@ INSERT INTO `general` (`id`, `birthdate`) VALUES
 (18, '1990-08-17'),
 (19, '1981-05-30'),
 (20, '2000-02-12'),
-(21, '2002-11-14');
+(21, '2002-11-14'),
+(22, '2009-04-23');
 
 -- --------------------------------------------------------
 
@@ -4782,7 +4825,8 @@ INSERT INTO `user` (`id`, `username`, `email`, `password`, `rank`, `firstName`, 
 (28, 'summit_publishing', 'contact@summitpublishing.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Sophie', 'Clark', '06701387511', 1, 1, 'Reach new heights of literary excellence with Summit Publishing. Join us on the peak of storytelling.', 'www.summitpublishing.com', 'pictures/default-profile-pic-man.png', '2023-10-30 19:57:15', 0, 0, 45, 8),
 (29, 'golden_pen_books', 'info@goldenpenbooks.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Lucas', 'Nelson', '06201583261', 1, 0, 'At Golden Pen Books, every story is a stroke of brilliance. Join us in crafting tales that leave a lasting impression.', 'www.goldenpenbooks.com', 'pictures/user/avatar-5.jpg', '2024-02-01 19:58:01', 0, 0, 46, 9),
 (30, 'redwood_publications', 'contact@redwoodpublications.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'publisher', 'Chloe', 'Baker', '06201529413', 1, 1, 'Stand tall with Redwood Publications, where stories grow strong and reach for the sky.', 'www.redwoodpublications.com', 'pictures/default-profile-pic-man.png', '2023-04-10 18:58:45', 0, 0, 1, 10),
-(32, 'mayer.hedda', 'mayer.hedda@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Hedda', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-04-27 16:48:23', 0, 0, 1, 21);
+(32, 'mayer.hedda', 'mayer.hedda@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Hedda', NULL, 0, 0, 'Hi! My name is Hedda.', NULL, 'pictures/default-profile-pic-man.png', '2024-04-27 16:48:23', 0, 0, 1, 21),
+(33, 'mayer_adrienn', 'mayer.hedda2002@gmail.com', '754532304a272553d11bcc2b24d223ec7f51dfd9', 'general', 'Mayer', 'Adrienn', NULL, 0, 0, NULL, NULL, 'pictures/default-profile-pic-man.png', '2024-04-30 18:21:55', 0, 0, 1, 22);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -4952,7 +4996,7 @@ ALTER TABLE `bookrating`
 -- AUTO_INCREMENT a táblához `bookshopping`
 --
 ALTER TABLE `bookshopping`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT a táblához `category`
@@ -4964,7 +5008,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT a táblához `categoryinterest`
 --
 ALTER TABLE `categoryinterest`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=185;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=194;
 
 --
 -- AUTO_INCREMENT a táblához `color`
@@ -4988,7 +5032,7 @@ ALTER TABLE `forgotpassword`
 -- AUTO_INCREMENT a táblához `general`
 --
 ALTER TABLE `general`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT a táblához `helpcenter`
@@ -5042,7 +5086,7 @@ ALTER TABLE `targetaudience`
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
