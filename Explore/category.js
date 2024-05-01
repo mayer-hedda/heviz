@@ -322,7 +322,7 @@ function loadModalData(url, title, firstName, lastName, description, language, r
     console.log(isSaved);
 
     if (own_username == username) {
-       
+
         save_btn.hidden = true;
         shopping_btn.hidden = true;
     } else {
@@ -336,7 +336,7 @@ function loadModalData(url, title, firstName, lastName, description, language, r
             } else {
                 read_general_btn.hidden = true;
                 save_btn.hidden = false;
-            shopping_btn.hidden = false;
+                shopping_btn.hidden = false;
             }
         }
     }
@@ -397,6 +397,18 @@ function loadModalData(url, title, firstName, lastName, description, language, r
     }
 
 }
+
+document.getElementById('shopping-cart').addEventListener('click', (e) => {
+    window.location.href = `../BookShopping/bookshopping.php?id=${bookId}`;
+});
+
+document.getElementById('read-general-btn').addEventListener('click', (e) => {
+    window.location.href = `../FileViewer/fileViewer.html?id=${bookId}`;
+});
+
+document.getElementById('read-publish-btn').addEventListener('click', (e)=>{
+    window.location.href = `../FileViewer/fileViewer.html?id=${bookId}`;
+});
 
 save_btn.addEventListener('click', (e) => {
 

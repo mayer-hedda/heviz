@@ -473,6 +473,10 @@ function loadModalData(url, title, firstName, lastName, description, language, r
 
 }
 
+document.getElementById('lets-read').addEventListener('click', (e)=>{
+    window.location.href = `../FileViewer/fileViewer.html?id=${bookId}`;
+});
+
 save_btn.addEventListener('click', (e) => {
     if (savedBoolean != true && savedBoolean != "true") {
         SavingBook(bookId);

@@ -115,8 +115,6 @@ function uploadImage() {
         img_p.hidden = true;
         img_span.hidden = true;
 
-
-
         if (imgLink == "") {
             picPass = false;
 
@@ -303,7 +301,20 @@ function LoadBookDetails(response) {
     const parts = url.split("/");
     pictureName = parts[parts.length - 1];
 
+    console.log(pictureName);
+    const imgNameWithoutExtension = pictureName.split('.').slice(0, -1).join('.');
+
+    imgDataToSend = imgNameWithoutExtension;
+    console.log(imgDataToSend);
+
+    console.log(response.data.file);
     fileName = response.data.file;
+    console.log(fileName);
+
+    const fileNameWithoutExtension = fileName.split("/");
+    fileDataToSend = fileNameWithoutExtension[1];
+    console.log(fileDataToSend);
+
     file_p.hidden = true;
     file_span.hidden = true;
     file_result_p.hidden = false;
@@ -1072,19 +1083,23 @@ async function uploadFilePhp() {
     formData.append('file', inputFile.files[0]);
     formData.append('image', inputPicture.files[0]);
 
-    const file = inputFile.files[0];
-    if (file.type !== 'application/pdf') {
-        return { status: 400, message: 'The file type can only be PDF!' };
-    }
-    const filePages = await countPdfPages(file);
-    if (filePages < 5) {
-        return { status: 400, message: 'The file must be at least 5 pages long!' };
+    if (localStorage.getItem("bookId") == null) {
+        const file = inputFile.files[0];
+        console.log(file.type);
+        if (file.type !== 'application/pdf') {
+            return { status: 400, message: 'The file type can only be PDF!' };
+        }
+        const filePages = await countPdfPages(file);
+        if (filePages < 5) {
+            return { status: 400, message: 'The file must be at least 5 pages long!' };
+        }
+
+        const image = inputPicture.files[0];
+        if (image.type !== 'image/jpeg') {
+            return { status: 400, message: 'Image type must be JPG only!' };
+        }
     }
 
-    const image = inputPicture.files[0];
-    if (image.type !== 'image/jpeg') {
-        return { status: 400, message: 'Image type must be JPG only!' };
-    }
 
     try {
         const response = await fetch('upload.php', {
