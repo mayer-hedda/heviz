@@ -1,0 +1,74 @@
+#canvas_container {
+    width: 60%;
+    overflow: auto;
+
+    margin: auto;
+    margin-top: 20px;
+}
+
+#my_pdf_viewer {
+    text-align: center;
+    height: 600px;
+}
+
+body {
+    background-color: #F6E3CD;
+}
+
+#go_previous, #go_next {
+    background-color: #915677;
+    border: 1px solid #825671;
+
+    padding: 7px 30px;
+    border-radius: 10px;
+
+    color: white;
+}
+
+#go_previous:hover, #go_next:hover {
+    background-color: #445753;
+    border: 1px solid #313731;
+
+    cursor: pointer;
+}
+
+#zoom_in, #zoom_out {
+    background-color: #B9848C;
+    border: 1px solid #B17B83;
+
+    border-radius: 20px;
+
+    color: white;
+}
+
+#zoom_in {
+    padding: 7px 10px;
+    margin-right: 5px;
+}
+
+#zoom_out {
+    padding: 7px 11px;
+}
+
+#current_page {
+    background-color: #F7F5EC;
+    text-align: center;
+    border: 0px;
+
+    width: 100px;
+    height: 30px;
+
+    margin-left: 10px;
+    margin-right: 10px;
+
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+#current_page:focus {
+    outline: none;
+}
+
+.hidden {
+    display: none;
+}

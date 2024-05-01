@@ -1,0 +1,35 @@
+<!doctype html>
+
+<html lang="hu">
+
+<head>
+	<title>PDF megjelenítő</title>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" href="./fileViewer.css">
+</head>
+
+<body>
+	<div id="my_pdf_viewer">
+		<div id="canvas_container">
+			<canvas id="pdf_renderer"></canvas>
+		</div>
+		<div id="navigation_controls">
+			<button id="go_previous">BACK</button>
+			<input id="current_page" value="1" type="number">
+			<button id="go_next">NEXT</button>
+		</div>
+		<div id="zoom_controls">
+			<button id="zoom_in">+</button>
+			<button id="zoom_out">-</button>
+		</div>
+	</div>
+
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.min.js"></script>
+	<script src="../Api/index.js"></script>
+	<script src="./fileViewer.js"></script>
+</body>
+
+</html>
