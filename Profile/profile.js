@@ -942,7 +942,7 @@ function uploadImage() {
 
         img.onload = function () {
             document.getElementById('save-pPic').addEventListener('click', async function () {
-                const imgResponse = await setProfileImage({ "image": `../pictures/user/${name}` });
+                const imgResponse = await setProfileImage({ "image": `pictures/user/${name}` });
 
 
                 if (imgResponse.status == 200) {
