@@ -225,7 +225,7 @@ function LoadRandomBook(response) {
 
     random_book_btn.addEventListener('click', (e) => {
         e.preventDefault();
-        loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].price, response.data[0].username, response.data[0].publisher, response.data[0].id, response.data[0].saved, response.data[0].publisherUsername !== undefined ? `${response.data[0].publisherUsername}` : null);
+        loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].price, response.data[0].username, response.data[0].publisher, response.data[0].id, response.data[0].saved, response.data[0].publisherUsername !== undefined ? `${response.data[0].publisherUsername}` : null, response.data[0].username);
     })
 }
 
@@ -267,7 +267,7 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
 
     mediumC_btn.addEventListener('click', (e) => {
         e.preventDefault();
-        loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].price, response.data[0].username, response.data[0].publisher !== undefined ? `'${response.data[0].publisher}'` : null, response.data[0].id, response.data[0].saved, response.data[0].publisherUsername !== undefined ? `${response.data[0].publisherUsername}` : null);
+        loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].price, response.data[0].username, response.data[0].publisher !== undefined ? `'${response.data[0].publisher}'` : null, response.data[0].id, response.data[0].saved, response.data[0].publisherUsername !== undefined ? `${response.data[0].publisherUsername}` : null, response.data[0].purchased);
     });
 
     // Add event listeners for the dynamically created cards
@@ -312,7 +312,7 @@ function OneRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
         button.dataset.bsTarget = "#modalID";
         button.textContent = "Show Details";
         button.addEventListener("click", () => {
-            loadModalData(response.data[i].coverImage, response.data[i].title, response.data[i].firstName, response.data[i].lastName, response.data[i].description, response.data[i].language, response.data[i].rating, response.data[i].pagesNumber, response.data[i].price, response.data[i].username, response.data[i].publisher, response.data[i].id, response.data[i].saved, response.data[i].publisherUsername);
+            loadModalData(response.data[i].coverImage, response.data[i].title, response.data[i].firstName, response.data[i].lastName, response.data[i].description, response.data[i].language, response.data[i].rating, response.data[i].pagesNumber, response.data[i].price, response.data[i].username, response.data[i].publisher, response.data[i].id, response.data[i].saved, response.data[i].publisherUsername, response.data[i].purchased);
         });
 
         overlayDiv.appendChild(categoryP);
@@ -371,7 +371,7 @@ function TwoRowAndMediumCard(sectionName, response, mediumC_PicDiv, mediumC_h2, 
 
     mediumC_btn.addEventListener('click', (e) => {
         e.preventDefault();
-        loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].price, response.data[0].username, response.data[0].publisher !== undefined ? `${response.data[0].publisher}` : null, response.data[0].id, response.data[0].saved, response.data[0].publisherUsername !== undefined ? `${response.data[0].publisherUsername}` : null);
+        loadModalData(response.data[0].coverImage, response.data[0].title, response.data[0].firstName, response.data[0].lastName, response.data[0].description, response.data[0].language, response.data[0].rating, response.data[0].pagesNumber, response.data[0].price, response.data[0].username, response.data[0].publisher !== undefined ? `${response.data[0].publisher}` : null, response.data[0].id, response.data[0].saved, response.data[0].publisherUsername !== undefined ? `${response.data[0].publisherUsername}` : null, response.data[0].purchased);
     });
 
     if(response.data.length <= 4) {
@@ -428,7 +428,7 @@ function createCard(data) {
     button.dataset.bsTarget = "#modalID";
     button.textContent = "Show Details";
     button.addEventListener("click", () => {
-        loadModalData(data.coverImage, data.title, data.firstName, data.lastName, data.description, data.language, data.rating, data.pagesNumber, data.price, data.username, data.publisher, data.id, data.saved, data.publisherUsername);
+        loadModalData(data.coverImage, data.title, data.firstName, data.lastName, data.description, data.language, data.rating, data.pagesNumber, data.price, data.username, data.publisher, data.id, data.saved, data.publisherUsername, data.purchased);
     });
 
     overlayDiv.appendChild(categoryP);
@@ -451,16 +451,8 @@ let deletedSavedBooksIds = [];
 let savedBoolean;
 let bookId;
 
-function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher, bookIdString, isSaved, publisherUsername) {
+function loadModalData(url, title, firstName, lastName, description, language, rating, pages, price, username, publisher, bookIdString, isSaved, publisherUsername, isPurchased) {
     bookId = parseInt(bookIdString);
-
-    if (own_uname == username) {
-        save_btn.hidden = true;
-        shopping_btn.hidden = true;
-    } else {
-        save_btn.hidden = false;
-        shopping_btn.hidden = false;
-    }
 
     if (savedBookIds.includes(bookId)) {
         isSaved = true;
@@ -521,6 +513,16 @@ function loadModalData(url, title, firstName, lastName, description, language, r
                 <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
             </svg>
         `;
+    }
+
+    if (isPurchased == true || isPurchased == "true") {
+        shopping_btn.hidden = true;
+        document.getElementById('read-general-btn').hidden = false;
+        save_btn.hidden = true;
+    }else{
+        save_btn.hidden = false;
+        shopping_btn.hidden = false;
+        document.getElementById('read-general-btn').hidden = true;
     }
 }
 

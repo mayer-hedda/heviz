@@ -367,6 +367,32 @@
         gap: 20px!important;
     }
 
+    /* publishing modal */
+    .bank-acc{
+        width: 180px!important;
+    }
+
+    .modal-p{
+        font-size: 14px!important;
+    }
+
+    #bankNumber, .input-group input{
+        font-size: 12px;
+    }
+
+    .input-group, .bank-acc, .error{
+        margin-left: 10px!important;
+    }
+
+    .input-group{
+        width: 180px!important;
+    }
+
+    .error{
+        height: fit-content!important;
+        font-size: 14px!important;
+    }
+
     /* footer */
     footer {
         padding-top: 20px !important;
@@ -687,6 +713,32 @@
 
     #book-m-footer{
         gap: 50px!important;
+    }
+
+    /* publishing modal */
+    .bank-acc{
+        width: 200px!important;
+    }
+
+    label.modal-p{
+        font-size: 14px!important;
+    }
+
+    #bankNumber{
+        font-size: 12px;
+    }
+
+    .input-group, .bank-acc, .error{
+        margin-left: 10px!important;
+    }
+
+    .input-group{
+        width: 200px!important;
+    }
+
+    .error{
+        height: fit-content!important;
+        font-size: 14px!important;
     }
 
     /* footer */
@@ -1017,6 +1069,19 @@
         gap: 50px!important;
     }
 
+     /* publishing modal */
+     .bank-acc{
+        width: 250px!important;
+    }
+
+    .input-group, .bank-acc, .error{
+        margin-left: 10px!important;
+    }
+
+    .error{
+        height: fit-content!important;
+    }
+
 
     /* footer */
     footer {
@@ -1315,6 +1380,15 @@
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    /* publishing modal */
+    .bank-acc{
+        width: 300px!important;
+    }
+
+    .error{
+        height: fit-content!important;
     }
 
     footer {
@@ -1620,6 +1694,15 @@
         align-items: center;
     }
 
+    /* publishing modal */
+    .bank-acc{
+        width: 350px!important;
+    }
+
+    .error{
+        height: fit-content!important;
+    }
+
     footer {
         padding-top: 20px !important;
         height: fit-content!important;
@@ -1913,6 +1996,14 @@
         padding: 5px 10px !important;
     }
 
+    /* publishing modal */
+    .bank-acc{
+        width: 350px!important;
+    }
+
+    .error{
+        height: fit-content!important;
+    }
 
     footer {
         padding-top: 10px !important;
@@ -2068,6 +2159,15 @@
     .cover-btn {
         font-size: 12px !important;
         padding: 5px 10px !important;
+    }
+
+    /* publishing modal */
+    .bank-acc{
+        width: 350px!important;
+    }
+
+    .error{
+        height: fit-content!important;
     }
 }
 
