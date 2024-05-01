@@ -1134,4 +1134,26 @@ public class BookService {
         } 
     }
     
+    
+    /**
+     * @param userId
+     * @param bookId
+     * 
+     * @return
+        * book: 
+            * file
+            * pagesNumber
+        * null - You are not authorised to view this book!
+     * 
+     * @throws BookException: Something wrong!
+     */
+    public static JSONObject getFileViewerData(Integer userId, Integer bookId) throws BookException {
+        try {
+            return Book.getFileViewerData(userId, bookId);
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getFileViewerData() method!");
+        }
+    }
+    
 }

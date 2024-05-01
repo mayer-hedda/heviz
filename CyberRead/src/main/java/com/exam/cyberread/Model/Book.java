@@ -2661,5 +2661,58 @@ public class Book implements Serializable {
             emf.close();
         }
     }
+    
+    
+    /**
+     * @param userId
+     * @param bookId
+     * 
+     * @return
+        * book:
+            * file
+            * pagesNumber
+        * null - You are not authorised to view this book!
+     * 
+     * @throws BookException: Something wrong
+     */
+    public static JSONObject getFileViewerData(Integer userId, Integer bookId) throws BookException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.exam_CyberRead_war_1.0-SNAPSHOTPU");
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            StoredProcedureQuery spq = em.createStoredProcedureQuery("getFileViewerData");
+            
+            spq.registerStoredProcedureParameter("userIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("bookIdIN", Integer.class, ParameterMode.IN);
+            spq.registerStoredProcedureParameter("result", Integer.class, ParameterMode.OUT);
+            
+            spq.setParameter("userIdIN", userId);
+            spq.setParameter("bookIdIN", bookId);
+
+            spq.execute();
+            
+            Integer resultOUT = (Integer) spq.getOutputParameterValue("result");
+            
+            switch (resultOUT) {
+                case 1:
+                    List<Object[]> resultList = spq.getResultList();
+                    JSONObject books = new JSONObject();
+                    
+                    books.put("file", (String) resultList.get(0)[0]);
+                    books.put("pagesNumber", (Integer) resultList.get(0)[1]);
+                    
+                    return books;
+                default:
+                    return new JSONObject().put("error", "You are not authorised to view this book!");
+            }
+        } catch(Exception ex) {
+            System.err.println(ex.getMessage());
+            throw new BookException("Error in getFileViewerData() method!");
+        } finally {
+            em.clear();
+            em.close();
+            emf.close();
+        }
+    }
         
 }

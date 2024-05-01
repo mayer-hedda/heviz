@@ -1,9 +1,12 @@
+C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Controller\BookshoppingController.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Model\Targetaudience.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Service\FollowService.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Service\HelpcenterService.java
+C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Model\Bookshopping.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Controller\CategoryinterestController.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Controller\UserController.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Model\Follow.java
+C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Service\BookratingService.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Exception\MissingFilterException.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Controller\HelpcenterController.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Config\CorsFilter.java
@@ -20,8 +23,10 @@ C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exa
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Service\PublisherService.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Exception\UserException.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Model\Category.java
+C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Service\BookshoppingService.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Service\CategoryinterestService.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Model\Publisher.java
+C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Controller\BookratingController.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Exception\MissingCategoryException.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Model\Categoryinterest.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Model\Helpcenter.java
@@ -35,6 +40,7 @@ C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exa
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Exception\LanguageException.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Exception\FollowException.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Exception\HelpCenterException.java
+C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Model\Bookrating.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Model\Post.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Service\BookService.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Controller\PostlikeController.java
@@ -46,4 +52,5 @@ C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exa
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Model\Color.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Dto\PublisherRegistrationDto.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Exception\PublisherException.java
+C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Exception\BookshoppingException.java
 C:\Users\mayer.hedda\Documents\CyberRead\Backend\CyberRead\src\main\java\com\exam\cyberread\Exception\CategoryException.java
