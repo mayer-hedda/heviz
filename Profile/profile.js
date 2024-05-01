@@ -125,7 +125,7 @@ window.onload = async function () {
                                     });
                                 }
 
-                                
+
 
                                 break;
                             case 401:
@@ -719,7 +719,7 @@ function loadModalData(url, title, firstName, lastName, description, language, r
         save_btn.hidden = true;
         shopping_btn.hidden = true;
         read_general_btn.hidden = false;
-    } else if(isPurchased == false) {
+    } else if (isPurchased == false) {
         read_general_btn.hidden = true;
         save_btn.hidden = false;
         shopping_btn.hidden = false;
@@ -1236,7 +1236,7 @@ async function DeleteBookBTN(button, bookID) {
 }
 
 var actualPublisherBookId;
-async function setBookFunction( bookId, userRank) {
+async function setBookFunction(bookId, userRank) {
     if (userRank == 'general') {
         localStorage.setItem("bookId", bookId);
         window.location.href = "../Create Book/createBook.html";
@@ -1479,8 +1479,8 @@ function getBooks(responseBook, userResponse) {
             });
 
             books_div.appendChild(div);
-            
-            
+
+
         }
 
 
@@ -2265,6 +2265,30 @@ input_lName.addEventListener('focusin', (e) => {
     ln_error.innerHTML = "";
     e.target.style.background = "";
     e.target.style.border = "";
+});
+
+document.getElementById('delete-profile').addEventListener('click', async function () {
+    const delete_result = await deleteUser();
+    switch (delete_result.status) {
+        case 200:
+            window.location.href = '../Landing-Page/landing.html';
+            break;
+
+        case 401:
+            window.location.href = '../Log-in/login.html';
+            break;
+
+        case 422:
+            alert("Something went wrong. Please try again later.");
+            break;
+
+        default:
+            alert("Something went wrong. Please try again later.");
+            console.log(delete_result.status);
+            console.log(delete_result.data);
+            console.log(delete_result.error);
+            break;
+    }
 });
 
 // company
