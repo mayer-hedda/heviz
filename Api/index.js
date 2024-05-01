@@ -3846,3 +3846,61 @@ async function getFileViewerData(raw) {
         return { error: error }
     }
 }
+
+
+
+// ----- BOOK SHOPPING -----
+/**
+ * @param {JSON} raw = {
+ *      "bookId": 1
+ * }
+ * 
+ * @return
+    * 200: Successfully add book shopping
+    * 302: You have already bought this book!
+    * 401:
+        * User hasn't token
+        * Invalid token
+        * The token has expired
+    * 403: this user not a general user
+    * 422: error
+ */
+async function addBookShopping(raw) {
+    var myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+    var storedToken = localStorage.getItem("Token");
+    if (storedToken) {
+        myHeaders.append("Token", storedToken);
+    }
+
+    var postData = JSON.stringify(raw);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: postData,
+        redirect: 'follow'
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8080/CyberRead-1.0-SNAPSHOT/webresources/bookshopping/addBookShopping", requestOptions);
+
+        if (response.status == 401) {
+            return {
+                status: response.status,
+                data: await response.text()
+            }
+        }
+        if (response.status == 422) {
+            return {
+                status: response.status,
+                data: await response.json()
+            }
+        }
+
+        return { status: response.status }
+    } catch (error) {
+        return { error: error }
+    }
+}
