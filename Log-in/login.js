@@ -163,22 +163,26 @@ submitButton.addEventListener("click", async (e) => {
         case 200:
             const responseToken = await token();
 
-            switch (responseToken.status) {
-                case 302:
-
-                    switch (responseToken.data.rank) {
-                        case 'general':
-                            window.location.assign(generalHomeURL);
-                            break;
-                        case 'publisher':
-                            window.location.assign(publisherHomeURL);
-                            break;
-                    }
-                    break;
-
-                case 401:
-                    console.error(responseToken.data);
-                    break;
+            if(responseLogin.data.first == true && responseToken.status == 302){
+                window.location.assign('../CategoryInterest/categoryInterest.html');
+            }else{
+                switch (responseToken.status) {
+                    case 302:
+    
+                        switch (responseToken.data.rank) {
+                            case 'general':
+                                window.location.assign(generalHomeURL);
+                                break;
+                            case 'publisher':
+                                window.location.assign(publisherHomeURL);
+                                break;
+                        }
+                        break;
+    
+                    case 401:
+                        console.error(responseToken.data);
+                        break;
+                }
             }
 
             break;

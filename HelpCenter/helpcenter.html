@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Center</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- bootstrap icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+
+    <link rel="stylesheet" href="helpcenter.css">
+
+    <!-- fehér ikon -->
+    <link rel="icon" href="../icons/C-logo-white.svg" type="image/svg+xml">
+    <!-- fekete ikon-->
+    <!-- <link rel="icon" href="../icons/C-logo.svg" type="image/svg+xml"> -->
+</head>
+
+<body style="background-color: rgb(247, 245, 236)">
+    <nav class="navbar fixed-top navbar-expand-lg" id="navbar">
+        <div class="nav-element" id="back-arrow">
+            <button class="border-0 bg-transparent" onclick="history.back()">
+                <svg id="arrow" xmlns="http://www.w3.org/2000/svg" width="33" height="33" fill="currentColor"
+                    class="bi bi-arrow-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+                </svg>
+            </button>
+
+        </div>
+
+        <div class="container-fluid" id="logo">
+            <img src="../pictures/LOGO.svg" alt="Logo" width="125" height="40" class="d-inline-block align-text-top"
+                id="logo" />
+        </div>
+    </nav>
+
+    <section id="opening-text" class="section">
+        <div class="container text-center" id="titles">
+            <h1 class="bigtext mb-24 mx-auto">Frequently Asked Questions</h1>
+        </div>
+    </section>
+
+    <section id="s2">
+        <div class="container" id="outside-div-s2">
+            <div class="accordion" id="accordion-element">
+
+                <div class="accordion-item rounded-4">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed rounded-4" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#first-item" aria-expanded="false" aria-controls="first-item">What format
+                            should I use to upload an image? How can I convert it if the format is incorrect?
+                        </button>
+                    </h2>
+                    <div id="first-item" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <p class="answer">Our site only accepts images in the .jpg format. To convert your file,
+                                please visit
+                                Cloudconvert (link) and select the file you want to convert by clicking on the 'Select
+                                file' button. Then, in the box that appears after the text 'convert to', please select
+                                the .jpg format under 'images' and press the 'Convert' button.</p>
+                            <p class="answer">Please note that our site only allows image uploads that are 2MB or
+                                smaller.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item rounded-4 myMargin">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed rounded-4" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#second-item" aria-expanded="false" aria-controls="second-item">What format
+                            should I use to upload a file? How can I convert it if the format is incorrect?
+                        </button>
+                    </h2>
+                    <div id="second-item" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <p class="answer">Our site only accepts files in the .pdf format. To convert your file,
+                                please visit
+                                Cloudconvert (link) and select the file you want to convert by clicking on the 'Select
+                                file' button. Then, in the box that appears after the text 'convert to', please select
+                                the .pdf format under 'document' and press the 'Convert' button.</p>
+                            <p class="answer">Please note that our site only allows file uploads that are 5MB or
+                                smaller.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item rounded-4 myMargin">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed rounded-4" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#third-item" aria-expanded="false" aria-controls="third-item">What are the
+                            differences between self-publishing and finding a publisher to publish my book?
+                        </button>
+                    </h2>
+                    <div id="third-item" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <p class="answer">When a user seeks a publisher for their book, it will only be visible to
+                                publisher
+                                profiles until a publisher decides to publish the work. The platform will notify the
+                                author by email if a publisher decides to publish the book. In this case, the price will
+                                be set by the publisher and the author's fees will be discussed with the publisher. Once
+                                published, both the author's and publisher's names will be displayed, and the books will
+                                only be visible to 'general' users. From then on, the publisher owns your work.</p>
+
+                            <p class="answer">If you decide to publish the book yourself, you must set the price of the
+                                book. In order
+                                to transfer the profits from the book to the author, we also need a bank account number.
+                                In this case, the book will only be visible to 'general' profiles.</p>
+
+                            <p class="answer">No matter which publishing method is chosen, the author will be able to
+                                change it at any
+                                time in the future.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item rounded-4 myMargin">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed rounded-4" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#fourth-item" aria-expanded="false" aria-controls="fourth-item">What is the
+                            difference between the 'General' profile and the 'Publisher' profile?
+                        </button>
+                    </h2>
+                    <div id="fourth-item" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <p class="answer">General profiles can view both published and self-published books. They
+                                can also view any
+                                user profile. During registration, we require your date of birth to ensure that you are
+                                over 15 years old, which is the minimum age limit on our site. Additionally, we have to
+                                know if you under 18 years of age, as our site allows the publication of books that may
+                                contain adult content.</p>
+
+                            <p class="answer">To register a publisher profile, please provide the name of your company.
+                                Our system will
+                                only display books that have not yet been published and are marked for publisher search.
+                                Publisher profiles are restricted to viewing general user profiles.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item rounded-4 myMargin">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed rounded-4" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#fifth-item" aria-expanded="false" aria-controls="fifth-item">How do I buy a
+                            book on our site and what payment options are available?
+                        </button>
+                    </h2>
+                    <div id="fifth-item" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <p class="answer">Our site accepts credit card payments. Additionally, you have the option
+                                to purchase
+                                individual books. This means that if you find a book you like, you can pay for it
+                                immediately without having to add it to your shopping cart. Once the transaction is
+                                complete, you can continue browsing and exploring other books, or view the purchased
+                                book in the 'Purchased Books' section of 'My Books'.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item rounded-4 myMargin">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed rounded-4" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#sixth-item" aria-expanded="false" aria-controls="sixth-item">If I delete my
+                            profile, what will happen to my account and books?
+                        </button>
+                    </h2>
+                    <div id="sixth-item" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <p class="answer">Clicking on the 'Delete Profile' button will make your profile inactive,
+                                but it cannot be
+                                completely deleted. However, you cannot undo this move.</p>
+
+                            <p class="answer">Please note that once your profile is inactive, you will no longer be able
+                                to access the
+                                books you have purchased on our site.</p>
+
+                            <p class="answer">If you have self-published on our site, your books will be removed, but if
+                                you have
+                                published through a publisher, they will still be available to other users. This is
+                                because the publisher owns your work after publication.</p>
+
+                            <p class="answer">If a publisher profile is deleted and a book has already been published
+                                through our site, those books will automatically be given publisher lookup book status.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item rounded-4 myMargin">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed rounded-4" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#seventh-item" aria-expanded="false" aria-controls="seventh-item">How do I
+                            access the books I've purchased?
+                        </button>
+                    </h2>
+                    <div id="seventh-item" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <p class="answer">To view all the books you have purchased, navigate to 'My Books' and
+                                select 'Purchased
+                                Books'. To start reading a book, click on the 'Start Reading' button located in the
+                                'Show Details' window of the book card.</p>
+
+                            <p class="answer">Please note that the books you have purchased are only accessible through
+                                our site.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item rounded-4 myMargin">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed rounded-4" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#eight-item" aria-expanded="false" aria-controls="eight-item">Are there any
+                            fees or costs associated with publishing my book?
+                        </button>
+                    </h2>
+                    <div id="eight-item" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <p class="answer">Our pricing policy is as follows: The actual price of the book is
+                                determined by adding
+                                20% to the publisher/author's price. Customers will pay this amount, but the
+                                publisher/author will receive the amount they specified. Publishing on our platform is
+                                basically free to the author or publisher. The 20% we add is used to maintain and
+                                develop our platform.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--  FOOTER -->
+    <footer class="footer">
+        <div class="container-fluid align-content-center">
+
+            <div class="row">
+                <div class=" col-12 col-sm-6 d-flex align-items-center mx-auto" id="footer-logo-div">
+
+                    <img src="../pictures/LOGO.svg" id="footer-logo">
+                </div>
+                <div class=" col-12 col-sm-6 text-lg-start text-xl-start" id="useful-links">
+
+                    <h3 id="footer-h3" class="textCentered">Useful Links</h3>
+                    <ul id="footer-ul">
+                        <li id="email"><i class="bi bi-google"
+                                style="margin-right: 0.625rem;"></i>cyberread2023@gmail.com
+                        </li>
+                        <li id="facebook"><i class="bi bi-facebook" style="margin-right: 0.625rem;"></i><a
+                                href="https://www.facebook.com/profile.php?id=61551909364683    "
+                                target="_blank">Facebook</a></li>
+
+                        <li id="instagram"><i class="bi bi-instagram" style="margin-right: 0.625rem;"></i><a
+                                href="https://instagram.com/cyberread2023?igshid=MzRlODBiNWFlZA=="
+                                target="_blank">Instagram</a>
+                        </li>
+
+                        <li id="terms"><i class="bi bi-info-circle-fill" style="margin-right: 0.625rem;"></i><a
+                                href="../TermsAndConditions/TermsAndConditions.html">Terms &
+                                Conditions</a></li>
+
+                        <li id="help-center"><img src="../icons/C-logo.svg"
+                                style="width: 25px; margin-right: 0.313rem;"><a href="../About Us/aboutus.html">About
+                                Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p id="copy-right" class="text-end"><img src="../icons/copyright.svg"
+                            style="margin-right: 0.313rem;">2023 All rights reserved.</p>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

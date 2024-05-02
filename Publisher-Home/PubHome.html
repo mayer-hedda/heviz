@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- bootstrap icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+
+    <link rel="stylesheet" href="PubHome.css">
+
+    <title>Home</title>
+</head>
+
+<body style="background-color: rgb(247, 245, 236)">
+    <!-- NAVBAR -->
+    <nav class="navbar fixed-top navbar-expand-lg" id="navbar" style="background-color: rgb(247, 245, 236);">
+        <div class="container-fluid">
+            <img src="../pictures/LOGO.svg" alt="Logo" width="125" height="40" class="d-inline-block align-text-top"
+                id="logo" />
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse " id="navbarNav" style="margin-left: 195px;">
+                <div class="navbar-nav text-center justify-content-center">
+                    <a class="nav-link active" aria-current="page" id="HomePage" onclick="window.location.reload()">Home
+                        Page</a>
+                    <a class="nav-link" id="Feed" href="../Feed/feed.html">Feed</a>
+                    <a class="nav-link" id="Explore" href="../Explore/explore.html">Explore</a>
+                    <a class="nav-link" id="SavedBooks" href="../MyBooks/mybooks.html">Saved Books</a>
+                </div>
+
+                <div id="usernamePicture">
+                    <div id="profile-icon" class="rounded-circle"></div>
+
+                    <div id="user-name">
+                        <div class="dropdown">
+                            <button class="bg-transparent border-0 dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <p id="userName-p"></p>
+                            </button>
+
+                            <ul class="dropdown-menu">
+                                <li id="profile-link"><a class="dropdown-item">Profile</a></li>
+                                <li><a class="dropdown-item" id="Logout">Log Out</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <h1 id="welcome" class="container"></h1>
+
+    <!--  Random big card  -->
+    <section id="first-section" class="container">
+        <div id="first-s-card" class="container full-card">
+            <div class="row card-bg" style="border: 3px">
+                <div class="col-4 picSide" id="bigCard-Pic">
+                    <!-- Cover pic  -->
+                </div>
+
+                <div class="col-8 textSide">
+                    <h2 class="textH2" id="s1-bigCard-h2"></h2>
+
+                    <p class="bigUsername author" id="s1-bigCard-author"></p>
+
+                    <p class="description" id="s1-bigCard-p"></p>
+
+                    <div class="bottom-row">
+                        <button type="button" id="randomBook-btn" class="moreBtn" data-bs-toggle="modal"
+                            data-bs-target="#modalID">Show Details</button>
+
+                        <p class="category-big" id="s1-bigCard-category"></p>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Recommanded books -->
+    <section id="second-section" class="container sub-sections">
+        <h2 class=" subtitle">Recommanded books for you:</h2>
+        <div class="container medium-card" style="background-color: #EAD7BE;" id="s2-mediumC">
+            <div class="row">
+                <div class="col-3" id="s2-mediumC-pic">
+                </div>
+
+                <div class="col-9 medium-right-side">
+                    <h2 class="container medium-h2" id="s2-mediumC-h2"></h2>
+
+                    <p class="username author" id="s2-mediumC-author"></p>
+
+                    <p class="medium-desc" id="s2-mediumC-p"></p>
+
+                    <div class="bottom-row-medium">
+                        <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
+                            data-bs-target="#modalID" id="s2-mediumC-btn">Show Details</button>
+
+                        <p class="category-medium" id="s2-mediumC-category"></p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="book-row">
+            <div class="row text-center" id="s2-first-row">
+            </div>
+        </div>
+
+        <div class="book-row">
+            <div class="row text-center" id="s2-second-row">
+            </div>
+        </div>
+
+    </section>
+
+    <!-- 4 random category -->
+    <!-- #1 -->
+    <section id="third-section" class="container sub-sections">
+        <h2 class=" subtitle" id="s3-subtitle"></h2>
+        <div class="container medium-card" style="background-color: #EAD7BE;" id="s3-mediumC">
+            <div class="row">
+                <div class="col-3" id="s3-mediumC-pic">
+                </div>
+
+                <div class="col-9 medium-right-side">
+                    <h2 class="container medium-h2" id="s3-mediumC-h2"></h2>
+
+                    <p class="username author" id="s3-mediumC-author"></p>
+
+                    <p class="medium-desc" id="s3-mediumC-desc"></p>
+
+                    <div class="bottom-row-medium">
+                        <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
+                            data-bs-target="#modalID" id="s3-mediumC-btn">Show Details</button>
+
+                        <p class="category-medium" id="s3-mediumC-category"></p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="book-row">
+            <div class="row text-center" id="s3-first-row">
+            </div>
+        </div>
+
+        <div class="book-row">
+            <div class="row text-center" id="s3-second-row">
+            </div>
+        </div>
+
+    </section>
+
+    <!-- #2 -->
+    <section id="fourth-section" class="container sub-sections">
+        <h2 class=" subtitle" id="s4-subtitle"></h2>
+        <div class="container medium-card" style="background-color: #EAD7BE;" id="s4-mediumC">
+            <div class="row">
+                <div class="col-3" id="s4-mediumC-pic">
+                </div>
+
+                <div class="col-9 medium-right-side">
+                    <h2 class="container medium-h2" id="s4-mediumC-h2"></h2>
+
+                    <p class="username author" id="s4-mediumC-author"></p>
+
+                    <p class="medium-desc" id="s4-mediumC-desc"></p>
+
+                    <div class="bottom-row-medium">
+                        <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
+                            data-bs-target="#modalID" id="s4-mediumC-btn">Show Details</button>
+
+                        <p class="category-medium" id="s4-mediumC-category"></p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="book-row">
+            <div class="row text-center" id="s4-first-row">
+            </div>
+        </div>
+
+        <div class="book-row">
+            <div class="row text-center" id="s4-second-row">
+            </div>
+        </div>
+
+    </section>
+
+    <!-- #3 -->
+    <section id="fifth-section" class="container sub-sections">
+        <h2 class=" subtitle" id="s5-subtitle"></h2>
+        <div class="container medium-card" style="background-color: #EAD7BE;" id="s5-mediumC">
+            <div class="row">
+                <div class="col-3" id="s5-mediumC-pic">
+                </div>
+
+                <div class="col-9 medium-right-side">
+                    <h2 class="container medium-h2" id="s5-mediumC-h2"></h2>
+
+                    <p class="username author" id="s5-mediumC-author"></p>
+
+                    <p class="medium-desc" id="s5-mediumC-desc"></p>
+
+                    <div class="bottom-row-medium">
+                        <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
+                            data-bs-target="#modalID" id="s5-mediumC-btn">Show Details</button>
+
+                        <p class="category-medium" id="s5-mediumC-category"></p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="book-row">
+            <div class="row text-center" id="s5-first-row">
+            </div>
+        </div>
+
+        <div class="book-row">
+            <div class="row text-center" id="s5-second-row">
+            </div>
+        </div>
+
+    </section>
+
+    <!-- #4 -->
+    <section id="sixth-section" class="container sub-sections">
+        <h2 class=" subtitle" id="s6-subtitle"></h2>
+        <div class="container medium-card" style="background-color: #EAD7BE;" id="s6-mediumC">
+            <div class="row">
+                <div class="col-3" id="s6-mediumC-pic">
+                </div>
+
+                <div class="col-9 medium-right-side">
+                    <h2 class="container medium-h2" id="s6-mediumC-h2"></h2>
+
+                    <p class="username author" id="s6-mediumC-author"></p>
+
+                    <p class="medium-desc" id="s6-mediumC-desc"></p>
+
+                    <div class="bottom-row-medium">
+                        <button type="button" class="moreBtn-medium align-bottom" data-bs-toggle="modal"
+                            data-bs-target="#modalID" id="s6-mediumC-btn">Show Details</button>
+
+                        <p class="category-medium" id="s6-mediumC-category"></p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="book-row">
+            <div class="row text-center" id="s6-first-row">
+            </div>
+        </div>
+
+        <div class="book-row">
+            <div class="row text-center" id="s6-second-row">
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- Modal -->
+    <div id="modalID" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <button class="save-btn" id="save-btn"><svg xmlns="http://www.w3.org/2000/svg" width="20"
+                            height="20" fill="currentColor" class="bi bi-bookmark" viewBox="0 0 16 16">
+                            <path
+                                d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
+                        </svg></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                </div>
+                <div class="modal-body" id="modal-body">
+
+                    <img src="../pictures/standard-book-cover.jpg" class="modal-img" id="modal-img">
+
+                    <h3 class="modal-h3" id="modal-title"></h3>
+
+                    <p class="modal-p author" id="modal-author"></p>
+
+                    <div class="babszem text-center">
+
+                        <div class="col-3 colDiv babszem-margin">
+                            <h4 class="align-middle" id="modal-pages"></h4>
+                            <p>Pages</p>
+                        </div>
+                        <div class="col-3 colDiv babszem-margin">
+                            <h4 id="modal-ranking"></h4>
+                            <p>Ranking</p>
+                        </div>
+                        <div class="col-3 colDiv">
+                            <h4 id="modal-language"></h4>
+                            <p>Language</p>
+                        </div>
+                    </div>
+
+                    <div class="modal-description">
+                        <p id="modal-desc"></p>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="m-footer-div" id="book-m-footer">
+
+                        <button class="modal-cover-btn border-0" data-bs-toggle="modal"
+                            data-bs-target="#publishing-modal">Let's Publish</button>
+
+                        <button class="readThis border-0" id="lets-read" >Let's Read This</button>
+
+                    </div>
+                    <p class="price" id="book-price"></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- publishing modal -->
+    <div class="modal fade" id="publishing-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Let's Publish</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeX"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="modal-p">Wonderful! Please fill in the details below and we're ready to go!</p>
+
+                    <div class="input-group mb-3">
+                        <label class="modal-p" for="publisher-price">Price:</label>
+                        <input type="number" min="1000" class="form-control" aria-describedby="forint"
+                            id="publisher-price">
+                        <span class="input-group-text" id="forint">Ft</span>
+                    </div>
+                    <p class="error" id="PriceErr" style="font-size: 16px; height: 24px;"></p>
+                   
+
+                    <div class="bank-acc mb-3">
+                        <label for="bankNumber" class="modal-p">Bank Account Number</label>
+                        <input type="text" class="form-control" id="bankNumber" placeholder="GB 12 ABCD 102030 12345678">
+                    </div>
+                    <p class="error" id="bankErr" style="font-size: 16px; height: 24px;"></p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn cancel-btn" data-bs-dismiss="modal" id="cancelPublish">Cancel</button>
+                    <button type="button" class="btn publish" id="agreePublish">Publish!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="zero-data container" id="zero-dataContainer" hidden>
+        <p class="text-center">We regret to inform you that currently, there are no books available in our
+            database, and we are unable to
+            load content for you. However, we encourage you to be the first one to publish on our platform. Your
+            contribution could kick-start a vibrant community of readers and writers. Thank you for your understanding
+            and potential contribution.</p>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer ">
+        <div class="container-fluid align-content-center">
+
+            <div class="row">
+                <div class=" col-12 col-sm-6 d-flex align-items-center mx-auto">
+                    <img src="../pictures/LOGO.svg" id="footer-logo">
+                </div>
+                <div class=" col-12 col-sm-6 text-lg-start text-xl-start" id="useful-links">
+                    <h3 id="footer-h3" class="textCentered">Useful Links</h3>
+                    <ul id="footer-ul">
+
+                        <li id="email"><i class="bi bi-google"
+                                style="margin-right: 0.625rem;"></i>cyberread2023@gmail.com
+                        </li>
+                        <li id="facebook"><i class="bi bi-facebook" style="margin-right: 0.625rem;"></i><a
+                                href="https://www.facebook.com/profile.php?id=61551909364683    "
+                                target="_blank">Facebook</a></li>
+                        <li id="instagram"><i class="bi bi-instagram" style="margin-right: 0.625rem;"></i><a
+                                href="https://instagram.com/cyberread2023?igshid=MzRlODBiNWFlZA=="
+                                target="_blank">Instagram</a>
+                        </li>
+                        <li id="help-center"><i class="bi bi-info-circle-fill" style="margin-right: 0.625rem;"></i><a
+                                href="../HelpCenter/helpcenter.html" target="_blank">Help Center</a></li>
+
+                        <li id="terms"><i class="bi bi-info-circle-fill" style="margin-right: 0.625rem;"></i><a
+                                href="../TermsAndConditions/TermsAndConditions.html">Terms & Conditions</a></li>
+
+                        <li id="aboutus"><img src="../icons/C-logo.svg" style="width: 25px; margin-right: 0.313rem;"><a
+                                href="../About Us/aboutus.html">About
+                                Us</a></li>
+                    </ul>
+                </div>
+                <div id="copy-right-div" class="text-end">
+                    <p id="copy-right" class=""><img src="../icons/copyright.svg" style="margin-right: 0.313rem;">2023
+                        All rights reserved.</p>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <script src="./PubHome.js"></script>
+    <script src="../Api/index.js"></script>
+
+</body>
+
+</html>

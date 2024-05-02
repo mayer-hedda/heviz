@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS  -->
+    <link rel="stylesheet" href="createBook.css">
+
+    <!-- BOOTSTRAP  -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!--bootstrap icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+
+    <title>Create Book</title>
+
+    <!-- Icon a tabba -->
+    <!-- fehér -->
+    <link rel="icon" href="../icons/C-logo-white.svg" type="image/svg+xml">
+    <!-- fekete -->
+    <!-- <link rel="icon" href="../icons/C-logo.svg" type="image/svg+xml"> -->
+
+</head>
+
+<body style="background-color: #F7F5EC">
+
+    <nav class="nav fixed-top" id="editControls">
+        <div class="container-fluid">
+
+            <button class="btn btn-text" id="backArrow" onclick="history.back()">
+                <span class="h4"><i class="bi bi-chevron-left"></i></span>
+            </button>
+            <div class="controlText">
+                <p class="small group-title controlP" id="controlP">Create a new World</p>
+                <span class="h4" id="StoryName">Untitled Story</span>
+            </div>
+
+            <div class="buttons btn-field" id="middle">
+                <a class="btn navBack" role="button" id="Cancel" onclick="history.back()">Cancel</a>
+                <button class="btn" role="button" id="Next">Next</button>
+
+            </div>
+        </div>
+    </nav>
+
+    <section id="UploadInfos">
+        <div class="container-fluid mx-auto" id="outsideDiv">
+            <div class="row">
+                <div class="col-5" id="upload">
+                    <div id="file-picture-container">
+                        <div class="upload-and-delete">
+                            <div id="drop-image" class="text-center align-content-center">
+                                <label for="inputPicture" id="dropAreaPicture">
+                                    <input type="file" accept="image/*" id="inputPicture" hidden>
+                                    <div id="imgView" class="align-middle">
+                                        <img class="addPhoto" src="../icons/createBook/upload-image.png" id="addPhoto">
+                                        <p class="uploadP" id="img-p">Drag and drop or click here <br>to upload image
+                                        </p>
+                                        <span class="uploadSpan" id="img-span">Upload any image in <br> jpg format from
+                                            desktop</span>
+                                    </div>
+                                </label>
+                                <div class="errorMessage mt-3" id="PicError"></div>
+                            </div>
+
+                            <div class="delete-pic">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                    class="bi bi-trash3 trash" viewBox="0 0 16 16" tabindex="0" data-bs-toggle="popover"
+                                    data-bs-trigger="hover focus" data-bs-content="Click to delete the selected image"
+                                    id="del-pic">
+                                    <path
+                                        d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
+                                </svg>
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="upload-and-delete mt-5">
+                            <div id="drop-file" class="text-center">
+                                <label for="inputFile" id="dropAreaFile">
+                                    <input type="file" accept=".pdf" id="inputFile" hidden>
+                                    <div id="fileView" class="align-middle">
+                                        <img class="addPhoto" src="../icons/createBook/upload-file.png" id="addFile">
+                                        <p class="uploadP" id="file-p">Drag and drop or click here <br>to upload file
+                                        </p>
+                                        <span class="uploadSpan" id="file-span">Upload any pdf files from desktop</span>
+
+                                        <p class="uploadP" id="f-result-p-1" hidden>You uploaded this:</p>
+                                        <p class="uploadP" id="f-result-p-2" hidden></p>
+                                    </div>
+                                </label>
+                                <div class="errorMessage mt-3" id="FileError"></div>
+                            </div>
+
+                            <div class="delete-file">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                    class="bi bi-trash3 trash" viewBox="0 0 16 16" tabindex="0" data-bs-toggle="popover"
+                                    data-bs-trigger="hover focus" data-bs-content="Click to delete the selected file"
+                                    id="del-file">
+                                    <path
+                                        d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
+                                </svg>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+                <div class="col-7" id="inputs">
+
+                    <form id="form">
+                        <div class="form-group container">
+
+                            <div id="storyTitle-div" class="container">
+                                <label id="storyTitle" class="formLabel" for="inputStoryTitle">Story Title:
+                                </label>
+                                <i class="bi bi-info-circle info" tabindex="0" data-bs-toggle="popover"
+                                    data-bs-trigger="hover focus" data-bs-content="Enter the title of your story!"></i>
+                                <input type="text" class="form-control" id="inputStoryTitle"
+                                    placeholder="Untitled Story" maxlength="50" required>
+                                <div class="row ">
+                                    <div class="col-6">
+                                        <p class="errorMessage" id="titleErr"></p>
+                                    </div>
+                                    <div class="col-6">
+                                        <p class="small counter align-top" id="characterCounterTitle">0/50</p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div id="description-div" class="container ">
+                                <label id="description" class="formLabel" for="inputDescription">Description:</label>
+                                <i class="bi bi-info-circle info" tabindex="0" data-bs-toggle="popover"
+                                    data-bs-trigger="hover focus"
+                                    data-bs-content="Provide a brief description of your book."></i><br>
+                                <textarea id="inputDescription" class="form-control" maxlength="1000"
+                                    placeholder="Write here your book's description" required></textarea>
+                                <div class="row ">
+                                    <div class="col-6">
+                                        <p class="error align-top errorMessage" id="descriptErr"></p>
+                                    </div>
+                                    <div class="col-6">
+                                        <p class="small counter align-top" id="characterCounterDes">0/1000</p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+                            <div id="targetAudience-div" class="container input-div">
+
+                                <label id="targetAudience" for="selectTargetAudience">Target Audience: <i
+                                        class="bi bi-info-circle infoalter" tabindex="0" data-bs-toggle="popover"
+                                        data-bs-trigger="hover focus"
+                                        data-bs-content="Select the target age group for your book here."
+                                        id="target-info"></i></label>
+
+                                <select class="form-select select" id="selectTargetAudience">
+                                    <option value="0" selected>Who is your audience</option>
+                                    <option value="1">Young Adult (15-18 years of age)</option>
+                                    <option value="2">New Adult (18-25 years of age)</option>
+                                    <option value="3">Adult (25+ years of age)</option>
+                                </select>
+                            </div>
+                            <div class="container errorMessage" id="audienceErr"></div>
+
+
+
+                            <div id="language-div" class="container input-div">
+                                <label id="language" for="selectLanguage">Language: <i
+                                        class="bi bi-info-circle infoalter" tabindex="0" data-bs-toggle="popover"
+                                        data-bs-trigger="hover focus"
+                                        data-bs-content="Select the language you wrote your book in."></i></label>
+
+                                <select class="form-select select text-center" id="selectLanguage">
+                                    <option value="0" selected>Choose an option</option>
+                                </select>
+                            </div>
+                            <div class="container errorMessage" id="languageErr"></div>
+
+
+                            <div id="category-div" class="container input-div">
+                                <label id="category" for="selectCategory">Category: <i
+                                        class="bi bi-info-circle infoalter" tabindex="0" data-bs-toggle="popover"
+                                        data-bs-trigger="hover focus"
+                                        data-bs-content="Choose the category that best represents your book. If you're unsure, explore the 'Discovery' 
+                                        tab to see what books other authors have published in each category."></i></label>
+                                <select class="form-select select text-center" id="selectCategory">
+                                    <option value="0" selected>Choose your book's category</option>
+
+                                </select>
+                            </div>
+                            <div class="container errorMessage" id="categoryErr"></div>
+
+
+                            <div id="CopyRight-div" class="container input-div">
+                                <label id="copyright" for="copyrightP">CopyRight:</label>
+                                <p id="copyrightP">Please read the relevant article of the <a class="link"
+                                        href="../TermsAndConditions/TermsAndConditions.html" target="_blank">Terms and
+                                        Conditions</a>.</p>
+                            </div>
+
+
+                            <div id="adult-div" class="container input-div">
+                                <label id="adult" for="adultCheck">Adult Literature:</label>
+                                <div class="checkbox">
+                                    <input type="checkbox" class="form-check-input align-middle" id="adultCheck">
+                                    <p id="adultP">This book contains adult content (e.g., adult themes, language, and
+                                        situations).</p>
+                                </div>
+                            </div>
+
+
+                            <div id="chapter-div" class="container input-div">
+                                <label for="" class="formLabel" id="chapterLabel">Chapter number: <i
+                                        class="bi bi-info-circle info" tabindex="0" data-bs-toggle="popover"
+                                        data-bs-trigger="hover focus"
+                                        data-bs-content="How many chapters are in your book?"></i></label>
+
+                                <input type="number" class="form-control" id="chapter-number" min="0"
+                                    oninput="this.value = Math.abs(this.value)">
+                                <div class="container errorMessage" id="chapterError"></div>
+                            </div>
+
+
+                            <div id="publishing-div" class="container input-div">
+                                <label id="publishing" for="selecter">Select one: <i class="bi bi-info-circle infoalter"
+                                        tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                                        data-bs-content="We need to know how you want to publish your book. Select if you're looking for a publisher or if you're a self-publisher. If you change your mind, you can change this later."></i></label>
+                                <div id="radios">
+                                    <div class="form-check">
+                                        <input class="form-check-input checkinput" type="radio" name="slectOne"
+                                            id="SelfPublish">
+                                        <label class="form-check-label" for="SelfPublish">
+                                            I prefer self-publishing.
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input checkinput" type="radio" name="slectOne"
+                                            id="PublisherPublish">
+                                        <label class="form-check-label" for="PublisherPublish">I am seeking a publisher
+                                            for my book.</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container errorMessage" id="checkboxError"></div>
+
+
+
+
+                            <div id="activate-self" hidden>
+
+                                <div id="bankAcc-div" class="container ">
+                                    <label id="bankAcc" class="formLabel" for="inputBankNum">Bank Account Number:
+                                    </label>
+                                    <i class="bi bi-info-circle info" tabindex="0" data-bs-toggle="popover"
+                                        data-bs-trigger="hover focus"
+                                        data-bs-content="We need to know where your revenue is going. Please give us your IBAN number"></i>
+                                    <input type="text" class="form-control align-middle" id="inputBankNum"
+                                        placeholder="GB 12 ABCD 102030 12345678">
+
+                                    <div class="errorMessage align-middle" id="BankNumError"></div>
+                                </div>
+
+
+                                <div id="bookPrice-outsideDiv">
+                                    <div id="BookPrice-div" class="container input-div">
+                                        <label id="Price" for="inputBookPrice">Your book's Price: <i
+                                                class="bi bi-info-circle infoalter" tabindex="0"
+                                                data-bs-toggle="popover" data-bs-trigger="hover focus"
+                                                data-bs-content="Please note that the final price is structured as follows: the price given by you + 20%."></i></label>
+
+                                        <div class="input-group mb-3" id="price">
+                                            <input type="number" class="form-control" id="inputBookPrice"
+                                                aria-describedby="basic-addon1" min="0">
+                                            <span class="input-group-text" id="Currency">FT</span>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="container errorMessage" id="PriceError"></div>
+                                    <div class="container" id="priceP">
+                                        <p>If you need more information on this matter, please refer to the relevant
+                                            section
+                                            in
+                                            the <a class="link" target="_blank"
+                                                href="../TermsAndConditions/TermsAndConditions.html"> Terms and
+                                                Conditions</a>.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- BOOTSTRAP  -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <!-- JAVASCRIPT  -->
+    <script src="createBook.js"></script>
+    <script src="../Api/index.js"></script>
+
+    <script>
+        // Initialize Bootstrap popovers
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl)
+        });
+    </script>
+</body>
+
+</html>

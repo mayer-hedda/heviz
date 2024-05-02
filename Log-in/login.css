@@ -84,7 +84,7 @@ form {
 
 .form {
     background-color: var(--form-color);
-    min-width: 350px;
+    min-width: 300px;
     max-width: 50%;
     border-radius: 2rem;
     box-shadow: 0.625rem 0.625rem 0.625rem 0rem rgba(77, 66, 64, 0.40);
@@ -113,6 +113,12 @@ form p {
 }
 form a:hover {
     color: var(--hover-color);
+}
+
+.landing {
+    position: absolute;
+    top: 22px;
+    left: 30px;
 }
 
 .error {
@@ -187,4 +193,10 @@ form a:hover {
 
 .modal-footer {
     border-top: none;
+}
+
+@media (max-width: 768px) {
+    form {
+        width: 90%;
+    }
 }

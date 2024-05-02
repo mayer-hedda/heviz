@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap  -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- bootstrap icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+
+    <link rel="stylesheet" href="feed.css">
+
+    <title>Feed</title>
+
+    <!-- Icon a tabba -->
+    <!-- fehér -->
+    <link rel="icon" href="../icons/C-logo-white.svg" type="image/svg+xml">
+    <!-- fekete -->
+    <!-- <link rel="icon" href="../icons/C-logo.svg" type="image/svg+xml"> -->
+</head>
+
+<body style="background-color: rgb(247, 245, 236)">
+    <!-- NAVBAR -->
+
+    <nav class="navbar fixed-top navbar-expand-lg" id="navbar" style="background-color: rgb(247, 245, 236);">
+        <div class="container-fluid">
+            <img src="../pictures/LOGO.svg" alt="Logo" width="125" height="40" class="d-inline-block align-text-top"
+                id="logo" />
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse " id="navbarNav" style="margin-left: 195px;">
+                <div class="navbar-nav text-center justify-content-center">
+                    <a class="nav-link" id="HomePage">Home Page</a>
+                    <a class="nav-link active" id="Feed" aria-current="page" onclick="window.location.reload()">Feed</a>
+                    <a class="nav-link" id="Explore" href="../Explore/explore.html">Explore</a>
+                    <a class="nav-link" id="SavedBooks" href="../MyBooks/mybooks.html"></a>
+                </div>
+
+                <div id="usernamePicture">
+                    <button role="button" type="submit" class="btn align-content-center" id="writingBtn"
+                        onclick="window.location.href='../Create Book/createBook.html'">
+                        Start Writing
+                    </button>
+
+                    <div id="profile-icon" class="rounded-circle"></div>
+
+                    <div id="user-name">
+                        <div class="dropdown">
+                            <button class="bg-transparent border-0 dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <p id="userName-p"></p>
+                            </button>
+
+                            <ul class="dropdown-menu">
+                                <li id="profile-link"><a class="dropdown-item">Profile</a></li>
+                                <li><a class="dropdown-item" id="Logout">Log Out</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <section id="first-section">
+
+        <div class="container-fluid">
+            <div id="row-div">
+                <div class="col-8 left-side">
+                    <div id="kulsoPostCard">
+                        <div class="container" id="no-Post" hidden>
+                            <p class="missing-data-text text-center">Unfortunately, we are unable to display any posts.
+                                To see posts, you must follow users.</p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-4 right-side" id="right-side">
+                    <div class="suggestions">
+                        <h3 id="suggestion-h2">Suggestions for You:</h3>
+                        <div id="suggestion-div">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fixed-bottom-right">
+                <button type="button" class="btn" id="post-BTN" data-bs-toggle="modal" data-bs-target="#postModal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="modal fade" tabindex="-1" id="postModal" tabindex="-1" aria-labelledby="postModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="postModalLabel">Write a Post!</h1>
+                    </div>
+
+                    <div class="modal-body">
+                        <form>
+                            <label for="message-text" id="modalLabel-input" class="col-form-label modalLabel">Tell us
+                                what's going
+                                on:</label>
+                            <textarea class="form-control" id="message-text" maxlength="1000"></textarea>
+                            <div class="row ">
+                                <div class="col-10">
+                                    <p class="error align-top errorMessage" id="textError"></p>
+                                </div>
+                                <div class="col-2">
+                                    <p class="small counter align-top" id="characterCounter">0/1000</p>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                            id="close-btn">Close</button>
+                        <button type="button" class="btn btn-primary" id="LetsPost-btn">Let's
+                            Post!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container-fluid align-content-center">
+
+            <div class="row">
+                <div class=" col-12 col-sm-6 d-flex align-items-center mx-auto" id="footer-logo-div">
+                    <img src="../pictures/LOGO.svg" id="footer-logo">
+                </div>
+                <div class=" col-12 col-sm-6 text-lg-start text-xl-start" id="useful-links">
+                    <h3 id="footer-h3" class="textCentered">Useful Links</h3>
+                    <ul id="footer-ul">
+                        <li id="email"><i class="icon bi bi-google"
+                                style="margin-right: 0.625rem;"></i>cyberread2023@gmail.com
+                        </li>
+                        <li id="facebook"><i class="bi bi-facebook" style="margin-right: 0.625rem;"></i><a
+                                href="https://www.facebook.com/profile.php?id=61551909364683    ">Facebook</a></li>
+
+                        <li id="instagram"><i class="bi bi-instagram" style="margin-right: 0.625rem;"></i><a
+                                href="https://instagram.com/cyberread2023?igshid=MzRlODBiNWFlZA==">Instagram</a>
+                        </li>
+                        <li id="help-center"><i class="bi bi-info-circle-fill" style="margin-right: 0.625rem;"></i><a
+                                href="../HelpCenter/helpcenter.html">Help Center</a></li>
+
+                        <li id="terms"><i class="bi bi-info-circle-fill" style="margin-right: 0.625rem;"></i><a
+                                href="../TermsAndConditions/TermsAndConditions.html">Terms &
+                                Conditions</a></li>
+
+                        <li id="aboutus"><img src="../icons/C-logo.svg"
+                                style="width: 25px; margin-right: 0.313rem;"><a href="../About Us/aboutus.html">About
+                                Us</a></li>
+                    </ul>
+                </div>
+                <div id="copy-right-div" class="text-end">
+                    <p id="copy-right" class=""><img src="../icons/copyright.svg" style="margin-right: 0.313rem;">2023
+                        All rights reserved.</p>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+
+    <!-- Bootstrap  -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <script src="feed.js"></script>
+    <script src="../Api/index.js"></script>
+</body>
+
+</html>

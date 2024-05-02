@@ -1,0 +1,267 @@
+:root {
+    --bg-color: #F6E3CD;
+    --input-border: rgb(144, 152, 180, 0.75);
+    --label: rgb(55, 56, 78);
+    --h1: rgba(65, 61, 63, 1);
+    --wellcome-text: rgba(30, 128, 141, 1);
+    --error-color: #EE1D52;
+}
+
+
+/* Fonts */
+@font-face {
+    font-family: 'Poppins-Light';
+    src: url('../fonts/Poppins/Poppins-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Poppins-Regular';
+    src: url("../fonts/Poppins/Poppins-Regular.ttf") format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Poppins-Medium';
+    src: url('../fonts/Poppins/Poppins-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Inter-Bold';
+    src: url('../fonts/Inter/static/Inter-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Lora-Medium';
+    src: url('../fonts/Lora/static/Lora-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Montserrat-Medium';
+    src: url("../fonts/Montserrat/static/Montserrat-Medium.ttf") format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #92827a;
+    border-radius: 20px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #ACA09A;
+}
+
+
+/* Background */
+body {
+    background-color: var(--bg-color);
+}
+
+/* Form */
+form {
+    background-color: #F8F8F4;
+    width: fit-content;
+    padding: 3% 6%;
+    height: fit-content;
+    border-radius: 2rem;
+    box-shadow: 0.625rem 0.625rem 0.625rem 0rem rgba(77, 66, 64, 0.40);
+
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.with-alert {
+    height: 110px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    margin-top: 0;
+    margin-bottom: 0;
+
+    position: relative;
+}
+
+.landing {
+    position: absolute;
+    top: 80px;
+    left: 370px;
+}
+
+h1 {
+    font-family: 'Inter-Bold', sans-serif;
+    color: var(--h1);
+    padding-bottom: 2%;
+}
+
+.definition {
+    font-family: 'Poppins-Medium', sans-serif;
+    color: rgba(30, 128, 141, 1);
+    margin-top: 5%;
+}
+
+#btns {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#btns button.disabled-btn {
+    border-radius: 2rem;
+    border: 0rem;
+    width: fit-content;
+    background-color: transparent;
+    font-family: 'Inter-Bold';
+    font-size: 1.5rem;
+    color: rgba(65, 61, 63);
+    text-align: center;
+}
+
+#btns button.active-btn {
+    border-radius: 2rem;
+    width: fit-content;
+    border: 0rem;
+    background-color: rgba(232, 181, 160, 1);
+    padding: 2% 5%;
+    font-family: 'Montserrat-Medium';
+    text-align: center;
+    color: rgba(65, 61, 63);
+}
+
+/* Inputs */
+#names, #pwds {
+    gap: 30px;
+    width: 460px;
+}
+
+.inputs {
+    border-width: 0.1125rem;
+    border-color: rgb(144, 152, 180, 0.75);
+    background-color: transparent;
+    border-radius: 0.8rem;
+}
+
+.inputs::placeholder {
+    font-size: smaller;
+    color: rgb(120, 121, 143);
+    font-family: 'Poppins-Light', sans-serif;
+    font-size: 0.75rem;
+}
+
+label {
+    color: var(--label);
+    font-family: 'Poppins-Medium';
+    margin-bottom: 1%;
+    padding-left: 1%;
+    /* font-size: 100%; */
+}
+
+.info{
+    margin-left: 5px;
+}
+
+#checkLabel {
+    font-family: 'Poppins-Regular';
+}
+
+#backToLanding,
+#login-link {
+    margin-top: 15px;
+}
+
+#submitButton {
+    border-radius: 5rem;
+
+    padding: 0.6rem 2rem;
+
+    border: 0rem;
+    background-color: rgba(232, 181, 160, 1);
+
+    font-size: 120%;
+    /* text-align: center; */
+    font-family: 'Poppins-Medium';
+    color: #332F31;
+
+    margin-top: 5%;
+}
+
+#submitButton:hover {
+    background-color: #649984;
+    color: white;
+    transition: background-color 0.8s ease;
+
+}
+
+#aszf-checkbox {
+    margin-top: 5%;
+}
+
+.error {
+    color: var(--error-color);
+    font-family: 'Poppins', sans-serif;
+    font-size: 80%;
+    padding-left: 5px;
+    margin-top: 5px;
+    margin-bottom: 0px;
+}
+.error:hover {
+    cursor: default;
+}
+
+.correct {
+    border-color: rgb(98, 173, 107);
+    background-color: rgb(241, 255, 231);
+}
+.bad {
+    border-color: rgb(243, 82, 93);
+    background-color: rgb(255, 214, 220);
+}
+
+
+@media (max-width: 569px) {
+    form {
+        width: 98%;
+    }
+
+    .definition {
+        font-size: 15px;
+    }
+    
+    #names, #pwds{
+        flex-direction: column;
+        gap: 0px;
+        width: 99%;
+        padding: 0;
+    }
+
+    #btns{
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        margin-top: 15px;
+    }
+
+    #btns button.disabled-btn {
+        font-size: 18px;
+    }
+
+    #checkLabel{
+       font-size: 13px;
+    }
+
+    #login-link, #backToLanding{
+        font-size: 15px;
+    }
+}
