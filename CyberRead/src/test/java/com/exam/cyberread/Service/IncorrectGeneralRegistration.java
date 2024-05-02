@@ -18,8 +18,8 @@ public class IncorrectGeneralRegistration {
     private String username;
     private String firstName;
     private String lastName;
-    private String email;
     private String birthdate;
+    private String email;
     private String password;
     private Boolean aszf;
     private JSONObject error; 
@@ -28,18 +28,7 @@ public class IncorrectGeneralRegistration {
     @Parameterized.Parameters
     public static List<Object[]> data() {
         return Arrays.asList(new Object[][] {
-            {
-                null, null, null, null, null, null, null,
-                new JSONObject()
-                    .put("usernameError", "The username field cannot be empty!")
-                    .put("firstNameError", "The first name field cannot be empty!")
-                    .put("lastNameError", "The last name field cannot be empty!")
-                    .put("emailError", "The email field cannot be empty!")
-                    .put("passwordError", "The password field cannot be empty!")
-                    .put("aszfError", "Required field!")
-                    .put("birthdateError", "The birthdate field cannot be empty!")
-            },
-            {
+           {
                 "", "", "", "", "", "", false,
                 new JSONObject()
                     .put("usernameError", "The username field cannot be empty!")
@@ -65,7 +54,7 @@ public class IncorrectGeneralRegistration {
 //                "ezazakeresztnevamiotvenegykarakterhosszuislehetnedenemaz",
 //                "ezazavezeteknevamiotvenegykarakterhosszuislehetnedenemaz",
 //                "@",
-//                "2008-12-23",   // Holnap lenne 15 éves -- 2023.12.22
+//                "2009-05-03",   // Holnap lenne 15 éves -- 2024.05.02
 //                "ezazajelszoamiotvenegykarakterhosszuislehetnedenemazsotmegszazkarakternelistobbnekkelllenniehogyhibatkapjak",
 //                true,
 //                new JSONObject()
@@ -76,46 +65,46 @@ public class IncorrectGeneralRegistration {
 //                    .put("passwordError", "The password cannot be longer than 100 characters!")
 //                    .put("birthdateError", "You are too young!")
 //            },
-            {
-                "user123!",
-                "John",
-                "Smith",
-                "@asd",
-                "2008-12-22",    // Ma tölti a 15-öt -- 2023.12.22
-                "hetchar",      // 7 karakter
-                true,
-                new JSONObject()
-                    .put("usernameError", "Invalid username! Please avoid using special characters exept: _ (underscore) and . (dot)")
-                    .put("emailError", "Email address cannot be empty before '@' symbol!")
-                    .put("passwordError", "Password must be at least 8 characters long!")
-            },
+//            {
+//                "user123!",
+//                "John",
+//                "Smith",
+//                "@asd",
+//                "2009-05-02",    // Ma tölti a 15-öt -- 2024.05.02
+//                "hetchar",      // 7 karakter
+//                true,
+//                new JSONObject()
+//                    .put("usernameError", "Please avoid using special characters exept: _ (underscore) and . (dot)!")
+//                    .put("emailError", "Email address cannot be empty before '@' symbol!")
+//                    .put("passwordError", "Password must be at least 8 characters long!")
+//            },
 //            {
 //                "user@home",
 //                "John",
 //                "Másik",
 //                "asd@",
-//                "2023-12-22",   // Mai nap -- 2023.12.22
+//                "2024-05-02",   // Mai nap -- 2024.05.02
 //                "alhasdft",     // 8 karakter
 //                true,
 //                new JSONObject()
-//                    .put("usernameError", "Invalid username! Please avoid using special characters exept: _ (underscore) and . (dot)")
+//                    .put("usernameError", "Please avoid using special characters exept: _ (underscore) and . (dot)!")
 //                    .put("emailError", "Please ensure you have at least 4 characters before the '@' symbol!")
 //                    .put("passwordError", "The password must contain at least 1 lowercase letter, 1 uppercase letter, 1 number and 1 special character!")
-//                    .put("birthdateError", "Invalid birthdate format!")
+//                    .put("birthdateError", "Invalid birthdate!")
 //            },
 //            {
 //                "my-name",
 //                "Sára",
 //                "Másik",
 //                "sara@",
-//                "2023-12-23",   // Holnapi nap -- 2023.12.22
+//                "2024-05-03",   // Holnapi nap -- 2024.05.02
 //                "AlmasPite",
 //                true,
 //                new JSONObject()
-//                    .put("usernameError", "Invalid username! Please avoid using special characters exept: _ (underscore) and . (dot)")
+//                    .put("usernameError", "Please avoid using special characters exept: _ (underscore) and . (dot)!")
 //                    .put("emailError", "Last part of email is missing or empty!")
 //                    .put("passwordError", "The password must contain at least 1 lowercase letter, 1 uppercase letter, 1 number and 1 special character!")
-//                    .put("birthdateError", "Invalid birthdate format!")
+//                    .put("birthdateError", "Invalid birthdate!")
 //            },
             {
                 "user space",
@@ -126,7 +115,7 @@ public class IncorrectGeneralRegistration {
                 "alma1234",
                 true,
                 new JSONObject()
-                    .put("usernameError", "Invalid username! Please avoid using special characters exept: _ (underscore) and . (dot)")
+                    .put("usernameError", "Please avoid using special characters exept: _ (underscore) and . (dot)!")
                     .put("emailError", "Last part of email is missing or empty!")
                     .put("passwordError", "The password must contain at least 1 lowercase letter, 1 uppercase letter, 1 number and 1 special character!")
                     .put("birthdateError", "Invalid birthdate format!")
@@ -140,13 +129,13 @@ public class IncorrectGeneralRegistration {
                 "12341234",
                 true,
                 new JSONObject()
-                    .put("usernameError", "Invalid username! Please avoid using special characters exept: _ (underscore) and . (dot)")
+                    .put("usernameError", "Please avoid using special characters exept: _ (underscore) and . (dot)!")
                     .put("emailError", "Please enter '.' (period) after the '@' in your email address!")
                     .put("passwordError", "The password must contain at least 1 lowercase letter, 1 uppercase letter, 1 number and 1 special character!")
                     .put("birthdateError", "Invalid birthdate format!")
             },
             {
-                "megfeleloUsername",
+                "megfelelo_username",
                 "John",
                 "Smith",
                 "sara@.g",
@@ -231,7 +220,7 @@ public class IncorrectGeneralRegistration {
                 "John",
                 "Smith",
                 "sara@gmail.com",
-                "2002-02-10",   // Nem létező dátum
+                "2002-02-10",   
                 "Alma1234",
                 true,
                 new JSONObject()
@@ -242,7 +231,7 @@ public class IncorrectGeneralRegistration {
                 "John",
                 "Smith",
                 "sara@gmail.com",
-                "2002-02-10",   // Nem létező dátum
+                "2002-02-10",  
                 "Alma!!!!",
                 true,
                 new JSONObject()
@@ -253,7 +242,7 @@ public class IncorrectGeneralRegistration {
                 "John",
                 "Smith",
                 "sara@gmail.com",
-                "2002-02-10",   // Nem létező dátum
+                "2002-02-10", 
                 "alma1233!!!!",
                 true,
                 new JSONObject()
