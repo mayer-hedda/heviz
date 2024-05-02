@@ -1,3 +1,18 @@
+window.onload = function() {
+    token().then(response => {
+        if(response.status == 401) {
+            window.location.href = `../Log-in/login.html`;
+        } 
+
+        if(response.data.rank == "publisher") {
+            window.location.href = `../MyBooks/mybooks.html`;
+        }
+    }).catch(error => {
+        console.error('Hiba történt:', error);
+    });
+};
+
+
 var myState = {
     pdf: null,
     currentPage: 1,
@@ -33,8 +48,34 @@ getFileViewerData({"id": id}).then(response => {
 });
 
 
+// function render(pagesNumber) {
+//     if(myState.currentPage > pagesNumber) {
+//         canvas.style.display = "none";
+//     } else {
+//         myState.pdf.getPage(myState.currentPage).then((page) => {
+//             var canvas = document.getElementById("pdf_renderer");
+//             var ctx = canvas.getContext('2d');
+
+//             var viewport = page.getViewport(myState.zoom);
+
+//             var maxWidthPercent = 90;
+//             var maxHeightPercent = 65;
+//             var maxWidth = window.innerWidth * (maxWidthPercent / 100);
+//             var maxHeight = window.innerHeight * (maxHeightPercent / 100);
+//             var scale = Math.min(maxWidth / viewport.width, maxHeight / viewport.height);
+
+//             canvas.width = viewport.width * scale;
+//             canvas.height = viewport.height * scale;
+
+//             page.render({
+//                 canvasContext: ctx,
+//                 viewport: viewport
+//             });
+//         });
+//     }
+// }
+
 function render(pagesNumber) {
-    console.log(myState.currentPage);
     if(myState.currentPage > pagesNumber) {
         canvas.style.display = "none";
     } else {
@@ -88,14 +129,20 @@ document.getElementById('current_page').addEventListener('keypress', (e) => {
 
 document.getElementById('zoom_in').addEventListener('click', (e) => {
     if (myState.pdf == null) return;
-    myState.zoom += 0.25;
-    render();
+
+    if (myState.zoom + 0.25 <= 2) { 
+        myState.zoom += 0.25;
+        render();
+    }
 });
 
 document.getElementById('zoom_out').addEventListener('click', (e) => {
     if (myState.pdf == null) return;
-    myState.zoom -= 0.25;
-    render();
+
+    if (myState.zoom - 0.25 >= 0.25) {
+        myState.zoom -= 0.25;
+        render();
+    }
 });
 
 document.addEventListener('keydown', (event) => {
@@ -117,11 +164,21 @@ document.addEventListener('keydown', (event) => {
 document.addEventListener('keydown', (event) => {
     if (event.key === 'ArrowUp') {
         if (myState.pdf == null) return;
-        myState.zoom += 0.25;
-        render();
+        if (myState.zoom + 0.25 <= 2) { 
+            myState.zoom += 0.25;
+            render();
+        }
     } else if (event.key === 'ArrowDown') {
         if (myState.pdf == null) return;
-        myState.zoom -= 0.25;
-        render();
+        if(myState.zoom - 0.25 != 0) {
+            myState.zoom -= 0.25;
+            render();
+        };
+    }
+});
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "ArrowDown") {
+        event.preventDefault();
     }
 });

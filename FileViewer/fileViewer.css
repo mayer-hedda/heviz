@@ -1,14 +1,11 @@
 #canvas_container {
-    width: 60%;
-    overflow: auto;
-
     margin: auto;
-    margin-top: 20px;
+    margin-top: 1%;
+    margin-bottom: 2%;
 }
 
 #my_pdf_viewer {
     text-align: center;
-    height: 600px;
 }
 
 body {
@@ -19,7 +16,7 @@ body {
     background-color: #915677;
     border: 1px solid #825671;
 
-    padding: 7px 30px;
+    padding: 7px 3%;
     border-radius: 10px;
 
     color: white;
@@ -55,7 +52,7 @@ body {
     text-align: center;
     border: 0px;
 
-    width: 100px;
+    width: 7%;
     height: 30px;
 
     margin-left: 10px;
@@ -71,4 +68,25 @@ body {
 
 .hidden {
     display: none;
+}
+
+.arrow {
+    background-color: #F6E3CD;
+    border: none;
+    padding: 20px;
+}
+.arrow:hover {
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+
+    #go_previous, #go_next {
+        padding: 7px 6%;
+    }
+
+    #current_page {
+        width: 10%;
+    }
+
 }

@@ -80,22 +80,38 @@
             width: 60%;
         }
 
-        button {
+        .next {
             width: 25%;
             background-color: #915677;
             border: 1px solid #825671;
             color: white;
             padding: 7px;
         }
-        button:hover {
+        .next:hover {
             background-color: #445753;
             border: 1px solid #313731;
 
             cursor: pointer;
         }
+
+        .arrow {
+            background-color: #F6E3CD;
+            border: none;
+            padding: 20px;
+        }
+        .arrow:hover {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
+    <button class="border-0 bg-transparent arrow" onclick="history.back()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="33" height="33" fill="currentColor"
+            class="bi bi-arrow-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+        </svg>
+    </button>
     <form action="" method="post" id="payment-form">
         <img src="../pictures/simple.png" alt="Simple logo"><br>
 
@@ -105,7 +121,7 @@
         <input type="text" id="customerName" name="customerName" placeholder="Cardholder name" required><br>
         <input type="email" id="customerEmail" name="customerEmail" placeholder="Email address" required><br>
         
-        <button type="submit">NEXT</button>
+        <button type="submit" class="next">NEXT</button>
     </form>
 
     <script src="../Api/index.js"></script>
