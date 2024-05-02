@@ -960,7 +960,7 @@ saveButton.addEventListener('click', async function () {
     } else if (setPublicPhone_result.status == 422) {
         alert("422: " + setPublicPhone_result.data.setPublicPhoneError);
     } else {
-        alert(setPublicPhone_result.status);
+        // alert(setPublicPhone_result.status);
     }
 
 });
@@ -2316,7 +2316,7 @@ isEmail_public.addEventListener('change', async function () {
     } else if (setPublicEmail_result.status == 422) {
         alert("422: " + setPublicEmail_result.data.setPublicEmailError);
     } else {
-        alert(setPublicEmail_result.status);
+        // alert(setPublicEmail_result.status);
     }
 });
 
@@ -2328,7 +2328,7 @@ isPhone_public.addEventListener('change', async function () {
     } else if (setPublicPhone_result.status == 422) {
         alert("422: " + setPublicPhone_result.data.setPublicPhoneError);
     } else {
-        alert(setPublicPhone_result.status);
+        // alert(setPublicPhone_result.status);
     }
 });
 
